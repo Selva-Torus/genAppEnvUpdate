@@ -1,0 +1,122 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas = ["ct003_ag001", "ct003_a001"]
+}
+
+generator client {
+provider = "prisma-client-js"
+previewFeatures = ["multiSchema"]
+}
+
+model claims {
+claim_id  Int @id @default(autoincrement())
+employee_id  Int? 
+employee_name  String? 
+department_name  String? 
+employee_grade  String? 
+receipt_image  String? 
+total_amount  Int? 
+from_date  DateTime? 
+to_date  DateTime? 
+email  String? 
+claim_category  String? 
+comments  String? 
+expense_date  DateTime? 
+is_comment_enabled  Boolean? 
+expense_name  String? 
+manager_comments  String? 
+expense_description  String? 
+expense_amount  Int? 
+category_total_amount  Int? 
+claim_expense_type  String? 
+trs_created_date    DateTime     @default(now())  
+trs_created_by    String?       
+trs_modified_date    DateTime     @updatedAt  
+trs_modified_by    String?       
+trs_status    String?    
+trs_next_status    String?    
+trs_process_id    String? 
+trs_access_profile    String?
+trs_org_grp_code    String?
+trs_org_code    String?
+trs_role_grp_code    String?
+trs_role_code    String?
+trs_ps_grp_code    String?
+trs_ps_code    String?  
+trs_sub_org_grp_code    String?
+trs_sub_org_code    String?
+claims_detail   claims_detail[]    
+
+@@schema("ct003_a001")
+}
+
+
+model claims_detail {
+claim_detail_id  Int @id @default(autoincrement())
+expense_category  String? 
+expense_description  String? 
+expense_date  DateTime 
+expense_amount  Int? 
+name  String? 
+attachment  String? 
+claim_category  String? 
+trs_created_date    DateTime     @default(now())  
+trs_created_by    String?       
+trs_modified_date    DateTime     @updatedAt  
+trs_modified_by    String?       
+trs_status    String?    
+trs_next_status    String?    
+trs_process_id    String? 
+trs_access_profile    String?
+trs_org_grp_code    String?
+trs_org_code    String?
+trs_role_grp_code    String?
+trs_role_code    String?
+trs_ps_grp_code    String?
+trs_ps_code    String?  
+trs_sub_org_grp_code    String?
+trs_sub_org_code    String?
+claim_id Int? 
+claims   claims?  @relation(fields: [claim_id], references: [claim_id])  
+
+@@schema("ct003_a001")
+}
+
+
+model codedescription {
+ccdid  Int @id @default(autoincrement())
+cdcategory  String? 
+clientcode  String? 
+code  String? 
+description  String? 
+sortorder  Int? 
+parentcode  String? 
+trs_created_date    DateTime     @default(now())  
+trs_created_by    String?       
+trs_modified_date    DateTime     @updatedAt  
+trs_modified_by    String?       
+trs_status    String?    
+trs_next_status    String?    
+trs_process_id    String? 
+trs_access_profile    String?
+trs_org_grp_code    String?
+trs_org_code    String?
+trs_role_grp_code    String?
+trs_role_code    String?
+trs_ps_grp_code    String?
+trs_ps_code    String?  
+trs_sub_org_grp_code    String?
+trs_sub_org_code    String?
+
+@@schema("ct003_ag001")  
+}
+
+
+
+
+
+
+
+
+
