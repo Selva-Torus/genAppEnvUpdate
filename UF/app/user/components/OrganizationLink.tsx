@@ -523,7 +523,7 @@ const AddOrgGroupButton = () => {
         <PlusIcon fill={isLightColor(brandColor)} height='.9vw' width='.9vw' />
       </Button>
       <Modal
-        className='w-[400px] lg:min-w-[400px]'
+        className='w-[500px] lg:min-w-[500px]'
         onClose={() => setIsAddModalOpen(false)}
         open={isAddModalOpen}
         closeOnOverlayClick
@@ -694,7 +694,7 @@ const LeftPanelOrgGroup = ({
             setIsPopoverOpen(false)
           }}
           showCloseButton={false}
-          className='w-[400px]'
+          className='w-[500px]'
         >
           <AddGroupLevelModal
             close={() => {
@@ -718,7 +718,7 @@ const LeftPanelOrgGroup = ({
             setIsPopoverOpen(false)
           }}
           showCloseButton={false}
-          className='w-[400px]'
+          className='w-[500px]'
         >
           <AddGroupLevelModal
             close={() => {
@@ -886,7 +886,7 @@ const LeftPanelOrg = ({
           setIsPopoverOpen(false)
         }}
         showCloseButton={false}
-        className='w-[400px]'
+        className='w-[500px]'
       >
         <AddGroupLevelModal
           close={() => {
