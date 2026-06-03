@@ -9,668 +9,456 @@ export interface TotalContextProps {
   setCurrentToken: React.Dispatch<React.SetStateAction<any>>
   matchedAccessProfileData: any;
   setMatchedAccessProfileData: React.Dispatch<React.SetStateAction<any>>
-  user_grpd6690: any 
-  setuser_grpd6690: React.Dispatch<React.SetStateAction<any>>
-  user_grpd6690Props: any 
-  setuser_grpd6690Props: React.Dispatch<React.SetStateAction<any>>
-  daily_expense_table13758: any 
-  setdaily_expense_table13758: React.Dispatch<React.SetStateAction<any>>
-  daily_expense_table13758Props: any 
-  setdaily_expense_table13758Props: React.Dispatch<React.SetStateAction<any>>
-  offsite_expense_table4ffd6: any 
-  setoffsite_expense_table4ffd6: React.Dispatch<React.SetStateAction<any>>
-  offsite_expense_table4ffd6Props: any 
-  setoffsite_expense_table4ffd6Props: React.Dispatch<React.SetStateAction<any>>
-  request_daily_group44e40: any 
-  setrequest_daily_group44e40: React.Dispatch<React.SetStateAction<any>>
-  request_daily_group44e40Props: any 
-  setrequest_daily_group44e40Props: React.Dispatch<React.SetStateAction<any>>
-  request_offsite_group429cb: any 
-  setrequest_offsite_group429cb: React.Dispatch<React.SetStateAction<any>>
-  request_offsite_group429cbProps: any 
-  setrequest_offsite_group429cbProps: React.Dispatch<React.SetStateAction<any>>
-  claims_detail_tablef8143: any 
-  setclaims_detail_tablef8143: React.Dispatch<React.SetStateAction<any>>
-  claims_detail_tablef8143Props: any 
-  setclaims_detail_tablef8143Props: React.Dispatch<React.SetStateAction<any>>
-  manager_group41477: any 
-  setmanager_group41477: React.Dispatch<React.SetStateAction<any>>
-  manager_group41477Props: any 
-  setmanager_group41477Props: React.Dispatch<React.SetStateAction<any>>
-  daily_expense_table91568: any 
-  setdaily_expense_table91568: React.Dispatch<React.SetStateAction<any>>
-  daily_expense_table91568Props: any 
-  setdaily_expense_table91568Props: React.Dispatch<React.SetStateAction<any>>
-  offsite_expense_table1e924: any 
-  setoffsite_expense_table1e924: React.Dispatch<React.SetStateAction<any>>
-  offsite_expense_table1e924Props: any 
-  setoffsite_expense_table1e924Props: React.Dispatch<React.SetStateAction<any>>
-  daily_approval_group69531: any 
-  setdaily_approval_group69531: React.Dispatch<React.SetStateAction<any>>
-  daily_approval_group69531Props: any 
-  setdaily_approval_group69531Props: React.Dispatch<React.SetStateAction<any>>
-  offsite_approval_group8d6cc: any 
-  setoffsite_approval_group8d6cc: React.Dispatch<React.SetStateAction<any>>
-  offsite_approval_group8d6ccProps: any 
-  setoffsite_approval_group8d6ccProps: React.Dispatch<React.SetStateAction<any>>
-  claim_detail_table1835f: any 
-  setclaim_detail_table1835f: React.Dispatch<React.SetStateAction<any>>
-  claim_detail_table1835fProps: any 
-  setclaim_detail_table1835fProps: React.Dispatch<React.SetStateAction<any>>
-  groupc9a87: any 
-  setgroupc9a87: React.Dispatch<React.SetStateAction<any>>
-  groupc9a87Props: any 
-  setgroupc9a87Props: React.Dispatch<React.SetStateAction<any>>
-  daily_user_table76baf: any 
-  setdaily_user_table76baf: React.Dispatch<React.SetStateAction<any>>
-  daily_user_table76bafProps: any 
-  setdaily_user_table76bafProps: React.Dispatch<React.SetStateAction<any>>
-  groupe78de: any 
-  setgroupe78de: React.Dispatch<React.SetStateAction<any>>
-  groupe78deProps: any 
-  setgroupe78deProps: React.Dispatch<React.SetStateAction<any>>
-  offsite_expense_user_table94f29: any 
-  setoffsite_expense_user_table94f29: React.Dispatch<React.SetStateAction<any>>
-  offsite_expense_user_table94f29Props: any 
-  setoffsite_expense_user_table94f29Props: React.Dispatch<React.SetStateAction<any>>
-  grp63e95: any 
-  setgrp63e95: React.Dispatch<React.SetStateAction<any>>
-  grp63e95Props: any 
-  setgrp63e95Props: React.Dispatch<React.SetStateAction<any>>
-  daily_expense_manager_tablee3342: any 
-  setdaily_expense_manager_tablee3342: React.Dispatch<React.SetStateAction<any>>
-  daily_expense_manager_tablee3342Props: any 
-  setdaily_expense_manager_tablee3342Props: React.Dispatch<React.SetStateAction<any>>
-  grpdeda0: any 
-  setgrpdeda0: React.Dispatch<React.SetStateAction<any>>
-  grpdeda0Props: any 
-  setgrpdeda0Props: React.Dispatch<React.SetStateAction<any>>
-  table98ff5: any 
-  settable98ff5: React.Dispatch<React.SetStateAction<any>>
-  table98ff5Props: any 
-  settable98ff5Props: React.Dispatch<React.SetStateAction<any>>
-  report_grp0286e: any 
-  setreport_grp0286e: React.Dispatch<React.SetStateAction<any>>
-  report_grp0286eProps: any 
-  setreport_grp0286eProps: React.Dispatch<React.SetStateAction<any>>
-  approvedcardc5971: any,
-  setapprovedcardc5971:React.Dispatch<React.SetStateAction<any>>
-  approvedcardc5971Props: any 
-  setapprovedcardc5971Props: React.Dispatch<React.SetStateAction<any>>
-  rejectedcardefafa: any,
-  setrejectedcardefafa:React.Dispatch<React.SetStateAction<any>>
-  rejectedcardefafaProps: any 
-  setrejectedcardefafaProps: React.Dispatch<React.SetStateAction<any>>
-  pendingcardee3c0: any,
-  setpendingcardee3c0:React.Dispatch<React.SetStateAction<any>>
-  pendingcardee3c0Props: any 
-  setpendingcardee3c0Props: React.Dispatch<React.SetStateAction<any>>
-  dailyexpenses798bd: any,
-  setdailyexpenses798bd:React.Dispatch<React.SetStateAction<any>>
-  dailyexpenses798bdProps: any 
-  setdailyexpenses798bdProps: React.Dispatch<React.SetStateAction<any>>
-  offsiteexpensescd925: any,
-  setoffsiteexpensescd925:React.Dispatch<React.SetStateAction<any>>
-  offsiteexpensescd925Props: any 
-  setoffsiteexpensescd925Props: React.Dispatch<React.SetStateAction<any>>
-  addd126f: any,
-  setaddd126f:React.Dispatch<React.SetStateAction<any>>
-  addd126fProps: any 
-  setaddd126fProps: React.Dispatch<React.SetStateAction<any>>
-  offsite_add1ab15: any,
-  setoffsite_add1ab15:React.Dispatch<React.SetStateAction<any>>
-  offsite_add1ab15Props: any 
-  setoffsite_add1ab15Props: React.Dispatch<React.SetStateAction<any>>
-  daily_expa1e3b: any,
-  setdaily_expa1e3b:React.Dispatch<React.SetStateAction<any>>
-  daily_expa1e3bProps: any 
-  setdaily_expa1e3bProps: React.Dispatch<React.SetStateAction<any>>
-  offsite_exp949f2: any,
-  setoffsite_exp949f2:React.Dispatch<React.SetStateAction<any>>
-  offsite_exp949f2Props: any 
-  setoffsite_exp949f2Props: React.Dispatch<React.SetStateAction<any>>
-  c_id1095d: any,
-  setc_id1095d:React.Dispatch<React.SetStateAction<any>>
-  c_id1095dProps: any 
-  setc_id1095dProps: React.Dispatch<React.SetStateAction<any>>
-  claim_category16bdb: any,
-  setclaim_category16bdb:React.Dispatch<React.SetStateAction<any>>
-  claim_category16bdbProps: any 
-  setclaim_category16bdbProps: React.Dispatch<React.SetStateAction<any>>
-  amountc124c: any,
-  setamountc124c:React.Dispatch<React.SetStateAction<any>>
-  amountc124cProps: any 
-  setamountc124cProps: React.Dispatch<React.SetStateAction<any>>
-  status3fa4d: any,
-  setstatus3fa4d:React.Dispatch<React.SetStateAction<any>>
-  status3fa4dProps: any 
-  setstatus3fa4dProps: React.Dispatch<React.SetStateAction<any>>
-  date5e32f: any,
-  setdate5e32f:React.Dispatch<React.SetStateAction<any>>
-  date5e32fProps: any 
-  setdate5e32fProps: React.Dispatch<React.SetStateAction<any>>
-  claim_idb67db: any,
-  setclaim_idb67db:React.Dispatch<React.SetStateAction<any>>
-  claim_idb67dbProps: any 
-  setclaim_idb67dbProps: React.Dispatch<React.SetStateAction<any>>
-  expense_name1040c: any,
-  setexpense_name1040c:React.Dispatch<React.SetStateAction<any>>
-  expense_name1040cProps: any 
-  setexpense_name1040cProps: React.Dispatch<React.SetStateAction<any>>
-  category_total_amount54e36: any,
-  setcategory_total_amount54e36:React.Dispatch<React.SetStateAction<any>>
-  category_total_amount54e36Props: any 
-  setcategory_total_amount54e36Props: React.Dispatch<React.SetStateAction<any>>
-  trs_status6f7ad: any,
-  settrs_status6f7ad:React.Dispatch<React.SetStateAction<any>>
-  trs_status6f7adProps: any 
-  settrs_status6f7adProps: React.Dispatch<React.SetStateAction<any>>
-  formatted_date7ebf5: any,
-  setformatted_date7ebf5:React.Dispatch<React.SetStateAction<any>>
-  formatted_date7ebf5Props: any 
-  setformatted_date7ebf5Props: React.Dispatch<React.SetStateAction<any>>
-  daily_expensefb8cc: any,
-  setdaily_expensefb8cc:React.Dispatch<React.SetStateAction<any>>
-  daily_expensefb8ccProps: any 
-  setdaily_expensefb8ccProps: React.Dispatch<React.SetStateAction<any>>
-  claim_expense_type22d67: any,
-  setclaim_expense_type22d67:React.Dispatch<React.SetStateAction<any>>
-  claim_expense_type22d67Props: any 
-  setclaim_expense_type22d67Props: React.Dispatch<React.SetStateAction<any>>
-  expense_name5f562: any,
-  setexpense_name5f562:React.Dispatch<React.SetStateAction<any>>
-  expense_name5f562Props: any 
-  setexpense_name5f562Props: React.Dispatch<React.SetStateAction<any>>
-  expense_date5f45e: any,
-  setexpense_date5f45e:React.Dispatch<React.SetStateAction<any>>
-  expense_date5f45eProps: any 
-  setexpense_date5f45eProps: React.Dispatch<React.SetStateAction<any>>
-  claim_categoryc7c5e: any,
-  setclaim_categoryc7c5e:React.Dispatch<React.SetStateAction<any>>
-  claim_categoryc7c5eProps: any 
-  setclaim_categoryc7c5eProps: React.Dispatch<React.SetStateAction<any>>
-  category_total_amount9782f: any,
-  setcategory_total_amount9782f:React.Dispatch<React.SetStateAction<any>>
-  category_total_amount9782fProps: any 
-  setcategory_total_amount9782fProps: React.Dispatch<React.SetStateAction<any>>
-  attachment04414: any,
-  setattachment04414:React.Dispatch<React.SetStateAction<any>>
-  attachment04414Props: any 
-  setattachment04414Props: React.Dispatch<React.SetStateAction<any>>
-  receipt_image6afe2: any,
-  setreceipt_image6afe2:React.Dispatch<React.SetStateAction<any>>
-  receipt_image6afe2Props: any 
-  setreceipt_image6afe2Props: React.Dispatch<React.SetStateAction<any>>
-  commentsf2394: any,
-  setcommentsf2394:React.Dispatch<React.SetStateAction<any>>
-  commentsf2394Props: any 
-  setcommentsf2394Props: React.Dispatch<React.SetStateAction<any>>
-  enabletextb4878: any,
-  setenabletextb4878:React.Dispatch<React.SetStateAction<any>>
-  enabletextb4878Props: any 
-  setenabletextb4878Props: React.Dispatch<React.SetStateAction<any>>
-  is_comment_enabled7244d: any,
-  setis_comment_enabled7244d:React.Dispatch<React.SetStateAction<any>>
-  is_comment_enabled7244dProps: any 
-  setis_comment_enabled7244dProps: React.Dispatch<React.SetStateAction<any>>
-  clear14ae7: any,
-  setclear14ae7:React.Dispatch<React.SetStateAction<any>>
-  clear14ae7Props: any 
-  setclear14ae7Props: React.Dispatch<React.SetStateAction<any>>
-  saved507e: any,
-  setsaved507e:React.Dispatch<React.SetStateAction<any>>
-  saved507eProps: any 
-  setsaved507eProps: React.Dispatch<React.SetStateAction<any>>
-  offsite_expense39c39: any,
-  setoffsite_expense39c39:React.Dispatch<React.SetStateAction<any>>
-  offsite_expense39c39Props: any 
-  setoffsite_expense39c39Props: React.Dispatch<React.SetStateAction<any>>
-  claim_expense_type51f6e: any,
-  setclaim_expense_type51f6e:React.Dispatch<React.SetStateAction<any>>
-  claim_expense_type51f6eProps: any 
-  setclaim_expense_type51f6eProps: React.Dispatch<React.SetStateAction<any>>
-  expense_namebf755: any,
-  setexpense_namebf755:React.Dispatch<React.SetStateAction<any>>
-  expense_namebf755Props: any 
-  setexpense_namebf755Props: React.Dispatch<React.SetStateAction<any>>
-  from_date6f9c3: any,
-  setfrom_date6f9c3:React.Dispatch<React.SetStateAction<any>>
-  from_date6f9c3Props: any 
-  setfrom_date6f9c3Props: React.Dispatch<React.SetStateAction<any>>
-  to_date6db82: any,
-  setto_date6db82:React.Dispatch<React.SetStateAction<any>>
-  to_date6db82Props: any 
-  setto_date6db82Props: React.Dispatch<React.SetStateAction<any>>
-  claim_categorya4a14: any,
-  setclaim_categorya4a14:React.Dispatch<React.SetStateAction<any>>
-  claim_categorya4a14Props: any 
-  setclaim_categorya4a14Props: React.Dispatch<React.SetStateAction<any>>
-  category_total_amounte603b: any,
-  setcategory_total_amounte603b:React.Dispatch<React.SetStateAction<any>>
-  category_total_amounte603bProps: any 
-  setcategory_total_amounte603bProps: React.Dispatch<React.SetStateAction<any>>
-  attachmentc9c51: any,
-  setattachmentc9c51:React.Dispatch<React.SetStateAction<any>>
-  attachmentc9c51Props: any 
-  setattachmentc9c51Props: React.Dispatch<React.SetStateAction<any>>
-  receipt_imageafe30: any,
-  setreceipt_imageafe30:React.Dispatch<React.SetStateAction<any>>
-  receipt_imageafe30Props: any 
-  setreceipt_imageafe30Props: React.Dispatch<React.SetStateAction<any>>
-  comments65b18: any,
-  setcomments65b18:React.Dispatch<React.SetStateAction<any>>
-  comments65b18Props: any 
-  setcomments65b18Props: React.Dispatch<React.SetStateAction<any>>
-  enableeff29: any,
-  setenableeff29:React.Dispatch<React.SetStateAction<any>>
-  enableeff29Props: any 
-  setenableeff29Props: React.Dispatch<React.SetStateAction<any>>
-  is_comment_enabled5ca5f: any,
-  setis_comment_enabled5ca5f:React.Dispatch<React.SetStateAction<any>>
-  is_comment_enabled5ca5fProps: any 
-  setis_comment_enabled5ca5fProps: React.Dispatch<React.SetStateAction<any>>
-  clear2b3e6: any,
-  setclear2b3e6:React.Dispatch<React.SetStateAction<any>>
-  clear2b3e6Props: any 
-  setclear2b3e6Props: React.Dispatch<React.SetStateAction<any>>
-  add5cae4: any,
-  setadd5cae4:React.Dispatch<React.SetStateAction<any>>
-  add5cae4Props: any 
-  setadd5cae4Props: React.Dispatch<React.SetStateAction<any>>
-  claim_detail_id97d69: any,
-  setclaim_detail_id97d69:React.Dispatch<React.SetStateAction<any>>
-  claim_detail_id97d69Props: any 
-  setclaim_detail_id97d69Props: React.Dispatch<React.SetStateAction<any>>
-  expense_category182d4: any,
-  setexpense_category182d4:React.Dispatch<React.SetStateAction<any>>
-  expense_category182d4Props: any 
-  setexpense_category182d4Props: React.Dispatch<React.SetStateAction<any>>
-  expense_descriptiondee64: any,
-  setexpense_descriptiondee64:React.Dispatch<React.SetStateAction<any>>
-  expense_descriptiondee64Props: any 
-  setexpense_descriptiondee64Props: React.Dispatch<React.SetStateAction<any>>
-  expense_datee47c7: any,
-  setexpense_datee47c7:React.Dispatch<React.SetStateAction<any>>
-  expense_datee47c7Props: any 
-  setexpense_datee47c7Props: React.Dispatch<React.SetStateAction<any>>
-  expense_amountb97f7: any,
-  setexpense_amountb97f7:React.Dispatch<React.SetStateAction<any>>
-  expense_amountb97f7Props: any 
-  setexpense_amountb97f7Props: React.Dispatch<React.SetStateAction<any>>
-  approvedcard75ed7: any,
-  setapprovedcard75ed7:React.Dispatch<React.SetStateAction<any>>
-  approvedcard75ed7Props: any 
-  setapprovedcard75ed7Props: React.Dispatch<React.SetStateAction<any>>
-  rejectedcard0ceee: any,
-  setrejectedcard0ceee:React.Dispatch<React.SetStateAction<any>>
-  rejectedcard0ceeeProps: any 
-  setrejectedcard0ceeeProps: React.Dispatch<React.SetStateAction<any>>
-  pendingcard727e3: any,
-  setpendingcard727e3:React.Dispatch<React.SetStateAction<any>>
-  pendingcard727e3Props: any 
-  setpendingcard727e3Props: React.Dispatch<React.SetStateAction<any>>
-  dailyexpensese7cda: any,
-  setdailyexpensese7cda:React.Dispatch<React.SetStateAction<any>>
-  dailyexpensese7cdaProps: any 
-  setdailyexpensese7cdaProps: React.Dispatch<React.SetStateAction<any>>
-  offsiteexpenses62fe1: any,
-  setoffsiteexpenses62fe1:React.Dispatch<React.SetStateAction<any>>
-  offsiteexpenses62fe1Props: any 
-  setoffsiteexpenses62fe1Props: React.Dispatch<React.SetStateAction<any>>
-  daily_expa8b25: any,
-  setdaily_expa8b25:React.Dispatch<React.SetStateAction<any>>
-  daily_expa8b25Props: any 
-  setdaily_expa8b25Props: React.Dispatch<React.SetStateAction<any>>
-  offstie_exp400c9: any,
-  setoffstie_exp400c9:React.Dispatch<React.SetStateAction<any>>
-  offstie_exp400c9Props: any 
-  setoffstie_exp400c9Props: React.Dispatch<React.SetStateAction<any>>
-  cl_id570c3: any,
-  setcl_id570c3:React.Dispatch<React.SetStateAction<any>>
-  cl_id570c3Props: any 
-  setcl_id570c3Props: React.Dispatch<React.SetStateAction<any>>
-  trs_created_byae57b: any,
-  settrs_created_byae57b:React.Dispatch<React.SetStateAction<any>>
-  trs_created_byae57bProps: any 
-  settrs_created_byae57bProps: React.Dispatch<React.SetStateAction<any>>
-  claim_category090da: any,
-  setclaim_category090da:React.Dispatch<React.SetStateAction<any>>
-  claim_category090daProps: any 
-  setclaim_category090daProps: React.Dispatch<React.SetStateAction<any>>
-  total_amountc033a: any,
-  settotal_amountc033a:React.Dispatch<React.SetStateAction<any>>
-  total_amountc033aProps: any 
-  settotal_amountc033aProps: React.Dispatch<React.SetStateAction<any>>
-  status49843: any,
-  setstatus49843:React.Dispatch<React.SetStateAction<any>>
-  status49843Props: any 
-  setstatus49843Props: React.Dispatch<React.SetStateAction<any>>
-  expense_date0a4c3: any,
-  setexpense_date0a4c3:React.Dispatch<React.SetStateAction<any>>
-  expense_date0a4c3Props: any 
-  setexpense_date0a4c3Props: React.Dispatch<React.SetStateAction<any>>
-  claim_id4a599: any,
-  setclaim_id4a599:React.Dispatch<React.SetStateAction<any>>
-  claim_id4a599Props: any 
-  setclaim_id4a599Props: React.Dispatch<React.SetStateAction<any>>
-  expense_namec8f13: any,
-  setexpense_namec8f13:React.Dispatch<React.SetStateAction<any>>
-  expense_namec8f13Props: any 
-  setexpense_namec8f13Props: React.Dispatch<React.SetStateAction<any>>
-  category_total_amountfb61b: any,
-  setcategory_total_amountfb61b:React.Dispatch<React.SetStateAction<any>>
-  category_total_amountfb61bProps: any 
-  setcategory_total_amountfb61bProps: React.Dispatch<React.SetStateAction<any>>
-  trs_status79b0b: any,
-  settrs_status79b0b:React.Dispatch<React.SetStateAction<any>>
-  trs_status79b0bProps: any 
-  settrs_status79b0bProps: React.Dispatch<React.SetStateAction<any>>
-  formatted_date46435: any,
-  setformatted_date46435:React.Dispatch<React.SetStateAction<any>>
-  formatted_date46435Props: any 
-  setformatted_date46435Props: React.Dispatch<React.SetStateAction<any>>
-  daily_expenses89868: any,
-  setdaily_expenses89868:React.Dispatch<React.SetStateAction<any>>
-  daily_expenses89868Props: any 
-  setdaily_expenses89868Props: React.Dispatch<React.SetStateAction<any>>
-  expense_name88ccc: any,
-  setexpense_name88ccc:React.Dispatch<React.SetStateAction<any>>
-  expense_name88cccProps: any 
-  setexpense_name88cccProps: React.Dispatch<React.SetStateAction<any>>
-  expense_datee8c94: any,
-  setexpense_datee8c94:React.Dispatch<React.SetStateAction<any>>
-  expense_datee8c94Props: any 
-  setexpense_datee8c94Props: React.Dispatch<React.SetStateAction<any>>
-  claim_category46dd0: any,
-  setclaim_category46dd0:React.Dispatch<React.SetStateAction<any>>
-  claim_category46dd0Props: any 
-  setclaim_category46dd0Props: React.Dispatch<React.SetStateAction<any>>
-  category_total_amountcf2e2: any,
-  setcategory_total_amountcf2e2:React.Dispatch<React.SetStateAction<any>>
-  category_total_amountcf2e2Props: any 
-  setcategory_total_amountcf2e2Props: React.Dispatch<React.SetStateAction<any>>
-  receipt_image33fd1: any,
-  setreceipt_image33fd1:React.Dispatch<React.SetStateAction<any>>
-  receipt_image33fd1Props: any 
-  setreceipt_image33fd1Props: React.Dispatch<React.SetStateAction<any>>
-  comments9336d: any,
-  setcomments9336d:React.Dispatch<React.SetStateAction<any>>
-  comments9336dProps: any 
-  setcomments9336dProps: React.Dispatch<React.SetStateAction<any>>
-  manager_commentsd309a: any,
-  setmanager_commentsd309a:React.Dispatch<React.SetStateAction<any>>
-  manager_commentsd309aProps: any 
-  setmanager_commentsd309aProps: React.Dispatch<React.SetStateAction<any>>
-  enable666c8: any,
-  setenable666c8:React.Dispatch<React.SetStateAction<any>>
-  enable666c8Props: any 
-  setenable666c8Props: React.Dispatch<React.SetStateAction<any>>
-  is_comment_enablede20a4: any,
-  setis_comment_enablede20a4:React.Dispatch<React.SetStateAction<any>>
-  is_comment_enablede20a4Props: any 
-  setis_comment_enablede20a4Props: React.Dispatch<React.SetStateAction<any>>
-  reject28a4c: any,
-  setreject28a4c:React.Dispatch<React.SetStateAction<any>>
-  reject28a4cProps: any 
-  setreject28a4cProps: React.Dispatch<React.SetStateAction<any>>
-  approve28765: any,
-  setapprove28765:React.Dispatch<React.SetStateAction<any>>
-  approve28765Props: any 
-  setapprove28765Props: React.Dispatch<React.SetStateAction<any>>
-  offsite_expense4be82: any,
-  setoffsite_expense4be82:React.Dispatch<React.SetStateAction<any>>
-  offsite_expense4be82Props: any 
-  setoffsite_expense4be82Props: React.Dispatch<React.SetStateAction<any>>
-  expense_name084c7: any,
-  setexpense_name084c7:React.Dispatch<React.SetStateAction<any>>
-  expense_name084c7Props: any 
-  setexpense_name084c7Props: React.Dispatch<React.SetStateAction<any>>
-  from_dated8c1b: any,
-  setfrom_dated8c1b:React.Dispatch<React.SetStateAction<any>>
-  from_dated8c1bProps: any 
-  setfrom_dated8c1bProps: React.Dispatch<React.SetStateAction<any>>
-  to_date0c15a: any,
-  setto_date0c15a:React.Dispatch<React.SetStateAction<any>>
-  to_date0c15aProps: any 
-  setto_date0c15aProps: React.Dispatch<React.SetStateAction<any>>
-  claim_categoryac401: any,
-  setclaim_categoryac401:React.Dispatch<React.SetStateAction<any>>
-  claim_categoryac401Props: any 
-  setclaim_categoryac401Props: React.Dispatch<React.SetStateAction<any>>
-  category_total_amountdd7c0: any,
-  setcategory_total_amountdd7c0:React.Dispatch<React.SetStateAction<any>>
-  category_total_amountdd7c0Props: any 
-  setcategory_total_amountdd7c0Props: React.Dispatch<React.SetStateAction<any>>
-  receipt_image3968d: any,
-  setreceipt_image3968d:React.Dispatch<React.SetStateAction<any>>
-  receipt_image3968dProps: any 
-  setreceipt_image3968dProps: React.Dispatch<React.SetStateAction<any>>
-  commentse0ef7: any,
-  setcommentse0ef7:React.Dispatch<React.SetStateAction<any>>
-  commentse0ef7Props: any 
-  setcommentse0ef7Props: React.Dispatch<React.SetStateAction<any>>
-  manager_comments4bec2: any,
-  setmanager_comments4bec2:React.Dispatch<React.SetStateAction<any>>
-  manager_comments4bec2Props: any 
-  setmanager_comments4bec2Props: React.Dispatch<React.SetStateAction<any>>
-  enabled5c19: any,
-  setenabled5c19:React.Dispatch<React.SetStateAction<any>>
-  enabled5c19Props: any 
-  setenabled5c19Props: React.Dispatch<React.SetStateAction<any>>
-  is_comment_enabledf9731: any,
-  setis_comment_enabledf9731:React.Dispatch<React.SetStateAction<any>>
-  is_comment_enabledf9731Props: any 
-  setis_comment_enabledf9731Props: React.Dispatch<React.SetStateAction<any>>
-  claim_detail_idcd216: any,
-  setclaim_detail_idcd216:React.Dispatch<React.SetStateAction<any>>
-  claim_detail_idcd216Props: any 
-  setclaim_detail_idcd216Props: React.Dispatch<React.SetStateAction<any>>
-  expense_category71ccd: any,
-  setexpense_category71ccd:React.Dispatch<React.SetStateAction<any>>
-  expense_category71ccdProps: any 
-  setexpense_category71ccdProps: React.Dispatch<React.SetStateAction<any>>
-  expense_description84301: any,
-  setexpense_description84301:React.Dispatch<React.SetStateAction<any>>
-  expense_description84301Props: any 
-  setexpense_description84301Props: React.Dispatch<React.SetStateAction<any>>
-  expense_date2649c: any,
-  setexpense_date2649c:React.Dispatch<React.SetStateAction<any>>
-  expense_date2649cProps: any 
-  setexpense_date2649cProps: React.Dispatch<React.SetStateAction<any>>
-  expense_amount6b94f: any,
-  setexpense_amount6b94f:React.Dispatch<React.SetStateAction<any>>
-  expense_amount6b94fProps: any 
-  setexpense_amount6b94fProps: React.Dispatch<React.SetStateAction<any>>
-  reject74228: any,
-  setreject74228:React.Dispatch<React.SetStateAction<any>>
-  reject74228Props: any 
-  setreject74228Props: React.Dispatch<React.SetStateAction<any>>
-  approve098ea: any,
-  setapprove098ea:React.Dispatch<React.SetStateAction<any>>
-  approve098eaProps: any 
-  setapprove098eaProps: React.Dispatch<React.SetStateAction<any>>
-  dailyc5d00: any,
-  setdailyc5d00:React.Dispatch<React.SetStateAction<any>>
-  dailyc5d00Props: any 
-  setdailyc5d00Props: React.Dispatch<React.SetStateAction<any>>
-  claim_iddc381: any,
-  setclaim_iddc381:React.Dispatch<React.SetStateAction<any>>
-  claim_iddc381Props: any 
-  setclaim_iddc381Props: React.Dispatch<React.SetStateAction<any>>
-  expense_name0195f: any,
-  setexpense_name0195f:React.Dispatch<React.SetStateAction<any>>
-  expense_name0195fProps: any 
-  setexpense_name0195fProps: React.Dispatch<React.SetStateAction<any>>
-  claim_category8e630: any,
-  setclaim_category8e630:React.Dispatch<React.SetStateAction<any>>
-  claim_category8e630Props: any 
-  setclaim_category8e630Props: React.Dispatch<React.SetStateAction<any>>
-  category_total_amount2b381: any,
-  setcategory_total_amount2b381:React.Dispatch<React.SetStateAction<any>>
-  category_total_amount2b381Props: any 
-  setcategory_total_amount2b381Props: React.Dispatch<React.SetStateAction<any>>
-  expense_date7df86: any,
-  setexpense_date7df86:React.Dispatch<React.SetStateAction<any>>
-  expense_date7df86Props: any 
-  setexpense_date7df86Props: React.Dispatch<React.SetStateAction<any>>
-  trs_statuscecb6: any,
-  settrs_statuscecb6:React.Dispatch<React.SetStateAction<any>>
-  trs_statuscecb6Props: any 
-  settrs_statuscecb6Props: React.Dispatch<React.SetStateAction<any>>
-  text248b4: any,
-  settext248b4:React.Dispatch<React.SetStateAction<any>>
-  text248b4Props: any 
-  settext248b4Props: React.Dispatch<React.SetStateAction<any>>
-  claim_idadd32: any,
-  setclaim_idadd32:React.Dispatch<React.SetStateAction<any>>
-  claim_idadd32Props: any 
-  setclaim_idadd32Props: React.Dispatch<React.SetStateAction<any>>
-  expense_name0255e: any,
-  setexpense_name0255e:React.Dispatch<React.SetStateAction<any>>
-  expense_name0255eProps: any 
-  setexpense_name0255eProps: React.Dispatch<React.SetStateAction<any>>
-  claim_category8981c: any,
-  setclaim_category8981c:React.Dispatch<React.SetStateAction<any>>
-  claim_category8981cProps: any 
-  setclaim_category8981cProps: React.Dispatch<React.SetStateAction<any>>
-  category_total_amounta8a33: any,
-  setcategory_total_amounta8a33:React.Dispatch<React.SetStateAction<any>>
-  category_total_amounta8a33Props: any 
-  setcategory_total_amounta8a33Props: React.Dispatch<React.SetStateAction<any>>
-  formatted_date0d1c9: any,
-  setformatted_date0d1c9:React.Dispatch<React.SetStateAction<any>>
-  formatted_date0d1c9Props: any 
-  setformatted_date0d1c9Props: React.Dispatch<React.SetStateAction<any>>
-  trs_statusf43c9: any,
-  settrs_statusf43c9:React.Dispatch<React.SetStateAction<any>>
-  trs_statusf43c9Props: any 
-  settrs_statusf43c9Props: React.Dispatch<React.SetStateAction<any>>
-  daily14f95: any,
-  setdaily14f95:React.Dispatch<React.SetStateAction<any>>
-  daily14f95Props: any 
-  setdaily14f95Props: React.Dispatch<React.SetStateAction<any>>
-  claim_id7ec53: any,
-  setclaim_id7ec53:React.Dispatch<React.SetStateAction<any>>
-  claim_id7ec53Props: any 
-  setclaim_id7ec53Props: React.Dispatch<React.SetStateAction<any>>
-  trs_created_by1f8f9: any,
-  settrs_created_by1f8f9:React.Dispatch<React.SetStateAction<any>>
-  trs_created_by1f8f9Props: any 
-  settrs_created_by1f8f9Props: React.Dispatch<React.SetStateAction<any>>
-  expense_name78eca: any,
-  setexpense_name78eca:React.Dispatch<React.SetStateAction<any>>
-  expense_name78ecaProps: any 
-  setexpense_name78ecaProps: React.Dispatch<React.SetStateAction<any>>
-  claim_category8466d: any,
-  setclaim_category8466d:React.Dispatch<React.SetStateAction<any>>
-  claim_category8466dProps: any 
-  setclaim_category8466dProps: React.Dispatch<React.SetStateAction<any>>
-  category_total_amount22435: any,
-  setcategory_total_amount22435:React.Dispatch<React.SetStateAction<any>>
-  category_total_amount22435Props: any 
-  setcategory_total_amount22435Props: React.Dispatch<React.SetStateAction<any>>
-  expense_date20458: any,
-  setexpense_date20458:React.Dispatch<React.SetStateAction<any>>
-  expense_date20458Props: any 
-  setexpense_date20458Props: React.Dispatch<React.SetStateAction<any>>
-  trs_status9f4b4: any,
-  settrs_status9f4b4:React.Dispatch<React.SetStateAction<any>>
-  trs_status9f4b4Props: any 
-  settrs_status9f4b4Props: React.Dispatch<React.SetStateAction<any>>
-  reject4d3f0: any,
-  setreject4d3f0:React.Dispatch<React.SetStateAction<any>>
-  reject4d3f0Props: any 
-  setreject4d3f0Props: React.Dispatch<React.SetStateAction<any>>
-  approve819e1: any,
-  setapprove819e1:React.Dispatch<React.SetStateAction<any>>
-  approve819e1Props: any 
-  setapprove819e1Props: React.Dispatch<React.SetStateAction<any>>
-  offsite_expense46e6c: any,
-  setoffsite_expense46e6c:React.Dispatch<React.SetStateAction<any>>
-  offsite_expense46e6cProps: any 
-  setoffsite_expense46e6cProps: React.Dispatch<React.SetStateAction<any>>
-  claim_id56078: any,
-  setclaim_id56078:React.Dispatch<React.SetStateAction<any>>
-  claim_id56078Props: any 
-  setclaim_id56078Props: React.Dispatch<React.SetStateAction<any>>
-  rejecte566a: any,
-  setrejecte566a:React.Dispatch<React.SetStateAction<any>>
-  rejecte566aProps: any 
-  setrejecte566aProps: React.Dispatch<React.SetStateAction<any>>
-  approve5709e: any,
-  setapprove5709e:React.Dispatch<React.SetStateAction<any>>
-  approve5709eProps: any 
-  setapprove5709eProps: React.Dispatch<React.SetStateAction<any>>
-  trs_created_by8053b: any,
-  settrs_created_by8053b:React.Dispatch<React.SetStateAction<any>>
-  trs_created_by8053bProps: any 
-  settrs_created_by8053bProps: React.Dispatch<React.SetStateAction<any>>
-  expense_name94440: any,
-  setexpense_name94440:React.Dispatch<React.SetStateAction<any>>
-  expense_name94440Props: any 
-  setexpense_name94440Props: React.Dispatch<React.SetStateAction<any>>
-  claim_category9ec61: any,
-  setclaim_category9ec61:React.Dispatch<React.SetStateAction<any>>
-  claim_category9ec61Props: any 
-  setclaim_category9ec61Props: React.Dispatch<React.SetStateAction<any>>
-  category_total_amount689b8: any,
-  setcategory_total_amount689b8:React.Dispatch<React.SetStateAction<any>>
-  category_total_amount689b8Props: any 
-  setcategory_total_amount689b8Props: React.Dispatch<React.SetStateAction<any>>
-  formatted_date1030f: any,
-  setformatted_date1030f:React.Dispatch<React.SetStateAction<any>>
-  formatted_date1030fProps: any 
-  setformatted_date1030fProps: React.Dispatch<React.SetStateAction<any>>
-  trs_status759b6: any,
-  settrs_status759b6:React.Dispatch<React.SetStateAction<any>>
-  trs_status759b6Props: any 
-  settrs_status759b6Props: React.Dispatch<React.SetStateAction<any>>
-  barchart5a930: any,
-  setbarchart5a930:React.Dispatch<React.SetStateAction<any>>
-  barchart5a930Props: any 
-  setbarchart5a930Props: React.Dispatch<React.SetStateAction<any>>
-  piechart95a71: any,
-  setpiechart95a71:React.Dispatch<React.SetStateAction<any>>
-  piechart95a71Props: any 
-  setpiechart95a71Props: React.Dispatch<React.SetStateAction<any>>
+  tran_main_group1dc7f: any 
+  settran_main_group1dc7f: React.Dispatch<React.SetStateAction<any>>
+  tran_main_group1dc7fProps: any 
+  settran_main_group1dc7fProps: React.Dispatch<React.SetStateAction<any>>
+  tran_tab_group08b64: any 
+  settran_tab_group08b64: React.Dispatch<React.SetStateAction<any>>
+  tran_tab_group08b64Props: any 
+  settran_tab_group08b64Props: React.Dispatch<React.SetStateAction<any>>
+  view_all_tab4a963: any 
+  setview_all_tab4a963: React.Dispatch<React.SetStateAction<any>>
+  view_all_tab4a963Props: any 
+  setview_all_tab4a963Props: React.Dispatch<React.SetStateAction<any>>
+  view_all_tablec9e87: any 
+  setview_all_tablec9e87: React.Dispatch<React.SetStateAction<any>>
+  view_all_tablec9e87Props: any 
+  setview_all_tablec9e87Props: React.Dispatch<React.SetStateAction<any>>
+  failure_queue_tab69f01: any 
+  setfailure_queue_tab69f01: React.Dispatch<React.SetStateAction<any>>
+  failure_queue_tab69f01Props: any 
+  setfailure_queue_tab69f01Props: React.Dispatch<React.SetStateAction<any>>
+  failure_queue_tablea476f: any 
+  setfailure_queue_tablea476f: React.Dispatch<React.SetStateAction<any>>
+  failure_queue_tablea476fProps: any 
+  setfailure_queue_tablea476fProps: React.Dispatch<React.SetStateAction<any>>
+  success_queue_tabef582: any 
+  setsuccess_queue_tabef582: React.Dispatch<React.SetStateAction<any>>
+  success_queue_tabef582Props: any 
+  setsuccess_queue_tabef582Props: React.Dispatch<React.SetStateAction<any>>
+  success_queue_table63aae: any 
+  setsuccess_queue_table63aae: React.Dispatch<React.SetStateAction<any>>
+  success_queue_table63aaeProps: any 
+  setsuccess_queue_table63aaeProps: React.Dispatch<React.SetStateAction<any>>
+  return_queue_tab5611e: any 
+  setreturn_queue_tab5611e: React.Dispatch<React.SetStateAction<any>>
+  return_queue_tab5611eProps: any 
+  setreturn_queue_tab5611eProps: React.Dispatch<React.SetStateAction<any>>
+  return_queue_table267f0: any 
+  setreturn_queue_table267f0: React.Dispatch<React.SetStateAction<any>>
+  return_queue_table267f0Props: any 
+  setreturn_queue_table267f0Props: React.Dispatch<React.SetStateAction<any>>
+  main_group9066f: any 
+  setmain_group9066f: React.Dispatch<React.SetStateAction<any>>
+  main_group9066fProps: any 
+  setmain_group9066fProps: React.Dispatch<React.SetStateAction<any>>
+  tran_journey_group9eb2e: any 
+  settran_journey_group9eb2e: React.Dispatch<React.SetStateAction<any>>
+  tran_journey_group9eb2eProps: any 
+  settran_journey_group9eb2eProps: React.Dispatch<React.SetStateAction<any>>
+  journey_details_groupd9a0e: any 
+  setjourney_details_groupd9a0e: React.Dispatch<React.SetStateAction<any>>
+  journey_details_groupd9a0eProps: any 
+  setjourney_details_groupd9a0eProps: React.Dispatch<React.SetStateAction<any>>
+  tran_data_group84f25: any 
+  settran_data_group84f25: React.Dispatch<React.SetStateAction<any>>
+  tran_data_group84f25Props: any 
+  settran_data_group84f25Props: React.Dispatch<React.SetStateAction<any>>
+  req_data_group8d4d7: any 
+  setreq_data_group8d4d7: React.Dispatch<React.SetStateAction<any>>
+  req_data_group8d4d7Props: any 
+  setreq_data_group8d4d7Props: React.Dispatch<React.SetStateAction<any>>
+  res_data_group9d75a: any 
+  setres_data_group9d75a: React.Dispatch<React.SetStateAction<any>>
+  res_data_group9d75aProps: any 
+  setres_data_group9d75aProps: React.Dispatch<React.SetStateAction<any>>
+  outbound_or_inbound5e076: any,
+  setoutbound_or_inbound5e076:React.Dispatch<React.SetStateAction<any>>
+  outbound_or_inbound5e076Props: any 
+  setoutbound_or_inbound5e076Props: React.Dispatch<React.SetStateAction<any>>
+  searchcc244: any,
+  setsearchcc244:React.Dispatch<React.SetStateAction<any>>
+  searchcc244Props: any 
+  setsearchcc244Props: React.Dispatch<React.SetStateAction<any>>
+  refresh313d0: any,
+  setrefresh313d0:React.Dispatch<React.SetStateAction<any>>
+  refresh313d0Props: any 
+  setrefresh313d0Props: React.Dispatch<React.SetStateAction<any>>
+  downloadcb505: any,
+  setdownloadcb505:React.Dispatch<React.SetStateAction<any>>
+  downloadcb505Props: any 
+  setdownloadcb505Props: React.Dispatch<React.SetStateAction<any>>
+  product_code_view_allb0df6: any,
+  setproduct_code_view_allb0df6:React.Dispatch<React.SetStateAction<any>>
+  product_code_view_allb0df6Props: any 
+  setproduct_code_view_allb0df6Props: React.Dispatch<React.SetStateAction<any>>
+  channel_name_view_all33724: any,
+  setchannel_name_view_all33724:React.Dispatch<React.SetStateAction<any>>
+  channel_name_view_all33724Props: any 
+  setchannel_name_view_all33724Props: React.Dispatch<React.SetStateAction<any>>
+  uuid_view_allc0a46: any,
+  setuuid_view_allc0a46:React.Dispatch<React.SetStateAction<any>>
+  uuid_view_allc0a46Props: any 
+  setuuid_view_allc0a46Props: React.Dispatch<React.SetStateAction<any>>
+  dr_account_view_all54da6: any,
+  setdr_account_view_all54da6:React.Dispatch<React.SetStateAction<any>>
+  dr_account_view_all54da6Props: any 
+  setdr_account_view_all54da6Props: React.Dispatch<React.SetStateAction<any>>
+  dr_amount_view_all88d6b: any,
+  setdr_amount_view_all88d6b:React.Dispatch<React.SetStateAction<any>>
+  dr_amount_view_all88d6bProps: any 
+  setdr_amount_view_all88d6bProps: React.Dispatch<React.SetStateAction<any>>
+  cr_account_view_alld4b39: any,
+  setcr_account_view_alld4b39:React.Dispatch<React.SetStateAction<any>>
+  cr_account_view_alld4b39Props: any 
+  setcr_account_view_alld4b39Props: React.Dispatch<React.SetStateAction<any>>
+  cr_amount_view_all19d14: any,
+  setcr_amount_view_all19d14:React.Dispatch<React.SetStateAction<any>>
+  cr_amount_view_all19d14Props: any 
+  setcr_amount_view_all19d14Props: React.Dispatch<React.SetStateAction<any>>
+  remittance_info_view_all82afd: any,
+  setremittance_info_view_all82afd:React.Dispatch<React.SetStateAction<any>>
+  remittance_info_view_all82afdProps: any 
+  setremittance_info_view_all82afdProps: React.Dispatch<React.SetStateAction<any>>
+  status_view_all47e6b: any,
+  setstatus_view_all47e6b:React.Dispatch<React.SetStateAction<any>>
+  status_view_all47e6bProps: any 
+  setstatus_view_all47e6bProps: React.Dispatch<React.SetStateAction<any>>
+  log_btnfe134: any,
+  setlog_btnfe134:React.Dispatch<React.SetStateAction<any>>
+  log_btnfe134Props: any 
+  setlog_btnfe134Props: React.Dispatch<React.SetStateAction<any>>
+  product_code_failure_queue12297: any,
+  setproduct_code_failure_queue12297:React.Dispatch<React.SetStateAction<any>>
+  product_code_failure_queue12297Props: any 
+  setproduct_code_failure_queue12297Props: React.Dispatch<React.SetStateAction<any>>
+  channel_name_failure_queue42953: any,
+  setchannel_name_failure_queue42953:React.Dispatch<React.SetStateAction<any>>
+  channel_name_failure_queue42953Props: any 
+  setchannel_name_failure_queue42953Props: React.Dispatch<React.SetStateAction<any>>
+  uuid_failure_queue03c86: any,
+  setuuid_failure_queue03c86:React.Dispatch<React.SetStateAction<any>>
+  uuid_failure_queue03c86Props: any 
+  setuuid_failure_queue03c86Props: React.Dispatch<React.SetStateAction<any>>
+  dr_account_failure_queuef9d2d: any,
+  setdr_account_failure_queuef9d2d:React.Dispatch<React.SetStateAction<any>>
+  dr_account_failure_queuef9d2dProps: any 
+  setdr_account_failure_queuef9d2dProps: React.Dispatch<React.SetStateAction<any>>
+  dr_amount_failure_queue95d4e: any,
+  setdr_amount_failure_queue95d4e:React.Dispatch<React.SetStateAction<any>>
+  dr_amount_failure_queue95d4eProps: any 
+  setdr_amount_failure_queue95d4eProps: React.Dispatch<React.SetStateAction<any>>
+  cr_account_failure_queuea7246: any,
+  setcr_account_failure_queuea7246:React.Dispatch<React.SetStateAction<any>>
+  cr_account_failure_queuea7246Props: any 
+  setcr_account_failure_queuea7246Props: React.Dispatch<React.SetStateAction<any>>
+  cr_amount_failure_queue57c4d: any,
+  setcr_amount_failure_queue57c4d:React.Dispatch<React.SetStateAction<any>>
+  cr_amount_failure_queue57c4dProps: any 
+  setcr_amount_failure_queue57c4dProps: React.Dispatch<React.SetStateAction<any>>
+  remittance_info_failure_queue09d7a: any,
+  setremittance_info_failure_queue09d7a:React.Dispatch<React.SetStateAction<any>>
+  remittance_info_failure_queue09d7aProps: any 
+  setremittance_info_failure_queue09d7aProps: React.Dispatch<React.SetStateAction<any>>
+  status_failure_queue0aef8: any,
+  setstatus_failure_queue0aef8:React.Dispatch<React.SetStateAction<any>>
+  status_failure_queue0aef8Props: any 
+  setstatus_failure_queue0aef8Props: React.Dispatch<React.SetStateAction<any>>
+  product_code_success_queue7c209: any,
+  setproduct_code_success_queue7c209:React.Dispatch<React.SetStateAction<any>>
+  product_code_success_queue7c209Props: any 
+  setproduct_code_success_queue7c209Props: React.Dispatch<React.SetStateAction<any>>
+  channel_name_success_queueeddaf: any,
+  setchannel_name_success_queueeddaf:React.Dispatch<React.SetStateAction<any>>
+  channel_name_success_queueeddafProps: any 
+  setchannel_name_success_queueeddafProps: React.Dispatch<React.SetStateAction<any>>
+  uuid_success_queuec805b: any,
+  setuuid_success_queuec805b:React.Dispatch<React.SetStateAction<any>>
+  uuid_success_queuec805bProps: any 
+  setuuid_success_queuec805bProps: React.Dispatch<React.SetStateAction<any>>
+  dr_account_operational_pending10a49: any,
+  setdr_account_operational_pending10a49:React.Dispatch<React.SetStateAction<any>>
+  dr_account_operational_pending10a49Props: any 
+  setdr_account_operational_pending10a49Props: React.Dispatch<React.SetStateAction<any>>
+  dr_amount_success_queueda254: any,
+  setdr_amount_success_queueda254:React.Dispatch<React.SetStateAction<any>>
+  dr_amount_success_queueda254Props: any 
+  setdr_amount_success_queueda254Props: React.Dispatch<React.SetStateAction<any>>
+  cr_account_success_queue60480: any,
+  setcr_account_success_queue60480:React.Dispatch<React.SetStateAction<any>>
+  cr_account_success_queue60480Props: any 
+  setcr_account_success_queue60480Props: React.Dispatch<React.SetStateAction<any>>
+  cr_amount_success_queueb80d4: any,
+  setcr_amount_success_queueb80d4:React.Dispatch<React.SetStateAction<any>>
+  cr_amount_success_queueb80d4Props: any 
+  setcr_amount_success_queueb80d4Props: React.Dispatch<React.SetStateAction<any>>
+  remittance_info_success_queue2f950: any,
+  setremittance_info_success_queue2f950:React.Dispatch<React.SetStateAction<any>>
+  remittance_info_success_queue2f950Props: any 
+  setremittance_info_success_queue2f950Props: React.Dispatch<React.SetStateAction<any>>
+  status_success_queue019a2: any,
+  setstatus_success_queue019a2:React.Dispatch<React.SetStateAction<any>>
+  status_success_queue019a2Props: any 
+  setstatus_success_queue019a2Props: React.Dispatch<React.SetStateAction<any>>
+  product_code_return_queuee5e11: any,
+  setproduct_code_return_queuee5e11:React.Dispatch<React.SetStateAction<any>>
+  product_code_return_queuee5e11Props: any 
+  setproduct_code_return_queuee5e11Props: React.Dispatch<React.SetStateAction<any>>
+  channel_name_return_queuebdabb: any,
+  setchannel_name_return_queuebdabb:React.Dispatch<React.SetStateAction<any>>
+  channel_name_return_queuebdabbProps: any 
+  setchannel_name_return_queuebdabbProps: React.Dispatch<React.SetStateAction<any>>
+  uuid_return_queue958c9: any,
+  setuuid_return_queue958c9:React.Dispatch<React.SetStateAction<any>>
+  uuid_return_queue958c9Props: any 
+  setuuid_return_queue958c9Props: React.Dispatch<React.SetStateAction<any>>
+  dr_account_return_queuee94b2: any,
+  setdr_account_return_queuee94b2:React.Dispatch<React.SetStateAction<any>>
+  dr_account_return_queuee94b2Props: any 
+  setdr_account_return_queuee94b2Props: React.Dispatch<React.SetStateAction<any>>
+  dr_amount_return_queue2f324: any,
+  setdr_amount_return_queue2f324:React.Dispatch<React.SetStateAction<any>>
+  dr_amount_return_queue2f324Props: any 
+  setdr_amount_return_queue2f324Props: React.Dispatch<React.SetStateAction<any>>
+  cr_account_return_queue21a57: any,
+  setcr_account_return_queue21a57:React.Dispatch<React.SetStateAction<any>>
+  cr_account_return_queue21a57Props: any 
+  setcr_account_return_queue21a57Props: React.Dispatch<React.SetStateAction<any>>
+  cr_amount_return_queue13fec: any,
+  setcr_amount_return_queue13fec:React.Dispatch<React.SetStateAction<any>>
+  cr_amount_return_queue13fecProps: any 
+  setcr_amount_return_queue13fecProps: React.Dispatch<React.SetStateAction<any>>
+  remittance_info_return_queuef37f7: any,
+  setremittance_info_return_queuef37f7:React.Dispatch<React.SetStateAction<any>>
+  remittance_info_return_queuef37f7Props: any 
+  setremittance_info_return_queuef37f7Props: React.Dispatch<React.SetStateAction<any>>
+  status_return_queue95903: any,
+  setstatus_return_queue95903:React.Dispatch<React.SetStateAction<any>>
+  status_return_queue95903Props: any 
+  setstatus_return_queue95903Props: React.Dispatch<React.SetStateAction<any>>
+  search_label27572: any,
+  setsearch_label27572:React.Dispatch<React.SetStateAction<any>>
+  search_label27572Props: any 
+  setsearch_label27572Props: React.Dispatch<React.SetStateAction<any>>
+  divider_top0354b: any,
+  setdivider_top0354b:React.Dispatch<React.SetStateAction<any>>
+  divider_top0354bProps: any 
+  setdivider_top0354bProps: React.Dispatch<React.SetStateAction<any>>
+  trs_created_date2cea8: any,
+  settrs_created_date2cea8:React.Dispatch<React.SetStateAction<any>>
+  trs_created_date2cea8Props: any 
+  settrs_created_date2cea8Props: React.Dispatch<React.SetStateAction<any>>
+  debtor_account_no963e4: any,
+  setdebtor_account_no963e4:React.Dispatch<React.SetStateAction<any>>
+  debtor_account_no963e4Props: any 
+  setdebtor_account_no963e4Props: React.Dispatch<React.SetStateAction<any>>
+  debtor_namee2d9f: any,
+  setdebtor_namee2d9f:React.Dispatch<React.SetStateAction<any>>
+  debtor_namee2d9fProps: any 
+  setdebtor_namee2d9fProps: React.Dispatch<React.SetStateAction<any>>
+  creditor_account_noca692: any,
+  setcreditor_account_noca692:React.Dispatch<React.SetStateAction<any>>
+  creditor_account_noca692Props: any 
+  setcreditor_account_noca692Props: React.Dispatch<React.SetStateAction<any>>
+  payment_currency703d2: any,
+  setpayment_currency703d2:React.Dispatch<React.SetStateAction<any>>
+  payment_currency703d2Props: any 
+  setpayment_currency703d2Props: React.Dispatch<React.SetStateAction<any>>
+  payment_amount042b1: any,
+  setpayment_amount042b1:React.Dispatch<React.SetStateAction<any>>
+  payment_amount042b1Props: any 
+  setpayment_amount042b1Props: React.Dispatch<React.SetStateAction<any>>
+  uuid29c9f: any,
+  setuuid29c9f:React.Dispatch<React.SetStateAction<any>>
+  uuid29c9fProps: any 
+  setuuid29c9fProps: React.Dispatch<React.SetStateAction<any>>
+  channel26e83: any,
+  setchannel26e83:React.Dispatch<React.SetStateAction<any>>
+  channel26e83Props: any 
+  setchannel26e83Props: React.Dispatch<React.SetStateAction<any>>
+  processstatus134a1: any,
+  setprocessstatus134a1:React.Dispatch<React.SetStateAction<any>>
+  processstatus134a1Props: any 
+  setprocessstatus134a1Props: React.Dispatch<React.SetStateAction<any>>
+  status4bd75: any,
+  setstatus4bd75:React.Dispatch<React.SetStateAction<any>>
+  status4bd75Props: any 
+  setstatus4bd75Props: React.Dispatch<React.SetStateAction<any>>
+  divider_bottom72ab5: any,
+  setdivider_bottom72ab5:React.Dispatch<React.SetStateAction<any>>
+  divider_bottom72ab5Props: any 
+  setdivider_bottom72ab5Props: React.Dispatch<React.SetStateAction<any>>
+  search0e695: any,
+  setsearch0e695:React.Dispatch<React.SetStateAction<any>>
+  search0e695Props: any 
+  setsearch0e695Props: React.Dispatch<React.SetStateAction<any>>
+  cleareddfa: any,
+  setcleareddfa:React.Dispatch<React.SetStateAction<any>>
+  cleareddfaProps: any 
+  setcleareddfaProps: React.Dispatch<React.SetStateAction<any>>
+  tran_journey_label02972: any,
+  settran_journey_label02972:React.Dispatch<React.SetStateAction<any>>
+  tran_journey_label02972Props: any 
+  settran_journey_label02972Props: React.Dispatch<React.SetStateAction<any>>
+  tran_journey1602a: any,
+  settran_journey1602a:React.Dispatch<React.SetStateAction<any>>
+  tran_journey1602aProps: any 
+  settran_journey1602aProps: React.Dispatch<React.SetStateAction<any>>
+  details_labelb25b2: any,
+  setdetails_labelb25b2:React.Dispatch<React.SetStateAction<any>>
+  details_labelb25b2Props: any 
+  setdetails_labelb25b2Props: React.Dispatch<React.SetStateAction<any>>
+  divider_tope6917: any,
+  setdivider_tope6917:React.Dispatch<React.SetStateAction<any>>
+  divider_tope6917Props: any 
+  setdivider_tope6917Props: React.Dispatch<React.SetStateAction<any>>
+  transaction_date_time_label669d7: any,
+  settransaction_date_time_label669d7:React.Dispatch<React.SetStateAction<any>>
+  transaction_date_time_label669d7Props: any 
+  settransaction_date_time_label669d7Props: React.Dispatch<React.SetStateAction<any>>
+  status_labelf3713: any,
+  setstatus_labelf3713:React.Dispatch<React.SetStateAction<any>>
+  status_labelf3713Props: any 
+  setstatus_labelf3713Props: React.Dispatch<React.SetStateAction<any>>
+  transaction_date_time14856: any,
+  settransaction_date_time14856:React.Dispatch<React.SetStateAction<any>>
+  transaction_date_time14856Props: any 
+  settransaction_date_time14856Props: React.Dispatch<React.SetStateAction<any>>
+  status88bc7: any,
+  setstatus88bc7:React.Dispatch<React.SetStateAction<any>>
+  status88bc7Props: any 
+  setstatus88bc7Props: React.Dispatch<React.SetStateAction<any>>
+  processed_by_label542e8: any,
+  setprocessed_by_label542e8:React.Dispatch<React.SetStateAction<any>>
+  processed_by_label542e8Props: any 
+  setprocessed_by_label542e8Props: React.Dispatch<React.SetStateAction<any>>
+  debit_account_label3b1b7: any,
+  setdebit_account_label3b1b7:React.Dispatch<React.SetStateAction<any>>
+  debit_account_label3b1b7Props: any 
+  setdebit_account_label3b1b7Props: React.Dispatch<React.SetStateAction<any>>
+  processed_byd2b69: any,
+  setprocessed_byd2b69:React.Dispatch<React.SetStateAction<any>>
+  processed_byd2b69Props: any 
+  setprocessed_byd2b69Props: React.Dispatch<React.SetStateAction<any>>
+  debit_account36b40: any,
+  setdebit_account36b40:React.Dispatch<React.SetStateAction<any>>
+  debit_account36b40Props: any 
+  setdebit_account36b40Props: React.Dispatch<React.SetStateAction<any>>
+  currency_labele21ba: any,
+  setcurrency_labele21ba:React.Dispatch<React.SetStateAction<any>>
+  currency_labele21baProps: any 
+  setcurrency_labele21baProps: React.Dispatch<React.SetStateAction<any>>
+  credit_account_label65c7b: any,
+  setcredit_account_label65c7b:React.Dispatch<React.SetStateAction<any>>
+  credit_account_label65c7bProps: any 
+  setcredit_account_label65c7bProps: React.Dispatch<React.SetStateAction<any>>
+  currency9c8a2: any,
+  setcurrency9c8a2:React.Dispatch<React.SetStateAction<any>>
+  currency9c8a2Props: any 
+  setcurrency9c8a2Props: React.Dispatch<React.SetStateAction<any>>
+  credit_account0d1f4: any,
+  setcredit_account0d1f4:React.Dispatch<React.SetStateAction<any>>
+  credit_account0d1f4Props: any 
+  setcredit_account0d1f4Props: React.Dispatch<React.SetStateAction<any>>
+  amount_labelfd725: any,
+  setamount_labelfd725:React.Dispatch<React.SetStateAction<any>>
+  amount_labelfd725Props: any 
+  setamount_labelfd725Props: React.Dispatch<React.SetStateAction<any>>
+  transaction_reference_labelb1ca9: any,
+  settransaction_reference_labelb1ca9:React.Dispatch<React.SetStateAction<any>>
+  transaction_reference_labelb1ca9Props: any 
+  settransaction_reference_labelb1ca9Props: React.Dispatch<React.SetStateAction<any>>
+  amount01416: any,
+  setamount01416:React.Dispatch<React.SetStateAction<any>>
+  amount01416Props: any 
+  setamount01416Props: React.Dispatch<React.SetStateAction<any>>
+  transaction_reference500d6: any,
+  settransaction_reference500d6:React.Dispatch<React.SetStateAction<any>>
+  transaction_reference500d6Props: any 
+  settransaction_reference500d6Props: React.Dispatch<React.SetStateAction<any>>
+  divider_bottom8bad5: any,
+  setdivider_bottom8bad5:React.Dispatch<React.SetStateAction<any>>
+  divider_bottom8bad5Props: any 
+  setdivider_bottom8bad5Props: React.Dispatch<React.SetStateAction<any>>
+  view_msg_data_btne6a88: any,
+  setview_msg_data_btne6a88:React.Dispatch<React.SetStateAction<any>>
+  view_msg_data_btne6a88Props: any 
+  setview_msg_data_btne6a88Props: React.Dispatch<React.SetStateAction<any>>
+  view_tran_log_btn9cd8c: any,
+  setview_tran_log_btn9cd8c:React.Dispatch<React.SetStateAction<any>>
+  view_tran_log_btn9cd8cProps: any 
+  setview_tran_log_btn9cd8cProps: React.Dispatch<React.SetStateAction<any>>
+  msg_data_label7b760: any,
+  setmsg_data_label7b760:React.Dispatch<React.SetStateAction<any>>
+  msg_data_label7b760Props: any 
+  setmsg_data_label7b760Props: React.Dispatch<React.SetStateAction<any>>
+  divider_topf46a0: any,
+  setdivider_topf46a0:React.Dispatch<React.SetStateAction<any>>
+  divider_topf46a0Props: any 
+  setdivider_topf46a0Props: React.Dispatch<React.SetStateAction<any>>
+  xmlviewer9fe8d: any,
+  setxmlviewer9fe8d:React.Dispatch<React.SetStateAction<any>>
+  xmlviewer9fe8dProps: any 
+  setxmlviewer9fe8dProps: React.Dispatch<React.SetStateAction<any>>
+  divider_bottom6920d: any,
+  setdivider_bottom6920d:React.Dispatch<React.SetStateAction<any>>
+  divider_bottom6920dProps: any 
+  setdivider_bottom6920dProps: React.Dispatch<React.SetStateAction<any>>
+  cancel_btn5e840: any,
+  setcancel_btn5e840:React.Dispatch<React.SetStateAction<any>>
+  cancel_btn5e840Props: any 
+  setcancel_btn5e840Props: React.Dispatch<React.SetStateAction<any>>
+  transaction_log_label7b760: any,
+  settransaction_log_label7b760:React.Dispatch<React.SetStateAction<any>>
+  transaction_log_label7b760Props: any 
+  settransaction_log_label7b760Props: React.Dispatch<React.SetStateAction<any>>
+  req_jsonviewerc80ab: any,
+  setreq_jsonviewerc80ab:React.Dispatch<React.SetStateAction<any>>
+  req_jsonviewerc80abProps: any 
+  setreq_jsonviewerc80abProps: React.Dispatch<React.SetStateAction<any>>
+  res_jsonviewer9d6d1: any,
+  setres_jsonviewer9d6d1:React.Dispatch<React.SetStateAction<any>>
+  res_jsonviewer9d6d1Props: any 
+  setres_jsonviewer9d6d1Props: React.Dispatch<React.SetStateAction<any>>
 
 ////// screen states 
-  dashboard_for_user_v1Props: any 
-  setdashboard_for_user_v1Props: React.Dispatch<React.SetStateAction<any>>
-  request_screen_daily_v1Props: any 
-  setrequest_screen_daily_v1Props: React.Dispatch<React.SetStateAction<any>>
-  request_screen_offsite_v1Props: any 
-  setrequest_screen_offsite_v1Props: React.Dispatch<React.SetStateAction<any>>
-  dashboard_for_manager_v1Props: any 
-  setdashboard_for_manager_v1Props: React.Dispatch<React.SetStateAction<any>>
-  approval_screen_daily_v1Props: any 
-  setapproval_screen_daily_v1Props: React.Dispatch<React.SetStateAction<any>>
-  approval_screen_offsite_v1Props: any 
-  setapproval_screen_offsite_v1Props: React.Dispatch<React.SetStateAction<any>>
-  daily_expense_user_table_v1Props: any 
-  setdaily_expense_user_table_v1Props: React.Dispatch<React.SetStateAction<any>>
-  offsite_expense_user_table_v1Props: any 
-  setoffsite_expense_user_table_v1Props: React.Dispatch<React.SetStateAction<any>>
-  daily_expense_manager_table_v1Props: any 
-  setdaily_expense_manager_table_v1Props: React.Dispatch<React.SetStateAction<any>>
-  offsite_expense_manager_table_v1Props: any 
-  setoffsite_expense_manager_table_v1Props: React.Dispatch<React.SetStateAction<any>>
-  report_v1Props: any 
-  setreport_v1Props: React.Dispatch<React.SetStateAction<any>>
+  transaction_v1: any 
+  settransaction_v1: React.Dispatch<React.SetStateAction<any>>
+  transaction_v1Props: any 
+  settransaction_v1Props: React.Dispatch<React.SetStateAction<any>>
+  transactionsearch_v1: any 
+  settransactionsearch_v1: React.Dispatch<React.SetStateAction<any>>
+  transactionsearch_v1Props: any 
+  settransactionsearch_v1Props: React.Dispatch<React.SetStateAction<any>>
+  transactionjourney_v1: any 
+  settransactionjourney_v1: React.Dispatch<React.SetStateAction<any>>
+  transactionjourney_v1Props: any 
+  settransactionjourney_v1Props: React.Dispatch<React.SetStateAction<any>>
+  tranjourneydetails_v1: any 
+  settranjourneydetails_v1: React.Dispatch<React.SetStateAction<any>>
+  tranjourneydetails_v1Props: any 
+  settranjourneydetails_v1Props: React.Dispatch<React.SetStateAction<any>>
+  messagedataview_v1: any 
+  setmessagedataview_v1: React.Dispatch<React.SetStateAction<any>>
+  messagedataview_v1Props: any 
+  setmessagedataview_v1Props: React.Dispatch<React.SetStateAction<any>>
+  trandataview_v1: any 
+  settrandataview_v1: React.Dispatch<React.SetStateAction<any>>
+  trandataview_v1Props: any 
+  settrandataview_v1Props: React.Dispatch<React.SetStateAction<any>>
 
 ///////// dfd
-  dfd_claims_v1Props: any 
-  setdfd_claims_v1Props: React.Dispatch<React.SetStateAction<any>>
-  dfd_code_description_v1Props: any 
-  setdfd_code_description_v1Props: React.Dispatch<React.SetStateAction<any>>
-  dfd_claims_detail_v1Props: any 
-  setdfd_claims_detail_v1Props: React.Dispatch<React.SetStateAction<any>>
-  dfd_card_data_v1Props: any 
-  setdfd_card_data_v1Props: React.Dispatch<React.SetStateAction<any>>
-  dfd_claim_table_data_v1Props: any 
-  setdfd_claim_table_data_v1Props: React.Dispatch<React.SetStateAction<any>>
-  dfd_chart_data_v1Props: any 
-  setdfd_chart_data_v1Props: React.Dispatch<React.SetStateAction<any>>
+  dfd_combocurrencysearch_v1Props: any 
+  setdfd_combocurrencysearch_v1Props: React.Dispatch<React.SetStateAction<any>>
+  dfd_transaction_v1Props: any 
+  setdfd_transaction_v1Props: React.Dispatch<React.SetStateAction<any>>
+  dfd_processstatuscombosearch_v1Props: any 
+  setdfd_processstatuscombosearch_v1Props: React.Dispatch<React.SetStateAction<any>>
+  dfd_channelcombosearch_v1Props: any 
+  setdfd_channelcombosearch_v1Props: React.Dispatch<React.SetStateAction<any>>
+  dfd_journey_v1Props: any 
+  setdfd_journey_v1Props: React.Dispatch<React.SetStateAction<any>>
 
   refetch: any,
   setRefetch: React.Dispatch<React.SetStateAction<any>>
@@ -697,10 +485,12 @@ export interface TotalContextProps {
   setRefresh: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
   lockedData: Record<string, any>,
   setLockedData: React.Dispatch<React.SetStateAction<Record<string, any>>>
+  tableData: Record<string, any>,
+  setTableData: React.Dispatch<React.SetStateAction<Record<string, any>>>    
   paginationDetails: Record<string, any>,
   setpaginationDetails: React.Dispatch<React.SetStateAction<Record<string, any>>>
-  eventEmitterData: any[],
-  setEventEmitterData: React.Dispatch<React.SetStateAction<any[]>>
+  eventEmitterData: any,
+  setEventEmitterData: React.Dispatch<React.SetStateAction<any>>
   userDetails: Record<string, any>,
   setUserDetails: React.Dispatch<React.SetStateAction<Record<string, any>>>
   encAppFalg: Record<string, any>,
@@ -714,8 +504,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     const [matchedAccessProfileData, setMatchedAccessProfileData] =
     React.useState<any>({})
       //////////
-        const [user_grpd6690, setuser_grpd6690 ] = React.useState<any>({}) 
-    const [user_grpd6690Props, setuser_grpd6690Props ] = React.useState<any>({
+        const [tran_main_group1dc7f, settran_main_group1dc7f ] = React.useState<any>({}) 
+    const [tran_main_group1dc7fProps, settran_main_group1dc7fProps ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -723,11 +513,43 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isDisabled: false,
       presetValues: '',
       isHidden: false,
-      selectedIds:[]
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        const [tran_tab_group08b64, settran_tab_group08b64 ] = React.useState<any>({}) 
+    const [tran_tab_group08b64Props, settran_tab_group08b64Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "outbound_or_inbound",
+            "search",
+            "refresh",
+            "download",
+      ]
+      }) 
+        const [view_all_tab4a963, setview_all_tab4a963 ] = React.useState<any>({}) 
+    const [view_all_tab4a963Props, setview_all_tab4a963Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
       }) 
     
-    const [daily_expense_table13758, setdaily_expense_table13758 ] = React.useState<any>([]) 
-    const [daily_expense_table13758Props, setdaily_expense_table13758Props ] = React.useState<any>({
+    const [view_all_tablec9e87, setview_all_tablec9e87 ] = React.useState<any>([]) 
+    const [view_all_tablec9e87Props, setview_all_tablec9e87Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -737,9 +559,22 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       selectedIds:[],
       refresh:false,
       }) 
+        const [failure_queue_tab69f01, setfailure_queue_tab69f01 ] = React.useState<any>({}) 
+    const [failure_queue_tab69f01Props, setfailure_queue_tab69f01Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
     
-    const [offsite_expense_table4ffd6, setoffsite_expense_table4ffd6 ] = React.useState<any>([]) 
-    const [offsite_expense_table4ffd6Props, setoffsite_expense_table4ffd6Props ] = React.useState<any>({
+    const [failure_queue_tablea476f, setfailure_queue_tablea476f ] = React.useState<any>([]) 
+    const [failure_queue_tablea476fProps, setfailure_queue_tablea476fProps ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -749,8 +584,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       selectedIds:[],
       refresh:false,
       }) 
-        const [request_daily_group44e40, setrequest_daily_group44e40 ] = React.useState<any>({}) 
-    const [request_daily_group44e40Props, setrequest_daily_group44e40Props ] = React.useState<any>({
+        const [success_queue_tabef582, setsuccess_queue_tabef582 ] = React.useState<any>({}) 
+    const [success_queue_tabef582Props, setsuccess_queue_tabef582Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -758,22 +593,13 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isDisabled: false,
       presetValues: '',
       isHidden: false,
-      selectedIds:[]
-      }) 
-        const [request_offsite_group429cb, setrequest_offsite_group429cb ] = React.useState<any>({}) 
-    const [request_offsite_group429cbProps, setrequest_offsite_group429cbProps ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[]
+      selectedIds:[],
+      controls:[
+      ]
       }) 
     
-    const [claims_detail_tablef8143, setclaims_detail_tablef8143 ] = React.useState<any>([]) 
-    const [claims_detail_tablef8143Props, setclaims_detail_tablef8143Props ] = React.useState<any>({
+    const [success_queue_table63aae, setsuccess_queue_table63aae ] = React.useState<any>([]) 
+    const [success_queue_table63aaeProps, setsuccess_queue_table63aaeProps ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -783,8 +609,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       selectedIds:[],
       refresh:false,
       }) 
-        const [manager_group41477, setmanager_group41477 ] = React.useState<any>({}) 
-    const [manager_group41477Props, setmanager_group41477Props ] = React.useState<any>({
+        const [return_queue_tab5611e, setreturn_queue_tab5611e ] = React.useState<any>({}) 
+    const [return_queue_tab5611eProps, setreturn_queue_tab5611eProps ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -792,11 +618,13 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isDisabled: false,
       presetValues: '',
       isHidden: false,
-      selectedIds:[]
+      selectedIds:[],
+      controls:[
+      ]
       }) 
     
-    const [daily_expense_table91568, setdaily_expense_table91568 ] = React.useState<any>([]) 
-    const [daily_expense_table91568Props, setdaily_expense_table91568Props ] = React.useState<any>({
+    const [return_queue_table267f0, setreturn_queue_table267f0 ] = React.useState<any>([]) 
+    const [return_queue_table267f0Props, setreturn_queue_table267f0Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -806,1279 +634,953 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       selectedIds:[],
       refresh:false,
       }) 
-    
-    const [offsite_expense_table1e924, setoffsite_expense_table1e924 ] = React.useState<any>([]) 
-    const [offsite_expense_table1e924Props, setoffsite_expense_table1e924Props ] = React.useState<any>({
+        const [main_group9066f, setmain_group9066f ] = React.useState<any>({}) 
+    const [main_group9066fProps, setmain_group9066fProps ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
+      refresh:false,
       isDisabled: false,
       presetValues: '',
       isHidden: false,
       selectedIds:[],
-      refresh:false,
+      controls:[
+            "search_label",
+            "divider_top",
+            "trs_created_date",
+            "dr_account",
+            "dr_name",
+            "cr_account",
+            "payment_currency",
+            "payment_currency",
+            "dr_amount",
+            "uuid",
+            "channel",
+            "channel",
+            "processstatus",
+            "processstatus",
+            "trs_status",
+            "divider_bottom",
+            "search",
+            "clear",
+      ]
       }) 
-        const [daily_approval_group69531, setdaily_approval_group69531 ] = React.useState<any>({}) 
-    const [daily_approval_group69531Props, setdaily_approval_group69531Props ] = React.useState<any>({
+        const [tran_journey_group9eb2e, settran_journey_group9eb2e ] = React.useState<any>({}) 
+    const [tran_journey_group9eb2eProps, settran_journey_group9eb2eProps ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
       refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[]
-      }) 
-        const [offsite_approval_group8d6cc, setoffsite_approval_group8d6cc ] = React.useState<any>({}) 
-    const [offsite_approval_group8d6ccProps, setoffsite_approval_group8d6ccProps ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[]
-      }) 
-    
-    const [claim_detail_table1835f, setclaim_detail_table1835f ] = React.useState<any>([]) 
-    const [claim_detail_table1835fProps, setclaim_detail_table1835fProps ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
       isDisabled: false,
       presetValues: '',
       isHidden: false,
       selectedIds:[],
-      refresh:false,
+      controls:[
+            "tran_journey_label",
+            "vgphstm_uuid",
+      ]
       }) 
-        const [groupc9a87, setgroupc9a87 ] = React.useState<any>({}) 
-    const [groupc9a87Props, setgroupc9a87Props ] = React.useState<any>({
+        const [journey_details_groupd9a0e, setjourney_details_groupd9a0e ] = React.useState<any>({}) 
+    const [journey_details_groupd9a0eProps, setjourney_details_groupd9a0eProps ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
       refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[]
-      }) 
-    
-    const [daily_user_table76baf, setdaily_user_table76baf ] = React.useState<any>([]) 
-    const [daily_user_table76bafProps, setdaily_user_table76bafProps ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
       isDisabled: false,
       presetValues: '',
       isHidden: false,
       selectedIds:[],
-      refresh:false,
+      controls:[
+            "details_label",
+            "divider_top",
+            "transaction_date_time_label",
+            "status_label",
+            "trs_created_date",
+            "result",
+            "processed_by_label",
+            "debit_account_label",
+            "processing_system",
+            "dr_account",
+            "currency_label",
+            "credit_account_label",
+            "dr_currency",
+            "cr_account",
+            "amount_label",
+            "transaction_reference_label",
+            "dr_amount",
+            "tran_reference",
+            "divider_bottom",
+            "view_msg_data_btn",
+            "view_tran_log_btn",
+      ]
       }) 
-        const [groupe78de, setgroupe78de ] = React.useState<any>({}) 
-    const [groupe78deProps, setgroupe78deProps ] = React.useState<any>({
+        const [tran_data_group84f25, settran_data_group84f25 ] = React.useState<any>({}) 
+    const [tran_data_group84f25Props, settran_data_group84f25Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
       refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[]
-      }) 
-    
-    const [offsite_expense_user_table94f29, setoffsite_expense_user_table94f29 ] = React.useState<any>([]) 
-    const [offsite_expense_user_table94f29Props, setoffsite_expense_user_table94f29Props ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
       isDisabled: false,
       presetValues: '',
       isHidden: false,
       selectedIds:[],
-      refresh:false,
+      controls:[
+            "transaction_log_label",
+            "divider_top",
+            "divider_bottom",
+            "cancel_btn",
+      ]
       }) 
-        const [grp63e95, setgrp63e95 ] = React.useState<any>({}) 
-    const [grp63e95Props, setgrp63e95Props ] = React.useState<any>({
+        const [req_data_group8d4d7, setreq_data_group8d4d7 ] = React.useState<any>({}) 
+    const [req_data_group8d4d7Props, setreq_data_group8d4d7Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
       refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[]
-      }) 
-    
-    const [daily_expense_manager_tablee3342, setdaily_expense_manager_tablee3342 ] = React.useState<any>([]) 
-    const [daily_expense_manager_tablee3342Props, setdaily_expense_manager_tablee3342Props ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
       isDisabled: false,
       presetValues: '',
       isHidden: false,
       selectedIds:[],
-      refresh:false,
+      controls:[
+            "request_data",
+      ]
       }) 
-        const [grpdeda0, setgrpdeda0 ] = React.useState<any>({}) 
-    const [grpdeda0Props, setgrpdeda0Props ] = React.useState<any>({
+        const [res_data_group9d75a, setres_data_group9d75a ] = React.useState<any>({}) 
+    const [res_data_group9d75aProps, setres_data_group9d75aProps ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
       refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[]
-      }) 
-    
-    const [table98ff5, settable98ff5 ] = React.useState<any>([]) 
-    const [table98ff5Props, settable98ff5Props ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
       isDisabled: false,
       presetValues: '',
       isHidden: false,
       selectedIds:[],
-      refresh:false,
+      controls:[
+            "response_data",
+      ]
       }) 
-        const [report_grp0286e, setreport_grp0286e ] = React.useState<any>({}) 
-    const [report_grp0286eProps, setreport_grp0286eProps ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[]
-      }) 
-   const [approvedcardc5971,setapprovedcardc5971] = React.useState<any>({
+   const [outbound_or_inbound5e076,setoutbound_or_inbound5e076] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [rejectedcardefafa,setrejectedcardefafa] = React.useState<any>({
+   const [searchcc244,setsearchcc244] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [pendingcardee3c0,setpendingcardee3c0] = React.useState<any>({
+   const [refresh313d0,setrefresh313d0] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [dailyexpenses798bd,setdailyexpenses798bd] = React.useState<any>({
+   const [downloadcb505,setdownloadcb505] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [offsiteexpensescd925,setoffsiteexpensescd925] = React.useState<any>({
+   const [product_code_view_allb0df6,setproduct_code_view_allb0df6] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [addd126f,setaddd126f] = React.useState<any>({
+   const [channel_name_view_all33724,setchannel_name_view_all33724] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [offsite_add1ab15,setoffsite_add1ab15] = React.useState<any>({
+   const [uuid_view_allc0a46,setuuid_view_allc0a46] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [daily_expa1e3b,setdaily_expa1e3b] = React.useState<any>({
+   const [dr_account_view_all54da6,setdr_account_view_all54da6] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [offsite_exp949f2,setoffsite_exp949f2] = React.useState<any>({
+   const [dr_amount_view_all88d6b,setdr_amount_view_all88d6b] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [c_id1095d,setc_id1095d] = React.useState<any>({
+   const [cr_account_view_alld4b39,setcr_account_view_alld4b39] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [claim_category16bdb,setclaim_category16bdb] = React.useState<any>({
+   const [cr_amount_view_all19d14,setcr_amount_view_all19d14] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [amountc124c,setamountc124c] = React.useState<any>({
+   const [remittance_info_view_all82afd,setremittance_info_view_all82afd] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [status3fa4d,setstatus3fa4d] = React.useState<any>({
+   const [status_view_all47e6b,setstatus_view_all47e6b] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [date5e32f,setdate5e32f] = React.useState<any>({
+   const [log_btnfe134,setlog_btnfe134] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [claim_idb67db,setclaim_idb67db] = React.useState<any>({
+   const [product_code_failure_queue12297,setproduct_code_failure_queue12297] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [expense_name1040c,setexpense_name1040c] = React.useState<any>({
+   const [channel_name_failure_queue42953,setchannel_name_failure_queue42953] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [category_total_amount54e36,setcategory_total_amount54e36] = React.useState<any>({
+   const [uuid_failure_queue03c86,setuuid_failure_queue03c86] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [trs_status6f7ad,settrs_status6f7ad] = React.useState<any>({
+   const [dr_account_failure_queuef9d2d,setdr_account_failure_queuef9d2d] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [formatted_date7ebf5,setformatted_date7ebf5] = React.useState<any>({
+   const [dr_amount_failure_queue95d4e,setdr_amount_failure_queue95d4e] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [daily_expensefb8cc,setdaily_expensefb8cc] = React.useState<any>({
+   const [cr_account_failure_queuea7246,setcr_account_failure_queuea7246] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [claim_expense_type22d67,setclaim_expense_type22d67] = React.useState<any>({
+   const [cr_amount_failure_queue57c4d,setcr_amount_failure_queue57c4d] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [expense_name5f562,setexpense_name5f562] = React.useState<any>({
+   const [remittance_info_failure_queue09d7a,setremittance_info_failure_queue09d7a] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [expense_date5f45e,setexpense_date5f45e] = React.useState<any>({
+   const [status_failure_queue0aef8,setstatus_failure_queue0aef8] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [claim_categoryc7c5e,setclaim_categoryc7c5e] = React.useState<any>({
+   const [product_code_success_queue7c209,setproduct_code_success_queue7c209] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [category_total_amount9782f,setcategory_total_amount9782f] = React.useState<any>({
+   const [channel_name_success_queueeddaf,setchannel_name_success_queueeddaf] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [attachment04414,setattachment04414] = React.useState<any>({
+   const [uuid_success_queuec805b,setuuid_success_queuec805b] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [receipt_image6afe2,setreceipt_image6afe2] = React.useState<any>({
+   const [dr_account_operational_pending10a49,setdr_account_operational_pending10a49] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [commentsf2394,setcommentsf2394] = React.useState<any>({
+   const [dr_amount_success_queueda254,setdr_amount_success_queueda254] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [enabletextb4878,setenabletextb4878] = React.useState<any>({
+   const [cr_account_success_queue60480,setcr_account_success_queue60480] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [is_comment_enabled7244d,setis_comment_enabled7244d] = React.useState<any>({
+   const [cr_amount_success_queueb80d4,setcr_amount_success_queueb80d4] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [clear14ae7,setclear14ae7] = React.useState<any>({
+   const [remittance_info_success_queue2f950,setremittance_info_success_queue2f950] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [saved507e,setsaved507e] = React.useState<any>({
+   const [status_success_queue019a2,setstatus_success_queue019a2] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [offsite_expense39c39,setoffsite_expense39c39] = React.useState<any>({
+   const [product_code_return_queuee5e11,setproduct_code_return_queuee5e11] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [claim_expense_type51f6e,setclaim_expense_type51f6e] = React.useState<any>({
+   const [channel_name_return_queuebdabb,setchannel_name_return_queuebdabb] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [expense_namebf755,setexpense_namebf755] = React.useState<any>({
+   const [uuid_return_queue958c9,setuuid_return_queue958c9] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [from_date6f9c3,setfrom_date6f9c3] = React.useState<any>({
+   const [dr_account_return_queuee94b2,setdr_account_return_queuee94b2] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [to_date6db82,setto_date6db82] = React.useState<any>({
+   const [dr_amount_return_queue2f324,setdr_amount_return_queue2f324] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [claim_categorya4a14,setclaim_categorya4a14] = React.useState<any>({
+   const [cr_account_return_queue21a57,setcr_account_return_queue21a57] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [category_total_amounte603b,setcategory_total_amounte603b] = React.useState<any>({
+   const [cr_amount_return_queue13fec,setcr_amount_return_queue13fec] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [attachmentc9c51,setattachmentc9c51] = React.useState<any>({
+   const [remittance_info_return_queuef37f7,setremittance_info_return_queuef37f7] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [receipt_imageafe30,setreceipt_imageafe30] = React.useState<any>({
+   const [status_return_queue95903,setstatus_return_queue95903] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [comments65b18,setcomments65b18] = React.useState<any>({
+   const [search_label27572,setsearch_label27572] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [enableeff29,setenableeff29] = React.useState<any>({
+   const [divider_top0354b,setdivider_top0354b] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [is_comment_enabled5ca5f,setis_comment_enabled5ca5f] = React.useState<any>({
+   const [trs_created_date2cea8,settrs_created_date2cea8] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [clear2b3e6,setclear2b3e6] = React.useState<any>({
+   const [debtor_account_no963e4,setdebtor_account_no963e4] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [add5cae4,setadd5cae4] = React.useState<any>({
+   const [debtor_namee2d9f,setdebtor_namee2d9f] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [claim_detail_id97d69,setclaim_detail_id97d69] = React.useState<any>({
+   const [creditor_account_noca692,setcreditor_account_noca692] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [expense_category182d4,setexpense_category182d4] = React.useState<any>({
+   const [payment_currency703d2,setpayment_currency703d2] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [expense_descriptiondee64,setexpense_descriptiondee64] = React.useState<any>({
+   const [payment_amount042b1,setpayment_amount042b1] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [expense_datee47c7,setexpense_datee47c7] = React.useState<any>({
+   const [uuid29c9f,setuuid29c9f] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [expense_amountb97f7,setexpense_amountb97f7] = React.useState<any>({
+   const [channel26e83,setchannel26e83] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [approvedcard75ed7,setapprovedcard75ed7] = React.useState<any>({
+   const [processstatus134a1,setprocessstatus134a1] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [rejectedcard0ceee,setrejectedcard0ceee] = React.useState<any>({
+   const [status4bd75,setstatus4bd75] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [pendingcard727e3,setpendingcard727e3] = React.useState<any>({
+   const [divider_bottom72ab5,setdivider_bottom72ab5] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [dailyexpensese7cda,setdailyexpensese7cda] = React.useState<any>({
+   const [search0e695,setsearch0e695] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [offsiteexpenses62fe1,setoffsiteexpenses62fe1] = React.useState<any>({
+   const [cleareddfa,setcleareddfa] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [daily_expa8b25,setdaily_expa8b25] = React.useState<any>({
+   const [tran_journey_label02972,settran_journey_label02972] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [offstie_exp400c9,setoffstie_exp400c9] = React.useState<any>({
+   const [tran_journey1602a,settran_journey1602a] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [cl_id570c3,setcl_id570c3] = React.useState<any>({
+   const [details_labelb25b2,setdetails_labelb25b2] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [trs_created_byae57b,settrs_created_byae57b] = React.useState<any>({
+   const [divider_tope6917,setdivider_tope6917] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [claim_category090da,setclaim_category090da] = React.useState<any>({
+   const [transaction_date_time_label669d7,settransaction_date_time_label669d7] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [total_amountc033a,settotal_amountc033a] = React.useState<any>({
+   const [status_labelf3713,setstatus_labelf3713] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [status49843,setstatus49843] = React.useState<any>({
+   const [transaction_date_time14856,settransaction_date_time14856] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [expense_date0a4c3,setexpense_date0a4c3] = React.useState<any>({
+   const [status88bc7,setstatus88bc7] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [claim_id4a599,setclaim_id4a599] = React.useState<any>({
+   const [processed_by_label542e8,setprocessed_by_label542e8] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [expense_namec8f13,setexpense_namec8f13] = React.useState<any>({
+   const [debit_account_label3b1b7,setdebit_account_label3b1b7] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [category_total_amountfb61b,setcategory_total_amountfb61b] = React.useState<any>({
+   const [processed_byd2b69,setprocessed_byd2b69] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [trs_status79b0b,settrs_status79b0b] = React.useState<any>({
+   const [debit_account36b40,setdebit_account36b40] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [formatted_date46435,setformatted_date46435] = React.useState<any>({
+   const [currency_labele21ba,setcurrency_labele21ba] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [daily_expenses89868,setdaily_expenses89868] = React.useState<any>({
+   const [credit_account_label65c7b,setcredit_account_label65c7b] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [expense_name88ccc,setexpense_name88ccc] = React.useState<any>({
+   const [currency9c8a2,setcurrency9c8a2] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [expense_datee8c94,setexpense_datee8c94] = React.useState<any>({
+   const [credit_account0d1f4,setcredit_account0d1f4] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [claim_category46dd0,setclaim_category46dd0] = React.useState<any>({
+   const [amount_labelfd725,setamount_labelfd725] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [category_total_amountcf2e2,setcategory_total_amountcf2e2] = React.useState<any>({
+   const [transaction_reference_labelb1ca9,settransaction_reference_labelb1ca9] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [receipt_image33fd1,setreceipt_image33fd1] = React.useState<any>({
+   const [amount01416,setamount01416] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [comments9336d,setcomments9336d] = React.useState<any>({
+   const [transaction_reference500d6,settransaction_reference500d6] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [manager_commentsd309a,setmanager_commentsd309a] = React.useState<any>({
+   const [divider_bottom8bad5,setdivider_bottom8bad5] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [enable666c8,setenable666c8] = React.useState<any>({
+   const [view_msg_data_btne6a88,setview_msg_data_btne6a88] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [is_comment_enablede20a4,setis_comment_enablede20a4] = React.useState<any>({
+   const [view_tran_log_btn9cd8c,setview_tran_log_btn9cd8c] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [reject28a4c,setreject28a4c] = React.useState<any>({
+   const [msg_data_label7b760,setmsg_data_label7b760] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [approve28765,setapprove28765] = React.useState<any>({
+   const [divider_topf46a0,setdivider_topf46a0] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [offsite_expense4be82,setoffsite_expense4be82] = React.useState<any>({
+   const [xmlviewer9fe8d,setxmlviewer9fe8d] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [expense_name084c7,setexpense_name084c7] = React.useState<any>({
+   const [divider_bottom6920d,setdivider_bottom6920d] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [from_dated8c1b,setfrom_dated8c1b] = React.useState<any>({
+   const [cancel_btn5e840,setcancel_btn5e840] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [to_date0c15a,setto_date0c15a] = React.useState<any>({
+   const [transaction_log_label7b760,settransaction_log_label7b760] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [claim_categoryac401,setclaim_categoryac401] = React.useState<any>({
+   const [req_jsonviewerc80ab,setreq_jsonviewerc80ab] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
+    trigger: false
     }) 
-   const [category_total_amountdd7c0,setcategory_total_amountdd7c0] = React.useState<any>({
+   const [res_jsonviewer9d6d1,setres_jsonviewer9d6d1] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
     refetch:false,
     refresh:false,
-    }) 
-   const [receipt_image3968d,setreceipt_image3968d] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [commentse0ef7,setcommentse0ef7] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [manager_comments4bec2,setmanager_comments4bec2] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [enabled5c19,setenabled5c19] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [is_comment_enabledf9731,setis_comment_enabledf9731] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [claim_detail_idcd216,setclaim_detail_idcd216] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [expense_category71ccd,setexpense_category71ccd] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [expense_description84301,setexpense_description84301] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [expense_date2649c,setexpense_date2649c] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [expense_amount6b94f,setexpense_amount6b94f] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [reject74228,setreject74228] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [approve098ea,setapprove098ea] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [dailyc5d00,setdailyc5d00] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [claim_iddc381,setclaim_iddc381] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [expense_name0195f,setexpense_name0195f] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [claim_category8e630,setclaim_category8e630] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [category_total_amount2b381,setcategory_total_amount2b381] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [expense_date7df86,setexpense_date7df86] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [trs_statuscecb6,settrs_statuscecb6] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [text248b4,settext248b4] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [claim_idadd32,setclaim_idadd32] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [expense_name0255e,setexpense_name0255e] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [claim_category8981c,setclaim_category8981c] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [category_total_amounta8a33,setcategory_total_amounta8a33] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [formatted_date0d1c9,setformatted_date0d1c9] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [trs_statusf43c9,settrs_statusf43c9] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [daily14f95,setdaily14f95] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [claim_id7ec53,setclaim_id7ec53] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [trs_created_by1f8f9,settrs_created_by1f8f9] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [expense_name78eca,setexpense_name78eca] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [claim_category8466d,setclaim_category8466d] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [category_total_amount22435,setcategory_total_amount22435] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [expense_date20458,setexpense_date20458] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [trs_status9f4b4,settrs_status9f4b4] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [reject4d3f0,setreject4d3f0] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [approve819e1,setapprove819e1] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [offsite_expense46e6c,setoffsite_expense46e6c] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [claim_id56078,setclaim_id56078] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [rejecte566a,setrejecte566a] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [approve5709e,setapprove5709e] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [trs_created_by8053b,settrs_created_by8053b] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [expense_name94440,setexpense_name94440] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [claim_category9ec61,setclaim_category9ec61] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [category_total_amount689b8,setcategory_total_amount689b8] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [formatted_date1030f,setformatted_date1030f] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [trs_status759b6,settrs_status759b6] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [barchart5a930,setbarchart5a930] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    }) 
-   const [piechart95a71,setpiechart95a71] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
+    trigger: false
     }) 
     ///////////
-    const [refresh, setRefresh] = React.useState<Record<string, boolean>>({       cardapprovedcardc5971:false,
-       cardrejectedcardefafa:false,
-       cardpendingcardee3c0:false,
-       carddailyexpenses798bd:false,
-       cardoffsiteexpensescd925:false,
-       buttonaddd126f:false,
-       buttonoffsite_add1ab15:false,
-       textdaily_expa1e3b:false,
-       textoffsite_exp949f2:false,
-       columnc_id1095d:false,
-       columnclaim_category16bdb:false,
-       columnamountc124c:false,
-       columnstatus3fa4d:false,
-       columndate5e32f:false,
-       columnclaim_idb67db:false,
-       columnexpense_name1040c:false,
-       columncategory_total_amount54e36:false,
-       columntrs_status6f7ad:false,
-       columnformatted_date7ebf5:false,
-       textdaily_expensefb8cc:false,
-       textinputclaim_expense_type22d67:false,
-       textinputexpense_name5f562:false,
-       datepickerexpense_date5f45e:false,
-       dropdownclaim_categoryc7c5e:false,
-       textinputcategory_total_amount9782f:false,
-       textattachment04414:false,
-       documentuploaderreceipt_image6afe2:false,
-       textareacommentsf2394:false,
-       textenabletextb4878:false,
-       switchis_comment_enabled7244d:false,
-       buttonClear14ae7:false,
-       buttonSaved507e:false,
-       textoffsite_expense39c39:false,
-       textinputclaim_expense_type51f6e:false,
-       textinputexpense_namebf755:false,
-       datepickerfrom_date6f9c3:false,
-       datepickerto_date6db82:false,
-       dropdownclaim_categorya4a14:false,
-       textinputcategory_total_amounte603b:false,
-       textattachmentc9c51:false,
-       documentuploaderreceipt_imageafe30:false,
-       textareacomments65b18:false,
-       textenableeff29:false,
-       switchis_comment_enabled5ca5f:false,
-       buttonClear2b3e6:false,
-       buttonAdd5cae4:false,
-       columnclaim_detail_id97d69:false,
-       columnexpense_category182d4:false,
-       columnexpense_descriptiondee64:false,
-       columnexpense_datee47c7:false,
-       columnexpense_amountb97f7:false,
-       cardapprovedcard75ed7:false,
-       cardrejectedcard0ceee:false,
-       cardpendingcard727e3:false,
-       carddailyexpensese7cda:false,
-       cardoffsiteexpenses62fe1:false,
-       textdaily_expa8b25:false,
-       textoffstie_exp400c9:false,
-       columncl_id570c3:false,
-       columntrs_created_byae57b:false,
-       columnclaim_category090da:false,
-       columntotal_amountc033a:false,
-       columnstatus49843:false,
-       columnexpense_date0a4c3:false,
-       columnclaim_id4a599:false,
-       columnexpense_namec8f13:false,
-       columncategory_total_amountfb61b:false,
-       columntrs_status79b0b:false,
-       columnformatted_date46435:false,
-       textdaily_expenses89868:false,
-       textinputexpense_name88ccc:false,
-       datepickerexpense_datee8c94:false,
-       textinputclaim_category46dd0:false,
-       textinputcategory_total_amountcf2e2:false,
-       documentviewerreceipt_image33fd1:false,
-       textareacomments9336d:false,
-       textareamanager_commentsd309a:false,
-       textENABLE666c8:false,
-       switchis_comment_enablede20a4:false,
-       buttonReject28a4c:false,
-       buttonApprove28765:false,
-       textoffsite_expense4be82:false,
-       textinputexpense_name084c7:false,
-       datepickerfrom_dated8c1b:false,
-       datepickerto_date0c15a:false,
-       textinputclaim_categoryac401:false,
-       textinputcategory_total_amountdd7c0:false,
-       documentviewerreceipt_image3968d:false,
-       textareacommentse0ef7:false,
-       textareamanager_comments4bec2:false,
-       textEnabled5c19:false,
-       switchis_comment_enabledf9731:false,
-       columnclaim_detail_idcd216:false,
-       columnexpense_category71ccd:false,
-       columnexpense_description84301:false,
-       columnexpense_date2649c:false,
-       columnexpense_amount6b94f:false,
-       buttonReject74228:false,
-       buttonApprove098ea:false,
-       textdailyc5d00:false,
-       columnclaim_iddc381:false,
-       columnexpense_name0195f:false,
-       columnclaim_category8e630:false,
-       columncategory_total_amount2b381:false,
-       columnexpense_date7df86:false,
-       columntrs_statuscecb6:false,
-       texttext248b4:false,
-       columnclaim_idadd32:false,
-       columnexpense_name0255e:false,
-       columnclaim_category8981c:false,
-       columncategory_total_amounta8a33:false,
-       columnformatted_date0d1c9:false,
-       columntrs_statusf43c9:false,
-       textdaily14f95:false,
-       columnclaim_id7ec53:false,
-       columntrs_created_by1f8f9:false,
-       columnexpense_name78eca:false,
-       columnclaim_category8466d:false,
-       columncategory_total_amount22435:false,
-       columnexpense_date20458:false,
-       columntrs_status9f4b4:false,
-       buttonReject4d3f0:false,
-       buttonApprove819e1:false,
-       textoffsite_expense46e6c:false,
-       columnclaim_id56078:false,
-       buttonRejecte566a:false,
-       buttonApprove5709e:false,
-       columntrs_created_by8053b:false,
-       columnexpense_name94440:false,
-       columnclaim_category9ec61:false,
-       columncategory_total_amount689b8:false,
-       columnformatted_date1030f:false,
-       columntrs_status759b6:false,
-       barchartbarchart5a930:false,
-       piechartpiechart95a71:false,
-       groupUser_Grpd6690:false,
-       tabledaily_expense_table13758:false,
-       tableoffsite_expense_table4ffd6:false,
-       grouprequest_daily_group44e40:false,
-       groupRequest_Offsite_Group429cb:false,
-       tableclaims_detail_tablef8143:false,
-       groupmanager_group41477:false,
-       tabledaily_expense_table91568:false,
-       tableoffsite_expense_table1e924:false,
-       groupDaily_Approval_Group69531:false,
-       groupoffsite_approval_group8d6cc:false,
-       tableclaim_detail_table1835f:false,
-       groupgroupc9a87:false,
-       tabledaily_user_table76baf:false,
-       groupgroupe78de:false,
-       tableoffsite_expense_user_table94f29:false,
-       groupgrp63e95:false,
-       tabledaily_expense_manager_tablee3342:false,
-       groupgrpdeda0:false,
-       tabletable98ff5:false,
-       groupreport_grp0286e:false,
+    const [refresh, setRefresh] = React.useState<Record<string, boolean>>({       switchoutbound_or_inbound5e076:false,
+       buttonsearchcc244:false,
+       buttonrefresh313d0:false,
+       buttondownloadcb505:false,
+       columnproduct_code_view_allb0df6:false,
+       columnchannel_name_view_all33724:false,
+       columnuuid_view_allc0a46:false,
+       columndr_account_view_all54da6:false,
+       columndr_amount_view_all88d6b:false,
+       columncr_account_view_alld4b39:false,
+       columncr_Amount_view_all19d14:false,
+       columnremittance_info_view_all82afd:false,
+       columnstatus_view_all47e6b:false,
+       buttonlog_btnfe134:false,
+       columnproduct_code_failure_queue12297:false,
+       columnchannel_name_failure_queue42953:false,
+       columnuuid_failure_queue03c86:false,
+       columndr_account_failure_queuef9d2d:false,
+       columndr_amount_failure_queue95d4e:false,
+       columncr_account_failure_queuea7246:false,
+       columncr_Amount_failure_queue57c4d:false,
+       columnremittance_info_failure_queue09d7a:false,
+       columnstatus_failure_queue0aef8:false,
+       columnproduct_code_success_queue7c209:false,
+       columnchannel_name_success_queueeddaf:false,
+       columnuuid_success_queuec805b:false,
+       columndr_account_operational_pending10a49:false,
+       columndr_amount_success_queueda254:false,
+       columncr_account_success_queue60480:false,
+       columncr_Amount_success_queueb80d4:false,
+       columnremittance_info_success_queue2f950:false,
+       columnstatus_success_queue019a2:false,
+       columnproduct_code_return_queuee5e11:false,
+       columnchannel_name_return_queuebdabb:false,
+       columnuuid_return_queue958c9:false,
+       columndr_account_return_queuee94b2:false,
+       columndr_amount_return_queue2f324:false,
+       columncr_account_return_queue21a57:false,
+       columncr_Amount_return_queue13fec:false,
+       columnremittance_info_return_queuef37f7:false,
+       columnstatus_return_queue95903:false,
+       textsearch_label27572:false,
+       dividerdivider_top0354b:false,
+       datepickertrs_created_date2cea8:false,
+       textinputdebtor_account_no963e4:false,
+       textinputdebtor_namee2d9f:false,
+       textinputcreditor_account_noca692:false,
+       dropdownpayment_currency703d2:false,
+       textinputpayment_amount042b1:false,
+       textinputuuid29c9f:false,
+       dropdownchannel26e83:false,
+       dropdownprocessstatus134a1:false,
+       textinputstatus4bd75:false,
+       dividerdivider_bottom72ab5:false,
+       buttonsearch0e695:false,
+       buttoncleareddfa:false,
+       texttran_journey_label02972:false,
+       timelinetran_journey1602a:false,
+       textdetails_labelb25b2:false,
+       dividerdivider_tope6917:false,
+       texttransaction_date_time_label669d7:false,
+       textstatus_labelf3713:false,
+       texttransaction_date_time14856:false,
+       textstatus88bc7:false,
+       textprocessed_by_label542e8:false,
+       textdebit_account_label3b1b7:false,
+       textprocessed_byd2b69:false,
+       textdebit_account36b40:false,
+       textcurrency_labele21ba:false,
+       textcredit_account_label65c7b:false,
+       textcurrency9c8a2:false,
+       textcredit_account0d1f4:false,
+       textamount_labelfd725:false,
+       texttransaction_reference_labelb1ca9:false,
+       textamount01416:false,
+       texttransaction_reference500d6:false,
+       dividerdivider_bottom8bad5:false,
+       buttonview_msg_data_btne6a88:false,
+       buttonview_tran_log_btn9cd8c:false,
+       textmsg_data_label7b760:false,
+       dividerdivider_topf46a0:false,
+       xmlviewerxmlviewer9fe8d:false,
+       dividerdivider_bottom6920d:false,
+       buttoncancel_btn5e840:false,
+       texttransaction_log_label7b760:false,
+       jsonviewerreq_jsonviewerc80ab:false,
+       jsonviewerres_jsonviewer9d6d1:false,
+       grouptran_main_group1dc7f:false,
+       grouptran_tab_group08b64:false,
+       groupview_all_tab4a963:false,
+       tableview_all_tablec9e87:false,
+       groupfailure_queue_tab69f01:false,
+       tablefailure_queue_tablea476f:false,
+       groupsuccess_queue_tabef582:false,
+       tablesuccess_queue_table63aae:false,
+       groupreturn_queue_tab5611e:false,
+       tablereturn_queue_table267f0:false,
+       groupmain_group9066f:false,
+       grouptran_journey_group9eb2e:false,
+       groupjourney_details_groupd9a0e:false,
+       grouptran_data_group84f25:false,
+       groupreq_data_group8d4d7:false,
+       groupres_data_group9d75a:false,
       })
 
   ////// screen states 
-   const [dashboard_for_user_v1Props,setdashboard_for_user_v1Props] = React.useState<any>([])
-   const [request_screen_daily_v1Props,setrequest_screen_daily_v1Props] = React.useState<any>([])
-   const [request_screen_offsite_v1Props,setrequest_screen_offsite_v1Props] = React.useState<any>([])
-   const [dashboard_for_manager_v1Props,setdashboard_for_manager_v1Props] = React.useState<any>([])
-   const [approval_screen_daily_v1Props,setapproval_screen_daily_v1Props] = React.useState<any>([])
-   const [approval_screen_offsite_v1Props,setapproval_screen_offsite_v1Props] = React.useState<any>([])
-   const [daily_expense_user_table_v1Props,setdaily_expense_user_table_v1Props] = React.useState<any>([])
-   const [offsite_expense_user_table_v1Props,setoffsite_expense_user_table_v1Props] = React.useState<any>([])
-   const [daily_expense_manager_table_v1Props,setdaily_expense_manager_table_v1Props] = React.useState<any>([])
-   const [offsite_expense_manager_table_v1Props,setoffsite_expense_manager_table_v1Props] = React.useState<any>([])
-   const [report_v1Props,setreport_v1Props] = React.useState<any>([])
+  const [transaction_v1,settransaction_v1] = React.useState<any>({})
+  const [transaction_v1Props,settransaction_v1Props] = React.useState<any>({})
+  const [transactionsearch_v1,settransactionsearch_v1] = React.useState<any>({})
+  const [transactionsearch_v1Props,settransactionsearch_v1Props] = React.useState<any>({})
+  const [transactionjourney_v1,settransactionjourney_v1] = React.useState<any>({})
+  const [transactionjourney_v1Props,settransactionjourney_v1Props] = React.useState<any>({})
+  const [tranjourneydetails_v1,settranjourneydetails_v1] = React.useState<any>({})
+  const [tranjourneydetails_v1Props,settranjourneydetails_v1Props] = React.useState<any>({})
+  const [messagedataview_v1,setmessagedataview_v1] = React.useState<any>({})
+  const [messagedataview_v1Props,setmessagedataview_v1Props] = React.useState<any>({})
+  const [trandataview_v1,settrandataview_v1] = React.useState<any>({})
+  const [trandataview_v1Props,settrandataview_v1Props] = React.useState<any>({})
 
 ///////// dfd
-  const [dfd_claims_v1Props,setdfd_claims_v1Props] = React.useState<any>([])
-  const [dfd_code_description_v1Props,setdfd_code_description_v1Props] = React.useState<any>([])
-  const [dfd_claims_detail_v1Props,setdfd_claims_detail_v1Props] = React.useState<any>([])
-  const [dfd_card_data_v1Props,setdfd_card_data_v1Props] = React.useState<any>([])
-  const [dfd_claim_table_data_v1Props,setdfd_claim_table_data_v1Props] = React.useState<any>([])
-  const [dfd_chart_data_v1Props,setdfd_chart_data_v1Props] = React.useState<any>([])
+  const [dfd_combocurrencysearch_v1Props,setdfd_combocurrencysearch_v1Props] = React.useState<any>([])
+  const [dfd_transaction_v1Props,setdfd_transaction_v1Props] = React.useState<any>([])
+  const [dfd_processstatuscombosearch_v1Props,setdfd_processstatuscombosearch_v1Props] = React.useState<any>([])
+  const [dfd_channelcombosearch_v1Props,setdfd_channelcombosearch_v1Props] = React.useState<any>([])
+  const [dfd_journey_v1Props,setdfd_journey_v1Props] = React.useState<any>([])
     const [searchParam , setSearchParam] = React.useState<string>("")
     const [disableParam , setDisableParam] = React.useState<Record<string, boolean>>({})
     const [globalState , setGlobalState] = React.useState<Record<string, any>>({})
@@ -2092,6 +1594,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     const [property, setProperty] = React.useState<any>({})
     const [memoryVariables, setMemoryVariables] = React.useState<any>({})
     const [lockedData, setLockedData] = React.useState<any>({})
+    const [tableData, setTableData] = React.useState<any>({})      
     const [paginationDetails, setpaginationDetails] = React.useState<any>({})
 
     const [eventEmitterData,setEventEmitterData] = React.useState<any>([])
@@ -2109,398 +1612,282 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setCurrentToken,
         matchedAccessProfileData,
         setMatchedAccessProfileData,
-        user_grpd6690, 
-        setuser_grpd6690,
-        user_grpd6690Props, 
-        setuser_grpd6690Props,
-        daily_expense_table13758, 
-        setdaily_expense_table13758,
-        daily_expense_table13758Props, 
-        setdaily_expense_table13758Props,
-        offsite_expense_table4ffd6, 
-        setoffsite_expense_table4ffd6,
-        offsite_expense_table4ffd6Props, 
-        setoffsite_expense_table4ffd6Props,
-        request_daily_group44e40, 
-        setrequest_daily_group44e40,
-        request_daily_group44e40Props, 
-        setrequest_daily_group44e40Props,
-        request_offsite_group429cb, 
-        setrequest_offsite_group429cb,
-        request_offsite_group429cbProps, 
-        setrequest_offsite_group429cbProps,
-        claims_detail_tablef8143, 
-        setclaims_detail_tablef8143,
-        claims_detail_tablef8143Props, 
-        setclaims_detail_tablef8143Props,
-        manager_group41477, 
-        setmanager_group41477,
-        manager_group41477Props, 
-        setmanager_group41477Props,
-        daily_expense_table91568, 
-        setdaily_expense_table91568,
-        daily_expense_table91568Props, 
-        setdaily_expense_table91568Props,
-        offsite_expense_table1e924, 
-        setoffsite_expense_table1e924,
-        offsite_expense_table1e924Props, 
-        setoffsite_expense_table1e924Props,
-        daily_approval_group69531, 
-        setdaily_approval_group69531,
-        daily_approval_group69531Props, 
-        setdaily_approval_group69531Props,
-        offsite_approval_group8d6cc, 
-        setoffsite_approval_group8d6cc,
-        offsite_approval_group8d6ccProps, 
-        setoffsite_approval_group8d6ccProps,
-        claim_detail_table1835f, 
-        setclaim_detail_table1835f,
-        claim_detail_table1835fProps, 
-        setclaim_detail_table1835fProps,
-        groupc9a87, 
-        setgroupc9a87,
-        groupc9a87Props, 
-        setgroupc9a87Props,
-        daily_user_table76baf, 
-        setdaily_user_table76baf,
-        daily_user_table76bafProps, 
-        setdaily_user_table76bafProps,
-        groupe78de, 
-        setgroupe78de,
-        groupe78deProps, 
-        setgroupe78deProps,
-        offsite_expense_user_table94f29, 
-        setoffsite_expense_user_table94f29,
-        offsite_expense_user_table94f29Props, 
-        setoffsite_expense_user_table94f29Props,
-        grp63e95, 
-        setgrp63e95,
-        grp63e95Props, 
-        setgrp63e95Props,
-        daily_expense_manager_tablee3342, 
-        setdaily_expense_manager_tablee3342,
-        daily_expense_manager_tablee3342Props, 
-        setdaily_expense_manager_tablee3342Props,
-        grpdeda0, 
-        setgrpdeda0,
-        grpdeda0Props, 
-        setgrpdeda0Props,
-        table98ff5, 
-        settable98ff5,
-        table98ff5Props, 
-        settable98ff5Props,
-        report_grp0286e, 
-        setreport_grp0286e,
-        report_grp0286eProps, 
-        setreport_grp0286eProps,
-        approvedcardc5971,
-        setapprovedcardc5971, 
-        rejectedcardefafa,
-        setrejectedcardefafa, 
-        pendingcardee3c0,
-        setpendingcardee3c0, 
-        dailyexpenses798bd,
-        setdailyexpenses798bd, 
-        offsiteexpensescd925,
-        setoffsiteexpensescd925, 
-        addd126f,
-        setaddd126f, 
-        offsite_add1ab15,
-        setoffsite_add1ab15, 
-        daily_expa1e3b,
-        setdaily_expa1e3b, 
-        offsite_exp949f2,
-        setoffsite_exp949f2, 
-        c_id1095d,
-        setc_id1095d, 
-        claim_category16bdb,
-        setclaim_category16bdb, 
-        amountc124c,
-        setamountc124c, 
-        status3fa4d,
-        setstatus3fa4d, 
-        date5e32f,
-        setdate5e32f, 
-        claim_idb67db,
-        setclaim_idb67db, 
-        expense_name1040c,
-        setexpense_name1040c, 
-        category_total_amount54e36,
-        setcategory_total_amount54e36, 
-        trs_status6f7ad,
-        settrs_status6f7ad, 
-        formatted_date7ebf5,
-        setformatted_date7ebf5, 
-        daily_expensefb8cc,
-        setdaily_expensefb8cc, 
-        claim_expense_type22d67,
-        setclaim_expense_type22d67, 
-        expense_name5f562,
-        setexpense_name5f562, 
-        expense_date5f45e,
-        setexpense_date5f45e, 
-        claim_categoryc7c5e,
-        setclaim_categoryc7c5e, 
-        category_total_amount9782f,
-        setcategory_total_amount9782f, 
-        attachment04414,
-        setattachment04414, 
-        receipt_image6afe2,
-        setreceipt_image6afe2, 
-        commentsf2394,
-        setcommentsf2394, 
-        enabletextb4878,
-        setenabletextb4878, 
-        is_comment_enabled7244d,
-        setis_comment_enabled7244d, 
-        clear14ae7,
-        setclear14ae7, 
-        saved507e,
-        setsaved507e, 
-        offsite_expense39c39,
-        setoffsite_expense39c39, 
-        claim_expense_type51f6e,
-        setclaim_expense_type51f6e, 
-        expense_namebf755,
-        setexpense_namebf755, 
-        from_date6f9c3,
-        setfrom_date6f9c3, 
-        to_date6db82,
-        setto_date6db82, 
-        claim_categorya4a14,
-        setclaim_categorya4a14, 
-        category_total_amounte603b,
-        setcategory_total_amounte603b, 
-        attachmentc9c51,
-        setattachmentc9c51, 
-        receipt_imageafe30,
-        setreceipt_imageafe30, 
-        comments65b18,
-        setcomments65b18, 
-        enableeff29,
-        setenableeff29, 
-        is_comment_enabled5ca5f,
-        setis_comment_enabled5ca5f, 
-        clear2b3e6,
-        setclear2b3e6, 
-        add5cae4,
-        setadd5cae4, 
-        claim_detail_id97d69,
-        setclaim_detail_id97d69, 
-        expense_category182d4,
-        setexpense_category182d4, 
-        expense_descriptiondee64,
-        setexpense_descriptiondee64, 
-        expense_datee47c7,
-        setexpense_datee47c7, 
-        expense_amountb97f7,
-        setexpense_amountb97f7, 
-        approvedcard75ed7,
-        setapprovedcard75ed7, 
-        rejectedcard0ceee,
-        setrejectedcard0ceee, 
-        pendingcard727e3,
-        setpendingcard727e3, 
-        dailyexpensese7cda,
-        setdailyexpensese7cda, 
-        offsiteexpenses62fe1,
-        setoffsiteexpenses62fe1, 
-        daily_expa8b25,
-        setdaily_expa8b25, 
-        offstie_exp400c9,
-        setoffstie_exp400c9, 
-        cl_id570c3,
-        setcl_id570c3, 
-        trs_created_byae57b,
-        settrs_created_byae57b, 
-        claim_category090da,
-        setclaim_category090da, 
-        total_amountc033a,
-        settotal_amountc033a, 
-        status49843,
-        setstatus49843, 
-        expense_date0a4c3,
-        setexpense_date0a4c3, 
-        claim_id4a599,
-        setclaim_id4a599, 
-        expense_namec8f13,
-        setexpense_namec8f13, 
-        category_total_amountfb61b,
-        setcategory_total_amountfb61b, 
-        trs_status79b0b,
-        settrs_status79b0b, 
-        formatted_date46435,
-        setformatted_date46435, 
-        daily_expenses89868,
-        setdaily_expenses89868, 
-        expense_name88ccc,
-        setexpense_name88ccc, 
-        expense_datee8c94,
-        setexpense_datee8c94, 
-        claim_category46dd0,
-        setclaim_category46dd0, 
-        category_total_amountcf2e2,
-        setcategory_total_amountcf2e2, 
-        receipt_image33fd1,
-        setreceipt_image33fd1, 
-        comments9336d,
-        setcomments9336d, 
-        manager_commentsd309a,
-        setmanager_commentsd309a, 
-        enable666c8,
-        setenable666c8, 
-        is_comment_enablede20a4,
-        setis_comment_enablede20a4, 
-        reject28a4c,
-        setreject28a4c, 
-        approve28765,
-        setapprove28765, 
-        offsite_expense4be82,
-        setoffsite_expense4be82, 
-        expense_name084c7,
-        setexpense_name084c7, 
-        from_dated8c1b,
-        setfrom_dated8c1b, 
-        to_date0c15a,
-        setto_date0c15a, 
-        claim_categoryac401,
-        setclaim_categoryac401, 
-        category_total_amountdd7c0,
-        setcategory_total_amountdd7c0, 
-        receipt_image3968d,
-        setreceipt_image3968d, 
-        commentse0ef7,
-        setcommentse0ef7, 
-        manager_comments4bec2,
-        setmanager_comments4bec2, 
-        enabled5c19,
-        setenabled5c19, 
-        is_comment_enabledf9731,
-        setis_comment_enabledf9731, 
-        claim_detail_idcd216,
-        setclaim_detail_idcd216, 
-        expense_category71ccd,
-        setexpense_category71ccd, 
-        expense_description84301,
-        setexpense_description84301, 
-        expense_date2649c,
-        setexpense_date2649c, 
-        expense_amount6b94f,
-        setexpense_amount6b94f, 
-        reject74228,
-        setreject74228, 
-        approve098ea,
-        setapprove098ea, 
-        dailyc5d00,
-        setdailyc5d00, 
-        claim_iddc381,
-        setclaim_iddc381, 
-        expense_name0195f,
-        setexpense_name0195f, 
-        claim_category8e630,
-        setclaim_category8e630, 
-        category_total_amount2b381,
-        setcategory_total_amount2b381, 
-        expense_date7df86,
-        setexpense_date7df86, 
-        trs_statuscecb6,
-        settrs_statuscecb6, 
-        text248b4,
-        settext248b4, 
-        claim_idadd32,
-        setclaim_idadd32, 
-        expense_name0255e,
-        setexpense_name0255e, 
-        claim_category8981c,
-        setclaim_category8981c, 
-        category_total_amounta8a33,
-        setcategory_total_amounta8a33, 
-        formatted_date0d1c9,
-        setformatted_date0d1c9, 
-        trs_statusf43c9,
-        settrs_statusf43c9, 
-        daily14f95,
-        setdaily14f95, 
-        claim_id7ec53,
-        setclaim_id7ec53, 
-        trs_created_by1f8f9,
-        settrs_created_by1f8f9, 
-        expense_name78eca,
-        setexpense_name78eca, 
-        claim_category8466d,
-        setclaim_category8466d, 
-        category_total_amount22435,
-        setcategory_total_amount22435, 
-        expense_date20458,
-        setexpense_date20458, 
-        trs_status9f4b4,
-        settrs_status9f4b4, 
-        reject4d3f0,
-        setreject4d3f0, 
-        approve819e1,
-        setapprove819e1, 
-        offsite_expense46e6c,
-        setoffsite_expense46e6c, 
-        claim_id56078,
-        setclaim_id56078, 
-        rejecte566a,
-        setrejecte566a, 
-        approve5709e,
-        setapprove5709e, 
-        trs_created_by8053b,
-        settrs_created_by8053b, 
-        expense_name94440,
-        setexpense_name94440, 
-        claim_category9ec61,
-        setclaim_category9ec61, 
-        category_total_amount689b8,
-        setcategory_total_amount689b8, 
-        formatted_date1030f,
-        setformatted_date1030f, 
-        trs_status759b6,
-        settrs_status759b6, 
-        barchart5a930,
-        setbarchart5a930, 
-        piechart95a71,
-        setpiechart95a71, 
+        tran_main_group1dc7f, 
+        settran_main_group1dc7f,
+        tran_main_group1dc7fProps, 
+        settran_main_group1dc7fProps,
+        tran_tab_group08b64, 
+        settran_tab_group08b64,
+        tran_tab_group08b64Props, 
+        settran_tab_group08b64Props,
+        view_all_tab4a963, 
+        setview_all_tab4a963,
+        view_all_tab4a963Props, 
+        setview_all_tab4a963Props,
+        view_all_tablec9e87, 
+        setview_all_tablec9e87,
+        view_all_tablec9e87Props, 
+        setview_all_tablec9e87Props,
+        failure_queue_tab69f01, 
+        setfailure_queue_tab69f01,
+        failure_queue_tab69f01Props, 
+        setfailure_queue_tab69f01Props,
+        failure_queue_tablea476f, 
+        setfailure_queue_tablea476f,
+        failure_queue_tablea476fProps, 
+        setfailure_queue_tablea476fProps,
+        success_queue_tabef582, 
+        setsuccess_queue_tabef582,
+        success_queue_tabef582Props, 
+        setsuccess_queue_tabef582Props,
+        success_queue_table63aae, 
+        setsuccess_queue_table63aae,
+        success_queue_table63aaeProps, 
+        setsuccess_queue_table63aaeProps,
+        return_queue_tab5611e, 
+        setreturn_queue_tab5611e,
+        return_queue_tab5611eProps, 
+        setreturn_queue_tab5611eProps,
+        return_queue_table267f0, 
+        setreturn_queue_table267f0,
+        return_queue_table267f0Props, 
+        setreturn_queue_table267f0Props,
+        main_group9066f, 
+        setmain_group9066f,
+        main_group9066fProps, 
+        setmain_group9066fProps,
+        tran_journey_group9eb2e, 
+        settran_journey_group9eb2e,
+        tran_journey_group9eb2eProps, 
+        settran_journey_group9eb2eProps,
+        journey_details_groupd9a0e, 
+        setjourney_details_groupd9a0e,
+        journey_details_groupd9a0eProps, 
+        setjourney_details_groupd9a0eProps,
+        tran_data_group84f25, 
+        settran_data_group84f25,
+        tran_data_group84f25Props, 
+        settran_data_group84f25Props,
+        req_data_group8d4d7, 
+        setreq_data_group8d4d7,
+        req_data_group8d4d7Props, 
+        setreq_data_group8d4d7Props,
+        res_data_group9d75a, 
+        setres_data_group9d75a,
+        res_data_group9d75aProps, 
+        setres_data_group9d75aProps,
+        outbound_or_inbound5e076,
+        setoutbound_or_inbound5e076, 
+        searchcc244,
+        setsearchcc244, 
+        refresh313d0,
+        setrefresh313d0, 
+        downloadcb505,
+        setdownloadcb505, 
+        product_code_view_allb0df6,
+        setproduct_code_view_allb0df6, 
+        channel_name_view_all33724,
+        setchannel_name_view_all33724, 
+        uuid_view_allc0a46,
+        setuuid_view_allc0a46, 
+        dr_account_view_all54da6,
+        setdr_account_view_all54da6, 
+        dr_amount_view_all88d6b,
+        setdr_amount_view_all88d6b, 
+        cr_account_view_alld4b39,
+        setcr_account_view_alld4b39, 
+        cr_amount_view_all19d14,
+        setcr_amount_view_all19d14, 
+        remittance_info_view_all82afd,
+        setremittance_info_view_all82afd, 
+        status_view_all47e6b,
+        setstatus_view_all47e6b, 
+        log_btnfe134,
+        setlog_btnfe134, 
+        product_code_failure_queue12297,
+        setproduct_code_failure_queue12297, 
+        channel_name_failure_queue42953,
+        setchannel_name_failure_queue42953, 
+        uuid_failure_queue03c86,
+        setuuid_failure_queue03c86, 
+        dr_account_failure_queuef9d2d,
+        setdr_account_failure_queuef9d2d, 
+        dr_amount_failure_queue95d4e,
+        setdr_amount_failure_queue95d4e, 
+        cr_account_failure_queuea7246,
+        setcr_account_failure_queuea7246, 
+        cr_amount_failure_queue57c4d,
+        setcr_amount_failure_queue57c4d, 
+        remittance_info_failure_queue09d7a,
+        setremittance_info_failure_queue09d7a, 
+        status_failure_queue0aef8,
+        setstatus_failure_queue0aef8, 
+        product_code_success_queue7c209,
+        setproduct_code_success_queue7c209, 
+        channel_name_success_queueeddaf,
+        setchannel_name_success_queueeddaf, 
+        uuid_success_queuec805b,
+        setuuid_success_queuec805b, 
+        dr_account_operational_pending10a49,
+        setdr_account_operational_pending10a49, 
+        dr_amount_success_queueda254,
+        setdr_amount_success_queueda254, 
+        cr_account_success_queue60480,
+        setcr_account_success_queue60480, 
+        cr_amount_success_queueb80d4,
+        setcr_amount_success_queueb80d4, 
+        remittance_info_success_queue2f950,
+        setremittance_info_success_queue2f950, 
+        status_success_queue019a2,
+        setstatus_success_queue019a2, 
+        product_code_return_queuee5e11,
+        setproduct_code_return_queuee5e11, 
+        channel_name_return_queuebdabb,
+        setchannel_name_return_queuebdabb, 
+        uuid_return_queue958c9,
+        setuuid_return_queue958c9, 
+        dr_account_return_queuee94b2,
+        setdr_account_return_queuee94b2, 
+        dr_amount_return_queue2f324,
+        setdr_amount_return_queue2f324, 
+        cr_account_return_queue21a57,
+        setcr_account_return_queue21a57, 
+        cr_amount_return_queue13fec,
+        setcr_amount_return_queue13fec, 
+        remittance_info_return_queuef37f7,
+        setremittance_info_return_queuef37f7, 
+        status_return_queue95903,
+        setstatus_return_queue95903, 
+        search_label27572,
+        setsearch_label27572, 
+        divider_top0354b,
+        setdivider_top0354b, 
+        trs_created_date2cea8,
+        settrs_created_date2cea8, 
+        debtor_account_no963e4,
+        setdebtor_account_no963e4, 
+        debtor_namee2d9f,
+        setdebtor_namee2d9f, 
+        creditor_account_noca692,
+        setcreditor_account_noca692, 
+        payment_currency703d2,
+        setpayment_currency703d2, 
+        payment_amount042b1,
+        setpayment_amount042b1, 
+        uuid29c9f,
+        setuuid29c9f, 
+        channel26e83,
+        setchannel26e83, 
+        processstatus134a1,
+        setprocessstatus134a1, 
+        status4bd75,
+        setstatus4bd75, 
+        divider_bottom72ab5,
+        setdivider_bottom72ab5, 
+        search0e695,
+        setsearch0e695, 
+        cleareddfa,
+        setcleareddfa, 
+        tran_journey_label02972,
+        settran_journey_label02972, 
+        tran_journey1602a,
+        settran_journey1602a, 
+        details_labelb25b2,
+        setdetails_labelb25b2, 
+        divider_tope6917,
+        setdivider_tope6917, 
+        transaction_date_time_label669d7,
+        settransaction_date_time_label669d7, 
+        status_labelf3713,
+        setstatus_labelf3713, 
+        transaction_date_time14856,
+        settransaction_date_time14856, 
+        status88bc7,
+        setstatus88bc7, 
+        processed_by_label542e8,
+        setprocessed_by_label542e8, 
+        debit_account_label3b1b7,
+        setdebit_account_label3b1b7, 
+        processed_byd2b69,
+        setprocessed_byd2b69, 
+        debit_account36b40,
+        setdebit_account36b40, 
+        currency_labele21ba,
+        setcurrency_labele21ba, 
+        credit_account_label65c7b,
+        setcredit_account_label65c7b, 
+        currency9c8a2,
+        setcurrency9c8a2, 
+        credit_account0d1f4,
+        setcredit_account0d1f4, 
+        amount_labelfd725,
+        setamount_labelfd725, 
+        transaction_reference_labelb1ca9,
+        settransaction_reference_labelb1ca9, 
+        amount01416,
+        setamount01416, 
+        transaction_reference500d6,
+        settransaction_reference500d6, 
+        divider_bottom8bad5,
+        setdivider_bottom8bad5, 
+        view_msg_data_btne6a88,
+        setview_msg_data_btne6a88, 
+        view_tran_log_btn9cd8c,
+        setview_tran_log_btn9cd8c, 
+        msg_data_label7b760,
+        setmsg_data_label7b760, 
+        divider_topf46a0,
+        setdivider_topf46a0, 
+        xmlviewer9fe8d,
+        setxmlviewer9fe8d, 
+        divider_bottom6920d,
+        setdivider_bottom6920d, 
+        cancel_btn5e840,
+        setcancel_btn5e840, 
+        transaction_log_label7b760,
+        settransaction_log_label7b760, 
+        req_jsonviewerc80ab,
+        setreq_jsonviewerc80ab, 
+        res_jsonviewer9d6d1,
+        setres_jsonviewer9d6d1, 
         ////// screen states 
-          dashboard_for_user_v1Props,
-          setdashboard_for_user_v1Props,
-          request_screen_daily_v1Props,
-          setrequest_screen_daily_v1Props,
-          request_screen_offsite_v1Props,
-          setrequest_screen_offsite_v1Props,
-          dashboard_for_manager_v1Props,
-          setdashboard_for_manager_v1Props,
-          approval_screen_daily_v1Props,
-          setapproval_screen_daily_v1Props,
-          approval_screen_offsite_v1Props,
-          setapproval_screen_offsite_v1Props,
-          daily_expense_user_table_v1Props,
-          setdaily_expense_user_table_v1Props,
-          offsite_expense_user_table_v1Props,
-          setoffsite_expense_user_table_v1Props,
-          daily_expense_manager_table_v1Props,
-          setdaily_expense_manager_table_v1Props,
-          offsite_expense_manager_table_v1Props,
-          setoffsite_expense_manager_table_v1Props,
-          report_v1Props,
-          setreport_v1Props,
+          transaction_v1,
+          settransaction_v1,
+          transaction_v1Props,
+          settransaction_v1Props,
+          transactionsearch_v1,
+          settransactionsearch_v1,
+          transactionsearch_v1Props,
+          settransactionsearch_v1Props,
+          transactionjourney_v1,
+          settransactionjourney_v1,
+          transactionjourney_v1Props,
+          settransactionjourney_v1Props,
+          tranjourneydetails_v1,
+          settranjourneydetails_v1,
+          tranjourneydetails_v1Props,
+          settranjourneydetails_v1Props,
+          messagedataview_v1,
+          setmessagedataview_v1,
+          messagedataview_v1Props,
+          setmessagedataview_v1Props,
+          trandataview_v1,
+          settrandataview_v1,
+          trandataview_v1Props,
+          settrandataview_v1Props,
         //////////
 
         ///////// dfd
-        dfd_claims_v1Props,
-        setdfd_claims_v1Props,
-        dfd_code_description_v1Props,
-        setdfd_code_description_v1Props,
-        dfd_claims_detail_v1Props,
-        setdfd_claims_detail_v1Props,
-        dfd_card_data_v1Props,
-        setdfd_card_data_v1Props,
-        dfd_claim_table_data_v1Props,
-        setdfd_claim_table_data_v1Props,
-        dfd_chart_data_v1Props,
-        setdfd_chart_data_v1Props,
+        dfd_combocurrencysearch_v1Props,
+        setdfd_combocurrencysearch_v1Props,
+        dfd_transaction_v1Props,
+        setdfd_transaction_v1Props,
+        dfd_processstatuscombosearch_v1Props,
+        setdfd_processstatuscombosearch_v1Props,
+        dfd_channelcombosearch_v1Props,
+        setdfd_channelcombosearch_v1Props,
+        dfd_journey_v1Props,
+        setdfd_journey_v1Props,
         refetch,
         setRefetch,
         searchParam,
@@ -2523,6 +1910,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setMemoryVariables,
         lockedData,
         setLockedData,
+        tableData,
+        setTableData,
         paginationDetails,
         setpaginationDetails,
         eventEmitterData,

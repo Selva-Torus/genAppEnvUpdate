@@ -1,0 +1,142 @@
+
+import { Prisma } from '@prisma/client';
+import { IsEnum,IsOptional } from 'class-validator';
+import { ApiProperty,ApiPropertyOptional } from '@nestjs/swagger';
+
+
+export class  Updatewps_mohre_api_callsDto {
+        @ApiPropertyOptional({
+            type: `integer`,
+            format: `int32`,
+        })
+        @IsOptional()
+        wpsm_id?: number;
+        @ApiPropertyOptional()
+        @IsOptional()
+        process_name?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        processing_system?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        response_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        employer_mol_number?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        employee_mol_numberadditional_info?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        additional_info?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        employer_reg_id?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        employer_eid?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        service_req?: Prisma.InputJsonValue;
+        @ApiPropertyOptional()
+        @IsOptional()
+        service_resp?: Prisma.InputJsonValue;
+        @ApiPropertyOptional()
+        @IsOptional()
+        service_req_encr?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        service_resp_encr?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        client_req?: Prisma.InputJsonValue;
+        @ApiPropertyOptional()
+        @IsOptional()
+        client_resp?: Prisma.InputJsonValue;
+        @ApiPropertyOptional()
+        @IsOptional()
+        employer_unified_number?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        employee_unified_number?: string;
+        @ApiPropertyOptional({
+            type: `string`,
+            format: `date-time`,
+        })
+        @IsOptional()
+        trs_created_date?: Date;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_created_by?: string;
+        @ApiPropertyOptional({
+            type: `string`,
+            format: `date-time`,
+        })
+        @IsOptional()
+        trs_modified_date?: Date;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_modified_by?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_process_id?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_access_profile?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_org_grp_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_org_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_role_grp_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_role_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_ps_grp_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_ps_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_sub_org_grp_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_sub_org_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_locked_by?: string;
+        @ApiPropertyOptional({
+            type: `string`,
+            format: `date-time`,
+        })
+        @IsOptional()
+        trs_locked_time?: Date;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_tenant_id?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_app_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_product_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_event_process_status?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_event_status?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_token_id?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_version?: string;
+
+}
+

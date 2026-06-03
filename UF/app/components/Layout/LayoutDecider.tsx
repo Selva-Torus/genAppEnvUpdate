@@ -41,15 +41,15 @@ const LayoutDecider = ({
   const { borderColor, bgColor } : { borderColor: string; bgColor: string } = useTheme()
   const { brandColor, hoverColor, selectionColor } : { brandColor: string; hoverColor: string; selectionColor: string } = branding;
   const encryptionFlagApp: boolean = false;    
-  const encryptionDpd: string = "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:AG001:AFGK:A001:AFK:defaultDPD:AFVK:v1";
+  const encryptionDpd: string = "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:VGPH:AFK:VGPH_DPD:AFVK:v1";
   const encryptionMethod: string = "";
-  const logo: string = ""
-  const appLogo: string = ""
-  const appName: string = "Reimfast"
+  const logo: string = "torus/9.1/CT005/resources/images/Blue Logo.png"
+  const appLogo: string = "torus/9.1/CT005/resources/images/White global payment hub.png"
+  const appName: string = "VGPH"
   const toast: Function = useInfoMsg()
   const [loading, setLoading] = useState<boolean>(true)
   const [updatedNavData, setUpdatedNavData] = useState<MenuItem[]>([])
-  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT003:AFGK:AG001:AFK:A001:AFVK:v1:bldc"
+  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT005:AFGK:GSS:AFK:VGPH:AFVK:v1:bldc"
   const [rawNavData, setRawNavData] = useState<MenuItem[] | null>(null);
   const navData: MenuItem[] = [
   {
@@ -62,7 +62,7 @@ const LayoutDecider = ({
         "key": "Logs Screen",
         "allowedAccessProfile": [],
         "static": true,
-        "icon": "https://cdns3dfsdev.toruslowcode.com/torus/9.1/resources/icons/document-add-svgrepo-com.svg"
+        "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/document-add-svgrepo-com.svg"
       },
       {
         "name": "user",
@@ -70,130 +70,27 @@ const LayoutDecider = ({
         "key": "User Screen",
         "allowedAccessProfile": [],
         "static": true,
-        "icon": "https://cdns3dfsdev.toruslowcode.com/torus/9.1/resources/icons/user-plus-svgrepo-com.svg"
+        "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/user-plus-svgrepo-com.svg"
       }
     ],
     "items": [],
-    "icon": "https://cdns3dfsdev.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
+    "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
   },
   {
-    "menuGroupLabel": "User Home Screen",
+    "menuGroupLabel": "My Transaction",
     "screenDetails": [
       {
-        "name": "user home screen",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Dashboard_For_User:AFVK:v1",
+        "name": "my transaction",
+        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",
         "allowedAccessProfile": [
-          "Template 1",
-          "Employee"
+          "IT Team",
+          "Business Team",
+          "Operation Team"
         ],
-        "static": false,
-        "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
+        "static": false
       }
     ],
-    "items": [],
-    "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
-  },
-  {
-    "menuGroupLabel": "Manager Home Screen",
-    "screenDetails": [
-      {
-        "name": "manager home screen",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Dashboard_For_Manager:AFVK:v1",
-        "allowedAccessProfile": [
-          "Template 1",
-          "Manager"
-        ],
-        "static": false,
-        "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
-  },
-  {
-    "menuGroupLabel": "User Daily Expense",
-    "screenDetails": [
-      {
-        "name": "user daily expense",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Daily_Expense_User_Table:AFVK:v1",
-        "allowedAccessProfile": [
-          "Template 1",
-          "Employee"
-        ],
-        "static": false,
-        "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
-  },
-  {
-    "menuGroupLabel": "User Offsite Expense",
-    "screenDetails": [
-      {
-        "name": "user offsite expense",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Offsite_Expense_User_Table:AFVK:v1",
-        "allowedAccessProfile": [
-          "Template 1",
-          "Employee"
-        ],
-        "static": false,
-        "icon": "/torus/9.1/resources/icons/flight-plane-svgrepo-com.svg"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/resources/icons/flight-plane-svgrepo-com.svg"
-  },
-  {
-    "menuGroupLabel": "Manager Daily Expense",
-    "screenDetails": [
-      {
-        "name": "manager daily expense",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Daily_Expense_Manager_Table:AFVK:v1",
-        "allowedAccessProfile": [
-          "Manager"
-        ],
-        "static": false,
-        "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
-  },
-  {
-    "menuGroupLabel": "Manager Offsite Expense",
-    "screenDetails": [
-      {
-        "name": "manager offsite expense",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Offsite_Expense_Manager_Table:AFVK:v1",
-        "allowedAccessProfile": [
-          "Template 1",
-          "Manager"
-        ],
-        "static": false,
-        "icon": "/torus/9.1/resources/icons/flight-plane-svgrepo-com.svg"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/resources/icons/flight-plane-svgrepo-com.svg"
-  },
-  {
-    "menuGroupLabel": "Report",
-    "screenDetails": [
-      {
-        "name": "report",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Report:AFVK:v1",
-        "allowedAccessProfile": [
-          "Template 1",
-          "Employee",
-          "Manager"
-        ],
-        "static": false,
-        "icon": "/torus/9.1/resources/icons/donut-bitten-svgrepo-com.svg"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/resources/icons/donut-bitten-svgrepo-com.svg"
+    "items": []
   }
 ]
   const token:string = getCookie('token'); 
@@ -470,16 +367,23 @@ const LayoutDecider = ({
     'gridRow'?: string
   }[] =[
   {
+    "name": "app logo",
+    "gridColumn": "1/3"
+  },
+  {
+    "name": "menu items",
+    "gridColumn": "3/8",
+    "gridRow": "1/6"
+  },
+  {
     "name": "profile",
+    "gridColumn": "12/13",
     "gridRow": "12/13"
   },
   {
     "name": "opr matrix",
-    "gridRow": "8/12"
-  },
-  {
-    "name": "menu items",
-    "gridRow": "1/6"
+    "gridColumn": "9/12",
+    "gridRow": "6/9"
   }
 ]
 

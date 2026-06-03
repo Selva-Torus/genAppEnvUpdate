@@ -1,3 +1,4 @@
+
 'use client'
 import React, {
   useContext,
@@ -32,6 +33,7 @@ const ContextSelector = () => {
   const [selectedAccessProfile, setSelectedAccessProfile] = useState<string[]>(
     []
   )
+  const [navigationStyles] = useState<'vertical' | 'horizontal'>("horizontal");
   const { userDetails, setUserDetails , setMatchedAccessProfileData } = useContext(
     TotalContext
   ) as TotalContextProps
@@ -39,7 +41,7 @@ const ContextSelector = () => {
   const tp_ps: any = getCookie('tp_ps')
   const toast = useInfoMsg()
   const baseUrl: any = process.env.NEXT_PUBLIC_API_BASE_URL
-  const appName = 'Reimfast'
+  const appName = 'VGPH'
   const [accessProfiles, setAccessProfiles] = useState<any[]>([])
   const router = useRouter()
   const [loading, setLoading] = useState(false)
@@ -54,43 +56,13 @@ const ContextSelector = () => {
   const [selectedRole, setSelectedRole] = useState<Record<string, string>>({})
   const [orgGrpData, setOrgGrpData] = useState<any>([])
   const [isPending, startTransition] = useTransition();  
-  let landingScreen:string = 'CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Report:AFVK:v1';
+  let landingScreen:string = 'CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1';
   let screenDetails: any = {
            keys:[
   {
-    "screenName": "user home screen",
-    "screensName": "user_home_screen-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Dashboard_For_User:AFVK:v1"
-  },
-  {
-    "screenName": "manager home screen",
-    "screensName": "manager_home_screen-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Dashboard_For_Manager:AFVK:v1"
-  },
-  {
-    "screenName": "user daily expense",
-    "screensName": "user_daily_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Daily_Expense_User_Table:AFVK:v1"
-  },
-  {
-    "screenName": "user offsite expense",
-    "screensName": "user_offsite_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Offsite_Expense_User_Table:AFVK:v1"
-  },
-  {
-    "screenName": "manager daily expense",
-    "screensName": "manager_daily_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Daily_Expense_Manager_Table:AFVK:v1"
-  },
-  {
-    "screenName": "manager offsite expense",
-    "screensName": "manager_offsite_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Offsite_Expense_Manager_Table:AFVK:v1"
-  },
-  {
-    "screenName": "report",
-    "screensName": "report-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Report:AFVK:v1"
+    "screenName": "my transaction",
+    "screensName": "my_transaction-v1",
+    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1"
   }
 ]
   }
@@ -165,7 +137,19 @@ const ContextSelector = () => {
                 ? selectedCombinationData.subOrgName
                 : selectedCombinationData.orgName,
               path: selectedCombinationData?.orgPath,
-              id: selectedCombinationData?.id
+              id: selectedCombinationData?.id,
+              mainOrgGrpCode: selectedCombinationData?.subOrgGrpCode
+                ? selectedCombinationData.orgGrpCode
+                : undefined,
+              mainOrgCode: selectedCombinationData?.subOrgCode
+                ? selectedCombinationData.orgCode
+                : undefined,
+              mainOrgGrpName: selectedCombinationData?.subOrgGrpName
+                ? selectedCombinationData.orgGrpName
+                : undefined,
+              mainOrgName: selectedCombinationData?.subOrgName
+                ? selectedCombinationData.orgName
+                : undefined
             }
           : {}
       )
@@ -316,8 +300,37 @@ const ContextSelector = () => {
     return data
   }, [selectedOrg, selectedPs, selectedRole])
 
+  const navBarItemsOrder: {
+    name: string
+    'gridColumn'?: string
+    'gridRow'?: string
+  }[] = [
+  {
+    "name": "app logo",
+    "gridColumn": "1/3"
+  },
+  {
+    "name": "menu items",
+    "gridColumn": "3/8",
+    "gridRow": "1/6"
+  },
+  {
+    "name": "profile",
+    "gridColumn": "12/13",
+    "gridRow": "12/13"
+  },
+  {
+    "name": "opr matrix",
+    "gridColumn": "9/12",
+    "gridRow": "6/9"
+  }
+]
+
+  const logo: string = "torus/9.1/CT005/resources/images/Blue Logo.png"
+  const appLogo: string = "torus/9.1/CT005/resources/images/White global payment hub.png"
+
   return (
-    <div className='h-full w-full'>
+    <div className='h-full w-full  bg-cover bg-center' style={{ backgroundImage: 'var(--app-bg-image)' }}>
       <TopNav
         appName={appName}
         navData={[]}
@@ -325,12 +338,15 @@ const ContextSelector = () => {
         brandColor={brandColor}
         mode='closed'
         listMenuItems={false}
+        navBarItemsOrder={navigationStyles === 'vertical' ? [] :navBarItemsOrder}
+        appLogo={appLogo}
+        logo={logo}
       />
 
-      <hr className={twMerge('w-full border', borderColor)} />
+      <hr className={twMerge('w-full h-1', borderColor)} />
       <div className='px-5 py-2.5'>
-        <div className='flex w-full items-center justify-end gap-5'>
-          <div className='w-[12vw]'>
+        <div className='flex w-full items-center justify-end gap-1'>
+          <div title={selectedAccessProfile.length ? selectedAccessProfile[0] : "Select Access Profile"} className='w-[12vw]'>
             <Dropdown
               placeholder='Select Access Profile'
               value={selectedAccessProfile[0]}
@@ -358,7 +374,7 @@ const ContextSelector = () => {
           </div>
           <div className='flex gap-2 py-2'>
             <Button
-              className='flex items-center rounded-md px-5 py-2 disabled:opacity-50'
+              className='flex items-center rounded-md px-5 py-2.5 disabled:opacity-50'
               icon={'MdArrowForward'}
               onClick={handleNavigationClick}
               disabled={
@@ -413,20 +429,17 @@ const ContextSelector = () => {
                     {/* Texts */}
                     <div className='flex w-full flex-col items-center'>
                       <Text
-                        variant='body-1'
                         className={`w-full truncate text-nowrap text-center`}
                       >
                         {block?.group}
                       </Text>
                       <Text
-                        variant='body-2'
                         className='w-full truncate text-nowrap text-center font-semibold'
                       >
                         {block?.title}
                       </Text>
                       <Text
-                        variant='body-1'
-                        className='w-full truncate text-nowrap text-center'
+                        className='w-full truncate text-nowrap text-center !min-h-4'
                         color='secondary'
                       >
                         {block.subtitle}

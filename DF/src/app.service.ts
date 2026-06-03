@@ -2,6 +2,9 @@
 
 
 
+
+
+
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import axios from 'axios';
 import * as fs from 'fs';
@@ -17,7 +20,9 @@ export class AppService implements OnModuleInit{
 
   async onModuleInit() {
     console.log('Application started, calling API...');
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnQiOiJDVDAwNyIsImxvZ2luSWQiOiJWaWNreSIsInNpZCI6IjIwYjljMjkyLTQyZDMtNGZhMi04YjNlLWE5ZmYwMTZkMzdlZSIsImxvZ1R5cGUiOiJtb25nb2RiIiwidHlwZSI6ImMiLCJpYXQiOjE3NzAzODIyNDYsImV4cCI6MTc3MDM4MzQ0Nn0.xOBu-A7_fTsb37fhBAsh9dLta4pQ0XI3WRznSnZq-ug';
+    console.log('DDL changes update started.');
+    console.log('DDL changes update completed.');    
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoiZ3VydSIsImNsaWVudCI6IkNUMDA1IiwidHlwZSI6ImMiLCJsb2dUeXBlIjoiZGZzIiwic2lkIjoiNmEyNjM0YTUtYTFiNS00MTNiLWJkNDYtNWI1ZTA5YTZjZjA5IiwiaWF0IjoxNzgwNDYwNzAzLCJleHAiOjE3ODA0NjE5MDN9.eMfOKK4r285hZQI6kvwfulgfgBTIhJ1XcL1l5rOaOJY';
     let preParedData:any=await this.dataPrep(JSON.parse(fs.readFileSync('./swagger.json', 'utf-8')))
     if(Object.keys(preParedData).includes('erdWithData'))
       {
@@ -32,12 +37,12 @@ export class AppService implements OnModuleInit{
       //  }
       //});
       erdDatas.endpoint = res;
-      erdDatas.tenant =  "CT003";
-      erdDatas.domain = "appgroup";
-      erdDatas.collection = "Reimfast";
+      erdDatas.tenant =  "CT005";
+      erdDatas.domain = "GSS";
+      erdDatas.collection = "VGPH";
       erdDatas.data = preParedData?.erdWithData||{}
       erdDatas.fabric = 'API-APIPD';
-      erdDatas.loginId = "Vicky";    
+      erdDatas.loginId = "guru";    
       erdDatas.erdFlag = true;  
       await this.ufservice.createApiCollection(erdDatas,this.clientcode);
       //await axios.post(this.apiUrl+'/createApiCollection', erdDatas,{
@@ -54,12 +59,12 @@ export class AppService implements OnModuleInit{
       //endPointData.type =  "json";
       //let res =  await axios.post(this.apiUrl+'/getEndPoints', endPointData);
       //torusData.endpoint = res.data;
-      torusData.tenant =  "CT003";
-      torusData.domain = "appgroup"; 
-      torusData.collection = "Reimfast";
+      torusData.tenant =  "CT005";
+      torusData.domain = "GSS"; 
+      torusData.collection = "VGPH";
       torusData.fabric = 'API-APIPD-TORUS';
       torusData.data = preParedData?.torusApis||{}
-      torusData.loginId = "Vicky";    
+      torusData.loginId = "guru";    
       //await axios.post(this.apiUrl, torusData);
     }
   }

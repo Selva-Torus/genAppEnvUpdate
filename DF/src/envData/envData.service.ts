@@ -2,8 +2,25 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class EnvData {
+  private static staticConfig: any = null;
+  private static staticLoaded: boolean = false;
+
   private config: any = null;
   private isLoaded: boolean = false;
+
+  constructor() {
+    if (EnvData.staticLoaded && EnvData.staticConfig) {
+      this.config = EnvData.staticConfig;
+      this.isLoaded = true;
+    }
+  }
+
+  static preloadConfig(data: any): void {
+    if (EnvData.staticLoaded) return;
+    EnvData.staticConfig = JSON.parse(JSON.stringify(data));
+    Object.freeze(EnvData.staticConfig);
+    EnvData.staticLoaded = true;
+  }
 
   setConfig(data: any): void {
     if (this.isLoaded) return;
@@ -28,7 +45,8 @@ export class EnvData {
   }
 
   private getConfigValue(path: string): any {
-    if (!this.isLoaded) throw new Error('Config not loaded');
+    if (!this.isLoaded)
+      throw new Error('Config not loaded');
     return path.split('.').reduce((obj, key) => obj?.[key], this.config);
   }
 
@@ -204,6 +222,59 @@ export class EnvData {
     return this.getConfigValue('encryption.encryptionInfo.items') || [];
   }
 
+  private getEncryptionByType(type: string): any {
+    const items = this.getEncryptionInfo();
+    return items.find((item: any) => item.type === type) || null;
+  }
+
+  getVaultConfig(): { url: string; key: string; token: string } | null {
+    const vault = this.getEncryptionByType('vault');
+    if (!vault) return null;
+    return {
+      url: vault.url || '',
+      key: vault.key || '',
+      token: vault.token || ''
+    };
+  }
+
+  getAESGCMConfig(): { mode: string; key: string; ivLength: string } | null {
+    const aesgcm = this.getEncryptionByType('AESGCM');
+    if (!aesgcm) return null;
+    return {
+      mode: aesgcm.mode || 'aes-256-gcm',
+      key: aesgcm.Key || '',
+      ivLength: aesgcm.IVlength || ''
+    };
+  }
+
+  getAESCTRConfig(): { mode: string; key: string; ivLength: string } | null {
+    const aesctr = this.getEncryptionByType('AESCTR');
+    if (!aesctr) return null;
+    return {
+      mode: aesctr.mode || 'aes-256-ctr',
+      key: aesctr.Key || '',
+      ivLength: aesctr.IVlength || ''
+    };
+  }
+
+  getRSAConfig(): { privateKey: string; publicKey: string } | null {
+    const rsa = this.getEncryptionByType('RSA');
+    if (!rsa) return null;
+    return {
+      privateKey: rsa.privateKey || '',
+      publicKey: rsa.publicKey || ''
+    };
+  }
+
+  getPKIConfig(): { privateKey: string; publicKey: string } | null {
+    const pki = this.getEncryptionByType('PKI');
+    if (!pki) return null;
+    return {
+      privateKey: pki.privateKey || '',
+      publicKey: pki.publicKey || ''
+    };
+  }
+
   // ===== FUSIONAUTH =====
   getFusionAuthBaseUrl(): string {
     return this.getConfigValue('iam.fusionAuth.host') || '';
@@ -212,6 +283,26 @@ export class EnvData {
   getFusionAuthApiKey(): string {
     return this.getConfigValue('iam.fusionAuth.apiKey') || '';
   }
+
+  getAuthSecret(): string {
+    return this.getConfigValue('iam.auth_secret') || 'HpZnm7V6YeshFDVbwACyOtx6oa6QSbraZoNyU9fwtGYUL1Rnc6PN5QUosu9BcqVBo5L6QeSs';
+  }
+
+   getAuthAccessTokenExpiryTime(): string {
+    const accessTokenExpiryTime = this.getConfigValue('iam.accessTokenExpiryTime.value')
+    return accessTokenExpiryTime ? `${accessTokenExpiryTime}m` : '60m';
+  }
+
+   getAuthRefreshTokenExpiryTime(): string {
+    const refreshTokenExpiryTime = this.getConfigValue('iam.refreshTokenExpiryTime.value')
+    return refreshTokenExpiryTime ? `${refreshTokenExpiryTime}m` : '3600m';
+  }
+
+   getFusionAuthRefreshTokenExpiryTimeInMinutes(): string {
+    const fusionAuthRefreshTokenExpiryTime = this.getConfigValue('iam.fusionAuthRefreshTokenExpiryTime.value')
+    return fusionAuthRefreshTokenExpiryTime ? `${fusionAuthRefreshTokenExpiryTime}m` : '4320';
+  }
+
 
   // ===== KAFKA =====
   getKafkaBroker(): string {

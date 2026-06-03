@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useGlobal } from "@/context/GlobalContext";
 import { Tooltip } from "./Tooltip";
 import { HeaderPosition, TooltipProps as TooltipPropsType } from "@/types/global";
-import { getFontSizeClass, getBorderRadiusClass } from "@/app/utils/branding";
+import { getBorderRadiusClass } from "@/app/utils/branding";
 import { CommonHeaderAndTooltip } from "./CommonHeaderAndTooltip";
 
 type ValidationState = "valid" | "invalid";
@@ -64,7 +64,6 @@ export const Slider: React.FC<SliderProps> = ({
   };
 
   const isDark = theme === "dark" || theme === "dark-hc";
-  const fontSizeClass = getFontSizeClass(branding.fontSize);
 
   // Helper to convert hex to rgba
   const hexToRgba = (hex: string, alpha: number) => {
@@ -86,7 +85,7 @@ export const Slider: React.FC<SliderProps> = ({
 
   const sliderElement = (
     <div
-      className={`w-full h-full flex flex-col relative ${direction === "RTL" ? "rtl" : ""}`}
+      className={`w-full h-full flex flex-col relative overflow-hidden ${direction === "RTL" ? "rtl" : ""}`}
       style={{ paddingTop: tooltipDisplay === "on" || (tooltipDisplay === "auto" && showTooltip) ? "40px" : "0px" }}
       onMouseEnter={() => {
         if (!disabled) {
@@ -164,7 +163,7 @@ export const Slider: React.FC<SliderProps> = ({
 
       {/* Slider container - track is 1/2 of parent height, centered */}
       <div className={`flex flex-col w-full relative ${showValue && headerText ? "h-[50%]": showValue && marks ? "h-[25%]" :showValue || marks ? "h-[25%]" : "h-[100%]"}`}  >
-        <div className="w-full relative" style={{ height: "100%" }}>
+        <div className="w-full relative pt-2" style={{ height: "100%" }}>
           {/* Background track */}
           <div
             className={`absolute w-full h-full ${
@@ -263,10 +262,10 @@ export const Slider: React.FC<SliderProps> = ({
                   }}
                 >
                   <div
-                    className={`w-0.5 h-2 mx-auto ${isDark ? "bg-gray-600" : "bg-gray-400"}`}
+                    className={`w-0.5 h-2 mx-auto ${sliderValue >= markValue ? "bg-transparent" : isDark ? "bg-gray-600" : "bg-gray-400"}`}
                   />
                   <span
-                    className={`mt-1 block ${fontSizeClass} ${isDark ? "text-gray-400" : "text-gray-600"} ${
+                    className={`mt-1 block  ${isDark ? "text-gray-400" : "text-gray-600"} ${
                       isFirst ? "text-left" : isLast ? "text-right" : "text-center"
                     }`}
                     style={{
@@ -286,13 +285,13 @@ export const Slider: React.FC<SliderProps> = ({
         );
       })() : !showValue ? (
         <div className="flex justify-between mt-2 px-1">
-          <span className={`${fontSizeClass} ${isDark ? "text-gray-400" : "text-gray-600"}`} style={{ fontFamily: "var(--font-body)" }}>{min}</span>
-          <span className={`${fontSizeClass} ${isDark ? "text-gray-400" : "text-gray-600"}`} style={{ fontFamily: "var(--font-body)" }}>{max}</span>
+          <span className={` ${isDark ? "text-gray-400" : "text-gray-600"}`} style={{ fontFamily: "var(--font-body)" }}>{min}</span>
+          <span className={` ${isDark ? "text-gray-400" : "text-gray-600"}`} style={{ fontFamily: "var(--font-body)" }}>{max}</span>
         </div>
       ) : null}
 
       {showValue && (
-        <p className={`${fontSizeClass} font-bold text-center mt-2 ${isDark ? "text-gray-200" : "text-gray-900"}`} style={{ fontFamily: "var(--font-body)" }}>
+        <p className={`font-bold text-center mt-2 ${isDark ? "text-gray-200" : "text-gray-900"}`} style={{ fontFamily: "var(--font-body)" }}>
           {valueLabel ? `${valueLabel} : ${sliderValue}` : sliderValue}
         </p>
       )}

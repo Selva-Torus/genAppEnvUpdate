@@ -21,15 +21,18 @@ import i18n from './i18n'
 import TorusFooter from '../utils/TorusFooter.png'
 import Image from 'next/image'
 import { getCdnImage } from '../utils/getAssets'
+import { getFontSizeForDisplay, getFontSizeForHeader } from '../utils/branding'
+import { Dropdown } from '@/components/Dropdown'
 
 interface LoginProps {
   logo?: string
   appName?: string
   loginType?: 'standard' | 'rightAligned' | 'leftAligned'
   image?: string
+  appTenantList?: any[]
 }
 
-const LoginForm = ({ logo, appName = "Reimfast", loginType = "standard", image }: LoginProps) => {
+const LoginForm = ({ logo, appName = "VGPH", loginType = "standard", image, appTenantList }: LoginProps) => {
   const [formData, setFormData] = useState<Record<string, string>>({
     email: '',
     password: ''
@@ -42,12 +45,14 @@ const LoginForm = ({ logo, appName = "Reimfast", loginType = "standard", image }
   const { branding } = useGlobal()
   const { brandColor } = branding
   const { bgColor, borderColor, textColor } = useTheme()
-  const onBoardingKey : string = "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Report:AFVK:v1"
+  const onBoardingKey : string = "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1"
   const tenant = process.env.NEXT_PUBLIC_TENANT_CODE
+  const isSaasApp = process.env.NEXT_PUBLIC_IS_SAAS_APPLICATION;
   const [imageandLogoValid, setImageandLogoValid] = useState({
     image: image ? true : false,
     logo: logo ? true : false
   })
+  const [selectedAppTenant , setSelectedAppTenant] = useState('')
   const keyset: any = i18n.keyset('language')
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,11 +68,13 @@ const LoginForm = ({ logo, appName = "Reimfast", loginType = "standard", image }
         setCookie('cfg_theme','light')
 
         const api_signinBody: api_signinDto = {
-          client: tenant,
+          tenant: tenant,
           username: formData.email,
           password: formData.password,
-          key: "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT003:AFGK:AG001:AFK:A001:AFVK:v1:bldc",
-          ufClientType: 'UFW'
+          key: "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT005:AFGK:GSS:AFK:VGPH:AFVK:v1:bldc",
+          ufClientType: 'UFW',
+          app_tenant: selectedAppTenant ? appTenantList?.find(item => item.tenant_name == selectedAppTenant)?.tenant_id : undefined,
+          app_tenant_id: selectedAppTenant ? appTenantList?.find(item => item.tenant_name == selectedAppTenant)?.at_id : undefined
         }
         const api_signin = await axios.post(
           `${baseUrl}/UF/signin`,
@@ -90,45 +97,15 @@ const LoginForm = ({ logo, appName = "Reimfast", loginType = "standard", image }
             setLoading(false)
             return
           }
-          setCookie('token', api_signin.data.token)
+          setCookie("token", api_signin.data.token, 10, "/");
           setCookie('tenant', tenant)
-          document.cookie = `language=${'en'}`
+          setCookie('language', 'en')
           let screenDetails: any = {
             keys:[
   {
-    "screenName": "user home screen",
-    "screensName": "user_home_screen-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Dashboard_For_User:AFVK:v1"
-  },
-  {
-    "screenName": "manager home screen",
-    "screensName": "manager_home_screen-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Dashboard_For_Manager:AFVK:v1"
-  },
-  {
-    "screenName": "user daily expense",
-    "screensName": "user_daily_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Daily_Expense_User_Table:AFVK:v1"
-  },
-  {
-    "screenName": "user offsite expense",
-    "screensName": "user_offsite_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Offsite_Expense_User_Table:AFVK:v1"
-  },
-  {
-    "screenName": "manager daily expense",
-    "screensName": "manager_daily_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Daily_Expense_Manager_Table:AFVK:v1"
-  },
-  {
-    "screenName": "manager offsite expense",
-    "screensName": "manager_offsite_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Offsite_Expense_Manager_Table:AFVK:v1"
-  },
-  {
-    "screenName": "report",
-    "screensName": "report-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Report:AFVK:v1"
+    "screenName": "my transaction",
+    "screensName": "my_transaction-v1",
+    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1"
   }
 ]
           }
@@ -161,7 +138,7 @@ const LoginForm = ({ logo, appName = "Reimfast", loginType = "standard", image }
               '_' +
               defaultScreen.split('-').at(-1)
           }
-          document.cookie = `currentPage=${JSON.stringify(defaultScreen)}`
+          setCookie('currentPage', JSON.stringify(defaultScreen))
           if (api_signin?.data?.redirectToORPSelector) {
             router.push('/select-context')
           } else {
@@ -223,7 +200,7 @@ const LoginForm = ({ logo, appName = "Reimfast", loginType = "standard", image }
         style={{
           backgroundImage:
             loginType === 'standard' && image
-              ? ` url(${bgImage})`
+              ? `url('${bgImage}')`
               : `linear-gradient(to bottom, ${brandColor}, #ffffff)`,
           backgroundSize:
             loginType === 'standard' && image ? 'cover' : undefined,
@@ -251,34 +228,46 @@ const LoginForm = ({ logo, appName = "Reimfast", loginType = "standard", image }
               ) : (
                 <></>
               )}
-              <Text variant='display-3'>
-                <div className='text-2xl font-bold'>{appName}</div>
+              <Text variant={getFontSizeForDisplay(branding.fontSize)} className='text-center font-bold'>
+                {appName}
               </Text>
             </div>
             <div
               className={twMerge(
-                `flex h-fit min-w-[350px] flex-col gap-3 rounded-xl px-5 pb-3 pt-4 2xl:pt-6 2xl:pb-6 shadow 2xl:min-w-[400px]`,
+                `flex h-fit min-w-[20vw] flex-col gap-3 rounded-xl px-5 pb-3 pt-4 2xl:pt-6 2xl:pb-6 shadow 2xl:min-w-[400px]`,
                 bgColor,
                 borderColor,
                 textColor
               )}
             >
               <div className='flex flex-col items-center'>
-                <Text variant='header-2' className='py-2'>
-                  <div className='text-xl font-bold'>
+                <Text variant={getFontSizeForHeader(branding.fontSize)} className='py-2 font-bold'>
                     Log in to your account
-                  </div>
                 </Text>
-                <Text variant='body-1' color='secondary'>
+                <Text color='secondary'>
                   Enter your details to continue
                 </Text>
               </div>
+              {isSaasApp == 'true' &&
+                <div className='flex flex-col gap-2'>
+                  <Dropdown 
+                    staticProps={
+                      appTenantList?.map((item: any) => item?.tenant_name)
+                    } 
+                    value={selectedAppTenant}  
+                    onChange={(val) => setSelectedAppTenant(val as string)} 
+                    placeholder={keyset('Select Tenant')}
+                    hasClear
+                    static 
+                    />
+                </div>}
               <div className='flex flex-col gap-2'>
                 <input
                   type='text'
                   name='email'
+                  style={{ fontSize: branding.fontSize }}
                   className={twMerge(
-                    'rounded-lg border p-1.5 text-sm 2xl:text-base outline-none 2xl:p-3',
+                    'rounded-lg border px-[0.5vw] py-[1vh] !text-fsbase outline-none',
                     borderColor
                   )}
                   placeholder='Your Email/Username'
@@ -294,8 +283,9 @@ const LoginForm = ({ logo, appName = "Reimfast", loginType = "standard", image }
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name='password'
+                  style={{ fontSize: branding.fontSize }}
                   className={twMerge(
-                    'rounded-lg border p-1.5 text-sm 2xl:text-base outline-none 2xl:p-3',
+                    'rounded-lg border px-[0.5vw] py-[1vh] !text-fsbase outline-none',
                     borderColor
                   )}
                   placeholder='Password'
@@ -319,11 +309,11 @@ const LoginForm = ({ logo, appName = "Reimfast", loginType = "standard", image }
                 </button>
               </div>
               <Link href='/forgot-password' className='self-end'>
-                <Text color='brand' className="text-sm 2xl:text-base" variant='body-2'>Forgot Password</Text>
+                <Text color='brand'>Forgot Password</Text>
               </Link>
               <Button
                 onClick={handleFormSubmit}
-                className='h-10 rounded-lg 2xl:h-12 w-full'
+                className='!h-12 rounded-lg !2xl:h-14 w-full'
               >
                 {loading ? (
                   <Spin
@@ -353,14 +343,14 @@ const LoginForm = ({ logo, appName = "Reimfast", loginType = "standard", image }
               )}
 
               <div className='flex justify-center pb-2'>
-                <Text className='flex items-center gap-1 text-nowrap text-sm 2xl:text-base' variant='body-2'>
+                <Text className='flex items-center gap-1 text-nowrap'>
                   Don&apos;t have an account?{' '}
                   <a
                     href='https://outlook.office.com/mail/deeplink/compose?to=support@torus.tech'
                     target='_blank'
                     rel='noopener noreferrer'
                   >
-                    <Text color='brand' className="text-sm 2xl:text-base" variant='body-2'>Contact Admin</Text>
+                    <Text color='brand'>Contact Admin</Text>
                   </a>
                 </Text>
               </div>

@@ -14,6 +14,7 @@ import { Switch } from '@/components/Switch'
 import i18n from '../../components/i18n'
 import { getCdnImage } from '../../utils/getAssets'
 import { useGlobal } from '@/context/GlobalContext'
+import { getFontSizeForHeader, getFontSizeForSubHeader } from '@/app/utils/branding'
 
 const UserCreationModal = ({
   setModalOpen,
@@ -134,7 +135,22 @@ const UserCreationModal = ({
           label: 'isAppAdmin'
         }
       ]
-    }
+    },
+    ...(!isEdit
+      ? [
+          {
+            heading: 'UserCode',
+            subHeading: 'Enter the usercode of the user.',
+            formData: [
+              {
+                type: 'code',
+                name: 'userCode',
+                label: 'userCode'
+              }
+            ]
+          }
+        ]
+      : [])
   ]
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -257,6 +273,31 @@ const UserCreationModal = ({
             setModalOpen(false)
           }
           return
+        } else {
+          let addedUser: any = newUser
+          addedUser.password = 'Welcome@100'
+          delete addedUser?.edit
+          addedUser.profile = userProfileImg
+          const res = await AxiosService.post(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/UF/postTenantUser`,
+            {
+              data: {
+                ...addedUser,
+                email : addedUser.email + emailDomain,
+                dateAdded: new Date().toISOString()
+              }
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${getCookie('token')}`
+              }
+            }
+          )
+           if (res.status === 201) {
+            setData(res.data)
+            toast('User Added Successfully', 'success')
+            setModalOpen(false)
+          }
         }
         return
       } catch (error) {
@@ -313,7 +354,7 @@ const UserCreationModal = ({
   return (
     <div className={`g-root flex flex-col items-center justify-center`}>
       <div className='flex w-full items-center justify-between py-2 pl-2'>
-        <Text contentAlign='left' variant='header-1'>
+        <Text contentAlign='left' variant={getFontSizeForHeader(branding.fontSize)}>
           {isEdit ? 'Edit User Info' : 'Add User'}
         </Text>
         <Button onClick={handleCloseModal} className='!w-fit rounded-md p-2'>
@@ -326,19 +367,18 @@ const UserCreationModal = ({
       <div className='flex w-full flex-col gap-5 px-4 py-4'>
         {userAdditionDetails &&
           userAdditionDetails
-            .toSpliced(7)
+            .toSpliced(8)
             .map(({ heading, subHeading, formData }, index) => (
               <div key={index} className='flex w-full '>
                 <div className='flex w-1/2 flex-col gap-0.5'>
                   <div>
-                    <Text contentAlign='left' variant='subheader-2'>
+                    <Text contentAlign='left' variant={getFontSizeForSubHeader(branding.fontSize)}>
                       {keyset(heading)}
                     </Text>
                   </div>
                   <div>
                     <Text
                       contentAlign='left'
-                      variant='body-1'
                       color='secondary'
                     >
                       {keyset(subHeading)}
@@ -391,11 +431,12 @@ const UserCreationModal = ({
                           placeholder={keyset(label)}
                           readOnly={readOnly}
                           className='h-12 w-full rounded p-2 text-base'
-                          onChange={handleInputChange}
+                          onChange={(val) =>handleInputChange(val)}
+                          name={name}
                           value={
                             readOnly && name == 'domain'
                               ? emailDomain
-                              : readOnly && name == 'email'
+                              : isEdit && readOnly && name == 'email'
                               ? newUser.email.split('@')[0]
                               : newUser[name]
                           }
@@ -470,6 +511,18 @@ const UserCreationModal = ({
                             }`}
                           ></div>
                         </div>
+                      )}
+                      {type == 'code' && (
+                        <TextInput
+                          type='text'
+                          placeholder={keyset(label)}
+                          className='h-12 w-full rounded p-2 text-base'
+                          onChange={val => handleInputChange(val)}
+                          name={name}
+                          value={newUser[name]}
+                          view='normal'
+                          pin='clear-clear'
+                        />
                       )}
                     </div>
                   ))}

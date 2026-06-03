@@ -1,39 +1,12 @@
+import UOmapperData from '@/context/dfdmapperContolnames.json'
+
+
 export function getRouteScreenDetails(key: string, artfactName: string): string {
   let assemblerKeys: any = [
   {
-    "screenName": "user home screen",
-    "screensName": "user_home_screen-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Dashboard_For_User:AFVK:v1"
-  },
-  {
-    "screenName": "manager home screen",
-    "screensName": "manager_home_screen-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Dashboard_For_Manager:AFVK:v1"
-  },
-  {
-    "screenName": "user daily expense",
-    "screensName": "user_daily_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Daily_Expense_User_Table:AFVK:v1"
-  },
-  {
-    "screenName": "user offsite expense",
-    "screensName": "user_offsite_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Offsite_Expense_User_Table:AFVK:v1"
-  },
-  {
-    "screenName": "manager daily expense",
-    "screensName": "manager_daily_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Daily_Expense_Manager_Table:AFVK:v1"
-  },
-  {
-    "screenName": "manager offsite expense",
-    "screensName": "manager_offsite_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Offsite_Expense_Manager_Table:AFVK:v1"
-  },
-  {
-    "screenName": "report",
-    "screensName": "report-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Report:AFVK:v1"
+    "screenName": "my transaction",
+    "screensName": "my_transaction-v1",
+    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1"
   }
 ]
 
@@ -50,11 +23,16 @@ export function getRouteScreenDetails(key: string, artfactName: string): string 
 
 export function getFilterProps(filterProps:any=[],mainData:any={}) {
   let result:any = [];  
-  filterProps.map((dfdData:any)=>{
-    dfdData.nodeBasedData.map((nodes:any)=>{
-      let filterObj=nodes?.object||{}
-      Object.keys(nodes?.object).map((keys)=>{
-        filterObj[keys]=mainData[filterObj[keys]] || ""
+  try{
+  filterProps?.map((dfdData:any)=>{
+    dfdData?.nodeBasedData?.map((nodes:any)=>{
+      let filterObj:any = {}
+      Object.keys(nodes?.object||{}).map((keys:any)=>{
+        const mapperEntry = nodes?.object[keys]
+        const mapperData = (UOmapperData as Record<string, any>)[mapperEntry]
+        if (!mapperData) return
+        const value = mainData[mapperData["source"]]
+        if (value !== undefined) filterObj[keys] = value
       })
       result.push({
       DFDkey:dfdData.key,
@@ -64,5 +42,8 @@ export function getFilterProps(filterProps:any=[],mainData:any={}) {
     }) 
   })
   return result;
+}catch(e){
+  console.log(e);
+}
 }
 

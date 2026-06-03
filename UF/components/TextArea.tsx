@@ -9,7 +9,7 @@ import {
   HeaderPosition,
   TooltipProps as TooltipPropsType
 } from '@/types/global'
-import { getFontSizeClass, getBorderRadiusClass } from '@/app/utils/branding'
+import { getBorderRadiusClass } from '@/app/utils/branding'
 import { CommonHeaderAndTooltip } from './CommonHeaderAndTooltip'
 type ContentAlign = 'left' | 'right' | 'center'
 interface TextAreaProps {
@@ -24,6 +24,7 @@ interface TextAreaProps {
   headerPosition?: HeaderPosition
   onChange?: (value: any) => void
   onBlur?: (value: any) => void
+  onFocus?: (value: any) => void
   className?: string
   fillContainer?: boolean
   contentAlign?: ContentAlign
@@ -41,6 +42,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
   headerPosition = 'top',
   onChange,
   onBlur,
+  onFocus,
   className = '',
   fillContainer = true,
   contentAlign = 'left'
@@ -103,7 +105,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
 
   const textAreaElement = (
     <div
-      className={`${getFillClasses()} ${getFontSizeClass(branding.fontSize)}`}
+      className={`${getFillClasses()} `}
     >
       <textarea
         value={value}
@@ -151,6 +153,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
             branding.selectionColor,
             0.2
           )}`
+          onFocus?.(e)
         }}
         onBlur={e => {
           e.currentTarget.style.borderColor = isDark ? '#4B5563' : '#D1D5DB'

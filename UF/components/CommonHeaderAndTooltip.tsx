@@ -4,7 +4,7 @@ import React from "react";
 import { useGlobal } from "@/context/GlobalContext";
 import { Tooltip } from "./Tooltip";
 import { HeaderPosition, TooltipProps as TooltipPropsType } from "@/types/global";
-import { getFontSizeClass, getBorderRadiusClass } from "@/app/utils/branding";
+import { getBorderRadiusClass } from "@/app/utils/branding";
 
 
 
@@ -16,6 +16,7 @@ interface CommonHeaderAndTooltip {
   headerPosition?: HeaderPosition;
   className?: string;
   children?: React.ReactNode;
+  required?: boolean;
 }
 
 export const CommonHeaderAndTooltip: React.FC<CommonHeaderAndTooltip> = ({
@@ -25,10 +26,10 @@ export const CommonHeaderAndTooltip: React.FC<CommonHeaderAndTooltip> = ({
   headerPosition = "top",
   fillContainer = true,
    className = "",
-   children,    
+   children,
+   required = false,
 }) => {
-  const { theme,direction, branding } = useGlobal();
-  const fontSizeClass = getFontSizeClass(branding.fontSize);
+  const { theme,direction } = useGlobal();
   const isDark = theme === "dark" || theme === "dark-hc";
   const tabsElement = (
     <div className={fillContainer ? "w-full h-full" : ""}>{children}</div>
@@ -36,9 +37,15 @@ export const CommonHeaderAndTooltip: React.FC<CommonHeaderAndTooltip> = ({
   const renderWithHeader = (element: React.ReactNode) => {
     if (!headerText) return element;
 
-    const headerClasses = `${fontSizeClass} font-semibold mb-2 ${
+    const headerClasses = ` font-semibold mb-2 ${
       isDark ? "text-gray-300" : "text-gray-700"
     }`;
+    const headerContent = (
+      <>
+        {headerText}
+        {required && <span className="ml-0.5 text-red-500">*</span>}
+      </>
+    );
 
      switch (headerPosition) {
       case 'top':
@@ -48,7 +55,7 @@ export const CommonHeaderAndTooltip: React.FC<CommonHeaderAndTooltip> = ({
               fillContainer ? 'h-full w-full' : ''
             } ${className}`}
           >
-            <div className={headerClasses}>{headerText}</div>
+            <div className={headerClasses}>{headerContent}</div>
             <div className={fillContainer ? 'min-h-0 flex-1' : ''}>
               {element}
             </div>
@@ -64,7 +71,7 @@ export const CommonHeaderAndTooltip: React.FC<CommonHeaderAndTooltip> = ({
             <div className={fillContainer ? 'min-h-0 flex-1' : ''}>
               {element}
             </div>
-            <div className={`${headerClasses} mb-0 mt-1`}>{headerText}</div>
+            <div className={`${headerClasses} mb-0 mt-1`}>{headerContent}</div>
           </div>
         )
       case 'left':
@@ -79,7 +86,7 @@ export const CommonHeaderAndTooltip: React.FC<CommonHeaderAndTooltip> = ({
                 direction === 'RTL' ? 'ml-2' : 'mr-2'
               }`}
             >
-              {headerText}
+              {headerContent}
             </div>
             <div className={fillContainer ? 'h-full min-w-0 flex-1' : ''}>
               {element}
@@ -101,7 +108,7 @@ export const CommonHeaderAndTooltip: React.FC<CommonHeaderAndTooltip> = ({
                 direction === 'RTL' ? 'mr-2' : 'ml-2'
               }`}
             >
-              {headerText}
+              {headerContent}
             </div>
           </div>
         )

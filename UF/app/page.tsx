@@ -3,7 +3,7 @@
 import LoginForm from './components/LoginForm';
 import { AxiosService } from './components/axiosService';
 import { deleteAllCookies, deleteCookie, getCookie } from './components/cookieMgment';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import decodeToken from './components/decodeToken';
 import { useInfoMsg } from './components/infoMsgHandler';
@@ -15,48 +15,20 @@ export default function HomePage() {
   const token :string | undefined = getCookie('token');
   const decodedToken : DecodedToken = decodeToken(token);
   const encryptionFlagApp: boolean = false;    
-  let landingScreen:string = 'CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Report:AFVK:v1';
+  let landingScreen:string = 'CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1';
   const toast : Function = useInfoMsg();
   let screenDetails : ScreenDetail[] = [
   {
-    "screenName": "user home screen",
-    "screensName": "user_home_screen-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Dashboard_For_User:AFVK:v1"
-  },
-  {
-    "screenName": "manager home screen",
-    "screensName": "manager_home_screen-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Dashboard_For_Manager:AFVK:v1"
-  },
-  {
-    "screenName": "user daily expense",
-    "screensName": "user_daily_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Daily_Expense_User_Table:AFVK:v1"
-  },
-  {
-    "screenName": "user offsite expense",
-    "screensName": "user_offsite_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Offsite_Expense_User_Table:AFVK:v1"
-  },
-  {
-    "screenName": "manager daily expense",
-    "screensName": "manager_daily_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Daily_Expense_Manager_Table:AFVK:v1"
-  },
-  {
-    "screenName": "manager offsite expense",
-    "screensName": "manager_offsite_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Offsite_Expense_Manager_Table:AFVK:v1"
-  },
-  {
-    "screenName": "report",
-    "screensName": "report-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:Report:AFVK:v1"
+    "screenName": "my transaction",
+    "screensName": "my_transaction-v1",
+    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1"
   }
 ]
+  const isSaasApp = process.env.NEXT_PUBLIC_IS_SAAS_APPLICATION;
+  const [appTenantList , setAppTenantList] = useState([]);
   const securityCheck = async () : Promise<void> => {
     try {
-      const encryptionDpd: string = "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:AG001:AFGK:A001:AFK:defaultDPD:AFVK:v1";
+      const encryptionDpd: string = "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:VGPH:AFK:VGPH_DPD:AFVK:v1";
       const encryptionMethod: string = "";
       let introspect:any;
       if(encryptionFlagApp){
@@ -112,6 +84,18 @@ export default function HomePage() {
     }
   }
 
+    const handleGetAppSubTenants = async () => {
+    const appTenants = await AxiosService.get('UF/app-tenant-app' , {
+      validateStatus: () => true
+    })
+    if(appTenants.status == 200){
+       setAppTenantList(appTenants.data)
+       return
+    }
+    setAppTenantList([])
+    return
+  }
+
   useEffect(() => {
     if(token)
     {
@@ -121,11 +105,14 @@ export default function HomePage() {
       toast(decodeURIComponent(getCookie('server_error')), 'danger')
       deleteCookie('server_error')
     }
+    if(isSaasApp){
+      handleGetAppSubTenants()
+    }
   }, [token])
 
   return (
     <>
-      <LoginForm logo=""   loginType="rightAligned"   image=""/>
+      <LoginForm logo="torus/9.1/CT005/resources/images/Blue Logo.png"   loginType="standard"   image="torus/9.1/CT005/resources/images/Login 1.png" appTenantList={appTenantList}/>
     </>
   )
 }

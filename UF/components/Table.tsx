@@ -3,17 +3,42 @@
 import React, { useState, useEffect } from "react";
 import { useGlobal } from "@/context/GlobalContext";
 import { Icon } from "./Icon";
-import { getFontSizeClass, getBorderRadiusClass } from"@/app/utils/branding";
+import { getBorderRadiusClass } from "@/app/utils/branding";
 import { BiSort } from "react-icons/bi";
 import { twMerge } from "tailwind-merge";
 import { useTheme } from "@/hooks/useTheme";
 import { Pagination } from "./Pagination";
+import i18n from "@/app/components/i18n";
+import { Tooltip } from "./Tooltip";
+import {
+  HeaderPosition,
+  TooltipProps as TooltipPropsType,
+} from "@/types/global";
 
 interface RenderRowActionsProps {
   item: any;
   index: number;
   nodeName:string
 }
+
+// Wrapper to support both sync and async renderRowActions
+const RowActionCell: React.FC<{
+  renderFn: (props: RenderRowActionsProps) => React.ReactNode | Promise<React.ReactNode>;
+  props: RenderRowActionsProps;
+}> = ({ renderFn, props }) => {
+  const [node, setNode] = useState<React.ReactNode>(null);
+
+  useEffect(() => {
+    const result = renderFn(props);
+    if (result instanceof Promise) {
+      result.then(setNode);
+    } else {
+      setNode(result);
+    }
+  }, [props.item, props.index, props.nodeName]);
+
+  return <>{node}</>;
+};
 
 interface ColumnType {
   id: string;
@@ -26,6 +51,7 @@ interface ColumnType {
   colourIndicator?: unknown[];
   type?: string;
   controlType?: string;
+  align?: 'left' | 'center' | 'right';
 }
 
 interface TableProps {
@@ -38,9 +64,9 @@ interface TableProps {
   emptyMessage?:string | React.ReactNode;
   data?: Record<string, string | number | boolean | null>[];
   columns?: ColumnType[];
-  onRowClick?: (row: any) => void;
+  onRowClick?: (row: any, index: any) => void;
   className?: string;
-  renderRowActions?: (props: RenderRowActionsProps) => React.ReactNode;
+  renderRowActions?: (props: RenderRowActionsProps) => React.ReactNode | Promise<React.ReactNode>;
   selectedIds?: string[];
   onSelectionChange?: (selectedIds: string[]) => void;
   selectionMode?: 'Single' | 'Multi';
@@ -58,6 +84,12 @@ interface TableProps {
     onUpdate: (data: { page: number; pageSize: number }) => void;
   };
   showPagination?: boolean;
+  needTooltip?: boolean;
+  tooltipProps?: TooltipPropsType;
+  headerText?: string;
+  headerPosition?: HeaderPosition;
+  fillContainer?: boolean;
+  headerButtonsRenders?:React.ReactNode
 }
         
 export const Table: React.FC<TableProps> = ({
@@ -84,13 +116,22 @@ export const Table: React.FC<TableProps> = ({
   loading = false,
   pagination,
   showPagination = false,
+  needTooltip = false,
+  tooltipProps,
+  headerText,
+  headerPosition = 'top',
+  fillContainer = true,
+  headerButtonsRenders=<></>
 }) => {
-  const { theme, branding } = useGlobal();
+  const { theme, branding,direction,displayFormat } = useGlobal();
   const { borderColor } = useTheme()
   const [searchTerm, setSearchTerm] = useState("");
+  const [clickedRowId, setClickedRowId] = useState<string | null>(null);
+  const [hoveredRowId, setHoveredRowId] = useState<string | null>(null);
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [showColumnModal, setShowColumnModal] = useState(false);
+  const keyset:any=i18n.keyset("language"); 
 
   // Normalize columns to handle both string[] and object[] formats
   let normalizedColumns = columns.map((col: ColumnType) =>
@@ -230,9 +271,34 @@ const sortedData = sortColumn
     const b = parseInt(hex?.slice(5, 7), 16);
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   };
+    
+  const formatDateDisplay = (dateStr: string): string => {
+    if (!dateStr) return "";
+    const parts = dateStr.split("-");
+    if (parts.length !== 3) return dateStr;
+    const [year, month, day] = parts;
+    switch (displayFormat?.datePickerProperty?.dateDisplayFormat||"DD-MM-YYYY") {
+      case "DD-MM-YYYY": return `${day}-${month}-${year}`;
+      case "d,M,yyyy":      return `${parseInt(day)},${parseInt(month)},${year}`;
+      default:           return `${year}-${month}-${day}`;
+    }
+  };
+  const convertToformat=(data:any)=>{
+    const isISODate = typeof data === 'string' && /^\d{4}-\d{2}-\d{2}(T|$)/.test(data);
+    if(isISODate)
+      return formatDateDisplay(data.split("T")[0])
+
+    return data
+  }
+
+  const getAlignClass = (align?: 'left' | 'center' | 'right') => {
+    if (align === 'center') return 'text-center';
+    if (align === 'right') return 'text-right';
+    return 'text-left';
+  };
 
   const tableElement = (
-    <div className={`w-full h-full flex flex-col ${edgePadding ? "" : ""} ${className}`}>
+     <div className={`w-full h-full flex flex-col ${edgePadding ? "" : ""} ${className}`}>
       {/* Column Visibility Modal */}
       {showColumnModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -249,7 +315,7 @@ const sortedData = sortColumn
           >
             <div className="flex justify-between items-center mb-4">
               <h3 className={`text-lg font-semibold ${isDark ? "text-gray-200" : "text-gray-700"}`}>
-                Select Columns
+                {`${keyset("SelectColumn")}`}
               </h3>
               <button
                 onClick={() => setShowColumnModal(false)}
@@ -277,7 +343,7 @@ const sortedData = sortColumn
                   e.currentTarget.style.backgroundColor = isDark ? '#374151' : '#E5E7EB';
                 }}
               >
-                Select All
+                {`${keyset("Select All")}`}
               </button>
               <button
                 onClick={handleDeselectAllColumns}
@@ -296,7 +362,7 @@ const sortedData = sortColumn
                   e.currentTarget.style.backgroundColor = isDark ? '#374151' : '#E5E7EB';
                 }}
               >
-                Deselect All
+                {`${keyset("Deselect All")}`}
               </button>
             </div>
 
@@ -322,7 +388,7 @@ const sortedData = sortColumn
                       accentColor: branding.brandColor,
                     }}
                   />
-                  <span className={`${getFontSizeClass(branding.fontSize)} ${isDark ? "text-gray-200" : "text-gray-700"}`}>
+                  <span className={` ${isDark ? "text-gray-200" : "text-gray-700"}`}>
                     {column.name}
                   </span>
                 </label>
@@ -335,7 +401,6 @@ const sortedData = sortColumn
                 className={`
                   px-4 py-2
                   ${getBorderRadiusClass(branding.borderRadius)}
-                  ${getFontSizeClass(branding.fontSize)}
                   font-medium
                   transition-all duration-200
                   text-white
@@ -350,15 +415,15 @@ const sortedData = sortColumn
                   e.currentTarget.style.backgroundColor = branding.brandColor;
                 }}
               >
-                Apply
+                {`${keyset("Apply")}`}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      <div className={twMerge("border rounded-lg flex flex-col overflow-hidden max-h-full", borderColor)}>
-        <div className="overflow-auto min-h-0">
+      <div className={twMerge("border rounded-lg flex flex-col overflow-hidden flex-1 min-h-0", borderColor)}>
+        <div className="overflow-auto flex-1 min-h-0">
           <table
             className={`
               w-full
@@ -395,9 +460,9 @@ const sortedData = sortColumn
               )}
                 {(visibleColumns.find((cols:any)=>(cols?.type=='__ActionDetails__')) && tableActions==true)&&(<th
                   className={`
-                    px-4 py-3
+                    px-2 py-3
+                    w-12
                     text-left
-                    ${getFontSizeClass(branding.fontSize)}
                     font-semibold
                     ${tableSorting ? "cursor-pointer hover:bg-opacity-80" : ""}
                     ${isDark ? "text-gray-200" : "text-gray-700"}
@@ -415,8 +480,7 @@ const sortedData = sortColumn
                   onClick={() => handleSort(column.id)}
                   className={`
                     px-4 py-3
-                    text-left
-                    ${getFontSizeClass(branding.fontSize)}
+                    ${getAlignClass(column.align)}
                     font-semibold
                     ${tableSorting ? "cursor-pointer hover:bg-opacity-80" : ""}
                     ${isDark ? "text-gray-200" : "text-gray-700"}
@@ -441,8 +505,7 @@ const sortedData = sortColumn
                   onClick={() => handleSort(column.id)}
                   className={`
                     px-4 py-3
-                    text-left
-                    ${getFontSizeClass(branding.fontSize)}
+                    ${getAlignClass(column.align)}
                     font-semibold
                     ${tableSorting ? "cursor-pointer hover:bg-opacity-80" : ""}
                     ${isDark ? "text-gray-200" : "text-gray-700"}
@@ -495,7 +558,7 @@ const sortedData = sortColumn
                       <div className="animate-spin flex items-center justify-center">
                         <Icon data="FaSpinner" size={32} />
                       </div>
-                      <span className={`${getFontSizeClass(branding.fontSize)} font-medium`}>
+                      <span className=" font-medium">
                         Loading...
                       </span>
                     </div>
@@ -508,7 +571,7 @@ const sortedData = sortColumn
                     className="px-4 py-8 text-center text-gray-500 dark:text-gray-400"
                   >
                     <div className="flex flex-col items-center justify-center space-y-2">
-                      <span className={`${getFontSizeClass(branding.fontSize)} font-medium`}>
+                      <span className="font-medium">
                         {emptyMessage}
                       </span>
                     </div>
@@ -516,14 +579,14 @@ const sortedData = sortColumn
                 </tr>
               ) : (displayData.map((row, index) => {
               const rowId = getRowIdHelper(row, index);
-              const isSelected = selectedIds.includes(rowId);
+              const isSelected = selectedIds.includes(rowId) || clickedRowId === rowId;
 
               return (
                 <tr
                   key={rowId}
                   onClick={() => {
-                    if(isRowclick){
-                      onRowClick?.(row);
+                    if(isRowclick){                      
+                      onRowClick?.(row,rowId);
                       handleRowSelection(row, index);
                     }
                   }}
@@ -535,18 +598,17 @@ const sortedData = sortColumn
                     ${isRowclick ? "cursor-pointer" : ""}
                   `}
                   style={{
-                    backgroundColor: isSelected ? hexToRgba(branding.selectionColor, 0.15) : undefined,
+                    backgroundColor: isSelected
+                      ? branding.selectionColor : 'transparent',
                   }}
                   onMouseEnter={(e) => {
-                    if (!isSelected) {
-                      e.currentTarget.style.backgroundColor = hexToRgba(branding.hoverColor, 0.1);
-                    }
+                    e.currentTarget.style.backgroundColor = branding.hoverColor;
                   }}
                   onMouseLeave={(e) => {
-                    if (!isSelected) {
+                    if (isSelected){
+                      e.currentTarget.style.backgroundColor = branding.selectionColor;
+                    }else{
                       e.currentTarget.style.backgroundColor = 'transparent';
-                    } else {
-                      e.currentTarget.style.backgroundColor = hexToRgba(branding.selectionColor, 0.15);
                     }
                   }}
                 >
@@ -568,10 +630,10 @@ const sortedData = sortColumn
                     (visibleColumns.find((cols:any)=>(cols?.type=='__ActionDetails__'))&&tableActions==true && renderRowActions)&&
                     (
                       <td
-                      className="w-[10%]"
+                      className="w-12"
                       onClick={(e) => e.stopPropagation()}
                       >
-                        {renderRowActions({ item: row, index,nodeName:`${"ss"}`})}
+                        <RowActionCell renderFn={renderRowActions} props={{ item: row, index, nodeName: "ss" }} />
                       </td>
                     )
                   }
@@ -586,7 +648,7 @@ const sortedData = sortColumn
                           key={column.id}
                           onClick={(e) => e.stopPropagation()}
                           >
-                          {renderRowActions({ item: row, index,nodeName:`${column?.controlType+column?.id}`})}
+                          <RowActionCell renderFn={renderRowActions} props={{ item: row, index, nodeName: `${column?.controlType + column?.id}` }} />
                           </td>
                           )
                         }
@@ -596,14 +658,14 @@ const sortedData = sortColumn
                             key={column.id}
                             className={`
                               px-4 py-3
-                              ${getFontSizeClass(branding.fontSize)}
+                              ${getAlignClass(column.align)}
                               ${isDark ? "text-gray-300" : "text-gray-700"}
                               ${isHyperLink ? "text-blue-500 underline" : ""}
                               ${wordWrap ? "break-words" : "whitespace-nowrap"}
                               ${column?.className}
                             `}
                           >
-                            {row[column.id]}
+                            {convertToformat(row[column.id])}
                           </td>
                           )
                         }
@@ -611,15 +673,12 @@ const sortedData = sortColumn
                 </tr>
               );
             }))}
-
-
           </tbody>
         </table>
         </div>
-
         {/* Pagination */}
         {showPagination && pagination && pagination.total > 0 && (
-          <div className={`border-t ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200 bg-white"} px-4 py-4`}>
+          <div className={`flex-shrink-0 border-t ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200 bg-white"} px-4 py-3`}>
             <Pagination
               page={pagination.page}
               pageSize={pagination.pageSize}
@@ -632,9 +691,88 @@ const sortedData = sortColumn
           </div>
         )}
       </div>
-
     </div>
   );
-// return <></>
-  return tableElement;
+  const headerClasses = `font-semibold mb-2 ${
+    isDark ? "text-gray-300" : "text-gray-700"
+  }`;
+
+  const renderWithHeader = (element: React.ReactNode) => {
+    if (!headerText) return (
+          <div className={`flex flex-col ${fillContainer ? 'h-full w-full min-h-0' : ''} ${className}`}>
+            <div className={`${headerClasses} flex items-center gap-2 flex-shrink-0`}>
+              <div className="flex-1 min-w-0 overflow-x-auto">{headerButtonsRenders}</div>
+            </div>
+            <div className={fillContainer ? 'min-h-0 flex-1' : ''}>{element}</div>
+          </div>
+          );
+
+    switch (headerPosition) {
+      case 'top':
+        return (
+          <div className={`flex flex-col ${fillContainer ? 'h-full w-full min-h-0' : ''} ${className}`}>
+            <div className={`${headerClasses} flex items-center gap-2 flex-shrink-0`}>
+              <div className="flex-shrink-0 pl-2">{headerText}</div>
+              <div className="flex-1 min-w-0 overflow-x-auto">{headerButtonsRenders}</div>
+            </div>
+            <div className={fillContainer ? 'min-h-0 flex-1' : ''}>{element}</div>
+          </div>
+        );
+      case 'bottom':
+        return (
+          <div className={`flex flex-col ${fillContainer ? 'h-full w-full' : ''} ${className}`}>
+            <div className={fillContainer ? 'min-h-0 flex-1' : ''}>
+              <div className="flex-1 min-w-0 overflow-x-auto">{headerButtonsRenders}</div>
+              {element}
+              </div>
+            <div className={`${headerClasses} mb-0 mt-1`}>{headerText}</div>
+          </div>
+        );
+      case 'left':
+        return (
+          <div className={`flex items-center ${fillContainer ? 'h-full w-full' : ''} ${className}`}>
+            <div className={`${headerClasses} mb-0 flex-shrink-0 ${direction === 'RTL' ? 'ml-2' : 'mr-2'}`}>
+              {headerText}
+            </div>
+            <div className={fillContainer ? 'h-full min-w-0 flex-1' : ''}>
+              <div className="flex-1 min-w-0 overflow-x-auto">{headerButtonsRenders}</div>
+              {element}
+            </div>
+          </div>
+        );
+      case 'right':
+        return (
+          <div className={`flex items-center ${fillContainer ? 'h-full w-full' : ''} ${className}`}>
+            <div className={fillContainer ? 'h-full min-w-0 flex-1' : ''}>
+              <div className="flex-1 min-w-0 overflow-x-auto">{headerButtonsRenders}</div>
+              {element}
+            </div>
+            <div className={`${headerClasses} mb-0 flex-shrink-0 ${direction === 'RTL' ? 'mr-2' : 'ml-2'}`}>
+              {headerText}
+            </div>
+          </div>
+        );
+      default:
+        return (
+          <div>
+            <div className="flex-1 min-w-0 overflow-x-auto">{headerButtonsRenders}</div>
+            {element}
+          </div>
+          );
+    }
+  };
+
+  const wrappedElement = renderWithHeader(
+    <div className={fillContainer ? "w-full h-full min-h-0" : ""}>{tableElement}</div>
+  );
+
+  if (needTooltip && tooltipProps) {
+    return (
+      <Tooltip title={tooltipProps.title} placement={tooltipProps.placement} triggerClassName={fillContainer ? "h-full w-full" : ""}>
+        <div className={`${fillContainer ? 'h-full w-full' : ''} ${className}`}>{wrappedElement}</div>
+      </Tooltip>
+    );
+  }
+
+  return <div className={`${fillContainer ? 'h-full w-full min-h-0' : ''} ${className}`}>{wrappedElement}</div>;
 };

@@ -38,7 +38,7 @@ import { Modal } from '@/components/Modal'
 import { Icon } from '@/components/Icon'
 import { HeaderPosition, TooltipProps as TooltipPropsType } from "@/types/global"
 import { useGlobal } from '@/context/GlobalContext'
-import { getBorderRadiusClass, getFontSizeClass } from '@/app/utils/branding'
+import { getBorderRadiusClass } from '@/app/utils/branding'
 import { CommonHeaderAndTooltip } from './CommonHeaderAndTooltip'
 
 type ContentAlign = "left" | "center" | "right";
@@ -89,7 +89,7 @@ const DocumentUploader = ({
   fillContainer = true,
   contentAlign = "center"
 }: any) => {
-  const [files, setFiles] = React.useState<Drag_file>(value)
+  const [files, setFiles] = React.useState<Drag_file>(Array.isArray(value) ? value : [])
   const [open, setOpen] = React.useState(false)
   const [previewModel, setPreviewModel] = React.useState(false)
   const [currentFile, setCurrentFile] = React.useState<FilesType | null>(null);
@@ -112,22 +112,32 @@ const DocumentUploader = ({
     }
   }
 
+  function isValidUrl(str: string): boolean {
+    try {
+      const url = new URL(str)
+      return url.protocol === 'http:' || url.protocol === 'https:'
+    } catch {
+      return false
+    }
+  }
+
   React.useEffect(() => {
-
-      if (Array.isArray(value) && value.length > 0) {
-        setFiles(value);
-      } else if (value === "" || value === null || value === undefined) {
-        setFiles([]);
-      } else if (typeof value === "string") {
-        convertUrlToFile(value).then((result) => {
+    if (Array.isArray(value) && value.length > 0) {
+      setFiles(value)
+    } else if (value === '' || value === null || value === undefined) {
+      setFiles([])
+    } else if (typeof value === 'string') {
+      // Only fetch if it's a valid URL, otherwise it's likely a file ID from backend
+      if (isValidUrl(value)) {
+        convertUrlToFile(value).then(result => {
           if (result) {
-            setFiles([result]);
+            setFiles([result])
           }
-        });
+        })
       }
-   
-  }, [value]);
-
+      // If it's a file ID (not a URL), don't try to fetch - the file was already uploaded
+    }
+  }, [value])
 
   const handleDrop = (acceptedFiles: File[]) => {
 
@@ -159,7 +169,11 @@ const DocumentUploader = ({
           writable: true,
           enumerable: true
         })
-        
+        Object.defineProperty(renamedFile, 'returnType', {
+          value: singleSelect ? 'string' : 'string[]',
+          writable: true,
+          enumerable: true
+        })
         Object.defineProperty(renamedFile, 'enableEncryption', {
           value: enableEncryption,
           writable: true,
@@ -221,7 +235,7 @@ const removeFile = async (
     multiple: singleSelect ? false : true,
     disabled,
     onDrop: handleDrop,
-    noClick: draggable,
+    noClick: true,
     noDrag: !draggable,
     ...dropzoneOptions
   })
@@ -301,10 +315,10 @@ const removeFile = async (
           </div>
 
           {/* File List */}
-          {files.length > 0 && (
+          {files?.length > 0 && (
             <div className='flex flex-col gap-2 max-h-[200px] overflow-y-auto scrollbar-thin'>
               <span className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-                Uploaded Files ({files.length})
+                Uploaded Files ({files?.length})
               </span>
               {files.map((file: any, index) => (
                 <div
@@ -367,24 +381,6 @@ const removeFile = async (
     )
   }
 
-  const getIconSize = () => {
-    if (fillContainer) {
-      // When fillContainer is true, scale icon with branding fontSize
-      const baseFontSize = getFontSizeClass(branding.fontSize);
-      switch (baseFontSize) {
-        case "text-sm":
-          return 22;
-        case "text-base":
-          return 30;
-        case "text-lg":
-          return 38;
-        case "text-xl":
-          return 46;
-      }
-    }
-  };
-
-  const fontSizeClass = getFontSizeClass(branding.fontSize);
 
   const uploaderElement = (
     <div className={`flex 
@@ -401,11 +397,12 @@ const removeFile = async (
               disabled={disabled}
               fillContainer={fillContainer}
               contentAlign={`${getContentAlignClasses()}`}
-              className={` w-full ${fontSizeClass} ${className}`}
+              className={` w-full  ${className}`}
               startContent={
-                <span className='flex  items-center justify-center'>
-                  <Icon className='flex items-center justify-center bg-transparent px-[0.15vw] py-[0.25vh]' data='FaCloudUploadAlt'
-                  size={getIconSize()} />
+                <span className='flex items-center justify-center'>
+                  <span style={{ width: "1em", height: "1em", fontSize: "var(--font-size-base)", display: "inline-flex" }}>
+                    <Icon data='FaCloudUploadAlt' fillContainer />
+                  </span>
                 </span>
               }
               onClick={e => {
@@ -634,11 +631,14 @@ const Viewer = ({ file, url, closeFn }: any) => {
             ) && (
               <div className='flex h-[53vh] w-full items-center justify-center'>
                 <DocViewer
-                  url={url}
+                  files={[{
+                    url: url,
+                    fileName: file.name,
+                    fileType: file.type
+                  }]}
                   style={{
                     width: '100%',
                     height: '100%',
-                    objectFit: 'cover'
                   }}
                 />
               </div>

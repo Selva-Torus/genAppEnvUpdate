@@ -8,8 +8,8 @@ import { RedisService } from 'src/redisService';
 import { CommonService } from 'src/common.Service';
 import { RuleService } from 'src/ruleService';
 import { CodeService } from 'src/codeService';
-import { MongoService } from 'src/mongoService';
 import { ConfigService } from '@nestjs/config';
+import { EnvData } from 'src/envData/envData.service';
 
 @Module({
   imports: [JwtModule.register({
@@ -17,7 +17,7 @@ import { ConfigService } from '@nestjs/config';
     signOptions: { expiresIn: '1d' },
   }),],
   controllers: [UfController],
-  providers: [UfService, JwtModule,JwtServices,RedisService,CommonService,RuleService,CodeService,ConfigService,MongoService],
+  providers: [UfService, JwtModule,JwtServices,RedisService,CommonService,RuleService,CodeService,ConfigService,EnvData,],
   exports: [UfService]
 })
 export class UfModule {}

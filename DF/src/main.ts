@@ -1,42 +1,33 @@
 
 /* {
-  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT003:AFGK:AG001:AFK:A001:AFVK:v1:bldc",
-  "deploymentArtifactKey": "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:AG001:AFGK:A001:AFK:defaultDPD:AFVK:v1",
-  "appGroupDesc": "appgroup",
-  "logType": "mongodb",
-  "appDesc": "Reimfast",
+  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT005:AFGK:GSS:AFK:VGPH:AFVK:v1:bldc",
+  "deploymentArtifactKey": "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:VGPH:AFK:VGPH_DPD:AFVK:v1",
+  "appGroupDesc": "GSS",
+  "logType": "dfs",
+  "appDesc": "VGPH",
+  "appLogo": "torus/9.1/CT005/resources/images/White global payment hub.png",
   "isOld": true,
-  "clientCode": "CT007",
+  "clientCode": "CT005",
   "loginDetails": {
-    "firstName": "Vicky",
-    "lastName": "G",
-    "loginId": "Vicky",
-    "email": "ganapathyg@torus.tech",
-    "mobile": "",
+    "loginId": "guru",
+    "firstName": "Guru",
+    "lastName": "Krishnan",
+    "email": "cgkrishnan@gsstvl.com",
+    "mobile": "8190002700",
+    "2FAFlag": "N",
+    "scope": "client_admin",
     "status": "active",
     "accessProfile": [
-      "Developer"
+      "admin"
     ],
     "accessExpires": "",
-    "dateAdded": "2026-02-04T06:52:59.543Z",
-    "profile": "",
-    "userUniqueId": "b47321de-a615-4d79-83f1-a5abfcaba65d",
+    "dateAdded": "2026-01-21T06:18:59.283Z",
+    "isRestricted": false,
+    "userUniqueId": "60c8940f-8aa1-485d-9b53-dc20e43cc584",
     "touring": {
       "isneedTouring": false,
       "touringData": {
-        "/torus": {
-          "stepIndex": 0,
-          "isSkipped": false,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/company-profile": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/account-profile": {
+        "/control-center/storage-configuration": {
           "stepIndex": 0,
           "isSkipped": true,
           "completed": false,
@@ -53,20 +44,110 @@
           "isSkipped": true,
           "completed": false,
           "notVisited": []
-        },
-        "/logic-center": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
         }
       }
     },
-    "users": "VickyVicky G",
-    "noOfProductsService": 0,
+    "lastActive": "2026-06-03T04:25:03.772Z",
+    "client": "CT005",
+    "users": "guruGuru Krishnan",
+    "profile": "",
     "edit": "",
-    "lastActive": "2026-02-09T11:07:41.203Z",
-    "client": "CT007"
+    "noOfProductsService": 0
+  },
+  "setupData": {
+    "appInfo": {
+      "name": "VGPH",
+      "code": "VGPH",
+      "deploymentArtifactKey": "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:VGPH:AFK:VGPH_DPD:AFVK:v1",
+      "encryption": {
+        "type": ""
+      },
+      "applicationUniqueId": "ae093d5d-f44a-444b-afab-9476f31e7dca",
+      "lastBuildVersion": "v1",
+      "lastBuildOn": "2026-05-06T13:41:41.101Z",
+      "accessUrl": "https://tgadev2.toruslowcode.com/ct005/gss/vgph/v1",
+      "logo": "torus/9.1/CT005/resources/images/Blue Logo.png",
+      "appLogo": "torus/9.1/CT005/resources/images/White global payment hub.png",
+      "appGrpName": "GSS",
+      "appGrpCode": "GSS",
+      "fusionAuthAppClientSecret": "AKE3Mkrdhezw9vln9mTV-Wnb8WVEivZ3BY0KTxqtmbc"
+    },
+    "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT005:AFK:PROFILE:AFVK:v1:appearance",
+    "selectedPresetKey": "default",
+    "appBackgroundImage": "torus/9.1/CT005/resources/images/Home.png",
+    "direction": "LTR",
+    "brandColor": "#0737c9",
+    "selectionColor": "#579eff",
+    "hoverColor": "#d5eeff",
+    "borderRadius": "m",
+    "sidebarStyle": "",
+    "navigationStyles": "horizontal",
+    "theme": "light",
+    "layoutMode": "detached",
+    "mobileAppearance": {
+      "language": "English",
+      "direction": "LTR",
+      "theme": "light",
+      "brandColors": {
+        "primary": "#0025dd",
+        "secondary": "#000e51",
+        "tertiary": "#000000"
+      },
+      "accentColors": {
+        "accentOne": "#f4f5ff",
+        "accentTwo": "#ffffff"
+      },
+      "utilityColors": {
+        "lightMode": {
+          "primaryText": "#14181b",
+          "secondaryText": "#57636c",
+          "primaryBackground": "#f1f4f8",
+          "secondaryBackground": "#ffffff"
+        },
+        "darkMode": {
+          "primaryText": "#ffffff",
+          "secondaryText": "#95a1ac",
+          "primaryBackground": "#1d2428",
+          "secondaryBackground": "#14181b"
+        }
+      },
+      "fontSize": {
+        "displayLarge": "64",
+        "displayMedium": "44",
+        "displaySmall": "36",
+        "headlineLarge": "32",
+        "headlineMedium": "28",
+        "headlineSmall": "24",
+        "titleLarge": "20",
+        "titleMedium": "18",
+        "titleSmall": "16",
+        "labelLarge": "16",
+        "labelMedium": "14",
+        "labelSmall": "12",
+        "bodyLarge": "16",
+        "bodyMedium": "14",
+        "bodySmall": "12"
+      },
+      "fontFamily": "Roboto",
+      "navigationStyle": "Bottom Navigation",
+      "drawerStyle": ""
+    },
+    "language": "English",
+    "fontFamily": [
+      {
+        "label": "Inter",
+        "fontUrl": "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      }
+    ],
+    "text-body-font": "",
+    "text-header-font": "",
+    "text-display-font": "",
+    "name": "default",
+    "fontSize": {
+      "minPx": "6",
+      "preferredVw": "0.85",
+      "maxPx": "12"
+    }
   }
 } */
 import { NestFactory } from '@nestjs/core';
@@ -81,8 +162,9 @@ import * as fs from 'fs';
 import DecryptPayloadMiddleware from './decryptPayloadMiddleware';
 import multipart from '@fastify/multipart';
 import { BigIntInterceptor } from './bigint.interceptor';
-;
-import { EnvData } from './envData/EnvData.service';
+import { EnvData } from './envData/envData.service';
+//import { envData as mongoClientEnvData } from './mongoClient';
+import { decrypt } from './decrypt';
 import { Logger } from '@nestjs/common';
 const Redis = require('ioredis');
 
@@ -98,16 +180,18 @@ async function bootstrap() {
 
   let configData = null;
   try {
-    const redisResult = await redis.call('JSON.GET', "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:AG001:AFGK:A001:AFK:defaultDPD:AFVK:v1:NDS");
+    const redisResult = await redis.call('JSON.GET', "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:VGPH:AFK:VGPH_DPD:AFVK:v1:NDP");
     if (redisResult) {
-      const parsed = typeof redisResult === 'string' ? JSON.parse(redisResult) : redisResult;
-      const source = Array.isArray(parsed) ? parsed[0] : parsed;
-      configData = source?.data?.nodeProperty?.data;
+      const parsed = JSON.parse(redisResult);
+      const rootKey = Object.keys(parsed)[0];
+      const encryptedPayload = parsed[rootKey];
+      const decryptedData = decrypt<{ data: any }>(encryptedPayload);
+      configData = decryptedData.data;
 
       if (configData) {
         logger.log('✅ Config fetched from Redis');
       } else {
-        logger.warn('⚠️ Config structure Redis - No DPD data found');
+        throw new Error('Config structure Redis - No DPD data found');
       }
     } else {
       logger.warn('⚠️ No config found in Redis for key');
@@ -116,23 +200,33 @@ async function bootstrap() {
     logger.error('Error loading config from Redis:', error);
   }
 
+   //if (configData) {
+   // mongoClientEnvData.setConfig(configData);
+ // }
+
   const fastifyAdapter = new FastifyAdapter({
     bodyLimit: 500 * 1024 * 1024, // 500MB limit
     logger: true,
   });
-
+  if (configData) {
+    EnvData.preloadConfig(configData);
+    logger.log('✅ Config preloaded into EnvData before bootstrap');
+  }
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     fastifyAdapter,
   );
 
   const envData = app.get(EnvData);
-  if (configData) {
-    envData.setConfig(configData);
-    console.log('✅ Config loaded into EndDetails at bootstrap');
-  } else {
-    console.error('❌ No config data to load into EndDetails');
+
+  if (!configData) {
+    console.error('❌EndDetails Not Initialized');
+    throw new Error('DPD config data is required for application startup');
   }
+
+  envData.setConfig(configData);
+  console.log('✅ Config loaded into EndDetails');
+
     // Global interceptor for BigInt serialization
   app.useGlobalInterceptors(new BigIntInterceptor());
   //app.use(
@@ -169,11 +263,12 @@ async function bootstrap() {
     .setVersion('0.1')
     .addTag('ERD API')
     .addTag('Torus API')
+    .addTag('Scheduler API')
     .addBearerAuth(
     { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 
     'JWT-auth',
     )
-    .addServer('https://tgadev.toruslowcode.com/ct003/ag001/a001/v1/api','Production Server')
+    .addServer('https://tgadev2.toruslowcode.com/ct005/gss/vgph/v1/api','Production Server')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   fs.writeFileSync('./swagger.json', JSON.stringify(document, null, 2));

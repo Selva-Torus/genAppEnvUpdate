@@ -5,26 +5,65 @@ const Redis = require('ioredis');
 import 'dotenv/config';
 import { Db, MongoClient } from 'mongodb';
 const _ = require("lodash")
-import { connectToMongo, connectToRedis, getDb, getRedis } from './mongoClient';
+import { connectToMongo, connectToRedis, getDb, getRedis,connectPG } from './mongoClient';
 import { queueMongoOperation } from './mongoQueue-dynamic';
 
 let db: Db;
 let redis
+let pgPool: any; 
 
-  connectToMongo().then(async () => { 
-    db = await getDb();
-    console.log('Database initialized'); 
-  }).catch((error) => {
-    console.error('Error connecting to MongoDB:', error);
-  }); 
+  //connectToMongo().then(async () => { 
+   // db = await getDb();
+   // console.log('Database initialized'); 
+  //}).catch((error) => {
+    //console.error('Error connecting to MongoDB:', error);
+  //}); 
 
-   connectToRedis().then(() => { 
-    redis = getRedis();
-    console.log('Redis initialized'); 
-  }).catch((error) => {
-    console.error('Error connecting to Redis:', error);
-  });
+  // connectToRedis().then(() => { 
+  //  redis = getRedis();
+   // console.log('Redis initialized'); 
+  //}).catch((error) => {
+  //  console.error('Error connecting to Redis:', error);
+  //});
 
+  if (!redis) {
+    redis = new Redis({
+      host: process.env.HOST,
+      port: parseInt(process.env.PORT),      
+    }).on('error', (err) => {
+      console.log('Redis Client Error', err);
+      throw err;
+    });
+  }
+
+  connectPG = (): any => {
+  try {
+    if (pgPool) {
+      return pgPool;
+    }
+    if (!process.env.PG_URL) throw 'PG DATABASE_URL not found';
+
+    const { Pool } = require('pg');
+    pgPool = new Pool({
+      connectionString: process.env.PG_URL,
+      application_name: 'tp_redis_service',
+      max: 25,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 10000,
+    });
+    
+    pgPool.on('error', (err: any) => {
+      console.error('Unexpected error on idle PG client', err);
+    });
+
+    console.log('PG pool created');
+    return pgPool;
+  } catch (error) {
+    throw error;
+  }
+}
+
+  pgPool = connectPG();
 
 @Injectable()
 export class RedisService {
@@ -44,7 +83,8 @@ export class RedisService {
    async getJsonData(key: string, collectionName: string) {
     try {
       let returnValue: any;
-      if(collectionName){
+      
+      if(key && collectionName){
         const parts = key.split(":");
         const requiredMarkers = ["CK", "FNGK", "FNK", "CATK", "AFGK", "AFK", "AFVK"];
         requiredMarkers.forEach(marker => {
@@ -53,40 +93,15 @@ export class RedisService {
             throw new Error(`Invalid Redis key`);
           }
         });
-
-      
-        // Use CACHE_MANAGER to get cached data
-        // let cachedResult = await this.cacheManager.get<string>(key);
-       
-        // if (cachedResult) {
-        //   returnValue = cachedResult;
-        // } else {         
-          let redisResult = await redis.call('JSON.GET', key);         
-          if (!redisResult) {
-          //   await this.cacheManager.set(key, redisResult);
-          //   returnValue = redisResult;
-          // }else{
-            // Queue MongoDB operation to prevent connection exhaustion
-            var mongoResult:any = await queueMongoOperation(
-              () => this.getDocument(collectionName, key),
-              `getDocument:${key}`
-            );
-  
-            if(mongoResult?.length>0 && mongoResult[0]?.value){
-              const jsonValue = JSON.stringify(mongoResult[0]?.value);
-              // Use CACHE_MANAGER to set cached data
-              // await this.cacheManager.set(key, jsonValue);
-  
-              returnValue = jsonValue;
-            }else{
-              returnValue = null
-            }
-          // }
-          }else{
-            return redisResult
-          }
+        let redisResult = await redis.call('JSON.GET', key);    
+        if (redisResult) {
+          returnValue = redisResult;
+        }else{
+          returnValue = await this.getpgData(key)
+        }
+        
       }else{
-        throw 'client not found'
+        throw 'key/client not found'
       }
       return returnValue;
     } catch (error) {
@@ -130,23 +145,7 @@ export class RedisService {
           let redisResult = await redis.call('JSON.GET', key, path);
           if (redisResult) {
             returnValue = redisResult;
-          } else {
-            // Queue MongoDB operation
-            let mongoResult = await queueMongoOperation(
-              () => this.getDocument(collectionName, key, path),
-              `getDocumentWithPath:${key}`
-            );
-            if(mongoResult && mongoResult?.length>0){
-              // Store in cache for future use
-              if(mongoResult[0]?.value){
-                const jsonValue = JSON.stringify(mongoResult[0]?.value);
-                // await this.cacheManager.set(key, jsonValue);
-              }
-              returnValue = mongoResult;
-            } else {
-              returnValue = null;
-            }
-          }
+          } 
         // }
       } else {
         throw 'client not found';
@@ -205,10 +204,10 @@ export class RedisService {
    * @returns A string indicating that the value was stored.
    * @throws {Error} If there is an error storing the JSON data.
    */
-   async setJsonData(key: string, value: any, collectionName:string, path?: string) {
+   async setJsonData(key: string, value: any, loginId: string, path?: string) { 
     try {
-      if (!collectionName && !key) throw "client/key not found";
-
+      if (!loginId || !key || !value) throw "loginId/key/value not found";  
+            
         const parts = key.split(":");
         const requiredMarkers = ["CK", "FNGK", "FNK", "CATK", "AFGK", "AFK", "AFVK"];
         requiredMarkers.forEach(marker => {
@@ -217,34 +216,17 @@ export class RedisService {
             throw new Error(`Invalid Redis key`);
           }
         });
-
-        // await this.exist(key,collectionName)
-
-        // Use CACHE_MANAGER to set cached data
-        // if (path) {
-        //   // For path-based updates, get existing value, update path, and set back
-        //   let existingValue = await this.cacheManager.get<string>(key);
-        //   let parsedValue = existingValue ? JSON.parse(existingValue) : {};
-        //   _.set(parsedValue, path, JSON.parse(value));
-        //   await this.cacheManager.set(key, JSON.stringify(parsedValue));
-        // } else {
-        //   await this.cacheManager.set(key, value);
-        // }
-
-        const defpath = path ? `.${path}` : "$";
-        let redisResult = await redis.call("JSON.SET", key, defpath, value); 
-        if(redisResult == 'OK'){  
-          // Queue MongoDB operation to prevent connection pool exhaustion
-          var mongoResult:any = await queueMongoOperation(
-            () => this.setDocument(collectionName, key, JSON.parse(value), path),
-            `setDocument:${key}`
-          );
-
-          if(mongoResult?.value)
-            return 'Value Stored';
-        }
-
+        
+        let pg_response = await this.setPgData(loginId,key,value,path)
+        if(pg_response == 'OK'){
+          const defpath = path ? `.${path}` : "$";
+          await redis.call("JSON.SET", key, defpath, value);
+          return 'Value Stored'
+        }        
+            
     } catch (error) {
+      console.log('error',error);
+          
       throw error;
     }
   }
@@ -384,38 +366,15 @@ export class RedisService {
 
   async exist(key,collectionName: string) {
     try {
-      if(collectionName){
-        // Check CACHE_MANAGER first
-        // let cachedResult = await this.cacheManager.get<string>(key);
-        // if (cachedResult) {
-        //   return 1;
-        // }
-
+     
+      if(collectionName){ 
         let redisResult = await redis.call('EXISTS', key);
         if(redisResult){
           return redisResult;
         }else{
-          // Queue MongoDB operations
-          let mongoResult = await queueMongoOperation(
-            () => this.existsDocument(collectionName, key),
-            `existsDocument:${key}`
-          );
-          if(mongoResult){
-            let doc = await queueMongoOperation(
-              () => this.getDocument(collectionName, key),
-              `getDocument:${key}`
-            );
-            if(doc?.length>0 && doc[0]?.value){
-              const jsonValue = JSON.stringify(doc[0]?.value);
-              // Update CACHE_MANAGER
-              // await this.cacheManager.set(key, jsonValue);
-              await redis.call('JSON.SET', key, '$', jsonValue);
-            }
-            return 1
-          }else{
-          return mongoResult
-          }
+          return await this.isExist(key)
         }
+       
       }else{
         throw 'client not found'
       }
@@ -533,11 +492,33 @@ export class RedisService {
    * @returns {Promise<string>} - A promise that resolves to a string indicating the consumer group was created.
    * @throws {Error} - If there is an error creating the consumer group.
   */
-  async createConsumerGroup(streamName, groupName) {
+    async createConsumerGroup(streamName, groupName) {
     try {
-      await redis.xgroup('CREATE', streamName, groupName, '0', 'MKSTREAM');
-      return `consumerGroup was created as ${groupName}`;
-    } catch (error) {
+      // Check if the consumer group already exists
+      const grpInfo = await redis.xinfo('GROUPS', streamName).catch(() => []);
+
+      // Check if the group name already exists in any of the groups
+      const groupExists = grpInfo.some((group, index) => {
+        // Group info comes as flat array: [name, value, name, value, ...]
+        // 'name' field is at index 1, 5, 9, etc. for each group
+        if (Array.isArray(group)) {
+          return group.includes(groupName);
+        }
+        // Check if this is the 'name' field with matching value
+        return index % 2 === 1 && group === groupName;
+      });
+
+      if (!groupExists) {
+        await redis.xgroup('CREATE', streamName, groupName, '0', 'MKSTREAM');
+        return `consumerGroup was created as ${groupName}`;
+      }
+
+      return `consumerGroup ${groupName} already exists`;
+    } catch (error:any) {
+      // If error is BUSYGROUP, the group already exists - this is okay
+      if (error.message && error.message.includes('BUSYGROUP')) {
+        return `consumerGroup ${groupName} already exists`;
+      }
       throw error;
     }
   }
@@ -649,76 +630,43 @@ export class RedisService {
   
   async getKeys(key: string , collectionName: string, isKeySuffix = false) {
     try {
-      let redisKey
-      if(collectionName){
-        if(key.endsWith(':'))
-          redisKey = isKeySuffix ? '*:'+ key : key + '*';
-        else
-          redisKey = isKeySuffix ? '*:'+ key : key + ':*';
+       let redisKey
+       
+       if (key && collectionName) {
+         if (key.endsWith(':')) redisKey = isKeySuffix ? '*:' + key : key + '*';
+         else redisKey = isKeySuffix ? '*:' + key : key + ':*';
 
-        const parts = key.split(":").map(p => p.trim());
-        const KeyrequiredMarkers = ["CK", "FNGK", "FNK", "CATK", "AFGK", "AFK", "AFVK"];
-        KeyrequiredMarkers.forEach(marker => {
-          const idx = parts.indexOf(marker);
-          if (parts[idx + 1] === "undefined" || parts[idx + 1] === '') {
-            throw new Error(`Invalid Redis key`);
-          }
-        });
+         const parts = key.split(':').map((p) => p.trim());
+         const KeyrequiredMarkers = [
+           'CK',
+           'FNGK',
+           'FNK',
+           'CATK',
+           'AFGK',
+           'AFK',
+           'AFVK',
+         ];
+         KeyrequiredMarkers.forEach((marker) => {
+           const idx = parts.indexOf(marker);
+           if (parts[idx + 1] === 'undefined' || parts[idx + 1] === '') {
+             throw new Error(`Invalid Redis key`);
+           }
+         });
 
-        // Use CACHE_MANAGER to get cached keys list
-        // const cacheKey = `keys:${redisKey}`;
-        // let cachedKeys = await this.cacheManager.get<string>(cacheKey);
-        // if (cachedKeys) {
-        //   return JSON.parse(cachedKeys);
-        // }
-
-        let keys = await redis.keys(redisKey);
-        // let keys = await this.scanKeys(redisKey);
-
-        if(keys?.length == 0) {
-          const arrID: string[] = [];
-          const requiredMarkers = ["CK", "FNGK", "FNK", "CATK", "AFGK", "AFK", "AFVK"];
-          for (const item of keys) {
-            const _id = item
-            const parts = _id.split(":").map(p => p.trim());
-              let isValid = true;
-              for (const marker of requiredMarkers) {
-                const idx = parts.indexOf(marker);
-
-                const next = parts[idx + 1];
-                if (idx === -1 ||next === undefined ||next === null ||next.trim?.() === "" ||next.toLowerCase?.() === "undefined" || parts.length <= 14) {
-                  isValid = false;
-                  await this.deleteKey(_id,collectionName)
-                  break;
-                }
-              }
-              if (isValid && !arrID.includes(_id)) {
-                arrID.push(_id);
-              }
-          }
-          if(arrID.length>0)  keys = arrID
-          // Queue MongoDB operation
-          keys = await queueMongoOperation(
-            () => this.getDocumentKeys(collectionName, key),
-            `getDocumentKeys:${key}`
-          );
-
-          // Store keys in cache if found from MongoDB
-          // if (keys && keys.length > 0) {
-          //   await this.cacheManager.set(cacheKey, JSON.stringify(keys));
-          // }
-        } else {
-          // Store keys in cache if found from Redis
-          // await this.cacheManager.set(cacheKey, JSON.stringify(keys));
-        }
-        return keys;
-      }else{
-        throw 'client not found'
-      }
+         let keys = await this.getpgKeys(redisKey);
+         if (keys?.length > 0) {
+           return keys;
+         } else {
+           return await redis.keys(redisKey);           
+         }
+       } else {
+         throw 'key/client not found';
+       }
     } catch (error) {
       throw error;
     }
   }
+
 
   async scanKeys(pattern) {
     try {    
@@ -744,13 +692,16 @@ export class RedisService {
    * @throws {Error} - If there is an error deleting the key.
    */
   async deleteKey(key: any,collectionName: string) {
-    try {
-      // Delete from CACHE_MANAGER
-      // await this.cacheManager.del(key);
-
-      var response = await redis.del(key);
-      //await this.deleteDocument(collectionName,key)
-      return response
+    try {     
+      if(key && collectionName){     
+        var response = await redis.del(key); 
+        if(response){
+          await this.deletePgKey(key)
+          return response
+        }
+      }else{
+       throw 'client not found'
+      }
     } catch (error) {
       throw error;
     }
@@ -1282,6 +1233,279 @@ async deleteDocument(collectionName:string,key:any){
     throw err;
   }
 }
+
+async select(db: number) {
+    return redis.select(db);
+  }
+
+  async scan(cursor: string, ...args: any[]) {
+    return redis.scan(cursor, ...args);
+  }
+
+  async ttl(key: string) {
+    return redis.ttl(key);
+  }
+
+  async type(key: string) {
+    return redis.type(key);
+  }
+
+  async call(command: string, ...args: any[]) {
+    return redis.call(command, ...args);
+  }
+
+  async get(key: string) {
+    return redis.get(key);
+  }
+
+  async set(key: string, value: any) {
+    return redis.set(key, value);
+  }
+
+  async del(key: string) {
+    return redis.del(key);
+  }
+
+  
+
+  async hgetall(key: string) {
+    return redis.hgetall(key);
+  }
+
+  async lrange(key: string, start: number, stop: number) {
+    return redis.lrange(key, start, stop);
+  }
+
+  async rpush(key: string, ...values: any[]) {
+    return redis.rpush(key, ...values);
+  }
+
+  async smembers(key: string) {
+    return redis.smembers(key);
+  }
+
+  async sadd(key: string, ...members: any[]) {
+    return redis.sadd(key, ...members);
+  }
+
+  async zrange(key: string, start: number, stop: number, ...args: any[]) {
+    return redis.zrange(key, start, stop, ...args);
+  }
+
+  async zadd(key: string, ...args: any[]) {
+    return redis.zadd(key, ...args);
+  }
+
+  async dump(key: string) {
+    return redis.dump(key);
+  }
+
+  async restore(key: string, ttl: number, value: Buffer, ...args: any[]) {
+    return redis.restore(key, ttl, value, ...args);
+  }
+
+  async pexpire(key: string, ms: number) {
+    return redis.pexpire(key, ms);
+  }
+
+  async exists(key: string) {
+    return redis.exists(key);
+  }
+
+  async ping() {
+    return redis.ping();
+  }
+
+  //__________________________PG_______________________________
+
+  async setPgData(loginId:string,key: string, value:any,path?): Promise<any> {   
+    const client = await pgPool.connect();   
+    try {
+      const DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
+      if (!DbSchema) throw ('schema not found')
+      let tableName
+      if(key){
+        // if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+        //   tableName = 'node_registry'
+        // else
+          tableName = 'tam_amd_registry'
+      }
+      const auditCols = [
+        'full_key',
+        'ck_code',
+        'fngk_code',
+        'fnk_code',
+        'catk_code',
+        'afgk_code',
+        'afk_code',
+        'afvk_code',
+        'afsk_code',
+        'data'
+      ];
+
+      const getTableColumns = async (tableName: string) => {
+        const { rows } = await client.query(
+          `SELECT column_name
+         FROM information_schema.columns
+         WHERE table_schema = $1 AND table_name = $2
+         ORDER BY ordinal_position`,
+          [DbSchema, tableName]
+        );
+        return rows.map(r => r.column_name);
+      };
+
+      const columns = await getTableColumns(tableName);
+    
+      const usableCols = columns.filter(col => auditCols.includes(col));
+     
+      const keys = key.split(':');
+      if (keys.length <= 14) throw ('Invalid key')    
+        
+      const valueMap: any = {
+        full_key: key,
+        ck_code: keys[1],
+        fngk_code: keys[3],
+        fnk_code: keys[5],
+        catk_code: keys[7],
+        afgk_code: keys[9],
+        afk_code: keys[11],
+        afvk_code: keys[13],
+        afsk_code: keys[14],
+        data: value
+      };
+
+      const values = usableCols.map(col => valueMap[col] ?? null);
+
+      const colList = usableCols.join(', ');
+      const placeholders = usableCols.map((_, i) => `$${i + 1}`).join(', ');
+
+      const updateSet = usableCols
+        .filter(col => col !== 'full_key') // avoid updating conflict key
+        .map((col, i) => `${col} = EXCLUDED.${col}`)
+        .join(', ');
+
+        let query = `
+          INSERT INTO "${DbSchema}".${tableName}
+          (${colList}, trs_created_by, trs_created_date, trs_modified_by, trs_modified_date)
+          VALUES (${placeholders}, '', CURRENT_TIMESTAMP, '', CURRENT_TIMESTAMP)
+          ON CONFLICT (full_key)
+          DO UPDATE SET
+            ${updateSet},
+            trs_modified_by = '',
+            trs_modified_date = CURRENT_TIMESTAMP
+        `; 
+        const result = await client.query(query, values);         
+        if (result.rowCount > 0)
+          return 'OK';
+    } catch (error) {     
+      throw error;
+    } finally {
+      // Return the connection to the pool instead of closing it.
+      client.release();
+    }
+  }
+
+  async getpgData(key){
+    try {     
+      let DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
+      if (!DbSchema) throw ('schema not found')
+      let tableName
+      if(key){
+        // if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+        //   tableName = 'node_registry'
+        // else
+          tableName = 'tam_amd_registry'
+      }
+      const query = `
+        SELECT data
+        FROM "${DbSchema}".${tableName}
+        WHERE full_key = $1
+      `;
+
+      const result = await pgPool.query(query, [key]);
+      if (!result?.rows[0]?.data) return null
+      if(typeof result.rows[0].data == 'object')
+        return JSON.stringify(result.rows[0].data)
+      else
+      return result.rows[0].data
+    } catch (error) {
+      console.log('error',error);
+      throw error
+    }
+  }
+
+  async getpgKeys(key){
+    try {      
+      let DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
+      if (!DbSchema) throw ('schema not found')
+      let tableName
+      if(key){
+         // if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+        //   tableName = 'node_registry'
+        // else
+          tableName = 'tam_amd_registry'
+      }
+      key = key.replaceAll('*','%');
+      let result = await pgPool.query(
+        `SELECT full_key from "${DbSchema}".${tableName} where full_key LIKE $1`,
+        [`${key}%`]
+      )
+      let allApiKeys = result?.rows?.map(row => row.full_key) || []
+      return allApiKeys
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async isExist(key){
+    try {     
+      let DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
+      if (!DbSchema) throw ('schema not found')
+      let tableName
+      if(key){
+        // if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+        //   tableName = 'node_registry'
+        // else
+          tableName = 'tam_amd_registry'
+      }
+      const query = `
+        SELECT EXISTS (
+          SELECT 1
+          FROM "${DbSchema}".${tableName}
+          WHERE full_key = $1
+        ) AS exists
+      `;
+      const result = await pgPool.query(query, [key]);
+      if (!result.rows[0].exists) return 0
+      return 1
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async deletePgKey(key){
+    try {     
+      let DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
+      if (!DbSchema) throw ('schema not found')
+      let tableName
+      if(key){
+       // if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+        //   tableName = 'node_registry'
+        // else
+          tableName = 'tam_amd_registry'
+      }
+      const query = `
+        DELETE FROM "${DbSchema}".${tableName}
+        WHERE full_key = $1
+      `;
+
+      const result = await pgPool.query(query, [key]);
+      if (!result?.rowCount) return 0
+      return 1
+    } catch (error) {
+      throw error
+    }
+  }
   
 }
 

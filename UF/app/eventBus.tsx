@@ -1,7 +1,10 @@
 import mitt from 'mitt';
 
 type Events = {
-  triggerButton: string; // Event name and payload type
+  triggerButton: string;
+  closeModal: string;
+  buttonReady: string;
+  [key: string]: any;
 };
 
 export const eventBus = mitt<Events>();

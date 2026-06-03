@@ -1,5 +1,5 @@
 {
-  "name": "ct003_ag001_a001_v1_engine",
+  "name": "ct005_gss_vgph_v1_df",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -129,8 +129,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "prisma":{
-    "schema":"src/erd/prisma/schema.prisma"
   }
 }

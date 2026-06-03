@@ -11,7 +11,12 @@ interface ToastConfig {
 }
 
 export const useInfoMsg = () => {
-  const showToast = useCallback((message: string, type: ToastType) => {
+  const showToast = useCallback((message: string | string[], type: ToastType, autoClose: boolean = true) => {
+    if (Array.isArray(message)) {
+      message.forEach((msg) => showToast(msg, type, autoClose));
+      return;
+    }
+
     // Create toast container if it doesn't exist
     let container = document.getElementById("toast-container");
     if (!container) {
@@ -96,7 +101,9 @@ export const useInfoMsg = () => {
     closeBtn?.addEventListener("click", removeToast);
 
     // Auto-hide after 5 seconds
-    setTimeout(removeToast, 5000);
+    if (autoClose) {
+      setTimeout(removeToast, 5000);
+    }
   }, []);
 
   return showToast;

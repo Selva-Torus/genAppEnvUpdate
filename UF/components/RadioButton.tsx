@@ -1,13 +1,13 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useGlobal } from '@/context/GlobalContext'
 import {
   ComponentSize,
   HeaderPosition,
   TooltipProps as TooltipPropsType
 } from '@/types/global'
-import { getFontSizeClass, getBorderRadiusClass } from '@/app/utils/branding'
+import { getBorderRadiusClass } from '@/app/utils/branding'
 import { CommonHeaderAndTooltip } from './CommonHeaderAndTooltip'
 interface RadioButtonItem {
   value: string
@@ -52,6 +52,14 @@ export const RadioButton: React.FC<RadioButtonProps> = ({
     defaultValue || items[0]?.value || ''
   )
 
+  // Call onChange with default value on mount
+  useEffect(() => {
+    const initialValue = defaultValue || items[0]?.value || '';
+    if (initialValue) {
+      onChange?.(initialValue);
+    }
+  }, []);
+
   const handleChange = (value: string) => {
     if (!disabled) {
       setSelectedValue(value)
@@ -75,8 +83,6 @@ export const RadioButton: React.FC<RadioButtonProps> = ({
     }
   }
   const isDark = theme === 'dark' || theme === 'dark-hc'
-  const fontSizeClass = getFontSizeClass(branding.fontSize)
-
   // Helper to convert hex to rgba
   const hexToRgba = (hex: string, alpha: number) => {
     const r = parseInt(hex?.slice(1, 3), 16)
@@ -131,7 +137,6 @@ export const RadioButton: React.FC<RadioButtonProps> = ({
               px-4 py-2 ${getContentAlignClasses()}
               text-ellipsis
               whitespace-nowrap transition-all [border-radius:var(--border-radius)]
-              ${fontSizeClass}
               ${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}
               ${getFillClasses()}
               ${

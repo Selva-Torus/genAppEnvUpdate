@@ -41,9 +41,7 @@ const AddGroupLevelModal = ({
 }) => {
   const nameInputRef = useRef<HTMLInputElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const [isImgRendering, setIsImgRendering] = useState(false)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const [isHover, setIsHover] = useState(false)
   const [inputValue, setInputValue] = useState<{
     name: string
     code: string
@@ -84,7 +82,6 @@ const AddGroupLevelModal = ({
       toast('Please fill all details to continue', 'warning')
       return
     }
-
     if (selectedFile) {
       const data = new FormData()
       data.append('file', selectedFile)
@@ -117,14 +114,12 @@ const AddGroupLevelModal = ({
         }
       }
     }
-
     addFunction(path, inputValue, parentCode)
     close()
   }
 
   const handleFileSelect = (file: FileList) => {
     setSelectedFile(file[0])
-    setIsImgRendering(false)
   }
 
   const toPascalCase = (str: string) => {
@@ -140,7 +135,6 @@ const AddGroupLevelModal = ({
       )
       .join(' ') // Join the words without spaces
   }
-
   return (
     <div
       className='flex h-fit flex-col '
@@ -151,14 +145,14 @@ const AddGroupLevelModal = ({
       }}
     >
       <div className='flex w-full items-center justify-between py-[.5vh]'>
-        <Text contentAlign='left' variant='body-3'>
+        <Text contentAlign='left'>
           {modalTitle}
         </Text>
         <Button className={'!w-fit rounded-md p-1'} onClick={close}>
           <Multiply height='.7vw' width='.7vw' />
         </Button>
       </div>
-      <Text contentAlign='left' variant='caption-1' color='secondary'>
+      <Text contentAlign='left' color='secondary'>
         {modalSubText}
       </Text>
 
@@ -256,6 +250,7 @@ const AddGroupLevelModal = ({
             {`Enter the code of the ${resourceField}.`}
           </Text>
         </div>
+
         <input
           id='code'
           name='code'
@@ -272,46 +267,6 @@ const AddGroupLevelModal = ({
           value={inputValue.code?.replace(`${parentCode}`, '')}
         />
       </div>
-      {/* <div className='flex flex-col gap-[1vh] py-[1vh] text-base'>
-        <Label theme='clear' className='!justify-start font-semibold'>
-          Name
-        </Label>
-
-        <input
-          id='name'
-          ref={nameInputRef}
-          name='name'
-          type='text'
-          placeholder={`Enter ${resourceField} name`}
-          className={twMerge(
-            `rounded-lg border px-[.5vw] py-[.4vh] outline-none`,
-            borderColor,
-            bgColor,
-            textColor
-          )}
-          onChange={handleInputChange}
-          value={inputValue.name}
-        />
-        <Label theme='clear' className='!justify-start font-semibold'>
-          Code
-        </Label>
-
-        <input
-          id='code'
-          name='code'
-          type='text'
-          placeholder={`Enter ${resourceField} code`}
-          className={twMerge(
-            `rounded-lg border px-[.5vw] py-[.4vh] outline-none`,
-            borderColor,
-            bgColor,
-            textColor
-          )}
-          onChange={handleInputChange}
-          readOnly={resource?.code ? true : false}
-          value={inputValue.code?.replace(`${parentCode}`, '')}
-        />
-      </div> */}
       <div className='flex w-full justify-end gap-[.5vw] py-[1vh]'>
         <Button
           onClick={close}

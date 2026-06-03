@@ -5,8 +5,8 @@ import { useGlobal } from "@/context/GlobalContext";
 import { Tooltip } from "./Tooltip";
 import { Icon } from "./Icon";
 import { HeaderPosition, TooltipProps as TooltipPropsType } from "@/types/global";
-import { getFontSizeClass } from "@/app/utils/branding";
 import { CommonHeaderAndTooltip } from "./CommonHeaderAndTooltip";
+import { useInfoMsg } from "@/app/components/infoMsgHandler";
 
 type ContentAlign = "left" | "center" | "right";
 
@@ -33,6 +33,8 @@ interface DropdownProps {
   errorMessage?: string;
   fillContainer?: boolean;
   contentAlign?: ContentAlign;
+  onLoadMore?: () => void;
+  isLoadingMore?: boolean;
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
@@ -57,14 +59,91 @@ export const Dropdown: React.FC<DropdownProps> = ({
   validationState = "none",
   errorMessage,
   fillContainer = true,
-  contentAlign = "center"
+  contentAlign = "center",
+  onLoadMore,
+  isLoadingMore = false,
 }) => {
   const isMultiple = multiselect || multiple;
   const { theme, direction,branding } = useGlobal();
+  const showToast = useInfoMsg();
+
+  useEffect(() => {
+    if (validationState === "invalid" && errorMessage) {
+      showToast(errorMessage, "danger");
+    }
+  }, [validationState, errorMessage]);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [filterText, setFilterText] = useState("");
+  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const highlightedItemRef = useRef<HTMLDivElement | null>(null);
+
+  // Reset highlighted index when dropdown closes
+  useEffect(() => {
+    if (!isOpen) setHighlightedIndex(-1);
+  }, [isOpen]);
+
+  // Reset highlighted index when filter text changes
+  useEffect(() => {
+    setHighlightedIndex(-1);
+  }, [filterText]);
+
+  // Scroll highlighted item into view
+  useEffect(() => {
+    if (highlightedItemRef.current) {
+      highlightedItemRef.current.scrollIntoView({ block: "nearest" });
+    }
+  }, [highlightedIndex]);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!isOpen) {
+      if (e.key === "ArrowDown" || e.key === "Enter") {
+        setIsOpen(true);
+        e.preventDefault();
+      }
+      return;
+    }
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        setHighlightedIndex(prev =>
+          prev < filteredOptions.length - 1 ? prev + 1 : prev
+        );
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setHighlightedIndex(prev => (prev > 0 ? prev - 1 : 0));
+        break;
+      case "Enter":
+        e.preventDefault();
+        if (highlightedIndex >= 0 && highlightedIndex < filteredOptions.length) {
+          handleSelect(filteredOptions[highlightedIndex]);
+        }
+        break;
+      case "Escape":
+        e.preventDefault();
+        setIsOpen(false);
+        break;
+    }
+  };
+
+  // Infinite scroll: fire onLoadMore only when scrolling DOWN and reaching the bottom
+  useEffect(() => {
+    const el = listRef.current;
+    if (!el || !onLoadMore) return;
+    let prevScrollTop = el.scrollTop;
+    const handleScroll = () => {
+      const isScrollingDown = el.scrollTop > prevScrollTop;
+      prevScrollTop = el.scrollTop;
+      if (isScrollingDown && el.scrollTop + el.clientHeight >= el.scrollHeight - 10) {
+        onLoadMore();
+      }
+    };
+    el.addEventListener('scroll', handleScroll);
+    return () => el.removeEventListener('scroll', handleScroll);
+  }, [isOpen, onLoadMore]);
 
   // Sync internal state with external value prop
   useEffect(() => {
@@ -203,24 +282,6 @@ export const Dropdown: React.FC<DropdownProps> = ({
     }
   };
 
-  const getIconSize = () => {
-    if (fillContainer) {
-      // When fillContainer is true, scale icon with branding fontSize
-      const baseFontSize = fontSizeClass;
-      switch (baseFontSize) {
-        case "text-sm":
-          return 22;
-        case "text-base":
-          return 30;
-        case "text-lg":
-          return 38;
-        case "text-xl":
-          return 46;
-      }
-    }
-  };
-
-  const fontSizeClass = getFontSizeClass(branding.fontSize);
 
   const dropdownElement = (
     <div 
@@ -251,8 +312,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
               ${hasClear && selectedValues.length > 0 ? "pr-16" : "pr-10"}
               border-2
               ${getBorderColor()}
-              ${fontSizeClass}
-              ${isDark ? "bg-gray-800 text-white placeholder-gray-400" : "bg-white text-gray-900 placeholder-gray-500"}
+              ${isDark ? "bg-gray-800 text-white placeholder-white" : "bg-white text-black placeholder-black"}
               ${disabled ? "opacity-50 cursor-not-allowed" : ""}
               transition-colors
               focus:outline-none
@@ -277,6 +337,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                 setIsOpen(true)
               }
             }}
+            onKeyDown={handleKeyDown}
           />
           <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
             {hasClear && selectedValues.length > 0 && !disabled && (
@@ -286,7 +347,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                 style={{ borderRadius: "var(--border-radius)" }}
                 type="button"
               >
-                <Icon data="IoIosClose" size={getIconSize()} />
+                <Icon data="IoIosClose" fillContainer={false} />
               </button>
             )}
             <button
@@ -295,7 +356,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
               type="button"
               disabled={disabled}
             >
-              <Icon data={isOpen ? "IoIosArrowUp" : "IoIosArrowDown"} size={getIconSize()}  />
+              <Icon data={isOpen ? "IoIosArrowUp" : "IoIosArrowDown"} fillContainer={false} />
             </button>
           </div>
         </div>
@@ -309,10 +370,9 @@ export const Dropdown: React.FC<DropdownProps> = ({
             border-2
             ${getBorderColor()}
             flex items-center justify-between
-            ${isDark ? "bg-gray-800 text-white" : "bg-white text-gray-900"}
+            ${isDark ? "bg-gray-800 text-white" : "bg-white text-black"}
             ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
             transition-colors
-            ${fontSizeClass}
             ${className}
           `}
           style={{
@@ -329,6 +389,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
               e.currentTarget.style.borderColor = ''
             }
           }}
+          onKeyDown={handleKeyDown}
         >
           <span className="w-4/5 truncate">
             {selectedValues.length > 0
@@ -344,16 +405,17 @@ export const Dropdown: React.FC<DropdownProps> = ({
                 className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-colors"
                 style={{ borderRadius: "var(--border-radius)" }}
               >
-                <Icon data="IoIosClose" size={getIconSize()} />
+                <Icon data="IoIosClose" fillContainer={false} />
               </div>
             )}
-            <Icon data={isOpen ? "IoIosArrowUp" : "IoIosArrowDown"} size={getIconSize()}  />
+            <Icon data={isOpen ? "IoIosArrowUp" : "IoIosArrowDown"} fillContainer={false} />
           </div>
         </button>
       )}
 
       {isOpen && (
         <div
+        ref={listRef}
           className={`
             absolute
             w-full
@@ -369,10 +431,14 @@ export const Dropdown: React.FC<DropdownProps> = ({
         >
           {filteredOptions.map((option, index) => {
             const isSelected = selectedValues.includes(option);
+            const isHighlighted = index === highlightedIndex;
             return (
               <div
                 key={index}
+                ref={isHighlighted ? highlightedItemRef : null}
                 onClick={() => handleSelect(option)}
+                onMouseEnter={() => setHighlightedIndex(index)}
+                onMouseLeave={() => setHighlightedIndex(-1)}
                 className={`
                   px-4 py-2
                   cursor-pointer
@@ -380,20 +446,28 @@ export const Dropdown: React.FC<DropdownProps> = ({
                   transition-colors
                   ${isSelected
                     ? `text-white`
-                    : isDark ? "text-gray-200 hover:[background-color:var(--hover-color)]" : "text-gray-700 hover:[background-color:var(--hover-color)]"
+                    : isDark ? "text-gray-200" : "text-gray-700"
                   }
-                  ${fontSizeClass}
                   ${className}
                 `}
                 style={{
-                  backgroundColor: isSelected ? branding.selectionColor : undefined,
+                  backgroundColor: isSelected
+                    ? branding.selectionColor
+                    : isHighlighted
+                    ? branding.hoverColor
+                    : undefined,
                 }}
               >
                 <span>{option}</span>
-                {isMultiple && isSelected && <Icon fillContainer={false} data="FaCheck" size={getIconSize()} />}
+                {isMultiple && isSelected && <Icon fillContainer={false} data="FaCheck" />}
               </div>
             );
           })}
+          {isLoadingMore && (
+            <div className={`px-4 py-2 text-center text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>
+              Loading...
+            </div>
+          )}
         </div>
       )}
     </div>
