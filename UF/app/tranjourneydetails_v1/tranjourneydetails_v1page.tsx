@@ -53,9 +53,6 @@ export default function PageTranjourneydetailsV1() {
   const [checkToAdd, setCheckToAdd] = useState<Record<string, any>>({});
   const allRuleData:any={
   "journey_details_group": {
-    "details_label": {
-      "show": false
-    },
     "divider_top": {
       "show": false
     },

@@ -20,7 +20,6 @@ import { useHandleDfdRefresh } from '@/context/dfdRefreshContext';
 import evaluateDecisionTable,{ evaluateDecisionForDynamicActions,eventDecisionTable } from '@/app/utils/evaluateDecisionTable';
 import decodeToken from '@/app/components/decodeToken';
 import uoMapperData from '@/context/dfdmapperContolnames.json';
-import Texttransaction_log_label  from "./Texttransaction_log_label";
 import Dividerdivider_top  from "./Dividerdivider_top";
 import Dividerdivider_bottom  from "./Dividerdivider_bottom";
 import Buttoncancel_btn  from "./Buttoncancel_btn";
@@ -61,7 +60,6 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
   const securityData:any={
   "IT Team": {
     "allowedControls": [
-      "transaction_log_label",
       "divider_top",
       "divider_bottom",
       "cancel_btn"
@@ -77,7 +75,6 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
   },
   "Business Team": {
     "allowedControls": [
-      "transaction_log_label",
       "divider_top",
       "divider_bottom",
       "cancel_btn"
@@ -93,7 +90,6 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
   },
   "Operation Team": {
     "allowedControls": [
-      "transaction_log_label",
       "divider_top",
       "divider_bottom",
       "cancel_btn"
@@ -123,7 +119,6 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
    //another screen
   const {tran_data_group84f25, settran_data_group84f25}= useContext(TotalContext) as TotalContextProps;
   const {tran_data_group84f25Props, settran_data_group84f25Props}= useContext(TotalContext) as TotalContextProps;
-  const {transaction_log_label7b760, settransaction_log_label7b760}= useContext(TotalContext) as TotalContextProps;
   const {divider_topf46a0, setdivider_topf46a0}= useContext(TotalContext) as TotalContextProps;
   const {req_data_group8d4d7, setreq_data_group8d4d7}= useContext(TotalContext) as TotalContextProps;
   const {req_data_group8d4d7Props, setreq_data_group8d4d7Props}= useContext(TotalContext) as TotalContextProps;
@@ -174,9 +169,6 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
   }
     
   /////////////
-    if(orchestrationData?.data?.readableControls.includes("transaction_log_label")){
-      settransaction_log_label7b760({...transaction_log_label7b760,isDisabled:true});
-    }
     if(orchestrationData?.data?.readableControls.includes("divider_top")){
       setdivider_topf46a0({...divider_topf46a0,isDisabled:true});
     }
@@ -199,8 +191,6 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
         codeStates['settran_data_group'] = settran_data_group84f25,
         codeStates['tran_data_group84f25'] = tran_data_group84f25Props,
         codeStates['settran_data_group84f25'] = settran_data_group84f25Props,
-        codeStates['transaction_log_label'] = transaction_log_label7b760,
-        codeStates['settransaction_log_label'] = settransaction_log_label7b760,
         codeStates['divider_top'] = divider_topf46a0,
         codeStates['setdivider_top'] = setdivider_topf46a0,
         codeStates['req_data_group'] = req_data_group8d4d7,
@@ -257,7 +247,7 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
     <div 
       style={{          
         gridColumn: '1 / 25',
-        gridRow: '1 / 205',
+        gridRow: '1 / 190',
       
         //rowGap: '0px',
         display: 'grid',
@@ -310,7 +300,6 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
           setIsProcessing={setIsProcessing}
           groupData={groupData}
           controlData={controlData}        />}
-          {allowedControls.includes("transaction_log_label") ?<Texttransaction_log_label   /* 7b760 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("divider_top") ?<Dividerdivider_top   /* f46a0 */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("divider_bottom") ?<Dividerdivider_bottom   /* 6920d */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {        ((ruleData?.length>0 && "cancel_btn" in ButtonGoRuleData)?ButtonGoRuleData["cancel_btn"]:true) && 

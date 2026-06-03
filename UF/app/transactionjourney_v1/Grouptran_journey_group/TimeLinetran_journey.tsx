@@ -43,7 +43,6 @@ const TimeLinetran_journey = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encry
   const {tranjourneydetails_v1Props, settranjourneydetails_v1Props}= useContext(TotalContext) as TotalContextProps; 
   const {tran_journey_group9eb2e, settran_journey_group9eb2e}= useContext(TotalContext) as TotalContextProps
   const {tran_journey_group9eb2eProps, settran_journey_group9eb2eProps}= useContext(TotalContext) as TotalContextProps
-  const {tran_journey_label02972, settran_journey_label02972}= useContext(TotalContext) as TotalContextProps
   const {tran_journey1602a, settran_journey1602a}= useContext(TotalContext) as TotalContextProps
   const {journey_details_groupd9a0e, setjourney_details_groupd9a0e}= useContext(TotalContext) as TotalContextProps
   const {journey_details_groupd9a0eProps, setjourney_details_groupd9a0eProps}= useContext(TotalContext) as TotalContextProps
@@ -194,7 +193,7 @@ const statusMap: Record<string, { icon: any; color: string }> = {
   },[ tran_journey_group9eb2e?.vgphstm_uuid])
 
   return (
-    <div className="" style={{gridColumn: `1 / 25`,gridRow: `9 / 183`, gap:``, height: `100%`, overflow: 'hidden'}} >
+    <div className="" style={{gridColumn: `1 / 25`,gridRow: `2 / 176`, gap:``, height: `100%`, overflow: 'hidden'}} >
       <Modal 
         open={showProfileAsModalOpen4} 
         onClose={() => setShowProfileAsModalOpen4(false)}

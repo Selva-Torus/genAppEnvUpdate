@@ -59,9 +59,6 @@ export default function PageTrandataviewV1() {
   const [checkToAdd, setCheckToAdd] = useState<Record<string, any>>({});
   const allRuleData:any={
   "tran_data_group": {
-    "transaction_log_label": {
-      "show": false
-    },
     "divider_top": {
       "show": false
     },

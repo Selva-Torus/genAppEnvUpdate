@@ -107,7 +107,6 @@ const Buttonview_msg_data_btn = ({ lockedData, setLockedData, tableData, setTabl
 
   const {journey_details_groupd9a0e, setjourney_details_groupd9a0e}= useContext(TotalContext) as TotalContextProps;
   const {journey_details_groupd9a0eProps, setjourney_details_groupd9a0eProps}= useContext(TotalContext) as TotalContextProps;
-  const {details_labelb25b2, setdetails_labelb25b2}= useContext(TotalContext) as TotalContextProps;
   const {divider_tope6917, setdivider_tope6917}= useContext(TotalContext) as TotalContextProps;
   const {transaction_date_time_label669d7, settransaction_date_time_label669d7}= useContext(TotalContext) as TotalContextProps;
   const {status_labelf3713, setstatus_labelf3713}= useContext(TotalContext) as TotalContextProps;
@@ -158,8 +157,6 @@ const Buttonview_msg_data_btn = ({ lockedData, setLockedData, tableData, setTabl
         codeStates['setjourney_details_group'] = setjourney_details_groupd9a0e,
         codeStates['journey_details_groupd9a0e'] = journey_details_groupd9a0eProps,
         codeStates['setjourney_details_groupd9a0e'] = setjourney_details_groupd9a0eProps,
-        codeStates['details_label'] = details_labelb25b2,
-        codeStates['setdetails_label'] = setdetails_labelb25b2,
         codeStates['divider_top'] = divider_tope6917,
         codeStates['setdivider_top'] = setdivider_tope6917,
         codeStates['transaction_date_time_label'] = transaction_date_time_label669d7,
@@ -214,7 +211,7 @@ const Buttonview_msg_data_btn = ({ lockedData, setLockedData, tableData, setTabl
   const {tranjourneydetails_v1, settranjourneydetails_v1} = useContext(TotalContext) as TotalContextProps;
   const handleMapper=async (data?:any) => {
     try{     
-      let parentRowSpan = 103;
+      let parentRowSpan = 94;
       const orchestrationData : any = getControlOrchestrationData(
         controlData,
         "21c6b985251b46b2a031d20162ad9a0e",
@@ -307,7 +304,7 @@ const Buttonview_msg_data_btn = ({ lockedData, setLockedData, tableData, setTabl
   const handleClick=async()=>{
     try{  
       setIsProcessing(true);
-      setjourney_details_groupd9a0e((prev: any) => ({ ...prev, view_msg_data_btn: true }));
+        setjourney_details_groupd9a0e((prev: any) => ({ ...prev, view_msg_data_btn: true }));
         //onClick
 
     // showArtifactAsModal
@@ -356,7 +353,7 @@ const Buttonview_msg_data_btn = ({ lockedData, setLockedData, tableData, setTabl
 
   return (
     <div
-      style={{gridColumn: `2 / 12`,gridRow: `88 / 98`, gap:``, height: `100%`, overflow: 'auto'}} 
+      style={{gridColumn: `3 / 14`,gridRow: `83 / 93`, gap:``, height: `100%`, overflow: 'auto'}} 
       >
       <Modal 
         open={showProfileAsModalOpen2} 

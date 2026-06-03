@@ -29,7 +29,7 @@ import { Pool } from 'pg';
 import { FusionAuthApplicatonAssign, FusionAuthUserApplicatonGet, FusionAutRoleCRUDAlongWithApp,FusionAuthUserGet, FusionAuthUserCreation, FusionAuthGetTenantList, FusionAuthGetApplicationList } from 'src/fusionAuth.api';
 import { EnvData } from 'src/envData/envData.service';
 import { decrypt } from 'src/decrypt';
-import { connectPG } from 'src/mongoClient';
+//import { connectPG } from 'src/mongoClient';
 // import { RuleService } from 'src/ruleService';
 const transporter = nodemailer.createTransport({
   host: 'smtp-mail.outlook.com',
@@ -49,7 +49,7 @@ interface FusionAuthConfig {
   fusionauthRefreshTokenExpiryTimeinMinutes: string
 }
 
-connectPG = (): any => {
+const connectPG = (): any => {
   try {
     if (pgPool) {
       return pgPool;
@@ -77,16 +77,13 @@ connectPG = (): any => {
 }
 
 
-// const auth_secret = process.env.AUTH_SECRET;
 const tenant = process.env.TENANT;
 const ag = process.env.APPGROUPCODE;
 const app = process.env.APPCODE;
 const appName = process.env.APPNAME;
 const version = process.env.VERSION;
 const defaultAuth =  process.env.DEFAULT_AUTHENTICATION;
-// const accessTokenExpiryTime = process.env.AUTH_ACCESSTOKEN_EXPIRY_TIME;
-// const refreshTokenExpiryTime = process.env.AUTH_REFRESHTOKEN_EXPIRY_TIME;
-// const fusionauthRefreshTokenExpiryTimeinMinutes = process.env.FUSIONAUTH_REFRESHTOKEN_EXPIRY_TIME_IN_MINUTES
+
 const torusAppApiBaseUrl = process.env.TOURS_APP_API_BASE_URL
  pgPool = connectPG()
 @Injectable()
@@ -142,7 +139,7 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
     }
 
   async query<T = any>(text: string, params?: any[]): Promise<T[]> {
-    const client = await this.pool.connect();
+    const client = await pgPool.connect();
     try {
       const result = await client.query(text, params);
       return result.rows;

@@ -18,7 +18,6 @@ import { useHandleDfdRefresh } from '@/context/dfdRefreshContext';
 import evaluateDecisionTable,{ evaluateDecisionForDynamicActions,eventDecisionTable } from '@/app/utils/evaluateDecisionTable';
 import decodeToken from '@/app/components/decodeToken';
 import uoMapperData from '@/context/dfdmapperContolnames.json';
-import Textsearch_label  from "./Textsearch_label";
 import Dividerdivider_top  from "./Dividerdivider_top";
 import DatePickertrs_created_date  from "./DatePickertrs_created_date";
 import TextInputdebtor_account_no  from "./TextInputdebtor_account_no";
@@ -73,7 +72,6 @@ const Groupmain_group = ({lockedData={},setLockedData,primaryTableData={},tableD
   const securityData:any={
   "IT Team": {
     "allowedControls": [
-      "search_label",
       "divider_top",
       "trs_created_date",
       "debtor_account_no",
@@ -98,7 +96,6 @@ const Groupmain_group = ({lockedData={},setLockedData,primaryTableData={},tableD
   },
   "Business Team": {
     "allowedControls": [
-      "search_label",
       "divider_top",
       "trs_created_date",
       "debtor_account_no",
@@ -123,7 +120,6 @@ const Groupmain_group = ({lockedData={},setLockedData,primaryTableData={},tableD
   },
   "Operation Team": {
     "allowedControls": [
-      "search_label",
       "divider_top",
       "trs_created_date",
       "debtor_account_no",
@@ -162,7 +158,6 @@ const Groupmain_group = ({lockedData={},setLockedData,primaryTableData={},tableD
    //another screen
   const {main_group9066f, setmain_group9066f}= useContext(TotalContext) as TotalContextProps;
   const {main_group9066fProps, setmain_group9066fProps}= useContext(TotalContext) as TotalContextProps;
-  const {search_label27572, setsearch_label27572}= useContext(TotalContext) as TotalContextProps;
   const {divider_top0354b, setdivider_top0354b}= useContext(TotalContext) as TotalContextProps;
   const {trs_created_date2cea8, settrs_created_date2cea8}= useContext(TotalContext) as TotalContextProps;
   const {debtor_account_no963e4, setdebtor_account_no963e4}= useContext(TotalContext) as TotalContextProps;
@@ -220,9 +215,6 @@ const Groupmain_group = ({lockedData={},setLockedData,primaryTableData={},tableD
   }
     
   /////////////
-    if(orchestrationData?.data?.readableControls.includes("search_label")){
-      setsearch_label27572({...search_label27572,isDisabled:true});
-    }
     if(orchestrationData?.data?.readableControls.includes("divider_top")){
       setdivider_top0354b({...divider_top0354b,isDisabled:true});
     }
@@ -272,8 +264,6 @@ const Groupmain_group = ({lockedData={},setLockedData,primaryTableData={},tableD
         codeStates['setmain_group'] = setmain_group9066f,
         codeStates['main_group9066f'] = main_group9066fProps,
         codeStates['setmain_group9066f'] = setmain_group9066fProps,
-        codeStates['search_label'] = search_label27572,
-        codeStates['setsearch_label'] = setsearch_label27572,
         codeStates['divider_top'] = divider_top0354b,
         codeStates['setdivider_top'] = setdivider_top0354b,
         codeStates['trs_created_date'] = trs_created_date2cea8,
@@ -365,7 +355,6 @@ const Groupmain_group = ({lockedData={},setLockedData,primaryTableData={},tableD
       }}
       className={`flex flex-col overflow-auto rounded-md  ${isDark ? 'text-white' : 'text-black'}`}
     >
-          {allowedControls.includes("search_label") ?<Textsearch_label   /* 27572 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("divider_top") ?<Dividerdivider_top   /* 0354b */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("trs_created_date") ?<DatePickertrs_created_date   /* 2cea8 */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("debtor_account_no") ?<TextInputdebtor_account_no   /* 963e4 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}

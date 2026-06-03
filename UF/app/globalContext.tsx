@@ -237,10 +237,6 @@ export interface TotalContextProps {
   setstatus_return_queue95903:React.Dispatch<React.SetStateAction<any>>
   status_return_queue95903Props: any 
   setstatus_return_queue95903Props: React.Dispatch<React.SetStateAction<any>>
-  search_label27572: any,
-  setsearch_label27572:React.Dispatch<React.SetStateAction<any>>
-  search_label27572Props: any 
-  setsearch_label27572Props: React.Dispatch<React.SetStateAction<any>>
   divider_top0354b: any,
   setdivider_top0354b:React.Dispatch<React.SetStateAction<any>>
   divider_top0354bProps: any 
@@ -297,18 +293,10 @@ export interface TotalContextProps {
   setcleareddfa:React.Dispatch<React.SetStateAction<any>>
   cleareddfaProps: any 
   setcleareddfaProps: React.Dispatch<React.SetStateAction<any>>
-  tran_journey_label02972: any,
-  settran_journey_label02972:React.Dispatch<React.SetStateAction<any>>
-  tran_journey_label02972Props: any 
-  settran_journey_label02972Props: React.Dispatch<React.SetStateAction<any>>
   tran_journey1602a: any,
   settran_journey1602a:React.Dispatch<React.SetStateAction<any>>
   tran_journey1602aProps: any 
   settran_journey1602aProps: React.Dispatch<React.SetStateAction<any>>
-  details_labelb25b2: any,
-  setdetails_labelb25b2:React.Dispatch<React.SetStateAction<any>>
-  details_labelb25b2Props: any 
-  setdetails_labelb25b2Props: React.Dispatch<React.SetStateAction<any>>
   divider_tope6917: any,
   setdivider_tope6917:React.Dispatch<React.SetStateAction<any>>
   divider_tope6917Props: any 
@@ -389,10 +377,6 @@ export interface TotalContextProps {
   setview_tran_log_btn9cd8c:React.Dispatch<React.SetStateAction<any>>
   view_tran_log_btn9cd8cProps: any 
   setview_tran_log_btn9cd8cProps: React.Dispatch<React.SetStateAction<any>>
-  msg_data_label7b760: any,
-  setmsg_data_label7b760:React.Dispatch<React.SetStateAction<any>>
-  msg_data_label7b760Props: any 
-  setmsg_data_label7b760Props: React.Dispatch<React.SetStateAction<any>>
   divider_topf46a0: any,
   setdivider_topf46a0:React.Dispatch<React.SetStateAction<any>>
   divider_topf46a0Props: any 
@@ -409,10 +393,6 @@ export interface TotalContextProps {
   setcancel_btn5e840:React.Dispatch<React.SetStateAction<any>>
   cancel_btn5e840Props: any 
   setcancel_btn5e840Props: React.Dispatch<React.SetStateAction<any>>
-  transaction_log_label7b760: any,
-  settransaction_log_label7b760:React.Dispatch<React.SetStateAction<any>>
-  transaction_log_label7b760Props: any 
-  settransaction_log_label7b760Props: React.Dispatch<React.SetStateAction<any>>
   req_jsonviewerc80ab: any,
   setreq_jsonviewerc80ab:React.Dispatch<React.SetStateAction<any>>
   req_jsonviewerc80abProps: any 
@@ -645,7 +625,6 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
-            "search_label",
             "divider_top",
             "trs_created_date",
             "dr_account",
@@ -676,7 +655,6 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
-            "tran_journey_label",
             "vgphstm_uuid",
       ]
       }) 
@@ -691,7 +669,6 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
-            "details_label",
             "divider_top",
             "transaction_date_time_label",
             "status_label",
@@ -725,7 +702,6 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
-            "transaction_log_label",
             "divider_top",
             "divider_bottom",
             "cancel_btn",
@@ -1087,14 +1063,6 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: false
     }) 
-   const [search_label27572,setsearch_label27572] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: false
-    }) 
    const [divider_top0354b,setdivider_top0354b] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
@@ -1207,23 +1175,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: false
     }) 
-   const [tran_journey_label02972,settran_journey_label02972] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: false
-    }) 
    const [tran_journey1602a,settran_journey1602a] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: false
-    }) 
-   const [details_labelb25b2,setdetails_labelb25b2] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
@@ -1391,14 +1343,6 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: false
     }) 
-   const [msg_data_label7b760,setmsg_data_label7b760] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: false
-    }) 
    const [divider_topf46a0,setdivider_topf46a0] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
@@ -1424,14 +1368,6 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [cancel_btn5e840,setcancel_btn5e840] = React.useState<any>({
-    isDisabled: false,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: false
-    }) 
-   const [transaction_log_label7b760,settransaction_log_label7b760] = React.useState<any>({
     isDisabled: false,
     presetValues: '',
     isHidden: false,
@@ -1497,7 +1433,6 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
        columncr_Amount_return_queue13fec:false,
        columnremittance_info_return_queuef37f7:false,
        columnstatus_return_queue95903:false,
-       textsearch_label27572:false,
        dividerdivider_top0354b:false,
        datepickertrs_created_date2cea8:false,
        textinputdebtor_account_no963e4:false,
@@ -1512,9 +1447,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
        dividerdivider_bottom72ab5:false,
        buttonsearch0e695:false,
        buttoncleareddfa:false,
-       texttran_journey_label02972:false,
        timelinetran_journey1602a:false,
-       textdetails_labelb25b2:false,
        dividerdivider_tope6917:false,
        texttransaction_date_time_label669d7:false,
        textstatus_labelf3713:false,
@@ -1535,12 +1468,10 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
        dividerdivider_bottom8bad5:false,
        buttonview_msg_data_btne6a88:false,
        buttonview_tran_log_btn9cd8c:false,
-       textmsg_data_label7b760:false,
        dividerdivider_topf46a0:false,
        xmlviewerxmlviewer9fe8d:false,
        dividerdivider_bottom6920d:false,
        buttoncancel_btn5e840:false,
-       texttransaction_log_label7b760:false,
        jsonviewerreq_jsonviewerc80ab:false,
        jsonviewerres_jsonviewer9d6d1:false,
        grouptran_main_group1dc7f:false,
@@ -1758,8 +1689,6 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setremittance_info_return_queuef37f7, 
         status_return_queue95903,
         setstatus_return_queue95903, 
-        search_label27572,
-        setsearch_label27572, 
         divider_top0354b,
         setdivider_top0354b, 
         trs_created_date2cea8,
@@ -1788,12 +1717,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setsearch0e695, 
         cleareddfa,
         setcleareddfa, 
-        tran_journey_label02972,
-        settran_journey_label02972, 
         tran_journey1602a,
         settran_journey1602a, 
-        details_labelb25b2,
-        setdetails_labelb25b2, 
         divider_tope6917,
         setdivider_tope6917, 
         transaction_date_time_label669d7,
@@ -1834,8 +1759,6 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setview_msg_data_btne6a88, 
         view_tran_log_btn9cd8c,
         setview_tran_log_btn9cd8c, 
-        msg_data_label7b760,
-        setmsg_data_label7b760, 
         divider_topf46a0,
         setdivider_topf46a0, 
         xmlviewer9fe8d,
@@ -1844,8 +1767,6 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setdivider_bottom6920d, 
         cancel_btn5e840,
         setcancel_btn5e840, 
-        transaction_log_label7b760,
-        settransaction_log_label7b760, 
         req_jsonviewerc80ab,
         setreq_jsonviewerc80ab, 
         res_jsonviewer9d6d1,

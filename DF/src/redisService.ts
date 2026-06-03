@@ -5,8 +5,8 @@ const Redis = require('ioredis');
 import 'dotenv/config';
 import { Db, MongoClient } from 'mongodb';
 const _ = require("lodash")
-import { connectToMongo, connectToRedis, getDb, getRedis,connectPG } from './mongoClient';
-import { queueMongoOperation } from './mongoQueue-dynamic';
+// import { connectToMongo, connectToRedis, getDb, getRedis,connectPG } from './mongoClient';
+// import { queueMongoOperation } from './mongoQueue-dynamic';
 
 let db: Db;
 let redis
@@ -36,7 +36,7 @@ let pgPool: any;
     });
   }
 
-  connectPG = (): any => {
+  const connectPG = (): any => {
   try {
     if (pgPool) {
       return pgPool;
@@ -163,30 +163,7 @@ export class RedisService {
       }else{
         var request = await redis.call('JSON.ARRAPPEND', key, '$', value)
       }
-
-      if(request){
-        // Update CACHE_MANAGER - append to cached array
-        // let cachedResult = await this.cacheManager.get<string>(key);
-        // if (cachedResult) {
-        //   let parsedValue = JSON.parse(cachedResult);
-        //   if (path) {
-        //     let existingArr = _.get(parsedValue, path) || [];
-        //     existingArr.push(JSON.parse(value));
-        //     _.set(parsedValue, path, existingArr);
-        //   } else {
-        //     if (Array.isArray(parsedValue)) {
-        //       parsedValue.push(JSON.parse(value));
-        //     }
-        //   }
-        //   await this.cacheManager.set(key, JSON.stringify(parsedValue));
-        // }
-
-        // Queue MongoDB operation
-        await queueMongoOperation(
-          () => this.appendDocumentData(collectionName, key, JSON.parse(value)),
-          `appendDocumentData:${key}`
-        );
-      }
+      
       return request;
 
     } catch (error) {
@@ -736,16 +713,16 @@ export class RedisService {
 
       var result = await redis.call('RENAME', oldKey, newKey);
       // Queue MongoDB operations
-      let mongoResult = await queueMongoOperation(
-        () => this.existsDocument(client, oldKey),
-        `existsDocument:${oldKey}`
-      );
-      if(mongoResult){
-        await queueMongoOperation(
-          () => this.renameDocumentId(client, oldKey, newKey),
-          `renameDocumentId:${oldKey}`
-        );
-      }
+      // let mongoResult = await queueMongoOperation(
+      //   () => this.existsDocument(client, oldKey),
+      //   `existsDocument:${oldKey}`
+      // );
+      // if(mongoResult){
+      //   await queueMongoOperation(
+      //     () => this.renameDocumentId(client, oldKey, newKey),
+      //     `renameDocumentId:${oldKey}`
+      //   );
+      // }
       return result;
     } catch (error) {
       throw error;

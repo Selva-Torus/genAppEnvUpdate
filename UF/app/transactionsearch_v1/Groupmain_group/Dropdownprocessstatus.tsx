@@ -93,7 +93,6 @@ const Dropdownprocessstatus = ({lockedData,setLockedData,checkToAdd,setCheckToAd
    //another screen
   const {main_group9066f, setmain_group9066f}= useContext(TotalContext) as TotalContextProps;
   const {main_group9066fProps, setmain_group9066fProps}= useContext(TotalContext) as TotalContextProps;
-  const {search_label27572, setsearch_label27572}= useContext(TotalContext) as TotalContextProps;
   const {divider_top0354b, setdivider_top0354b}= useContext(TotalContext) as TotalContextProps;
   const {trs_created_date2cea8, settrs_created_date2cea8}= useContext(TotalContext) as TotalContextProps;
   const {debtor_account_no963e4, setdebtor_account_no963e4}= useContext(TotalContext) as TotalContextProps;
@@ -336,8 +335,6 @@ const Dropdownprocessstatus = ({lockedData,setLockedData,checkToAdd,setCheckToAd
         codeStates['setmain_group'] = setmain_group9066f,
         codeStates['main_group9066f'] = main_group9066fProps,
         codeStates['setmain_group9066f'] = setmain_group9066fProps,
-        codeStates['search_label'] = search_label27572,
-        codeStates['setsearch_label'] = setsearch_label27572,
         codeStates['divider_top'] = divider_top0354b,
         codeStates['setdivider_top'] = setdivider_top0354b,
         codeStates['trs_created_date'] = trs_created_date2cea8,
@@ -414,7 +411,7 @@ const Dropdownprocessstatus = ({lockedData,setLockedData,checkToAdd,setCheckToAd
     <div
       style={{
         gridColumn: `17 / 25`,
-        gridRow: `42 / 56`,
+        gridRow: `36 / 50`,
         gap:``, 
         height: `100%`,
         overflow: 'visible',

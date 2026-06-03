@@ -292,7 +292,7 @@ const Buttonsearch = ({ lockedData, setLockedData, tableData, setTableData, prim
   const handleClick=async()=>{
     try{  
       setIsProcessing(true);
-      settran_tab_group08b64((prev: any) => ({ ...prev, search: true }));
+        settran_tab_group08b64((prev: any) => ({ ...prev, search: true }));
         //onClick
 
     // showArtifactAsModal

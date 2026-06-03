@@ -518,11 +518,6 @@
     "remittance_info",
     "status_return_queue"
   ],
-  "ad4fbcf01ea04351b3922719c6f27572": {
-    "source": "search_label",
-    "target": "search_label",
-    "controlName": "search_label"
-  },
   "0a1f6e935e084b04a7a5b30f6890354b": {
     "source": "divider_top",
     "target": "divider_top",
@@ -692,7 +687,6 @@
     "controlName": "clear"
   },
   "main_group9066f": [
-    "search_label",
     "divider_top",
     "trs_created_date",
     "dr_account",
@@ -711,11 +705,6 @@
     "search",
     "clear"
   ],
-  "43c7146d509e4f638ffd38e418c02972": {
-    "source": "tran_journey_label",
-    "target": "tran_journey_label",
-    "controlName": "tran_journey_label"
-  },
   "ff6f377f1e4e4a489691b00692e1602a": {
     "source": "vgphstm_uuid",
     "target": "tran_journey",
@@ -730,14 +719,8 @@
     "controlName": "tran_journey"
   },
   "tran_journey_group9eb2e": [
-    "tran_journey_label",
     "vgphstm_uuid"
   ],
-  "342aa7651955416f95081158a07b25b2": {
-    "source": "details_label",
-    "target": "details_label",
-    "controlName": "details_label"
-  },
   "52e0965f6799425bb20bc571486e6917": {
     "source": "divider_top",
     "target": "divider_top",
@@ -903,7 +886,6 @@
     "controlName": "view_tran_log_btn"
   },
   "journey_details_groupd9a0e": [
-    "details_label",
     "divider_top",
     "transaction_date_time_label",
     "status_label",
@@ -925,11 +907,6 @@
     "view_msg_data_btn",
     "view_tran_log_btn"
   ],
-  "d1ae529e374e497c956fd0973db7b760": {
-    "source": "transaction_log_label",
-    "target": "transaction_log_label",
-    "controlName": "transaction_log_label"
-  },
   "2f26410857cd458ba759b331520f46a0": {
     "source": "divider_top",
     "target": "divider_top",
@@ -959,7 +936,6 @@
     "controlName": "cancel_btn"
   },
   "tran_data_group84f25": [
-    "transaction_log_label",
     "divider_top",
     "divider_bottom",
     "cancel_btn"

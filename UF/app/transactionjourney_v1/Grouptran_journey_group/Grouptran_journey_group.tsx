@@ -18,7 +18,6 @@ import { useHandleDfdRefresh } from '@/context/dfdRefreshContext';
 import evaluateDecisionTable,{ evaluateDecisionForDynamicActions,eventDecisionTable } from '@/app/utils/evaluateDecisionTable';
 import decodeToken from '@/app/components/decodeToken';
 import uoMapperData from '@/context/dfdmapperContolnames.json';
-import Texttran_journey_label  from "./Texttran_journey_label";
 import TimeLinetran_journey  from "./TimeLinetran_journey";
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
 import { getCookie } from "@/app/components/cookieMgment";
@@ -57,7 +56,6 @@ const Grouptran_journey_group = ({lockedData={},setLockedData,primaryTableData={
   const securityData:any={
   "IT Team": {
     "allowedControls": [
-      "tran_journey_label",
       "tran_journey"
     ],
     "allowedGroups": [
@@ -69,7 +67,6 @@ const Grouptran_journey_group = ({lockedData={},setLockedData,primaryTableData={
   },
   "Business Team": {
     "allowedControls": [
-      "tran_journey_label",
       "tran_journey"
     ],
     "allowedGroups": [
@@ -81,7 +78,6 @@ const Grouptran_journey_group = ({lockedData={},setLockedData,primaryTableData={
   },
   "Operation Team": {
     "allowedControls": [
-      "tran_journey_label",
       "tran_journey"
     ],
     "allowedGroups": [
@@ -107,7 +103,6 @@ const Grouptran_journey_group = ({lockedData={},setLockedData,primaryTableData={
    //another screen
   const {tran_journey_group9eb2e, settran_journey_group9eb2e}= useContext(TotalContext) as TotalContextProps;
   const {tran_journey_group9eb2eProps, settran_journey_group9eb2eProps}= useContext(TotalContext) as TotalContextProps;
-  const {tran_journey_label02972, settran_journey_label02972}= useContext(TotalContext) as TotalContextProps;
   const {tran_journey1602a, settran_journey1602a}= useContext(TotalContext) as TotalContextProps;
   //////////////
   const [ruleData,setRuleData]=useState<any>([])
@@ -152,9 +147,6 @@ const Grouptran_journey_group = ({lockedData={},setLockedData,primaryTableData={
   }
     
   /////////////
-    if(orchestrationData?.data?.readableControls.includes("tran_journey_label")){
-      settran_journey_label02972({...tran_journey_label02972,isDisabled:true});
-    }
     if(orchestrationData?.data?.readableControls.includes("tran_journey")){
       settran_journey1602a({...tran_journey1602a,isDisabled:true});
     }
@@ -165,8 +157,6 @@ const Grouptran_journey_group = ({lockedData={},setLockedData,primaryTableData={
         codeStates['settran_journey_group'] = settran_journey_group9eb2e,
         codeStates['tran_journey_group9eb2e'] = tran_journey_group9eb2eProps,
         codeStates['settran_journey_group9eb2e'] = settran_journey_group9eb2eProps,
-        codeStates['tran_journey_label'] = tran_journey_label02972,
-        codeStates['settran_journey_label'] = settran_journey_label02972,
         codeStates['tran_journey'] = tran_journey1602a,
         codeStates['settran_journey'] = settran_journey1602a,
 
@@ -211,7 +201,7 @@ const Grouptran_journey_group = ({lockedData={},setLockedData,primaryTableData={
     <div 
       style={{          
         gridColumn: '1 / 25',
-        gridRow: '1 / 192',
+        gridRow: '1 / 179',
       
         //rowGap: '0px',
         display: 'grid',
@@ -232,7 +222,6 @@ const Grouptran_journey_group = ({lockedData={},setLockedData,primaryTableData={
       }}
       className={`flex flex-col overflow-auto rounded-md  ${isDark ? 'text-white' : 'text-black'}`}
     >
-          {allowedControls.includes("tran_journey_label") ?<Texttran_journey_label   /* 02972 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("tran_journey") ?<TimeLinetran_journey   /* 1602a */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
     </div>
  )

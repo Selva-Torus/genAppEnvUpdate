@@ -85,7 +85,6 @@ const XmlViewerxmlviewer = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encrypt
    //another screen
   const {tran_data_group84f25, settran_data_group84f25}= useContext(TotalContext) as TotalContextProps;
   const {tran_data_group84f25Props, settran_data_group84f25Props}= useContext(TotalContext) as TotalContextProps;
-  const {msg_data_label7b760, setmsg_data_label7b760}= useContext(TotalContext) as TotalContextProps;
   const {divider_topf46a0, setdivider_topf46a0}= useContext(TotalContext) as TotalContextProps;
   const {xmlviewer9fe8d, setxmlviewer9fe8d}= useContext(TotalContext) as TotalContextProps;
   const {divider_bottom6920d, setdivider_bottom6920d}= useContext(TotalContext) as TotalContextProps;
@@ -99,7 +98,7 @@ const XmlViewerxmlviewer = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encrypt
     <div 
       style={{
         gridColumn: `1 / 25`,
-        gridRow: `14 / 97`, 
+        gridRow: `7 / 90`, 
         gap:``, 
         height: `100%`, 
         overflow: 'visible',

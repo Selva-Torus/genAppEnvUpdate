@@ -18,7 +18,6 @@ import { useHandleDfdRefresh } from '@/context/dfdRefreshContext';
 import evaluateDecisionTable,{ evaluateDecisionForDynamicActions,eventDecisionTable } from '@/app/utils/evaluateDecisionTable';
 import decodeToken from '@/app/components/decodeToken';
 import uoMapperData from '@/context/dfdmapperContolnames.json';
-import Textmsg_data_label  from "./Textmsg_data_label";
 import Dividerdivider_top  from "./Dividerdivider_top";
 import XmlViewerxmlviewer  from "./XmlViewerxmlviewer";
 import Dividerdivider_bottom  from "./Dividerdivider_bottom";
@@ -60,7 +59,6 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
   const securityData:any={
   "IT Team": {
     "allowedControls": [
-      "msg_data_label",
       "divider_top",
       "xmlviewer",
       "divider_bottom",
@@ -75,7 +73,6 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
   },
   "Business Team": {
     "allowedControls": [
-      "msg_data_label",
       "divider_top",
       "xmlviewer",
       "divider_bottom",
@@ -90,7 +87,6 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
   },
   "Operation Team": {
     "allowedControls": [
-      "msg_data_label",
       "divider_top",
       "xmlviewer",
       "divider_bottom",
@@ -119,7 +115,6 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
    //another screen
   const {tran_data_group84f25, settran_data_group84f25}= useContext(TotalContext) as TotalContextProps;
   const {tran_data_group84f25Props, settran_data_group84f25Props}= useContext(TotalContext) as TotalContextProps;
-  const {msg_data_label7b760, setmsg_data_label7b760}= useContext(TotalContext) as TotalContextProps;
   const {divider_topf46a0, setdivider_topf46a0}= useContext(TotalContext) as TotalContextProps;
   const {xmlviewer9fe8d, setxmlviewer9fe8d}= useContext(TotalContext) as TotalContextProps;
   const {divider_bottom6920d, setdivider_bottom6920d}= useContext(TotalContext) as TotalContextProps;
@@ -167,9 +162,6 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
   }
     
   /////////////
-    if(orchestrationData?.data?.readableControls.includes("msg_data_label")){
-      setmsg_data_label7b760({...msg_data_label7b760,isDisabled:true});
-    }
     if(orchestrationData?.data?.readableControls.includes("divider_top")){
       setdivider_topf46a0({...divider_topf46a0,isDisabled:true});
     }
@@ -189,8 +181,6 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
         codeStates['settran_data_group'] = settran_data_group84f25,
         codeStates['tran_data_group84f25'] = tran_data_group84f25Props,
         codeStates['settran_data_group84f25'] = settran_data_group84f25Props,
-        codeStates['msg_data_label'] = msg_data_label7b760,
-        codeStates['setmsg_data_label'] = setmsg_data_label7b760,
         codeStates['divider_top'] = divider_topf46a0,
         codeStates['setdivider_top'] = setdivider_topf46a0,
         codeStates['xmlviewer'] = xmlviewer9fe8d,
@@ -241,7 +231,7 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
     <div 
       style={{          
         gridColumn: '1 / 25',
-        gridRow: '1 / 117',
+        gridRow: '1 / 109',
       
         //rowGap: '0px',
         display: 'grid',
@@ -262,7 +252,6 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
       }}
       className={`flex flex-col overflow-auto rounded-md  ${isDark ? 'text-white' : 'text-black'}`}
     >
-          {allowedControls.includes("msg_data_label") ?<Textmsg_data_label   /* 7b760 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("divider_top") ?<Dividerdivider_top   /* f46a0 */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("xmlviewer") ?<XmlViewerxmlviewer   /* 9fe8d */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("divider_bottom") ?<Dividerdivider_bottom   /* 6920d */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}

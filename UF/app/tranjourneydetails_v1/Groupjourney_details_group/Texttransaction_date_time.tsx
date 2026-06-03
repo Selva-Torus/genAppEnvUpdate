@@ -24,7 +24,6 @@ const Texttransaction_date_time = ({encryptionFlagCompData,isDynamic,item,index,
    //another screen
   const {journey_details_groupd9a0e, setjourney_details_groupd9a0e}= useContext(TotalContext) as TotalContextProps;
   const {journey_details_groupd9a0eProps, setjourney_details_groupd9a0eProps}= useContext(TotalContext) as TotalContextProps;
-  const {details_labelb25b2, setdetails_labelb25b2}= useContext(TotalContext) as TotalContextProps;
   const {divider_tope6917, setdivider_tope6917}= useContext(TotalContext) as TotalContextProps;
   const {transaction_date_time_label669d7, settransaction_date_time_label669d7}= useContext(TotalContext) as TotalContextProps;
   const {status_labelf3713, setstatus_labelf3713}= useContext(TotalContext) as TotalContextProps;
@@ -94,10 +93,10 @@ const Texttransaction_date_time = ({encryptionFlagCompData,isDynamic,item,index,
   }
 
 return (
-  <div className="" style={{gridColumn: `1 / 13`,gridRow: `23 / 31`, gap:``, height: `100%`}} >
+  <div className="" style={{gridColumn: `1 / 13`,gridRow: `14 / 22`, gap:``, height: `100%`}} >
 <Text
   contentAlign={"left"}
-  className="!bg-[#f7f8f8]"
+  className="!bg-[#f7f8f8] p-1 !pl-2"
   variant="code-1"
   color="primary"
 >

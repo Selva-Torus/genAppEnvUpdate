@@ -105,7 +105,6 @@ const Buttoncancel_btn = ({ lockedData, setLockedData, tableData, setTableData, 
 
   const {tran_data_group84f25, settran_data_group84f25}= useContext(TotalContext) as TotalContextProps;
   const {tran_data_group84f25Props, settran_data_group84f25Props}= useContext(TotalContext) as TotalContextProps;
-  const {msg_data_label7b760, setmsg_data_label7b760}= useContext(TotalContext) as TotalContextProps;
   const {divider_topf46a0, setdivider_topf46a0}= useContext(TotalContext) as TotalContextProps;
   const {xmlviewer9fe8d, setxmlviewer9fe8d}= useContext(TotalContext) as TotalContextProps;
   const {divider_bottom6920d, setdivider_bottom6920d}= useContext(TotalContext) as TotalContextProps;
@@ -137,8 +136,6 @@ const Buttoncancel_btn = ({ lockedData, setLockedData, tableData, setTableData, 
         codeStates['settran_data_group'] = settran_data_group84f25,
         codeStates['tran_data_group84f25'] = tran_data_group84f25Props,
         codeStates['settran_data_group84f25'] = settran_data_group84f25Props,
-        codeStates['msg_data_label'] = msg_data_label7b760,
-        codeStates['setmsg_data_label'] = setmsg_data_label7b760,
         codeStates['divider_top'] = divider_topf46a0,
         codeStates['setdivider_top'] = setdivider_topf46a0,
         codeStates['xmlviewer'] = xmlviewer9fe8d,
@@ -155,7 +152,7 @@ const Buttoncancel_btn = ({ lockedData, setLockedData, tableData, setTableData, 
   const {messagedataview_v1, setmessagedataview_v1} = useContext(TotalContext) as TotalContextProps;
   const handleMapper=async (data?:any) => {
     try{     
-      let parentRowSpan = 116;
+      let parentRowSpan = 108;
       const orchestrationData : any = getControlOrchestrationData(
         controlData,
         "548f837ab1014476af45ffa25dd84f25",
@@ -247,7 +244,7 @@ const Buttoncancel_btn = ({ lockedData, setLockedData, tableData, setTableData, 
   const handleClick=async()=>{
     try{  
       setIsProcessing(true);
-      settran_data_group84f25((prev: any) => ({ ...prev, cancel_btn: true }));
+        settran_data_group84f25((prev: any) => ({ ...prev, cancel_btn: true }));
         //onClick
 
     // closeHandler   
@@ -289,7 +286,7 @@ const Buttoncancel_btn = ({ lockedData, setLockedData, tableData, setTableData, 
 
   return (
     <div
-      style={{gridColumn: `20 / 25`,gridRow: `103 / 113`, gap:``, height: `100%`, overflow: 'auto'}} 
+      style={{gridColumn: `20 / 25`,gridRow: `97 / 107`, gap:``, height: `100%`, overflow: 'auto'}} 
       >
         {showFlag && <Button 
           ref={buttonRef}

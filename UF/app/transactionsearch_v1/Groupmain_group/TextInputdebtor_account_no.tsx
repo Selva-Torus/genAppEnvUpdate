@@ -103,7 +103,6 @@ const TextInputdebtor_account_no = ({checkToAdd,setCheckToAdd,refetch,setRefetch
    //another screen
   const {main_group9066f, setmain_group9066f}= useContext(TotalContext) as TotalContextProps;
   const {main_group9066fProps, setmain_group9066fProps}= useContext(TotalContext) as TotalContextProps;
-  const {search_label27572, setsearch_label27572}= useContext(TotalContext) as TotalContextProps;
   const {divider_top0354b, setdivider_top0354b}= useContext(TotalContext) as TotalContextProps;
   const {trs_created_date2cea8, settrs_created_date2cea8}= useContext(TotalContext) as TotalContextProps;
   const {debtor_account_no963e4, setdebtor_account_no963e4}= useContext(TotalContext) as TotalContextProps;
@@ -164,8 +163,6 @@ const TextInputdebtor_account_no = ({checkToAdd,setCheckToAdd,refetch,setRefetch
         codeStates['setmain_group'] = setmain_group9066f,
         codeStates['main_group9066f'] = main_group9066fProps,
         codeStates['setmain_group9066f'] = setmain_group9066fProps,
-        codeStates['search_label'] = search_label27572,
-        codeStates['setsearch_label'] = setsearch_label27572,
         codeStates['divider_top'] = divider_top0354b,
         codeStates['setdivider_top'] = setdivider_top0354b,
         codeStates['trs_created_date'] = trs_created_date2cea8,
@@ -302,7 +299,7 @@ const TextInputdebtor_account_no = ({checkToAdd,setCheckToAdd,refetch,setRefetch
   }
   return (   
     <div  
-      style={{gridColumn: `9 / 17`,gridRow: `12 / 26`, gap:``, height: `100%`, overflow: 'auto', display: 'flex', flexDirection: 'column'}} >
+      style={{gridColumn: `9 / 17`,gridRow: `6 / 20`, gap:``, height: `100%`, overflow: 'auto', display: 'flex', flexDirection: 'column'}} >
       <div style={{ flex: 1, minHeight: 0 }}>
       <TextInput
         require={isRequredData}

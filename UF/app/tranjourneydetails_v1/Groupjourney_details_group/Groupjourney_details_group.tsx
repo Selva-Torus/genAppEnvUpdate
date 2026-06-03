@@ -18,7 +18,6 @@ import { useHandleDfdRefresh } from '@/context/dfdRefreshContext';
 import evaluateDecisionTable,{ evaluateDecisionForDynamicActions,eventDecisionTable } from '@/app/utils/evaluateDecisionTable';
 import decodeToken from '@/app/components/decodeToken';
 import uoMapperData from '@/context/dfdmapperContolnames.json';
-import Textdetails_label  from "./Textdetails_label";
 import Dividerdivider_top  from "./Dividerdivider_top";
 import Texttransaction_date_time_label  from "./Texttransaction_date_time_label";
 import Textstatus_label  from "./Textstatus_label";
@@ -96,7 +95,6 @@ if("message_data" in journey_details_group && journey_details_group.message_data
   const securityData:any={
   "IT Team": {
     "allowedControls": [
-      "details_label",
       "divider_top",
       "transaction_date_time_label",
       "status_label",
@@ -130,7 +128,6 @@ if("message_data" in journey_details_group && journey_details_group.message_data
   },
   "Business Team": {
     "allowedControls": [
-      "details_label",
       "divider_top",
       "transaction_date_time_label",
       "status_label",
@@ -161,7 +158,6 @@ if("message_data" in journey_details_group && journey_details_group.message_data
   },
   "Operation Team": {
     "allowedControls": [
-      "details_label",
       "divider_top",
       "transaction_date_time_label",
       "status_label",
@@ -206,7 +202,6 @@ if("message_data" in journey_details_group && journey_details_group.message_data
    //another screen
   const {journey_details_groupd9a0e, setjourney_details_groupd9a0e}= useContext(TotalContext) as TotalContextProps;
   const {journey_details_groupd9a0eProps, setjourney_details_groupd9a0eProps}= useContext(TotalContext) as TotalContextProps;
-  const {details_labelb25b2, setdetails_labelb25b2}= useContext(TotalContext) as TotalContextProps;
   const {divider_tope6917, setdivider_tope6917}= useContext(TotalContext) as TotalContextProps;
   const {transaction_date_time_label669d7, settransaction_date_time_label669d7}= useContext(TotalContext) as TotalContextProps;
   const {status_labelf3713, setstatus_labelf3713}= useContext(TotalContext) as TotalContextProps;
@@ -270,9 +265,6 @@ if("message_data" in journey_details_group && journey_details_group.message_data
   }
     
   /////////////
-    if(orchestrationData?.data?.readableControls.includes("details_label")){
-      setdetails_labelb25b2({...details_labelb25b2,isDisabled:true});
-    }
     if(orchestrationData?.data?.readableControls.includes("divider_top")){
       setdivider_tope6917({...divider_tope6917,isDisabled:true});
     }
@@ -340,8 +332,6 @@ if("message_data" in journey_details_group && journey_details_group.message_data
         codeStates['setjourney_details_group'] = setjourney_details_groupd9a0e,
         codeStates['journey_details_groupd9a0e'] = journey_details_groupd9a0eProps,
         codeStates['setjourney_details_groupd9a0e'] = setjourney_details_groupd9a0eProps,
-        codeStates['details_label'] = details_labelb25b2,
-        codeStates['setdetails_label'] = setdetails_labelb25b2,
         codeStates['divider_top'] = divider_tope6917,
         codeStates['setdivider_top'] = setdivider_tope6917,
         codeStates['transaction_date_time_label'] = transaction_date_time_label669d7,
@@ -424,7 +414,7 @@ if("message_data" in journey_details_group && journey_details_group.message_data
     <div 
       style={{          
         gridColumn: '1 / 25',
-        gridRow: '1 / 104',
+        gridRow: '1 / 95',
       
         //rowGap: '0px',
         display: 'grid',
@@ -433,7 +423,7 @@ if("message_data" in journey_details_group && journey_details_group.message_data
         height: '100%',
         overflow: 'auto',
         gridAutoRows: '4px',
-        columnGap: '5px',
+        columnGap: '10px',
         backgroundColor:'#ffffff',
         backgroundImage:"url('')",
         backgroundPosition: '',
@@ -445,7 +435,6 @@ if("message_data" in journey_details_group && journey_details_group.message_data
       }}
       className={`flex flex-col overflow-auto rounded-md  ${isDark ? 'text-white' : 'text-black'}`}
     >
-          {allowedControls.includes("details_label") ?<Textdetails_label   /* b25b2 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("divider_top") ?<Dividerdivider_top   /* e6917 */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
           {allowedControls.includes("transaction_date_time_label") ?<Texttransaction_date_time_label   /* 669d7 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
           {allowedControls.includes("status_label") ?<Textstatus_label   /* f3713 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}

@@ -53,9 +53,6 @@ export default function PageMessagedataviewV1() {
   const [checkToAdd, setCheckToAdd] = useState<Record<string, any>>({});
   const allRuleData:any={
   "tran_data_group": {
-    "msg_data_label": {
-      "show": false
-    },
     "divider_top": {
       "show": false
     },

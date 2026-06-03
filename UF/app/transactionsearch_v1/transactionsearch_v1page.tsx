@@ -53,9 +53,6 @@ export default function PageTransactionsearchV1() {
   const [checkToAdd, setCheckToAdd] = useState<Record<string, any>>({});
   const allRuleData:any={
   "main_group": {
-    "search_label": {
-      "show": false
-    },
     "divider_top": {
       "show": false
     },

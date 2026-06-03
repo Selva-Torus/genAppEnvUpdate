@@ -1351,7 +1351,7 @@ export class DynamicFlowService {
                         }
                     } else{
                         mapObj = sobj
-                         if(searchFilter && !Array.isArray(searchFilter) && Object.keys(searchFilter).length>0 && !logicCenter){
+                          if(searchFilter && !Array.isArray(searchFilter) && Object.keys(searchFilter).length>0 && !logicCenter){
                              mapObj = Object.assign(mapObj,searchFilter)
                                 const matches = [...manualQuery.matchAll(/\$\$([a-zA-Z0-9_.]+)/g)];
                                 const variables = matches.map(match => match[1]);                               
@@ -1359,15 +1359,69 @@ export class DynamicFlowService {
                                 if(searchFilter?.[key])
                                 delete searchFilter[key];
                                 });
+                                const singleMatches = [...manualQuery.matchAll(/\$\{([^}]+)\}/g)];
+                                const singlevariables = singleMatches.map(match => match[1]);
+                                singlevariables.forEach((key) => {
+                                if(searchFilter?.[key]){
+                                let value = searchFilter[key]
+                                if(typeof value == 'string')
+                                manualQuery = manualQuery.replaceAll(`\${${key}}`,`${key} = '${value}'`)
+                                else if(typeof value == 'number')
+                                manualQuery = manualQuery.replaceAll(`\${${key}}`,`${key} = '${value}'`)
+                                delete searchFilter[key];
+                                }                                 
+                                });
                          }else if(searchFilter && Array.isArray(searchFilter) && searchFilter.length>0 && !logicCenter){
                             let searchArrObj = {}
+                             const singleMatches = [...manualQuery.matchAll(/\$\{([^}]+)\}/g)];
+                            const singlevariables = singleMatches.map(match => match[1]); 
                             for(let item of searchFilter){
-                                searchArrObj[item.key] = item.value
+                                searchArrObj[item.key] = item.value                               
+                                singlevariables.forEach((key) => {
+                                if(item.key == key){
+                                     let value = item.value;
+                                    let value2 = item.value2;
+                                    let operator = item.operator;
+                                    let type = item.type;                                    
+                                    if(key && value && operator){   
+                                        if (['=', '!=', '<>', '>=', '<=', '>', '<'].includes(operator)) { 
+                                            if (type === 'date')                                               
+                                            manualQuery = manualQuery.replaceAll(`\${${key}}`,`DATE(${key}) ${operator} '${value}'`)
+                                            if (typeof value == 'number')
+                                            manualQuery = manualQuery.replaceAll(`\${${key}}`,`${key} ${operator} ${value}`)                                               
+                                            if(typeof value == 'string')
+                                                manualQuery = manualQuery.replaceAll(`\${${key}}`,`${key} ${operator} '${value}'`)                                                                                                                                   
+                                        }else if(['LIKE','NOT LIKE','LIKE_START','LIKE_END'].includes(operator)){  
+                                            let likeMap = {
+                                                LIKE_START: `${value}%`,
+                                                LIKE_END: `%${value}`,
+                                                LIKE: `%${value}%`
+                                            };
+                                            const likeVal = likeMap[operator];
+                                            if (typeof value == 'string')
+                                                manualQuery = manualQuery.replaceAll(`\${${key}}`,`${key} LIKE '${likeVal}'`)                                                                                          
+                                            if (typeof value == 'number')
+                                                manualQuery = manualQuery.replaceAll(`\${${key}}`,`${key}::TEXT LIKE '${likeVal}'`)                                               
+                                        }else if(['BETWEEN','NOT BETWEEN'].includes(operator)){
+                                            if (value && value2){
+                                                if (type === 'date') 
+                                                    manualQuery = manualQuery.replaceAll(`\${${key}}`,`DATE(${key}) ${operator} '${value}' AND '${value2}'`)                                                    
+                                                    else     
+                                                    manualQuery = manualQuery.replaceAll(`\${${key}}`,`${key} ${operator} '${value}' AND '${value2}'`)                   
+                                                                                                   
+                                            }
+                                        }                                                                          
+                                    }
+                                }
+                                });
                             }
                             mapObj = Object.assign(mapObj,searchArrObj)
                             const matches = [...manualQuery.matchAll(/\$\$([a-zA-Z0-9_.]+)/g)];
                             const variables = matches.map(match => match[1]);                               
                             variables.forEach((key) => {
+                                searchFilter = searchFilter.filter(item => item.key !== key);
+                            });
+                             singlevariables.forEach((key) => {
                                 searchFilter = searchFilter.filter(item => item.key !== key);
                             });
                         }
@@ -1412,7 +1466,13 @@ export class DynamicFlowService {
                         if (mapObj && Object.keys(mapObj).length > 0) {
                             manualQuery = await this.replaceQuery(manualQuery,mapObj)  
                         }                    
-                    }                    
+                    }    
+                     const singleMatches = [...manualQuery.matchAll(/\$\{([^}]+)\}/g)];
+                        const singlevariables = singleMatches.map(match => match[1]);
+                        singlevariables.forEach((key) => {
+                            manualQuery = manualQuery.replaceAll(`\${${key}}`,`1=1`)                             
+                        });
+                
                     if(qryarr?.length>0){
                     let resdbarr =[]
                     await client.connect();
@@ -1601,10 +1661,20 @@ export class DynamicFlowService {
                                 formKey = ufCondition
                             }
 
-                             if(formKey){
-                                 qry = await this.CommonService.appendWhereClause(qry, formKey);
-                                 logqry = await this.CommonService.appendWhereClause(`${cleanedQuery} LIMIT ${count} OFFSET ${offset}`, formKey);
-                            }else{
+                             //  if(formKey){
+                            //      qry = await this.CommonService.appendWhereClause(qry, formKey);
+                            //      logqry = await this.CommonService.appendWhereClause(`${cleanedQuery} LIMIT ${count} OFFSET ${offset}`, formKey);
+                            // }
+                            if (formKey && (/\$where/i.test(qry) || /\$and/i.test(qry))) {
+                                    qry = qry
+                                        .replace(/\$where/gi, `WHERE ${formKey}`)
+                                        .replace(/\$and/gi, `AND ${formKey}`);
+
+                                    logqry = `${cleanedQuery} LIMIT ${count} OFFSET ${offset}`
+                                        .replace(/\$where/gi, `WHERE ${formKey}`)
+                                        .replace(/\$and/gi, `AND ${formKey}`);
+                                }
+                            else{
                                 if(currentFabric == 'DF-DFD')
                                 logqry = `${cleanedQuery} LIMIT ${count} OFFSET ${offset}`
                                 else 

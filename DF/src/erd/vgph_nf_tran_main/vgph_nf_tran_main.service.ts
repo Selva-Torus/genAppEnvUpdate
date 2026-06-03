@@ -989,7 +989,7 @@ export class vgph_nf_tran_mainService {
     }
   }
 
-  async update(vgphntm_id:number, updatevgph_nf_tran_mainDto: Prisma.vgph_nf_tran_mainUpdateInput,token:string) {   
+  async update(uuid: string, updatevgph_nf_tran_mainDto: Prisma.vgph_nf_tran_mainUpdateInput,token:string) {   
     try{
 
       enum direction_vgph_nf_tran_main{
@@ -1077,12 +1077,12 @@ export class vgph_nf_tran_mainService {
       const encryptedData = await this.encryptData(updatevgph_nf_tran_mainDto,'vgph_nf_tran_main','update');
       await this.prismaService.withConnection(() =>
       this.prismaService.vgph_nf_tran_main.updateMany({
-      where: {vgphntm_id},
+      where: {uuid},
       data: encryptedData
     }));
     const updated = await this.prismaService.withConnection(() =>
       this.prismaService.vgph_nf_tran_main.findMany({
-      where: {vgphntm_id},
+      where: {uuid},
       select: {vgphntm_id:true,vgphstm_uuid:true,uuid:true,direction:true,process_type:true,tran_category:true,message_code:true,channel_name:true,channel_reference:true,tran_date:true,product_common:true,product_basic:true,product_additional:true,trs_created_date:true,trs_created_by:true,trs_modified_date:true,trs_modified_by:true,trs_process_id:true,trs_access_profile:true,trs_org_grp_code:true,trs_org_code:true,trs_role_grp_code:true,trs_role_code:true,trs_ps_grp_code:true,trs_ps_code:true,trs_sub_org_grp_code:true,trs_sub_org_code:true,trs_locked_by:true,trs_locked_time:true,trs_tenant_id:true,trs_app_code:true,trs_product_code:true,trs_event_process_status:true,trs_event_status:true,trs_token_id:true,trs_version:true,trs_prev_process_code:true,trs_prev_status:true,trs_prev_process_status:true,trs_process_code:true,trs_status:true,trs_process_status:true,trs_next_process_code:true,trs_next_status:true,trs_next_process_status:true,}
     }));
     // return await this.decryptData(await this.commonDecimalDatahandle(res), 'vgph_nf_tran_main');
@@ -1121,14 +1121,14 @@ export class vgph_nf_tran_mainService {
    * @param token - Auth token
    */
   async updateMaster(
-vgphntm_id:number,
+uuid: string,
     updatevgph_nf_tran_mainDto: Prisma.vgph_nf_tran_mainUpdateInput,
     userInfo: { role: string; username: string; remarks?: string,approvalStatus?:string },
     token:string
   ) {
     try {
       const role = userInfo.role?.toUpperCase();
-      const updateMaster_id =vgphntm_id;
+      const updateMaster_id =uuid;
 
       // =====================================================
       // CHECKER ROLE: Approve pending UPDATE request
@@ -1299,7 +1299,7 @@ vgphntm_id:number,
       // Verify record exists
       const existingRecord = await this.prismaService.withConnection(() =>
       this.prismaService.vgph_nf_tran_main.findMany({
-        where: {vgphntm_id}
+        where: {uuid}
       }));
 
       if (!existingRecord) {

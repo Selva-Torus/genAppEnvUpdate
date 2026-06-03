@@ -105,7 +105,6 @@ const Buttonclear = ({ lockedData, setLockedData, tableData, setTableData, prima
 
   const {main_group9066f, setmain_group9066f}= useContext(TotalContext) as TotalContextProps;
   const {main_group9066fProps, setmain_group9066fProps}= useContext(TotalContext) as TotalContextProps;
-  const {search_label27572, setsearch_label27572}= useContext(TotalContext) as TotalContextProps;
   const {divider_top0354b, setdivider_top0354b}= useContext(TotalContext) as TotalContextProps;
   const {trs_created_date2cea8, settrs_created_date2cea8}= useContext(TotalContext) as TotalContextProps;
   const {debtor_account_no963e4, setdebtor_account_no963e4}= useContext(TotalContext) as TotalContextProps;
@@ -155,8 +154,6 @@ const Buttonclear = ({ lockedData, setLockedData, tableData, setTableData, prima
         codeStates['setmain_group'] = setmain_group9066f,
         codeStates['main_group9066f'] = main_group9066fProps,
         codeStates['setmain_group9066f'] = setmain_group9066fProps,
-        codeStates['search_label'] = search_label27572,
-        codeStates['setsearch_label'] = setsearch_label27572,
         codeStates['divider_top'] = divider_top0354b,
         codeStates['setdivider_top'] = setdivider_top0354b,
         codeStates['trs_created_date'] = trs_created_date2cea8,
@@ -301,7 +298,7 @@ const Buttonclear = ({ lockedData, setLockedData, tableData, setTableData, prima
   const handleClick=async()=>{
     try{  
       setIsProcessing(true);
-      setmain_group9066f((prev: any) => ({ ...prev, clear: true }));
+        setmain_group9066f((prev: any) => ({ ...prev, clear: true }));
         //onClick
 
     // clearHandler riseListen
@@ -396,7 +393,7 @@ const Buttonclear = ({ lockedData, setLockedData, tableData, setTableData, prima
 
   return (
     <div
-      style={{gridColumn: `22 / 25`,gridRow: `76 / 86`, gap:``, height: `100%`, overflow: 'auto'}} 
+      style={{gridColumn: `22 / 25`,gridRow: `72 / 82`, gap:``, height: `100%`, overflow: 'auto'}} 
       >
         {showFlag && <Button 
           ref={buttonRef}

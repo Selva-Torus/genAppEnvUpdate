@@ -21,7 +21,6 @@ const Dividerdivider_bottom = ({encryptionFlagCompData,isDynamic,item,index,setI
    //another screen
   const {tran_data_group84f25, settran_data_group84f25}= useContext(TotalContext) as TotalContextProps;
   const {tran_data_group84f25Props, settran_data_group84f25Props}= useContext(TotalContext) as TotalContextProps;
-  const {transaction_log_label7b760, settransaction_log_label7b760}= useContext(TotalContext) as TotalContextProps;
   const {divider_topf46a0, setdivider_topf46a0}= useContext(TotalContext) as TotalContextProps;
   const {req_data_group8d4d7, setreq_data_group8d4d7}= useContext(TotalContext) as TotalContextProps;
   const {req_data_group8d4d7Props, setreq_data_group8d4d7Props}= useContext(TotalContext) as TotalContextProps;
@@ -43,7 +42,7 @@ const Dividerdivider_bottom = ({encryptionFlagCompData,isDynamic,item,index,setI
   }
 
 return (
-  <div className="" style={{gridColumn: `1 / 25`,gridRow: `177 / 182`, gap:``, height: `100%`}} >
+  <div className="" style={{gridColumn: `1 / 25`,gridRow: `173 / 176`, gap:``, height: `100%`}} >
 <Divider
   className=""
   direction="horizontal"

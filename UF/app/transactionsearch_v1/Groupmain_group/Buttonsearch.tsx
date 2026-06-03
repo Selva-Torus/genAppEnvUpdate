@@ -105,7 +105,6 @@ const Buttonsearch = ({ lockedData, setLockedData, tableData, setTableData, prim
 
   const {main_group9066f, setmain_group9066f}= useContext(TotalContext) as TotalContextProps;
   const {main_group9066fProps, setmain_group9066fProps}= useContext(TotalContext) as TotalContextProps;
-  const {search_label27572, setsearch_label27572}= useContext(TotalContext) as TotalContextProps;
   const {divider_top0354b, setdivider_top0354b}= useContext(TotalContext) as TotalContextProps;
   const {trs_created_date2cea8, settrs_created_date2cea8}= useContext(TotalContext) as TotalContextProps;
   const {debtor_account_no963e4, setdebtor_account_no963e4}= useContext(TotalContext) as TotalContextProps;
@@ -155,8 +154,6 @@ const Buttonsearch = ({ lockedData, setLockedData, tableData, setTableData, prim
         codeStates['setmain_group'] = setmain_group9066f,
         codeStates['main_group9066f'] = main_group9066fProps,
         codeStates['setmain_group9066f'] = setmain_group9066fProps,
-        codeStates['search_label'] = search_label27572,
-        codeStates['setsearch_label'] = setsearch_label27572,
         codeStates['divider_top'] = divider_top0354b,
         codeStates['setdivider_top'] = setdivider_top0354b,
         codeStates['trs_created_date'] = trs_created_date2cea8,
@@ -858,7 +855,7 @@ if(te_refresh.data.dataset=== "Bulk Data Processing"){
   const handleClick=async()=>{
     try{  
       setIsProcessing(true);
-      setmain_group9066f((prev: any) => ({ ...prev, search: true }));
+        setmain_group9066f((prev: any) => ({ ...prev, search: true }));
       await  handleSearch0();
       await  handleSearch1();
       await  handleSearch2();
@@ -904,7 +901,7 @@ if(te_refresh.data.dataset=== "Bulk Data Processing"){
 
   return (
     <div
-      style={{gridColumn: `19 / 22`,gridRow: `76 / 86`, gap:``, height: `100%`, overflow: 'auto'}} 
+      style={{gridColumn: `19 / 22`,gridRow: `72 / 82`, gap:``, height: `100%`, overflow: 'auto'}} 
       >
         {showFlag && <Button 
           ref={buttonRef}

@@ -160,9 +160,9 @@ export class vgph_nf_tran_mainController {
     return plainToInstance(vgph_nf_tran_mainEntity, result);
   }
  
-  @Patch(':vgphntm_id')
+  @Patch(':uuid')
   @ApiBearerAuth('JWT-auth')
-  @ApiParam({name: 'vgphntm_id',type:Number})
+  @ApiParam({name: 'uuid',type: String})
   @ApiHeader({ name: 'xCdcaRole', required: false })
   @ApiHeader({ name: 'xCdcaUsername', required: false })
   @ApiHeader({ name: 'xCdcaRemarks', required: false })
@@ -180,7 +180,7 @@ export class vgph_nf_tran_mainController {
     @Headers('xCdcaRemarks') mcRemarks: string,
     @Headers('xCdcaApprovalStatus') mcApprovalStatus: string,
     @Headers() authHeader: string,
-@Param('vgphntm_id') vgphntm_id:number,
+@Param('uuid') uuid: string,
     @Body() updatevgph_nf_tran_mainDto: Prisma.vgph_nf_tran_mainUpdateInput,
     @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
@@ -189,11 +189,11 @@ export class vgph_nf_tran_mainController {
     // Flag-driven routing: if maker-checker headers are present, use updateMaster
     if (mcRole && mcUsername) {
       const makerInfo = { role: mcRole, username: mcUsername, remarks: mcRemarks,approvalStatus: mcApprovalStatus };
-      const result = await this.vgph_nf_tran_mainService.updateMaster(+vgphntm_id,updatevgph_nf_tran_mainDto,makerInfo,token);
+      const result = await this.vgph_nf_tran_mainService.updateMaster(uuid,updatevgph_nf_tran_mainDto,makerInfo,token);
       return result;
     }
 
-    const result = this.vgph_nf_tran_mainService.update(+vgphntm_id,updatevgph_nf_tran_mainDto,token);
+    const result = this.vgph_nf_tran_mainService.update(uuid,updatevgph_nf_tran_mainDto,token);
     return plainToInstance(vgph_nf_tran_mainEntity, result);
   }
  

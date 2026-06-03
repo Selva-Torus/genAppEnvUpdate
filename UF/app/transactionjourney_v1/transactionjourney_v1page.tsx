@@ -53,9 +53,6 @@ export default function PageTransactionjourneyV1() {
   const [checkToAdd, setCheckToAdd] = useState<Record<string, any>>({});
   const allRuleData:any={
   "tran_journey_group": {
-    "tran_journey_label": {
-      "show": false
-    },
     "tran_journey": {
       "show": false
     }

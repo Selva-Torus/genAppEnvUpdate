@@ -219,7 +219,7 @@ const Groupres_data_group = ({lockedData={},setLockedData,primaryTableData={},ta
     <div 
       style={{          
         gridColumn: '1 / 25',
-        gridRow: '97 / 176',
+        gridRow: '92 / 171',
       
         //rowGap: '0px',
         display: 'grid',

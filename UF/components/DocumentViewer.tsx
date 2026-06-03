@@ -225,9 +225,9 @@ const DocViewer: React.FC<DocViewerProps> = ({
   const isVertical = toolbarPosition === 'left' || toolbarPosition === 'right'
 
   const navBtnBase =
-    'flex h-8 w-8 items-center justify-center rounded bg-gray-200 text-slate-900 hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50'
+    'flex h-8 w-8 md:h-9 md:w-9 lg:h-10 lg:w-10 items-center justify-center rounded bg-gray-200 text-slate-900 hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50'
 
-  const positionClass =
+    const positionClass =
     toolbarAlignment === 'start'
       ? 'justify-start'
       : toolbarAlignment === 'center'
@@ -236,40 +236,43 @@ const DocViewer: React.FC<DocViewerProps> = ({
 
   /* ---------- controls block (reused for all directions) ---------- */
   // For left/right: stacks vertically. For top/bottom: stays horizontal.
-  const zoomControls = (
-    <div
-      className={`flex items-center gap-1 rounded-lg border bg-white p-1 ${
-        isVertical ? 'flex-col' : 'flex-row'
-      }`}
+const zoomControls = (
+  <div
+    className={`flex items-center rounded-lg border bg-white p-2 ${
+      isVertical ? 'flex-col gap-3' : 'flex-row gap-3'
+    }`}
+  >
+    <button
+      onClick={handleZoomIn}
+      disabled={zoom >= MAX_ZOOM}
+      className={navBtnBase}
+      title='Zoom in'
     >
-      <button
-        onClick={handleZoomIn}
-        disabled={zoom >= MAX_ZOOM}
-        className={navBtnBase}
-        title='Zoom in'
-      >
-        <IoMdAdd size={22} />
-      </button>
-      <span className='flex h-8 w-8 items-center justify-center rounded border bg-gray-200 text-[12px] font-medium text-slate-900'>
-        {Math.round(zoom * 100)}%
-      </span>
-      <button
-        onClick={handleZoomOut}
-        disabled={zoom <= MIN_ZOOM}
-        className={navBtnBase}
-        title='Zoom out'
-      >
-        <IoMdRemove size={22} />
-      </button>
-      <button
-        onClick={handleResetZoom}
-        className={navBtnBase}
-        title='Reset zoom'
-      >
-        <LuRefreshCcw size={20} />
-      </button>
-    </div>
-  )
+      <IoMdAdd className='h-5 w-5 md:h-6 md:w-6' />
+    </button>
+
+    <span className='flex h-8 min-w-[55px] md:h-9 md:min-w-[65px] items-center justify-center rounded border bg-gray-200 px-2 text-xs md:text-sm font-medium text-slate-900'>
+      {Math.round(zoom * 100)}%
+    </span>
+
+    <button
+      onClick={handleZoomOut}
+      disabled={zoom <= MIN_ZOOM}
+      className={navBtnBase}
+      title='Zoom out'
+    >
+      <IoMdRemove className='h-5 w-5 md:h-6 md:w-6' />
+    </button>
+
+    <button
+      onClick={handleResetZoom}
+      className={navBtnBase}
+      title='Reset zoom'
+    >
+      <LuRefreshCcw className='h-4 w-4 md:h-5 md:w-5' />
+    </button>
+  </div>
+)
 
   const fileNavControls = files.length > 1 && (
     <div

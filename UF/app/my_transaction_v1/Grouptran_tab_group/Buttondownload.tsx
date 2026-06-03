@@ -286,7 +286,7 @@ const Buttondownload = ({ lockedData, setLockedData, tableData, setTableData, pr
   const handleClick=async()=>{
     try{  
       setIsProcessing(true);
-      settran_tab_group08b64((prev: any) => ({ ...prev, download: true }));
+        settran_tab_group08b64((prev: any) => ({ ...prev, download: true }));
       await handleCustomCode();
     }catch (err: any) {
       setIsProcessing(false);
