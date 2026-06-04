@@ -11,6 +11,7 @@ import { MdClose } from 'react-icons/md'
 import { LuSearch } from 'react-icons/lu'
 import { TotalContext, TotalContextProps } from '@/app/globalContext'
 import { getCdnImage } from '@/app/utils/getAssets'
+import { isLightColor } from '../utils'
 
 interface Role {
   roleCode: string
@@ -731,7 +732,15 @@ const OPRTopNavSelector = ({
   const [selectedSubOrg, setSelectedSubOrg] = React.useState<null | any>(null)
   const [selectedProd, setSelectedProd] = React.useState<null | any>(null)
   const [selectedRole, setSelectedRole] = React.useState<null | any>(null)
-  const { borderColor, isDark } = useTheme()
+  const { branding } = useTheme()
+  const { brandColor } = branding
+  const brandTextColor = useMemo(() => {
+    if(brandColor){
+      return isLightColor(brandColor)
+    }else{
+      return '#000'
+    }
+  } , [brandColor])
 
   const assignOriginalIndex = (data: any): any => {
     if (Array.isArray(data)) {
@@ -1031,14 +1040,14 @@ const OPRTopNavSelector = ({
   }
 
   return (
-    <div className={clsx(`h-full flex gap-2 px-4 ${fullView ? "justify-evenly" : "justify-around"} `, className)}>
+    <div className={clsx(`h-full flex items-center gap-2 px-4 ${fullView ? "justify-evenly" : "justify-around"} overflow-visible min-w-0`, className)}>
       <>
         <button
           ref={orgPopupRef}
           onClick={() => handleStageClick('org')}
           className={clsx(
-            'flex items-center justify-center gap-2 rounded-full border px-3 py-1 hover:bg-[var(--hover-color)]',
-            borderColor,
+            'flex items-center justify-center gap-2 rounded-full px-3 py-1 hover:bg-[var(--hover-color)] bg-[var(--brand-color)]',
+            `text-[${brandTextColor}]`,
             {
               'bg-[var(--selection-color)]': activeStage == 'org',
               'w-[unset]': !fullView,
@@ -1083,8 +1092,8 @@ const OPRTopNavSelector = ({
           ref={prodPopupRef}
           onClick={() => handleStageClick('prod')}
           className={clsx(
-            'flex items-center justify-center gap-2 rounded-full border px-3 py-1 hover:bg-[var(--hover-color)]',
-            borderColor,
+            'flex items-center justify-center gap-2 rounded-full px-3 py-1 hover:bg-[var(--hover-color)] bg-[var(--brand-color)]',
+            `text-[${brandTextColor}]`,
             {
               'bg-[var(--selection-color)]': activeStage == 'prod',
               'w-[unset]': !fullView,
@@ -1129,8 +1138,8 @@ const OPRTopNavSelector = ({
           ref={rolePopupRef}
           onClick={() => handleStageClick('role')}
           className={clsx(
-            'flex items-center justify-center gap-2 rounded-full border px-3 py-1 hover:bg-[var(--hover-color)]',
-            borderColor,
+            'flex items-center justify-center gap-2 rounded-full px-3 py-1 hover:bg-[var(--hover-color)] bg-[var(--brand-color)]',
+            `text-[${brandTextColor}]`,
             {
               'bg-[var(--selection-color)]': activeStage == 'role',
               'w-[unset]': !fullView,
@@ -1171,17 +1180,17 @@ const OPRTopNavSelector = ({
         </button>
       </>
       {selectedProd?.psLogo && (
-        <img
-          className={clsx('h-fit w-fit ', {
-            'border-l px-2': fullView,
-            'border-t py-2': !fullView,
-          })}
-          width={100}
-          height={100}
-          src={getCdnImage(selectedProd?.psLogo)}
-          alt='appLogo'
-        />
-      )}
+  <img
+    className={clsx('h-fit w-fit max-h-[3vh] flex-shrink-0', {  // 👈 add flex-shrink-0
+      'border-l px-2': fullView,
+      'border-t py-2': !fullView,
+    })}
+    width={100}
+    height={100}
+    src={getCdnImage(selectedProd?.psLogo)}
+    alt='appLogo'
+  />
+)}
       <Popup
         key={activeStage}
         anchorRef={

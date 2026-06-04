@@ -187,7 +187,7 @@ const TopNav = ({
     <div className='flex items-center gap-1 min-w-[100px]' style={navigationStyles == 'vertical' ? undefined : getGridStyle('logo')}>
       {logo ? (
         <img
-          className='h-[50px] w-[50px]'
+          className='min-h-[3vh] max-h-[5vh] h-auto w-auto'
           width={100}
           height={100}
           src={getCdnImage(logo)}
@@ -208,7 +208,7 @@ const TopNav = ({
     <div className='flex items-center gap-1' style={navigationStyles == 'vertical' ? undefined : getGridStyle('app logo')}>
       {appLogo && (
         <img
-          className='min-h-[40px] max-h-[60px] h-auto w-auto'
+          className='min-h-[3vh] max-h-[5vh] h-auto w-auto'
           src={getCdnImage(appLogo)}
           alt='appLogo'
         />

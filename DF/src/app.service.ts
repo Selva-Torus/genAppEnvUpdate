@@ -44,7 +44,7 @@ export class AppService implements OnModuleInit{
       erdDatas.fabric = 'API-APIPD';
       erdDatas.loginId = "guru";    
       erdDatas.erdFlag = true;  
-      await this.ufservice.createApiCollection(erdDatas,this.clientcode);
+      // await this.ufservice.createApiCollection(erdDatas,this.clientcode);
       //await axios.post(this.apiUrl+'/createApiCollection', erdDatas,{
       //  headers: {
       //    Authorization: `Bearer ${token}`, 
