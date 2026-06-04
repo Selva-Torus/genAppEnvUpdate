@@ -32,7 +32,7 @@ import { getGridPositionFromOrder } from '@/app/utils/getGridPositionFromOrder';
 import { Scan } from '@/app/utils/scanService';
 import { exportJsonToExcel } from '@/app/utils/jsonToExcel';
 import { getGroupOrchestrationData, getControlOrchestrationData } from '@/app/utils/Orchestration';
-import PageMessagedataviewpage2 from '@/app/messagedataview_v1/messagedataview_v1page';
+import PageMessagedataviewpage4 from '@/app/messagedataview_v1/messagedataview_v1page';
 import { XMLParser } from 'fast-xml-parser'
 
     
@@ -100,7 +100,7 @@ const Buttonview_msg_data_btn = ({ lockedData, setLockedData, tableData, setTabl
   const [allCode,setAllCode]=useState<string>("");
   const [gridPosition, setGridPosition] = useState<any>({ gridColumn: '1 / 3', gridRow: '1 / 12' });
   ////showComponentAsPopup || showArtifactAsModal
-  const [showProfileAsModalOpen2, setShowProfileAsModalOpen2] = React.useState<boolean>(false);
+  const [showProfileAsModalOpen4, setShowProfileAsModalOpen4] = React.useState<boolean>(false);
     
  /////////////
    //another screen
@@ -127,9 +127,9 @@ const Buttonview_msg_data_btn = ({ lockedData, setLockedData, tableData, setTabl
   const {divider_bottom8bad5, setdivider_bottom8bad5}= useContext(TotalContext) as TotalContextProps;
   const {view_msg_data_btne6a88, setview_msg_data_btne6a88}= useContext(TotalContext) as TotalContextProps;
   const {view_tran_log_btn9cd8c, setview_tran_log_btn9cd8c}= useContext(TotalContext) as TotalContextProps;
-  const {messagedataview_v1Props, setmessagedataview_v1Props}= useContext(TotalContext) as TotalContextProps;
   const {tran_data_group84f25, settran_data_group84f25}= useContext(TotalContext) as TotalContextProps;
   const {tran_data_group84f25Props, settran_data_group84f25Props}= useContext(TotalContext) as TotalContextProps;
+  const {messagedataview_v1Props, setmessagedataview_v1Props}= useContext(TotalContext) as TotalContextProps;
   //////////////
   const pendingAutoSearch = useRef(false);
   // keep update group state in ref to access latest state value
@@ -197,12 +197,12 @@ const Buttonview_msg_data_btn = ({ lockedData, setLockedData, tableData, setTabl
         codeStates['setview_msg_data_btn'] = setview_msg_data_btne6a88,
         codeStates['view_tran_log_btn'] = view_tran_log_btn9cd8c,
         codeStates['setview_tran_log_btn'] = setview_tran_log_btn9cd8c,
-        codeStates['messagedataview_v1'] = messagedataview_v1Props,
-        codeStates['setmessagedataview_v1'] = setmessagedataview_v1Props,
         codeStates['tran_data_group'] = tran_data_group84f25,
         codeStates['settran_data_group'] = settran_data_group84f25,
         codeStates['tran_data_group84f25'] = tran_data_group84f25Props,
         codeStates['settran_data_group84f25'] = settran_data_group84f25Props,
+        codeStates['messagedataview_v1'] = messagedataview_v1Props,
+        codeStates['setmessagedataview_v1'] = setmessagedataview_v1Props,
       codeStates['response']  = savedData.current;
       customCode = codeExecution(code,codeStates);
       return customCode;
@@ -240,10 +240,17 @@ const Buttonview_msg_data_btn = ({ lockedData, setLockedData, tableData, setTabl
         handleClick();
       }
     };
+    const triggerElementHandler = (id:any) => {
+      if (id === "e82feb8c67d5445a847fbef21c9e6a88") {
+        handleClick();
+      }
+    };
     eventBus.on("triggerButton", handler);
+    eventBus.on("triggerElement|onClick", triggerElementHandler);
     eventBus.emit("buttonReady", "view_msg_data_btne6a88");
     return () => {
       eventBus.off("triggerButton", handler);
+      eventBus.off("triggerElement|onClick", triggerElementHandler);
     };
   },[currentToken,memoryVariables])
 
@@ -268,7 +275,7 @@ const Buttonview_msg_data_btn = ({ lockedData, setLockedData, tableData, setTabl
   },[view_msg_data_btne6a88?.trigger])
 
   useEffect(()=>{
-    setShowProfileAsModalOpen2(false)
+    setShowProfileAsModalOpen4(false)
     if(view_msg_data_btne6a88?.refresh){
     (async()=>{
       await handleMapper();
@@ -307,15 +314,15 @@ const Buttonview_msg_data_btn = ({ lockedData, setLockedData, tableData, setTabl
         setjourney_details_groupd9a0e((prev: any) => ({ ...prev, view_msg_data_btn: true }));
         //onClick
 
-    // showArtifactAsModal
-    let filterProps2:any =  [];
-    let filterData2 = await getFilterProps(filterProps2,journey_details_groupd9a0e);
-    setmessagedataview_v1Props([...filterData2 ]);
-    setShowProfileAsModalOpen2(true);
     //bindTran
     // For group or table
     settran_data_group84f25(journey_details_groupd9a0e||{})
     settran_data_group84f25Props({...tran_data_group84f25Props,presetValues:journey_details_groupd9a0e||{}})  
+    // showArtifactAsModal
+    let filterProps4:any =  [];
+    let filterData4 = await getFilterProps(filterProps4,journey_details_groupd9a0e);
+    setmessagedataview_v1Props([...filterData4 ]);
+    setShowProfileAsModalOpen4(true);
       await handleCustomCode();
     }catch (err: any) {
       setIsProcessing(false);
@@ -353,17 +360,18 @@ const Buttonview_msg_data_btn = ({ lockedData, setLockedData, tableData, setTabl
 
   return (
     <div
-      style={{gridColumn: `3 / 14`,gridRow: `83 / 93`, gap:``, height: `100%`, overflow: 'auto'}} 
+      style={{gridColumn: `9 / 17`,gridRow: `83 / 93`, gap:``, height: `100%`, overflow: 'auto'}} 
       >
       <Modal 
-        open={showProfileAsModalOpen2} 
-        onClose={() => setShowProfileAsModalOpen2(false)}
+        open={showProfileAsModalOpen4} 
+        onClose={() => setShowProfileAsModalOpen4(false)}
+        title="Message Data"
         showOverlay = {true}
         position = {"left"}
         modalName = "messagedataview"
         className='w-[60%] h-[] bg-gray-50 overflow-auto'
       >
-        <PageMessagedataviewpage2/>
+        <PageMessagedataviewpage4/>
       </Modal>
         {showFlag && <Button 
           ref={buttonRef}

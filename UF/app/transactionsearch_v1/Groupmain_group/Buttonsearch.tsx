@@ -206,7 +206,7 @@ const Buttonsearch = ({ lockedData, setLockedData, tableData, setTableData, prim
   const {transactionsearch_v1, settransactionsearch_v1} = useContext(TotalContext) as TotalContextProps;
   const handleMapper=async (data?:any) => {
     try{     
-      let parentRowSpan = 87;
+      let parentRowSpan = 83;
       const orchestrationData : any = getControlOrchestrationData(
         controlData,
         "526f0e58d5454270aca67c481a99066f",
@@ -235,10 +235,17 @@ const Buttonsearch = ({ lockedData, setLockedData, tableData, setTableData, prim
         handleClick();
       }
     };
+    const triggerElementHandler = (id:any) => {
+      if (id === "b7e783cb935e4e2c99233c9b3460e695") {
+        handleClick();
+      }
+    };
     eventBus.on("triggerButton", handler);
+    eventBus.on("triggerElement|onClick", triggerElementHandler);
     eventBus.emit("buttonReady", "search0e695");
     return () => {
       eventBus.off("triggerButton", handler);
+      eventBus.off("triggerElement|onClick", triggerElementHandler);
     };
   },[currentToken,memoryVariables])
 
@@ -905,7 +912,7 @@ if(te_refresh.data.dataset=== "Bulk Data Processing"){
       >
         {showFlag && <Button 
           ref={buttonRef}
-          className="   "
+          className="   !rounded-xl"
           onClick={handleClick}
           view='action'
           disabled= {search0e695?.isDisabled ? true : false}

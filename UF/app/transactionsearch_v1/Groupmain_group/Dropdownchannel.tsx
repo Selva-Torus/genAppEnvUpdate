@@ -391,9 +391,20 @@ const Dropdownchannel = ({lockedData,setLockedData,checkToAdd,setCheckToAdd,refe
   const handleBlur = async () => {
     //validation
   }
-
+  const main_group9066fRef = useRef<any>(main_group9066f);
+  useEffect(() => { main_group9066fRef.current = main_group9066f; }, [main_group9066f]);
     useEffect(()=>{
         handleBlur()
+       const handler = (id:any) => {
+          if (id === "5f4484601ffc4dbe900b7d21d6226e83") {
+        handleClick(main_group9066fRef?.current?.channel26e83?main_group9066fRef?.current?.channel26e83:"");
+          }
+        };
+        eventBus.on("triggerElement|onClick", handler);
+        eventBus.emit("DropdownReady", "5f4484601ffc4dbe900b7d21d6226e83");
+        return () => {
+          eventBus.off("triggerElement|onClick", handler);
+        };
     },[validateRefetch.value])
 
   useEffect(() => {
@@ -418,7 +429,7 @@ const Dropdownchannel = ({lockedData,setLockedData,checkToAdd,setCheckToAdd,refe
         display: 'flex',
         flexDirection: 'column'}} >
       <Dropdown   
-        className=""    
+        className="!rounded-lg"    
         disabled= {channel26e83?.isDisabled ? true : false}
         contentAlign={"center"}
         headerPosition='top'

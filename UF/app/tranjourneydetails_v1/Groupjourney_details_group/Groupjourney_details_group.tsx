@@ -56,8 +56,7 @@ const Groupjourney_details_group = ({lockedData={},setLockedData,primaryTableDat
   const copyFormData=useHandleGroupArrayCopyFormData()
   const [groupData, setGroupData] = useState<any>(groupDataProp);
   const [controlData, setControlData] = useState<any>(controlDataProp);
-  let code:any = `
-if("response_data" in journey_details_group && journey_details_group.response_data  !=null && journey_details_group.response_data  !=undefined)
+  let code:any = `if("response_data" in journey_details_group && journey_details_group.response_data  !=null && journey_details_group.response_data  !=undefined)
 {
     setview_tran_log_btn((pre)=>({
     ...pre,isDisabled:false
@@ -154,7 +153,10 @@ if("message_data" in journey_details_group && journey_details_group.message_data
       "journey_details_group"
     ],
     "blockedControls": [],
-    "readOnlyControls": []
+    "readOnlyControls": [
+      "view_msg_data_btn",
+      "view_tran_log_btn"
+    ]
   },
   "Operation Team": {
     "allowedControls": [
@@ -184,7 +186,10 @@ if("message_data" in journey_details_group && journey_details_group.message_data
       "journey_details_group"
     ],
     "blockedControls": [],
-    "readOnlyControls": []
+    "readOnlyControls": [
+      "view_msg_data_btn",
+      "view_tran_log_btn"
+    ]
   }
 };
   const prevRefreshRef = useRef(false);

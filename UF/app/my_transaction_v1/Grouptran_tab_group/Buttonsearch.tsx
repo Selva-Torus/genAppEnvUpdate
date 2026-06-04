@@ -228,10 +228,17 @@ const Buttonsearch = ({ lockedData, setLockedData, tableData, setTableData, prim
         handleClick();
       }
     };
+    const triggerElementHandler = (id:any) => {
+      if (id === "62eadfecd6d7401d8e04fc03b6dcc244") {
+        handleClick();
+      }
+    };
     eventBus.on("triggerButton", handler);
+    eventBus.on("triggerElement|onClick", triggerElementHandler);
     eventBus.emit("buttonReady", "searchcc244");
     return () => {
       eventBus.off("triggerButton", handler);
+      eventBus.off("triggerElement|onClick", triggerElementHandler);
     };
   },[currentToken,memoryVariables])
 
@@ -342,6 +349,7 @@ const Buttonsearch = ({ lockedData, setLockedData, tableData, setTableData, prim
       <Modal 
         open={showProfileAsModalOpen2} 
         onClose={() => setShowProfileAsModalOpen2(false)}
+        title="Search"
         showOverlay = {true}
         position = {"top-right"}
         modalName = "transactionsearch"

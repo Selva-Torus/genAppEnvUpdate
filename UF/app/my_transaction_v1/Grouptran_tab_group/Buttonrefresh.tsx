@@ -223,10 +223,17 @@ const Buttonrefresh = ({ lockedData, setLockedData, tableData, setTableData, pri
         handleClick();
       }
     };
+    const triggerElementHandler = (id:any) => {
+      if (id === "1488accb65c54630ad1055230e0313d0") {
+        handleClick();
+      }
+    };
     eventBus.on("triggerButton", handler);
+    eventBus.on("triggerElement|onClick", triggerElementHandler);
     eventBus.emit("buttonReady", "refresh313d0");
     return () => {
       eventBus.off("triggerButton", handler);
+      eventBus.off("triggerElement|onClick", triggerElementHandler);
     };
   },[currentToken,memoryVariables])
 

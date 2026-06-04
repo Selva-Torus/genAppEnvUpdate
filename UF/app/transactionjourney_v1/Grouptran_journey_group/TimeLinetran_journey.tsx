@@ -193,10 +193,11 @@ const statusMap: Record<string, { icon: any; color: string }> = {
   },[ tran_journey_group9eb2e?.vgphstm_uuid])
 
   return (
-    <div className="" style={{gridColumn: `1 / 25`,gridRow: `2 / 176`, gap:``, height: `100%`, overflow: 'hidden'}} >
+    <div className="" style={{gridColumn: `1 / 25`,gridRow: `2 / 113`, gap:``, height: `100%`, overflow: 'hidden'}} >
       <Modal 
         open={showProfileAsModalOpen4} 
         onClose={() => setShowProfileAsModalOpen4(false)}
+        title="Details"
         showOverlay = {true}
         position = {"right"}
         modalName='tranjourneydetails'

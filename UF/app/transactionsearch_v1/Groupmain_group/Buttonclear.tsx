@@ -206,7 +206,7 @@ const Buttonclear = ({ lockedData, setLockedData, tableData, setTableData, prima
   const {transactionsearch_v1, settransactionsearch_v1} = useContext(TotalContext) as TotalContextProps;
   const handleMapper=async (data?:any) => {
     try{     
-      let parentRowSpan = 87;
+      let parentRowSpan = 83;
       const orchestrationData : any = getControlOrchestrationData(
         controlData,
         "526f0e58d5454270aca67c481a99066f",
@@ -235,10 +235,17 @@ const Buttonclear = ({ lockedData, setLockedData, tableData, setTableData, prima
         handleClick();
       }
     };
+    const triggerElementHandler = (id:any) => {
+      if (id === "b9986785ff9446e2b718d7866dbeddfa") {
+        handleClick();
+      }
+    };
     eventBus.on("triggerButton", handler);
+    eventBus.on("triggerElement|onClick", triggerElementHandler);
     eventBus.emit("buttonReady", "cleareddfa");
     return () => {
       eventBus.off("triggerButton", handler);
+      eventBus.off("triggerElement|onClick", triggerElementHandler);
     };
   },[currentToken,memoryVariables])
 
@@ -397,7 +404,7 @@ const Buttonclear = ({ lockedData, setLockedData, tableData, setTableData, prima
       >
         {showFlag && <Button 
           ref={buttonRef}
-          className="   "
+          className="   !rounded-xl"
           onClick={handleClick}
           view='action'
           disabled= {cleareddfa?.isDisabled ? true : false}

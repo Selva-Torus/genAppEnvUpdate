@@ -157,7 +157,7 @@ export const Avatar: React.FC<AvatarProps> = ({
           }}
         />
       ) : icon ? (
-        <span style={{ width: "1em", height: "1em", fontSize: "var(--font-size-base)", display: "inline-flex" }}>
+        <span style={{ width: fillContainer ? "100%" : "1em", height: fillContainer ? "100%" : "1em", display: "inline-flex" }}>
           <Icon
             data={icon}
             fillContainer
@@ -165,9 +165,9 @@ export const Avatar: React.FC<AvatarProps> = ({
           />
         </span>
       ) : text ? (
-        <span>{text.charAt(0).toUpperCase()}</span>
+        <span style={{ fontSize: fillContainer ? "clamp(0.5rem, 40%, 2rem)" : undefined }}>{text.charAt(0).toUpperCase()}</span>
       ) : (
-        <span style={{ width: "1em", height: "1em", fontSize: "var(--font-size-base)", display: "inline-flex" }}>
+        <span style={{ width: fillContainer ? "100%" : "1em", height: fillContainer ? "100%" : "1em", display: "inline-flex" }}>
           <Icon
             data="user"
             fillContainer

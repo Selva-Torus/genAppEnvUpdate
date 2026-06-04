@@ -41,10 +41,10 @@ const Dividerdivider_top = ({encryptionFlagCompData,isDynamic,item,index,setIsPr
 return (
   <div className="" style={{gridColumn: `1 / 25`,gridRow: `2 / 5`, gap:``, height: `100%`}} >
 <Divider
-  className="!text-[#d9d9d9]"
+  className=""
   direction="horizontal"
   position="middle"
-  color="#000"
+  color="#d9d9d9"
   thickness={2}
 />
   </div>

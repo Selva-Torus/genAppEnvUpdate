@@ -22,7 +22,7 @@ export class AppService implements OnModuleInit{
     console.log('Application started, calling API...');
     console.log('DDL changes update started.');
     console.log('DDL changes update completed.');    
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnQiOiJDVDAwNSIsImxvZ2luSWQiOiJndXJ1Iiwic2lkIjoiNmEyNjM0YTUtYTFiNS00MTNiLWJkNDYtNWI1ZTA5YTZjZjA5IiwibG9nVHlwZSI6ImRmcyIsInR5cGUiOiJjIiwiaWF0IjoxNzgwNDY4MzU2LCJleHAiOjE3ODA0Njk1NTZ9.um653I4rJHFUJo7rWAnYXrsL3km0uZp9IkceVQF4ZAI';
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoiZ3VydSIsImNsaWVudCI6IkNUMDA1IiwidHlwZSI6ImMiLCJsb2dUeXBlIjoiZGZzIiwic2lkIjoiZjcyNzY2ZjgtOTA5MC00ZjI1LWE0ZDYtNmE0ZGYwMGIxYzJlIiwiaWF0IjoxNzgwNTY2NzA5LCJleHAiOjE3ODA1Njc5MDl9.ze9iMKbqW0I0WSFxe3zL8jasFNe_HbtaFqp3l6yeYZw';
     let preParedData:any=await this.dataPrep(JSON.parse(fs.readFileSync('./swagger.json', 'utf-8')))
     if(Object.keys(preParedData).includes('erdWithData'))
       {
@@ -44,7 +44,7 @@ export class AppService implements OnModuleInit{
       erdDatas.fabric = 'API-APIPD';
       erdDatas.loginId = "guru";    
       erdDatas.erdFlag = true;  
-      // await this.ufservice.createApiCollection(erdDatas,this.clientcode);
+      await this.ufservice.createApiCollection(erdDatas,this.clientcode);
       //await axios.post(this.apiUrl+'/createApiCollection', erdDatas,{
       //  headers: {
       //    Authorization: `Bearer ${token}`, 

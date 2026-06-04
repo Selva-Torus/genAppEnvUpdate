@@ -1680,6 +1680,9 @@ export class DynamicFlowService {
                                 else 
                                 logqry = qry
                             }
+
+                             if((/\$where/i.test(qry) || /\$and/i.test(qry)))
+                            qry = qry.replace(/\$where/gi, '').replace(/\$and/gi, '');
                             
                             //str.push(formKey)
                             // if (str.length > 0) { 
@@ -1798,7 +1801,10 @@ export class DynamicFlowService {
                     sessionfilterParams = mongodbconfig?.sessionfilterParams
                     filterParams = mongodbconfig?.filterParams
                     collnName = mongodbconfig?.collnName
-                    mongodbClient = new MongoClient(mongodbUrl);
+                    const mongoOptions = {
+                        appName: `${process.env.CLIENTCODE}-${process.env.APPNAME}-${process.env.APPGROUPNAME}-dynamicFlow.service`                    
+                    };
+                    mongodbClient = new MongoClient(mongodbUrl,mongoOptions);
                     await mongodbClient.connect();
                     const db = mongodbClient.db();
                     let staticFilter = {};
@@ -3333,7 +3339,10 @@ export class DynamicFlowService {
                                         mongoDbUrl = `mongodb://${dbconfig.MONGODB_USERNAME}:${dbconfig.MONGODB_PASSWORD}@${dbconfig.MONGODB_HOST}:${dbconfig.MONGODB_PORT}/${dbconfig.MONGODB_DATABASENAME}?authSource=admin`;
                                     else
                                         mongoDbUrl = dbconfig.MONGODB_HOST
-                                    client = new MongoClient(mongoDbUrl);
+                                    const mongoOptions = {
+                                        appName: `${process.env.CLIENTCODE}-${process.env.APPNAME}-${process.env.APPGROUPNAME}-dynamicFlow.service`                    
+                                    };
+                                    client = new MongoClient(mongoDbUrl,mongoOptions);                                    
                                     await client.connect();
                                     db = client.db(dbconfig.MONGODB_DATABASENAME);
                                     dbFlg = 'mongo';

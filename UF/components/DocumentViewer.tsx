@@ -321,7 +321,7 @@ const zoomControls = (
   const renderContent = () => {
     if (files.length === 0 || !currentUrl) {
       return (
-        <div className='flex h-full w-full flex-col items-center justify-center gap-2 rounded-xl border border-red-400 bg-gray-50 p-6 text-center shadow-sm'>
+        <div className='flex h-full w-full flex-col items-center justify-center gap-2 rounded-xl border bg-gray-50 p-6 text-center shadow-sm'>
           <span className='text-[clamp(0.75rem,1.2vw,1.125rem)] font-semibold text-gray-700'>
             No Document Found
           </span>

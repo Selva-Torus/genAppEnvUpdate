@@ -1299,7 +1299,7 @@ async select(db: number) {
     const client = await pgPool.connect();   
     try {
       const DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
-      if (!DbSchema) throw ('schema not found')
+      if (!DbSchema || DbSchema.includes('<clientCode>')) throw ('PG schema not found')
       let tableName
       if(key){
         // if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
@@ -1385,7 +1385,7 @@ async select(db: number) {
   async getpgData(key){
     try {     
       let DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
-      if (!DbSchema) throw ('schema not found')
+      if (!DbSchema || DbSchema.includes('<clientCode>')) throw ('PG schema not found')
       let tableName
       if(key){
         // if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
@@ -1414,7 +1414,7 @@ async select(db: number) {
   async getpgKeys(key){
     try {      
       let DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
-      if (!DbSchema) throw ('schema not found')
+      if (!DbSchema || DbSchema.includes('<clientCode>')) throw ('PG schema not found')
       let tableName
       if(key){
          // if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
@@ -1437,7 +1437,7 @@ async select(db: number) {
   async isExist(key){
     try {     
       let DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
-      if (!DbSchema) throw ('schema not found')
+      if (!DbSchema || DbSchema.includes('<clientCode>')) throw ('PG schema not found')
       let tableName
       if(key){
         // if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
@@ -1463,7 +1463,7 @@ async select(db: number) {
   async deletePgKey(key){
     try {     
       let DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
-      if (!DbSchema) throw ('schema not found')
+      if (!DbSchema || DbSchema.includes('<clientCode>')) throw ('PG schema not found')
       let tableName
       if(key){
        // if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))

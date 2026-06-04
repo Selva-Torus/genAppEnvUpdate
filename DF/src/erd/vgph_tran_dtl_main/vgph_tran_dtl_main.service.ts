@@ -14,14 +14,6 @@ export class vgph_tran_dtl_mainService {
   constructor(private readonly prismaService: PrismaService,
   private readonly commonService: CommonService) {}
   private encryptedCols: any={
-  "vgph_source_corporate": [],
-  "vgph_corporate": [],
-  "vgph_source_employee": [],
-  "vgph_employee": [],
-  "vgph_source_si": [],
-  "vgph_si": [],
-  "vgph_corporate_relationship": [],
-  "vgph_corporate_relationship_exception": [],
   "vgph_source_main": [],
   "vgph_source_tran_main": [],
   "vgph_tran_dtl_main": [],
@@ -34,6 +26,14 @@ export class vgph_tran_dtl_mainService {
   "vgph_temp_main": [],
   "vgph_trn_secure_token": [],
   "vgph_charge_tran": [],
+  "vgph_source_corporate": [],
+  "vgph_corporate": [],
+  "vgph_source_employee": [],
+  "vgph_employee": [],
+  "vgph_source_si": [],
+  "vgph_si": [],
+  "vgph_corporate_relationship": [],
+  "vgph_corporate_relationship_exception": [],
   "vgph_participant_bank": [],
   "vgph_participant_branch": [],
   "vgph_correspondent_bank": [],
@@ -53,10 +53,7 @@ export class vgph_tran_dtl_mainService {
   "vgph_tran_dtl_staging": [],
   "vgph_destination_staging": [],
   "vgph_destination_tran_staging": [],
-  "vgph_temp_staging": [],
-  "wps_mohre_api_calls": [],
-  "wps_mohre_employee_dtl": [],
-  "wps_mohre_salary_dtl": []
+  "vgph_temp_staging": []
 }
 
   async encryptData(data: any, tableName: string, method) {
@@ -547,7 +544,7 @@ export class vgph_tran_dtl_mainService {
         'Fatal',
         "TG020",
         error,
-        "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:WPS_MOHRE_ERD:AFVK:v1",
+        "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:VGPH_STAGE_ERD:AFVK:v1",
         token
       );
       throw new CustomException(errorMessage, error);
@@ -577,7 +574,7 @@ export class vgph_tran_dtl_mainService {
         'Fatal',
         "TG024",
         error,
-        "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:WPS_MOHRE_ERD:AFVK:v1",
+        "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:VGPH_STAGE_ERD:AFVK:v1",
         token
       );
       throw new CustomException(errorMessage, error);
@@ -611,7 +608,7 @@ export class vgph_tran_dtl_mainService {
           'Fatal',
           "TG023",
           error,
-          "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:WPS_MOHRE_ERD:AFVK:v1",
+          "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:VGPH_STAGE_ERD:AFVK:v1",
           token
         );
         throw new CustomException(errorMessage, error);
@@ -693,7 +690,7 @@ export class vgph_tran_dtl_mainService {
             'Fatal',
             "TG021",
             errorMessage,
-            "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:WPS_MOHRE_ERD:AFVK:v1",
+            "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:VGPH_STAGE_ERD:AFVK:v1",
             token
           );
         }
@@ -714,7 +711,7 @@ export class vgph_tran_dtl_mainService {
       'Fatal',
       "TG022",
       errMsg.message,
-      "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:WPS_MOHRE_ERD:AFVK:v1",
+      "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:VGPH_STAGE_ERD:AFVK:v1",
       token
     );
     throw new InternalServerErrorException(errMsg.message);
@@ -901,7 +898,7 @@ export class vgph_tran_dtl_mainService {
             'Fatal',
             "TG021",
             errorMessage,
-            "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:WPS_MOHRE_ERD:AFVK:v1",
+            "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:VGPH_STAGE_ERD:AFVK:v1",
             token
           );
           throw new HttpException(errorMessage, HttpStatus.BAD_REQUEST);
@@ -955,7 +952,7 @@ export class vgph_tran_dtl_mainService {
         'Fatal',
         "TG031",
         error,
-        "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:WPS_MOHRE_ERD:AFVK:v1",
+        "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:VGPH_STAGE_ERD:AFVK:v1",
         token
       );
 
@@ -1044,7 +1041,7 @@ export class vgph_tran_dtl_mainService {
           'Fatal',
           "TG025",
           errorMessage,
-          "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:WPS_MOHRE_ERD:AFVK:v1",
+          "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:VGPH_STAGE_ERD:AFVK:v1",
           token
         );
       }
@@ -1075,7 +1072,7 @@ export class vgph_tran_dtl_mainService {
           'Fatal',
           "TG023",
           error,
-          "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:WPS_MOHRE_ERD:AFVK:v1",
+          "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:VGPH_STAGE_ERD:AFVK:v1",
           token
         );
         throw new CustomException(errorMessage, error);
@@ -1254,7 +1251,7 @@ vgphtdm_id:number,
           'Fatal',
           "TG025",
           errorMessage,
-          "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:WPS_MOHRE_ERD:AFVK:v1",
+          "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:VGPH_STAGE_ERD:AFVK:v1",
           token
         );
         throw new HttpException(errorMessage, HttpStatus.BAD_REQUEST);
@@ -1315,7 +1312,7 @@ vgphtdm_id:number,
         'Fatal',
         "TG033",
         error,
-        "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:WPS_MOHRE_ERD:AFVK:v1",
+        "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:VGPH_STAGE_ERD:AFVK:v1",
         token
       );
 
@@ -1363,7 +1360,7 @@ vgphtdm_id:number,
         'Fatal',
         "TG026",
         error,
-        "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:WPS_MOHRE_ERD:AFVK:v1",
+        "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:VGPH_STAGE_ERD:AFVK:v1",
         token
       );
       throw new CustomException(errorMessage, error);
@@ -1510,7 +1507,7 @@ vgphtdm_id:number,
         'Fatal',
         "TG034",
         error,
-        "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:WPS_MOHRE_ERD:AFVK:v1",
+        "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:VGPH_STAGE_ERD:AFVK:v1",
         token
       );
 
@@ -1545,7 +1542,7 @@ vgphtdm_id:number,
           'Fatal',
           "TG028",
           error,
-          "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:WPS_MOHRE_ERD:AFVK:v1",
+          "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:VGPH_STAGE_ERD:AFVK:v1",
           token
         );
         throw new CustomException(errorMessage, error);
@@ -1566,7 +1563,7 @@ vgphtdm_id:number,
           'Fatal',
           "TG028",
           error,
-          "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:WPS_MOHRE_ERD:AFVK:v1",
+          "CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:VGPH_STAGE_ERD:AFVK:v1",
           token
         );
         throw new CustomException(errorMessage, error);

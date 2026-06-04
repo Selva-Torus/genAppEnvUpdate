@@ -603,6 +603,12 @@ export class signinToTorusDto{
 
   @ApiPropertyOptional({description: 'app_tenant_id'})
   app_tenant_id?:number
+
+  @ApiPropertyOptional({description: 'fusionAuthLoginResponse'})
+  fusionAuthLoginResponse?:any
+
+  @ApiPropertyOptional({description: 'isOauthUser'})
+  isOauthUser?:boolean
 }
 
 export interface errorObj{

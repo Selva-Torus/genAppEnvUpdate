@@ -190,10 +190,17 @@ const Buttoncancel_btn = ({ lockedData, setLockedData, tableData, setTableData, 
         handleClick();
       }
     };
+    const triggerElementHandler = (id:any) => {
+      if (id === "941852ad6fce480eaf1b3aaf0ae5e840") {
+        handleClick();
+      }
+    };
     eventBus.on("triggerButton", handler);
+    eventBus.on("triggerElement|onClick", triggerElementHandler);
     eventBus.emit("buttonReady", "cancel_btn5e840");
     return () => {
       eventBus.off("triggerButton", handler);
+      eventBus.off("triggerElement|onClick", triggerElementHandler);
     };
   },[currentToken,memoryVariables])
 

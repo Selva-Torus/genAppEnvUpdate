@@ -47,7 +47,7 @@
         }
       }
     },
-    "lastActive": "2026-06-03T05:01:49.940Z",
+    "lastActive": "2026-06-04T09:51:49.471Z",
     "client": "CT005",
     "users": "guruGuru Krishnan",
     "profile": "",
@@ -64,7 +64,7 @@
       },
       "applicationUniqueId": "ae093d5d-f44a-444b-afab-9476f31e7dca",
       "lastBuildVersion": "v1",
-      "lastBuildOn": "2026-05-06T13:41:41.101Z",
+      "lastBuildOn": "2026-06-03T09:34:32.415Z",
       "accessUrl": "https://tgadev2.toruslowcode.com/ct005/gss/vgph/v1",
       "logo": "torus/9.1/CT005/resources/images/Blue Logo.png",
       "appLogo": "torus/9.1/CT005/resources/images/White global payment hub.png",

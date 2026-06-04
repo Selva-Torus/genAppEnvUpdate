@@ -124,7 +124,13 @@ export const TextInput: React.FC<TextInputProps> = ({
     prevRefreshRef.current= true
     const newValue = e.target.value
     if(type=="number")
-    { setOnloadType("number")
+    {
+
+      // setOnloadType("number")
+      if (e.target.validity.badInput) {
+        toast("please enter numbers only","danger")
+        return
+      }
       if (!isNaN(+newValue)) {
           onChange?.(e)
       }else{

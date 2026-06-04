@@ -334,7 +334,7 @@ const Groupmain_group = ({lockedData={},setLockedData,primaryTableData={},tableD
     <div 
       style={{          
         gridColumn: '1 / 25',
-        gridRow: '1 / 88',
+        gridRow: '1 / 84',
       
         //rowGap: '0px',
         display: 'grid',
@@ -343,7 +343,7 @@ const Groupmain_group = ({lockedData={},setLockedData,primaryTableData={},tableD
         height: '100%',
         overflow: 'auto',
         gridAutoRows: '4px',
-        columnGap: '6px',
+        columnGap: '10px',
         backgroundColor:'#ffffff',
         backgroundImage:"url('')",
         backgroundPosition: '',

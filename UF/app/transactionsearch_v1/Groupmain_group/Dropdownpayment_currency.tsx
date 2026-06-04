@@ -391,9 +391,20 @@ const Dropdownpayment_currency = ({lockedData,setLockedData,checkToAdd,setCheckT
   const handleBlur = async () => {
     //validation
   }
-
+  const main_group9066fRef = useRef<any>(main_group9066f);
+  useEffect(() => { main_group9066fRef.current = main_group9066f; }, [main_group9066f]);
     useEffect(()=>{
         handleBlur()
+       const handler = (id:any) => {
+          if (id === "6467c1c317e34e8fa69079e3b48703d2") {
+        handleClick(main_group9066fRef?.current?.payment_currency703d2?main_group9066fRef?.current?.payment_currency703d2:"");
+          }
+        };
+        eventBus.on("triggerElement|onClick", handler);
+        eventBus.emit("DropdownReady", "6467c1c317e34e8fa69079e3b48703d2");
+        return () => {
+          eventBus.off("triggerElement|onClick", handler);
+        };
     },[validateRefetch.value])
 
   useEffect(() => {
@@ -418,7 +429,7 @@ const Dropdownpayment_currency = ({lockedData,setLockedData,checkToAdd,setCheckT
         display: 'flex',
         flexDirection: 'column'}} >
       <Dropdown   
-        className=""    
+        className="!rounded-lg"    
         disabled= {payment_currency703d2?.isDisabled ? true : false}
         contentAlign={"center"}
         headerPosition='top'

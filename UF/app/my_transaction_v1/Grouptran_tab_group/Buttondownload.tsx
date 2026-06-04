@@ -223,10 +223,17 @@ const Buttondownload = ({ lockedData, setLockedData, tableData, setTableData, pr
         handleClick();
       }
     };
+    const triggerElementHandler = (id:any) => {
+      if (id === "2e0bbfd05cfa4a23a2320b6369fcb505") {
+        handleClick();
+      }
+    };
     eventBus.on("triggerButton", handler);
+    eventBus.on("triggerElement|onClick", triggerElementHandler);
     eventBus.emit("buttonReady", "downloadcb505");
     return () => {
       eventBus.off("triggerButton", handler);
+      eventBus.off("triggerElement|onClick", triggerElementHandler);
     };
   },[currentToken,memoryVariables])
 

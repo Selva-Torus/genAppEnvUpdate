@@ -3,7 +3,7 @@
 
 
 
-import React, { useState,useContext,useEffect } from 'react'
+import React, { useState,useContext,useEffect, useRef } from 'react'
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import { Modal } from "@/components/Modal";
@@ -207,12 +207,10 @@ const TextInputdebtor_account_no = ({checkToAdd,setCheckToAdd,refetch,setRefetch
       setIsProcessing(false);
     }
   }
-  const handleValidate=async (e?:any) => {
-      let validate:any
-  }
-  
   const handleBlur=async (e?:any) => {
-     try{
+      let validate:any
+
+    try{
       setIsProcessing(true);
         let copyFormhandlerData :any = {}
 
@@ -283,8 +281,28 @@ const TextInputdebtor_account_no = ({checkToAdd,setCheckToAdd,refetch,setRefetch
     }
   }
 
+  const main_group9066fRef = useRef<any>(main_group9066f);
+  useEffect(() => { main_group9066fRef.current = main_group9066f; }, [main_group9066f]);
   useEffect(()=>{
       handleMapperValue();
+      if(validateRefetch.init!=0)
+        handlerBlur();
+    const handlerChange = (id:any) => {
+      if (id === "f2138b56e9f04f25b97ae414d73963e4") {
+        handleChange({target:{value:main_group9066fRef?.current?.dr_account||""}});
+      }
+    };
+    const handlerBlur = (id:any) => {
+      if (id === "f2138b56e9f04f25b97ae414d73963e4") {
+        handleBlur({target:{value:main_group9066fRef?.current?.dr_account||""}});
+      }
+    };
+    eventBus.on("triggerElement|onChange", handlerChange);
+    eventBus.on("triggerElement|onBlur", handlerBlur);
+    return () => {
+      eventBus.off("triggerElement|onChange", handlerChange);
+      eventBus.off("triggerElement|onBlur", handlerBlur);
+    };
   },[validateRefetch.value])
   useEffect(() => {
   if(dfd_transaction_v1Props?.setSearchFilters && dfd_transaction_v1Props?.data)
@@ -303,7 +321,7 @@ const TextInputdebtor_account_no = ({checkToAdd,setCheckToAdd,refetch,setRefetch
       <div style={{ flex: 1, minHeight: 0 }}>
       <TextInput
         require={isRequredData}
-        className=""
+        className="!rounded-lg"
         label={keyset("")}
         onChange= {handleChange}
         onBlur={handleBlur}

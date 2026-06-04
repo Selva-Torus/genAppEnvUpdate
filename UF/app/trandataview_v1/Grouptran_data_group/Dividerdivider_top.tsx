@@ -47,7 +47,7 @@ return (
   className=""
   direction="horizontal"
   position="middle"
-  color="#000"
+  color="#d9d9d9"
   thickness={2}
 />
   </div>

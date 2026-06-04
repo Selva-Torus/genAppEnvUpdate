@@ -126,11 +126,19 @@ const TopNav = ({
     return nestedMenu
   }
 
+//  async function logout() {
+//    localStorage.clear()
+//    deleteAllCookies()
+//    window.location.href = '/ct005/gss/vgph/v1'
+//  }
+
   async function logout() {
     localStorage.clear()
-    deleteAllCookies()
-    window.location.href = '/ct005/gss/vgph/v1'
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+    const from = encodeURIComponent(`${basePath}/`)
+    window.location.href = `${basePath}/next-api/auth/logout?from=${from}`
   }
+  
   const hasMatchingName = (obj: any, input: string): boolean => {
     if (typeof obj !== 'object' || obj === null) return false
 

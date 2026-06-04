@@ -32,7 +32,7 @@ import { getGridPositionFromOrder } from '@/app/utils/getGridPositionFromOrder';
 import { Scan } from '@/app/utils/scanService';
 import { exportJsonToExcel } from '@/app/utils/jsonToExcel';
 import { getGroupOrchestrationData, getControlOrchestrationData } from '@/app/utils/Orchestration';
-import PageTrandataviewpage2 from '@/app/trandataview_v1/trandataview_v1page';
+import PageTrandataviewpage6 from '@/app/trandataview_v1/trandataview_v1page';
 import { XMLParser } from 'fast-xml-parser'
 
     
@@ -100,7 +100,7 @@ const Buttonview_tran_log_btn = ({ lockedData, setLockedData, tableData, setTabl
   const [allCode,setAllCode]=useState<string>("");
   const [gridPosition, setGridPosition] = useState<any>({ gridColumn: '1 / 3', gridRow: '1 / 12' });
   ////showComponentAsPopup || showArtifactAsModal
-  const [showProfileAsModalOpen2, setShowProfileAsModalOpen2] = React.useState<boolean>(false);
+  const [showProfileAsModalOpen6, setShowProfileAsModalOpen6] = React.useState<boolean>(false);
     
  /////////////
    //another screen
@@ -127,11 +127,11 @@ const Buttonview_tran_log_btn = ({ lockedData, setLockedData, tableData, setTabl
   const {divider_bottom8bad5, setdivider_bottom8bad5}= useContext(TotalContext) as TotalContextProps;
   const {view_msg_data_btne6a88, setview_msg_data_btne6a88}= useContext(TotalContext) as TotalContextProps;
   const {view_tran_log_btn9cd8c, setview_tran_log_btn9cd8c}= useContext(TotalContext) as TotalContextProps;
-  const {trandataview_v1Props, settrandataview_v1Props}= useContext(TotalContext) as TotalContextProps;
   const {req_data_group8d4d7, setreq_data_group8d4d7}= useContext(TotalContext) as TotalContextProps;
   const {req_data_group8d4d7Props, setreq_data_group8d4d7Props}= useContext(TotalContext) as TotalContextProps;
   const {res_data_group9d75a, setres_data_group9d75a}= useContext(TotalContext) as TotalContextProps;
   const {res_data_group9d75aProps, setres_data_group9d75aProps}= useContext(TotalContext) as TotalContextProps;
+  const {trandataview_v1Props, settrandataview_v1Props}= useContext(TotalContext) as TotalContextProps;
   //////////////
   const pendingAutoSearch = useRef(false);
   // keep update group state in ref to access latest state value
@@ -199,8 +199,6 @@ const Buttonview_tran_log_btn = ({ lockedData, setLockedData, tableData, setTabl
         codeStates['setview_msg_data_btn'] = setview_msg_data_btne6a88,
         codeStates['view_tran_log_btn'] = view_tran_log_btn9cd8c,
         codeStates['setview_tran_log_btn'] = setview_tran_log_btn9cd8c,
-        codeStates['trandataview_v1'] = trandataview_v1Props,
-        codeStates['settrandataview_v1'] = settrandataview_v1Props,
         codeStates['req_data_group'] = req_data_group8d4d7,
         codeStates['setreq_data_group'] = setreq_data_group8d4d7,
         codeStates['req_data_group8d4d7'] = req_data_group8d4d7Props,
@@ -209,6 +207,8 @@ const Buttonview_tran_log_btn = ({ lockedData, setLockedData, tableData, setTabl
         codeStates['setres_data_group'] = setres_data_group9d75a,
         codeStates['res_data_group9d75a'] = res_data_group9d75aProps,
         codeStates['setres_data_group9d75a'] = setres_data_group9d75aProps,
+        codeStates['trandataview_v1'] = trandataview_v1Props,
+        codeStates['settrandataview_v1'] = settrandataview_v1Props,
       codeStates['response']  = savedData.current;
       customCode = codeExecution(code,codeStates);
       return customCode;
@@ -246,10 +246,17 @@ const Buttonview_tran_log_btn = ({ lockedData, setLockedData, tableData, setTabl
         handleClick();
       }
     };
+    const triggerElementHandler = (id:any) => {
+      if (id === "93e0542e5f2347658e84247e2e19cd8c") {
+        handleClick();
+      }
+    };
     eventBus.on("triggerButton", handler);
+    eventBus.on("triggerElement|onClick", triggerElementHandler);
     eventBus.emit("buttonReady", "view_tran_log_btn9cd8c");
     return () => {
       eventBus.off("triggerButton", handler);
+      eventBus.off("triggerElement|onClick", triggerElementHandler);
     };
   },[currentToken,memoryVariables])
 
@@ -274,7 +281,7 @@ const Buttonview_tran_log_btn = ({ lockedData, setLockedData, tableData, setTabl
   },[view_tran_log_btn9cd8c?.trigger])
 
   useEffect(()=>{
-    setShowProfileAsModalOpen2(false)
+    setShowProfileAsModalOpen6(false)
     if(view_tran_log_btn9cd8c?.refresh){
     (async()=>{
       await handleMapper();
@@ -313,11 +320,6 @@ const Buttonview_tran_log_btn = ({ lockedData, setLockedData, tableData, setTabl
         setjourney_details_groupd9a0e((prev: any) => ({ ...prev, view_tran_log_btn: true }));
         //onClick
 
-    // showArtifactAsModal
-    let filterProps2:any =  [];
-    let filterData2 = await getFilterProps(filterProps2,journey_details_groupd9a0e);
-    settrandataview_v1Props([...filterData2 ]);
-    setShowProfileAsModalOpen2(true);
     //bindTran
     // For group or table
     setreq_data_group8d4d7(journey_details_groupd9a0e||{})
@@ -326,6 +328,11 @@ const Buttonview_tran_log_btn = ({ lockedData, setLockedData, tableData, setTabl
     // For group or table
     setres_data_group9d75a(journey_details_groupd9a0e||{})
     setres_data_group9d75aProps({...res_data_group9d75aProps,presetValues:journey_details_groupd9a0e||{}})  
+    // showArtifactAsModal
+    let filterProps6:any =  [];
+    let filterData6 = await getFilterProps(filterProps6,journey_details_groupd9a0e);
+    settrandataview_v1Props([...filterData6 ]);
+    setShowProfileAsModalOpen6(true);
       await handleCustomCode();
     }catch (err: any) {
       setIsProcessing(false);
@@ -363,17 +370,18 @@ const Buttonview_tran_log_btn = ({ lockedData, setLockedData, tableData, setTabl
 
   return (
     <div
-      style={{gridColumn: `14 / 25`,gridRow: `83 / 93`, gap:``, height: `100%`, overflow: 'auto'}} 
+      style={{gridColumn: `17 / 25`,gridRow: `83 / 93`, gap:``, height: `100%`, overflow: 'auto'}} 
       >
       <Modal 
-        open={showProfileAsModalOpen2} 
-        onClose={() => setShowProfileAsModalOpen2(false)}
+        open={showProfileAsModalOpen6} 
+        onClose={() => setShowProfileAsModalOpen6(false)}
+        title="Transaction Log"
         showOverlay = {true}
         position = {"left"}
         modalName = "trandataview"
         className='w-[60%] h-[] bg-gray-50 overflow-auto'
       >
-        <PageTrandataviewpage2/>
+        <PageTrandataviewpage6/>
       </Modal>
         {showFlag && <Button 
           ref={buttonRef}

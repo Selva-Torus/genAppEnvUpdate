@@ -3,7 +3,7 @@
 
 
 
-import React, { useState,useContext,useEffect } from 'react'
+import React, { useState,useContext,useEffect, useRef } from 'react'
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import { Modal } from "@/components/Modal";
@@ -206,12 +206,10 @@ const TextInputuuid = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFl
       setIsProcessing(false);
     }
   }
-  const handleValidate=async (e?:any) => {
-      let validate:any
-  }
-  
   const handleBlur=async (e?:any) => {
-     try{
+      let validate:any
+
+    try{
       setIsProcessing(true);
         let copyFormhandlerData :any = {}
 
@@ -282,8 +280,28 @@ const TextInputuuid = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFl
     }
   }
 
+  const main_group9066fRef = useRef<any>(main_group9066f);
+  useEffect(() => { main_group9066fRef.current = main_group9066f; }, [main_group9066f]);
   useEffect(()=>{
       handleMapperValue();
+      if(validateRefetch.init!=0)
+        handlerBlur();
+    const handlerChange = (id:any) => {
+      if (id === "145647b72a0f4d5baea6bcf29cb29c9f") {
+        handleChange({target:{value:main_group9066fRef?.current?.uuid||""}});
+      }
+    };
+    const handlerBlur = (id:any) => {
+      if (id === "145647b72a0f4d5baea6bcf29cb29c9f") {
+        handleBlur({target:{value:main_group9066fRef?.current?.uuid||""}});
+      }
+    };
+    eventBus.on("triggerElement|onChange", handlerChange);
+    eventBus.on("triggerElement|onBlur", handlerBlur);
+    return () => {
+      eventBus.off("triggerElement|onChange", handlerChange);
+      eventBus.off("triggerElement|onBlur", handlerBlur);
+    };
   },[validateRefetch.value])
   useEffect(() => {
   if(dfd_transaction_v1Props?.setSearchFilters && dfd_transaction_v1Props?.data)
@@ -302,7 +320,7 @@ const TextInputuuid = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFl
       <div style={{ flex: 1, minHeight: 0 }}>
       <TextInput
         require={isRequredData}
-        className=""
+        className="!rounded-lg"
         label={keyset("")}
         onChange= {handleChange}
         onBlur={handleBlur}

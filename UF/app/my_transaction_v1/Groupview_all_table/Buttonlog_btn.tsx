@@ -31,7 +31,7 @@ import decodeToken from '@/app/components/decodeToken';
 import { getGridPositionFromOrder } from '@/app/utils/getGridPositionFromOrder';
 import { Scan } from '@/app/utils/scanService';
 import { getGroupOrchestrationData, getControlOrchestrationData } from '@/app/utils/Orchestration';
-import PageTransactionjourneypage2 from '@/app/transactionjourney_v1/transactionjourney_v1page';
+import PageTransactionjourneypage4 from '@/app/transactionjourney_v1/transactionjourney_v1page';
 import { XMLParser } from 'fast-xml-parser'
 
     
@@ -97,7 +97,7 @@ const Buttonlog_btn = ({ mainData,lockedData,setLockedData,primaryTableData, set
   const [allCode,setAllCode]=useState<string>("");
   const [gridPosition, setGridPosition] = useState<any>({ gridColumn: '1 / 3', gridRow: '1 / 12' });
   ////showComponentAsPopup || showArtifactAsModal
-  const [showProfileAsModalOpen2, setShowProfileAsModalOpen2] = React.useState<boolean>(false);
+  const [showProfileAsModalOpen4, setShowProfileAsModalOpen4] = React.useState<boolean>(false);
     
  /////////////
    //another screen
@@ -132,9 +132,9 @@ const Buttonlog_btn = ({ mainData,lockedData,setLockedData,primaryTableData, set
   const {return_queue_tab5611eProps, setreturn_queue_tab5611eProps}= useContext(TotalContext) as TotalContextProps;
   const {return_queue_table267f0, setreturn_queue_table267f0}= useContext(TotalContext) as TotalContextProps;
   const {return_queue_table267f0Props, setreturn_queue_table267f0Props}= useContext(TotalContext) as TotalContextProps;
-  const {transactionjourney_v1Props, settransactionjourney_v1Props}= useContext(TotalContext) as TotalContextProps;
   const {tran_journey_group9eb2e, settran_journey_group9eb2e}= useContext(TotalContext) as TotalContextProps;
   const {tran_journey_group9eb2eProps, settran_journey_group9eb2eProps}= useContext(TotalContext) as TotalContextProps;
+  const {transactionjourney_v1Props, settransactionjourney_v1Props}= useContext(TotalContext) as TotalContextProps;
   //////////////
 
 
@@ -204,12 +204,12 @@ const Buttonlog_btn = ({ mainData,lockedData,setLockedData,primaryTableData, set
       codeStates['setreturn_queue_table'] = setreturn_queue_table267f0,
       codeStates['return_queue_table267f0'] = return_queue_table267f0Props,
       codeStates['setreturn_queue_table267f0'] = setreturn_queue_table267f0Props,
-      codeStates['transactionjourney_v1'] = transactionjourney_v1Props,
-      codeStates['settransactionjourney_v1'] = settransactionjourney_v1Props,
       codeStates['tran_journey_group'] = tran_journey_group9eb2e,
       codeStates['settran_journey_group'] = settran_journey_group9eb2e,
       codeStates['tran_journey_group9eb2e'] = tran_journey_group9eb2eProps,
       codeStates['settran_journey_group9eb2e'] = settran_journey_group9eb2eProps,
+      codeStates['transactionjourney_v1'] = transactionjourney_v1Props,
+      codeStates['settransactionjourney_v1'] = settransactionjourney_v1Props,
       codeStates['response']  = savedData.current;
       customCode = codeExecution(code,codeStates);
       return customCode;
@@ -246,7 +246,7 @@ const Buttonlog_btn = ({ mainData,lockedData,setLockedData,primaryTableData, set
   },[currentToken,memoryVariables])
 
   useEffect(()=>{
-    setShowProfileAsModalOpen2(false)
+    setShowProfileAsModalOpen4(false)
   },[log_btnfe134?.refresh])
 
   function SourceIdFilter(eventProperty:any,matchingSequence?:string){
@@ -279,15 +279,15 @@ const Buttonlog_btn = ({ mainData,lockedData,setLockedData,primaryTableData, set
       await delay(1000);
         //onClick
 
-    // showArtifactAsModal
-    let filterProps2:any =  [];
-    let filterData2 = await getFilterProps(filterProps2,mainData);
-    settransactionjourney_v1Props([...filterData2 ]);
-    setShowProfileAsModalOpen2(true);
     //bindTran
     // For group or table
     settran_journey_group9eb2e(mainData||{})
     settran_journey_group9eb2eProps({...tran_journey_group9eb2eProps,presetValues:mainData||{}})  
+    // showArtifactAsModal
+    let filterProps4:any =  [];
+    let filterData4 = await getFilterProps(filterProps4,mainData);
+    settransactionjourney_v1Props([...filterData4 ]);
+    setShowProfileAsModalOpen4(true);
       await handleCustomCode();
     }catch (err: any) {
       setIsProcessing(false);
@@ -324,14 +324,15 @@ const Buttonlog_btn = ({ mainData,lockedData,setLockedData,primaryTableData, set
   return (
     <div>
       <Modal 
-        open={showProfileAsModalOpen2} 
-        onClose={() => setShowProfileAsModalOpen2(false)}
+        open={showProfileAsModalOpen4} 
+        onClose={() => setShowProfileAsModalOpen4(false)}
+        title="Transaction Journey"
         showOverlay = {true}
         position = {"right"}
         modalName = "transactionjourney"
         className='w-[20%] h-[] bg-gray-50 overflow-auto'
       >
-        <PageTransactionjourneypage2/>
+        <PageTransactionjourneypage4/>
       </Modal>
         {showFlag && <Button 
           ref={buttonRef}

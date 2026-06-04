@@ -391,9 +391,20 @@ const Dropdownprocessstatus = ({lockedData,setLockedData,checkToAdd,setCheckToAd
   const handleBlur = async () => {
     //validation
   }
-
+  const main_group9066fRef = useRef<any>(main_group9066f);
+  useEffect(() => { main_group9066fRef.current = main_group9066f; }, [main_group9066f]);
     useEffect(()=>{
         handleBlur()
+       const handler = (id:any) => {
+          if (id === "fb9f9c7eff1f4a9f9272cca158e134a1") {
+        handleClick(main_group9066fRef?.current?.processstatus134a1?main_group9066fRef?.current?.processstatus134a1:"");
+          }
+        };
+        eventBus.on("triggerElement|onClick", handler);
+        eventBus.emit("DropdownReady", "fb9f9c7eff1f4a9f9272cca158e134a1");
+        return () => {
+          eventBus.off("triggerElement|onClick", handler);
+        };
     },[validateRefetch.value])
 
   useEffect(() => {
@@ -418,7 +429,7 @@ const Dropdownprocessstatus = ({lockedData,setLockedData,checkToAdd,setCheckToAd
         display: 'flex',
         flexDirection: 'column'}} >
       <Dropdown   
-        className=""    
+        className="!rounded-lg"    
         disabled= {processstatus134a1?.isDisabled ? true : false}
         contentAlign={"center"}
         headerPosition='top'

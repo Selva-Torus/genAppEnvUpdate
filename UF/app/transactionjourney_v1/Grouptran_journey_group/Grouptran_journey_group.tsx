@@ -201,7 +201,7 @@ const Grouptran_journey_group = ({lockedData={},setLockedData,primaryTableData={
     <div 
       style={{          
         gridColumn: '1 / 25',
-        gridRow: '1 / 179',
+        gridRow: '1 / 117',
       
         //rowGap: '0px',
         display: 'grid',

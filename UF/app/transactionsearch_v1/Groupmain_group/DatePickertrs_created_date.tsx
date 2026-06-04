@@ -162,7 +162,7 @@ return (
   <div 
   style={{gridColumn: `1 / 9`,gridRow: `6 / 20`, gap:``, height: `100%`, overflow: 'auto'}} >
     <DatePicker
-      className=""
+      className="!rounded-lg"
       //label={keyset("")}
       value={main_group9066f?.trs_created_date}
       onUpdate= {handleUpdate}

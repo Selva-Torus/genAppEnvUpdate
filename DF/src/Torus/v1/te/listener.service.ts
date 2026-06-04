@@ -100,7 +100,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
 
     let keyarr = []
         
-    let artifactToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnQiOiJDVDAwNSIsImxvZ2luSWQiOiJndXJ1Iiwic2lkIjoiNmEyNjM0YTUtYTFiNS00MTNiLWJkNDYtNWI1ZTA5YTZjZjA5IiwibG9nVHlwZSI6ImRmcyIsInR5cGUiOiJjIiwiaWF0IjoxNzgwNDY4MzU2LCJleHAiOjE3ODA0Njk1NTZ9.um653I4rJHFUJo7rWAnYXrsL3km0uZp9IkceVQF4ZAI';  
+    let artifactToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoiZ3VydSIsImNsaWVudCI6IkNUMDA1IiwidHlwZSI6ImMiLCJsb2dUeXBlIjoiZGZzIiwic2lkIjoiZjcyNzY2ZjgtOTA5MC00ZjI1LWE0ZDYtNmE0ZGYwMGIxYzJlIiwiaWF0IjoxNzgwNTY2NzA5LCJleHAiOjE3ODA1Njc5MDl9.ze9iMKbqW0I0WSFxe3zL8jasFNe_HbtaFqp3l6yeYZw';  
     for (const key of keyarr) {
       this.listenToKey(key,artifactToken); // fire & forget
     }  
@@ -1691,7 +1691,10 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                   if (!mongodbUrl)
                     throw new CustomException('Mongo DB url not found', 404);
 
-                  listenerMongoClient = new MongoClient(mongodbUrl);
+                  const mongoOptions = {
+                    appName: `${process.env.CLIENTCODE}-${process.env.APPNAME}-${process.env.APPGROUPNAME}-dynamicFlow.service`                    
+                  };
+                  listenerMongoClient = new MongoClient(mongodbUrl,mongoOptions);
                   await listenerMongoClient.connect();
                   const db = listenerMongoClient.db();
                   let staticFilter = {};
