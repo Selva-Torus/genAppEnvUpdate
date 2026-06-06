@@ -100,7 +100,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
 
     let keyarr = []
         
-    let artifactToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoiZ3VydSIsImNsaWVudCI6IkNUMDA1IiwidHlwZSI6ImMiLCJsb2dUeXBlIjoiZGZzIiwic2lkIjoiZjcyNzY2ZjgtOTA5MC00ZjI1LWE0ZDYtNmE0ZGYwMGIxYzJlIiwiaWF0IjoxNzgwNTY2NzA5LCJleHAiOjE3ODA1Njc5MDl9.ze9iMKbqW0I0WSFxe3zL8jasFNe_HbtaFqp3l6yeYZw';  
+    let artifactToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoic2VsdmEiLCJjbGllbnQiOiJDVDAxMCIsInR5cGUiOiJjIiwibG9nVHlwZSI6Im1vbmdvZGIiLCJzaWQiOiI0YjBkNTFhMS01M2I1LTQwNGEtYjY2YS1iYjRjZGE5ZDExYmYiLCJpYXQiOjE3ODA3Mjk0NjIsImV4cCI6MTc4MDczMDY2Mn0.7KNvTkBDHt-1hegURPVoTuyze-fdXdi7n3nog2lbIcU';  
     for (const key of keyarr) {
       this.listenToKey(key,artifactToken); // fire & forget
     }  

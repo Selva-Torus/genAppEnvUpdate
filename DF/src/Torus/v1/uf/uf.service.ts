@@ -18,6 +18,7 @@ import * as nodemailer from 'nodemailer';
 import { JwtService } from '@nestjs/jwt';
 import { JwtServices } from 'src/jwt.services';
 import { RuleService } from 'src/ruleService';
+import { MongoService } from 'src/mongoService';
 const jsonata = require('jsonata');
 import * as fs from 'fs';
 import * as path from 'path';
@@ -94,6 +95,7 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
     private readonly gorule: RuleService,
     private readonly redisService: RedisService,
     private readonly commonService: CommonService,
+    private readonly mongoService: MongoService,
     private readonly envData: EnvData
   ) {}
     private pool : Pool;
@@ -345,7 +347,7 @@ getConfig(): FusionAuthConfig {
 
  async insertDocToVgphSourceTranDocMain(category: string, doc_name: string, url: string, size?: number, doc_group?: string): Promise<any> {
     try {
-      const insertUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments`;
+      const insertUrl = `${process.env.APP_MANAGER_URL}/ct010/attachments`;
       //const vgphstm_uuid = uuid();
       const currentDate = new Date().toISOString().slice(0, 19) + '+00:00';
 
@@ -373,7 +375,7 @@ getConfig(): FusionAuthConfig {
 
   async getUrlByVgphstdmId(vgphstdm_id: any): Promise<string> {
     try {
-      const getUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments/${vgphstdm_id}`;
+      const getUrl = `${process.env.APP_MANAGER_URL}/ct010/attachments/${vgphstdm_id}`;
 
       const response = await axios.get(getUrl, {
         headers: {
@@ -5082,24 +5084,86 @@ getConfig(): FusionAuthConfig {
           redirectToORPSelector,
         };
       } else {
-        if(isOauthUser)
-        {
-          return false
-        }
-        await this.commonService.errorLog(
-        'Technical',
-        'AK',
-        'Fatal',
-        'AUTH002',
-        'Invalid Credentials',
-        'LoginScreen',
-        '',
-        {
-          artifact: 'LoginScreen',
-          users: username,
-        },
-      );
-        throw new NotFoundException(`Invalid Credentials`);
+        const userInfoRes = await fetch(
+          `${process.env.FUSIONAUTH_BASEURL}/oauth2/userinfo`,
+          {
+            headers: {
+              Authorization: `Bearer ${fusionAuthLoginResponse.access_token}`,
+            },
+          },
+        );
+        
+        const userInfo = await userInfoRes.json();
+
+        const tam_tenant_user_data = {
+          user_unique_id: userInfo.sub,
+          email: username,
+          password: '',
+          first_name: username,
+          last_name: username,
+          login_id: username,
+          user_code: '',
+          status: '',
+          profile: '',
+          tenant_code: tenant,
+          trs_created_by: username || 'anonymous',
+          trs_modified_date: new Date().toISOString(),
+          trs_modified_by: username || 'anonymous',
+          trs_access_profile: '',
+          trs_org_grp_code: '',
+          trs_org_code: '',
+          trs_role_grp_code: '',
+          trs_role_code: '',
+          trs_ps_grp_code: '',
+          trs_ps_code: '',
+          trs_sub_org_grp_code: '',
+          trs_sub_org_code: '',
+        };
+
+        const tamTenantUserRes = await this.insertIntoTable(
+          'tam_tenant_user',
+          tam_tenant_user_data,
+        );
+        const org_tu_id = tamTenantUserRes.data[0]?.org_tu_id;
+
+        const tam_app_user_data = {
+          user_unique_id: userInfo.sub,
+          no_of_products_service: '',
+          access_profile: [],
+          is_app_admin: false,
+          last_active: '',
+          access_expires: '',
+          tenant_code: tenant,
+          ag_code: ag,
+          app_code: app,
+          org_tu_id: org_tu_id,
+          trs_created_date: new Date().toISOString(),
+          trs_created_by: username || 'anonymous',
+          trs_modified_date: new Date().toISOString(),
+          trs_modified_by: username || 'anonymous',
+          trs_status: '',
+          trs_next_status: '',
+          trs_process_id: '',
+          trs_access_profile: '',
+          trs_org_grp_code: '',
+          trs_org_code: '',
+          trs_role_grp_code: '',
+          trs_role_code: '',
+          trs_ps_grp_code: '',
+          trs_ps_code: '',
+          trs_sub_org_grp_code: '',
+          trs_sub_org_code: '',
+          trs_app_code: '',
+        };
+
+        const tamAppUserRes = await this.insertIntoTable(
+          'tam_app_user',
+          tam_app_user_data,
+        );
+        
+        throw new UnauthorizedException(
+          `User access pending for ${tamTenantUserRes.data[0].login_id ?? tamTenantUserRes.data[0]?.email} , you'll be notified when approved`,
+        );
       }
     } catch (error) {
       await this.commonService.errorLog(

@@ -221,7 +221,7 @@ export const Modal: React.FC<ModalProps> = ({
 
         {/* Content */}
         <div
-          className="flex-1 overflow-y-auto px-6 py-4 custom-scrollbar"
+          className="flex-1 overflow-y-auto px-6 pt-2 pb-4 custom-scrollbar"
           style={{
             color: isDark ? "#F9FAFB" : "#111827",
             overscrollBehavior: "contain",

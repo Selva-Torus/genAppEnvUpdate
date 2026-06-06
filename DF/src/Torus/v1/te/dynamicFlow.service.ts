@@ -7585,7 +7585,7 @@ export class DynamicFlowService {
     //                                                                 objVal = srcFilArr[srcFilArr.length-1]
     //                                                             }  
     //                                                             if(srcData){
-    //                                                                 if (targetType === 'number' && typeof srcData === 'string') {
+    //                                                                 if ((targetType === 'number' || targetType ==='integer') && typeof srcData === 'string') {
     //                                                                     let num = Number(srcData)
     //                                                                     if (!Number.isNaN(num)) {
     //                                                                         srcData = num
@@ -7656,7 +7656,7 @@ export class DynamicFlowService {
     //                                                         objVal = srcFilArr[srcFilArr.length-1]
     //                                                     }
     //                                                     if(srcData){
-    //                                                         if (targetType === 'number' && typeof srcData === 'string') {
+    //                                                         if ((targetType === 'number' || targetType ==='integer') && typeof srcData === 'string') {
     //                                                             let num = Number(srcData)
     //                                                             if (!Number.isNaN(num)) {
     //                                                                 srcData = num
@@ -8257,7 +8257,7 @@ export class DynamicFlowService {
                                                                 objVal = srcFilArr[srcFilArr.length-1]
                                                             }  
                                                             if(srcData || (targetType == 'boolean' && (srcData == true || srcData == false))){
-                                                                if (targetType === 'number' && typeof srcData === 'string') {
+                                                                if ((targetType === 'number' || targetType ==='integer') && typeof srcData === 'string') {
                                                                     let num = Number(srcData)
                                                                     if (!Number.isNaN(num)) {
                                                                         srcData = num
@@ -8346,7 +8346,7 @@ export class DynamicFlowService {
                                                         objVal = srcFilArr[srcFilArr.length-1]
                                                     }
                                                     if(srcData || (targetType == 'boolean' && (srcData == true || srcData == false))){
-                                                        if (targetType === 'number' && typeof srcData === 'string') {
+                                                        if ((targetType === 'number' || targetType ==='integer') && typeof srcData === 'string') {
                                                             let num = Number(srcData)
                                                             if (!Number.isNaN(num)) {
                                                                 srcData = num

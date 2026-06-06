@@ -65,20 +65,18 @@ export async function GET(request: NextRequest) {
 
     if (!torusRes.ok) {
       const errBody = await torusRes.json().catch(() => ({}))
-      return NextResponse.redirect(
-        `${APP_URL}${FULL_BASE_PATH}/?error=${encodeURIComponent(errBody?.message ?? 'auth_failed')}`
-      )
+      return NextResponse.json({ error: errBody?.message ?? 'Authentication with Torus failed' }, { status: torusRes.status ?? 500 })
     }
 
     const { token, redirectToORPSelector } = await torusRes.json()
 
-    let screenName:string = 'CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1';
+    let screenName:string = 'Logs Screen';
     let screenDetails: any = {
         keys:[
   {
-    "screenName": "my transaction",
-    "screensName": "my_transaction-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1"
+    "screenName": "test",
+    "screensName": "test-v1",
+    "ufKey": "CK:CT010:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:test:AFVK:v1"
   }
 ]
     }

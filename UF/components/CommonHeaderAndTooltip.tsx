@@ -32,7 +32,7 @@ export const CommonHeaderAndTooltip: React.FC<CommonHeaderAndTooltip> = ({
   const { theme,direction } = useGlobal();
   const isDark = theme === "dark" || theme === "dark-hc";
   const tabsElement = (
-    <div className={fillContainer ? "w-full h-full" : ""}>{children}</div>
+    <div className={fillContainer ? "w-full h-full" : "flex w-full h-full items-center justify-center"}>{children}</div>
   );
   const renderWithHeader = (element: React.ReactNode) => {
     if (!headerText) return element;

@@ -238,7 +238,7 @@ const DocViewer: React.FC<DocViewerProps> = ({
   // For left/right: stacks vertically. For top/bottom: stays horizontal.
 const zoomControls = (
   <div
-    className={`flex items-center rounded-lg border bg-white p-2 ${
+    className={`flex items-center rounded-lg border bg-white p-2 dark:border-gray-600 dark:bg-gray-800 ${
       isVertical ? 'flex-col gap-3' : 'flex-row gap-3'
     }`}
   >
@@ -276,7 +276,7 @@ const zoomControls = (
 
   const fileNavControls = files.length > 1 && (
     <div
-      className={`flex items-center gap-1 rounded-lg border bg-white p-1 ${
+      className={`flex items-center gap-1 rounded-lg border bg-white p-1 dark:border-gray-600 dark:bg-gray-800 ${
         isVertical ? 'flex-col' : 'flex-row'
       }`}
     >
@@ -457,7 +457,7 @@ const zoomControls = (
   }
 
   const fileNameBar = files.length > 0 && (
-    <div className='flex shrink-0 items-center rounded-lg bg-[#f4f5fa] px-3 py-2 shadow'>
+    <div className='flex shrink-0 items-center rounded-lg bg-[#f4f5fa] dark:bg-gray-900 px-3 py-2 shadow'>
       <span className='min-w-0 flex-1 truncate text-sm font-medium text-slate-900'>
         {currentFileName}
       </span>
@@ -466,12 +466,12 @@ const zoomControls = (
 
   const viewerElement = (
     <div
-      className={`flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden ${className}`}
+      className={`flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden bg-white dark:bg-black ${className}`}
       style={style}
     >
       {/* ── TOP ── filename + controls inline on same row */}
       {toolbarPosition === 'top' && files.length > 0 && (
-        <div className='flex shrink-0 items-center gap-2 rounded-lg bg-[#f4f5fa] px-3 py-2 shadow'>
+        <div className='flex shrink-0 items-center gap-2 rounded-lg bg-[#f4f5fa] dark:bg-gray-900 px-3 py-2 shadow'>
           <span className='min-w-0 flex-1  truncate text-sm font-medium text-slate-900'>
             {currentFileName}
           </span>
@@ -484,7 +484,7 @@ const zoomControls = (
 
       {/* ── BOTTOM ── filename at top */}
       {toolbarPosition === 'bottom' && files.length > 0 && (
-        <div className='flex shrink-0 items-center rounded-lg bg-[#f4f5fa] px-3 py-2 shadow'>
+        <div className='flex shrink-0 items-center rounded-lg bg-[#f4f5fa] dark:bg-gray-900 px-3 py-2 shadow'>
           <span className='min-w-0 flex-1 truncate text-sm font-medium text-slate-900'>
             {currentFileName}
           </span>
@@ -501,7 +501,7 @@ const zoomControls = (
       {/* ── BOTTOM controls — below content ── */}
       {toolbarPosition === 'bottom' && files.length > 0 && (
         <div
-          className={`flex shrink-0 flex-row items-center gap-2 rounded-lg px-3 py-2 shadow ${positionClass}`}
+          className={`flex shrink-0 flex-row items-center gap-2 rounded-lg bg-white px-3 py-2 shadow dark:bg-gray-800 ${positionClass}`}
         >
           {zoomControls}
           {fileNavControls}
@@ -517,7 +517,7 @@ const zoomControls = (
         >
           {/* Sidebar — zoom + filenav only */}
           <div
-            className={`flex shrink-0 flex-col gap-2 px-2 py-3 shadow ${positionClass}`}
+            className={`flex shrink-0 flex-col gap-2 bg-white px-2 py-3 shadow dark:bg-gray-800 ${positionClass}`}
           >
             {zoomControls}
             {fileNavControls}
@@ -525,7 +525,7 @@ const zoomControls = (
           {/* filename + content stacked together */}
           <div className='flex min-h-0 flex-1 flex-col overflow-hidden'>
             {files.length > 0 && (
-              <div className='shrink-0 rounded-lg bg-[#f4f5fa] px-3 py-2 shadow'>
+              <div className='shrink-0 rounded-lg bg-[#f4f5fa] dark:bg-gray-900 px-3 py-2 shadow'>
                 <span className='block min-w-0 truncate text-sm font-medium text-slate-900'>
                   {currentFileName}
                 </span>

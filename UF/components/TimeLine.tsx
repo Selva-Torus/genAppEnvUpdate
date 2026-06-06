@@ -121,7 +121,7 @@ export const TimeLine: React.FC<TimeLineProps> = ({
               className={
                 isHorizontal
                   ? 'hover:color-gray-50 relative flex min-w-[200px] cursor-pointer flex-col items-center rounded transition-all duration-200'
-                  : 'relative mb-12 flex w-full flex-row justify-center'
+                  : 'relative flex w-full flex-row justify-center'
               }
               onClick={() => onStepClick?.(step, idx)}
             >
@@ -172,7 +172,7 @@ export const TimeLine: React.FC<TimeLineProps> = ({
               ) : (
                 <>
                   {/* Vertical Layout */}
-                  <div className='min-w-0 basis-1/3 p-2 text-center'>
+                  <div className='min-w-0 basis-1/3 px-2 py-5 text-center'>
                     <time
                       className={`break-all  ${
                         isDark ? 'text-gray-200' : 'text-gray-700'
@@ -182,30 +182,35 @@ export const TimeLine: React.FC<TimeLineProps> = ({
                     </time>
                   </div>
 
-                  <div className='relative flex justify-center'>
-                    {idx !== steps.length - 1 && (
-                      <div
-                        className='absolute top-10 h-full w-0.5'
-                        style={{ backgroundColor: statusStyles.color }}
-                      />
-                    )}
-
+                  <div className='relative flex flex-col items-center self-stretch pt-5'>
                     <span
-                      className='z-10 flex h-7 w-7 items-center justify-center rounded-full border-4 border-white'
+                      className='z-10 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full'
                       style={{ backgroundColor: statusStyles.color }}
                     >
                       {statusStyles.icon && (
                         <Icon
                           data={statusStyles.icon}
-                          size={20}
-                          className='text-white'
+                          size={12}
+                          fillContainer={false}
+                          className='!flex !items-center !justify-center !w-full !h-full text-white'
                         />
                       )}
                     </span>
+
+                    {idx !== steps.length - 1 && (
+                      <div
+                        className='absolute w-0.5'
+                        style={{
+                          backgroundColor: statusStyles.color,
+                          top: '1.25rem',
+                          bottom: '-1.25rem'
+                        }}
+                      />
+                    )}
                   </div>
 
                   <div
-                    className={`flex min-w-0 basis-1/3 flex-col break-all p-2 text-center ${
+                    className={`flex min-w-0 basis-1/3 flex-col break-words px-2 py-5 text-center ${
                       isDark ? 'text-gray-200' : 'text-gray-700'
                     }`}
                   >
