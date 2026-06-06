@@ -44,14 +44,14 @@ const ColumnHeader: React.FC<ColumnHeaderProps> = ({
   return (
     <div
       className={twMerge(
-        'flex w-full items-center justify-between rounded border px-2 py-2',
+        'flex w-full items-center justify-between rounded border px-[.5vw] py-[1vh]',
         borderColor
       )}
     >
       <Text contentAlign='left' className='font-semibold'>
         {title}
       </Text>
-      <div className='h-6'>
+      <>
         {isSearchOpen === searchKey ? (
           <div className='flex h-full items-center gap-2'>
             <input
@@ -62,7 +62,10 @@ const ColumnHeader: React.FC<ColumnHeaderProps> = ({
             />
             <Button
               className={'!w-4 !bg-[unset]'}
-              onClick={() => setIsSearchOpen('')}
+              onClick={() =>{
+                 setIsSearchOpen('')
+                 setSearchTerm('')
+                }}
             >
               <Multiply
                 height='12px'
@@ -75,7 +78,7 @@ const ColumnHeader: React.FC<ColumnHeaderProps> = ({
           <div className='flex'>
             <Button
               onClick={() => setIsSearchOpen(searchKey)}
-              className={'!bg-[unset] p-1'}
+              className={'!bg-[unset]'}
             >
               <SearchIcon
                 height='16px'
@@ -85,7 +88,7 @@ const ColumnHeader: React.FC<ColumnHeaderProps> = ({
             </Button>
           </div>
         )}
-      </div>
+      </>
     </div>
   )
 }

@@ -1047,13 +1047,15 @@ const OPRTopNavSelector = ({
           onClick={() => handleStageClick('org')}
           className={clsx(
             'flex items-center justify-center gap-2 rounded-full px-3 py-1 hover:bg-[var(--hover-color)] bg-[var(--brand-color)]',
-            `text-[${brandTextColor}]`,
             {
               'bg-[var(--selection-color)]': activeStage == 'org',
               'w-[unset]': !fullView,
               'max-w-36': fullView
             }
           )}
+          style={{
+            color : brandTextColor
+          }}
           title={selectedOrg?.orgName ? `Organization: \n${selectedOrg?.orgName}` : 'Select Organization'}
         >
           {fullView ? (
@@ -1093,13 +1095,15 @@ const OPRTopNavSelector = ({
           onClick={() => handleStageClick('prod')}
           className={clsx(
             'flex items-center justify-center gap-2 rounded-full px-3 py-1 hover:bg-[var(--hover-color)] bg-[var(--brand-color)]',
-            `text-[${brandTextColor}]`,
             {
               'bg-[var(--selection-color)]': activeStage == 'prod',
               'w-[unset]': !fullView,
               'max-w-36': fullView
             }
           )}
+          style={{
+            color : brandTextColor
+          }}
           title={selectedProd?.psName ? `Product: \n${selectedProd?.psName}` : 'Select Product'}
         >
           {fullView ? (
@@ -1139,13 +1143,15 @@ const OPRTopNavSelector = ({
           onClick={() => handleStageClick('role')}
           className={clsx(
             'flex items-center justify-center gap-2 rounded-full px-3 py-1 hover:bg-[var(--hover-color)] bg-[var(--brand-color)]',
-            `text-[${brandTextColor}]`,
             {
               'bg-[var(--selection-color)]': activeStage == 'role',
               'w-[unset]': !fullView,
               'max-w-36 min-w-36': fullView
             }
           )}
+          style={{
+            color : brandTextColor
+          }}
           title={selectedRole?.roleName ? `Role: \n${selectedRole?.roleName}` : 'Select Role'}
         >
           {fullView ? (

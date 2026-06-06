@@ -18,6 +18,7 @@ import { useGlobal } from '@/context/GlobalContext'
 import { Spin } from '@/components/Spin'
 import i18n from '@/app/components/i18n'
 import { getFontSizeForSubHeader } from '@/app/utils/branding'
+import { isLightColor } from '@/app/components/utils'
 interface TableHeaderProps {
   loading: boolean
   jsonData: {
@@ -393,7 +394,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
                   className='rounded-md p-2'
                 >
                   <span className='flex items-center gap-2'>
-                    Filter <FilterIcon fill={isDark ? '#fff' : '#000'} />
+                    Filter <FilterIcon fill={isLightColor(branding.brandColor)} />
                   </span>
                 </Button>
                 <Modal
