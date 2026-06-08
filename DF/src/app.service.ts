@@ -22,7 +22,7 @@ export class AppService implements OnModuleInit{
     console.log('Application started, calling API...');
     console.log('DDL changes update started.');
     console.log('DDL changes update completed.');    
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoic2VsdmEiLCJjbGllbnQiOiJDVDAxMCIsInR5cGUiOiJjIiwibG9nVHlwZSI6Im1vbmdvZGIiLCJzaWQiOiI0YjBkNTFhMS01M2I1LTQwNGEtYjY2YS1iYjRjZGE5ZDExYmYiLCJpYXQiOjE3ODA3Mjk0NjIsImV4cCI6MTc4MDczMDY2Mn0.7KNvTkBDHt-1hegURPVoTuyze-fdXdi7n3nog2lbIcU';
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoic2VsdmEiLCJjbGllbnQiOiJDVDAxMCIsInR5cGUiOiJjIiwibG9nVHlwZSI6Im1vbmdvZGIiLCJzaWQiOiI3NGE5MzhlNi0zODY3LTQ0MzYtYjY4ZS0wZGIzNTY3MWI0ZTUiLCJpYXQiOjE3ODA5MDM2NTMsImV4cCI6MTc4MDkwNDg1M30.6oA5xX8ESCmdZCMRffZ8rAP0EHIZpPL_R4V9_8qMlDE';
     let preParedData:any=await this.dataPrep(JSON.parse(fs.readFileSync('./swagger.json', 'utf-8')))
     if(Object.keys(preParedData).includes('torusApis'))
     {

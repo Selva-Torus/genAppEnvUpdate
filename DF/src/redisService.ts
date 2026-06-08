@@ -2,6 +2,7 @@ import { Injectable, Logger, Inject } from '@nestjs/common';
 // import { CACHE_MANAGER } from '@nestjs/cache-manager';
 // import { Cache } from 'cache-manager';
 const Redis = require('ioredis');
+import { Client } from 'pg';
 import 'dotenv/config';
 import { Db, MongoClient } from 'mongodb';
 const _ = require("lodash")
@@ -10,7 +11,9 @@ const _ = require("lodash")
 
 let db: Db;
 let redis
-let pgPool: any; 
+let pgClient: Client | null = null;
+let pgConnecting: Promise<Client> | null = null;
+let pgConfig: { connectionString: string; application_name: string } | null = null;
 
   //connectToMongo().then(async () => { 
    // db = await getDb();
@@ -36,34 +39,56 @@ let pgPool: any;
     });
   }
 
-  const connectPG = (): any => {
-  try {
-    if (pgPool) {
-      return pgPool;
-    }
-    if (!process.env.PG_URL) throw 'PG DATABASE_URL not found';
+ const connectPG = (): void => {
+  if (!process.env.PG_URL) throw new Error('PG DATABASE_URL not found');
+  pgConfig = {
+    connectionString: process.env.PG_URL,
+    application_name: `${process.env.CLIENTCODE}-${process.env.APPNAME}-${process.env.APPGROUPNAME}-redis_service`, 
+  };
+  console.log('PG config initialized');
+};
 
-    const { Pool } = require('pg');
-    pgPool = new Pool({
-      connectionString: process.env.PG_URL,
-      application_name: 'tp_redis_service',
-      max: 25,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 10000,
+const resetPGClient = (): void => {
+  pgClient = null;
+  pgConnecting = null;
+};
+
+  const getPGClient = async (): Promise<Client> => {
+  // Return existing healthy client
+  if (pgClient) return pgClient;
+
+  // If a connect attempt is already in flight, wait for it
+  if (pgConnecting) return pgConnecting;
+
+  if (!pgConfig) throw new Error('PG not initialized. Call connectPG() first.');
+
+  pgConnecting = (async () => {
+    const client = new Client(pgConfig);
+    await client.connect();
+
+    // When the connection drops unexpectedly, clear so next call reconnects
+    client.on('error', (err) => {
+      console.error('PG client error:', err.message);
+      pgClient = null;
+      pgConnecting = null;
     });
-    
-    pgPool.on('error', (err: any) => {
-      console.error('Unexpected error on idle PG client', err);
+
+    client.on('end', () => {
+      console.warn('PG client connection ended');
+      pgClient = null;
+      pgConnecting = null;
     });
 
-    console.log('PG pool created');
-    return pgPool;
-  } catch (error) {
-    throw error;
-  }
-}
+    pgClient = client;
+    pgConnecting = null;
+    console.log('PG client connected');
+    return client;
+  })();
 
-  pgPool = connectPG();
+  return pgConnecting;
+};
+
+ connectPG();
 
 @Injectable()
 export class RedisService {
@@ -73,6 +98,10 @@ export class RedisService {
     // @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {}
 
+
+   private async getClient(): Promise<import('pg').Client> {
+    return getPGClient();
+  }
   //Retrieves JSON data from Redis
    /**
    * Retrieves JSON data from Redis.
@@ -97,7 +126,8 @@ export class RedisService {
         if (redisResult) {
           returnValue = redisResult;
         }else{
-          returnValue = await this.getpgData(key)
+          if(key.includes(':FNGK:AF:'))
+            returnValue = await this.getpgData(key)
         }
         
       }else{
@@ -194,12 +224,17 @@ export class RedisService {
           }
         });
         
-        let pg_response = await this.setPgData(loginId,key,value,path)
-        if(pg_response == 'OK'){
-          const defpath = path ? `.${path}` : "$";
-          await redis.call("JSON.SET", key, defpath, value);
+        let pg_response
+         const defpath = path ? `.${path}` : "$";
+         pg_response = await redis.call("JSON.SET", key, defpath, value);
+         if(pg_response == 'Value Stored') {
+        if(key.includes(':FNGK:AF:')){
+            await this.setPgData(loginId,key,value,path)
+        }
+        } 
+         if(pg_response == 'Value Stored')
           return 'Value Stored'
-        }        
+              
             
     } catch (error) {
       console.log('error',error);
@@ -630,11 +665,11 @@ export class RedisService {
            }
          });
 
-         let keys = await this.getpgKeys(redisKey);
+         let keys = await redis.keys(redisKey);
          if (keys?.length > 0) {
            return keys;
          } else {
-           return await redis.keys(redisKey);           
+           return await this.getpgKeys(redisKey);            
          }
        } else {
          throw 'key/client not found';
@@ -1296,7 +1331,7 @@ async select(db: number) {
   //__________________________PG_______________________________
 
   async setPgData(loginId:string,key: string, value:any,path?): Promise<any> {   
-    const client = await pgPool.connect();   
+    const client = await this.getClient();
     try {
       const DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
       if (!DbSchema || DbSchema.includes('<clientCode>')) throw ('PG schema not found')
@@ -1374,15 +1409,14 @@ async select(db: number) {
         const result = await client.query(query, values);         
         if (result.rowCount > 0)
           return 'OK';
-    } catch (error) {     
+    } catch (error) {  
+       resetPGClient();   
       throw error;
-    } finally {
-      // Return the connection to the pool instead of closing it.
-      client.release();
-    }
+    } 
   }
 
   async getpgData(key){
+    const client = await this.getClient();
     try {     
       let DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
       if (!DbSchema || DbSchema.includes('<clientCode>')) throw ('PG schema not found')
@@ -1399,7 +1433,7 @@ async select(db: number) {
         WHERE full_key = $1
       `;
 
-      const result = await pgPool.query(query, [key]);
+      const result = await client.query(query, [key]);
       if (!result?.rows[0]?.data) return null
       if(typeof result.rows[0].data == 'object')
         return JSON.stringify(result.rows[0].data)
@@ -1407,11 +1441,13 @@ async select(db: number) {
       return result.rows[0].data
     } catch (error) {
       console.log('error',error);
+       resetPGClient();
       throw error
-    }
+    } 
   }
 
   async getpgKeys(key){
+     const client = await this.getClient();
     try {      
       let DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
       if (!DbSchema || DbSchema.includes('<clientCode>')) throw ('PG schema not found')
@@ -1423,18 +1459,20 @@ async select(db: number) {
           tableName = 'tam_amd_registry'
       }
       key = key.replaceAll('*','%');
-      let result = await pgPool.query(
+      let result = await client.query(
         `SELECT full_key from "${DbSchema}".${tableName} where full_key LIKE $1`,
         [`${key}%`]
       )
       let allApiKeys = result?.rows?.map(row => row.full_key) || []
       return allApiKeys
     } catch (error) {
+       resetPGClient();
       throw error
-    }
+    } 
   }
 
   async isExist(key){
+     const client = await this.getClient();
     try {     
       let DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
       if (!DbSchema || DbSchema.includes('<clientCode>')) throw ('PG schema not found')
@@ -1452,15 +1490,17 @@ async select(db: number) {
           WHERE full_key = $1
         ) AS exists
       `;
-      const result = await pgPool.query(query, [key]);
+      const result = await client.query(query, [key]);
       if (!result.rows[0].exists) return 0
       return 1
     } catch (error) {
+       resetPGClient();
       throw error
-    }
+    } 
   }
 
   async deletePgKey(key){
+    const client = await this.getClient();
     try {     
       let DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
       if (!DbSchema || DbSchema.includes('<clientCode>')) throw ('PG schema not found')
@@ -1476,12 +1516,13 @@ async select(db: number) {
         WHERE full_key = $1
       `;
 
-      const result = await pgPool.query(query, [key]);
+      const result = await client.query(query, [key]);
       if (!result?.rowCount) return 0
       return 1
     } catch (error) {
+       resetPGClient();
       throw error
-    }
+    } 
   }
   
 }

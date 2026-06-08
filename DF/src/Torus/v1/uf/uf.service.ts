@@ -60,7 +60,7 @@ const connectPG = (): any => {
     const { Pool } = require('pg');
     pgPool = new Pool({
       connectionString: process.env.PG_URL,
-      application_name: 'tp_redis_service',
+      application_name: `${process.env.TENANT}_${process.env.APPGROUPCODE}_${process.env.APPCODE}_ufService`,
       max: 25,
       idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 10000,
