@@ -5,7 +5,7 @@
   "tasks": [
     {
       "label": "DF",
-      "command": "pnpm dev",
+      "command": "pnpm run start:debug",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/DF"

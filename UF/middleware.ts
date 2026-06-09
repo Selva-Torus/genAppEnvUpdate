@@ -28,7 +28,7 @@ function decodeTokenPayload(token: string): any {
   }
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const token = getServerCookie(request, 'token')
   const path = request.nextUrl.pathname
   const isAuthRoute = ["/" , "/forgot-password"].includes(path);
@@ -77,6 +77,7 @@ export function middleware(request: NextRequest) {
   }
 
   const isRootOrAuth =
+    pathname === '/' ||
     pathname === FULL_BASE_PATH ||
     pathname === `${FULL_BASE_PATH}/` ||
     pathname === `${FULL_BASE_PATH}/forgot-password`
@@ -84,16 +85,42 @@ export function middleware(request: NextRequest) {
   // ── No token → redirect to FusionAuth ───────────────────────────────────
   if (!token) {
     const state = generateRandomString(32)
-    const authUrl = buildAuthorizationUrl(state)
-    const response = NextResponse.redirect(authUrl)
-    response.cookies.set(`${COOKIE_PREFIX}_oauth_state`, state, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-      maxAge: 60 * 10
-    })
+    const appTenantParam = request.nextUrl.searchParams.get('tenant');
+    
+    try {
+       const authResponse = await buildAuthorizationUrl(state , appTenantParam)
+       if(!authResponse) throw new Error('Fausion auth details not found')
+       const response = NextResponse.redirect(authResponse.url)
+       response.cookies.set(`${COOKIE_PREFIX}_oauth_state`, state, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          path: '/',
+          maxAge: 60 * 10
+       })
+       if(appTenantParam && authResponse.appTenantId){
+         response.cookies.set(`${COOKIE_PREFIX}_app_tenant`, appTenantParam, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          path: '/',
+          maxAge: 60 * 10
+       })
+         response.cookies.set(`${COOKIE_PREFIX}_app_tenant_id`, authResponse.appTenantId, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          path: '/',
+          maxAge: 60 * 10
+       })
+      }
     return response
+    } catch (error) {
+      return NextResponse.json({
+        status : (error as any).status ?? 400,
+        message : (error as any).message ?? 'There are some Misconfiguration , please check your tenant configuration'
+      })
+    }
   }
 
   // ── Has token + on auth route → redirect to app ──────────────────────────

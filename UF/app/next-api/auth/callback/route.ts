@@ -35,10 +35,10 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    const storedAppTenantParam = request.cookies.get(`${COOKIE_PREFIX}_app_tenant`)?.value
+    const storedAppTenantId = request.cookies.get(`${COOKIE_PREFIX}_app_tenant_id`)?.value
     // 1. Exchange code for tokens
-    const fusionAuthTokens = await exchangeCodeForTokens(code)
-
-    console.log(fusionAuthTokens, 'fusionAuthTokens')
+    const fusionAuthTokens = await exchangeCodeForTokens(code , storedAppTenantParam)
 
     // 2. Get user info
     const userInfoRes = await fetch(
@@ -58,7 +58,9 @@ export async function GET(request: NextRequest) {
           username,
           ufClientType: 'UFW',
           isOauthUser: true,
-          fusionAuthLoginResponse: fusionAuthTokens
+          fusionAuthLoginResponse: fusionAuthTokens,
+          app_tenant: storedAppTenantParam ?? undefined,
+          app_tenant_id: storedAppTenantId ?? undefined
         })
       }
     )

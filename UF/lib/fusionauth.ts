@@ -1,48 +1,119 @@
 // lib/fusionauth.ts
-export const fusionAuthConfig = {
-  baseUrl: process.env.AUTH_FUSIONAUTH_ISSUER!,
-  clientId: process.env.AUTH_FUSIONAUTH_ID!,
-  clientSecret: process.env.AUTH_FUSIONAUTH_SECRET!,
-  tenantId: process.env.AUTH_FUSIONAUTH_TENANT_ID!,
-  redirectUri: `${process.env.NEXT_PUBLIC_APP_URL}${process.env.NEXT_PUBLIC_BASE_PATH}/next-api/auth/callback`
+// export const fusionAuthConfig = {
+//   baseUrl: process.env.AUTH_FUSIONAUTH_ISSUER!,
+//   clientId: process.env.AUTH_FUSIONAUTH_ID!,
+//   clientSecret: process.env.AUTH_FUSIONAUTH_SECRET!,
+//   tenantId: process.env.AUTH_FUSIONAUTH_TENANT_ID!,
+//   redirectUri: `${process.env.NEXT_PUBLIC_APP_URL}${process.env.NEXT_PUBLIC_BASE_PATH}/next-api/auth/callback`
+// }
+
+export async function buildAuthorizationUrl(
+  state: string,
+  appTenantParam: string | null,
+) {
+  try {
+    const queryParams = new URLSearchParams();
+
+    if (appTenantParam) {
+      queryParams.append('tenant', appTenantParam);
+    }
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/UF/fusionauth-credentials?${queryParams.toString()}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    const {
+      tenantUniqueId,
+      applicationId,
+      fusionAuthAppClientSecret,
+      appTenantId,
+    } = await response.json();
+
+    const params = new URLSearchParams({
+      response_type: 'code',
+      client_id: applicationId,
+      redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}${process.env.NEXT_PUBLIC_BASE_PATH}/next-api/auth/callback`,
+      scope: 'openid profile email offline_access',
+      tenantId: tenantUniqueId,
+      state,
+      prompt: 'login',
+    });
+
+    return {
+      url: `${process.env.AUTH_FUSIONAUTH_ISSUER}/oauth2/authorize?${params.toString()}`,
+      appTenantId,
+    };
+  } catch (error) {
+    throw error;
+  }
 }
 
-// No PKCE — simple authorization URL
-// lib/fusionauth.ts
-export function buildAuthorizationUrl(state: string) {
-  const params = new URLSearchParams({
-    response_type: 'code',
-    client_id: fusionAuthConfig.clientId,
-    redirect_uri: fusionAuthConfig.redirectUri,
-    scope: 'openid profile email offline_access',
-    tenantId: fusionAuthConfig.tenantId,
-    state,
-    prompt: 'login' // ← THIS is the key fix — forces login page even with active FA session
-  })
-  return `${fusionAuthConfig.baseUrl}/oauth2/authorize?${params.toString()}`
-}
+export async function exchangeCodeForTokens(
+  code: string,
+  appTenantParam: string | null | undefined,
+) {
+  const queryParams = new URLSearchParams();
 
-export async function exchangeCodeForTokens(code: string) {
+  if (appTenantParam) {
+    queryParams.append('tenant', appTenantParam);
+  }
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/UF/fusionauth-credentials?${queryParams.toString()}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      `Issue while getting FusionAuth registration details: ${response.status}`,
+    );
+  }
+
+  const {
+    tenantUniqueId,
+    applicationId,
+    fusionAuthAppClientSecret,
+  } = await response.json();
+
   const params = new URLSearchParams({
     grant_type: 'authorization_code',
     code,
-    redirect_uri: fusionAuthConfig.redirectUri,
-    client_id: fusionAuthConfig.clientId,
-    client_secret: fusionAuthConfig.clientSecret
-  })
+    redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}${process.env.NEXT_PUBLIC_BASE_PATH}/next-api/auth/callback`,
+    client_id: applicationId,
+    client_secret: fusionAuthAppClientSecret,
+  });
 
-  const res = await fetch(`${fusionAuthConfig.baseUrl}/oauth2/token`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'X-FusionAuth-TenantId': fusionAuthConfig.tenantId
+  const res = await fetch(
+    `${process.env.AUTH_FUSIONAUTH_ISSUER}/oauth2/token`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-FusionAuth-TenantId': tenantUniqueId,
+      },
+      body: params.toString(),
     },
-    body: params.toString()
-  })
+  );
 
   if (!res.ok) {
-    const err = await res.text()
-    throw new Error(`Token exchange failed: ${err}`)
+    const err = await res.text();
+    throw new Error(`Token exchange failed: ${err}`);
   }
-  return res.json()
+
+  return await res.json();
 }

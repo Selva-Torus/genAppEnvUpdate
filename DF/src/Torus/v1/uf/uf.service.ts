@@ -9369,4 +9369,38 @@ getConfig(): FusionAuthConfig {
      return [];
     }
   }
+
+  async getFusionAuthCredentials(app_tenant:string | undefined) {
+    try {
+      if(!app_tenant){
+        const credentials = await this.getTenantAndApplicationFusionAuthIdSecret();
+        if(credentials && typeof credentials == 'object'){
+          return {
+            tenantUniqueId : credentials.tenantUniqueId,
+            applicationId : credentials.applicationId,
+            fusionAuthAppClientSecret : credentials.fusionAuthAppClientSecret
+          };
+        }else{
+          throw new BadRequestException('fusionauth configuration details not found');
+        }
+      }
+      const appTenantList = await this.getAppTenantsLinkedWithApp();
+      const foundAppTenant = appTenantList.find((item: any) => item.tenant_name == app_tenant);
+      if(!foundAppTenant) throw new BadRequestException(`fusionauth configuration details for the tenant ${app_tenant} not found`);
+      const credentials = await this.getApplicationTenantFusionauthDetails(app_tenant);
+      if(credentials && typeof credentials == 'object'){
+          return {
+            tenantUniqueId : credentials.applicationTenantUniqueId,
+            applicationId : credentials.fusionAuthApplicationTenantId,
+            fusionAuthAppClientSecret : credentials.fusionAuthApplicationTenantClientSecret,
+            appTenantId : foundAppTenant.at_id
+          };
+        }else{
+          throw new BadRequestException('fusionauth configuration details not found');
+        }
+
+    } catch (error) {
+      await this.throwCustomException(error);
+    }
+  }
 }

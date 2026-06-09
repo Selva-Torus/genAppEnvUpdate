@@ -1246,4 +1246,11 @@ export class UfController {
   async getAppTenantsLinkedWithApp(@Req() req: any) {
     return this.appService.getAppTenantsLinkedWithApp();
   }
+
+  @Get('fusionauth-credentials')
+  async getFusionAuthCredentials(@Query() query: any ) {
+    const { tenant : app_tenant } = query;
+    return this.appService.getFusionAuthCredentials(app_tenant);
+  }
+
 }
