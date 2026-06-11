@@ -13,7 +13,6 @@ export async function GET(request: NextRequest) {
     const queryParams = new URLSearchParams();
     const app_tenant = request.cookies.get(`${COOKIE_PREFIX}_app_tenant`)?.value;
    
-
       if (app_tenant) {
         queryParams.append('tenant', app_tenant);
       }

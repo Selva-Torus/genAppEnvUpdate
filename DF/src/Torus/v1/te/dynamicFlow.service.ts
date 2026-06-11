@@ -1470,7 +1470,8 @@ export class DynamicFlowService {
                      const singleMatches = [...manualQuery.matchAll(/\$\{([^}]+)\}/g)];
                         const singlevariables = singleMatches.map(match => match[1]);
                         singlevariables.forEach((key) => {
-                            manualQuery = manualQuery.replaceAll(`\${${key}}`,`1=1`)                             
+                             const regex = new RegExp(`\\([^)]*\\)\\.\\$\\{${key}\\}`, 'g');
+                            manualQuery = manualQuery.replace(regex, '1=1');                             
                         });
                 
                     if(qryarr?.length>0){

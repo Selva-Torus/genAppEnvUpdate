@@ -867,14 +867,16 @@ export class TeService{
         console.log('PO ERROR:', error);
        if (pfdto.upId) {
          if (error.statusCode) {
-          let requestData = JSON.parse(await this.redisService.getJsonDataWithPath(processedKey + pfdto.upId + ':NPV:'+pfdto.nodeName+'.PRO','.request',process.env.CLIENTCODE))
-           await this.CommonService.getTPL(processedKey, pfdto.upId, nodeInfo, 'Failed', failureQueue,
+          let requestData = await this.redisService.getJsonDataWithPath(processedKey + pfdto.upId + ':NPV:'+pfdto.nodeName+'.PRO','.request',process.env.CLIENTCODE)
+          if(requestData) requestData = JSON.parse(requestData)
+          await this.CommonService.getTPL(processedKey, pfdto.upId, nodeInfo, 'Failed', failureQueue,
              pfdto.token, currentFabric, srcStatus, requestData, error);
            throw new CustomException(error?.message, error.statusCode);
          }
          else {
-          let requestData = JSON.parse(await this.redisService.getJsonDataWithPath(processedKey + pfdto.upId + ':NPV:'+pfdto.nodeName+'.PRO','.request',process.env.CLIENTCODE))
-           await this.CommonService.getTPL(processedKey, pfdto.upId, nodeInfo, 'Failed', failureQueue,
+          let requestData = await this.redisService.getJsonDataWithPath(processedKey + pfdto.upId + ':NPV:'+pfdto.nodeName+'.PRO','.request',process.env.CLIENTCODE)
+          if(requestData) requestData = JSON.parse(requestData)
+          await this.CommonService.getTPL(processedKey, pfdto.upId, nodeInfo, 'Failed', failureQueue,
              pfdto.token, currentFabric, srcStatus,requestData, error);
            throw new CustomException(error.message ? error.message : error.toString(), 500);
          }

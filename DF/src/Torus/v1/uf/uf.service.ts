@@ -18,7 +18,6 @@ import * as nodemailer from 'nodemailer';
 import { JwtService } from '@nestjs/jwt';
 import { JwtServices } from 'src/jwt.services';
 import { RuleService } from 'src/ruleService';
-import { MongoService } from 'src/mongoService';
 const jsonata = require('jsonata');
 import * as fs from 'fs';
 import * as path from 'path';
@@ -40,7 +39,7 @@ const transporter = nodemailer.createTransport({
     pass: 'Welcome@100',
   },
 });
-let pgPool: any; 
+
 interface FusionAuthConfig {
   fusionAuthBaseUrl: string;
   fusionAuthApiKey: string;
@@ -50,32 +49,7 @@ interface FusionAuthConfig {
   fusionauthRefreshTokenExpiryTimeinMinutes: string
 }
 
-const connectPG = (): any => {
-  try {
-    if (pgPool) {
-      return pgPool;
-    }
-    if (!process.env.PG_URL) throw 'PG DATABASE_URL not found';
 
-    const { Pool } = require('pg');
-    pgPool = new Pool({
-      connectionString: process.env.PG_URL,
-      application_name: `${process.env.TENANT}_${process.env.APPGROUPCODE}_${process.env.APPCODE}_ufService`,
-      max: 25,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 10000,
-    });
-    
-    pgPool.on('error', (err: any) => {
-      console.error('Unexpected error on idle PG client', err);
-    });
-
-    console.log('PG pool created');
-    return pgPool;
-  } catch (error) {
-    throw error;
-  }
-}
 
 
 const tenant = process.env.TENANT;
@@ -86,7 +60,7 @@ const version = process.env.VERSION;
 const defaultAuth =  process.env.DEFAULT_AUTHENTICATION;
 
 const torusAppApiBaseUrl = process.env.TOURS_APP_API_BASE_URL
- pgPool = connectPG()
+
 @Injectable()
 export class UfService implements OnModuleInit, OnModuleDestroy {
   constructor(
@@ -95,36 +69,35 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
     private readonly gorule: RuleService,
     private readonly redisService: RedisService,
     private readonly commonService: CommonService,
-    private readonly mongoService: MongoService,
     private readonly envData: EnvData
   ) {}
     private pool : Pool;
     
      async onModuleInit() {
-    //  this.pool = new Pool({
-    //   connectionString: process.env.PG_URL,
-    //   application_name: `${tenant}_${ag}_${app}_ufService`,
+      this.pool = new Pool({
+       connectionString: process.env.PG_URL,
+       application_name: `${tenant}_${ag}_${app}_ufService`,
     //   // Pool sizing
-    //   max: 10,                // max connections in pool
-    //   min: 2,                 // keep at least 2 alive
-    //   idleTimeoutMillis: 30000,       // close idle connections after 30s
-    //   connectionTimeoutMillis: 5000,  // fail fast if can't connect in 5s
-    //   allowExitOnIdle: false,         // keep pool alive
-    // });
+       max: 10,                // max connections in pool
+       min: 2,                 // keep at least 2 alive
+       idleTimeoutMillis: 30000,       // close idle connections after 30s
+       connectionTimeoutMillis: 5000,  // fail fast if can't connect in 5s
+       allowExitOnIdle: false,         // keep pool alive
+     });
     // // 🔑 Key: handle pool-level errors so they don't crash the process
-    // this.pool.on('error', (err, client) => {
-    //   console.error('Unexpected error on idle pg client:', err.message);
+     this.pool.on('error', (err, client) => {
+       console.error('Unexpected error on idle pg client:', err.message);
     //   // Do NOT re-throw — just log. Pool will recover automatically.
-    // });
+     });
 
 
      // Also handle process-level unhandled errors as safety net
-    // process.on('unhandledRejection', (reason) => {
-    //   console.error('Unhandled Rejection:', reason);
-    // });
+     process.on('unhandledRejection', (reason) => {
+       console.error('Unhandled Rejection:', reason);
+     });
 
     try {
-      const client = await pgPool.connect();
+      const client = await this.pool.connect();
       console.log('PostgreSQL pool connected from uf.service');
       client.release();
     } catch (err) {
@@ -134,14 +107,14 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
   }
 
    async onModuleDestroy() {
-       if (pgPool) {
-      await pgPool.end();
+       if (this.pool) {
+      await this.pool.end();
       console.log('PostgreSQL pool closed');
     }
     }
 
   async query<T = any>(text: string, params?: any[]): Promise<T[]> {
-    const client = await pgPool.connect();
+    const client = await this.pool.connect();
     try {
       const result = await client.query(text, params);
       return result.rows;
@@ -347,7 +320,7 @@ getConfig(): FusionAuthConfig {
 
  async insertDocToVgphSourceTranDocMain(category: string, doc_name: string, url: string, size?: number, doc_group?: string): Promise<any> {
     try {
-      const insertUrl = `${process.env.APP_MANAGER_URL}/ct010/attachments`;
+      const insertUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments`;
       //const vgphstm_uuid = uuid();
       const currentDate = new Date().toISOString().slice(0, 19) + '+00:00';
 
@@ -375,7 +348,7 @@ getConfig(): FusionAuthConfig {
 
   async getUrlByVgphstdmId(vgphstdm_id: any): Promise<string> {
     try {
-      const getUrl = `${process.env.APP_MANAGER_URL}/ct010/attachments/${vgphstdm_id}`;
+      const getUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments/${vgphstdm_id}`;
 
       const response = await axios.get(getUrl, {
         headers: {
@@ -4186,7 +4159,7 @@ getConfig(): FusionAuthConfig {
         const previousActiveSession = updatedSessionList.find(
           (session: any) => session?.sid === sid,
         );
-        
+                
         let tokenData = {
           type,
           tenant,
@@ -4880,7 +4853,7 @@ getConfig(): FusionAuthConfig {
 
       const tenantUser = await this.query(query, values);
 
-       let tenantId = app_tenant ? app_tenant : tenant;   
+       let tenantId = app_tenant ? app_tenant : tenant;      
 
       const sessionListCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:session`;
 
@@ -5071,8 +5044,7 @@ getConfig(): FusionAuthConfig {
                 redirectToORPSelector = false;
                 // }
               }
-
-              tokenData = {
+               tokenData = {
                   loginId: loggedInUser.loginId,
                   isAppAdmin: loggedInUser?.isAppAdmin ?? undefined,
                   tenant: tenant,
@@ -5083,35 +5055,18 @@ getConfig(): FusionAuthConfig {
                   ...orpAccessObj,
                  tenantId
                 }
-               // add here patch required data to the registration object
-          await handleFusionAuthUserRegistrationForTokenLambda(
-            fusionAuthTenantAndApplicationDetails.tenantUniqueId,
-            fusionAuthTenantAndApplicationDetails.applicationId,
-            config.fusionAuthApiKey,
-            config.fusionAuthBaseUrl,
-            loggedInUser.userUniqueId,
-            tokenData
-          )
-          const value = await this.fusionAuthVerifyRefreshToken(refreshToken, tenantId);
-          token = value.access_token
-              // token = await this.jwt.signAsync(
-              //   {
-              //     loginId: loggedInUser.loginId,
-              //     isAppAdmin: loggedInUser?.isAppAdmin ?? undefined,
-              //     tenant: tenant,
-              //     type: 't',
-              //     ag,
-              //     app,
-              //     userCode: loggedInUser?.userCode ?? undefined,
-              //     ...orpAccessObj,
-              //    sid:sid,
-              //    tenantId
-              //   },
-              //   {
-              //     secret: auth_secret,
-              //     expiresIn: accessTokenExpiryTime as any,
-              //   },
-              // );
+              // add here patch required data to the registration object
+              await handleFusionAuthUserRegistrationForTokenLambda(
+                fusionAuthTenantAndApplicationDetails.tenantUniqueId,
+                fusionAuthTenantAndApplicationDetails.applicationId,
+                config.fusionAuthApiKey,
+                config.fusionAuthBaseUrl,
+                loggedInUser.userUniqueId,
+                tokenData
+              )
+              const value = await this.fusionAuthVerifyRefreshToken(refreshToken, tenantId);
+              token = value.access_token
+            
             }
           }
         }

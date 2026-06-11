@@ -11,9 +11,9 @@ const _ = require("lodash")
 
 let db: Db;
 let redis
-let pgClient: Client | null = null;
-let pgConnecting: Promise<Client> | null = null;
-let pgConfig: { connectionString: string; application_name: string } | null = null;
+//let pgClient: Client | null = null;
+//let pgConnecting: Promise<Client> | null = null;
+//let pgConfig: { connectionString: string; application_name: string } | null = null;
 
   //connectToMongo().then(async () => { 
    // db = await getDb();
@@ -39,56 +39,7 @@ let pgConfig: { connectionString: string; application_name: string } | null = nu
     });
   }
 
- const connectPG = (): void => {
-  if (!process.env.PG_URL) throw new Error('PG DATABASE_URL not found');
-  pgConfig = {
-    connectionString: process.env.PG_URL,
-    application_name: `${process.env.CLIENTCODE}-${process.env.APPNAME}-${process.env.APPGROUPNAME}-redis_service`, 
-  };
-  console.log('PG config initialized');
-};
-
-const resetPGClient = (): void => {
-  pgClient = null;
-  pgConnecting = null;
-};
-
-  const getPGClient = async (): Promise<Client> => {
-  // Return existing healthy client
-  if (pgClient) return pgClient;
-
-  // If a connect attempt is already in flight, wait for it
-  if (pgConnecting) return pgConnecting;
-
-  if (!pgConfig) throw new Error('PG not initialized. Call connectPG() first.');
-
-  pgConnecting = (async () => {
-    const client = new Client(pgConfig);
-    await client.connect();
-
-    // When the connection drops unexpectedly, clear so next call reconnects
-    client.on('error', (err) => {
-      console.error('PG client error:', err.message);
-      pgClient = null;
-      pgConnecting = null;
-    });
-
-    client.on('end', () => {
-      console.warn('PG client connection ended');
-      pgClient = null;
-      pgConnecting = null;
-    });
-
-    pgClient = client;
-    pgConnecting = null;
-    console.log('PG client connected');
-    return client;
-  })();
-
-  return pgConnecting;
-};
-
- connectPG();
+ 
 
 @Injectable()
 export class RedisService {
@@ -99,9 +50,6 @@ export class RedisService {
   ) {}
 
 
-   private async getClient(): Promise<import('pg').Client> {
-    return getPGClient();
-  }
   //Retrieves JSON data from Redis
    /**
    * Retrieves JSON data from Redis.
@@ -126,8 +74,8 @@ export class RedisService {
         if (redisResult) {
           returnValue = redisResult;
         }else{
-          if(key.includes(':FNGK:AF:'))
-            returnValue = await this.getpgData(key)
+          //if(key.includes(':FNGK:AF:'))
+          //  returnValue = await this.getpgData(key)
         }
         
       }else{
@@ -227,11 +175,11 @@ export class RedisService {
         let pg_response
          const defpath = path ? `.${path}` : "$";
          pg_response = await redis.call("JSON.SET", key, defpath, value);
-         if(pg_response == 'Value Stored') {
-        if(key.includes(':FNGK:AF:')){
-            await this.setPgData(loginId,key,value,path)
-        }
-        } 
+         //if(pg_response == 'Value Stored') {
+       // if(key.includes(':FNGK:AF:')){
+          //  await this.setPgData(loginId,key,value,path)
+       // }
+       // } 
          if(pg_response == 'Value Stored')
           return 'Value Stored'
               
@@ -384,7 +332,7 @@ export class RedisService {
         if(redisResult){
           return redisResult;
         }else{
-          return await this.isExist(key)
+         // return await this.isExist(key)
         }
        
       }else{
@@ -669,7 +617,7 @@ export class RedisService {
          if (keys?.length > 0) {
            return keys;
          } else {
-           return await this.getpgKeys(redisKey);            
+           //return await this.getpgKeys(redisKey);            
          }
        } else {
          throw 'key/client not found';
@@ -708,7 +656,7 @@ export class RedisService {
       if(key && collectionName){     
         var response = await redis.del(key); 
         if(response){
-          await this.deletePgKey(key)
+         // await this.deletePgKey(key)
           return response
         }
       }else{
@@ -1328,202 +1276,7 @@ async select(db: number) {
     return redis.ping();
   }
 
-  //__________________________PG_______________________________
-
-  async setPgData(loginId:string,key: string, value:any,path?): Promise<any> {   
-    const client = await this.getClient();
-    try {
-      const DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
-      if (!DbSchema || DbSchema.includes('<clientCode>')) throw ('PG schema not found')
-      let tableName
-      if(key){
-        // if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
-        //   tableName = 'node_registry'
-        // else
-          tableName = 'tam_amd_registry'
-      }
-      const auditCols = [
-        'full_key',
-        'ck_code',
-        'fngk_code',
-        'fnk_code',
-        'catk_code',
-        'afgk_code',
-        'afk_code',
-        'afvk_code',
-        'afsk_code',
-        'data'
-      ];
-
-      const getTableColumns = async (tableName: string) => {
-        const { rows } = await client.query(
-          `SELECT column_name
-         FROM information_schema.columns
-         WHERE table_schema = $1 AND table_name = $2
-         ORDER BY ordinal_position`,
-          [DbSchema, tableName]
-        );
-        return rows.map(r => r.column_name);
-      };
-
-      const columns = await getTableColumns(tableName);
-    
-      const usableCols = columns.filter(col => auditCols.includes(col));
-     
-      const keys = key.split(':');
-      if (keys.length <= 14) throw ('Invalid key')    
-        
-      const valueMap: any = {
-        full_key: key,
-        ck_code: keys[1],
-        fngk_code: keys[3],
-        fnk_code: keys[5],
-        catk_code: keys[7],
-        afgk_code: keys[9],
-        afk_code: keys[11],
-        afvk_code: keys[13],
-        afsk_code: keys[14],
-        data: value
-      };
-
-      const values = usableCols.map(col => valueMap[col] ?? null);
-
-      const colList = usableCols.join(', ');
-      const placeholders = usableCols.map((_, i) => `$${i + 1}`).join(', ');
-
-      const updateSet = usableCols
-        .filter(col => col !== 'full_key') // avoid updating conflict key
-        .map((col, i) => `${col} = EXCLUDED.${col}`)
-        .join(', ');
-
-        let query = `
-          INSERT INTO "${DbSchema}".${tableName}
-          (${colList}, trs_created_by, trs_created_date, trs_modified_by, trs_modified_date)
-          VALUES (${placeholders}, '', CURRENT_TIMESTAMP, '', CURRENT_TIMESTAMP)
-          ON CONFLICT (full_key)
-          DO UPDATE SET
-            ${updateSet},
-            trs_modified_by = '',
-            trs_modified_date = CURRENT_TIMESTAMP
-        `; 
-        const result = await client.query(query, values);         
-        if (result.rowCount > 0)
-          return 'OK';
-    } catch (error) {  
-       resetPGClient();   
-      throw error;
-    } 
-  }
-
-  async getpgData(key){
-    const client = await this.getClient();
-    try {     
-      let DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
-      if (!DbSchema || DbSchema.includes('<clientCode>')) throw ('PG schema not found')
-      let tableName
-      if(key){
-        // if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
-        //   tableName = 'node_registry'
-        // else
-          tableName = 'tam_amd_registry'
-      }
-      const query = `
-        SELECT data
-        FROM "${DbSchema}".${tableName}
-        WHERE full_key = $1
-      `;
-
-      const result = await client.query(query, [key]);
-      if (!result?.rows[0]?.data) return null
-      if(typeof result.rows[0].data == 'object')
-        return JSON.stringify(result.rows[0].data)
-      else
-      return result.rows[0].data
-    } catch (error) {
-      console.log('error',error);
-       resetPGClient();
-      throw error
-    } 
-  }
-
-  async getpgKeys(key){
-     const client = await this.getClient();
-    try {      
-      let DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
-      if (!DbSchema || DbSchema.includes('<clientCode>')) throw ('PG schema not found')
-      let tableName
-      if(key){
-         // if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
-        //   tableName = 'node_registry'
-        // else
-          tableName = 'tam_amd_registry'
-      }
-      key = key.replaceAll('*','%');
-      let result = await client.query(
-        `SELECT full_key from "${DbSchema}".${tableName} where full_key LIKE $1`,
-        [`${key}%`]
-      )
-      let allApiKeys = result?.rows?.map(row => row.full_key) || []
-      return allApiKeys
-    } catch (error) {
-       resetPGClient();
-      throw error
-    } 
-  }
-
-  async isExist(key){
-     const client = await this.getClient();
-    try {     
-      let DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
-      if (!DbSchema || DbSchema.includes('<clientCode>')) throw ('PG schema not found')
-      let tableName
-      if(key){
-        // if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
-        //   tableName = 'node_registry'
-        // else
-          tableName = 'tam_amd_registry'
-      }
-      const query = `
-        SELECT EXISTS (
-          SELECT 1
-          FROM "${DbSchema}".${tableName}
-          WHERE full_key = $1
-        ) AS exists
-      `;
-      const result = await client.query(query, [key]);
-      if (!result.rows[0].exists) return 0
-      return 1
-    } catch (error) {
-       resetPGClient();
-      throw error
-    } 
-  }
-
-  async deletePgKey(key){
-    const client = await this.getClient();
-    try {     
-      let DbSchema = process.env.PG_URL.split('schema=')[1]//process.env.PG_SCHEMANAME || 'torus_amdKeys';
-      if (!DbSchema || DbSchema.includes('<clientCode>')) throw ('PG schema not found')
-      let tableName
-      if(key){
-       // if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
-        //   tableName = 'node_registry'
-        // else
-          tableName = 'tam_amd_registry'
-      }
-      const query = `
-        DELETE FROM "${DbSchema}".${tableName}
-        WHERE full_key = $1
-      `;
-
-      const result = await client.query(query, [key]);
-      if (!result?.rowCount) return 0
-      return 1
-    } catch (error) {
-       resetPGClient();
-      throw error
-    } 
-  }
+ 
   
 }
 

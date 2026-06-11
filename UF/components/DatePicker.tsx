@@ -25,6 +25,7 @@ interface DatePickerProps {
   style?: React.CSSProperties;
   validationState?: "invalid" | undefined;
   errorMessage?: string;
+  dateValidation?: "Future" | "FutureOrPresent" | "PastOrPresent" | "Past";
   fillContainer?: boolean;
   contentAlign?: ContentAlign;
   required?: boolean;
@@ -48,7 +49,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   errorMessage,
   fillContainer = true,
   contentAlign = "center",
-  required = false
+  required = false,
+  dateValidation
 }) => {
   const { theme, direction, branding,displayFormat } = useGlobal();
   const showToast = useInfoMsg();
@@ -123,6 +125,26 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     }
   };
 
+  const getTodayStr = () => new Date().toISOString().split("T")[0];
+
+  const getOffsetDateStr = (offsetDays: number) => {
+    const d = new Date();
+    d.setDate(d.getDate() + offsetDays);
+    return d.toISOString().split("T")[0];
+  };
+
+  const minDate = dateValidation === "Future"
+    ? getOffsetDateStr(1)
+    : dateValidation === "FutureOrPresent"
+    ? getTodayStr()
+    : undefined;
+
+  const maxDate = dateValidation === "Past"
+    ? getOffsetDateStr(-1)
+    : dateValidation === "PastOrPresent"
+    ? getTodayStr()
+    : undefined;
+
   const isDark = theme === "dark" || theme === "dark-hc";
 
   const datePickerElement = (
@@ -179,6 +201,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           onChange={(e) => handleChange(e.target.value)}
           disabled={disabled}
           readOnly={readOnly}
+          min={minDate}
+          max={maxDate}
           tabIndex={-1}
           className="absolute inset-0 w-full h-full opacity-0 pointer-events-none"
           onFocus={() => {

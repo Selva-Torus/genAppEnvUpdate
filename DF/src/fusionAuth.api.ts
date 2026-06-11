@@ -448,7 +448,6 @@ export const FusionAuthGetApplicationList = async (
   return val?.applications ?? [];
 };
 
-
 export const handleFusionAuthUserRegistrationForTokenLambda = async (
   fusionAuthTenantId: string,
   fusionAuthApplicationId: string,

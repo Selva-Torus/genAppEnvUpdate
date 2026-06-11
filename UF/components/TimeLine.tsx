@@ -210,14 +210,13 @@ export const TimeLine: React.FC<TimeLineProps> = ({
                   </div>
 
                   <div
-                    className={`flex min-w-0 basis-1/3 flex-col break-words px-2 py-5 text-center ${
+                    className={`flex min-w-0 basis-1/3 flex-col break-normal px-2 py-5 text-center ${
                       isDark ? 'text-gray-200' : 'text-gray-700'
                     }`}
                   >
                     <Text fillContainer={false} className=''>
                       {step[title]}
-                      </Text>
-                    
+                    </Text>
                   </div>
                 </>
               )}

@@ -814,11 +814,11 @@ export class UfController {
     const { username, password, dpdKey, method, ufClientType, app_tenant, app_tenant_id, fusionAuthLoginResponse , isOauthUser } = body;
     const { DEFAULT_AUTHENTICATION} = process.env;
     let result : any;
-    //if(DEFAULT_AUTHENTICATION == "fusionauth") {
-    //   result = await this.appService.signInViaIAM(username, password, ufClientType, false , app_tenant, app_tenant_id);
-    //}else{
-       result = await this.appService.signIntoTorus(username, password, ufClientType, isOauthUser , app_tenant, app_tenant_id, fusionAuthLoginResponse);
-    //}
+    if(ufClientType === 'UFM') {
+      result = await this.appService.signInViaIAM(username, password, ufClientType, false , app_tenant, app_tenant_id);
+    } else{
+      result = await this.appService.signIntoTorus(username, password, ufClientType, isOauthUser , app_tenant, app_tenant_id, fusionAuthLoginResponse);
+    }
     if(dpdKey && method){
       result["dpdKey"] = dpdKey
       result["method"] = method
@@ -1252,5 +1252,4 @@ export class UfController {
     const { tenant : app_tenant } = query;
     return this.appService.getFusionAuthCredentials(app_tenant);
   }
-
 }
