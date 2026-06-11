@@ -27,7 +27,7 @@ import * as FormData from 'form-data'; // Use this
 import { Readable } from 'stream';
 import { Pool } from 'pg';
 //import { v4 as uuidv4 } from 'uuid';
-import { FusionAuthApplicatonAssign, FusionAuthUserApplicatonGet, FusionAutRoleCRUDAlongWithApp,FusionAuthUserGet, FusionAuthUserCreation, FusionAuthGetTenantList, FusionAuthGetApplicationList } from 'src/fusionAuth.api';
+import { FusionAuthApplicatonAssign, FusionAuthUserApplicatonGet, FusionAutRoleCRUDAlongWithApp,FusionAuthUserGet, FusionAuthUserCreation, FusionAuthGetTenantList, FusionAuthGetApplicationList, handleFusionAuthUserRegistrationForTokenLambda } from 'src/fusionAuth.api';
 import { EnvData } from 'src/envData/envData.service';
 import { decrypt } from 'src/decrypt';
 //import { connectPG } from 'src/mongoClient';
@@ -4150,10 +4150,10 @@ getConfig(): FusionAuthConfig {
         dap: filteredCombination[0]?.dap,
       };
       const payload = await this.jwt.decode(token);
-      const { type, tenant: tenantFromToken, loginId, isAppAdmin, userUniqueId, sid, userCode, tenantId } = payload;
+      const { type, tenant: tenantFromToken, loginId, isAppAdmin, sid, userCode, tenantId , tid:tenantUniqueId , sub: userUniqueId , applicationId } = payload;
       const sessionListCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenantFromToken}:AFGK:${ag}:AFK:${app}:AFVK:v1:session`;
 
-      const updatedToken = await this.jwt.signAsync(
+      let updatedToken = await this.jwt.signAsync(
         {
           type,
           tenant,
@@ -4186,6 +4186,34 @@ getConfig(): FusionAuthConfig {
         const previousActiveSession = updatedSessionList.find(
           (session: any) => session?.sid === sid,
         );
+        
+        let tokenData = {
+          type,
+          tenant,
+          loginId,
+          isAppAdmin,
+          ag,
+          app,
+          selectedAccessProfile,
+          dap,
+          userCode,
+          ...accessObj,
+          userUniqueId,
+          tenantId
+        }
+
+    // add here patch required data to the registration object
+        await handleFusionAuthUserRegistrationForTokenLambda(
+          tenantUniqueId,
+          applicationId,
+          config.fusionAuthApiKey,
+          config.fusionAuthBaseUrl,
+          userUniqueId,
+          tokenData
+        )
+        const value = await this.fusionAuthVerifyRefreshToken(previousActiveSession?.refreshToken, tenantId);
+        updatedToken = value.access_token
+
        updatedSessionList = updatedSessionList.filter((s: any) => s?.sid !== sid).concat({
             ...previousActiveSession,
           accessToken : updatedToken,
@@ -4677,6 +4705,7 @@ getConfig(): FusionAuthConfig {
         if (value) {
           currentSession = {
             ...currentSession,
+            token : value?.access_token,
             refreshToken: value?.refresh_token,
             refreshTokenId: value?.refresh_token_id,
             updatedOn : new Date().toISOString()
@@ -4851,28 +4880,7 @@ getConfig(): FusionAuthConfig {
 
       const tenantUser = await this.query(query, values);
 
-       let tenantId = app_tenant ? app_tenant : tenant;      
-
-      // if(app_tenant){
-      //   // check user have app_sub_tenant access to work on it
-      //   try {   
-      //     const app_sub_tenant_exist = await this.query(`SELECT * 
-      //         FROM ${tenant.toLowerCase()}.tam_app_user_app_tenant auat
-      //         JOIN ${tenant.toLowerCase()}.app_tenant at ON auat.at_id = at.at_id
-      //         WHERE auat.org_au_id = ${tenantUser[0].org_au_id} AND at.tenant_id = '${app_tenant}';`)
-      //     if(app_sub_tenant_exist.length > 0){
-      //       tenantId = app_tenant
-      //     }else{
-      //       throw `${tenantUser[0].org_au_id} , ${app_tenant} Not Found`
-      //     }
-      //   } catch (error) {
-      //     console.log(error);
-          
-      //     throw new NotAcceptableException(`User lacks the access to the selected Tenant`)
-      //   }
-      // }else{
-      //   tenantId = undefined
-      // }    
+       let tenantId = app_tenant ? app_tenant : tenant;   
 
       const sessionListCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:session`;
 
@@ -4941,12 +4949,35 @@ getConfig(): FusionAuthConfig {
             expiresIn: accessTokenExpiryTime as any,
           },
         );
+        let tokenData = {
+            loginId: loggedInUser.loginId,
+            tenant: tenant,
+            type: 't',
+            ag,
+            app,
+            isAppAdmin: loggedInUser?.isAppAdmin ?? undefined,
+            userCode: loggedInUser?.userCode ?? undefined,
+            tenantId
+          }
+        const fusionAuthTenantAndApplicationDetails = await this.getFusionAuthCredentials(app_tenant ?? undefined)
         let refreshToken: string;
         let refreshTokenId: string | undefined;
 
         if (fusionAuthLoginResponse && fusionAuthLoginResponse?.refresh_token) {
           refreshToken = fusionAuthLoginResponse?.refresh_token;
           refreshTokenId = fusionAuthLoginResponse?.refresh_token_id;
+          sid = fusionAuthLoginResponse?.refresh_token_id;
+          // add here patch required data to the registration object
+          await handleFusionAuthUserRegistrationForTokenLambda(
+            fusionAuthTenantAndApplicationDetails.tenantUniqueId,
+            fusionAuthTenantAndApplicationDetails.applicationId,
+            config.fusionAuthApiKey,
+            config.fusionAuthBaseUrl,
+            loggedInUser.userUniqueId,
+            tokenData
+          )
+          const value = await this.fusionAuthVerifyRefreshToken(refreshToken, tenantId);
+          token = value.access_token
         } else {
           refreshToken = await this.jwt.signAsync(
             { loginId: loggedInUser.loginId, tenant: tenant, type: 't' },
@@ -5040,8 +5071,8 @@ getConfig(): FusionAuthConfig {
                 redirectToORPSelector = false;
                 // }
               }
-              token = await this.jwt.signAsync(
-                {
+
+              tokenData = {
                   loginId: loggedInUser.loginId,
                   isAppAdmin: loggedInUser?.isAppAdmin ?? undefined,
                   tenant: tenant,
@@ -5050,14 +5081,37 @@ getConfig(): FusionAuthConfig {
                   app,
                   userCode: loggedInUser?.userCode ?? undefined,
                   ...orpAccessObj,
-                 sid:sid,
                  tenantId
-                },
-                {
-                  secret: auth_secret,
-                  expiresIn: accessTokenExpiryTime as any,
-                },
-              );
+                }
+               // add here patch required data to the registration object
+          await handleFusionAuthUserRegistrationForTokenLambda(
+            fusionAuthTenantAndApplicationDetails.tenantUniqueId,
+            fusionAuthTenantAndApplicationDetails.applicationId,
+            config.fusionAuthApiKey,
+            config.fusionAuthBaseUrl,
+            loggedInUser.userUniqueId,
+            tokenData
+          )
+          const value = await this.fusionAuthVerifyRefreshToken(refreshToken, tenantId);
+          token = value.access_token
+              // token = await this.jwt.signAsync(
+              //   {
+              //     loginId: loggedInUser.loginId,
+              //     isAppAdmin: loggedInUser?.isAppAdmin ?? undefined,
+              //     tenant: tenant,
+              //     type: 't',
+              //     ag,
+              //     app,
+              //     userCode: loggedInUser?.userCode ?? undefined,
+              //     ...orpAccessObj,
+              //    sid:sid,
+              //    tenantId
+              //   },
+              //   {
+              //     secret: auth_secret,
+              //     expiresIn: accessTokenExpiryTime as any,
+              //   },
+              // );
             }
           }
         }
@@ -9385,7 +9439,7 @@ getConfig(): FusionAuthConfig {
         }
       }
       const appTenantList = await this.getAppTenantsLinkedWithApp();
-      const foundAppTenant = appTenantList.find((item: any) => item.tenant_name == app_tenant);
+      const foundAppTenant = appTenantList.find((item: any) => (item.tenant_name == app_tenant) || item.tenant_id == app_tenant);
       if(!foundAppTenant) throw new BadRequestException(`fusionauth configuration details for the tenant ${app_tenant} not found`);
       const credentials = await this.getApplicationTenantFusionauthDetails(app_tenant);
       if(credentials && typeof credentials == 'object'){
