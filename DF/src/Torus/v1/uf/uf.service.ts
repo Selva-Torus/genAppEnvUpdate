@@ -8783,12 +8783,7 @@ getConfig(): FusionAuthConfig {
 
   async getAppList(token: string) {
     try {
-      const config = this.getConfig()
-      const auth_secret = config.authSecret
-
-      const payload = await this.jwt.verifyAsync(token, {
-        secret: auth_secret,
-      });
+      const payload = await this.jwt.decode(token)
       const {
         tenant: tenant,
         loginId,
@@ -8797,7 +8792,6 @@ getConfig(): FusionAuthConfig {
       } = payload;
       const tenantProfileCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:${tenant}:AFK:PROFILE:AFVK:v1:tpc`;
       const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
-
     
       const tenantProfileResponse = await this.redisService.getJsonData(
         tenantProfileCacheKey,
@@ -8905,23 +8899,29 @@ getConfig(): FusionAuthConfig {
 
     async sso(sourceToken: string , ufClientType:string) {
     try {
-      const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
       const payload = await this.jwt.decode(sourceToken);
-      const { loginId } = payload;
-      let tenantUserList = []
-      try {
-        tenantUserList = await this.query(`select tu.email , tu.login_id from ${schemaName}.tam_tenant_user tu where tu.login_id=$1` , [loginId])
-      } catch (error) {
-        tenantUserList = []
-      }
-      const user = tenantUserList.length ? tenantUserList[0] : null
-      if(!user) throw new NotFoundException('User not found')
-        return await this.signIntoTorus(
-          user?.email,
+      const { loginId , tenant:srcTenant , ag:srcAg , app:srcApp , sid , tenantId } = payload;
+      const srcAppSessionListCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${srcTenant}:AFGK:${srcAg}:AFK:${srcApp}:AFVK:v1:session`;
+      const srcAppSessionList = JSON.parse(await this.redisService.getJsonData(srcAppSessionListCacheKey, process.env.CLIENTCODE));
+      const srcAppUserSession = srcAppSessionList?.find((v) => v.sid == sid);
+      if(!srcAppUserSession) throw new UnauthorizedException('Invalid session')
+      const fusionAUthLoginResponse = await this.fusionAuthVerifyRefreshToken(srcAppUserSession?.refreshToken, tenantId);
+      const loggedInValue = await this.signIntoTorus(
+          loginId,
           '',
           ufClientType,
           true,
+          undefined,
+          undefined,
+          fusionAUthLoginResponse
         );
+       if(!loggedInValue) throw new UnauthorizedException('Unauthorized access to the application')
+      await this.redisService.setJsonData(
+        srcAppSessionListCacheKey,
+        JSON.stringify(srcAppSessionList.filter(s => s.sid == sid)),
+        process.env.CLIENTCODE
+      )
+      return loggedInValue; 
 
     } catch (error) {
       await this.commonService.errorLog(

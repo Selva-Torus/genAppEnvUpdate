@@ -11,7 +11,8 @@ import { AxiosService } from '@/app/components/axiosService'
 import { useInfoMsg } from '@/app/components/infoMsgHandler'
 import { Button } from '@/components/Button'
 import { Dropdown } from '@/components/Dropdown'
-import { SearchIcon } from '@/app/components/svgApplication'
+import { AppHubIcon, SearchIcon } from '@/app/components/svgApplication'
+import clsx from 'clsx'
 
 type VersionInfo = {
   version: string
@@ -32,6 +33,8 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
   const { branding } = useGlobal()
   const { brandColor } = branding
   const { borderColor, isDark } = useTheme()
+  const bgColor = isDark ? "bg-gray-800" : "bg-white"
+  const bgCardColor = isDark ? "bg-gray-700" : "bg-gray-100"
   const token = getCookie('token')
   const toast: Function = useInfoMsg()
 
@@ -63,7 +66,7 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
 
   return (
     <div
-      className='h-full w-full bg-cover bg-center'
+      className={clsx('h-screen w-full bg-cover bg-center' , bgColor)}
       style={{ backgroundImage: 'var(--app-bg-image)' }}
     >
       {/* Top Navigation */}
@@ -80,8 +83,9 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
       <div className='flex items-center justify-between px-6 py-4'>
         <div
           className={twMerge(
-            'flex w-96 items-center gap-[.5vw] rounded-lg border px-3 py-1',
-            borderColor
+            'flex w-96 items-center gap-[.5vw] rounded-lg border px-3 py-1 text-fsbase',
+            borderColor,
+            bgColor
           )}
         >
           <span>
@@ -94,7 +98,7 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
           <input
             type='text'
             placeholder='Search'
-            className='w-full outline-none'
+            className='w-full outline-none text-fsbase'
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
           />
@@ -121,28 +125,8 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
             />
           </div>
 
-          {/* <select
-            className='rounded-md border px-4 py-3 outline-none disabled:opacity-50'
-            style={{ fontSize: branding.fontSize }}
-            disabled={!selectedApp?.versionInfo?.length}
-            value={selectedVersion?.version ?? ''}
-            onChange={e => {
-              const version = selectedApp?.versionInfo?.find(
-                v => v.version === e.target.value
-              )
-              setSelectedVersion(version ?? null)
-            }}
-          >
-            <option value=''>Select Version</option>
-            {selectedApp?.versionInfo?.map(v => (
-              <option key={v.version} value={v.version}>
-                {v.version}
-              </option>
-            ))}
-          </select> */}
-
           <Button
-            className='rounded-md px-4 py-2 disabled:opacity-50'
+            className='rounded-md px-4 py-3 disabled:opacity-50'
             disabled={!selectedVersion}
             onClick={() => {
               if (selectedVersion?.accessUrl) {
@@ -153,7 +137,7 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
                 )
                 url.searchParams.set('origin', origin)
                 url.searchParams.set('token', token)
-
+                
                 window.open(url.toString(), '_self')
               } else {
                 toast('Access URL not found for the selected version', 'danger')
@@ -168,7 +152,7 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
       {/* App Group */}
       <div className='px-6'>
         {/* App Grid */}
-        <div className='grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6'>
+        <div className='grid grid-cols-2 gap-4 sm:grid-cols-5 lg:grid-cols-8'>
           {appList
             .filter(a =>
               a.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -188,11 +172,11 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
                     }
                   }}
                   className={twMerge(
-                    'cursor-pointer rounded-xl border p-4 transition-all hover:bg-[var(--hover-color)]',
-                    isSelected ? 'bg-[var(--selection-color)]' : 'bg-unset'
+                    'cursor-pointer rounded-xl border p-4 transition-all hover:bg-[var(--hover-color)] text-fsbase',
+                    isSelected ? 'bg-[var(--selection-color)] border-none' : bgCardColor
                   )}
                 >
-                  <div className='mb-3 flex h-10 w-12 items-center justify-center rounded-md bg-gray-100'>
+                  <div className='mb-3 flex h-12 w-12 items-center justify-center rounded-md bg-gray-100'>
                     {app.logo ? (
                       <img
                         src={getCdnImage(app.logo)}
@@ -201,17 +185,16 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
                       />
                     ) : (
                       <span
-                        style={{ fontSize: branding.fontSize }}
-                        className='font-bold'
+                        className={clsx('font-bold p-2 rounded-lg', bgColor)}
                       >
-                        APP
+                        <AppHubIcon fill={isDark ? "white" : "black"}/>
                       </span>
                     )}
                   </div>
 
                   <p
-                    style={{ fontSize: branding.fontSize }}
-                    className='font-medium'
+                    className='text-fsbase w-full truncate'
+                    title={app.name}
                   >
                     {app.name}
                   </p>

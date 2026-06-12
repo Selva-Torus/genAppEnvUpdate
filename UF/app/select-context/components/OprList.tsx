@@ -40,12 +40,14 @@ const ColumnHeader: React.FC<ColumnHeaderProps> = ({
   borderColor
 }) => {
   const { isDark } = useTheme()
+  const bgHeaderColor = isDark ? "bg-gray-700" : "bg-gray-100"
 
   return (
     <div
       className={twMerge(
-        'flex w-full items-center justify-between rounded border px-[.5vw] py-[1vh]',
-        borderColor
+        'flex w-full items-center justify-between rounded-tl-lg rounded-tr-lg border-b px-[.5vw] py-[1vh]',
+        borderColor,
+        bgHeaderColor
       )}
     >
       <Text contentAlign='left' className='font-semibold'>
@@ -118,7 +120,8 @@ const OPRList = ({
   const [collapsedItems, setCollapsedItems] = useState<Record<string, boolean>>(
     {}
   )
-  const { borderColor } = useTheme()
+  const { borderColor , isDark } = useTheme()
+  const bgColor = isDark ? "bg-gray-800" : "bg-white";
   const keyset = i18n.keyset('language')
 
   // ============= UTILITY FUNCTIONS =============
@@ -428,10 +431,10 @@ const OPRList = ({
       }}
     >
       <div className='flex h-full w-full flex-col gap-[2vh]'>
-        <div className='flex w-full items-center gap-[2vw]'>
+        <div className='flex w-full items-center gap-[1vw]'>
           {/* ============= ORGANIZATION COLUMN ============= */}
           <div
-            className={twMerge('h-full w-1/3 rounded-lg border', borderColor)}
+            className={twMerge('h-full w-1/3 rounded-lg border', borderColor , bgColor)}
           >
             <ColumnHeader
               title={keyset('Organization')}
@@ -520,7 +523,7 @@ const OPRList = ({
 
           {/* ============= PRODUCTS/SERVICES COLUMN ============= */}
           <div
-            className={twMerge('h-full w-1/3 rounded-lg border', borderColor)}
+            className={twMerge('h-full w-1/3 rounded-lg border', borderColor , bgColor)}
           >
             <ColumnHeader
               title={keyset('Products/Services')}
@@ -591,7 +594,7 @@ const OPRList = ({
 
           {/* ============= ROLES COLUMN ============= */}
           <div
-            className={twMerge('h-full w-1/3 rounded-lg border', borderColor)}
+            className={twMerge('h-full w-1/3 rounded-lg border', borderColor , bgColor)}
           >
             <ColumnHeader
               title={keyset('Roles')}

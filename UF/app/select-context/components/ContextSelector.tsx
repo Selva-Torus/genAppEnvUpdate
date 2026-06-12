@@ -372,9 +372,9 @@ const ContextSelector = () => {
               }}
             />
           </div>
-          <div className='flex gap-2 py-2'>
+          <div className='flex py-1'>
             <Button
-              className='flex items-center rounded-md px-5 py-2.5 disabled:opacity-50'
+              className='flex items-center rounded-md px-5 py-3 disabled:opacity-50'
               icon={'MdArrowForward'}
               onClick={handleNavigationClick}
               disabled={
@@ -383,7 +383,7 @@ const ContextSelector = () => {
             >
               {loading || isPending ? (
                 <Spin
-                  className='flex w-full justify-center'
+                  className='flex w-full justify-center py-2'
                   spinning
                   color='success'
                   style='dots'
