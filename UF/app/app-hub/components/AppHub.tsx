@@ -137,7 +137,7 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
                 )
                 url.searchParams.set('origin', origin)
                 url.searchParams.set('token', token)
-                
+
                 window.open(url.toString(), '_self')
               } else {
                 toast('Access URL not found for the selected version', 'danger')
@@ -171,7 +171,7 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
                       setSelectedVersion(null)
                     }
                   }}
-                  className={twMerge(
+                   className={twMerge(
                     'cursor-pointer rounded-xl border p-4 transition-all hover:bg-[var(--hover-color)] text-fsbase border-none',
                     isSelected ? 'bg-[var(--selection-color)]' : bgCardColor
                   )}
@@ -187,7 +187,7 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
                       <span
                         className={clsx('font-bold p-2 rounded-lg', bgColor)}
                       >
-                        <AppHubIcon fill={isDark ? "white" : "black"}/>
+                         <AppHubIcon fill={isDark ? "white" : "black"}/>
                       </span>
                     )}
                   </div>

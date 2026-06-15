@@ -62,11 +62,11 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
   const [data, setData] = useState<SetupKeyData | null>(null);
   const token:string = getCookie('token'); 
   const encryptionFlagApp: boolean = true;
-  const encryptionDpd: string = "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:VGPH:AFK:VGPH_DPD:AFVK:v1";
+  const encryptionDpd: string = "CK:CT010:FNGK:AF:FNK:CDF-DPD:CATK:AG001:AFGK:A001:AFK:defaultDPD:AFVK:v1";
   const encryptionMethod: string = "";
   const fetchSetupKey = async () => {
     try {
-      let setUpKeyDto:any = {key:"CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT005:AFGK:GSS:AFK:VGPH:AFVK:v1:appearance"
+      let setUpKeyDto:any = {key:"CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT010:AFGK:AG001:AFK:A001:AFVK:v1:appearance"
 };
       if (encryptionFlagApp) {
         setUpKeyDto["dpdKey"] = encryptionDpd;
@@ -133,7 +133,8 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
       /////////////
       let localizationdata={
         datedisplay:"DD-MM-YYYY",
-        currencyDisplayFormat:"₹"
+        currencyDisplayFormat:"₹",
+        decimal_places:3
       }
       if("date" in dateDisplayData)
       {
@@ -141,12 +142,16 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
       }
       if("symbol" in timeDisplayData)
       {
-        localizationdata={...localizationdata,currencyDisplayFormat:timeDisplayData?.symbol||"DD-MM-YYYY"}
+        localizationdata={...localizationdata,currencyDisplayFormat:timeDisplayData?.symbol||"₹"}
+      }
+      if("decimal_places" in timeDisplayData)
+      {
+        localizationdata={...localizationdata,decimal_places:timeDisplayData?.decimal_places||null}
       }
       setDisplayFormat((pre:any)=>({
         ...pre,
         datePickerProperty:{...pre.datePickerProperty, dateDisplayFormat:localizationdata?.datedisplay},
-        textInputProperty:{...pre.datePickerProperty, currencyDisplayFormat:localizationdata?.currencyDisplayFormat}
+        textInputProperty:{...pre.textInputProperty, currencyDisplayFormat:localizationdata?.currencyDisplayFormat,decimal_places:localizationdata?.decimal_places}
       }))
       //////////////
 

@@ -41,7 +41,7 @@ const ContextSelector = () => {
   const tp_ps: any = getCookie('tp_ps')
   const toast = useInfoMsg()
   const baseUrl: any = process.env.NEXT_PUBLIC_API_BASE_URL
-  const appName = 'VGPH'
+  const appName = 'application'
   const [accessProfiles, setAccessProfiles] = useState<any[]>([])
   const router = useRouter()
   const [loading, setLoading] = useState(false)
@@ -57,13 +57,13 @@ const ContextSelector = () => {
   const [selectedRole, setSelectedRole] = useState<Record<string, string>>({})
   const [orgGrpData, setOrgGrpData] = useState<any>([])
   const [isPending, startTransition] = useTransition();  
-  let landingScreen:string = 'CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1';
+  let landingScreen:string = 'Logs Screen';
   let screenDetails: any = {
            keys:[
   {
-    "screenName": "my transaction",
-    "screensName": "my_transaction-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1"
+    "screenName": "test",
+    "screensName": "test-v1",
+    "ufKey": "CK:CT010:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:test:AFVK:v1"
   }
 ]
   }
@@ -105,9 +105,6 @@ const ContextSelector = () => {
   }
 
   useEffect(() => {
-    // if(typeof window != undefined){
-    //   document.body.style.backgroundImage = ``;
-    // }
     if (tp_ps) {
       const selectedCombinationData = JSON.parse(atob(tp_ps))
         ?.selectedCombination
@@ -308,30 +305,10 @@ const ContextSelector = () => {
     name: string
     'gridColumn'?: string
     'gridRow'?: string
-  }[] = [
-  {
-    "name": "app logo",
-    "gridColumn": "1/3"
-  },
-  {
-    "name": "menu items",
-    "gridColumn": "3/8",
-    "gridRow": "1/6"
-  },
-  {
-    "name": "profile",
-    "gridColumn": "12/13",
-    "gridRow": "12/13"
-  },
-  {
-    "name": "opr matrix",
-    "gridColumn": "9/12",
-    "gridRow": "6/9"
-  }
-]
+  }[] = []
 
-  const logo: string = "torus/9.1/CT005/resources/images/Blue Logo.png"
-  const appLogo: string = "torus/9.1/CT005/resources/images/White global payment hub.png"
+  const logo: string = "torus/9.1/CT010/resources/images/15017190.png"
+  const appLogo: string = "torus/9.1/CT010/resources/images/images.png"
 
   return (
     <div className='h-full w-full  bg-cover bg-center'>
@@ -426,7 +403,7 @@ const ContextSelector = () => {
                           }
                         )}
                         style={{
-                          color: (brandColor)
+                          color: brandColor
                         }}
                       />
                     </div>

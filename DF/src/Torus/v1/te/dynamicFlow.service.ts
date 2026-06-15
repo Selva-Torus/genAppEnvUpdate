@@ -1293,26 +1293,14 @@ export class DynamicFlowService {
                         //let rulecheck:any = await this.CommonService.getRuleCodeMapper(rulejson, inputparam, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                         //headerRole = rulecheck?.rule
                         //str.push({'xCdcaRole':headerRole,'xCdcaUsername':SessionToken?.loginId})
-                     //}
-                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
-                    console.log("RCMresult",RCMresult);
-                    let ruleRes = RCMresult?.rule
-                    let appendQry
-                    if(ruleRes){
-                        if(typeof ruleRes == 'object'){
-                            appendQry = Object.values(ruleRes)[0]
-                        }else if(typeof ruleRes == 'string'){
-                            appendQry = ruleRes
-                        }                                        
-                    }
+                     //}                  
                     
-                    if (manualQuery.endsWith(';')) {
-                        manualQuery = manualQuery.slice(0, -1);
-                    }                    
+                    //if (manualQuery.endsWith(';')) {
+                        //manualQuery = manualQuery.slice(0, -1);
+                    //}  
 
-                    if (manualQuery.includes('$where') && appendQry) {                       
-                        manualQuery = manualQuery.replace('$where', () => appendQry);                       
-                    }                                                     
+                     if(manualQuery)
+                       manualQuery = manualQuery.replace(/[;\s]+$/, '');                    
 
                     let childInsertArr, tempQryVal = []
                     let qryarr =[]
@@ -1470,7 +1458,10 @@ export class DynamicFlowService {
                      const singleMatches = [...manualQuery.matchAll(/\$\{([^}]+)\}/g)];
                         const singlevariables = singleMatches.map(match => match[1]);
                         singlevariables.forEach((key) => {
-                             const regex = new RegExp(`\\([^)]*\\)\\.\\$\\{${key}\\}`, 'g');
+                            const regex = new RegExp(
+                                `(?:\\([^)]+\\)|\\w+)?\\.\\$\\{${key}\\}|\\$\\{${key}\\}`,
+                                'g'
+                            );
                             manualQuery = manualQuery.replace(regex, '1=1');                             
                         });
                 
@@ -6141,7 +6132,7 @@ export class DynamicFlowService {
                     internalMappedObj[item?.key?.toLowerCase()] = formatttedDate
                 }else if(item.type == 'rule'){
                     if(zenresult?.[item.value]){
-                    internalMappedObj[item?.key?.toLowerCase()] = zenresult[item.value]
+                    internalMappedObj[item?.key?.toLowerCase()] = zenresult[item.key]
                     }
                 }else if(item.type == 'pfrule' && item?.value){   
                     let nodeId = item?.nodeId  
@@ -6150,7 +6141,7 @@ export class DynamicFlowService {
                     let ht_afpVal:any = await this.redisService.getJsonDataWithPath(processedKey+':NPV:'+ nodeName + '.PRO', '.ifo',process.env.CLIENTCODE)               
                     if(ht_afpVal){
                         ht_afpVal = JSON.parse(ht_afpVal)
-                        internalMappedObj[item?.key?.toLowerCase()] = ht_afpVal[item.value]  
+                        internalMappedObj[item?.key?.toLowerCase()] = ht_afpVal[item.key]  
                     }
                 }
                 else{

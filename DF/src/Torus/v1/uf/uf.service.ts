@@ -18,6 +18,7 @@ import * as nodemailer from 'nodemailer';
 import { JwtService } from '@nestjs/jwt';
 import { JwtServices } from 'src/jwt.services';
 import { RuleService } from 'src/ruleService';
+import { MongoService } from 'src/mongoService';
 const jsonata = require('jsonata');
 import * as fs from 'fs';
 import * as path from 'path';
@@ -69,6 +70,7 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
     private readonly gorule: RuleService,
     private readonly redisService: RedisService,
     private readonly commonService: CommonService,
+    private readonly mongoService: MongoService,
     private readonly envData: EnvData
   ) {}
     private pool : Pool;
@@ -320,7 +322,7 @@ getConfig(): FusionAuthConfig {
 
  async insertDocToVgphSourceTranDocMain(category: string, doc_name: string, url: string, size?: number, doc_group?: string): Promise<any> {
     try {
-      const insertUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments`;
+      const insertUrl = `${process.env.APP_MANAGER_URL}/ct010/attachments`;
       //const vgphstm_uuid = uuid();
       const currentDate = new Date().toISOString().slice(0, 19) + '+00:00';
 
@@ -348,7 +350,7 @@ getConfig(): FusionAuthConfig {
 
   async getUrlByVgphstdmId(vgphstdm_id: any): Promise<string> {
     try {
-      const getUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments/${vgphstdm_id}`;
+      const getUrl = `${process.env.APP_MANAGER_URL}/ct010/attachments/${vgphstdm_id}`;
 
       const response = await axios.get(getUrl, {
         headers: {
@@ -721,7 +723,8 @@ getConfig(): FusionAuthConfig {
         if(filterData && Object.keys(filterData).length > 0){
           filterobj = filterData?.find(n => n.nodeId === dbnodeid);
           if(!filterobj) filterobj = {}
-        }else if((filter && Object.keys(filter).length > 0) || (searchObj && Object.keys(searchObj).length > 0)){        
+        }
+        if((filter && Object.keys(filter).length > 0) || (searchObj && Object.keys(searchObj).length > 0)){        
           filterobj['nodeId'] = dbnodeid;
         }
         
@@ -8783,7 +8786,7 @@ getConfig(): FusionAuthConfig {
 
   async getAppList(token: string) {
     try {
-      const payload = await this.jwt.decode(token)
+      const payload = await this.jwt.decode(token);
       const {
         tenant: tenant,
         loginId,
@@ -8922,7 +8925,6 @@ getConfig(): FusionAuthConfig {
         process.env.CLIENTCODE
       )
       return loggedInValue; 
-
     } catch (error) {
       await this.commonService.errorLog(
         'Technical',
