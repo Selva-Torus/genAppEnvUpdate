@@ -98,7 +98,7 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
           <input
             type='text'
             placeholder='Search'
-            className='w-full outline-none text-fsbase'
+            className={clsx('w-full outline-none text-fsbase', bgColor)}
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
           />
@@ -112,7 +112,7 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
             <Dropdown
               placeholder='Select Version'
               disabled={!selectedApp?.versionInfo?.length}
-              className='rounded-md outline-none disabled:opacity-50'
+              className='rounded-md outline-none disabled:opacity-50 text-left'
               static
               staticProps={selectedApp?.versionInfo?.map(v => v.version) ?? []}
               value={selectedVersion?.version ?? ''}
@@ -172,8 +172,8 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
                     }
                   }}
                   className={twMerge(
-                    'cursor-pointer rounded-xl border p-4 transition-all hover:bg-[var(--hover-color)] text-fsbase',
-                    isSelected ? 'bg-[var(--selection-color)] border-none' : bgCardColor
+                    'cursor-pointer rounded-xl border p-4 transition-all hover:bg-[var(--hover-color)] text-fsbase border-none',
+                    isSelected ? 'bg-[var(--selection-color)]' : bgCardColor
                   )}
                 >
                   <div className='mb-3 flex h-12 w-12 items-center justify-center rounded-md bg-gray-100'>

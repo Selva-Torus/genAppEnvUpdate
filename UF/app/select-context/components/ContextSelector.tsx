@@ -50,7 +50,8 @@ const ContextSelector = () => {
   const [selectedCombination, setSelectedCombination] = useState<
     Record<string, string>
   >({})
-  const { borderColor } = useTheme()
+  const { borderColor , isDark } = useTheme()
+  const bgHeaderColor = isDark ? "bg-gray-700" : "bg-gray-100"
   const [selectedOrg, setSelectedOrg] = useState<Record<string, string>>({})
   const [selectedPs, setSelectedPs] = useState<Record<string, string>>({})
   const [selectedRole, setSelectedRole] = useState<Record<string, string>>({})
@@ -104,6 +105,9 @@ const ContextSelector = () => {
   }
 
   useEffect(() => {
+    // if(typeof window != undefined){
+    //   document.body.style.backgroundImage = ``;
+    // }
     if (tp_ps) {
       const selectedCombinationData = JSON.parse(atob(tp_ps))
         ?.selectedCombination
@@ -330,7 +334,7 @@ const ContextSelector = () => {
   const appLogo: string = "torus/9.1/CT005/resources/images/White global payment hub.png"
 
   return (
-    <div className='h-full w-full  bg-cover bg-center' style={{ backgroundImage: 'var(--app-bg-image)' }}>
+    <div className='h-full w-full  bg-cover bg-center'>
       <TopNav
         appName={appName}
         navData={[]}
@@ -346,7 +350,7 @@ const ContextSelector = () => {
       <hr className={twMerge('w-full h-1', borderColor)} />
       <div className='px-5 py-2.5'>
         <div className='flex w-full items-center justify-end gap-1'>
-          <div title={selectedAccessProfile.length ? selectedAccessProfile[0] : "Select Access Profile"} className='w-[12vw]'>
+          <div title={selectedAccessProfile.length ? selectedAccessProfile[0] : "Select Access Profile"} className='w-[8vw]'>
             <Dropdown
               placeholder='Select Access Profile'
               value={selectedAccessProfile[0]}
@@ -370,6 +374,7 @@ const ContextSelector = () => {
                 setSelectedRole({})
                 setSelectedCombination({})
               }}
+              className='text-left'
             />
           </div>
           <div className='flex py-1'>
@@ -394,16 +399,16 @@ const ContextSelector = () => {
             </Button>
           </div>
         </div>
-        <div className={'gap-1- flex h-full flex-col rounded-md px-5 py-2'}>
+        <div className={'gap-[2vh] flex h-full flex-col rounded-md px-5 py-2'}>
           <div className='h-1\5 flex w-full items-center justify-between'>
-            <div className='flex h-[20vh] w-full items-center justify-center rounded-lg'>
+            <div className={clsx('flex h-[18vh] w-full items-center justify-center rounded-lg', bgHeaderColor)}>
               {blocks.map((block, idx) => (
                 <div key={idx} className='flex items-center '>
                   {/* Circle */}
                   <div className='flex w-[8vw] flex-col items-center gap-[0.5vh]'>
                     <div
                       style={{
-                        backgroundColor: hexWithOpacity(brandColor, 0.8)
+                        backgroundColor: hexWithOpacity(brandColor, 0.2)
                       }}
                       className={clsx(
                         `flex h-[2.5vw] w-[2.5vw] items-center justify-center rounded-full shadow-sm transition-all duration-300 ease-in-out`,
@@ -414,14 +419,14 @@ const ContextSelector = () => {
                     >
                       <block.icon
                         className={clsx(
-                          'h-[0.7vw] w-[0.7vw] transition-all duration-300 ease-in-out',
+                          'h-[0.8vw] w-[0.8vw] transition-all duration-300 ease-in-out',
                           {
                             'h-[1.1vw] w-[1.1vw]':
                               !block?.group || !block?.title
                           }
                         )}
                         style={{
-                          color: isLightColor(brandColor)
+                          color: (brandColor)
                         }}
                       />
                     </div>
@@ -429,7 +434,7 @@ const ContextSelector = () => {
                     {/* Texts */}
                     <div className='flex w-full flex-col items-center'>
                       <Text
-                        className={`w-full truncate text-nowrap text-center`}
+                        className={`w-full truncate text-nowrap text-center text-[var(--brand-color)]`}
                       >
                         {block?.group}
                       </Text>
