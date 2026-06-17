@@ -94,7 +94,6 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   const buttonElement = useRef<HTMLButtonElement>(null)
   const { isDark, borderColor, textColor } = useTheme()
   const bgColor = isDark ? "bg-gray-800" : "bg-white";
-
   const { branding } = useGlobal()
   const { selectionColor } = branding
   const keyset = i18n.keyset('language')

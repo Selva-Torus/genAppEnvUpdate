@@ -317,7 +317,7 @@
       "navigationStyle": "Bottom Navigation"
     },
     "navigationStyles": "horizontal",
-    "appBackgroundImage": "",
+    "appBackgroundImage": "torus/9.1/CT010/resources/images/vivid-blurred-colorful-wallpaper-background_58702-3883.avif",
     "text-body-font": "",
     "text-header-font": "",
     "text-display-font": ""
@@ -353,7 +353,7 @@
         }
       }
     },
-    "lastActive": "2026-06-15T12:14:46.393Z",
+    "lastActive": "2026-06-17T13:13:28.925Z",
     "client": "CT010",
     "users": "selvaselva kumar",
     "profile": "",

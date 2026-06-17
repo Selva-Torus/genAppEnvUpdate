@@ -758,17 +758,21 @@ getConfig(): FusionAuthConfig {
           let queryobj
           if (result?.result) {
            
-            let ruleRes = result.result
-            let query:any = Object.values(ruleRes)[0]
-            if(query?.includes('$$session.')){ 
-                Object.keys(sobj).forEach(key => {
-                const regex = new RegExp(`\\$\\$${key}`, 'g');
-                const value = sobj[key];               
-                query = query.replace(regex, value);               
-            });
-            }            
-            queryobj = {[`${process.env.CLIENTCODE}_condition`]:query}                      
-          }         
+            let ruleRes = result.result                    
+            let query:any = Object.values(ruleRes)[0] 
+           if(typeof query == 'string') {
+             if(query?.includes('$$session.')){ 
+                 Object.keys(sobj).forEach(key => {
+                 const regex = new RegExp(`\\$\\$${key}`, 'g');
+                 const value = sobj[key];               
+                 query = query.replace(regex, value);               
+             });
+             }            
+             queryobj = {[`${process.env.CLIENTCODE}_condition`]:query}                      
+           } else {
+            throw 'rule value does not exist'
+           }      
+          }          
           // let decisionTable = rule.nodes?.find(n => n.type === "decisionTableNode");
           // if (decisionTable) {
           //   let ruleInputs = decisionTable.content?.inputs

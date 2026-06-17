@@ -1302,8 +1302,15 @@ export class DynamicFlowService {
                      if(manualQuery)
                        manualQuery = manualQuery.replace(/[;\s]+$/, '');                    
 
-                    let childInsertArr, tempQryVal = []
+                    let childInsertArr,schema, tempQryVal = []
                     let qryarr =[]
+                     if(pfo?.length>0){
+                        for(let a=0;a< pfo.length;a++){
+                            if(poNode[j]?.nodeId == pfo[a].nodeId){
+                                schema = pfo[a]?.schema
+                            }
+                        }
+                    }
                     if (internalEdges && internalEdges.hasOwnProperty(poNode[j]?.nodeId)) {
                         let currentNodeEdge = internalEdges[poNode[j]?.nodeId];
                         if (currentFabric == 'DF-DFD') {
@@ -1352,7 +1359,10 @@ export class DynamicFlowService {
                                 singlevariables.forEach((key) => {
                                 if(searchFilter?.[key]){
                                 let value = searchFilter[key]
-                                if(typeof value == 'string')
+                                const dateType = this.isDateTimeField(schema, key);
+                                if(dateType)
+                                manualQuery = manualQuery.replaceAll(`\${${key}}`,`DATE(${key}) = '${value}'`)
+                                else if(typeof value == 'string')
                                 manualQuery = manualQuery.replaceAll(`\${${key}}`,`${key} = '${value}'`)
                                 else if(typeof value == 'number')
                                 manualQuery = manualQuery.replaceAll(`\${${key}}`,`${key} = '${value}'`)
@@ -1532,7 +1542,11 @@ export class DynamicFlowService {
                                                 removedVal = key
                                             }
                                             const value = filterParamsObjvalues[p];
-                                            if (typeof value == 'number') {
+                                             const dateType = this.isDateTimeField(schema, removedVal);                               
+                                            if(dateType){                                        
+                                                formKey = formKey + ` DATE(${removedVal}) = '${value}' AND`;
+                                            }
+                                            else if (typeof value == 'number') {
                                                 formKey = formKey + ` ${removedVal} = ${value} AND`;
                                             } else if (typeof value == 'string') {
                                                 formKey = formKey + ` ${removedVal} = '${value}' AND`;
@@ -1571,7 +1585,11 @@ export class DynamicFlowService {
                                         removedVal = key
                                     }
                                     const value = searchParamsObjvalues[p];
-                                    if (typeof value == 'number') {
+                                     const dateType = this.isDateTimeField(schema, removedVal);                               
+                                    if(dateType){                                        
+                                        formKey = formKey + ` DATE(${removedVal}) = '${value}' AND`;
+                                    }
+                                    else if (typeof value == 'number') {
                                          formKey = formKey + ` ${removedVal}::TEXT LIKE '${value}%' AND`;
                                     } else if (typeof value == 'string') {
                                         formKey = formKey + ` ${removedVal} LIKE '${value}%' AND`;
@@ -3723,6 +3741,15 @@ export class DynamicFlowService {
 
                             // console.log("edges", edges);
 
+                             for (const key of Object.keys(inputparam)) {
+                                if (
+                                    Array.isArray(inputparam[key]) &&
+                                    inputparam[key].length === 1
+                                ) {
+                                    inputparam[key] = inputparam[key][0];
+                                }
+                            }
+
                             if (Array.isArray(inputparam)) {
                                 demo = JSON.parse(await this.transformData(edges, inputparam));
                             } else if (Object.keys(inputparam).length > 0) {
@@ -3791,7 +3818,7 @@ export class DynamicFlowService {
                             // await this.redisService.setStreamData(srcQueue, collectionName + '-TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: inputparam, response: finalRes } }));
 
                             if (finalRes && Array.isArray(finalRes) && finalRes?.length > 0) {
-                                inputparam = await this.assignToInputParam(inputparam, nodeName, finalRes[0])
+                                inputparam = await this.assignToInputParam(inputparam, nodeName, finalRes)
                             } else if (finalRes && Object.keys(finalRes).length > 0) {
                                 inputparam = await this.assignToInputParam(inputparam, nodeName, finalRes)
                             }
@@ -5900,6 +5927,10 @@ export class DynamicFlowService {
         }
     }
 
+    isDateTimeField(schema: any, key: string) {
+    return schema?.properties?.[key]?.format === 'date-time';
+    }
+
     async replaceQuery(replaceQry,mapObj){
         try {           
            const matches = [...replaceQry.matchAll(/\$\$([a-zA-Z0-9_.]+)/g)];
@@ -5935,6 +5966,15 @@ export class DynamicFlowService {
                     const regex = new RegExp(`\\$\\$${item}`, 'g');
                     if (value === null || value === undefined) {
                         value = 'NULL';
+                    }
+                     else if (Array.isArray(value)) {
+                        const isNumberArray = value.every(v => typeof v === 'number');
+
+                        if (isNumberArray) {
+                            value = `ARRAY[${value.join(',')}]`;
+                        } else {
+                            value = `ARRAY[${value.map(v => `'${String(v).replace(/'/g, "''")}'`).join(',')}]`;
+                        }
                     }
                     else if (typeof value === 'object') {
                         value = `'${JSON.stringify(value)}'`;

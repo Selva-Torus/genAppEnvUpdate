@@ -43,10 +43,27 @@ export const TimeLine: React.FC<TimeLineProps> = ({
   isLoadingMore = false,
   hasMore = true
 }) => {
-  const { theme } = useGlobal()
+  const { theme, displayFormat } = useGlobal()
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const isDark = theme === 'dark' || theme === 'dark-hc'
+  const formatDateDisplay = (dateStr: string): string => {
+    if (!dateStr) return ''
+    const parts = dateStr.split('-')
+    if (parts.length !== 3) return dateStr
+    const [year, month, day] = parts
+    switch (displayFormat?.datePickerProperty?.dateDisplayFormat || 'DD-MM-YYYY') {
+      case 'DD-MM-YYYY': return `${day}-${month}-${year}`
+      case 'd,M,yyyy': return `${parseInt(day)},${parseInt(month)},${year}`
+      default: return `${year}-${month}-${day}`
+    }
+  }
+
+  const convertToFormat = (data: any) => {
+    const isISODate = typeof data === 'string' && /^\d{4}-\d{2}-\d{2}(T|$)/.test(data)
+    if (isISODate) return formatDateDisplay(data.split('T')[0])
+    return data
+  }
   const isHorizontal = view === 'horizontal'
 
   // Auto-load more if content doesn't fill the container
@@ -133,7 +150,7 @@ export const TimeLine: React.FC<TimeLineProps> = ({
                       isDark ? 'text-gray-200' : 'text-gray-600'
                     }`}
                   >
-                    {step[date]}
+                    {convertToFormat(step[date])}
                   </time>
 
                   <div className='relative mb-4 flex w-full items-center'>
@@ -178,7 +195,7 @@ export const TimeLine: React.FC<TimeLineProps> = ({
                         isDark ? 'text-gray-200' : 'text-gray-700'
                       }`}
                     >
-                      {step[date]}
+                      {convertToFormat(step[date])}
                     </time>
                   </div>
 

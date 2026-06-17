@@ -1,24 +1,18 @@
 'use client'
-import { useLanguage } from "../components/languageContext";
 import React,{ useContext,useEffect,useState,useRef } from "react";
 import { AxiosService } from '@/app/components/axiosService';
-import { uf_authorizationCheckDto,te_refreshDto,te_dfDto,api_paginationDto } from '@/app/interfaces/interfaces';
-import { codeExecution } from "../utils/codeExecution";
+import { te_refreshDto,api_paginationDto } from '@/app/interfaces/interfaces';
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
 import { deleteAllCookies,getCookie } from '@/app/components/cookieMgment';
 import { TotalContext, TotalContextProps } from "../globalContext";
 import decodeToken from "../components/decodeToken";
-import { Button } from "@/components/Button";
-import { Icon } from "@/components/Icon";
-import { Text } from "@/components/Text";
 import { useRouter } from 'next/navigation';
 import { useTheme } from '@/hooks/useTheme';
-import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,PaginationData,AllowedGroupNode,ActionDetails } from "@/types/global";
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,PaginationData,AllowedGroupNode } from "@/types/global";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import clsx from "clsx";
-import { getAftfactLevelRule } from "../utils/evaluateDecisionTable";
-import { fetchBatchData } from "../utils/Orchestration";
-import Groupgroup  from "./Groupgroup/Groupgroup";
+import dynamic from 'next/dynamic';
+const Groupgroup = dynamic(() => import("./Groupgroup/Groupgroup"), { ssr: false });
 
 
 export default function PageTestV1() {
@@ -27,7 +21,6 @@ export default function PageTestV1() {
   const [isProcessing, setIsProcessing] = useState(false);
   const securityData : SecurityData = {};
   let code : string = "";
-  //const language=useLanguage();
   const routes : AppRouterInstance = useRouter();
   const toast : Function = useInfoMsg();
   const [primaryTableData, setPrimaryTableData] = useState<PrimaryTableData>({primaryKey:"",value:"",compName:""});
@@ -71,11 +64,13 @@ export default function PageTestV1() {
     const prevRefreshRef = useRef<any>({
     });
   const handleArtfactRule=async(rule:any,data:any={},allRuleData:any)=>{
+    const { getAftfactLevelRule } = await import("../utils/evaluateDecisionTable");
     let result :any =await getAftfactLevelRule(rule,data,allRuleData)
     settest_v1({...result,_artfactPFRule_:rule})
   }
 
   async function securityCheck(): Promise<void> {
+    const { fetchBatchData } = await import("../utils/Orchestration");
     const data: any = await fetchBatchData(
       'CK:CT010:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:test:AFVK:v1',
       [user],
@@ -85,8 +80,7 @@ export default function PageTestV1() {
     const orchestrationData: any = data.pageData
     setGroupData(data.groupData || {});
     setControlData(data.controlData || {});
-    const uf_dfKey:string[] = orchestrationData?.DFkeys;
-    const security:string = orchestrationData?.security; 
+    const security:string = orchestrationData?.security;
     const allowedGroup: AllowedGroupNode[] = orchestrationData?.allowedGroup||[];
     code = orchestrationData?.code;
     const pagination:any = orchestrationData?.action?.pagination;
@@ -96,7 +90,6 @@ export default function PageTestV1() {
     })
     if("artfactPFRule" in orchestrationData && orchestrationData?.artfactPFRule?.nodes?.length>0){
       await handleArtfactRule(orchestrationData?.artfactPFRule,{...decodedTokenObj},allRuleData)  
-      let result :any =await getAftfactLevelRule(orchestrationData?.artfactPFRule,{...decodedTokenObj,session:decodedTokenObj},allRuleData)
     }
     if (token) {
       try {
@@ -134,9 +127,8 @@ export default function PageTestV1() {
         window.location.href = '/ct010/ag001/a001/v1';
       }
       try {
-        let myAccount:any;
         if(encryptionFlagPage){
-         myAccount = await AxiosService.get("/UF/myAccount-for-client",{
+          await AxiosService.get("/UF/myAccount-for-client",{
           headers: {
             Authorization: `Bearer ${token}`
           },
@@ -145,43 +137,20 @@ export default function PageTestV1() {
               method: encryptionMethod,
               key:"CK:CT010:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:test:AFVK:v1"
             }
-        }) 
+        })
         }else{
-          myAccount = await AxiosService.get("/UF/myAccount-for-client",{
+          await AxiosService.get("/UF/myAccount-for-client",{
            headers: {
              Authorization: `Bearer ${token}`
            },
             params: {
               key:"CK:CT010:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:test:AFVK:v1"
             }
-         })          
+         })
         }
         if( user != "" && user != null){
           setAccessProfile([user]);
         }
-        let actionDetails:ActionDetails = {
-  "lock": {
-    "ttl": "",
-    "name": "",
-    "lockMode": ""
-  },
-  "events": {},
-  "encryption": {
-    "isEnabled": false,
-    "selectedDpd": "",
-    "encryptionMethod": ""
-  },
-  "pagination": {
-    "page": "1",
-    "count": "10"
-  },
-  "stateTransition": {
-    "sourceQueue": "",
-    "targetQueue": "",
-    "sourceStatus": "",
-    "targetStatus": ""
-  }
-};
         try{
           if (security == 'AA' || security == 'RA') {
           allowedGroup.map((nodes:AllowedGroupNode)=>{
@@ -204,6 +173,7 @@ export default function PageTestV1() {
           let codeStates: Record<string, any> = {}
           codeStates['group'] = groupd23af;
           codeStates['setgroup'] = setgroupd23af;
+          const { codeExecution } = await import("../utils/codeExecution");
           codeExecution(code,codeStates);
         }   
         setInitialLoad(true);        
