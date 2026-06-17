@@ -399,7 +399,7 @@ const LayoutDecider = ({
           />
         </div>
         <div
-          className={twMerge(`flex-1 overflow-auto ${childrenClassName} border` , borderColor , bgColor)}
+          className={twMerge(`flex-1 overflow-auto ${childrenClassName}` , bgColor)}
         >
           {children}
         </div>

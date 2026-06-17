@@ -97,7 +97,8 @@ const SetupScreen = ({
     {}
   )
   const { branding } = useGlobal()
-  const { borderColor, textColor, bgColor, isDark } = useTheme()
+  const { borderColor, textColor, isDark } = useTheme()
+  const bgColor = isDark ? "bg-gray-800" : "bg-white";
   const { brandColor } = branding
   const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set())
   const [focusedPath, setFocusedPath] = useState<string | null>(null)
@@ -699,7 +700,7 @@ const SetupScreen = ({
           }}
         >
           <div
-            className={`g-root flex h-[90%] w-full flex-col overflow-hidden`}
+            className={clsx(`g-root flex h-[90%] w-full flex-col overflow-hidden`, bgColor)}
           >
             <div className={'flex w-full items-center justify-between px-2'}>
               {/* LEFT : TITLE */}
