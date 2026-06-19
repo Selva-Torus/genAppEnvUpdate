@@ -1040,7 +1040,7 @@ const OPRTopNavSelector = ({
   }
 
   return (
-    <div className={clsx(`h-full flex items-center gap-2 px-4 ${fullView ? "justify-evenly" : "justify-around"} overflow-visible min-w-0`, className)}>
+    <div className={clsx(`h-full flex items-center gap-2  ${fullView ? "justify-evenly" : "justify-around px-4"} overflow-visible min-w-0`, className)}>
       <>
         <button
           ref={orgPopupRef}
@@ -1050,7 +1050,7 @@ const OPRTopNavSelector = ({
             {
               'bg-[var(--selection-color)]': activeStage == 'org',
               'w-[unset] px-3 py-1': !fullView,
-              'max-w-40 min-w-40 px-[1vw] py-[0.3vh]': fullView
+              'max-w-[8vw] min-w-[7vw] px-[1vw] py-[0.3vh]': fullView
             }
           )}
           style={{
@@ -1098,7 +1098,7 @@ const OPRTopNavSelector = ({
             {
               'bg-[var(--selection-color)]': activeStage == 'prod',
               'w-[unset] px-3 py-1': !fullView,
-              'max-w-40 min-w-40 px-[1vw] py-[0.3vh]': fullView
+              'max-w-[8vw] min-w-[7vw] px-[1vw] py-[0.3vh]': fullView
             }
           )}
           style={{
@@ -1146,7 +1146,7 @@ const OPRTopNavSelector = ({
             {
               'bg-[var(--selection-color)]': activeStage == 'role',
               'w-[unset] px-3 py-1': !fullView,
-              'max-w-40 min-w-40 px-[1vw] py-[0.3vh]': fullView
+              'max-w-[8vw] min-w-[7vw] px-[1vw] py-[0.3vh]': fullView
             }
           )}
           style={{

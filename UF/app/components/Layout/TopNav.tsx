@@ -2,7 +2,7 @@ import { deleteAllCookies, getCookie } from '@/app/components/cookieMgment'
 import decodeToken from '@/app/components/decodeToken'
 import { Logo } from '@/app/components/Logo'
 import { usePathname, useRouter } from 'next/navigation'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { MenuItem, MenuStructure } from '../../interfaces/interfaces'
 import { Text } from '@/components/Text'
 import { Button } from '@/components/Button'
@@ -17,6 +17,7 @@ import Popup from '@/components/Popup'
 import { LogoutIcon, RotateIcon, SettingsIcon } from '../../utils/svgApplications'
 import clsx from 'clsx'
 import { OrgStructure, ProdStructure, RoleStructure } from '../svgApplication'
+import { isLightColor } from '../utils'
 
 const TopNav = ({
   navData,
@@ -53,11 +54,15 @@ const TopNav = ({
   const pathname = usePathname()
   const menuRef = useRef<HTMLDivElement>(null)
   const { borderColor, isDark } = useTheme()
+  const bgColor = isDark ? "bg-gray-800" : "bg-white"
   const [visibleItems, setVisibleItems] = useState<MenuItem[]>(navData || [])
   const [hiddenItems, setHiddenItems] = useState<MenuItem[]>([])
   const tp_ps = getCookie('tp_ps')
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
   const popoverButtonElement = useRef(null)
+  const brandTextColor = useMemo(() => {
+    return isLightColor(brandColor)
+  } , [brandColor])
 
   useEffect(() => {
     const checkOverflow = () => {
@@ -227,29 +232,29 @@ const TopNav = ({
   // Menu Items section
   const MenuItemsSection = useCallback(() => (
     <div
-      className='flex w-full justify-start gap-1 pl-4'
+      className='flex w-full justify-start items-center gap-1 pl-4'
       style={getGridStyle('menu items')}
       ref={menuRef}
     >
-      <div className='flex max-w-[62%] items-center gap-1'>
+      <div className='flex max-w-[62%] items-center gap-[0.5vw]'>
         {navData &&
           visibleItems.map((menu, index) => {
             if (menu.menuGroup) {
+              const selected = isSelectedMenuGroup(menu.menuGroup)
               return (
                 <div key={index}>
                   <DropdownMenu
                     renderSwitcher={(props: any) => (
-                      <Button
+                      <button
                         {...props}
-                        view={
-                          isSelectedMenuGroup(menu.menuGroup)
-                            ? 'action'
-                            : 'raised'
-                        }
-                        className='px-3 py-1'
+                        className={twMerge(
+                          'px-[1vw] py-[0.5vh] !text-nowrap rounded-[1vw] hover:bg-[var(--hover-color)] text-fsbase',
+                          selected ? `bg-[var(--brand-color)] text-["${brandTextColor}"]` : bgColor
+                         )}
+                        style={selected ? { color: brandTextColor } : undefined} 
                       >
                         {menu.menuGroupLabel}
-                      </Button>
+                      </button>
                     )}
                     key={index}
                     items={getNestedMenu(menu)}
@@ -262,15 +267,19 @@ const TopNav = ({
                 menu.screenDetails[0].name.replace(/ /g, '_') +
                 '_' +
                 menu.screenDetails[0].key.split(':').at(-1)
+              const selected = routingName == pathname  
               return (
-                <Button
-                  view={routingName == pathname ? 'action' : 'raised'}
-                  className='px-3 py-1'
+                <button
+                 className={twMerge(
+                          'px-[1vw] py-[0.5vh] !text-nowrap rounded-[1vw] hover:bg-[var(--hover-color)] text-fsbase',
+                          selected ? `bg-[var(--brand-color)]` : bgColor
+                         )}
+                  style={selected ? { color: brandTextColor } : undefined}
                   key={index}
                   onClick={() => router.push(routingName)}
                 >
                   {menu.menuGroupLabel}
-                </Button>
+                </button>
               )
             }
           })}
@@ -279,7 +288,7 @@ const TopNav = ({
         {hiddenItems.length > 0 && (
           <DropdownMenu
             renderSwitcher={(props: any) => (
-              <Button {...props} view='raised' className='mt-1 rotate-90'>
+              <Button {...props} view='action' className='px-2 rotate-90'>
                 <BsThreeDots />
               </Button>
             )}
@@ -490,7 +499,7 @@ const TopNav = ({
         suppressHydrationWarning
         className={clsx(
           `flex items-center justify-between p-2 ${
-            mode === 'detached' ? 'shadow-md' : ''
+            mode === 'detached' && navigationStyles == 'vertical' ? 'shadow-md' : ''
           }`
         )}
       >
@@ -522,7 +531,7 @@ const TopNav = ({
     <div
       suppressHydrationWarning
       className={clsx(
-        `grid items-center p-2 ${mode === 'detached' ? 'shadow-md' : ''}`
+        `grid items-center px-[1vw] py-[0.5vh] ${mode === 'detached' && navigationStyles == "vertical" ? 'shadow-md' : ''}`
       )}
       style={{
         gridTemplateColumns: 'repeat(12,  minmax(0, 1fr))',

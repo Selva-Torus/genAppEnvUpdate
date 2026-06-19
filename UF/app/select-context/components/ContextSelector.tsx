@@ -344,7 +344,6 @@ const ContextSelector = () => {
         logo={logo}
       />
 
-      <hr className={twMerge('w-full h-1', borderColor)} />
       <div className='px-5 py-2.5'>
         <div className='flex w-full items-center justify-end gap-1'>
           <div title={selectedAccessProfile.length ? selectedAccessProfile[0] : "Select Access Profile"} className='w-[8vw]'>
