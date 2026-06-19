@@ -50,9 +50,6 @@ interface FusionAuthConfig {
   fusionauthRefreshTokenExpiryTimeinMinutes: string
 }
 
-
-
-
 const tenant = process.env.TENANT;
 const ag = process.env.APPGROUPCODE;
 const app = process.env.APPCODE;
@@ -60,8 +57,6 @@ const appName = process.env.APPNAME;
 const version = process.env.VERSION;
 const defaultAuth =  process.env.DEFAULT_AUTHENTICATION;
 const schemaName = new URL(process.env.PG_URL).searchParams.get('schema')
-
-const torusAppApiBaseUrl = process.env.TOURS_APP_API_BASE_URL
 
 @Injectable()
 export class UfService implements OnModuleInit, OnModuleDestroy {
@@ -5095,6 +5090,14 @@ getConfig(): FusionAuthConfig {
           redirectToORPSelector,
         };
       } else {
+        const fusionAuthAccessTokenFromRequest = fusionAuthLoginResponse?.access_token;
+        if(!fusionAuthAccessTokenFromRequest) throw new UnauthorizedException('Invalid Credentials')
+        const fusionPayload = await this.jwt.decode(fusionAuthAccessTokenFromRequest);
+        if(!fusionPayload) throw new UnauthorizedException('Invalid Credentials')
+        const authentication_type = fusionPayload?.authenticationType;
+        if(!authentication_type || authentication_type != 'OPENID_CONNECT') throw new UnauthorizedException('Invalid Credentials')
+         
+          // if authentication_type is OPENID_CONNECT , then it's google and github
         const userInfoRes = await fetch(
           `${process.env.FUSIONAUTH_BASEURL}/oauth2/userinfo`,
           {
@@ -9146,39 +9149,6 @@ getConfig(): FusionAuthConfig {
       }
 }
 
-  async callTorusAPI<T = any>(
-    apiEndpoint: string,
-    options?: {
-      method?: Method;
-      data?: any;
-      token?: string;
-      params?: Record<string, any>;
-      headers?: Record<string, string>;
-    },
-  ): Promise<{ status: number; data: T }> {
-    const { method = 'GET', data, token, params, headers = {} } = options || {};
-
-    try {
-      const response = await axios({
-        url: `${torusAppApiBaseUrl}${apiEndpoint}`,
-        method,
-        data,
-        params,
-        headers: {
-          ...(token && { Authorization: `Bearer ${token}` }),
-          ...headers,
-        },
-        validateStatus: () => true,
-      });
-
-      return {
-        status: response.status,
-        data: response.data,
-      };
-    } catch (error: any) {
-      throw error;
-    }
-  }
 
   async postOrgData(incomingMasterData: any, incomingMatrixData: any, token: string) {
     try {
