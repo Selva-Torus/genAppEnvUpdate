@@ -2,8 +2,9 @@
 
 
 "use client"
-import React from 'react';
+import React, { useEffect } from 'react';
 import { getCookie } from './components/cookieMgment';
+import { usePathname } from 'next/navigation'
 export interface TotalContextProps {
   currentToken: any 
   setCurrentToken: React.Dispatch<React.SetStateAction<any>>
@@ -481,8 +482,8 @@ export const TotalContext = React.createContext<TotalContextProps | {}>({})
 
 const GlobalContext = ({children} : {children: React.ReactNode}) => {
     const [currentToken, setCurrentToken ] = React.useState<any>({})
-    const [matchedAccessProfileData, setMatchedAccessProfileData] =
-    React.useState<any>({})
+    const [matchedAccessProfileData, setMatchedAccessProfileData] = React.useState<any>({})
+    const pathname = usePathname()
       //////////
         const [tran_main_group1dc7f, settran_main_group1dc7f ] = React.useState<any>({}) 
     const [tran_main_group1dc7fProps, settran_main_group1dc7fProps ] = React.useState<any>({
@@ -740,7 +741,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       ]
       }) 
    const [outbound_or_inbound5e076,setoutbound_or_inbound5e076] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -748,7 +749,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [searchcc244,setsearchcc244] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -756,7 +757,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [refresh313d0,setrefresh313d0] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -764,7 +765,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [downloadcb505,setdownloadcb505] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -772,7 +773,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [product_code_view_allb0df6,setproduct_code_view_allb0df6] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -780,7 +781,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [channel_name_view_all33724,setchannel_name_view_all33724] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -788,7 +789,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [uuid_view_allc0a46,setuuid_view_allc0a46] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -796,7 +797,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [dr_account_view_all54da6,setdr_account_view_all54da6] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -804,7 +805,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [dr_amount_view_all88d6b,setdr_amount_view_all88d6b] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -812,7 +813,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [cr_account_view_alld4b39,setcr_account_view_alld4b39] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -820,7 +821,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [cr_amount_view_all19d14,setcr_amount_view_all19d14] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -828,7 +829,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [remittance_info_view_all82afd,setremittance_info_view_all82afd] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -836,7 +837,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [status_view_all47e6b,setstatus_view_all47e6b] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -844,7 +845,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [log_btnfe134,setlog_btnfe134] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -852,7 +853,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [product_code_failure_queue12297,setproduct_code_failure_queue12297] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -860,7 +861,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [channel_name_failure_queue42953,setchannel_name_failure_queue42953] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -868,7 +869,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [uuid_failure_queue03c86,setuuid_failure_queue03c86] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -876,7 +877,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [dr_account_failure_queuef9d2d,setdr_account_failure_queuef9d2d] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -884,7 +885,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [dr_amount_failure_queue95d4e,setdr_amount_failure_queue95d4e] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -892,7 +893,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [cr_account_failure_queuea7246,setcr_account_failure_queuea7246] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -900,7 +901,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [cr_amount_failure_queue57c4d,setcr_amount_failure_queue57c4d] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -908,7 +909,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [remittance_info_failure_queue09d7a,setremittance_info_failure_queue09d7a] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -916,7 +917,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [status_failure_queue0aef8,setstatus_failure_queue0aef8] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -924,7 +925,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [product_code_success_queue7c209,setproduct_code_success_queue7c209] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -932,7 +933,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [channel_name_success_queueeddaf,setchannel_name_success_queueeddaf] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -940,7 +941,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [uuid_success_queuec805b,setuuid_success_queuec805b] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -948,7 +949,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [dr_account_operational_pending10a49,setdr_account_operational_pending10a49] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -956,7 +957,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [dr_amount_success_queueda254,setdr_amount_success_queueda254] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -964,7 +965,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [cr_account_success_queue60480,setcr_account_success_queue60480] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -972,7 +973,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [cr_amount_success_queueb80d4,setcr_amount_success_queueb80d4] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -980,7 +981,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [remittance_info_success_queue2f950,setremittance_info_success_queue2f950] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -988,7 +989,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [status_success_queue019a2,setstatus_success_queue019a2] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -996,7 +997,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [product_code_return_queuee5e11,setproduct_code_return_queuee5e11] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1004,7 +1005,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [channel_name_return_queuebdabb,setchannel_name_return_queuebdabb] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1012,7 +1013,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [uuid_return_queue958c9,setuuid_return_queue958c9] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1020,7 +1021,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [dr_account_return_queuee94b2,setdr_account_return_queuee94b2] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1028,7 +1029,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [dr_amount_return_queue2f324,setdr_amount_return_queue2f324] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1036,7 +1037,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [cr_account_return_queue21a57,setcr_account_return_queue21a57] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1044,7 +1045,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [cr_amount_return_queue13fec,setcr_amount_return_queue13fec] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1052,7 +1053,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [remittance_info_return_queuef37f7,setremittance_info_return_queuef37f7] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1060,7 +1061,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [status_return_queue95903,setstatus_return_queue95903] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1068,7 +1069,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [divider_top0354b,setdivider_top0354b] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1076,7 +1077,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [trs_created_date2cea8,settrs_created_date2cea8] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1084,7 +1085,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [debtor_account_no963e4,setdebtor_account_no963e4] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1092,7 +1093,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [debtor_namee2d9f,setdebtor_namee2d9f] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1100,7 +1101,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [creditor_account_noca692,setcreditor_account_noca692] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1108,7 +1109,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [payment_currency703d2,setpayment_currency703d2] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1116,7 +1117,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [payment_amount042b1,setpayment_amount042b1] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1124,7 +1125,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [uuid29c9f,setuuid29c9f] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1132,7 +1133,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [channel26e83,setchannel26e83] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1140,7 +1141,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [processstatus134a1,setprocessstatus134a1] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1148,7 +1149,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [status4bd75,setstatus4bd75] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1156,7 +1157,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [divider_bottom72ab5,setdivider_bottom72ab5] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1164,7 +1165,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [search0e695,setsearch0e695] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1172,7 +1173,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [cleareddfa,setcleareddfa] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1180,7 +1181,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [tran_journey1602a,settran_journey1602a] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1188,7 +1189,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [divider_tope6917,setdivider_tope6917] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1196,7 +1197,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [transaction_date_time_label669d7,settransaction_date_time_label669d7] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1204,7 +1205,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [status_labelf3713,setstatus_labelf3713] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1212,7 +1213,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [transaction_date_time14856,settransaction_date_time14856] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1220,7 +1221,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [status88bc7,setstatus88bc7] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1228,7 +1229,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [processed_by_label542e8,setprocessed_by_label542e8] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1236,7 +1237,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [debit_account_label3b1b7,setdebit_account_label3b1b7] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1244,7 +1245,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [processed_byd2b69,setprocessed_byd2b69] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1252,7 +1253,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [debit_account36b40,setdebit_account36b40] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1260,7 +1261,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [currency_labele21ba,setcurrency_labele21ba] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1268,7 +1269,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [credit_account_label65c7b,setcredit_account_label65c7b] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1276,7 +1277,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [currency9c8a2,setcurrency9c8a2] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1284,7 +1285,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [credit_account0d1f4,setcredit_account0d1f4] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1292,7 +1293,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [amount_labelfd725,setamount_labelfd725] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1300,7 +1301,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [transaction_reference_labelb1ca9,settransaction_reference_labelb1ca9] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1308,7 +1309,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [amount01416,setamount01416] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1316,7 +1317,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [transaction_reference500d6,settransaction_reference500d6] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1324,7 +1325,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [divider_bottom8bad5,setdivider_bottom8bad5] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1332,7 +1333,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [view_msg_data_btne6a88,setview_msg_data_btne6a88] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1340,7 +1341,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [view_tran_log_btn9cd8c,setview_tran_log_btn9cd8c] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1348,7 +1349,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [divider_topf46a0,setdivider_topf46a0] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1356,7 +1357,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [xmlviewer9fe8d,setxmlviewer9fe8d] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1364,7 +1365,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [divider_bottom6920d,setdivider_bottom6920d] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1372,7 +1373,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [cancel_btn5e840,setcancel_btn5e840] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1380,7 +1381,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [req_jsonviewerc80ab,setreq_jsonviewerc80ab] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1388,7 +1389,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: false
     }) 
    const [res_jsonviewer9d6d1,setres_jsonviewer9d6d1] = React.useState<any>({
-    isDisabled: false,
+    isDisabled: null,
     presetValues: '',
     isHidden: false,
     refetch:false,
@@ -1536,7 +1537,753 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     const [userDetails , setUserDetails] = React.useState<any>({})
     const [encAppFalg , setEncAppFalg] = React.useState<any>({})
     const theme = getCookie('cfg_theme')
-    
+
+
+  const emptifyStateValues=()=>{ // for refresh disable key values exapmle app RTGS
+    setoutbound_or_inbound5e076(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setsearchcc244(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setrefresh313d0(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdownloadcb505(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setproduct_code_view_allb0df6(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setchannel_name_view_all33724(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setuuid_view_allc0a46(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdr_account_view_all54da6(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdr_amount_view_all88d6b(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcr_account_view_alld4b39(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcr_amount_view_all19d14(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setremittance_info_view_all82afd(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setstatus_view_all47e6b(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setlog_btnfe134(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setproduct_code_failure_queue12297(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setchannel_name_failure_queue42953(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setuuid_failure_queue03c86(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdr_account_failure_queuef9d2d(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdr_amount_failure_queue95d4e(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcr_account_failure_queuea7246(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcr_amount_failure_queue57c4d(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setremittance_info_failure_queue09d7a(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setstatus_failure_queue0aef8(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setproduct_code_success_queue7c209(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setchannel_name_success_queueeddaf(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setuuid_success_queuec805b(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdr_account_operational_pending10a49(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdr_amount_success_queueda254(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcr_account_success_queue60480(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcr_amount_success_queueb80d4(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setremittance_info_success_queue2f950(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setstatus_success_queue019a2(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setproduct_code_return_queuee5e11(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setchannel_name_return_queuebdabb(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setuuid_return_queue958c9(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdr_account_return_queuee94b2(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdr_amount_return_queue2f324(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcr_account_return_queue21a57(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcr_amount_return_queue13fec(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setremittance_info_return_queuef37f7(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setstatus_return_queue95903(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdivider_top0354b(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    settrs_created_date2cea8(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdebtor_account_no963e4(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdebtor_namee2d9f(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcreditor_account_noca692(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setpayment_currency703d2(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setpayment_amount042b1(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setuuid29c9f(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setchannel26e83(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setprocessstatus134a1(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setstatus4bd75(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdivider_bottom72ab5(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setsearch0e695(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcleareddfa(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    settran_journey1602a(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdivider_tope6917(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    settransaction_date_time_label669d7(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setstatus_labelf3713(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    settransaction_date_time14856(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setstatus88bc7(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setprocessed_by_label542e8(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdebit_account_label3b1b7(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setprocessed_byd2b69(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdebit_account36b40(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcurrency_labele21ba(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcredit_account_label65c7b(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcurrency9c8a2(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcredit_account0d1f4(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setamount_labelfd725(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    settransaction_reference_labelb1ca9(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setamount01416(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    settransaction_reference500d6(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdivider_bottom8bad5(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setview_msg_data_btne6a88(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setview_tran_log_btn9cd8c(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdivider_topf46a0(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setxmlviewer9fe8d(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdivider_bottom6920d(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcancel_btn5e840(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setreq_jsonviewerc80ab(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setres_jsonviewer9d6d1(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+  }
+  useEffect(() => {
+    if (pathname?.includes('select-context')) {
+      emptifyStateValues()
+    }
+  }, [pathname])
     
   return (
     <TotalContext.Provider 

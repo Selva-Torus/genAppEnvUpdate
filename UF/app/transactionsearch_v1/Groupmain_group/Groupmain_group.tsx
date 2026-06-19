@@ -3,7 +3,7 @@ import React,{ useEffect, useState,useContext, useRef } from 'react';
 import { getGroupOrchestrationData, getControlOrchestrationData, fetchBatchData } from '@/app/utils/Orchestration';
 import { AxiosService } from '@/app/components/axiosService';
 import { api_paginationDto, uf_authorizationCheckDto } from '@/app/interfaces/interfaces';
-import { codeExecution } from '@/app/utils/codeExecution';
+import { codeExecution, validatedCondition } from '@/app/utils/codeExecution';
 import { useRouter } from 'next/navigation';
 import { getFilterProps,getRouteScreenDetails } from '@/app/utils/assemblerKeys';
 import { useHandleGroupArrayCopyFormData } from '@/app/utils/commonfunctions'; 
@@ -194,7 +194,8 @@ const Groupmain_group = ({lockedData={},setLockedData,primaryTableData={},tableD
   async function securityCheck() {
   const { groupData: currentGroupData } = await checkOrchestrationData();
   let orchestrationData:any = getGroupOrchestrationData(currentGroupData, "526f0e58d5454270aca67c481a99066f");
-    code = orchestrationData?.data?.code;
+  code = orchestrationData?.data?.code;
+  setAllCode(code)
   const security:any[] = orchestrationData?.data?.security;
   const allowedGroups:any[] = orchestrationData?.data?.allowedGroups;
   if(orchestrationData?.data?.error === true){
@@ -216,46 +217,144 @@ const Groupmain_group = ({lockedData={},setLockedData,primaryTableData={},tableD
     
   /////////////
     if(orchestrationData?.data?.readableControls.includes("divider_top")){
-      setdivider_top0354b({...divider_top0354b,isDisabled:true});
+        setdivider_top0354b({...divider_top0354b,isDisabled:true});
+
+    }else
+    {
+      if(divider_top0354b?.isDisabled==null)
+      {
+        setdivider_top0354b({...divider_top0354b,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("trs_created_date")){
-      settrs_created_date2cea8({...trs_created_date2cea8,isDisabled:true});
+        settrs_created_date2cea8({...trs_created_date2cea8,isDisabled:true});
+
+    }else
+    {
+      if(trs_created_date2cea8?.isDisabled==null)
+      {
+        settrs_created_date2cea8({...trs_created_date2cea8,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("debtor_account_no")){
-      setdebtor_account_no963e4({...debtor_account_no963e4,isDisabled:true});
+        setdebtor_account_no963e4({...debtor_account_no963e4,isDisabled:true});
+
+    }else
+    {
+      if(debtor_account_no963e4?.isDisabled==null)
+      {
+        setdebtor_account_no963e4({...debtor_account_no963e4,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("debtor_name")){
-      setdebtor_namee2d9f({...debtor_namee2d9f,isDisabled:true});
+        setdebtor_namee2d9f({...debtor_namee2d9f,isDisabled:true});
+
+    }else
+    {
+      if(debtor_namee2d9f?.isDisabled==null)
+      {
+        setdebtor_namee2d9f({...debtor_namee2d9f,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("creditor_account_no")){
-      setcreditor_account_noca692({...creditor_account_noca692,isDisabled:true});
+        setcreditor_account_noca692({...creditor_account_noca692,isDisabled:true});
+
+    }else
+    {
+      if(creditor_account_noca692?.isDisabled==null)
+      {
+        setcreditor_account_noca692({...creditor_account_noca692,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("payment_currency")){
-      setpayment_currency703d2({...payment_currency703d2,isDisabled:true});
+        setpayment_currency703d2({...payment_currency703d2,isDisabled:true});
+
+    }else
+    {
+      if(payment_currency703d2?.isDisabled==null)
+      {
+        setpayment_currency703d2({...payment_currency703d2,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("payment_amount")){
-      setpayment_amount042b1({...payment_amount042b1,isDisabled:true});
+        setpayment_amount042b1({...payment_amount042b1,isDisabled:true});
+
+    }else
+    {
+      if(payment_amount042b1?.isDisabled==null)
+      {
+        setpayment_amount042b1({...payment_amount042b1,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("uuid")){
-      setuuid29c9f({...uuid29c9f,isDisabled:true});
+        setuuid29c9f({...uuid29c9f,isDisabled:true});
+
+    }else
+    {
+      if(uuid29c9f?.isDisabled==null)
+      {
+        setuuid29c9f({...uuid29c9f,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("channel")){
-      setchannel26e83({...channel26e83,isDisabled:true});
+        setchannel26e83({...channel26e83,isDisabled:true});
+
+    }else
+    {
+      if(channel26e83?.isDisabled==null)
+      {
+        setchannel26e83({...channel26e83,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("processstatus")){
-      setprocessstatus134a1({...processstatus134a1,isDisabled:true});
+        setprocessstatus134a1({...processstatus134a1,isDisabled:true});
+
+    }else
+    {
+      if(processstatus134a1?.isDisabled==null)
+      {
+        setprocessstatus134a1({...processstatus134a1,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("status")){
-      setstatus4bd75({...status4bd75,isDisabled:true});
+        setstatus4bd75({...status4bd75,isDisabled:true});
+
+    }else
+    {
+      if(status4bd75?.isDisabled==null)
+      {
+        setstatus4bd75({...status4bd75,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("divider_bottom")){
-      setdivider_bottom72ab5({...divider_bottom72ab5,isDisabled:true});
+        setdivider_bottom72ab5({...divider_bottom72ab5,isDisabled:true});
+
+    }else
+    {
+      if(divider_bottom72ab5?.isDisabled==null)
+      {
+        setdivider_bottom72ab5({...divider_bottom72ab5,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("search")){
-      setsearch0e695({...search0e695,isDisabled:true});
+        setsearch0e695({...search0e695,isDisabled:true});
+
+    }else
+    {
+      if(search0e695?.isDisabled==null)
+      {
+        setsearch0e695({...search0e695,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("clear")){
-      setcleareddfa({...cleareddfa,isDisabled:true});
+        setcleareddfa({...cleareddfa,isDisabled:true});
+
+    }else
+    {
+      if(cleareddfa?.isDisabled==null)
+      {
+        setcleareddfa({...cleareddfa,isDisabled:false});
+      }
     }
   //////////////
     if (code != '') {
@@ -305,8 +404,52 @@ const Groupmain_group = ({lockedData={},setLockedData,primaryTableData={},tableD
   }
 
   const handleOnClick= async (selectedItem:any, selectedIndex?: number)=>{
+    handleCustomCode()
 
   }
+  const handleCustomCode=async () => {
+    let customCode:any=""
+    if (allCode != '') {
+      let codeStates: any = {};
+        codeStates['main_group'] = main_group9066f,
+        codeStates['setmain_group'] = setmain_group9066f,
+        codeStates['main_group9066f'] = main_group9066fProps,
+        codeStates['setmain_group9066f'] = setmain_group9066fProps,
+        codeStates['divider_top'] = divider_top0354b,
+        codeStates['setdivider_top'] = setdivider_top0354b,
+        codeStates['trs_created_date'] = trs_created_date2cea8,
+        codeStates['settrs_created_date'] = settrs_created_date2cea8,
+        codeStates['debtor_account_no'] = debtor_account_no963e4,
+        codeStates['setdebtor_account_no'] = setdebtor_account_no963e4,
+        codeStates['debtor_name'] = debtor_namee2d9f,
+        codeStates['setdebtor_name'] = setdebtor_namee2d9f,
+        codeStates['creditor_account_no'] = creditor_account_noca692,
+        codeStates['setcreditor_account_no'] = setcreditor_account_noca692,
+        codeStates['payment_currency'] = payment_currency703d2,
+        codeStates['setpayment_currency'] = setpayment_currency703d2,
+        codeStates['payment_amount'] = payment_amount042b1,
+        codeStates['setpayment_amount'] = setpayment_amount042b1,
+        codeStates['uuid'] = uuid29c9f,
+        codeStates['setuuid'] = setuuid29c9f,
+        codeStates['channel'] = channel26e83,
+        codeStates['setchannel'] = setchannel26e83,
+        codeStates['processstatus'] = processstatus134a1,
+        codeStates['setprocessstatus'] = setprocessstatus134a1,
+        codeStates['status'] = status4bd75,
+        codeStates['setstatus'] = setstatus4bd75,
+        codeStates['divider_bottom'] = divider_bottom72ab5,
+        codeStates['setdivider_bottom'] = setdivider_bottom72ab5,
+        codeStates['search'] = search0e695,
+        codeStates['setsearch'] = setsearch0e695,
+        codeStates['clear'] = cleareddfa,
+        codeStates['setclear'] = setcleareddfa,
+      customCode = codeExecution(allCode,codeStates);
+      return customCode;
+    }
+
+  }
+
+
   const main_group9066fRef = useRef<any>(null);
   const handleClearSearch = () => {
     main_group9066fRef.current?.setSearchParams();
@@ -355,6 +498,7 @@ const Groupmain_group = ({lockedData={},setLockedData,primaryTableData={},tableD
         backgroundBlendMode: ''
       }}
       className={`flex flex-col overflow-auto rounded-md  ${isDark ? 'text-white' : 'text-black'}`}
+       onClick={()=>handleOnClick({}, 0)}
     >
         {allowedControls.includes("divider_top") ?<Dividerdivider_top   /* 0354b */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("trs_created_date") ?<DatePickertrs_created_date   /* 2cea8 */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}

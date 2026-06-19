@@ -14,13 +14,13 @@ export class  vgph_temp_stagingEntity implements vgph_temp_staging{
     prcts_uuid:string;
     @ApiProperty({example:"any"})
     data_json:any;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiProperty({example:"datetime"})
     trs_created_date:Date;
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_created_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_modified_date:Date;
@@ -60,7 +60,7 @@ export class  vgph_temp_stagingEntity implements vgph_temp_staging{
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_locked_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_locked_time:Date;
@@ -92,13 +92,13 @@ export class  vgph_temp_staging_OnlyParentEntity {
     prcts_uuid:string;
     @ApiProperty({example:"any"})
     data_json:any;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiProperty({example:"datetime"})
     trs_created_date:Date;
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_created_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_modified_date:Date;
@@ -138,7 +138,7 @@ export class  vgph_temp_staging_OnlyParentEntity {
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_locked_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_locked_time:Date;

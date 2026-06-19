@@ -81,7 +81,7 @@ export class vgph_correspondent_nostroController {
   async findOne(@Headers() authHeader: string,@Param('vgphcn_id') vgphcn_id:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_correspondent_nostroService.findOne(+vgphcn_id,token);
+    const result = await this.vgph_correspondent_nostroService.findOne(+vgphcn_id,token);
     return plainToInstance(vgph_correspondent_nostroEntity, result);
   }
  
@@ -118,7 +118,7 @@ export class vgph_correspondent_nostroController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.vgph_correspondent_nostroService.findAll(token,);
+    const result = await this.vgph_correspondent_nostroService.findAll(token,);
     return plainToInstance(vgph_correspondent_nostroEntity, result);
   } 
 
@@ -161,6 +161,7 @@ export class vgph_correspondent_nostroController {
   }
  
   @Patch(':vgphcn_id')
+  @UsePipes(new PrismaModelValidationPipe('vgph_correspondent_nostro', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'vgphcn_id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -193,7 +194,7 @@ export class vgph_correspondent_nostroController {
       return result;
     }
 
-    const result = this.vgph_correspondent_nostroService.update(+vgphcn_id,updatevgph_correspondent_nostroDto,token);
+    const result = await this.vgph_correspondent_nostroService.update(+vgphcn_id,updatevgph_correspondent_nostroDto,token);
     return plainToInstance(vgph_correspondent_nostroEntity, result);
   }
  
@@ -228,7 +229,7 @@ export class vgph_correspondent_nostroController {
       return result;
     }
 
-    const result =  this.vgph_correspondent_nostroService.remove(+vgphcn_id,token);
+    const result = await this.vgph_correspondent_nostroService.remove(+vgphcn_id,token);
     return plainToInstance(vgph_correspondent_nostroEntity, result);
   }  
  
@@ -244,7 +245,7 @@ export class vgph_correspondent_nostroController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_correspondent_nostroService.findFirst(token);
+    const result = await this.vgph_correspondent_nostroService.findFirst(token);
     return plainToInstance(vgph_correspondent_nostroEntity, result);
   }
 
@@ -260,7 +261,7 @@ export class vgph_correspondent_nostroController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_correspondent_nostroService.findLast(token);
+    const result = await this.vgph_correspondent_nostroService.findLast(token);
     return plainToInstance(vgph_correspondent_nostroEntity, result);
   }
 }

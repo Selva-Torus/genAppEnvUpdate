@@ -370,7 +370,7 @@ const Buttonview_msg_data_btn = ({ lockedData, setLockedData, tableData, setTabl
         open={showProfileAsModalOpen4 && !hiddenModalForTrigger} 
         onClose={() => { setShowProfileAsModalOpen4(false); setHiddenModalForTrigger(false); }}
         title="Message Data"
-        showOverlay = {true}
+        showOverlay = {false}
         position = {"left"}
         modalName = "messagedataview"
         className='w-[60%] h-[] bg-gray-50 overflow-auto'

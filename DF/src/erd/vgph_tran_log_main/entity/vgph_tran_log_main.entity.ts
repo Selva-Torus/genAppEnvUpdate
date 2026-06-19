@@ -38,10 +38,10 @@ export class  vgph_tran_log_mainEntity implements vgph_tran_log_main{
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     step_code:string;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiProperty({example:"date"})
     task_start_time:Date;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiProperty({example:"date"})
     task_end_time:Date;
     @ApiPropertyOptional({example:"any"})
@@ -56,10 +56,10 @@ export class  vgph_tran_log_mainEntity implements vgph_tran_log_main{
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     message_data:string;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiProperty({example:"date"})
     process_start_time:Date;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiProperty({example:"date"})
     process_end_time:Date;
     @ApiPropertyOptional({example:"string"})
@@ -110,13 +110,13 @@ export class  vgph_tran_log_mainEntity implements vgph_tran_log_main{
     @ApiPropertyOptional({example:"bigint"})
     @IsOptional()
     vgphstm_id:bigint;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiProperty({example:"datetime"})
     trs_created_date:Date;
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_created_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_modified_date:Date;
@@ -156,7 +156,7 @@ export class  vgph_tran_log_mainEntity implements vgph_tran_log_main{
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_locked_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_locked_time:Date;
@@ -229,10 +229,10 @@ export class  vgph_tran_log_main_OnlyParentEntity {
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     step_code:string;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiProperty({example:"date"})
     task_start_time:Date;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiProperty({example:"date"})
     task_end_time:Date;
     @ApiPropertyOptional({example:"any"})
@@ -247,10 +247,10 @@ export class  vgph_tran_log_main_OnlyParentEntity {
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     message_data:string;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiProperty({example:"date"})
     process_start_time:Date;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiProperty({example:"date"})
     process_end_time:Date;
     @ApiPropertyOptional({example:"string"})
@@ -301,13 +301,13 @@ export class  vgph_tran_log_main_OnlyParentEntity {
     @ApiPropertyOptional({example:"bigint"})
     @IsOptional()
     vgphstm_id:bigint;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiProperty({example:"datetime"})
     trs_created_date:Date;
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_created_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_modified_date:Date;
@@ -347,7 +347,7 @@ export class  vgph_tran_log_main_OnlyParentEntity {
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_locked_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_locked_time:Date;

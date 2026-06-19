@@ -294,9 +294,9 @@ const Switchoutbound_or_inbound = ({checkToAdd,setCheckToAdd,encryptionFlagCompD
   return (
     <div 
       className=""
-      style={{gridColumn: `15 / 21`,gridRow: `3 / 12`, gap:``, height: `100%`, overflow: 'auto'}} >
+      style={{gridColumn: `18 / 21`,gridRow: `3 / 12`, gap:``, height: `100%`, overflow: 'auto'}} >
       <Switch
-        className="!bg-white !rounded-md !p-1.5"
+        className="!bg-white !rounded-md !p-1.5 !text-[8.5px]"
         disabled= {outbound_or_inbound5e076?.isDisabled ? true : false}
         content="OUTBOUND"
         checkedContent="INBOUND"                                                                                                                                             

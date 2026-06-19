@@ -81,7 +81,7 @@ export class wps_mohre_salary_dtlController {
   async findOne(@Headers() authHeader: string,@Param('wpsmsd_id') wpsmsd_id:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.wps_mohre_salary_dtlService.findOne(+wpsmsd_id,token);
+    const result = await this.wps_mohre_salary_dtlService.findOne(+wpsmsd_id,token);
     return plainToInstance(wps_mohre_salary_dtlEntity, result);
   }
  
@@ -118,7 +118,7 @@ export class wps_mohre_salary_dtlController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.wps_mohre_salary_dtlService.findAll(token,);
+    const result = await this.wps_mohre_salary_dtlService.findAll(token,);
     return plainToInstance(wps_mohre_salary_dtlEntity, result);
   } 
 
@@ -161,6 +161,7 @@ export class wps_mohre_salary_dtlController {
   }
  
   @Patch(':wpsmsd_id')
+  @UsePipes(new PrismaModelValidationPipe('wps_mohre_salary_dtl', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'wpsmsd_id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -193,7 +194,7 @@ export class wps_mohre_salary_dtlController {
       return result;
     }
 
-    const result = this.wps_mohre_salary_dtlService.update(+wpsmsd_id,updatewps_mohre_salary_dtlDto,token);
+    const result = await this.wps_mohre_salary_dtlService.update(+wpsmsd_id,updatewps_mohre_salary_dtlDto,token);
     return plainToInstance(wps_mohre_salary_dtlEntity, result);
   }
  
@@ -228,7 +229,7 @@ export class wps_mohre_salary_dtlController {
       return result;
     }
 
-    const result =  this.wps_mohre_salary_dtlService.remove(+wpsmsd_id,token);
+    const result = await this.wps_mohre_salary_dtlService.remove(+wpsmsd_id,token);
     return plainToInstance(wps_mohre_salary_dtlEntity, result);
   }  
  
@@ -244,7 +245,7 @@ export class wps_mohre_salary_dtlController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.wps_mohre_salary_dtlService.findFirst(token);
+    const result = await this.wps_mohre_salary_dtlService.findFirst(token);
     return plainToInstance(wps_mohre_salary_dtlEntity, result);
   }
 
@@ -260,7 +261,7 @@ export class wps_mohre_salary_dtlController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.wps_mohre_salary_dtlService.findLast(token);
+    const result = await this.wps_mohre_salary_dtlService.findLast(token);
     return plainToInstance(wps_mohre_salary_dtlEntity, result);
   }
 }

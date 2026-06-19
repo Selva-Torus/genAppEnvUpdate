@@ -3,7 +3,7 @@ import React,{ useEffect, useState,useContext, useRef } from 'react';
 import { getGroupOrchestrationData, getControlOrchestrationData, fetchBatchData } from '@/app/utils/Orchestration';
 import { AxiosService } from '@/app/components/axiosService';
 import { api_paginationDto, uf_authorizationCheckDto } from '@/app/interfaces/interfaces';
-import { codeExecution } from '@/app/utils/codeExecution';
+import { codeExecution, validatedCondition } from '@/app/utils/codeExecution';
 import { useRouter } from 'next/navigation';
 import { getFilterProps,getRouteScreenDetails } from '@/app/utils/assemblerKeys';
 import { useHandleGroupArrayCopyFormData } from '@/app/utils/commonfunctions'; 
@@ -148,7 +148,8 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
   async function securityCheck() {
   const { groupData: currentGroupData } = await checkOrchestrationData();
   let orchestrationData:any = getGroupOrchestrationData(currentGroupData, "548f837ab1014476af45ffa25dd84f25");
-    code = orchestrationData?.data?.code;
+  code = orchestrationData?.data?.code;
+  setAllCode(code)
   const security:any[] = orchestrationData?.data?.security;
   const allowedGroups:any[] = orchestrationData?.data?.allowedGroups;
   if(orchestrationData?.data?.error === true){
@@ -170,19 +171,54 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
     
   /////////////
     if(orchestrationData?.data?.readableControls.includes("divider_top")){
-      setdivider_topf46a0({...divider_topf46a0,isDisabled:true});
+        setdivider_topf46a0({...divider_topf46a0,isDisabled:true});
+
+    }else
+    {
+      if(divider_topf46a0?.isDisabled==null)
+      {
+        setdivider_topf46a0({...divider_topf46a0,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("req_data_group")){
-      setreq_data_group8d4d7({...req_data_group8d4d7,isDisabled:true});
+        setreq_data_group8d4d7({...req_data_group8d4d7,isDisabled:true});
+
+    }else
+    {
+      if(req_data_group8d4d7?.isDisabled==null)
+      {
+        setreq_data_group8d4d7({...req_data_group8d4d7,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("res_data_group")){
-      setres_data_group9d75a({...res_data_group9d75a,isDisabled:true});
+        setres_data_group9d75a({...res_data_group9d75a,isDisabled:true});
+
+    }else
+    {
+      if(res_data_group9d75a?.isDisabled==null)
+      {
+        setres_data_group9d75a({...res_data_group9d75a,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("divider_bottom")){
-      setdivider_bottom6920d({...divider_bottom6920d,isDisabled:true});
+        setdivider_bottom6920d({...divider_bottom6920d,isDisabled:true});
+
+    }else
+    {
+      if(divider_bottom6920d?.isDisabled==null)
+      {
+        setdivider_bottom6920d({...divider_bottom6920d,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("cancel_btn")){
-      setcancel_btn5e840({...cancel_btn5e840,isDisabled:true});
+        setcancel_btn5e840({...cancel_btn5e840,isDisabled:true});
+
+    }else
+    {
+      if(cancel_btn5e840?.isDisabled==null)
+      {
+        setcancel_btn5e840({...cancel_btn5e840,isDisabled:false});
+      }
     }
   //////////////
     if (code != '') {
@@ -218,8 +254,38 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
   }
 
   const handleOnClick= async (selectedItem:any, selectedIndex?: number)=>{
+    handleCustomCode()
 
   }
+  const handleCustomCode=async () => {
+    let customCode:any=""
+    if (allCode != '') {
+      let codeStates: any = {};
+        codeStates['tran_data_group'] = tran_data_group84f25,
+        codeStates['settran_data_group'] = settran_data_group84f25,
+        codeStates['tran_data_group84f25'] = tran_data_group84f25Props,
+        codeStates['settran_data_group84f25'] = settran_data_group84f25Props,
+        codeStates['divider_top'] = divider_topf46a0,
+        codeStates['setdivider_top'] = setdivider_topf46a0,
+        codeStates['req_data_group'] = req_data_group8d4d7,
+        codeStates['setreq_data_group'] = setreq_data_group8d4d7,
+        codeStates['req_data_group8d4d7'] = req_data_group8d4d7Props,
+        codeStates['setreq_data_group8d4d7'] = setreq_data_group8d4d7Props,
+        codeStates['res_data_group'] = res_data_group9d75a,
+        codeStates['setres_data_group'] = setres_data_group9d75a,
+        codeStates['res_data_group9d75a'] = res_data_group9d75aProps,
+        codeStates['setres_data_group9d75a'] = setres_data_group9d75aProps,
+        codeStates['divider_bottom'] = divider_bottom6920d,
+        codeStates['setdivider_bottom'] = setdivider_bottom6920d,
+        codeStates['cancel_btn'] = cancel_btn5e840,
+        codeStates['setcancel_btn'] = setcancel_btn5e840,
+      customCode = codeExecution(allCode,codeStates);
+      return customCode;
+    }
+
+  }
+
+
   const tran_data_group84f25Ref = useRef<any>(null);
   const handleClearSearch = () => {
     tran_data_group84f25Ref.current?.setSearchParams();
@@ -268,6 +334,7 @@ const Grouptran_data_group = ({lockedData={},setLockedData,primaryTableData={},t
         backgroundBlendMode: ''
       }}
       className={`flex flex-col overflow-auto rounded-md  ${isDark ? 'text-white' : 'text-black'}`}
+       onClick={()=>handleOnClick({}, 0)}
     >
         {allowedComponent.includes("req_data_group")  &&<Groupreq_data_group  
           lockedData={lockedData} 

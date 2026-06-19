@@ -84,7 +84,7 @@ export class vgph_tran_dtl_stagingController {
   async findOne(@Headers() authHeader: string,@Param('vgphtds_id') vgphtds_id:number,@Param('trs_tenant_id') trs_tenant_id: string,@Param('trs_app_code') trs_app_code: string,@Param('trs_product_code') trs_product_code: string,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_tran_dtl_stagingService.findOne(+vgphtds_id,trs_tenant_id,trs_app_code,trs_product_code,token);
+    const result = await this.vgph_tran_dtl_stagingService.findOne(+vgphtds_id,trs_tenant_id,trs_app_code,trs_product_code,token);
     return plainToInstance(vgph_tran_dtl_stagingEntity, result);
   }
  
@@ -121,7 +121,7 @@ export class vgph_tran_dtl_stagingController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.vgph_tran_dtl_stagingService.findAll(token,);
+    const result = await this.vgph_tran_dtl_stagingService.findAll(token,);
     return plainToInstance(vgph_tran_dtl_stagingEntity, result);
   } 
 
@@ -164,6 +164,7 @@ export class vgph_tran_dtl_stagingController {
   }
  
   @Patch(':vgphtds_id')
+  @UsePipes(new PrismaModelValidationPipe('vgph_tran_dtl_staging', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'vgphtds_id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -196,7 +197,7 @@ export class vgph_tran_dtl_stagingController {
       return result;
     }
 
-    const result = this.vgph_tran_dtl_stagingService.update(+vgphtds_id,updatevgph_tran_dtl_stagingDto,token);
+    const result = await this.vgph_tran_dtl_stagingService.update(+vgphtds_id,updatevgph_tran_dtl_stagingDto,token);
     return plainToInstance(vgph_tran_dtl_stagingEntity, result);
   }
  
@@ -231,7 +232,7 @@ export class vgph_tran_dtl_stagingController {
       return result;
     }
 
-    const result =  this.vgph_tran_dtl_stagingService.remove(+vgphtds_id,token);
+    const result = await this.vgph_tran_dtl_stagingService.remove(+vgphtds_id,token);
     return plainToInstance(vgph_tran_dtl_stagingEntity, result);
   }  
  
@@ -247,7 +248,7 @@ export class vgph_tran_dtl_stagingController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_tran_dtl_stagingService.findFirst(token);
+    const result = await this.vgph_tran_dtl_stagingService.findFirst(token);
     return plainToInstance(vgph_tran_dtl_stagingEntity, result);
   }
 
@@ -263,7 +264,7 @@ export class vgph_tran_dtl_stagingController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_tran_dtl_stagingService.findLast(token);
+    const result = await this.vgph_tran_dtl_stagingService.findLast(token);
     return plainToInstance(vgph_tran_dtl_stagingEntity, result);
   }
 }

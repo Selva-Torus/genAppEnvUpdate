@@ -81,7 +81,7 @@ export class vgph_charge_tranController {
   async findOne(@Headers() authHeader: string,@Param('vgphct_id') vgphct_id:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_charge_tranService.findOne(+vgphct_id,token);
+    const result = await this.vgph_charge_tranService.findOne(+vgphct_id,token);
     return plainToInstance(vgph_charge_tranEntity, result);
   }
  
@@ -120,7 +120,7 @@ export class vgph_charge_tranController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.vgph_charge_tranService.findAll(token,+vgphct_id);
+    const result = await this.vgph_charge_tranService.findAll(token,+vgphct_id);
     return plainToInstance(vgph_charge_tranEntity, result);
   } 
 
@@ -163,6 +163,7 @@ export class vgph_charge_tranController {
   }
  
   @Patch(':vgphct_id')
+  @UsePipes(new PrismaModelValidationPipe('vgph_charge_tran', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'vgphct_id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -195,7 +196,7 @@ export class vgph_charge_tranController {
       return result;
     }
 
-    const result = this.vgph_charge_tranService.update(+vgphct_id,updatevgph_charge_tranDto,token);
+    const result = await this.vgph_charge_tranService.update(+vgphct_id,updatevgph_charge_tranDto,token);
     return plainToInstance(vgph_charge_tranEntity, result);
   }
  
@@ -230,7 +231,7 @@ export class vgph_charge_tranController {
       return result;
     }
 
-    const result =  this.vgph_charge_tranService.remove(+vgphct_id,token);
+    const result = await this.vgph_charge_tranService.remove(+vgphct_id,token);
     return plainToInstance(vgph_charge_tranEntity, result);
   }  
  
@@ -246,7 +247,7 @@ export class vgph_charge_tranController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_charge_tranService.findFirst(token);
+    const result = await this.vgph_charge_tranService.findFirst(token);
     return plainToInstance(vgph_charge_tranEntity, result);
   }
 
@@ -262,7 +263,7 @@ export class vgph_charge_tranController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_charge_tranService.findLast(token);
+    const result = await this.vgph_charge_tranService.findLast(token);
     return plainToInstance(vgph_charge_tranEntity, result);
   }
 }

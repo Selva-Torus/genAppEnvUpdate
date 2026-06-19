@@ -81,7 +81,7 @@ export class vgph_corporate_relationship_exceptionController {
   async findOne(@Headers() authHeader: string,@Param('vgphcre_id') vgphcre_id:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_corporate_relationship_exceptionService.findOne(+vgphcre_id,token);
+    const result = await this.vgph_corporate_relationship_exceptionService.findOne(+vgphcre_id,token);
     return plainToInstance(vgph_corporate_relationship_exceptionEntity, result);
   }
  
@@ -120,7 +120,7 @@ export class vgph_corporate_relationship_exceptionController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.vgph_corporate_relationship_exceptionService.findAll(token,+vgphcre_id);
+    const result = await this.vgph_corporate_relationship_exceptionService.findAll(token,+vgphcre_id);
     return plainToInstance(vgph_corporate_relationship_exceptionEntity, result);
   } 
 
@@ -163,6 +163,7 @@ export class vgph_corporate_relationship_exceptionController {
   }
  
   @Patch(':vgphcre_id')
+  @UsePipes(new PrismaModelValidationPipe('vgph_corporate_relationship_exception', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'vgphcre_id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -195,7 +196,7 @@ export class vgph_corporate_relationship_exceptionController {
       return result;
     }
 
-    const result = this.vgph_corporate_relationship_exceptionService.update(+vgphcre_id,updatevgph_corporate_relationship_exceptionDto,token);
+    const result = await this.vgph_corporate_relationship_exceptionService.update(+vgphcre_id,updatevgph_corporate_relationship_exceptionDto,token);
     return plainToInstance(vgph_corporate_relationship_exceptionEntity, result);
   }
  
@@ -230,7 +231,7 @@ export class vgph_corporate_relationship_exceptionController {
       return result;
     }
 
-    const result =  this.vgph_corporate_relationship_exceptionService.remove(+vgphcre_id,token);
+    const result = await this.vgph_corporate_relationship_exceptionService.remove(+vgphcre_id,token);
     return plainToInstance(vgph_corporate_relationship_exceptionEntity, result);
   }  
  
@@ -246,7 +247,7 @@ export class vgph_corporate_relationship_exceptionController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_corporate_relationship_exceptionService.findFirst(token);
+    const result = await this.vgph_corporate_relationship_exceptionService.findFirst(token);
     return plainToInstance(vgph_corporate_relationship_exceptionEntity, result);
   }
 
@@ -262,7 +263,7 @@ export class vgph_corporate_relationship_exceptionController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_corporate_relationship_exceptionService.findLast(token);
+    const result = await this.vgph_corporate_relationship_exceptionService.findLast(token);
     return plainToInstance(vgph_corporate_relationship_exceptionEntity, result);
   }
 }

@@ -2355,7 +2355,8 @@ async structuredPrcLogs(streamName) {
         if (dbtype && dbtype == 'postgres') {
           const { Client } = pg;
           client = new Client({
-            connectionString: dbUrl,
+            connectionString: dbUrl,  
+           // options: `-c search_path=${schemaname}`,
             application_name: `${process.env.TENANT}_${process.env.APPGROUPCODE}_${process.env.APPCODE}_PFservice`
           });
         } else if (dbtype == 'mysql') {

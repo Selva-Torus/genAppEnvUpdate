@@ -45,11 +45,11 @@ export class  wps_mohre_salary_dtlEntity implements Omit<wps_mohre_salary_dtl,"f
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     employee_passport_number:string;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiPropertyOptional({example:"date"})
     @IsOptional()
     from_date:Date;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiPropertyOptional({example:"date"})
     @IsOptional()
     to_date:Date;
@@ -146,17 +146,17 @@ export class  wps_mohre_salary_dtlEntity implements Omit<wps_mohre_salary_dtl,"f
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     refund_tran_ref_no:string;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiPropertyOptional({example:"date"})
     @IsOptional()
     refund_tran_date:Date;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiProperty({example:"datetime"})
     trs_created_date:Date;
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_created_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_modified_date:Date;
@@ -196,7 +196,7 @@ export class  wps_mohre_salary_dtlEntity implements Omit<wps_mohre_salary_dtl,"f
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_locked_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_locked_time:Date;
@@ -259,11 +259,11 @@ export class  wps_mohre_salary_dtl_OnlyParentEntity {
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     employee_passport_number:string;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiPropertyOptional({example:"date"})
     @IsOptional()
     from_date:Date;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiPropertyOptional({example:"date"})
     @IsOptional()
     to_date:Date;
@@ -360,17 +360,17 @@ export class  wps_mohre_salary_dtl_OnlyParentEntity {
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     refund_tran_ref_no:string;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiPropertyOptional({example:"date"})
     @IsOptional()
     refund_tran_date:Date;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiProperty({example:"datetime"})
     trs_created_date:Date;
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_created_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_modified_date:Date;
@@ -410,7 +410,7 @@ export class  wps_mohre_salary_dtl_OnlyParentEntity {
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_locked_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_locked_time:Date;

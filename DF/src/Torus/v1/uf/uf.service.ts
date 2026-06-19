@@ -49,17 +49,13 @@ interface FusionAuthConfig {
   fusionauthRefreshTokenExpiryTimeinMinutes: string
 }
 
-
-
-
 const tenant = process.env.TENANT;
 const ag = process.env.APPGROUPCODE;
 const app = process.env.APPCODE;
 const appName = process.env.APPNAME;
 const version = process.env.VERSION;
 const defaultAuth =  process.env.DEFAULT_AUTHENTICATION;
-
-const torusAppApiBaseUrl = process.env.TOURS_APP_API_BASE_URL
+const schemaName = new URL(process.env.PG_URL).searchParams.get('schema')
 
 @Injectable()
 export class UfService implements OnModuleInit, OnModuleDestroy {
@@ -135,8 +131,6 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
   try {
     if (!tableName) throw new Error('Table name missing');
 
-    const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
-
     const columns = Object.keys(data).filter((col) => col !== primaryKey);
 
     const setClause = columns
@@ -180,8 +174,7 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
   ) {
     try {
       if (!tableName) throw new Error('Table or schema missing');
-      const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
- 
+      
       // Column names
       const columns = Object.keys(data);
       // Values placeholders $1, $2 ...
@@ -721,7 +714,8 @@ getConfig(): FusionAuthConfig {
         if(filterData && Object.keys(filterData).length > 0){
           filterobj = filterData?.find(n => n.nodeId === dbnodeid);
           if(!filterobj) filterobj = {}
-        }else if((filter && Object.keys(filter).length > 0) || (searchObj && Object.keys(searchObj).length > 0)){        
+        }
+        if((filter && Object.keys(filter).length > 0) || (searchObj && Object.keys(searchObj).length > 0)){        
           filterobj['nodeId'] = dbnodeid;
         }
         
@@ -758,17 +752,21 @@ getConfig(): FusionAuthConfig {
           let queryobj
           if (result?.result) {
            
-            let ruleRes = result.result
-            let query:any = Object.values(ruleRes)[0]
-            if(query?.includes('$$session.')){ 
-                Object.keys(sobj).forEach(key => {
-                const regex = new RegExp(`\\$\\$${key}`, 'g');
-                const value = sobj[key];               
-                query = query.replace(regex, value);               
-            });
-            }            
-            queryobj = {[`${process.env.CLIENTCODE}_condition`]:query}                      
-          }         
+            let ruleRes = result.result                    
+            let query:any = Object.values(ruleRes)[0] 
+           if(typeof query == 'string') {
+             if(query?.includes('$$session.')){ 
+                 Object.keys(sobj).forEach(key => {
+                 const regex = new RegExp(`\\$\\$${key}`, 'g');
+                 const value = sobj[key];               
+                 query = query.replace(regex, value);               
+             });
+             }            
+             queryobj = {[`${process.env.CLIENTCODE}_condition`]:query}                      
+           } else {
+            throw 'rule value does not exist'
+           }      
+          }          
           // let decisionTable = rule.nodes?.find(n => n.type === "decisionTableNode");
           // if (decisionTable) {
           //   let ruleInputs = decisionTable.content?.inputs
@@ -4073,7 +4071,7 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-   async getAccessToken(
+     async getAccessToken(
     token: string,
     selectedCombination: any,
     selectedAccessProfile: string,
@@ -4084,7 +4082,6 @@ getConfig(): FusionAuthConfig {
       const config = this.getConfig()
       const auth_secret = config.authSecret
       const accessTokenExpiryTime = config.authAccessTokenExpiryTime 
-      const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
 
        const accessProfileList = await this.query(`select 
         opr_ap_id ,
@@ -4098,7 +4095,7 @@ getConfig(): FusionAuthConfig {
         from 
         ${schemaName}.tam_opr_access_profile 
         where 
-        tenant_code=$1 and ag_code=$2 and app_code=$3`
+        tenant_code=$1 and ag_code=$2 and app_code=$3 and trs_tenant_id=$1`
           , [tenant , ag , app])
       const filteredAccessprofile = accessProfileList.find(
         (t: any) => t?.accessProfile === selectedAccessProfile,
@@ -4342,7 +4339,6 @@ getConfig(): FusionAuthConfig {
     try {
       const accountDetails = await this.MyAccountForClient(token, 's', true);
       const { accessProfile } = accountDetails;
-      const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
       const accessProfileList = await this.query(`select 
         opr_ap_id ,
         access_profile as "accessProfile" ,
@@ -4355,7 +4351,7 @@ getConfig(): FusionAuthConfig {
         from 
         ${schemaName}.tam_opr_access_profile 
         where 
-        tenant_code=$1 and ag_code=$2 and app_code=$3`
+        tenant_code=$1 and ag_code=$2 and app_code=$3 and trs_tenant_id=$1`
           , [tenant , ag , app])
       if (
         accessProfileList && 
@@ -4510,7 +4506,6 @@ getConfig(): FusionAuthConfig {
   async MyAccountForClient(token: string, key: string, authorization: any) {
     if (authorization) {
       try {
-        const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
         const payload: any = this.jwt.decode(token);
         if (!payload) {
           await this.commonService.errorLog(
@@ -4542,6 +4537,7 @@ getConfig(): FusionAuthConfig {
             ON au.org_tu_id = tu.org_tu_id
           WHERE au.tenant_code = $1
             AND au.ag_code     = $2
+            and au.trs_tenant_id=$1
             AND au.app_code    = $3 AND login_id=$4 or email=$4` , [tenant , ag , app ,payload.loginId])
       
           const reqiredUser = userList.find(
@@ -4815,7 +4811,6 @@ getConfig(): FusionAuthConfig {
       const auth_secret = config.authSecret
       const accessTokenExpiryTime = config.authAccessTokenExpiryTime 
       const refreshTokenExpiryTime = config.authRefreshTokenExpiryTime 
-      const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
 
       let query = `
         SELECT
@@ -4840,6 +4835,7 @@ getConfig(): FusionAuthConfig {
           AND au.ag_code     = $2
           AND au.app_code    = $3 
           AND (tu.login_id = $4 OR tu.email = $4)
+          AND au.trs_tenant_id = $1
       `;
 
         let values = [tenant, ag, app, username];
@@ -4899,7 +4895,7 @@ getConfig(): FusionAuthConfig {
           );
         }
 
-        await this.query(`update ${schemaName}.tam_app_user set last_active=$1 where org_au_id=$2`, [new Date().toISOString() , loggedInUser?.org_au_id])
+        await this.query(`update ${schemaName}.tam_app_user set last_active=$1 where org_au_id=$2 and trs_tenant_id=$3`, [new Date().toISOString() , loggedInUser?.org_au_id , tenant])
 
 
         delete loggedInUser.password;
@@ -4992,7 +4988,7 @@ getConfig(): FusionAuthConfig {
           from 
           ${schemaName}.tam_opr_access_profile 
           where 
-          tenant_code=$1 and ag_code=$2 and app_code=$3`
+          tenant_code=$1 and ag_code=$2 and app_code=$3 and trs_tenant_id=$1`
            , [tenant , ag , app])
         
 
@@ -5093,6 +5089,14 @@ getConfig(): FusionAuthConfig {
           redirectToORPSelector,
         };
       } else {
+        const fusionAuthAccessTokenFromRequest = fusionAuthLoginResponse?.access_token;
+        if(!fusionAuthAccessTokenFromRequest) throw new UnauthorizedException('Invalid Credentials')
+        const fusionPayload = await this.jwt.decode(fusionAuthAccessTokenFromRequest);
+        if(!fusionPayload) throw new UnauthorizedException('Invalid Credentials')
+        const authentication_type = fusionPayload?.authenticationType;
+        if(!authentication_type || authentication_type != 'OPENID_CONNECT') throw new UnauthorizedException('Invalid Credentials')
+         
+          // if authentication_type is OPENID_CONNECT , then it's google and github
         const userInfoRes = await fetch(
           `${process.env.FUSIONAUTH_BASEURL}/oauth2/userinfo`,
           {
@@ -5127,6 +5131,7 @@ getConfig(): FusionAuthConfig {
           trs_ps_code: '',
           trs_sub_org_grp_code: '',
           trs_sub_org_code: '',
+          trs_tenant_id : tenant
         };
 
         const tamTenantUserRes = await this.insertIntoTable(
@@ -5163,6 +5168,7 @@ getConfig(): FusionAuthConfig {
           trs_sub_org_grp_code: '',
           trs_sub_org_code: '',
           trs_app_code: '',
+          trs_tenant_id: tenant
         };
 
         const tamAppUserRes = await this.insertIntoTable(
@@ -5383,8 +5389,7 @@ getConfig(): FusionAuthConfig {
   // static screen's apis
   async getTenantUser() {
     try {
-      const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
-      const res = await this.query(`select * from ${schemaName}.tam_tenant_user tu where tenant_code=$1` , [tenant])
+      const res = await this.query(`select * from ${schemaName}.tam_tenant_user tu where tenant_code=$1 and trs_tenant_id=$1` , [tenant])
       return res || [];
     } catch (err: any) {
       throw new UnauthorizedException('Invalid tenant key');
@@ -5401,7 +5406,6 @@ getConfig(): FusionAuthConfig {
       if (!tenant || !ag || !app || !client) {
         return [];
       }
-      const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
       const tenantUserList = await this.query(`SELECT
             au.org_au_id,
             tu.user_unique_id AS "userUniqueId",
@@ -5422,7 +5426,7 @@ getConfig(): FusionAuthConfig {
             ON au.org_tu_id = tu.org_tu_id
           WHERE au.tenant_code = $1
             AND au.ag_code     = $2
-            AND au.app_code    = $3` , [tenant , ag , app])
+            AND au.app_code    = $3 and trs_tenant_id=$1` , [tenant , ag , app])
       return tenantUserList || [];
     } catch (error) {
       throw new UnauthorizedException('Please check credentials');
@@ -5453,7 +5457,6 @@ getConfig(): FusionAuthConfig {
 
   async getAppSecurityData() {
     try {
-      const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
       const actions = [
         {
           code : "orgMatrix",
@@ -5468,7 +5471,7 @@ getConfig(): FusionAuthConfig {
           FROM ${schemaName}.tam_opr_org_matrix
           WHERE tenant_code = $1
             AND ag_code = $2
-            AND app_code = $3`,
+            AND app_code = $3 and trs_tenant_id=$1`,
           params : [tenant , ag , app]  
         },
         {
@@ -5483,7 +5486,7 @@ getConfig(): FusionAuthConfig {
          FROM   ${schemaName}.tam_opr_org_master
          WHERE  tenant_code = $1
            AND  ag_code     = $2
-           AND  app_code    = $3`,
+           AND  app_code    = $3 and trs_tenant_id=$1`,
           params : [tenant , ag , app]  
         },
         {
@@ -5519,7 +5522,7 @@ getConfig(): FusionAuthConfig {
             and au.ag_code = $2
             and au.app_code = $3
           where
-            tu.tenant_code = $1`,
+            tu.tenant_code = $1 and trs_tenant_id=$1`,
           params : [tenant , ag , app]  
         }
       ]
@@ -5566,7 +5569,6 @@ getConfig(): FusionAuthConfig {
 
   async getAPPSecurityTemplateData() {
     try {
-      const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
       let securityTemplateData = await this.query(`select 
         opr_ap_id ,
         access_profile as "accessProfile" ,
@@ -5579,7 +5581,7 @@ getConfig(): FusionAuthConfig {
         from 
         ${schemaName}.tam_opr_access_profile 
         where 
-        tenant_code=$1 and ag_code=$2 and app_code=$3`
+        tenant_code=$1 and ag_code=$2 and app_code=$3 and trs_tenant_id=$1`
           , [tenant , ag , app]);
         securityTemplateData = securityTemplateData.map((data) => ({
           ...data,
@@ -5605,7 +5607,7 @@ getConfig(): FusionAuthConfig {
             ON au.org_tu_id = tu.org_tu_id
           WHERE au.tenant_code = $1
             AND au.ag_code     = $2
-            AND au.app_code    = $3` , [tenant , ag , app]);
+            AND au.app_code    = $3 and au.trs_tenant_id=$1` , [tenant , ag , app]);
 
           securityTemplateData = securityTemplateData.map((data) => {
             var noOfUsers = 0;
@@ -5646,7 +5648,6 @@ getConfig(): FusionAuthConfig {
           'Either AppGroup or Application not available',
         );
       }
-      const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
    
       const accessProfileArray = [];
       const accessProfileWithProductAndService = {};
@@ -5662,7 +5663,7 @@ getConfig(): FusionAuthConfig {
         from 
         ${schemaName}.tam_opr_access_profile 
         where 
-        tenant_code=$1 and ag_code=$2 and app_code=$3`
+        tenant_code=$1 and ag_code=$2 and app_code=$3 and trs_tenant_id=$1`
           , [tenant , ag , app]);
         accessProfileData.forEach((accessProfileObj) => {
           var noOfProdService = 0;
@@ -5703,7 +5704,6 @@ getConfig(): FusionAuthConfig {
       const fusionAuthBaseUrl = config.fusionAuthBaseUrl;
       const fusionAuthApiKey = config.fusionAuthApiKey;
       const auth_secret = config.authSecret
-      const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
       const fusionAuthTenantANDAppDetails = await this.getTenantAndApplicationFusionAuthIdSecret();
 
       if (
@@ -5718,7 +5718,7 @@ getConfig(): FusionAuthConfig {
       });
       
       const userResponseFromDB = await this.query(
-        `select * from ${schemaName}.tam_app_user au where org_tu_id=$1 and tenant_code=$2 and ag_code=$3 and app_code=$4`,
+        `select * from ${schemaName}.tam_app_user au where org_tu_id=$1 and tenant_code=$2 and ag_code=$3 and app_code=$4 and trs_tenant_id=$2`,
         [data?.org_tu_id , tenant , ag , app]
        )
 
@@ -5753,6 +5753,7 @@ getConfig(): FusionAuthConfig {
         trs_sub_org_grp_code: payload?.subOrgGrpCode || '',
         trs_sub_org_code: payload?.subOrgCode || '',
         trs_app_code: payload?.appCode || '',
+        trs_tenant_id: tenant 
       };
 
       let dataExistOrNot: any = {
@@ -5880,6 +5881,7 @@ getConfig(): FusionAuthConfig {
                   access_expires: data?.['accessExpires'] ?? '',
                   trs_modified_date: new Date().toISOString(),
                   trs_modified_by: payload?.loginId ?? 'anonymous',
+                  trs_tenant_id: tenant
                 },
                 'org_au_id'
               )
@@ -5950,7 +5952,7 @@ getConfig(): FusionAuthConfig {
             and au.ag_code = $2
             and au.app_code = $3
           where
-            tu.tenant_code = $1` , 
+            tu.tenant_code = $1 and trs_tenant_id=$1` , 
             [tenant , ag , app])
         if(val && Array.isArray(val)){
           return val
@@ -5972,6 +5974,7 @@ getConfig(): FusionAuthConfig {
       await this.throwCustomException(error);
     }
   }
+
 
   async setJson(key: string, data: any) {
     try {
@@ -6121,7 +6124,6 @@ getConfig(): FusionAuthConfig {
     try {
       if (!email) throw new BadRequestException('email is required');
       const otpCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:otp`;
-      const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
       let query = 
         `SELECT
             au.org_au_id,
@@ -6143,7 +6145,7 @@ getConfig(): FusionAuthConfig {
             ON au.org_tu_id = tu.org_tu_id
           WHERE au.tenant_code = $1
             AND au.ag_code     = $2
-            AND au.app_code    = $3`
+            AND au.app_code    = $3 and trs_tenant_id=$1`
         
             const values = [tenant , ag , app ]
 
@@ -6281,15 +6283,14 @@ getConfig(): FusionAuthConfig {
       throw new BadRequestException('Please provide valid email and password');
       }
       let ApplicationTenantDetails : any
-      const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
       const fusionAuthTenantANDAppDetails = await this.getTenantAndApplicationFusionAuthIdSecret();
 
       let query = `SELECT
             *
           FROM ${schemaName}.tam_tenant_user tu
-         where tu.email=$1`
+         where tu.email=$1 and trs_tenant_id=$2`
 
-         const values = [email]
+         const values = [email , tenant]
 
         if (tenantId) {
           query += ` AND tu.at_id = $2`;
@@ -8355,7 +8356,6 @@ getConfig(): FusionAuthConfig {
       const config = this.getConfig();
       const fusionAuthBaseUrl = config.fusionAuthBaseUrl;
       const fusionAuthApiKey = config.fusionAuthApiKey;
-      const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
 
       if (!user) {
         throw new BadRequestException('Account details not enough to continue');
@@ -8406,6 +8406,7 @@ getConfig(): FusionAuthConfig {
               trs_sub_org_grp_code: '',
               trs_sub_org_code: '',
               trs_app_code: '',
+              trs_tenant_id: tenant
             };
         await this.insertIntoTable('tam_app_user' , tam_app_user_data)
         const userList = await this.query(`select
@@ -8418,7 +8419,7 @@ getConfig(): FusionAuthConfig {
                           au.is_app_admin=$1
                           and au.tenant_code=$2
                           and au.ag_code=$3
-                          and au.app_code=$4` , [true , tenant , ag , app])
+                          and au.app_code=$4 and trs_tenant_id=$2` , [true , tenant , ag , app])
         await this.notifyUserAccessPending(user, userList);
         return await this.signIntoTorus(
           user?.email,
@@ -8451,7 +8452,6 @@ getConfig(): FusionAuthConfig {
   ) {
     try {
       if (tenant && data) {
-        const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
         let existingRoles: any[] =
          await this.getAPPSecurityTemplateData()
          data = data.map(t => {
@@ -8488,11 +8488,12 @@ getConfig(): FusionAuthConfig {
             trs_ps_grp_code: tokenDecode?.psGrpCode,
             trs_ps_code: tokenDecode?.psCode,
             trs_sub_org_grp_code: tokenDecode?.subOrgGrpCode ?? "",
-            trs_sub_org_code: tokenDecode?.subOrgCode ?? ""
+            trs_sub_org_code: tokenDecode?.subOrgCode ?? "",
+            trs_tenant_id: tenant
          }
 
          if (secDataObj?.opr_ap_id) {
-          const currentAccessTemplate = await this.query(`select * from ${schemaName}.tam_opr_access_profile where opr_ap_id=$1` , [secDataObj?.opr_ap_id])
+          const currentAccessTemplate = await this.query(`select * from ${schemaName}.tam_opr_access_profile where opr_ap_id=$1 and trs_tenant_id=$2` , [secDataObj?.opr_ap_id , tenant])
           
           if (currentAccessTemplate && Array.isArray(currentAccessTemplate) && currentAccessTemplate.length) {
             const prevData = currentAccessTemplate?.[0];
@@ -8508,6 +8509,7 @@ getConfig(): FusionAuthConfig {
                 {
                   ...security_data,
                   opr_ap_id : secDataObj?.opr_ap_id,
+                  trs_tenant_id: tenant
                 },
                 'opr_ap_id'
               )
@@ -8524,7 +8526,7 @@ getConfig(): FusionAuthConfig {
 
       // delete records from torus which are deleted from incoming data 
       for (const masterId of securityDataIdsToDelete) {
-        await this.query(`DELETE FROM ${schemaName}.tam_opr_access_profile WHERE opr_ap_id=$1` , [masterId])
+        await this.query(`DELETE FROM ${schemaName}.tam_opr_access_profile WHERE opr_ap_id=$1 and trs_tenant_id=$2` , [masterId , tenant])
       }
       //Torus API OPR Table entry End
       } else {
@@ -8773,7 +8775,8 @@ getConfig(): FusionAuthConfig {
         trs_ps_grp_code: "",
         trs_ps_code: "",
         trs_sub_org_grp_code: "",
-        trs_sub_org_code: ""
+        trs_sub_org_code: "",
+        trs_tenant_id: tenant
       }
 
       if (!isExists) {
@@ -8783,7 +8786,7 @@ getConfig(): FusionAuthConfig {
 
   async getAppList(token: string) {
     try {
-      const payload = await this.jwt.decode(token)
+      const payload = await this.jwt.decode(token);
       const {
         tenant: tenant,
         loginId,
@@ -8791,7 +8794,6 @@ getConfig(): FusionAuthConfig {
         app: currentApp,
       } = payload;
       const tenantProfileCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:${tenant}:AFK:PROFILE:AFVK:v1:tpc`;
-      const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
     
       const tenantProfileResponse = await this.redisService.getJsonData(
         tenantProfileCacheKey,
@@ -8800,7 +8802,7 @@ getConfig(): FusionAuthConfig {
       const tenantProfile = tenantProfileResponse
         ? JSON.parse(tenantProfileResponse)
         : {};
-      const foundUser = await this.query(`select * from ${schemaName}.tam_tenant_user tu where tu.tenant_code=$1 and tu.login_id=$2` , [tenant , loginId])
+      const foundUser = await this.query(`select * from ${schemaName}.tam_tenant_user tu where tu.tenant_code=$1 and tu.login_id=$2 and trs_tenant_id=$1` , [tenant , loginId])
    
       const appGroupInfo =
         tenantProfile?.AG?.find((group: any) => group?.code == ag) ?? {};
@@ -8820,7 +8822,7 @@ getConfig(): FusionAuthConfig {
                               au.tenant_code =$1
                               and au.ag_code =$2
                               and au.app_code =$3
-                              and au.org_tu_id =$4` , [tenant , ag , application?.code ,foundUser?.[0]?.org_tu_id ])
+                              and au.org_tu_id =$4 and trs_tenant_id=$1` , [tenant , ag , application?.code ,foundUser?.[0]?.org_tu_id ])
           
         } catch (error) {
           userList = []
@@ -8922,7 +8924,6 @@ getConfig(): FusionAuthConfig {
         process.env.CLIENTCODE
       )
       return loggedInValue; 
-
     } catch (error) {
       await this.commonService.errorLog(
         'Technical',
@@ -8976,7 +8977,8 @@ getConfig(): FusionAuthConfig {
         trs_ps_grp_code: tokenDecode?.psGrpCode,
         trs_ps_code: tokenDecode?.psCode,
         trs_sub_org_grp_code: tokenDecode?.subOrgGrpCode ?? "",
-        trs_sub_org_code: tokenDecode?.subOrgCode ?? ""
+        trs_sub_org_code: tokenDecode?.subOrgCode ?? "",
+        trs_tenant_id: tenant
       }
 
       if(existUser.find((u) => u.email == tam_tenant_user_payload.email)){
@@ -9147,45 +9149,10 @@ getConfig(): FusionAuthConfig {
       }
 }
 
-  async callTorusAPI<T = any>(
-    apiEndpoint: string,
-    options?: {
-      method?: Method;
-      data?: any;
-      token?: string;
-      params?: Record<string, any>;
-      headers?: Record<string, string>;
-    },
-  ): Promise<{ status: number; data: T }> {
-    const { method = 'GET', data, token, params, headers = {} } = options || {};
-
-    try {
-      const response = await axios({
-        url: `${torusAppApiBaseUrl}${apiEndpoint}`,
-        method,
-        data,
-        params,
-        headers: {
-          ...(token && { Authorization: `Bearer ${token}` }),
-          ...headers,
-        },
-        validateStatus: () => true,
-      });
-
-      return {
-        status: response.status,
-        data: response.data,
-      };
-    } catch (error: any) {
-      throw error;
-    }
-  }
-
   async postOrgData(incomingMasterData: any, incomingMatrixData: any, token: string) {
     try {
       const config = this.getConfig()
       const auth_secret = config.authSecret
-      const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
 
       if (!token) throw new BadRequestException('Token is required');
       const payload = await this.jwt.verifyAsync(token, {
@@ -9237,10 +9204,11 @@ getConfig(): FusionAuthConfig {
           trs_ps_code: payload?.psCode || '',
           trs_sub_org_grp_code: payload?.subOrgGrpCode || '',
           trs_sub_org_code: payload?.subOrgCode || '',
+          trs_tenant_id: tenant
         };
         // if opr_om_id exist then patch else post
         if (masterDataItem?.opr_om_id) {
-          const mstrData :any[] = await this.query(`select * from ${schemaName}.tam_opr_org_master where opr_om_id=$1` , [masterDataItem?.opr_om_id])
+          const mstrData :any[] = await this.query(`select * from ${schemaName}.tam_opr_org_master where opr_om_id=$1 and trs_tenant_id=$2` , [masterDataItem?.opr_om_id , tenant])
           if (mstrData && Array.isArray(mstrData) && mstrData.length) {
             if (
               mstrData?.[0].org_grp_name == tam_opr_org_master_data.org_grp_name &&
@@ -9254,7 +9222,8 @@ getConfig(): FusionAuthConfig {
                 {
                 ...tam_opr_org_master_data ,
                 opr_om_id : masterDataItem?.opr_om_id,
-                trs_created_by: mstrData?.[0].trs_created_by ?? ''
+                trs_created_by: mstrData?.[0].trs_created_by ?? '',
+                trs_tenant_id: tenant
                 } 
                 ,'opr_om_id' )
             }
@@ -9295,10 +9264,11 @@ getConfig(): FusionAuthConfig {
           trs_ps_code: payload?.psCode || '',
           trs_sub_org_grp_code: payload?.subOrgGrpCode || '',
           trs_sub_org_code: payload?.subOrgCode || '',
+          trs_tenant_id: tenant
         };
         // if opr_mx_id exist then patch else post
         if (matrixDataItem?.opr_mx_id) {
-          const mtrxData : any[] = await this.query(`select * from ${schemaName}.tam_opr_org_matrix where opr_mx_id=$1` , [matrixDataItem?.opr_mx_id])
+          const mtrxData : any[] = await this.query(`select * from ${schemaName}.tam_opr_org_matrix where opr_mx_id=$1 and trs_tenant_id=$2` , [matrixDataItem?.opr_mx_id, tenant])
          
           if (mtrxData && Array.isArray(mtrxData) && mtrxData.length) {
             if (
@@ -9313,7 +9283,8 @@ getConfig(): FusionAuthConfig {
                 {
                   ...tam_opr_org_matrix_data,
                   opr_mx_id : matrixDataItem?.opr_mx_id,
-                   trs_created_by: mtrxData?.[0].trs_created_by
+                  trs_created_by: mtrxData?.[0].trs_created_by,
+                  trs_tenant_id: tenant
                   } 
                 ,'opr_mx_id' )
             }
@@ -9329,11 +9300,11 @@ getConfig(): FusionAuthConfig {
 
       // delete records from torus which are deleted from incoming data 
       for (const masterId of masterDataIdsToDelete) {
-        await this.query(`DELETE FROM ${schemaName}.tam_opr_org_master WHERE opr_om_id=$1` , [masterId])
+        await this.query(`DELETE FROM ${schemaName}.tam_opr_org_master WHERE opr_om_id=$1 and trs_tenant_id=$2` , [masterId , tenant])
       }
 
       for (const matrixId of matrixDataIdsToDelete) {
-        await this.query(`DELETE FROM ${schemaName}.tam_opr_org_matrix WHERE opr_mx_id=$1` , [matrixId])
+        await this.query(`DELETE FROM ${schemaName}.tam_opr_org_matrix WHERE opr_mx_id=$1 and trs_tenant_id=$2` , [matrixId , tenant])
       }
       
       return { message: 'Organization data saved successfully' };
@@ -9357,7 +9328,6 @@ getConfig(): FusionAuthConfig {
   
   async getAppTenantsLinkedWithApp() {
     try {
-      const schemaName = `${tenant.toLocaleLowerCase()}_tam`;
       const result = await this.query(`select
               *
             from
@@ -9367,7 +9337,7 @@ getConfig(): FusionAuthConfig {
             where
               aat.tenant_code =$1
               and aat.ag_code =$2
-              and aat.app_code =$3
+              and aat.app_code =$3 and trs_tenant_id=$1
             ` , [tenant, ag, app]);
       if (result) {
         return JSON.parse(JSON.stringify(result ?? []));

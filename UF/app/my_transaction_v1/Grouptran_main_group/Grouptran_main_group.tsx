@@ -3,7 +3,7 @@ import React,{ useEffect, useState,useContext, useRef } from 'react';
 import { getGroupOrchestrationData, getControlOrchestrationData, fetchBatchData } from '@/app/utils/Orchestration';
 import { AxiosService } from '@/app/components/axiosService';
 import { api_paginationDto, uf_authorizationCheckDto } from '@/app/interfaces/interfaces';
-import { codeExecution } from '@/app/utils/codeExecution';
+import { codeExecution, validatedCondition } from '@/app/utils/codeExecution';
 import { useRouter } from 'next/navigation';
 import { getFilterProps,getRouteScreenDetails } from '@/app/utils/assemblerKeys';
 import { useHandleGroupArrayCopyFormData } from '@/app/utils/commonfunctions'; 
@@ -166,7 +166,8 @@ const Grouptran_main_group = ({lockedData={},setLockedData,primaryTableData={},t
   async function securityCheck() {
   const { groupData: currentGroupData } = await checkOrchestrationData();
   let orchestrationData:any = getGroupOrchestrationData(currentGroupData, "9e5a570a2667451fb476775abc71dc7f");
-    code = orchestrationData?.data?.code;
+  code = orchestrationData?.data?.code;
+  setAllCode(code)
   const security:any[] = orchestrationData?.data?.security;
   const allowedGroups:any[] = orchestrationData?.data?.allowedGroups;
   if(orchestrationData?.data?.error === true){
@@ -188,7 +189,14 @@ const Grouptran_main_group = ({lockedData={},setLockedData,primaryTableData={},t
     
   /////////////
     if(orchestrationData?.data?.readableControls.includes("tran_tab_group")){
-      settran_tab_group08b64({...tran_tab_group08b64,isDisabled:true});
+        settran_tab_group08b64({...tran_tab_group08b64,isDisabled:true});
+
+    }else
+    {
+      if(tran_tab_group08b64?.isDisabled==null)
+      {
+        settran_tab_group08b64({...tran_tab_group08b64,isDisabled:false});
+      }
     }
   //////////////
     if (code != '') {
@@ -268,8 +276,64 @@ const Grouptran_main_group = ({lockedData={},setLockedData,primaryTableData={},t
   }
 
   const handleOnClick= async (selectedItem:any, selectedIndex?: number)=>{
+    handleCustomCode()
 
   }
+  const handleCustomCode=async () => {
+    let customCode:any=""
+    if (allCode != '') {
+      let codeStates: any = {};
+        codeStates['tran_main_group'] = tran_main_group1dc7f,
+        codeStates['settran_main_group'] = settran_main_group1dc7f,
+        codeStates['tran_main_group1dc7f'] = tran_main_group1dc7fProps,
+        codeStates['settran_main_group1dc7f'] = settran_main_group1dc7fProps,
+        codeStates['tran_tab_group'] = tran_tab_group08b64,
+        codeStates['settran_tab_group'] = settran_tab_group08b64,
+        codeStates['view_all_tab'] = view_all_tab4a963,
+        codeStates['setview_all_tab'] = setview_all_tab4a963,
+        codeStates['view_all_tab4a963'] = view_all_tab4a963Props,
+        codeStates['setview_all_tab4a963'] = setview_all_tab4a963Props,
+        codeStates['view_all_table'] = view_all_tablec9e87,
+        codeStates['setview_all_table'] = setview_all_tablec9e87,
+        codeStates['view_all_tablec9e87'] = view_all_tablec9e87Props,
+        codeStates['setview_all_tablec9e87'] = setview_all_tablec9e87Props,
+        codeStates['failure_queue_tab'] = failure_queue_tab69f01,
+        codeStates['setfailure_queue_tab'] = setfailure_queue_tab69f01,
+        codeStates['failure_queue_tab69f01'] = failure_queue_tab69f01Props,
+        codeStates['setfailure_queue_tab69f01'] = setfailure_queue_tab69f01Props,
+        codeStates['failure_queue_table'] = failure_queue_tablea476f,
+        codeStates['setfailure_queue_table'] = setfailure_queue_tablea476f,
+        codeStates['failure_queue_tablea476f'] = failure_queue_tablea476fProps,
+        codeStates['setfailure_queue_tablea476f'] = setfailure_queue_tablea476fProps,
+        codeStates['success_queue_tab'] = success_queue_tabef582,
+        codeStates['setsuccess_queue_tab'] = setsuccess_queue_tabef582,
+        codeStates['success_queue_tabef582'] = success_queue_tabef582Props,
+        codeStates['setsuccess_queue_tabef582'] = setsuccess_queue_tabef582Props,
+        codeStates['success_queue_table'] = success_queue_table63aae,
+        codeStates['setsuccess_queue_table'] = setsuccess_queue_table63aae,
+        codeStates['success_queue_table63aae'] = success_queue_table63aaeProps,
+        codeStates['setsuccess_queue_table63aae'] = setsuccess_queue_table63aaeProps,
+        codeStates['return_queue_tab'] = return_queue_tab5611e,
+        codeStates['setreturn_queue_tab'] = setreturn_queue_tab5611e,
+        codeStates['return_queue_tab5611e'] = return_queue_tab5611eProps,
+        codeStates['setreturn_queue_tab5611e'] = setreturn_queue_tab5611eProps,
+        codeStates['return_queue_table'] = return_queue_table267f0,
+        codeStates['setreturn_queue_table'] = setreturn_queue_table267f0,
+        codeStates['return_queue_table267f0'] = return_queue_table267f0Props,
+        codeStates['setreturn_queue_table267f0'] = setreturn_queue_table267f0Props,
+        codeStates['search'] = search0e695,
+        codeStates['setsearch'] = setsearch0e695,
+        codeStates['main_group'] = main_group9066f,
+        codeStates['setmain_group'] = setmain_group9066f,
+        codeStates['main_group9066f'] = main_group9066fProps,
+        codeStates['setmain_group9066f'] = setmain_group9066fProps,
+      customCode = codeExecution(allCode,codeStates);
+      return customCode;
+    }
+
+  }
+
+
   const tran_main_group1dc7fRef = useRef<any>(null);
   const handleClearSearch = () => {
     tran_main_group1dc7fRef.current?.setSearchParams();
@@ -318,6 +382,7 @@ const Grouptran_main_group = ({lockedData={},setLockedData,primaryTableData={},t
         backgroundBlendMode: ''
       }}
       className={`flex flex-col overflow-auto rounded-md  ${isDark ? 'text-white' : 'text-black'}`}
+       onClick={()=>handleOnClick({}, 0)}
     >
         {allowedComponent.includes("tran_tab_group")  &&<Grouptran_tab_group  
           lockedData={lockedData} 

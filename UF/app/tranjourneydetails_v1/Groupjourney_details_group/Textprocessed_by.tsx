@@ -96,7 +96,7 @@ return (
   <div className="" style={{gridColumn: `1 / 13`,gridRow: `32 / 40`, gap:``, height: `100%`}} >
 <Text
   contentAlign={"left"}
-  className="!bg-[#f7f8f8] p-1 !pl-2 !rounded-lg"
+  className="!bg-[#f7f8f8] p-2 !pl-3 !rounded-lg"
   variant="code-1"
   color="primary"
 >

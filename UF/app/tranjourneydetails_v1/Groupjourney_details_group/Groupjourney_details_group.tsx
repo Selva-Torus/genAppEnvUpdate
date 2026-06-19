@@ -3,7 +3,7 @@ import React,{ useEffect, useState,useContext, useRef } from 'react';
 import { getGroupOrchestrationData, getControlOrchestrationData, fetchBatchData } from '@/app/utils/Orchestration';
 import { AxiosService } from '@/app/components/axiosService';
 import { api_paginationDto, uf_authorizationCheckDto } from '@/app/interfaces/interfaces';
-import { codeExecution } from '@/app/utils/codeExecution';
+import { codeExecution, validatedCondition } from '@/app/utils/codeExecution';
 import { useRouter } from 'next/navigation';
 import { getFilterProps,getRouteScreenDetails } from '@/app/utils/assemblerKeys';
 import { useHandleGroupArrayCopyFormData } from '@/app/utils/commonfunctions'; 
@@ -125,7 +125,7 @@ if("message_data" in journey_details_group && journey_details_group.message_data
       "view_tran_log_btn"
     ]
   },
-  "Business Team": {
+  "Operation Team": {
     "allowedControls": [
       "divider_top",
       "transaction_date_time_label",
@@ -158,7 +158,7 @@ if("message_data" in journey_details_group && journey_details_group.message_data
       "view_tran_log_btn"
     ]
   },
-  "Operation Team": {
+  "Business Team": {
     "allowedControls": [
       "divider_top",
       "transaction_date_time_label",
@@ -249,7 +249,8 @@ if("message_data" in journey_details_group && journey_details_group.message_data
   async function securityCheck() {
   const { groupData: currentGroupData } = await checkOrchestrationData();
   let orchestrationData:any = getGroupOrchestrationData(currentGroupData, "21c6b985251b46b2a031d20162ad9a0e");
-    code = orchestrationData?.data?.code;
+  code = orchestrationData?.data?.code;
+  setAllCode(code)
   const security:any[] = orchestrationData?.data?.security;
   const allowedGroups:any[] = orchestrationData?.data?.allowedGroups;
   if(orchestrationData?.data?.error === true){
@@ -271,64 +272,204 @@ if("message_data" in journey_details_group && journey_details_group.message_data
     
   /////////////
     if(orchestrationData?.data?.readableControls.includes("divider_top")){
-      setdivider_tope6917({...divider_tope6917,isDisabled:true});
+        setdivider_tope6917({...divider_tope6917,isDisabled:true});
+
+    }else
+    {
+      if(divider_tope6917?.isDisabled==null)
+      {
+        setdivider_tope6917({...divider_tope6917,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("transaction_date_time_label")){
-      settransaction_date_time_label669d7({...transaction_date_time_label669d7,isDisabled:true});
+        settransaction_date_time_label669d7({...transaction_date_time_label669d7,isDisabled:true});
+
+    }else
+    {
+      if(transaction_date_time_label669d7?.isDisabled==null)
+      {
+        settransaction_date_time_label669d7({...transaction_date_time_label669d7,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("status_label")){
-      setstatus_labelf3713({...status_labelf3713,isDisabled:true});
+        setstatus_labelf3713({...status_labelf3713,isDisabled:true});
+
+    }else
+    {
+      if(status_labelf3713?.isDisabled==null)
+      {
+        setstatus_labelf3713({...status_labelf3713,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("transaction_date_time")){
-      settransaction_date_time14856({...transaction_date_time14856,isDisabled:true});
+        settransaction_date_time14856({...transaction_date_time14856,isDisabled:true});
+
+    }else
+    {
+      if(transaction_date_time14856?.isDisabled==null)
+      {
+        settransaction_date_time14856({...transaction_date_time14856,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("status")){
-      setstatus88bc7({...status88bc7,isDisabled:true});
+        setstatus88bc7({...status88bc7,isDisabled:true});
+
+    }else
+    {
+      if(status88bc7?.isDisabled==null)
+      {
+        setstatus88bc7({...status88bc7,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("processed_by_label")){
-      setprocessed_by_label542e8({...processed_by_label542e8,isDisabled:true});
+        setprocessed_by_label542e8({...processed_by_label542e8,isDisabled:true});
+
+    }else
+    {
+      if(processed_by_label542e8?.isDisabled==null)
+      {
+        setprocessed_by_label542e8({...processed_by_label542e8,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("debit_account_label")){
-      setdebit_account_label3b1b7({...debit_account_label3b1b7,isDisabled:true});
+        setdebit_account_label3b1b7({...debit_account_label3b1b7,isDisabled:true});
+
+    }else
+    {
+      if(debit_account_label3b1b7?.isDisabled==null)
+      {
+        setdebit_account_label3b1b7({...debit_account_label3b1b7,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("processed_by")){
-      setprocessed_byd2b69({...processed_byd2b69,isDisabled:true});
+        setprocessed_byd2b69({...processed_byd2b69,isDisabled:true});
+
+    }else
+    {
+      if(processed_byd2b69?.isDisabled==null)
+      {
+        setprocessed_byd2b69({...processed_byd2b69,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("debit_account")){
-      setdebit_account36b40({...debit_account36b40,isDisabled:true});
+        setdebit_account36b40({...debit_account36b40,isDisabled:true});
+
+    }else
+    {
+      if(debit_account36b40?.isDisabled==null)
+      {
+        setdebit_account36b40({...debit_account36b40,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("currency_label")){
-      setcurrency_labele21ba({...currency_labele21ba,isDisabled:true});
+        setcurrency_labele21ba({...currency_labele21ba,isDisabled:true});
+
+    }else
+    {
+      if(currency_labele21ba?.isDisabled==null)
+      {
+        setcurrency_labele21ba({...currency_labele21ba,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("credit_account_label")){
-      setcredit_account_label65c7b({...credit_account_label65c7b,isDisabled:true});
+        setcredit_account_label65c7b({...credit_account_label65c7b,isDisabled:true});
+
+    }else
+    {
+      if(credit_account_label65c7b?.isDisabled==null)
+      {
+        setcredit_account_label65c7b({...credit_account_label65c7b,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("currency")){
-      setcurrency9c8a2({...currency9c8a2,isDisabled:true});
+        setcurrency9c8a2({...currency9c8a2,isDisabled:true});
+
+    }else
+    {
+      if(currency9c8a2?.isDisabled==null)
+      {
+        setcurrency9c8a2({...currency9c8a2,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("credit_account")){
-      setcredit_account0d1f4({...credit_account0d1f4,isDisabled:true});
+        setcredit_account0d1f4({...credit_account0d1f4,isDisabled:true});
+
+    }else
+    {
+      if(credit_account0d1f4?.isDisabled==null)
+      {
+        setcredit_account0d1f4({...credit_account0d1f4,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("amount_label")){
-      setamount_labelfd725({...amount_labelfd725,isDisabled:true});
+        setamount_labelfd725({...amount_labelfd725,isDisabled:true});
+
+    }else
+    {
+      if(amount_labelfd725?.isDisabled==null)
+      {
+        setamount_labelfd725({...amount_labelfd725,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("transaction_reference_label")){
-      settransaction_reference_labelb1ca9({...transaction_reference_labelb1ca9,isDisabled:true});
+        settransaction_reference_labelb1ca9({...transaction_reference_labelb1ca9,isDisabled:true});
+
+    }else
+    {
+      if(transaction_reference_labelb1ca9?.isDisabled==null)
+      {
+        settransaction_reference_labelb1ca9({...transaction_reference_labelb1ca9,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("amount")){
-      setamount01416({...amount01416,isDisabled:true});
+        setamount01416({...amount01416,isDisabled:true});
+
+    }else
+    {
+      if(amount01416?.isDisabled==null)
+      {
+        setamount01416({...amount01416,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("transaction_reference")){
-      settransaction_reference500d6({...transaction_reference500d6,isDisabled:true});
+        settransaction_reference500d6({...transaction_reference500d6,isDisabled:true});
+
+    }else
+    {
+      if(transaction_reference500d6?.isDisabled==null)
+      {
+        settransaction_reference500d6({...transaction_reference500d6,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("divider_bottom")){
-      setdivider_bottom8bad5({...divider_bottom8bad5,isDisabled:true});
+        setdivider_bottom8bad5({...divider_bottom8bad5,isDisabled:true});
+
+    }else
+    {
+      if(divider_bottom8bad5?.isDisabled==null)
+      {
+        setdivider_bottom8bad5({...divider_bottom8bad5,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("view_msg_data_btn")){
-      setview_msg_data_btne6a88({...view_msg_data_btne6a88,isDisabled:true});
+        setview_msg_data_btne6a88({...view_msg_data_btne6a88,isDisabled:true});
+
+    }else
+    {
+      if(view_msg_data_btne6a88?.isDisabled==null)
+      {
+        setview_msg_data_btne6a88({...view_msg_data_btne6a88,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("view_tran_log_btn")){
-      setview_tran_log_btn9cd8c({...view_tran_log_btn9cd8c,isDisabled:true});
+        setview_tran_log_btn9cd8c({...view_tran_log_btn9cd8c,isDisabled:true});
+
+    }else
+    {
+      if(view_tran_log_btn9cd8c?.isDisabled==null)
+      {
+        setview_tran_log_btn9cd8c({...view_tran_log_btn9cd8c,isDisabled:false});
+      }
     }
   //////////////
     if (code != '') {
@@ -390,8 +531,64 @@ if("message_data" in journey_details_group && journey_details_group.message_data
   }
 
   const handleOnClick= async (selectedItem:any, selectedIndex?: number)=>{
+    handleCustomCode()
 
   }
+  const handleCustomCode=async () => {
+    let customCode:any=""
+    if (allCode != '') {
+      let codeStates: any = {};
+        codeStates['journey_details_group'] = journey_details_groupd9a0e,
+        codeStates['setjourney_details_group'] = setjourney_details_groupd9a0e,
+        codeStates['journey_details_groupd9a0e'] = journey_details_groupd9a0eProps,
+        codeStates['setjourney_details_groupd9a0e'] = setjourney_details_groupd9a0eProps,
+        codeStates['divider_top'] = divider_tope6917,
+        codeStates['setdivider_top'] = setdivider_tope6917,
+        codeStates['transaction_date_time_label'] = transaction_date_time_label669d7,
+        codeStates['settransaction_date_time_label'] = settransaction_date_time_label669d7,
+        codeStates['status_label'] = status_labelf3713,
+        codeStates['setstatus_label'] = setstatus_labelf3713,
+        codeStates['transaction_date_time'] = transaction_date_time14856,
+        codeStates['settransaction_date_time'] = settransaction_date_time14856,
+        codeStates['status'] = status88bc7,
+        codeStates['setstatus'] = setstatus88bc7,
+        codeStates['processed_by_label'] = processed_by_label542e8,
+        codeStates['setprocessed_by_label'] = setprocessed_by_label542e8,
+        codeStates['debit_account_label'] = debit_account_label3b1b7,
+        codeStates['setdebit_account_label'] = setdebit_account_label3b1b7,
+        codeStates['processed_by'] = processed_byd2b69,
+        codeStates['setprocessed_by'] = setprocessed_byd2b69,
+        codeStates['debit_account'] = debit_account36b40,
+        codeStates['setdebit_account'] = setdebit_account36b40,
+        codeStates['currency_label'] = currency_labele21ba,
+        codeStates['setcurrency_label'] = setcurrency_labele21ba,
+        codeStates['credit_account_label'] = credit_account_label65c7b,
+        codeStates['setcredit_account_label'] = setcredit_account_label65c7b,
+        codeStates['currency'] = currency9c8a2,
+        codeStates['setcurrency'] = setcurrency9c8a2,
+        codeStates['credit_account'] = credit_account0d1f4,
+        codeStates['setcredit_account'] = setcredit_account0d1f4,
+        codeStates['amount_label'] = amount_labelfd725,
+        codeStates['setamount_label'] = setamount_labelfd725,
+        codeStates['transaction_reference_label'] = transaction_reference_labelb1ca9,
+        codeStates['settransaction_reference_label'] = settransaction_reference_labelb1ca9,
+        codeStates['amount'] = amount01416,
+        codeStates['setamount'] = setamount01416,
+        codeStates['transaction_reference'] = transaction_reference500d6,
+        codeStates['settransaction_reference'] = settransaction_reference500d6,
+        codeStates['divider_bottom'] = divider_bottom8bad5,
+        codeStates['setdivider_bottom'] = setdivider_bottom8bad5,
+        codeStates['view_msg_data_btn'] = view_msg_data_btne6a88,
+        codeStates['setview_msg_data_btn'] = setview_msg_data_btne6a88,
+        codeStates['view_tran_log_btn'] = view_tran_log_btn9cd8c,
+        codeStates['setview_tran_log_btn'] = setview_tran_log_btn9cd8c,
+      customCode = codeExecution(allCode,codeStates);
+      return customCode;
+    }
+
+  }
+
+
   const journey_details_groupd9a0eRef = useRef<any>(null);
   const handleClearSearch = () => {
     journey_details_groupd9a0eRef.current?.setSearchParams();
@@ -440,6 +637,7 @@ if("message_data" in journey_details_group && journey_details_group.message_data
         backgroundBlendMode: ''
       }}
       className={`flex flex-col overflow-auto rounded-md  ${isDark ? 'text-white' : 'text-black'}`}
+       onClick={()=>handleOnClick({}, 0)}
     >
         {allowedControls.includes("divider_top") ?<Dividerdivider_top   /* e6917 */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
           {allowedControls.includes("transaction_date_time_label") ?<Texttransaction_date_time_label   /* 669d7 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}

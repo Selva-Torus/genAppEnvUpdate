@@ -81,7 +81,7 @@ export class vgph_clearing_sessionController {
   async findOne(@Headers() authHeader: string,@Param('vgph_csid') vgph_csid:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_clearing_sessionService.findOne(+vgph_csid,token);
+    const result = await this.vgph_clearing_sessionService.findOne(+vgph_csid,token);
     return plainToInstance(vgph_clearing_sessionEntity, result);
   }
  
@@ -118,7 +118,7 @@ export class vgph_clearing_sessionController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.vgph_clearing_sessionService.findAll(token,);
+    const result = await this.vgph_clearing_sessionService.findAll(token,);
     return plainToInstance(vgph_clearing_sessionEntity, result);
   } 
 
@@ -161,6 +161,7 @@ export class vgph_clearing_sessionController {
   }
  
   @Patch(':vgph_csid')
+  @UsePipes(new PrismaModelValidationPipe('vgph_clearing_session', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'vgph_csid',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -193,7 +194,7 @@ export class vgph_clearing_sessionController {
       return result;
     }
 
-    const result = this.vgph_clearing_sessionService.update(+vgph_csid,updatevgph_clearing_sessionDto,token);
+    const result = await this.vgph_clearing_sessionService.update(+vgph_csid,updatevgph_clearing_sessionDto,token);
     return plainToInstance(vgph_clearing_sessionEntity, result);
   }
  
@@ -228,7 +229,7 @@ export class vgph_clearing_sessionController {
       return result;
     }
 
-    const result =  this.vgph_clearing_sessionService.remove(+vgph_csid,token);
+    const result = await this.vgph_clearing_sessionService.remove(+vgph_csid,token);
     return plainToInstance(vgph_clearing_sessionEntity, result);
   }  
  
@@ -244,7 +245,7 @@ export class vgph_clearing_sessionController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_clearing_sessionService.findFirst(token);
+    const result = await this.vgph_clearing_sessionService.findFirst(token);
     return plainToInstance(vgph_clearing_sessionEntity, result);
   }
 
@@ -260,7 +261,7 @@ export class vgph_clearing_sessionController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_clearing_sessionService.findLast(token);
+    const result = await this.vgph_clearing_sessionService.findLast(token);
     return plainToInstance(vgph_clearing_sessionEntity, result);
   }
 }

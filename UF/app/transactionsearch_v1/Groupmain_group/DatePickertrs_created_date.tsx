@@ -144,10 +144,13 @@ const handleBlur=async () => {
 }
 
 useEffect(()=>{
-  const today = new Date(); today.setHours(0, 0, 0, 0);
-  const IST_OFFSET = 5.5 * 60 * 60 * 1000;
-  const indiaToday = new Date(today.getTime() + IST_OFFSET);
-  setmain_group9066f((pre:any)=>({...pre,trs_created_date:indiaToday.toISOString()}))
+    if(!main_group9066f?.trs_created_date)
+    {
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+      const IST_OFFSET = 5.5 * 60 * 60 * 1000;
+      const indiaToday = new Date(today.getTime() + IST_OFFSET);
+      setmain_group9066f((pre:any)=>({...pre,trs_created_date:indiaToday.toISOString()}))
+    }
   setmain_group9066fProps((pre:any)=>({...pre,validation:true}))
  },[trs_created_date2cea8?.refresh])
 

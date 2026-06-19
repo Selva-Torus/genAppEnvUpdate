@@ -1046,11 +1046,11 @@ const OPRTopNavSelector = ({
           ref={orgPopupRef}
           onClick={() => handleStageClick('org')}
           className={clsx(
-            'flex items-center justify-center gap-2 rounded-full px-3 py-1 hover:bg-[var(--hover-color)] bg-[var(--brand-color)]',
+            'flex items-center justify-center gap-2 rounded-full bg-[var(--brand-color)]',
             {
               'bg-[var(--selection-color)]': activeStage == 'org',
-              'w-[unset]': !fullView,
-              'max-w-36': fullView
+              'w-[unset] px-3 py-1': !fullView,
+              'max-w-40 min-w-40 px-[1vw] py-[0.3vh]': fullView
             }
           )}
           style={{
@@ -1062,14 +1062,14 @@ const OPRTopNavSelector = ({
             <>
               <div className='w-[90%]'>
                 <div className='flex items-center gap-1'>
-                  <OrgStructure />
-                  <Text contentAlign='left' className='!text-xs'>
+                  <OrgStructure height='1vw' width='1vw'/>
+                  <Text contentAlign='left' className='!text-[0.6vw]'>
                     Organization
                   </Text>
                 </div>
                 <Text
                   contentAlign='left'
-                  className='block w-full truncate text-left !text-sm'
+                  className='block w-full truncate text-left'
                 >
                   {selectedOrg?.orgName}
                 </Text>
@@ -1094,11 +1094,11 @@ const OPRTopNavSelector = ({
           ref={prodPopupRef}
           onClick={() => handleStageClick('prod')}
           className={clsx(
-            'flex items-center justify-center gap-2 rounded-full px-3 py-1 hover:bg-[var(--hover-color)] bg-[var(--brand-color)]',
+            'flex items-center justify-center gap-2 rounded-full bg-[var(--brand-color)]',
             {
               'bg-[var(--selection-color)]': activeStage == 'prod',
-              'w-[unset]': !fullView,
-              'max-w-36': fullView
+              'w-[unset] px-3 py-1': !fullView,
+              'max-w-40 min-w-40 px-[1vw] py-[0.3vh]': fullView
             }
           )}
           style={{
@@ -1110,14 +1110,14 @@ const OPRTopNavSelector = ({
             <>
               <div className='w-[90%]'>
                 <div className='flex items-center gap-1'>
-                  <ProdStructure />
-                  <Text contentAlign='left' className='!text-xs'>
+                  <ProdStructure height='1vw' width='1vw'/>
+                  <Text contentAlign='left' className='!text-[0.6vw]'>
                     Products
                   </Text>
                 </div>
                 <Text
                   contentAlign='left'
-                  className='block w-full truncate text-left !text-sm'
+                  className='block w-full truncate text-left'
                 >
                   {selectedProd?.psName}
                 </Text>
@@ -1142,11 +1142,11 @@ const OPRTopNavSelector = ({
           ref={rolePopupRef}
           onClick={() => handleStageClick('role')}
           className={clsx(
-            'flex items-center justify-center gap-2 rounded-full px-3 py-1 hover:bg-[var(--hover-color)] bg-[var(--brand-color)]',
+            'flex items-center justify-center gap-2 rounded-full bg-[var(--brand-color)]',
             {
               'bg-[var(--selection-color)]': activeStage == 'role',
-              'w-[unset]': !fullView,
-              'max-w-36 min-w-36': fullView
+              'w-[unset] px-3 py-1': !fullView,
+              'max-w-40 min-w-40 px-[1vw] py-[0.3vh]': fullView
             }
           )}
           style={{
@@ -1158,14 +1158,14 @@ const OPRTopNavSelector = ({
             <>
               <div className='w-[90%]'>
                 <div className='flex items-center gap-1'>
-                  <RoleStructure />
-                  <Text contentAlign='left' className='!text-xs'>
+                  <RoleStructure height='1vw' width='1vw'/>
+                  <Text contentAlign='left' className='!text-[0.6vw]'>
                     Roles
                   </Text>
                 </div>
                 <Text
                   contentAlign='left'
-                  className='block w-full truncate text-left !text-sm'
+                  className='block w-full truncate text-left'
                 >
                   {selectedRole?.roleName}
                 </Text>

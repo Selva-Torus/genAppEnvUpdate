@@ -81,7 +81,7 @@ export class vgph_clearing_holidayController {
   async findOne(@Headers() authHeader: string,@Param('vgph_chid') vgph_chid:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_clearing_holidayService.findOne(+vgph_chid,token);
+    const result = await this.vgph_clearing_holidayService.findOne(+vgph_chid,token);
     return plainToInstance(vgph_clearing_holidayEntity, result);
   }
  
@@ -118,7 +118,7 @@ export class vgph_clearing_holidayController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.vgph_clearing_holidayService.findAll(token,);
+    const result = await this.vgph_clearing_holidayService.findAll(token,);
     return plainToInstance(vgph_clearing_holidayEntity, result);
   } 
 
@@ -161,6 +161,7 @@ export class vgph_clearing_holidayController {
   }
  
   @Patch(':vgph_chid')
+  @UsePipes(new PrismaModelValidationPipe('vgph_clearing_holiday', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'vgph_chid',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -193,7 +194,7 @@ export class vgph_clearing_holidayController {
       return result;
     }
 
-    const result = this.vgph_clearing_holidayService.update(+vgph_chid,updatevgph_clearing_holidayDto,token);
+    const result = await this.vgph_clearing_holidayService.update(+vgph_chid,updatevgph_clearing_holidayDto,token);
     return plainToInstance(vgph_clearing_holidayEntity, result);
   }
  
@@ -228,7 +229,7 @@ export class vgph_clearing_holidayController {
       return result;
     }
 
-    const result =  this.vgph_clearing_holidayService.remove(+vgph_chid,token);
+    const result = await this.vgph_clearing_holidayService.remove(+vgph_chid,token);
     return plainToInstance(vgph_clearing_holidayEntity, result);
   }  
  
@@ -244,7 +245,7 @@ export class vgph_clearing_holidayController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_clearing_holidayService.findFirst(token);
+    const result = await this.vgph_clearing_holidayService.findFirst(token);
     return plainToInstance(vgph_clearing_holidayEntity, result);
   }
 
@@ -260,7 +261,7 @@ export class vgph_clearing_holidayController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_clearing_holidayService.findLast(token);
+    const result = await this.vgph_clearing_holidayService.findLast(token);
     return plainToInstance(vgph_clearing_holidayEntity, result);
   }
 }

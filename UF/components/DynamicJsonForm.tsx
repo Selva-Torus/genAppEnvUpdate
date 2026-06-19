@@ -37,6 +37,7 @@ interface FieldMetadata {
   validation?: ValidationConfig;
   page?: number;
   count?: number;
+  height?: number | string;
 }
 
 interface ArrayMetadataConfig {
@@ -517,6 +518,10 @@ export default function DynamicContentFields({
     const hasError = touchedFields.has(errorKey) && error;
     const errorBorderColor = '#ef4444';
 
+    const fieldHeight = fieldConfig.height !== undefined
+      ? (typeof fieldConfig.height === 'number' ? `${fieldConfig.height}px` : String(fieldConfig.height))
+      : '36px';
+
     const inputClassName = `
       w-full px-3 py-2
       ${getBorderRadiusClass(branding.borderRadius)}
@@ -566,9 +571,10 @@ export default function DynamicContentFields({
             value={String(value)}
             onChange={(e) => handleChange(e.target.value)}
             placeholder={fieldConfig.placeholder || "Value"}
-            rows={3}
+            rows={fieldConfig.height !== undefined ? undefined : 3}
             className={`${inputClassName} resize-y min-h-[60px]`}
             {...commonHandlers}
+            style={{ ...commonHandlers.style, ...(fieldConfig.height !== undefined ? { height: fieldHeight } : {}) }}
           />
         );
         break;
@@ -599,6 +605,7 @@ export default function DynamicContentFields({
             placeholder={fieldConfig.placeholder || "Value"}
             className={inputClassName}
             {...commonHandlers}
+            style={{ ...commonHandlers.style, height: fieldHeight }}
           />
         );
         break;
@@ -606,7 +613,7 @@ export default function DynamicContentFields({
 
       case "boolean":
         inputElement = (
-          <div className="flex items-center h-9">
+          <div className="flex items-center" style={{ height: fieldHeight }}>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
                 id={inputId}
@@ -639,6 +646,7 @@ export default function DynamicContentFields({
             onChange={(e) => handleChange(e.target.value)}
             className={inputClassName}
             {...commonHandlers}
+            style={{ ...commonHandlers.style, height: fieldHeight }}
           />
         );
         break;
@@ -729,7 +737,7 @@ export default function DynamicContentFields({
                 type="button"
                 onClick={handleOpen}
                 className={`${inputClassName} flex items-center justify-between`}
-                style={{ fontFamily: 'var(--font-body)' }}
+                style={{ fontFamily: 'var(--font-body)', height: fieldHeight }}
               >
                 <span className={displayValue ? '' : (isDark ? 'text-gray-500' : 'text-gray-400')}>
                   {displayValue || 'Select...'}
@@ -793,6 +801,7 @@ export default function DynamicContentFields({
               }}
               className={inputClassName}
               {...commonHandlers}
+              style={{ ...commonHandlers.style, height: fieldHeight }}
             >
               <option value="">{fieldConfig.placeholder || 'Select...'}</option>
               {optionsArr.map((option) => (
@@ -811,6 +820,7 @@ export default function DynamicContentFields({
               onChange={(e) => handleChange(e.target.value)}
               className={inputClassName}
               {...commonHandlers}
+              style={{ ...commonHandlers.style, height: fieldHeight }}
             >
               <option value="">{fieldConfig.placeholder || 'Select...'}</option>
               {plainOptions.map((option) => (
@@ -834,29 +844,33 @@ export default function DynamicContentFields({
             placeholder={fieldConfig.placeholder || "Value"}
             className={inputClassName}
             {...commonHandlers}
+            style={{ ...commonHandlers.style, height: fieldHeight }}
           />
         );
         break;
-        case 'documentuploader':
-          inputElement = (
+        case 'documentuploader': {
+        inputElement = (
+          <div className="w-full" style={{ height: fieldHeight }}>
             <DocumentUploader
               id={inputId}
               value={value as any}
               onChange={async (files: any) => {
-              setTimeout(() => {
-                if (files && files.length > 0) {
-                  handleChange(files[0])
-                } else {
-                  handleChange('' as any)
-                }
-              }, 0)
+                setTimeout(() => {
+                  if (files && files.length > 0) {
+                    handleChange(files[0])
+                  } else {
+                    handleChange('' as any)
+                  }
+                }, 0)
               }}
-              contentAlign={contentAlign}
+              contentAlign={"center"}
               singleSelect={true}
-              fillContainer={false}
+              fillContainer={true}
             />
-          )
+          </div>
+        )
         break;
+      }
       default: { // text
         const textRules = fieldConfig.validation || {};
         const textSchema = buildTextSchema(fieldConfig);
@@ -878,6 +892,7 @@ export default function DynamicContentFields({
             placeholder={fieldConfig.placeholder || "Value"}
             className={inputClassName}
             {...commonHandlers}
+            style={{ ...commonHandlers.style, height: fieldHeight }}
           />
         );
       }
@@ -1506,4 +1521,3 @@ export default function DynamicContentFields({
       </CommonHeaderAndTooltip>
 </div>;
 }
- 

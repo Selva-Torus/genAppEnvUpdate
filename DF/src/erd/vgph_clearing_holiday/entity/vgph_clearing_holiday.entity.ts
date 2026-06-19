@@ -15,7 +15,7 @@ export class  vgph_clearing_holidayEntity implements vgph_clearing_holiday{
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     holiday_code:string;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiPropertyOptional({example:"date"})
     @IsOptional()
     holiday_date:Date;
@@ -28,13 +28,13 @@ export class  vgph_clearing_holidayEntity implements vgph_clearing_holiday{
     @ApiPropertyOptional({example:"any"})
     @IsOptional()
     additional_info:any;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiProperty({example:"datetime"})
     trs_created_date:Date;
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_created_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_modified_date:Date;
@@ -74,7 +74,7 @@ export class  vgph_clearing_holidayEntity implements vgph_clearing_holiday{
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_locked_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_locked_time:Date;
@@ -107,7 +107,7 @@ export class  vgph_clearing_holiday_OnlyParentEntity {
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     holiday_code:string;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiPropertyOptional({example:"date"})
     @IsOptional()
     holiday_date:Date;
@@ -120,13 +120,13 @@ export class  vgph_clearing_holiday_OnlyParentEntity {
     @ApiPropertyOptional({example:"any"})
     @IsOptional()
     additional_info:any;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiProperty({example:"datetime"})
     trs_created_date:Date;
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_created_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_modified_date:Date;
@@ -166,7 +166,7 @@ export class  vgph_clearing_holiday_OnlyParentEntity {
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_locked_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_locked_time:Date;

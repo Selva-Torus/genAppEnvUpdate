@@ -331,7 +331,7 @@ const Buttonlog_btn = ({ mainData,lockedData,setLockedData,primaryTableData, set
         open={showProfileAsModalOpen4} 
         onClose={() => setShowProfileAsModalOpen4(false)}
         title="Transaction Journey"
-        showOverlay = {true}
+        showOverlay = {false}
         position = {"right"}
         modalName = "transactionjourney"
         className='w-[20%] h-[] bg-gray-50 overflow-auto'

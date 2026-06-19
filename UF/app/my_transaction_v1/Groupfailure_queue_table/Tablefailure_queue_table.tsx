@@ -1148,8 +1148,37 @@ const colurIndicator = (keyValue:any=[], comingValue:any,ColourIndicatorType:any
       refreshInitRef.current = true;
       return;
     }
-    if(paginationData?.page != 0 && paginationData?.pageSize != 0 && DFkeyAndRule?.dfKey!='')
+    if(paginationData?.page != 0 && paginationData?.pageSize != 0 && DFkeyAndRule?.dfKey!=''){
+      (async () => {
+      let filterData :any[] =[];
+      if(transaction_v1Props.length > 0){
+        for(let i=0;i< transaction_v1Props.length;i++){
+          if(transaction_v1Props[i].DFDkey == "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1"){
+            let temp=structuredClone(transaction_v1Props[i])
+            delete temp?.DFDkey
+            filterData.push(temp)
+          }   
+        }
+      }
+      const emitBody:Record<string,any> = {
+        key: DFkeyAndRule?.dfKey,
+        refreshFlag: "Y",
+        count: paginationDetails.pageSize,
+        page: paginationDetails.page || 1
+      };
+      if(filterData.length>0){
+        emitBody['filterData'] = filterData;
+      }
+      if (encryptionFlagCont) {
+        emitBody["dpdKey"] = encryptionDpd;
+        emitBody["method"] = encryptionMethod;
+      }
+      await AxiosService.post("/te/eventEmitter", emitBody, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
     UpdatedDataHandle()
+      })();
+    }
     setLockedData((pre:any)=>({...pre, data:[]}))
     setfailure_queue_tablea476fProps((pre:any)=>({...pre, selectedIds:[]}))
     setSelectedPaginationData([])

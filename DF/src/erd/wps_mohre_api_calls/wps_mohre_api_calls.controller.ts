@@ -81,7 +81,7 @@ export class wps_mohre_api_callsController {
   async findOne(@Headers() authHeader: string,@Param('wpsm_id') wpsm_id:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.wps_mohre_api_callsService.findOne(+wpsm_id,token);
+    const result = await this.wps_mohre_api_callsService.findOne(+wpsm_id,token);
     return plainToInstance(wps_mohre_api_callsEntity, result);
   }
  
@@ -118,7 +118,7 @@ export class wps_mohre_api_callsController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.wps_mohre_api_callsService.findAll(token,);
+    const result = await this.wps_mohre_api_callsService.findAll(token,);
     return plainToInstance(wps_mohre_api_callsEntity, result);
   } 
 
@@ -161,6 +161,7 @@ export class wps_mohre_api_callsController {
   }
  
   @Patch(':wpsm_id')
+  @UsePipes(new PrismaModelValidationPipe('wps_mohre_api_calls', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'wpsm_id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -193,7 +194,7 @@ export class wps_mohre_api_callsController {
       return result;
     }
 
-    const result = this.wps_mohre_api_callsService.update(+wpsm_id,updatewps_mohre_api_callsDto,token);
+    const result = await this.wps_mohre_api_callsService.update(+wpsm_id,updatewps_mohre_api_callsDto,token);
     return plainToInstance(wps_mohre_api_callsEntity, result);
   }
  
@@ -228,7 +229,7 @@ export class wps_mohre_api_callsController {
       return result;
     }
 
-    const result =  this.wps_mohre_api_callsService.remove(+wpsm_id,token);
+    const result = await this.wps_mohre_api_callsService.remove(+wpsm_id,token);
     return plainToInstance(wps_mohre_api_callsEntity, result);
   }  
  
@@ -244,7 +245,7 @@ export class wps_mohre_api_callsController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.wps_mohre_api_callsService.findFirst(token);
+    const result = await this.wps_mohre_api_callsService.findFirst(token);
     return plainToInstance(wps_mohre_api_callsEntity, result);
   }
 
@@ -260,7 +261,7 @@ export class wps_mohre_api_callsController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.wps_mohre_api_callsService.findLast(token);
+    const result = await this.wps_mohre_api_callsService.findLast(token);
     return plainToInstance(wps_mohre_api_callsEntity, result);
   }
 }

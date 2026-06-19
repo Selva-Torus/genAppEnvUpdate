@@ -81,7 +81,7 @@ export class vgph_holidayController {
   async findOne(@Headers() authHeader: string,@Param('vgph_hid') vgph_hid:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_holidayService.findOne(+vgph_hid,token);
+    const result = await this.vgph_holidayService.findOne(+vgph_hid,token);
     return plainToInstance(vgph_holidayEntity, result);
   }
  
@@ -118,7 +118,7 @@ export class vgph_holidayController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.vgph_holidayService.findAll(token,);
+    const result = await this.vgph_holidayService.findAll(token,);
     return plainToInstance(vgph_holidayEntity, result);
   } 
 
@@ -161,6 +161,7 @@ export class vgph_holidayController {
   }
  
   @Patch(':vgph_hid')
+  @UsePipes(new PrismaModelValidationPipe('vgph_holiday', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'vgph_hid',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -193,7 +194,7 @@ export class vgph_holidayController {
       return result;
     }
 
-    const result = this.vgph_holidayService.update(+vgph_hid,updatevgph_holidayDto,token);
+    const result = await this.vgph_holidayService.update(+vgph_hid,updatevgph_holidayDto,token);
     return plainToInstance(vgph_holidayEntity, result);
   }
  
@@ -228,7 +229,7 @@ export class vgph_holidayController {
       return result;
     }
 
-    const result =  this.vgph_holidayService.remove(+vgph_hid,token);
+    const result = await this.vgph_holidayService.remove(+vgph_hid,token);
     return plainToInstance(vgph_holidayEntity, result);
   }  
  
@@ -244,7 +245,7 @@ export class vgph_holidayController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_holidayService.findFirst(token);
+    const result = await this.vgph_holidayService.findFirst(token);
     return plainToInstance(vgph_holidayEntity, result);
   }
 
@@ -260,7 +261,7 @@ export class vgph_holidayController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_holidayService.findLast(token);
+    const result = await this.vgph_holidayService.findLast(token);
     return plainToInstance(vgph_holidayEntity, result);
   }
 }

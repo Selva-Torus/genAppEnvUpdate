@@ -21,10 +21,19 @@ export function getModelFieldLengths(modelName: string): FieldLengthMap {
 
   const lengthMap: FieldLengthMap = {};
 
+  // Only these native types use their first parameter as a string max length.
+  // Date/time types (Timestamptz, Timestamp, Time) use it for precision — not length.
+  const stringLengthTypes = new Set(['VarChar', 'Char', 'NVarChar', 'NChar']);
+
   for (const field of model.fields) {
     const nativeType = field.nativeType; // e.g., ['VarChar', [64]]
 
-    if (nativeType && Array.isArray(nativeType[1]) && nativeType[1].length > 0) {
+    if (
+      nativeType &&
+      stringLengthTypes.has(nativeType[0] as string) &&
+      Array.isArray(nativeType[1]) &&
+      nativeType[1].length > 0
+    ) {
       const length = Number(nativeType[1][0]);
       if (!isNaN(length)) {
         lengthMap[field.name] = length;

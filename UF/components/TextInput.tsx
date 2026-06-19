@@ -96,6 +96,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   const rightContentRef = useRef<HTMLDivElement>(null)
   const [alteredType,setAlteredType]=useState("text")
   const prevRefreshRef = useRef(false);
+  const rawValueRef = useRef(value);
     const showToast = useInfoMsg()                                                                                                                                                    
        const prevValidationState = useRef(validationState)                                                                                                                               
                                                                                                                                                                                        
@@ -142,6 +143,7 @@ export const TextInput: React.FC<TextInputProps> = ({
       onChange?.(e)
     }
     setInternalValue(newValue)
+    rawValueRef.current = newValue
     // Emit rise events when onChange occurs
     const onChangeEvent = events?.find(e => e.name === 'onChange')
     if (onChangeEvent?.enabled && onChangeEvent.rise && nodeId) {
@@ -298,7 +300,11 @@ export const TextInput: React.FC<TextInputProps> = ({
     if(type=='number' && itsHaveCurrency)
     {
       setOnloadType("text")
-      let formatted = Number(e.target.value).toLocaleString();
+      const decimalPlaces = displayFormat?.textInputProperty?.decimal_places ?? 2
+      let formatted = Number(e.target.value).toLocaleString(undefined, {
+        minimumFractionDigits: decimalPlaces,
+        maximumFractionDigits: decimalPlaces
+      });
       if(itsHaveCurrency)
       {
         formatted=(displayFormat?.textInputProperty?.currencyDisplayFormat||"₹")+formatted
@@ -306,17 +312,11 @@ export const TextInput: React.FC<TextInputProps> = ({
       setInternalValue(formatted)
     }
   }
-  const customeOnFocus=(e:any)=>{
+  const customeOnFocus=(_e:any)=>{
     if(type=='number' && itsHaveCurrency)
     {
       setOnloadType("text")
-      let temp:any=e.target.value.replace(/,/g, "")
-      if(itsHaveCurrency)
-      {
-        temp=temp?.replace((displayFormat?.textInputProperty?.currencyDisplayFormat||"₹"), "")
-      }
-      let formatted:any = Number(temp);
-      setInternalValue(formatted)
+      setInternalValue(rawValueRef.current)
     }
   }
   useEffect(()=>{
@@ -324,7 +324,12 @@ export const TextInput: React.FC<TextInputProps> = ({
       if(type=='number' && itsHaveCurrency)
       {
         setOnloadType("text")
-        let formatted = Number(value).toLocaleString();
+        rawValueRef.current = value
+        const decimalPlaces = displayFormat?.textInputProperty?.decimal_places ?? 2
+        let formatted = Number(value).toLocaleString(undefined, {
+          minimumFractionDigits: decimalPlaces,
+          maximumFractionDigits: decimalPlaces
+        });
         if(itsHaveCurrency)
         {
           formatted=(displayFormat?.textInputProperty?.currencyDisplayFormat||"₹")+formatted
@@ -332,7 +337,7 @@ export const TextInput: React.FC<TextInputProps> = ({
         setInternalValue(formatted)
       }
     }
-  },[value,type,itsHaveCurrency])
+  },[value,type,itsHaveCurrency,displayFormat])
 
   const inputElement = (
     <div

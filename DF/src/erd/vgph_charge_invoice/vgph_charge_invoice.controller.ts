@@ -81,7 +81,7 @@ export class vgph_charge_invoiceController {
   async findOne(@Headers() authHeader: string,@Param('vgphci_id') vgphci_id:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_charge_invoiceService.findOne(+vgphci_id,token);
+    const result = await this.vgph_charge_invoiceService.findOne(+vgphci_id,token);
     return plainToInstance(vgph_charge_invoiceEntity, result);
   }
  
@@ -120,7 +120,7 @@ export class vgph_charge_invoiceController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.vgph_charge_invoiceService.findAll(token,+vgphci_id);
+    const result = await this.vgph_charge_invoiceService.findAll(token,+vgphci_id);
     return plainToInstance(vgph_charge_invoiceEntity, result);
   } 
 
@@ -163,6 +163,7 @@ export class vgph_charge_invoiceController {
   }
  
   @Patch(':vgphci_id')
+  @UsePipes(new PrismaModelValidationPipe('vgph_charge_invoice', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'vgphci_id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -195,7 +196,7 @@ export class vgph_charge_invoiceController {
       return result;
     }
 
-    const result = this.vgph_charge_invoiceService.update(+vgphci_id,updatevgph_charge_invoiceDto,token);
+    const result = await this.vgph_charge_invoiceService.update(+vgphci_id,updatevgph_charge_invoiceDto,token);
     return plainToInstance(vgph_charge_invoiceEntity, result);
   }
  
@@ -230,7 +231,7 @@ export class vgph_charge_invoiceController {
       return result;
     }
 
-    const result =  this.vgph_charge_invoiceService.remove(+vgphci_id,token);
+    const result = await this.vgph_charge_invoiceService.remove(+vgphci_id,token);
     return plainToInstance(vgph_charge_invoiceEntity, result);
   }  
  
@@ -246,7 +247,7 @@ export class vgph_charge_invoiceController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_charge_invoiceService.findFirst(token);
+    const result = await this.vgph_charge_invoiceService.findFirst(token);
     return plainToInstance(vgph_charge_invoiceEntity, result);
   }
 
@@ -262,7 +263,7 @@ export class vgph_charge_invoiceController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_charge_invoiceService.findLast(token);
+    const result = await this.vgph_charge_invoiceService.findLast(token);
     return plainToInstance(vgph_charge_invoiceEntity, result);
   }
 }

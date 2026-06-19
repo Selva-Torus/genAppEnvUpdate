@@ -81,7 +81,7 @@ export class vgph_participant_bank_statusController {
   async findOne(@Headers() authHeader: string,@Param('vgphbpbs_id') vgphbpbs_id:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_participant_bank_statusService.findOne(+vgphbpbs_id,token);
+    const result = await this.vgph_participant_bank_statusService.findOne(+vgphbpbs_id,token);
     return plainToInstance(vgph_participant_bank_statusEntity, result);
   }
  
@@ -118,7 +118,7 @@ export class vgph_participant_bank_statusController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.vgph_participant_bank_statusService.findAll(token,);
+    const result = await this.vgph_participant_bank_statusService.findAll(token,);
     return plainToInstance(vgph_participant_bank_statusEntity, result);
   } 
 
@@ -161,6 +161,7 @@ export class vgph_participant_bank_statusController {
   }
  
   @Patch(':vgphbpbs_id')
+  @UsePipes(new PrismaModelValidationPipe('vgph_participant_bank_status', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'vgphbpbs_id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -193,7 +194,7 @@ export class vgph_participant_bank_statusController {
       return result;
     }
 
-    const result = this.vgph_participant_bank_statusService.update(+vgphbpbs_id,updatevgph_participant_bank_statusDto,token);
+    const result = await this.vgph_participant_bank_statusService.update(+vgphbpbs_id,updatevgph_participant_bank_statusDto,token);
     return plainToInstance(vgph_participant_bank_statusEntity, result);
   }
  
@@ -228,7 +229,7 @@ export class vgph_participant_bank_statusController {
       return result;
     }
 
-    const result =  this.vgph_participant_bank_statusService.remove(+vgphbpbs_id,token);
+    const result = await this.vgph_participant_bank_statusService.remove(+vgphbpbs_id,token);
     return plainToInstance(vgph_participant_bank_statusEntity, result);
   }  
  
@@ -244,7 +245,7 @@ export class vgph_participant_bank_statusController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_participant_bank_statusService.findFirst(token);
+    const result = await this.vgph_participant_bank_statusService.findFirst(token);
     return plainToInstance(vgph_participant_bank_statusEntity, result);
   }
 
@@ -260,7 +261,7 @@ export class vgph_participant_bank_statusController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_participant_bank_statusService.findLast(token);
+    const result = await this.vgph_participant_bank_statusService.findLast(token);
     return plainToInstance(vgph_participant_bank_statusEntity, result);
   }
 }

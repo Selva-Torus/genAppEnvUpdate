@@ -133,7 +133,8 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
       /////////////
       let localizationdata={
         datedisplay:"DD-MM-YYYY",
-        currencyDisplayFormat:"₹"
+        currencyDisplayFormat:"₹",
+        decimal_places:3
       }
       if("date" in dateDisplayData)
       {
@@ -141,12 +142,16 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
       }
       if("symbol" in timeDisplayData)
       {
-        localizationdata={...localizationdata,currencyDisplayFormat:timeDisplayData?.symbol||"DD-MM-YYYY"}
+        localizationdata={...localizationdata,currencyDisplayFormat:timeDisplayData?.symbol||"₹"}
+      }
+      if("decimal_places" in timeDisplayData)
+      {
+        localizationdata={...localizationdata,decimal_places:timeDisplayData?.decimal_places||null}
       }
       setDisplayFormat((pre:any)=>({
         ...pre,
         datePickerProperty:{...pre.datePickerProperty, dateDisplayFormat:localizationdata?.datedisplay},
-        textInputProperty:{...pre.datePickerProperty, currencyDisplayFormat:localizationdata?.currencyDisplayFormat}
+        textInputProperty:{...pre.textInputProperty, currencyDisplayFormat:localizationdata?.currencyDisplayFormat,decimal_places:localizationdata?.decimal_places}
       }))
       //////////////
 

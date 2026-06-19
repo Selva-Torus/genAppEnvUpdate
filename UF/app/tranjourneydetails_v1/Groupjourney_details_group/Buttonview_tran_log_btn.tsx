@@ -380,7 +380,7 @@ const Buttonview_tran_log_btn = ({ lockedData, setLockedData, tableData, setTabl
         open={showProfileAsModalOpen6 && !hiddenModalForTrigger} 
         onClose={() => { setShowProfileAsModalOpen6(false); setHiddenModalForTrigger(false); }}
         title="Transaction Log"
-        showOverlay = {true}
+        showOverlay = {false}
         position = {"left"}
         modalName = "trandataview"
         className='w-[60%] h-[] bg-gray-50 overflow-auto'

@@ -81,7 +81,7 @@ export class vgph_temp_stagingController {
   async findOne(@Headers() authHeader: string,@Param('vgphtsid') vgphtsid:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_temp_stagingService.findOne(+vgphtsid,token);
+    const result = await this.vgph_temp_stagingService.findOne(+vgphtsid,token);
     return plainToInstance(vgph_temp_stagingEntity, result);
   }
  
@@ -118,7 +118,7 @@ export class vgph_temp_stagingController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.vgph_temp_stagingService.findAll(token,);
+    const result = await this.vgph_temp_stagingService.findAll(token,);
     return plainToInstance(vgph_temp_stagingEntity, result);
   } 
 
@@ -161,6 +161,7 @@ export class vgph_temp_stagingController {
   }
  
   @Patch(':vgphtsid')
+  @UsePipes(new PrismaModelValidationPipe('vgph_temp_staging', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'vgphtsid',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -193,7 +194,7 @@ export class vgph_temp_stagingController {
       return result;
     }
 
-    const result = this.vgph_temp_stagingService.update(+vgphtsid,updatevgph_temp_stagingDto,token);
+    const result = await this.vgph_temp_stagingService.update(+vgphtsid,updatevgph_temp_stagingDto,token);
     return plainToInstance(vgph_temp_stagingEntity, result);
   }
  
@@ -228,7 +229,7 @@ export class vgph_temp_stagingController {
       return result;
     }
 
-    const result =  this.vgph_temp_stagingService.remove(+vgphtsid,token);
+    const result = await this.vgph_temp_stagingService.remove(+vgphtsid,token);
     return plainToInstance(vgph_temp_stagingEntity, result);
   }  
  
@@ -244,7 +245,7 @@ export class vgph_temp_stagingController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_temp_stagingService.findFirst(token);
+    const result = await this.vgph_temp_stagingService.findFirst(token);
     return plainToInstance(vgph_temp_stagingEntity, result);
   }
 
@@ -260,7 +261,7 @@ export class vgph_temp_stagingController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_temp_stagingService.findLast(token);
+    const result = await this.vgph_temp_stagingService.findLast(token);
     return plainToInstance(vgph_temp_stagingEntity, result);
   }
 }

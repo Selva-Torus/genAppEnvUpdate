@@ -81,7 +81,7 @@ export class vgph_trn_secure_tokenController {
   async findOne(@Headers() authHeader: string,@Param('vgphtst_id') vgphtst_id:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_trn_secure_tokenService.findOne(+vgphtst_id,token);
+    const result = await this.vgph_trn_secure_tokenService.findOne(+vgphtst_id,token);
     return plainToInstance(vgph_trn_secure_tokenEntity, result);
   }
  
@@ -118,7 +118,7 @@ export class vgph_trn_secure_tokenController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.vgph_trn_secure_tokenService.findAll(token,);
+    const result = await this.vgph_trn_secure_tokenService.findAll(token,);
     return plainToInstance(vgph_trn_secure_tokenEntity, result);
   } 
 
@@ -161,6 +161,7 @@ export class vgph_trn_secure_tokenController {
   }
  
   @Patch(':vgphtst_id')
+  @UsePipes(new PrismaModelValidationPipe('vgph_trn_secure_token', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'vgphtst_id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -193,7 +194,7 @@ export class vgph_trn_secure_tokenController {
       return result;
     }
 
-    const result = this.vgph_trn_secure_tokenService.update(+vgphtst_id,updatevgph_trn_secure_tokenDto,token);
+    const result = await this.vgph_trn_secure_tokenService.update(+vgphtst_id,updatevgph_trn_secure_tokenDto,token);
     return plainToInstance(vgph_trn_secure_tokenEntity, result);
   }
  
@@ -228,7 +229,7 @@ export class vgph_trn_secure_tokenController {
       return result;
     }
 
-    const result =  this.vgph_trn_secure_tokenService.remove(+vgphtst_id,token);
+    const result = await this.vgph_trn_secure_tokenService.remove(+vgphtst_id,token);
     return plainToInstance(vgph_trn_secure_tokenEntity, result);
   }  
  
@@ -244,7 +245,7 @@ export class vgph_trn_secure_tokenController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_trn_secure_tokenService.findFirst(token);
+    const result = await this.vgph_trn_secure_tokenService.findFirst(token);
     return plainToInstance(vgph_trn_secure_tokenEntity, result);
   }
 
@@ -260,7 +261,7 @@ export class vgph_trn_secure_tokenController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_trn_secure_tokenService.findLast(token);
+    const result = await this.vgph_trn_secure_tokenService.findLast(token);
     return plainToInstance(vgph_trn_secure_tokenEntity, result);
   }
 }

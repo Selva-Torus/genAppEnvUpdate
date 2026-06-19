@@ -3,7 +3,7 @@ import React,{ useEffect, useState,useContext, useRef } from 'react';
 import { getGroupOrchestrationData, getControlOrchestrationData, fetchBatchData } from '@/app/utils/Orchestration';
 import { AxiosService } from '@/app/components/axiosService';
 import { api_paginationDto, uf_authorizationCheckDto } from '@/app/interfaces/interfaces';
-import { codeExecution } from '@/app/utils/codeExecution';
+import { codeExecution, validatedCondition } from '@/app/utils/codeExecution';
 import { useRouter } from 'next/navigation';
 import { getFilterProps,getRouteScreenDetails } from '@/app/utils/assemblerKeys';
 import { useHandleGroupArrayCopyFormData } from '@/app/utils/commonfunctions'; 
@@ -126,7 +126,8 @@ const Grouptran_journey_group = ({lockedData={},setLockedData,primaryTableData={
   async function securityCheck() {
   const { groupData: currentGroupData } = await checkOrchestrationData();
   let orchestrationData:any = getGroupOrchestrationData(currentGroupData, "226507dac362462d9af3beaf8039eb2e");
-    code = orchestrationData?.data?.code;
+  code = orchestrationData?.data?.code;
+  setAllCode(code)
   const security:any[] = orchestrationData?.data?.security;
   const allowedGroups:any[] = orchestrationData?.data?.allowedGroups;
   if(orchestrationData?.data?.error === true){
@@ -148,7 +149,14 @@ const Grouptran_journey_group = ({lockedData={},setLockedData,primaryTableData={
     
   /////////////
     if(orchestrationData?.data?.readableControls.includes("tran_journey")){
-      settran_journey1602a({...tran_journey1602a,isDisabled:true});
+        settran_journey1602a({...tran_journey1602a,isDisabled:true});
+
+    }else
+    {
+      if(tran_journey1602a?.isDisabled==null)
+      {
+        settran_journey1602a({...tran_journey1602a,isDisabled:false});
+      }
     }
   //////////////
     if (code != '') {
@@ -172,8 +180,26 @@ const Grouptran_journey_group = ({lockedData={},setLockedData,primaryTableData={
   }
 
   const handleOnClick= async (selectedItem:any, selectedIndex?: number)=>{
+    handleCustomCode()
 
   }
+  const handleCustomCode=async () => {
+    let customCode:any=""
+    if (allCode != '') {
+      let codeStates: any = {};
+        codeStates['tran_journey_group'] = tran_journey_group9eb2e,
+        codeStates['settran_journey_group'] = settran_journey_group9eb2e,
+        codeStates['tran_journey_group9eb2e'] = tran_journey_group9eb2eProps,
+        codeStates['settran_journey_group9eb2e'] = settran_journey_group9eb2eProps,
+        codeStates['tran_journey'] = tran_journey1602a,
+        codeStates['settran_journey'] = settran_journey1602a,
+      customCode = codeExecution(allCode,codeStates);
+      return customCode;
+    }
+
+  }
+
+
   const tran_journey_group9eb2eRef = useRef<any>(null);
   const handleClearSearch = () => {
     tran_journey_group9eb2eRef.current?.setSearchParams();
@@ -222,6 +248,7 @@ const Grouptran_journey_group = ({lockedData={},setLockedData,primaryTableData={
         backgroundBlendMode: ''
       }}
       className={`flex flex-col overflow-auto rounded-md  ${isDark ? 'text-white' : 'text-black'}`}
+       onClick={()=>handleOnClick({}, 0)}
     >
         {allowedControls.includes("tran_journey") ?<TimeLinetran_journey   /* 1602a */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
     </div>

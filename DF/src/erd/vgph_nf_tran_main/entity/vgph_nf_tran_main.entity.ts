@@ -39,7 +39,7 @@ export class  vgph_nf_tran_mainEntity implements vgph_nf_tran_main{
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     channel_reference:string;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiProperty({example:"date"})
     tran_date:Date;
     @ApiPropertyOptional({example:"any"})
@@ -54,13 +54,13 @@ export class  vgph_nf_tran_mainEntity implements vgph_nf_tran_main{
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     vgphsm_uuid:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiProperty({example:"datetime"})
     trs_created_date:Date;
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_created_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_modified_date:Date;
@@ -100,7 +100,7 @@ export class  vgph_nf_tran_mainEntity implements vgph_nf_tran_main{
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_locked_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_locked_time:Date;
@@ -174,7 +174,7 @@ export class  vgph_nf_tran_main_OnlyParentEntity {
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     channel_reference:string;
-    @Transform(({ value }) => value?.toISOString().split('T')[0])
+    @Transform(({ value }) => value instanceof Date ? value.toISOString().split('T')[0] : value)
     @ApiProperty({example:"date"})
     tran_date:Date;
     @ApiPropertyOptional({example:"any"})
@@ -189,13 +189,13 @@ export class  vgph_nf_tran_main_OnlyParentEntity {
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     vgphsm_uuid:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiProperty({example:"datetime"})
     trs_created_date:Date;
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_created_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_modified_date:Date;
@@ -235,7 +235,7 @@ export class  vgph_nf_tran_main_OnlyParentEntity {
     @ApiPropertyOptional({example:"string"})
     @IsOptional()
     trs_locked_by:string;
-    @Transform(({ value }) => value?.toISOString())
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiPropertyOptional({example:"datetime"})
     @IsOptional()
     trs_locked_time:Date;

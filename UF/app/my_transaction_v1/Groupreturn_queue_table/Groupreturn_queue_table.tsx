@@ -3,7 +3,7 @@ import React,{ useEffect, useState,useContext, useRef } from 'react';
 import { getGroupOrchestrationData, getControlOrchestrationData, fetchBatchData } from '@/app/utils/Orchestration';
 import { AxiosService } from '@/app/components/axiosService';
 import { api_paginationDto, uf_authorizationCheckDto } from '@/app/interfaces/interfaces';
-import { codeExecution } from '@/app/utils/codeExecution';
+import { codeExecution, validatedCondition } from '@/app/utils/codeExecution';
 import { useRouter } from 'next/navigation';
 import { getFilterProps,getRouteScreenDetails } from '@/app/utils/assemblerKeys';
 import { useHandleGroupArrayCopyFormData } from '@/app/utils/commonfunctions'; 
@@ -203,7 +203,8 @@ const Groupreturn_queue_table = ({lockedData={},setLockedData,primaryTableData={
   async function securityCheck() {
   const { groupData: currentGroupData } = await checkOrchestrationData();
   let orchestrationData:any = getGroupOrchestrationData(currentGroupData, "ce697643ace84d8d980a6e32820267f0");
-    code = orchestrationData?.data?.code;
+  code = orchestrationData?.data?.code;
+  setAllCode(code)
   const security:any[] = orchestrationData?.data?.security;
   const allowedGroups:any[] = orchestrationData?.data?.allowedGroups;
   if(orchestrationData?.data?.error === true){
@@ -225,31 +226,94 @@ const Groupreturn_queue_table = ({lockedData={},setLockedData,primaryTableData={
     
   /////////////
     if(orchestrationData?.data?.readableControls.includes("product_code_return_queue")){
-      setproduct_code_return_queuee5e11({...product_code_return_queuee5e11,isDisabled:true});
+        setproduct_code_return_queuee5e11({...product_code_return_queuee5e11,isDisabled:true});
+
+    }else
+    {
+      if(product_code_return_queuee5e11?.isDisabled==null)
+      {
+        setproduct_code_return_queuee5e11({...product_code_return_queuee5e11,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("channel_name_return_queue")){
-      setchannel_name_return_queuebdabb({...channel_name_return_queuebdabb,isDisabled:true});
+        setchannel_name_return_queuebdabb({...channel_name_return_queuebdabb,isDisabled:true});
+
+    }else
+    {
+      if(channel_name_return_queuebdabb?.isDisabled==null)
+      {
+        setchannel_name_return_queuebdabb({...channel_name_return_queuebdabb,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("uuid_return_queue")){
-      setuuid_return_queue958c9({...uuid_return_queue958c9,isDisabled:true});
+        setuuid_return_queue958c9({...uuid_return_queue958c9,isDisabled:true});
+
+    }else
+    {
+      if(uuid_return_queue958c9?.isDisabled==null)
+      {
+        setuuid_return_queue958c9({...uuid_return_queue958c9,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("dr_account_return_queue")){
-      setdr_account_return_queuee94b2({...dr_account_return_queuee94b2,isDisabled:true});
+        setdr_account_return_queuee94b2({...dr_account_return_queuee94b2,isDisabled:true});
+
+    }else
+    {
+      if(dr_account_return_queuee94b2?.isDisabled==null)
+      {
+        setdr_account_return_queuee94b2({...dr_account_return_queuee94b2,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("dr_amount_return_queue")){
-      setdr_amount_return_queue2f324({...dr_amount_return_queue2f324,isDisabled:true});
+        setdr_amount_return_queue2f324({...dr_amount_return_queue2f324,isDisabled:true});
+
+    }else
+    {
+      if(dr_amount_return_queue2f324?.isDisabled==null)
+      {
+        setdr_amount_return_queue2f324({...dr_amount_return_queue2f324,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("cr_account_return_queue")){
-      setcr_account_return_queue21a57({...cr_account_return_queue21a57,isDisabled:true});
+        setcr_account_return_queue21a57({...cr_account_return_queue21a57,isDisabled:true});
+
+    }else
+    {
+      if(cr_account_return_queue21a57?.isDisabled==null)
+      {
+        setcr_account_return_queue21a57({...cr_account_return_queue21a57,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("cr_amount_return_queue")){
-      setcr_amount_return_queue13fec({...cr_amount_return_queue13fec,isDisabled:true});
+        setcr_amount_return_queue13fec({...cr_amount_return_queue13fec,isDisabled:true});
+
+    }else
+    {
+      if(cr_amount_return_queue13fec?.isDisabled==null)
+      {
+        setcr_amount_return_queue13fec({...cr_amount_return_queue13fec,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("remittance_info_return_queue")){
-      setremittance_info_return_queuef37f7({...remittance_info_return_queuef37f7,isDisabled:true});
+        setremittance_info_return_queuef37f7({...remittance_info_return_queuef37f7,isDisabled:true});
+
+    }else
+    {
+      if(remittance_info_return_queuef37f7?.isDisabled==null)
+      {
+        setremittance_info_return_queuef37f7({...remittance_info_return_queuef37f7,isDisabled:false});
+      }
     }
     if(orchestrationData?.data?.readableControls.includes("status_return_queue")){
-      setstatus_return_queue95903({...status_return_queue95903,isDisabled:true});
+        setstatus_return_queue95903({...status_return_queue95903,isDisabled:true});
+
+    }else
+    {
+      if(status_return_queue95903?.isDisabled==null)
+      {
+        setstatus_return_queue95903({...status_return_queue95903,isDisabled:false});
+      }
     }
   //////////////
   }
@@ -262,8 +326,78 @@ const Groupreturn_queue_table = ({lockedData={},setLockedData,primaryTableData={
   }
 
   const handleOnClick= async (selectedItem:any, selectedIndex?: number)=>{
+    handleCustomCode()
 
   }
+  const handleCustomCode=async () => {
+    let customCode:any=""
+    if (allCode != '') {
+      let codeStates: any = {};
+        codeStates['tran_main_group'] = tran_main_group1dc7f,
+        codeStates['settran_main_group'] = settran_main_group1dc7f,
+        codeStates['tran_main_group1dc7f'] = tran_main_group1dc7fProps,
+        codeStates['settran_main_group1dc7f'] = settran_main_group1dc7fProps,
+        codeStates['tran_tab_group'] = tran_tab_group08b64,
+        codeStates['settran_tab_group'] = settran_tab_group08b64,
+        codeStates['tran_tab_group08b64'] = tran_tab_group08b64Props,
+        codeStates['settran_tab_group08b64'] = settran_tab_group08b64Props,
+        codeStates['view_all_tab'] = view_all_tab4a963,
+        codeStates['setview_all_tab'] = setview_all_tab4a963,
+        codeStates['view_all_tab4a963'] = view_all_tab4a963Props,
+        codeStates['setview_all_tab4a963'] = setview_all_tab4a963Props,
+        codeStates['view_all_table'] = view_all_tablec9e87,
+        codeStates['setview_all_table'] = setview_all_tablec9e87,
+        codeStates['view_all_tablec9e87'] = view_all_tablec9e87Props,
+        codeStates['setview_all_tablec9e87'] = setview_all_tablec9e87Props,
+        codeStates['failure_queue_tab'] = failure_queue_tab69f01,
+        codeStates['setfailure_queue_tab'] = setfailure_queue_tab69f01,
+        codeStates['failure_queue_tab69f01'] = failure_queue_tab69f01Props,
+        codeStates['setfailure_queue_tab69f01'] = setfailure_queue_tab69f01Props,
+        codeStates['failure_queue_table'] = failure_queue_tablea476f,
+        codeStates['setfailure_queue_table'] = setfailure_queue_tablea476f,
+        codeStates['failure_queue_tablea476f'] = failure_queue_tablea476fProps,
+        codeStates['setfailure_queue_tablea476f'] = setfailure_queue_tablea476fProps,
+        codeStates['success_queue_tab'] = success_queue_tabef582,
+        codeStates['setsuccess_queue_tab'] = setsuccess_queue_tabef582,
+        codeStates['success_queue_tabef582'] = success_queue_tabef582Props,
+        codeStates['setsuccess_queue_tabef582'] = setsuccess_queue_tabef582Props,
+        codeStates['success_queue_table'] = success_queue_table63aae,
+        codeStates['setsuccess_queue_table'] = setsuccess_queue_table63aae,
+        codeStates['success_queue_table63aae'] = success_queue_table63aaeProps,
+        codeStates['setsuccess_queue_table63aae'] = setsuccess_queue_table63aaeProps,
+        codeStates['return_queue_tab'] = return_queue_tab5611e,
+        codeStates['setreturn_queue_tab'] = setreturn_queue_tab5611e,
+        codeStates['return_queue_tab5611e'] = return_queue_tab5611eProps,
+        codeStates['setreturn_queue_tab5611e'] = setreturn_queue_tab5611eProps,
+        codeStates['return_queue_table'] = return_queue_table267f0,
+        codeStates['setreturn_queue_table'] = setreturn_queue_table267f0,
+        codeStates['return_queue_table267f0'] = return_queue_table267f0Props,
+        codeStates['setreturn_queue_table267f0'] = setreturn_queue_table267f0Props,
+        codeStates['product_code_return_queue'] = product_code_return_queuee5e11,
+        codeStates['setproduct_code_return_queue'] = setproduct_code_return_queuee5e11,
+        codeStates['channel_name_return_queue'] = channel_name_return_queuebdabb,
+        codeStates['setchannel_name_return_queue'] = setchannel_name_return_queuebdabb,
+        codeStates['uuid_return_queue'] = uuid_return_queue958c9,
+        codeStates['setuuid_return_queue'] = setuuid_return_queue958c9,
+        codeStates['dr_account_return_queue'] = dr_account_return_queuee94b2,
+        codeStates['setdr_account_return_queue'] = setdr_account_return_queuee94b2,
+        codeStates['dr_amount_return_queue'] = dr_amount_return_queue2f324,
+        codeStates['setdr_amount_return_queue'] = setdr_amount_return_queue2f324,
+        codeStates['cr_account_return_queue'] = cr_account_return_queue21a57,
+        codeStates['setcr_account_return_queue'] = setcr_account_return_queue21a57,
+        codeStates['cr_amount_return_queue'] = cr_amount_return_queue13fec,
+        codeStates['setcr_amount_return_queue'] = setcr_amount_return_queue13fec,
+        codeStates['remittance_info_return_queue'] = remittance_info_return_queuef37f7,
+        codeStates['setremittance_info_return_queue'] = setremittance_info_return_queuef37f7,
+        codeStates['status_return_queue'] = status_return_queue95903,
+        codeStates['setstatus_return_queue'] = setstatus_return_queue95903,
+      customCode = codeExecution(allCode,codeStates);
+      return customCode;
+    }
+
+  }
+
+
   const return_queue_table267f0Ref = useRef<any>(null);
   const handleClearSearch = () => {
     return_queue_table267f0Ref.current?.setSearchParams();
@@ -306,6 +440,7 @@ const Groupreturn_queue_table = ({lockedData={},setLockedData,primaryTableData={
         backgroundBlendMode: ''
       }}
       className={`flex flex-col overflow-auto rounded-md  ${isDark ? 'text-white' : 'text-black'}`}
+       onClick={()=>handleOnClick({}, 0)}
     >
       <div className='flex flex-col h-full w-full min-w-0 overflow-auto'>
         <div className='flex flex-1 w-full min-h-0'>

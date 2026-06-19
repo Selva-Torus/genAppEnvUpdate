@@ -105,9 +105,6 @@ const ContextSelector = () => {
   }
 
   useEffect(() => {
-    // if(typeof window != undefined){
-    //   document.body.style.backgroundImage = ``;
-    // }
     if (tp_ps) {
       const selectedCombinationData = JSON.parse(atob(tp_ps))
         ?.selectedCombination
@@ -426,7 +423,7 @@ const ContextSelector = () => {
                           }
                         )}
                         style={{
-                          color: (brandColor)
+                          color: brandColor
                         }}
                       />
                     </div>

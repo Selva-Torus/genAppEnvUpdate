@@ -81,7 +81,7 @@ export class vgph_charge_configController {
   async findOne(@Headers() authHeader: string,@Param('vgphcc_id') vgphcc_id:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_charge_configService.findOne(+vgphcc_id,token);
+    const result = await this.vgph_charge_configService.findOne(+vgphcc_id,token);
     return plainToInstance(vgph_charge_configEntity, result);
   }
  
@@ -120,7 +120,7 @@ export class vgph_charge_configController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.vgph_charge_configService.findAll(token,+vgphcc_id);
+    const result = await this.vgph_charge_configService.findAll(token,+vgphcc_id);
     return plainToInstance(vgph_charge_configEntity, result);
   } 
 
@@ -163,6 +163,7 @@ export class vgph_charge_configController {
   }
  
   @Patch(':vgphcc_id')
+  @UsePipes(new PrismaModelValidationPipe('vgph_charge_config', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'vgphcc_id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -195,7 +196,7 @@ export class vgph_charge_configController {
       return result;
     }
 
-    const result = this.vgph_charge_configService.update(+vgphcc_id,updatevgph_charge_configDto,token);
+    const result = await this.vgph_charge_configService.update(+vgphcc_id,updatevgph_charge_configDto,token);
     return plainToInstance(vgph_charge_configEntity, result);
   }
  
@@ -230,7 +231,7 @@ export class vgph_charge_configController {
       return result;
     }
 
-    const result =  this.vgph_charge_configService.remove(+vgphcc_id,token);
+    const result = await this.vgph_charge_configService.remove(+vgphcc_id,token);
     return plainToInstance(vgph_charge_configEntity, result);
   }  
  
@@ -246,7 +247,7 @@ export class vgph_charge_configController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_charge_configService.findFirst(token);
+    const result = await this.vgph_charge_configService.findFirst(token);
     return plainToInstance(vgph_charge_configEntity, result);
   }
 
@@ -262,7 +263,7 @@ export class vgph_charge_configController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_charge_configService.findLast(token);
+    const result = await this.vgph_charge_configService.findLast(token);
     return plainToInstance(vgph_charge_configEntity, result);
   }
 }

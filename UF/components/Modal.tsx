@@ -111,7 +111,7 @@ export const Modal: React.FC<ModalProps> = ({
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (closeOnOverlayClick && e.target === e.currentTarget) {
-      onClose();
+      // onClose();
     }
   };
 
@@ -213,7 +213,7 @@ export const Modal: React.FC<ModalProps> = ({
                 `}                
                 aria-label="Close modal"
               >
-                <Icon data="FaTimes" size={20} />
+                <Icon data="IoCloseOutline" size={20} />
               </button>
             )}
           </div>

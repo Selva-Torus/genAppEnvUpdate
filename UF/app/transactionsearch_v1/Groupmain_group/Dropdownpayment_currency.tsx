@@ -448,6 +448,7 @@ const Dropdownpayment_currency = ({lockedData,setLockedData,checkToAdd,setCheckT
         hasClear={true} 
         onChange={handlechange} 
         value={main_group9066f?.payment_currency703d2 ? [main_group9066f?.payment_currency703d2] : (main_group9066f?.payment_currency ? dropdownValue : [])}
+        validationState={validate?.transactionSearch_v1?.payment_currency ? "invalid" : undefined}
         />
     </div>
   );

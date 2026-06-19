@@ -19,6 +19,8 @@ import { Spin } from '@/components/Spin'
 import i18n from '@/app/components/i18n'
 import { getFontSizeForSubHeader } from '@/app/utils/branding'
 import { isLightColor } from '@/app/components/utils'
+import clsx from 'clsx'
+
 interface TableHeaderProps {
   loading: boolean
   jsonData: {
@@ -90,7 +92,8 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   }
   const [open, setOpen] = useState(false)
   const buttonElement = useRef<HTMLButtonElement>(null)
-  const { isDark, bgColor, borderColor, textColor } = useTheme()
+  const { isDark, borderColor, textColor } = useTheme()
+  const bgColor = isDark ? "bg-gray-800" : "bg-white";
   const { branding } = useGlobal()
   const { selectionColor } = branding
   const keyset = i18n.keyset('language')
@@ -426,7 +429,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
               borderColor={borderColor}
             />
           </div>
-          <div className='flex w-full '>
+          <div className={clsx('flex w-full' , bgColor)}>
             <div className={`${activeTab === 'torus' ? 'block w-1/2 md:w-3/4' : 'w-full'}`}>
               <div
                 className={`overflow-auto transition-all delay-0 duration-300 ease-out h-[83vh]`}

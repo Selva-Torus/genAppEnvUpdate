@@ -40,7 +40,8 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
       dateDisplayFormat: "DD-MM-YYYY",
     },
     textInputProperty:{
-      currencyDisplayFormat: "DD-MM-YYYY",
+      currencyDisplayFormat: "₹",
+      decimal_places:3
     }
   });
   const [branding, setBrandingState] = useState<Branding>({

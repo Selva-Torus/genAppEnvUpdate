@@ -448,6 +448,7 @@ const Dropdownchannel = ({lockedData,setLockedData,checkToAdd,setCheckToAdd,refe
         hasClear={true} 
         onChange={handlechange} 
         value={main_group9066f?.channel26e83 ? [main_group9066f?.channel26e83] : (main_group9066f?.channel ? dropdownValue : [])}
+        validationState={validate?.transactionSearch_v1?.channel ? "invalid" : undefined}
         />
     </div>
   );

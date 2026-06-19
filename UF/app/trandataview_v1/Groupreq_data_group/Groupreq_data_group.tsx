@@ -3,7 +3,7 @@ import React,{ useEffect, useState,useContext, useRef } from 'react';
 import { getGroupOrchestrationData, getControlOrchestrationData, fetchBatchData } from '@/app/utils/Orchestration';
 import { AxiosService } from '@/app/components/axiosService';
 import { api_paginationDto, uf_authorizationCheckDto } from '@/app/interfaces/interfaces';
-import { codeExecution } from '@/app/utils/codeExecution';
+import { codeExecution, validatedCondition } from '@/app/utils/codeExecution';
 import { useRouter } from 'next/navigation';
 import { getFilterProps,getRouteScreenDetails } from '@/app/utils/assemblerKeys';
 import { useHandleGroupArrayCopyFormData } from '@/app/utils/commonfunctions'; 
@@ -136,7 +136,8 @@ const Groupreq_data_group = ({lockedData={},setLockedData,primaryTableData={},ta
   async function securityCheck() {
   const { groupData: currentGroupData } = await checkOrchestrationData();
   let orchestrationData:any = getGroupOrchestrationData(currentGroupData, "359f2639ce6145718dd2f74e0b98d4d7");
-    code = orchestrationData?.data?.code;
+  code = orchestrationData?.data?.code;
+  setAllCode(code)
   const security:any[] = orchestrationData?.data?.security;
   const allowedGroups:any[] = orchestrationData?.data?.allowedGroups;
   if(orchestrationData?.data?.error === true){
@@ -158,7 +159,14 @@ const Groupreq_data_group = ({lockedData={},setLockedData,primaryTableData={},ta
     
   /////////////
     if(orchestrationData?.data?.readableControls.includes("req_jsonviewer")){
-      setreq_jsonviewerc80ab({...req_jsonviewerc80ab,isDisabled:true});
+        setreq_jsonviewerc80ab({...req_jsonviewerc80ab,isDisabled:true});
+
+    }else
+    {
+      if(req_jsonviewerc80ab?.isDisabled==null)
+      {
+        setreq_jsonviewerc80ab({...req_jsonviewerc80ab,isDisabled:false});
+      }
     }
   //////////////
     if (code != '') {
@@ -190,8 +198,34 @@ const Groupreq_data_group = ({lockedData={},setLockedData,primaryTableData={},ta
   }
 
   const handleOnClick= async (selectedItem:any, selectedIndex?: number)=>{
+    handleCustomCode()
 
   }
+  const handleCustomCode=async () => {
+    let customCode:any=""
+    if (allCode != '') {
+      let codeStates: any = {};
+        codeStates['tran_data_group'] = tran_data_group84f25,
+        codeStates['settran_data_group'] = settran_data_group84f25,
+        codeStates['tran_data_group84f25'] = tran_data_group84f25Props,
+        codeStates['settran_data_group84f25'] = settran_data_group84f25Props,
+        codeStates['req_data_group'] = req_data_group8d4d7,
+        codeStates['setreq_data_group'] = setreq_data_group8d4d7,
+        codeStates['req_data_group8d4d7'] = req_data_group8d4d7Props,
+        codeStates['setreq_data_group8d4d7'] = setreq_data_group8d4d7Props,
+        codeStates['req_jsonviewer'] = req_jsonviewerc80ab,
+        codeStates['setreq_jsonviewer'] = setreq_jsonviewerc80ab,
+        codeStates['res_data_group'] = res_data_group9d75a,
+        codeStates['setres_data_group'] = setres_data_group9d75a,
+        codeStates['res_data_group9d75a'] = res_data_group9d75aProps,
+        codeStates['setres_data_group9d75a'] = setres_data_group9d75aProps,
+      customCode = codeExecution(allCode,codeStates);
+      return customCode;
+    }
+
+  }
+
+
   const req_data_group8d4d7Ref = useRef<any>(null);
   const handleClearSearch = () => {
     req_data_group8d4d7Ref.current?.setSearchParams();
@@ -240,6 +274,7 @@ const Groupreq_data_group = ({lockedData={},setLockedData,primaryTableData={},ta
         backgroundBlendMode: ''
       }}
       className={`flex flex-col overflow-auto rounded-md p-1 ${isDark ? 'text-white' : 'text-black'}`}
+       onClick={()=>handleOnClick({}, 0)}
     >
         {allowedControls.includes("req_jsonviewer")?<JsonViewerreq_jsonviewer /* c80ab */ encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData}  />: <div></div>}
     </div>

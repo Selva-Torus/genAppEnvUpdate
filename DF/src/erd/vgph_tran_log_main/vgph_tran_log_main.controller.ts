@@ -84,7 +84,7 @@ export class vgph_tran_log_mainController {
   async findOne(@Headers() authHeader: string,@Param('vgphtlm_id') vgphtlm_id:number,@Param('trs_tenant_id') trs_tenant_id: string,@Param('trs_app_code') trs_app_code: string,@Param('trs_product_code') trs_product_code: string,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_tran_log_mainService.findOne(+vgphtlm_id,trs_tenant_id,trs_app_code,trs_product_code,token);
+    const result = await this.vgph_tran_log_mainService.findOne(+vgphtlm_id,trs_tenant_id,trs_app_code,trs_product_code,token);
     return plainToInstance(vgph_tran_log_mainEntity, result);
   }
  
@@ -123,7 +123,7 @@ export class vgph_tran_log_mainController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.vgph_tran_log_mainService.findAll(token,+vgphtlm_id);
+    const result = await this.vgph_tran_log_mainService.findAll(token,+vgphtlm_id);
     return plainToInstance(vgph_tran_log_mainEntity, result);
   } 
 
@@ -166,6 +166,7 @@ export class vgph_tran_log_mainController {
   }
  
   @Patch(':vgphtlm_id')
+  @UsePipes(new PrismaModelValidationPipe('vgph_tran_log_main', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'vgphtlm_id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -198,7 +199,7 @@ export class vgph_tran_log_mainController {
       return result;
     }
 
-    const result = this.vgph_tran_log_mainService.update(+vgphtlm_id,updatevgph_tran_log_mainDto,token);
+    const result = await this.vgph_tran_log_mainService.update(+vgphtlm_id,updatevgph_tran_log_mainDto,token);
     return plainToInstance(vgph_tran_log_mainEntity, result);
   }
  
@@ -233,7 +234,7 @@ export class vgph_tran_log_mainController {
       return result;
     }
 
-    const result =  this.vgph_tran_log_mainService.remove(+vgphtlm_id,token);
+    const result = await this.vgph_tran_log_mainService.remove(+vgphtlm_id,token);
     return plainToInstance(vgph_tran_log_mainEntity, result);
   }  
  
@@ -249,7 +250,7 @@ export class vgph_tran_log_mainController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_tran_log_mainService.findFirst(token);
+    const result = await this.vgph_tran_log_mainService.findFirst(token);
     return plainToInstance(vgph_tran_log_mainEntity, result);
   }
 
@@ -265,7 +266,7 @@ export class vgph_tran_log_mainController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_tran_log_mainService.findLast(token);
+    const result = await this.vgph_tran_log_mainService.findLast(token);
     return plainToInstance(vgph_tran_log_mainEntity, result);
   }
 }

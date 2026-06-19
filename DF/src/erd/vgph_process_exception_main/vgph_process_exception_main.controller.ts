@@ -81,7 +81,7 @@ export class vgph_process_exception_mainController {
   async findOne(@Headers() authHeader: string,@Param('vgphpem_id') vgphpem_id:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_process_exception_mainService.findOne(+vgphpem_id,token);
+    const result = await this.vgph_process_exception_mainService.findOne(+vgphpem_id,token);
     return plainToInstance(vgph_process_exception_mainEntity, result);
   }
  
@@ -118,7 +118,7 @@ export class vgph_process_exception_mainController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.vgph_process_exception_mainService.findAll(token,);
+    const result = await this.vgph_process_exception_mainService.findAll(token,);
     return plainToInstance(vgph_process_exception_mainEntity, result);
   } 
 
@@ -161,6 +161,7 @@ export class vgph_process_exception_mainController {
   }
  
   @Patch(':vgphpem_id')
+  @UsePipes(new PrismaModelValidationPipe('vgph_process_exception_main', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'vgphpem_id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -193,7 +194,7 @@ export class vgph_process_exception_mainController {
       return result;
     }
 
-    const result = this.vgph_process_exception_mainService.update(+vgphpem_id,updatevgph_process_exception_mainDto,token);
+    const result = await this.vgph_process_exception_mainService.update(+vgphpem_id,updatevgph_process_exception_mainDto,token);
     return plainToInstance(vgph_process_exception_mainEntity, result);
   }
  
@@ -228,7 +229,7 @@ export class vgph_process_exception_mainController {
       return result;
     }
 
-    const result =  this.vgph_process_exception_mainService.remove(+vgphpem_id,token);
+    const result = await this.vgph_process_exception_mainService.remove(+vgphpem_id,token);
     return plainToInstance(vgph_process_exception_mainEntity, result);
   }  
  
@@ -244,7 +245,7 @@ export class vgph_process_exception_mainController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_process_exception_mainService.findFirst(token);
+    const result = await this.vgph_process_exception_mainService.findFirst(token);
     return plainToInstance(vgph_process_exception_mainEntity, result);
   }
 
@@ -260,7 +261,7 @@ export class vgph_process_exception_mainController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_process_exception_mainService.findLast(token);
+    const result = await this.vgph_process_exception_mainService.findLast(token);
     return plainToInstance(vgph_process_exception_mainEntity, result);
   }
 }

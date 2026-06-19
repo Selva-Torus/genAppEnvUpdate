@@ -81,7 +81,7 @@ export class vgph_source_employeeController {
   async findOne(@Headers() authHeader: string,@Param('vgphse_id') vgphse_id:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_source_employeeService.findOne(+vgphse_id,token);
+    const result = await this.vgph_source_employeeService.findOne(+vgphse_id,token);
     return plainToInstance(vgph_source_employeeEntity, result);
   }
  
@@ -120,7 +120,7 @@ export class vgph_source_employeeController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.vgph_source_employeeService.findAll(token,+vgphse_id);
+    const result = await this.vgph_source_employeeService.findAll(token,+vgphse_id);
     return plainToInstance(vgph_source_employeeEntity, result);
   } 
 
@@ -163,6 +163,7 @@ export class vgph_source_employeeController {
   }
  
   @Patch(':vgphse_id')
+  @UsePipes(new PrismaModelValidationPipe('vgph_source_employee', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'vgphse_id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -195,7 +196,7 @@ export class vgph_source_employeeController {
       return result;
     }
 
-    const result = this.vgph_source_employeeService.update(+vgphse_id,updatevgph_source_employeeDto,token);
+    const result = await this.vgph_source_employeeService.update(+vgphse_id,updatevgph_source_employeeDto,token);
     return plainToInstance(vgph_source_employeeEntity, result);
   }
  
@@ -230,7 +231,7 @@ export class vgph_source_employeeController {
       return result;
     }
 
-    const result =  this.vgph_source_employeeService.remove(+vgphse_id,token);
+    const result = await this.vgph_source_employeeService.remove(+vgphse_id,token);
     return plainToInstance(vgph_source_employeeEntity, result);
   }  
  
@@ -246,7 +247,7 @@ export class vgph_source_employeeController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_source_employeeService.findFirst(token);
+    const result = await this.vgph_source_employeeService.findFirst(token);
     return plainToInstance(vgph_source_employeeEntity, result);
   }
 
@@ -262,7 +263,7 @@ export class vgph_source_employeeController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_source_employeeService.findLast(token);
+    const result = await this.vgph_source_employeeService.findLast(token);
     return plainToInstance(vgph_source_employeeEntity, result);
   }
 }

@@ -503,7 +503,7 @@ let tabHeaderItems : any =[
         gridRow: '1 / 151',
         display: 'grid',
         height: '100%',
-        overflow: 'auto',
+        overflow: 'hidden',
         gridAutoRows: '',
         columnGap: '',
         backgroundImage:"url('')",
@@ -515,10 +515,10 @@ let tabHeaderItems : any =[
         backgroundClip: '',
         backgroundBlendMode: ''
       }}
-      className={`flex flex-col overflow-auto rounded-md  `}
+      className={`flex flex-col overflow-auto rounded-md`}
     >
     <Tabs
-      className=""
+      headerClassName=""
       items={tabOptions}
       security={allowedComponent}
       direction='horizontal'

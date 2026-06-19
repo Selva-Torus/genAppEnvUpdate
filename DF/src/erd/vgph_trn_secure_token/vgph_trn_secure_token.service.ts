@@ -165,6 +165,72 @@ export class vgph_trn_secure_tokenService {
       }
     return plainData
   }
+  private tzMap: Record<string, string> = {
+    IST: 'Asia/Kolkata',
+    CET: 'Europe/Paris',
+    JST: 'Asia/Tokyo',
+    AEDT: 'Australia/Sydney',
+    NZDT: 'Pacific/Auckland',
+    UTC: 'UTC',
+    EST: 'America/New_York',
+    PST: 'America/Los_Angeles',
+    GMT: 'Etc/GMT',
+    CST: 'America/Chicago',
+    MST: 'America/Denver',
+    BST: 'Europe/London',
+    SGT: 'Asia/Singapore',
+    AEST: 'Australia/Sydney',
+  };
+
+  private convertToTimezone(date: Date): string {
+    const tz = process.env.TIMEZONE || 'UTC';
+    const ianaTimezone = this.tzMap[tz] || 'UTC';
+    return this.formatInTimezone(date, ianaTimezone);
+  }
+
+  private formatInTimezone(date: Date, ianaTimezone: string): string {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: ianaTimezone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+      fractionalSecondDigits: 3,
+    } as any);
+
+    const p: Record<string, string> = {};
+    for (const { type, value } of formatter.formatToParts(date)) p[type] = value;
+    const hour = p.hour === '24' ? '00' : p.hour;
+
+    // Resolve the UTC offset for the given date and timezone
+    const offsetParts = new Intl.DateTimeFormat('en-US', {
+      timeZone: ianaTimezone,
+      timeZoneName: 'shortOffset',
+    }).formatToParts(date);
+    const offsetStr = offsetParts.find((part) => part.type === 'timeZoneName')?.value ?? 'GMT';
+
+    let offset: string;
+    if (offsetStr === 'GMT' || ianaTimezone === 'UTC') {
+      offset = 'Z';
+    } else {
+      // Some ICU/Intl builds render the negative sign as U+2212 (MINUS SIGN)
+      // instead of the ASCII hyphen, which the original regex missed.
+      const match = offsetStr.match(/GMT([+\-−])(\d{1,2})(?::(\d{2}))?/);
+      if (match) {
+        const sign = match[1] === '+' ? '+' : '-';
+        const hh = match[2].padStart(2, '0');
+        const mm = (match[3] ?? '00').padStart(2, '0');
+        offset = `${sign}${hh}:${mm}`;
+      } else {
+        offset = 'Z';
+      }
+    }
+
+    return `${p.year}-${p.month}-${p.day}T${hour}:${p.minute}:${p.second}.${p.fractionalSecond}${offset}`;
+  }
 
    async decryptData(data: any, tableName: string) {
     if (typeof data == 'string') return data;
@@ -192,6 +258,14 @@ export class vgph_trn_secure_tokenService {
         typeof encryptedData[key] === 'object' &&
         encryptedData[key] !== null
       ) {
+        if (encryptedData[key] instanceof Prisma.Decimal) {
+          encryptedData[key] = Number(encryptedData[key].toString());
+          continue;
+        }
+        if (encryptedData[key] instanceof Date) {
+          encryptedData[key] = this.convertToTimezone(encryptedData[key]);
+          continue;
+        }
         if (Array.isArray(encryptedData[key])) {
           let arrayDocName: string = '';
           this.encryptedCols[tableName].forEach((element: any) => {

@@ -1293,29 +1293,24 @@ export class DynamicFlowService {
                         //let rulecheck:any = await this.CommonService.getRuleCodeMapper(rulejson, inputparam, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                         //headerRole = rulecheck?.rule
                         //str.push({'xCdcaRole':headerRole,'xCdcaUsername':SessionToken?.loginId})
-                     //}
-                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
-                    console.log("RCMresult",RCMresult);
-                    let ruleRes = RCMresult?.rule
-                    let appendQry
-                    if(ruleRes){
-                        if(typeof ruleRes == 'object'){
-                            appendQry = Object.values(ruleRes)[0]
-                        }else if(typeof ruleRes == 'string'){
-                            appendQry = ruleRes
-                        }                                        
-                    }
+                     //}                  
                     
-                    if (manualQuery.endsWith(';')) {
-                        manualQuery = manualQuery.slice(0, -1);
-                    }                    
+                    //if (manualQuery.endsWith(';')) {
+                        //manualQuery = manualQuery.slice(0, -1);
+                    //}  
 
-                    if (manualQuery.includes('$where') && appendQry) {                       
-                        manualQuery = manualQuery.replace('$where', () => appendQry);                       
-                    }                                                     
+                     if(manualQuery)
+                       manualQuery = manualQuery.replace(/[;\s]+$/, '');                    
 
-                    let childInsertArr, tempQryVal = []
+                    let childInsertArr,schema, tempQryVal = []
                     let qryarr =[]
+                     if(pfo?.length>0){
+                        for(let a=0;a< pfo.length;a++){
+                            if(poNode[j]?.nodeId == pfo[a].nodeId){
+                                schema = pfo[a]?.schema
+                            }
+                        }
+                    }
                     if (internalEdges && internalEdges.hasOwnProperty(poNode[j]?.nodeId)) {
                         let currentNodeEdge = internalEdges[poNode[j]?.nodeId];
                         if (currentFabric == 'DF-DFD') {
@@ -1364,7 +1359,10 @@ export class DynamicFlowService {
                                 singlevariables.forEach((key) => {
                                 if(searchFilter?.[key]){
                                 let value = searchFilter[key]
-                                if(typeof value == 'string')
+                                const dateType = this.isDateTimeField(schema, key);
+                                if(dateType)
+                                manualQuery = manualQuery.replaceAll(`\${${key}}`,`DATE(${key}) = '${value}'`)
+                                else if(typeof value == 'string')
                                 manualQuery = manualQuery.replaceAll(`\${${key}}`,`${key} = '${value}'`)
                                 else if(typeof value == 'number')
                                 manualQuery = manualQuery.replaceAll(`\${${key}}`,`${key} = '${value}'`)
@@ -1470,7 +1468,10 @@ export class DynamicFlowService {
                      const singleMatches = [...manualQuery.matchAll(/\$\{([^}]+)\}/g)];
                         const singlevariables = singleMatches.map(match => match[1]);
                         singlevariables.forEach((key) => {
-                             const regex = new RegExp(`\\([^)]*\\)\\.\\$\\{${key}\\}`, 'g');
+                            const regex = new RegExp(
+                                `(?:\\([^)]+\\)|\\w+)?\\.\\$\\{${key}\\}|\\$\\{${key}\\}`,
+                                'g'
+                            );
                             manualQuery = manualQuery.replace(regex, '1=1');                             
                         });
                 
@@ -1478,10 +1479,16 @@ export class DynamicFlowService {
                     let resdbarr =[]
                     await client.connect();
                     for(let item of qryarr){
-                     if (item) qryres = await client.query(item);                   
+                        try{
+                     if (item) qryres = await client.query(item); 
+                                          
                     if (qryres) dbres = qryres.rows; 
                         resdbarr.push(dbres)
+                    }catch(err){
+                       await client.end()
+                        throw err
                     }
+                        }
                     await client.end();
                     if(resdbarr?.length>0)
                     dbres = resdbarr
@@ -1541,7 +1548,11 @@ export class DynamicFlowService {
                                                 removedVal = key
                                             }
                                             const value = filterParamsObjvalues[p];
-                                            if (typeof value == 'number') {
+                                             const dateType = this.isDateTimeField(schema, removedVal);                               
+                                            if(dateType){                                        
+                                                formKey = formKey + ` DATE(${removedVal}) = '${value}' AND`;
+                                            }
+                                            else if (typeof value == 'number') {
                                                 formKey = formKey + ` ${removedVal} = ${value} AND`;
                                             } else if (typeof value == 'string') {
                                                 formKey = formKey + ` ${removedVal} = '${value}' AND`;
@@ -1580,7 +1591,11 @@ export class DynamicFlowService {
                                         removedVal = key
                                     }
                                     const value = searchParamsObjvalues[p];
-                                    if (typeof value == 'number') {
+                                     const dateType = this.isDateTimeField(schema, removedVal);                               
+                                    if(dateType){                                        
+                                        formKey = formKey + ` DATE(${removedVal}) = '${value}' AND`;
+                                    }
+                                    else if (typeof value == 'number') {
                                          formKey = formKey + ` ${removedVal}::TEXT LIKE '${value}%' AND`;
                                     } else if (typeof value == 'string') {
                                         formKey = formKey + ` ${removedVal} LIKE '${value}%' AND`;
@@ -1694,8 +1709,13 @@ export class DynamicFlowService {
                     console.log("qry",qry);
                     qry = qry.replace(/\u2003/g, ' ');                  
                     await client.connect();
+                    try{
                     if (qry) qryres = await client.query(qry);                   
                     if (qryres) dbres = qryres.rows;
+                    }catch(err){
+                        await client.end();
+                        throw err;
+                    }
                      console.log("dbres",dbres.length);
                     await client.end();
                     }else{
@@ -1777,9 +1797,9 @@ export class DynamicFlowService {
                     console.log(error);
                     await this.CommonService.checkRollBack(ndp, collectionName, 'rollback', {
                         key: processedKey + upId,
-                        nodeid: rollbackConfig.nodeId,
-                        nodename: rollbackConfig.nodeName,
-                        savepoint: rollbackConfig.savePoint,
+                        nodeid: rollbackConfig?.nodeId,
+                        nodename: rollbackConfig?.nodeName,
+                        savepoint: rollbackConfig?.savePoint,
                         data: dbres
                     }
                     );
@@ -1997,9 +2017,9 @@ export class DynamicFlowService {
                 } catch (error) {
                     await this.CommonService.checkRollBack(ndp, collectionName, 'rollback', {
                         key: processedKey + upId,
-                        nodeid: rollbackConfig.nodeId,
-                        nodename: rollbackConfig.nodeName,
-                        savepoint: rollbackConfig.savePoint,
+                        nodeid: rollbackConfig?.nodeId,
+                        nodename: rollbackConfig?.nodeName,
+                        savepoint: rollbackConfig?.savePoint,
                         data: mongoDbarr
                     }
                     );
@@ -2444,9 +2464,9 @@ export class DynamicFlowService {
                 } catch (error) {
                     await this.CommonService.checkRollBack(ndp, collectionName, 'rollback', {
                         key: processedKey + upId,
-                        nodeid: rollbackConfig.nodeId,
-                        nodename: rollbackConfig.nodeName,
-                        savepoint: rollbackConfig.savePoint,
+                        nodeid: rollbackConfig?.nodeId,
+                        nodename: rollbackConfig?.nodeName,
+                        savepoint: rollbackConfig?.savePoint,
                         data: streamArr
                     }
                     );
@@ -3020,9 +3040,9 @@ export class DynamicFlowService {
                     //console.log('err--',error);    
                     await this.CommonService.checkRollBack(ndp, collectionName, 'rollback', {
                         key: processedKey + upId,
-                        nodeid: rollbackConfig.nodeId,
-                        nodename: rollbackConfig.nodeName,
-                        savepoint: rollbackConfig.savePoint,
+                        nodeid: rollbackConfig?.nodeId,
+                        nodename: rollbackConfig?.nodeName,
+                        savepoint: rollbackConfig?.savePoint,
                         data: fileres
                     }
                     );
@@ -3297,9 +3317,9 @@ export class DynamicFlowService {
                             }
                         }  
 
-                        if(output_type && output_type == 'array'){
+                        if(output_type && output_type == 'array' && !Array.isArray(inputData)){                          
                             inputData = [inputData]
-                        }else if(output_type && output_type == 'object'){
+                        }else if(output_type && output_type == 'object' && Array.isArray(inputData)){
                             inputData = inputData[0]
                         }   
 
@@ -3732,6 +3752,15 @@ export class DynamicFlowService {
 
                             // console.log("edges", edges);
 
+                             for (const key of Object.keys(inputparam)) {
+                                if (
+                                    Array.isArray(inputparam[key]) &&
+                                    inputparam[key].length === 1
+                                ) {
+                                    inputparam[key] = inputparam[key][0];
+                                }
+                            }
+
                             if (Array.isArray(inputparam)) {
                                 demo = JSON.parse(await this.transformData(edges, inputparam));
                             } else if (Object.keys(inputparam).length > 0) {
@@ -3800,7 +3829,7 @@ export class DynamicFlowService {
                             // await this.redisService.setStreamData(srcQueue, collectionName + '-TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: inputparam, response: finalRes } }));
 
                             if (finalRes && Array.isArray(finalRes) && finalRes?.length > 0) {
-                                inputparam = await this.assignToInputParam(inputparam, nodeName, finalRes[0])
+                                inputparam = await this.assignToInputParam(inputparam, nodeName, finalRes)
                             } else if (finalRes && Object.keys(finalRes).length > 0) {
                                 inputparam = await this.assignToInputParam(inputparam, nodeName, finalRes)
                             }
@@ -5429,6 +5458,7 @@ export class DynamicFlowService {
                             }
                         });
                     }
+                    let obj ={},result;
                     if (executecommand.includes('$$$') || executecommand.includes('$$'))
                         executecommand = executecommand.replace(/\${2,3}[a-zA-Z0-9_]+/g, 'NULL');
                     await client.connect();
@@ -5436,11 +5466,17 @@ export class DynamicFlowService {
                         if(msg?.message) pgnotice.push(msg.message)
                         //console.log('PG NOTICE:', msg.message);
                     });
+                    
+                    try{
                     await client.query(procedurequery)
-                    let obj = {executecommand:executecommand}                   
+                    obj = {executecommand:executecommand}                   
                     
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(obj), collectionName, 'request')                    
-                    const result = await client.query(`${executecommand}`);                   
+                    result = await client.query(`${executecommand}`);  
+                    }catch(err){
+                        await client.end();
+                        throw err;
+                    }               
                     await client.end();
                     
                     if(pgnotice) obj['pgnotice'] = pgnotice
@@ -5640,9 +5676,9 @@ export class DynamicFlowService {
                     // console.log("error",error);
                     await this.CommonService.checkRollBack(ndp, collectionName, 'rollback', {
                         key: processedKey + upId,
-                        nodeid: rollbackConfig.nodeId,
-                        nodename: rollbackConfig.nodeName,
-                        savepoint: rollbackConfig.savePoint,
+                        nodeid: rollbackConfig?.nodeId,
+                        nodename: rollbackConfig?.nodeName,
+                        savepoint: rollbackConfig?.savePoint,
                         data: status
                     }
                     );
@@ -5763,9 +5799,15 @@ export class DynamicFlowService {
                     }
                     if (executecommand.includes('$$$') || executecommand.includes('$$'))
                         executecommand = executecommand.replace(/\${2,3}[a-zA-Z0-9_]+/g, 'NULL');
+                     let result;
                     await client.connect();
+                    try{
                     await client.query(procedurequery)
-                    const result = await client.query(`${executecommand}`);
+                    result = await client.query(`${executecommand}`);
+                    }catch(err){
+                        await client.end();
+                        throw err;
+                    }  
                     await client.end();
                     if ((result.rows)?.length > 0) {
                         status = result.rows
@@ -5909,6 +5951,10 @@ export class DynamicFlowService {
         }
     }
 
+    isDateTimeField(schema: any, key: string) {
+    return schema?.properties?.[key]?.format === 'date-time';
+    }
+
     async replaceQuery(replaceQry,mapObj){
         try {           
            const matches = [...replaceQry.matchAll(/\$\$([a-zA-Z0-9_.]+)/g)];
@@ -5944,6 +5990,15 @@ export class DynamicFlowService {
                     const regex = new RegExp(`\\$\\$${item}`, 'g');
                     if (value === null || value === undefined) {
                         value = 'NULL';
+                    }
+                      else if (Array.isArray(value) &&(value.every(v => typeof v === 'number') || value.every(v => typeof v === 'string')) ) {                       
+                        const isNumberArray = value.every(v => typeof v === 'number');
+                        const isStringArray = value.every(v => typeof v === 'string');
+                        if (isNumberArray) {
+                            value = `ARRAY[${value.join(',')}]`;
+                        } else if(isStringArray){
+                            value = `ARRAY[${value.map(v => `'${String(v).replace(/'/g, "''")}'`).join(',')}]`;
+                        }
                     }
                     else if (typeof value === 'object') {
                         value = `'${JSON.stringify(value)}'`;
@@ -6141,7 +6196,7 @@ export class DynamicFlowService {
                     internalMappedObj[item?.key?.toLowerCase()] = formatttedDate
                 }else if(item.type == 'rule'){
                     if(zenresult?.[item.value]){
-                    internalMappedObj[item?.key?.toLowerCase()] = zenresult[item.value]
+                    internalMappedObj[item?.key?.toLowerCase()] = zenresult[item.key]
                     }
                 }else if(item.type == 'pfrule' && item?.value){   
                     let nodeId = item?.nodeId  
@@ -6150,7 +6205,7 @@ export class DynamicFlowService {
                     let ht_afpVal:any = await this.redisService.getJsonDataWithPath(processedKey+':NPV:'+ nodeName + '.PRO', '.ifo',process.env.CLIENTCODE)               
                     if(ht_afpVal){
                         ht_afpVal = JSON.parse(ht_afpVal)
-                        internalMappedObj[item?.key?.toLowerCase()] = ht_afpVal[item.value]  
+                        internalMappedObj[item?.key?.toLowerCase()] = ht_afpVal[item.key]  
                     }
                 }
                 else{

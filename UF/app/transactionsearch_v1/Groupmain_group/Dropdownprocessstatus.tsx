@@ -448,6 +448,7 @@ const Dropdownprocessstatus = ({lockedData,setLockedData,checkToAdd,setCheckToAd
         hasClear={true} 
         onChange={handlechange} 
         value={main_group9066f?.processstatus134a1 ? [main_group9066f?.processstatus134a1] : (main_group9066f?.processstatus ? dropdownValue : [])}
+        validationState={validate?.transactionSearch_v1?.processstatus ? "invalid" : undefined}
         />
     </div>
   );

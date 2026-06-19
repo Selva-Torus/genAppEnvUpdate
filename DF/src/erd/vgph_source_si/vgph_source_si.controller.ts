@@ -81,7 +81,7 @@ export class vgph_source_siController {
   async findOne(@Headers() authHeader: string,@Param('vgphssi_id') vgphssi_id:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_source_siService.findOne(+vgphssi_id,token);
+    const result = await this.vgph_source_siService.findOne(+vgphssi_id,token);
     return plainToInstance(vgph_source_siEntity, result);
   }
  
@@ -120,7 +120,7 @@ export class vgph_source_siController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = this.vgph_source_siService.findAll(token,+vgphssi_id);
+    const result = await this.vgph_source_siService.findAll(token,+vgphssi_id);
     return plainToInstance(vgph_source_siEntity, result);
   } 
 
@@ -163,6 +163,7 @@ export class vgph_source_siController {
   }
  
   @Patch(':vgphssi_id')
+  @UsePipes(new PrismaModelValidationPipe('vgph_source_si', true))
   @ApiBearerAuth('JWT-auth')
   @ApiParam({name: 'vgphssi_id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
@@ -195,7 +196,7 @@ export class vgph_source_siController {
       return result;
     }
 
-    const result = this.vgph_source_siService.update(+vgphssi_id,updatevgph_source_siDto,token);
+    const result = await this.vgph_source_siService.update(+vgphssi_id,updatevgph_source_siDto,token);
     return plainToInstance(vgph_source_siEntity, result);
   }
  
@@ -230,7 +231,7 @@ export class vgph_source_siController {
       return result;
     }
 
-    const result =  this.vgph_source_siService.remove(+vgphssi_id,token);
+    const result = await this.vgph_source_siService.remove(+vgphssi_id,token);
     return plainToInstance(vgph_source_siEntity, result);
   }  
  
@@ -246,7 +247,7 @@ export class vgph_source_siController {
   async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_source_siService.findFirst(token);
+    const result = await this.vgph_source_siService.findFirst(token);
     return plainToInstance(vgph_source_siEntity, result);
   }
 
@@ -262,7 +263,7 @@ export class vgph_source_siController {
   async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = this.vgph_source_siService.findLast(token);
+    const result = await this.vgph_source_siService.findLast(token);
     return plainToInstance(vgph_source_siEntity, result);
   }
 }
