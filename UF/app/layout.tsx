@@ -130,9 +130,9 @@
         "fontUrl": "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       }
     ],
-    "text-body-font": "",
-    "text-header-font": "",
-    "text-display-font": "",
+    "text-body-font": "Inter",
+    "text-header-font": "Inter",
+    "text-display-font": "Inter",
     "name": "default",
     "fontSize": {
       "minPx": "6",
@@ -183,7 +183,7 @@
         }
       }
     },
-    "lastActive": "2026-06-19T07:23:15.323Z",
+    "lastActive": "2026-06-20T06:48:09.835Z",
     "client": "CT005",
     "users": "guruGuru Krishnan",
     "profile": "",

@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useGlobal } from '@/context/GlobalContext'
 import { DatePicker } from '@/components/DatePicker'
 
 import { getBorderRadiusClass } from '@/app/utils/branding'
-import { MdAdd, MdDelete, MdKeyboardArrowDown, MdSearch } from 'react-icons/md'
+import { useInfoMsg } from '@/app/components/infoMsgHandler'
+import { MdKeyboardArrowDown, MdSearch } from 'react-icons/md'
 import { MdCheck } from 'react-icons/md'
 
 // ─── Public types ─────────────────────────────────────────────────────────────
@@ -44,6 +45,7 @@ interface FilterRow {
   value: string
   value2: string
   dataType: DataType
+  selected: boolean
 }
 
 // ─── Dropdown option type ─────────────────────────────────────────────────────
@@ -252,20 +254,8 @@ const DEFAULT_FILTER: Record<DataType, string> = {
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-const genId = () =>
-  `row-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
-
 const toTimestamp = (dateStr: string) =>
   dateStr ? `${dateStr}T00:00:00.000Z` : ''
-
-const makeRow = (key = '', dataType: DataType = 'string'): FilterRow => ({
-  id: genId(),
-  key,
-  dataType,
-  operator: DEFAULT_FILTER[dataType],
-  value: '',
-  value2: ''
-})
 
 const toOutput = (rows: FilterRow[]): FilterOutput[] =>
   rows.map(({ id, value2, dataType, ...rest }) => ({
@@ -277,7 +267,6 @@ const toOutput = (rows: FilterRow[]): FilterOutput[] =>
 
 export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
   data,
-  value,
   label,
   disabled = false,
   className = '',
@@ -287,102 +276,37 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
   const { theme, branding } = useGlobal()
   const isDark = theme === 'dark' || theme === 'dark-hc'
 
-  const isEmitting = useRef(false)
-
-  const [rows, setRows] = useState<FilterRow[]>(() => {
-    if (value && value.length > 0) {
-      return value.map(v => ({
-        id: genId(),
-        key: v.key,
-        operator: v.operator,
-        value: String(v.value ?? ''),
-        value2: String(v.value2 ?? ''),
-        dataType:
-          data.find(f => f.controllerName === v.key)?.dataType ?? 'string'
-      }))
-    }
-    const first = data[0]
-    return [makeRow(first?.controllerName ?? '', first?.dataType ?? 'string')]
-  })
-
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+  const [rows, setRows] = useState<FilterRow[]>([])
 
   useEffect(() => {
-    if (!value) return
-    if (isEmitting.current) {
-      isEmitting.current = false
-      return
-    }
     setRows(
-      value.map(v => ({
-        id: genId(),
-        key: v.key,
-        operator: v.operator,
-        value: String(v.value ?? ''),
-        value2: String(v.value2 ?? ''),
-        dataType:
-          data.find(f => f.controllerName === v.key)?.dataType ?? 'string'
+      data.map(field => ({
+        id: field.controllerName,
+        key: field.controllerName,
+        dataType: field.dataType,
+        operator: DEFAULT_FILTER[field.dataType],
+        value: '',
+        value2: '',
+        selected: false
       }))
     )
-    setSelectedIds(new Set())
-  }, [value])
-
-  const controllerOptions: DropdownOption[] = data.map(f => ({
-    value: f.controllerName,
-    label: f.label ?? f.controllerName
-  }))
-
-  const emit = useCallback(
-    (updated: FilterRow[]) => {
-      isEmitting.current = true
-      onChange?.(toOutput(updated))
-    },
-    [onChange]
-  )
+  }, [data])
 
   const patch = (id: string, changes: Partial<FilterRow>) => {
-    const next = rows.map(r => (r.id === id ? { ...r, ...changes } : r))
+    const next = rows.map(row => (row.id === id ? { ...row, ...changes } : row))
     setRows(next)
-    emit(next)
+    onChange?.(toOutput(next.filter(r => r.selected)))
   }
 
-  const handleKeyChange = (id: string, key: string) => {
-    const field = data.find(f => f.controllerName === key)
-    const dataType: DataType = field?.dataType ?? 'string'
-    patch(id, {
-      key,
-      dataType,
-      operator: DEFAULT_FILTER[dataType],
-      value: '',
-      value2: ''
-    })
-  }
+  const showToast = useInfoMsg()
 
-  const addRow = () => {
-    const first = data[0]
-    const nr = makeRow(first?.controllerName ?? '', first?.dataType ?? 'string')
-    const next = [...rows, nr]
-    setRows(next)
-    emit(next)
-  }
-
-  const deleteSelected = () => {
-    const next = rows.filter(r => !selectedIds.has(r.id))
-    const safe =
-      next.length > 0
-        ? next
-        : [makeRow(data[0]?.controllerName, data[0]?.dataType)]
-    setRows(safe)
-    setSelectedIds(new Set())
-    emit(safe)
-  }
-
-  const toggleSelect = (id: string) => {
-    setSelectedIds(prev => {
-      const next = new Set(prev)
-      next.has(id) ? next.delete(id) : next.add(id)
-      return next
-    })
+  const handleSearch = () => {
+    const selected = rows.filter(r => r.selected)
+    if (selected.length === 0) {
+      showToast('Please select at least one column', 'danger')
+      return
+    }
+    onSubmit?.(toOutput(selected))
   }
 
   const hexToRgba = (hex: string, alpha: number) => {
@@ -395,8 +319,8 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
   const borderRadiusClass = getBorderRadiusClass(branding.borderRadius)
   const borderColor = isDark ? '#4B5563' : '#D1D5DB'
 
-  const cellCls = `flex items-center gap-1.5 w-full h-8 rounded-lg border-2`
-  const cellClsDate = `flex items-center w-full h-8`
+  const cellCls = `flex items-center gap-1.5 w-full min-h-10 rounded-lg border-2`
+  const cellClsDate = `flex items-center w-full min-h-10`
   const cellStyle = { borderColor }
 
   // ─── Render ──────────────────────────────────────────────────────────────
@@ -424,37 +348,7 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
         <div className='flex items-center gap-1.5 sm:gap-2'>
           <button
             type='button'
-            onClick={addRow}
-            className='flex h-8 w-8 cursor-pointer items-center justify-center gap-1 rounded-lg text-xs font-medium text-white duration-150 sm:h-auto sm:w-auto sm:px-3 sm:py-1.5 sm:text-sm'
-            style={{ backgroundColor: branding.selectionColor }}
-            onMouseEnter={e => {
-              ;(e.currentTarget as HTMLElement).style.backgroundColor =
-                branding.hoverColor
-            }}
-            onMouseLeave={e => {
-              ;(e.currentTarget as HTMLElement).style.backgroundColor =
-                branding.selectionColor
-            }}
-          >
-            <MdAdd size={16} />
-            <span className='hidden sm:inline'>Add</span>
-          </button>
-          <button
-            type='button'
-            onClick={deleteSelected}
-            disabled={selectedIds.size === 0}
-            className={`flex h-8 w-8 items-center justify-center gap-1 rounded-lg text-xs font-medium text-white transition-colors duration-150 sm:h-auto sm:w-auto sm:px-3 sm:py-1.5 sm:text-sm ${
-              selectedIds.size === 0
-                ? 'cursor-not-allowed bg-red-300'
-                : 'cursor-pointer bg-red-500 hover:bg-red-600'
-            }`}
-          >
-            <MdDelete size={16} />
-            <span className='hidden sm:inline'>Delete</span>
-          </button>
-          <button
-            type='button'
-            onClick={() => onSubmit?.(toOutput(rows))}
+            onClick={handleSearch}
             className='flex h-8 w-8 cursor-pointer items-center justify-center gap-1 rounded-lg text-xs font-medium text-white duration-150 sm:h-auto sm:w-auto sm:px-3 sm:py-1.5 sm:text-sm'
             style={{
               backgroundColor: branding.selectionColor,
@@ -490,64 +384,44 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
       {/* ── Filter rows ── */}
       <div className='flex min-h-0 flex-1 flex-col overflow-y-auto'>
         {rows.map((row, idx) => {
+          const field = data.find(f => f.controllerName === row.key)!
           const isBetween = row.operator === 'BETWEEN'
           const isDate = row.dataType === 'date'
           const isNumber = row.dataType === 'number'
-          const filterOpts = row.key ? FILTER_MAP[row.dataType] : []
-          const isChecked = selectedIds.has(row.id)
+          const filterOpts = FILTER_MAP[row.dataType]
 
-          const labelCls = `text-[10px] sm:text-[11px] font-semibold uppercase tracking-wide ${
+          const labelCls = `break-words whitespace-normal text-[10px] sm:text-[11px] font-semibold uppercase tracking-wide ${
             isDark ? 'text-gray-400' : 'text-gray-500'
           }`
 
           return (
             <div
-              key={row.id}
-              className={`flex flex-col items-start gap-2 px-4 py-2 transition-colors duration-150 sm:grid sm:px-5 sm:py-3 ${
-                isChecked
-                  ? isDark
-                    ? 'bg-blue-900/40'
-                    : 'bg-blue-50'
-                  : isDark
-                  ? 'bg-gray-900'
-                  : 'bg-white'
-              } ${
-                idx < rows.length - 1
-                  ? isDark
-                    ? 'border-b border-gray-700'
-                    : 'border-b border-gray-200'
-                  : ''
-              }`}
-              style={{ gridTemplateColumns: '28px 1fr 1fr 2fr' }}
+              key={row.key}
+              className='grid grid-cols-1 items-stretch gap-2 px-4 py-2 transition-colors duration-150 md:grid-cols-[28px_1fr_1fr_2fr] md:px-5 md:py-3'
             >
               {/* Checkbox */}
-              <div className='mt-[14px] hidden h-8 items-center sm:flex'>
+              <div className='mt-3 hidden min-h-10 items-center md:flex'>
                 <input
                   type='checkbox'
-                  checked={isChecked}
-                  onChange={() => toggleSelect(row.id)}
+                  checked={row.selected}
+                  onChange={() => patch(row.id, { selected: !row.selected })}
                   className='h-4 w-4 cursor-pointer rounded'
                   style={{ accentColor: branding.selectionColor }}
                 />
               </div>
 
               {/* Field */}
-              <div className='flex w-full min-w-0 flex-col gap-1 sm:w-auto'>
+              <div className='flex w-full min-w-0 flex-col gap-1 self-stretch'>
                 <span className={labelCls}>Field</span>
                 <div className={cellCls} style={cellStyle}>
-                  <DropdownSelect
-                    options={controllerOptions}
-                    value={row.key}
-                    placeholder='Select field'
-                    isDark={isDark}
-                    selectionColor={branding.selectionColor}
-                    onChange={v => handleKeyChange(row.id, v)}
-                  />
+                  <span className='whitespace-normal break-words px-3 text-sm'>
+                    {field.label ?? field.controllerName}
+                  </span>
                 </div>
               </div>
 
               {/* Condition */}
-              <div className='flex w-full min-w-0 flex-col gap-1 sm:w-auto'>
+              <div className='flex w-full min-w-0 flex-col gap-1 self-stretch'>
                 <span className={labelCls}>Condition</span>
                 <div className={cellCls} style={cellStyle}>
                   <DropdownSelect
@@ -565,16 +439,21 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
               </div>
 
               {/* Value */}
-              <div className='flex w-full min-w-0 flex-col gap-1 sm:w-auto'>
+              <div className='flex w-full min-w-0 flex-col gap-1 self-stretch'>
                 <span className={labelCls}>Value</span>
                 {isBetween ? (
-                  <div className='flex items-center gap-1'>
-                    <div className={isDate ? cellClsDate : cellCls} style={isDate ? undefined : cellStyle}>
+                  <div className='flex items-stretch gap-1'>
+                    <div
+                      className={isDate ? cellClsDate : cellCls}
+                      style={isDate ? undefined : cellStyle}
+                    >
                       {isDate ? (
                         <DatePicker
                           value={row.value}
                           fillContainer
-                          onChange={v => patch(row.id, { value: toTimestamp(v) })}
+                          onChange={v =>
+                            patch(row.id, { value: toTimestamp(v) })
+                          }
                         />
                       ) : (
                         <input
@@ -586,7 +465,7 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
                             patch(row.id, { value: e.target.value })
                           }
                           onKeyDown={e => {
-                            if (e.key === 'Enter') onSubmit?.(toOutput(rows))
+                            if (e.key === 'Enter') handleSearch()
                           }}
                           className={`h-full w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-0 sm:text-sm ${
                             isDark
@@ -604,12 +483,17 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
                     >
                       –
                     </span>
-                    <div className={isDate ? cellClsDate : cellCls} style={isDate ? undefined : cellStyle}>
+                    <div
+                      className={isDate ? cellClsDate : cellCls}
+                      style={isDate ? undefined : cellStyle}
+                    >
                       {isDate ? (
                         <DatePicker
                           value={row.value2}
                           fillContainer
-                          onChange={v => patch(row.id, { value2: toTimestamp(v) })}
+                          onChange={v =>
+                            patch(row.id, { value2: toTimestamp(v) })
+                          }
                         />
                       ) : (
                         <input
@@ -621,7 +505,7 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
                             patch(row.id, { value2: e.target.value })
                           }
                           onKeyDown={e => {
-                            if (e.key === 'Enter') onSubmit?.(toOutput(rows))
+                            if (e.key === 'Enter') handleSearch()
                           }}
                           className={`h-full w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-0 sm:text-sm ${
                             isDark
@@ -634,7 +518,10 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
                     </div>
                   </div>
                 ) : (
-                  <div className={isDate ? cellClsDate : cellCls} style={isDate ? undefined : cellStyle}>
+                  <div
+                    className={isDate ? cellClsDate : cellCls}
+                    style={isDate ? undefined : cellStyle}
+                  >
                     {isDate ? (
                       <DatePicker
                         value={row.value}
@@ -647,11 +534,9 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
                         value={row.value}
                         placeholder='Value'
                         disabled={disabled}
-                        onChange={e =>
-                          patch(row.id, { value: e.target.value })
-                        }
+                        onChange={e => patch(row.id, { value: e.target.value })}
                         onKeyDown={e => {
-                          if (e.key === 'Enter') onSubmit?.(toOutput(rows))
+                          if (e.key === 'Enter') handleSearch()
                         }}
                         className={`h-full w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-0 sm:text-sm ${
                           isDark

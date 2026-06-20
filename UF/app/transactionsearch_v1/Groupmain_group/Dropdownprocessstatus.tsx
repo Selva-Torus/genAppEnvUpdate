@@ -247,12 +247,15 @@ const Dropdownprocessstatus = ({lockedData,setLockedData,checkToAdd,setCheckToAd
   };
 
     const fetchDropdownData = async()=>{
+    let tempValue:any=""
     if(main_group9066f.processstatus){
       if(Array.isArray(dfd_processstatuscombosearch_v1Props)){
         if(dfd_processstatuscombosearch_v1Props?.find((item: any) => item.process_status === main_group9066f.processstatus)){
           setdropdownValue([dfd_processstatuscombosearch_v1Props?.find((item: any) => item.process_status === main_group9066f.processstatus)?.process_status])
+          tempValue=dfd_processstatuscombosearch_v1Props?.find((item: any) => item.process_status === main_group9066f.processstatus)?.process_status
         }else{
           setdropdownValue([main_group9066f.processstatus])
+          tempValue=main_group9066f.processstatus
         }
       }else{
         let dstKey:string = dfd_processstatuscombosearch_v1Props.dstKey;
@@ -277,10 +280,19 @@ const Dropdownprocessstatus = ({lockedData,setLockedData,checkToAdd,setCheckToAd
       }
       if(api_paginationData?.data?.records?.find((item: any) => item.process_status === main_group9066f.processstatus)){
         setdropdownValue([api_paginationData?.data?.records?.find((item: any) => item.process_status === main_group9066f.processstatus)?.process_status ])
+        tempValue=api_paginationData?.data?.records?.find((item: any) => item.process_status === main_group9066f.processstatus)?.process_status
       }else{
         setdropdownValue([main_group9066f.processstatus])
+        tempValue=main_group9066f.processstatus
       }   
       }
+    }
+    if(processstatus134a1?.trigger!=null)
+    {
+      handleClick(tempValue)
+    }
+    else{
+      setprocessstatus134a1((pre:any)=>({...pre,trigger:null}))
     }
   }
 

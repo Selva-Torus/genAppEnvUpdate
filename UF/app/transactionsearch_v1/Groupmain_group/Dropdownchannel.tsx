@@ -247,12 +247,15 @@ const Dropdownchannel = ({lockedData,setLockedData,checkToAdd,setCheckToAdd,refe
   };
 
     const fetchDropdownData = async()=>{
+    let tempValue:any=""
     if(main_group9066f.channel){
       if(Array.isArray(dfd_channelcombosearch_v1Props)){
         if(dfd_channelcombosearch_v1Props?.find((item: any) => item.channel === main_group9066f.channel)){
           setdropdownValue([dfd_channelcombosearch_v1Props?.find((item: any) => item.channel === main_group9066f.channel)?.channel])
+          tempValue=dfd_channelcombosearch_v1Props?.find((item: any) => item.channel === main_group9066f.channel)?.channel
         }else{
           setdropdownValue([main_group9066f.channel])
+          tempValue=main_group9066f.channel
         }
       }else{
         let dstKey:string = dfd_channelcombosearch_v1Props.dstKey;
@@ -277,10 +280,19 @@ const Dropdownchannel = ({lockedData,setLockedData,checkToAdd,setCheckToAdd,refe
       }
       if(api_paginationData?.data?.records?.find((item: any) => item.channel === main_group9066f.channel)){
         setdropdownValue([api_paginationData?.data?.records?.find((item: any) => item.channel === main_group9066f.channel)?.channel ])
+        tempValue=api_paginationData?.data?.records?.find((item: any) => item.channel === main_group9066f.channel)?.channel
       }else{
         setdropdownValue([main_group9066f.channel])
+        tempValue=main_group9066f.channel
       }   
       }
+    }
+    if(channel26e83?.trigger!=null)
+    {
+      handleClick(tempValue)
+    }
+    else{
+      setchannel26e83((pre:any)=>({...pre,trigger:null}))
     }
   }
 

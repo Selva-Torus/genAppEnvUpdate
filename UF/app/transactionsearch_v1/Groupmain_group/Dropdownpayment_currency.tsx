@@ -247,12 +247,15 @@ const Dropdownpayment_currency = ({lockedData,setLockedData,checkToAdd,setCheckT
   };
 
     const fetchDropdownData = async()=>{
+    let tempValue:any=""
     if(main_group9066f.payment_currency){
       if(Array.isArray(dfd_combocurrencysearch_v1Props)){
         if(dfd_combocurrencysearch_v1Props?.find((item: any) => item.currency_code === main_group9066f.payment_currency)){
           setdropdownValue([dfd_combocurrencysearch_v1Props?.find((item: any) => item.currency_code === main_group9066f.payment_currency)?.currency_desc])
+          tempValue=dfd_combocurrencysearch_v1Props?.find((item: any) => item.currency_code === main_group9066f.payment_currency)?.currency_desc
         }else{
           setdropdownValue([main_group9066f.payment_currency])
+          tempValue=main_group9066f.payment_currency
         }
       }else{
         let dstKey:string = dfd_combocurrencysearch_v1Props.dstKey;
@@ -277,10 +280,19 @@ const Dropdownpayment_currency = ({lockedData,setLockedData,checkToAdd,setCheckT
       }
       if(api_paginationData?.data?.records?.find((item: any) => item.currency_code === main_group9066f.payment_currency)){
         setdropdownValue([api_paginationData?.data?.records?.find((item: any) => item.currency_code === main_group9066f.payment_currency)?.currency_desc ])
+        tempValue=api_paginationData?.data?.records?.find((item: any) => item.currency_code === main_group9066f.payment_currency)?.currency_desc
       }else{
         setdropdownValue([main_group9066f.payment_currency])
+        tempValue=main_group9066f.payment_currency
       }   
       }
+    }
+    if(payment_currency703d2?.trigger!=null)
+    {
+      handleClick(tempValue)
+    }
+    else{
+      setpayment_currency703d2((pre:any)=>({...pre,trigger:null}))
     }
   }
 

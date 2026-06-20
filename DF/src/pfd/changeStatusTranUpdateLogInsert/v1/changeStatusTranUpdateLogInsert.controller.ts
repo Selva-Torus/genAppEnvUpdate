@@ -79,6 +79,10 @@ export class changeStatusTranUpdateLogInsertController {
         async CT005UFUFWGSSSMXoutboundManualReturnProcessv1CT005PFPFDGSSSMXchangeStatusTranUpdateLogInsertv1_314b970eed014fa1b6484a9822a9c300_dd654e0263d3b9d7f589bfbdfcbdab31111_HT_CT_INITIATED(input: PoEvent) { 
            return await this.dynamicFlowService.DynamicFlowProcess(input)
         }       
+           @EventPattern('CT005UFUFWGSSSMXinboundApplySpecialRateProcessv1CT005PFPFDGSSSMXchangeStatusTranUpdateLogInsertv1_314b970eed014fa1b6484a9822a9c300_497faa5266e7a59cfe9ad31fae0934bd111_HT_CT_INITIATED') 
+        async CT005UFUFWGSSSMXinboundApplySpecialRateProcessv1CT005PFPFDGSSSMXchangeStatusTranUpdateLogInsertv1_314b970eed014fa1b6484a9822a9c300_497faa5266e7a59cfe9ad31fae0934bd111_HT_CT_INITIATED(input: PoEvent) { 
+           return await this.dynamicFlowService.DynamicFlowProcess(input)
+        }       
            @EventPattern('CT005PFPFDGSSSMXchangeStatusTranUpdateLogInsertv1_107462cb251a4ed2b086672c60fb1f8c_d880q3mw37yg008bersg_HT_CT_SUCCESS') 
         async CT005PFPFDGSSSMXchangeStatusTranUpdateLogInsertv1_107462cb251a4ed2b086672c60fb1f8c_d880q3mw37yg008bersg_HT_CT_SUCCESS(input: PoEvent) { 
            return await this.dynamicFlowService.DynamicFlowProcess(input)

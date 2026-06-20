@@ -324,9 +324,14 @@ const Buttonlog_btn = ({ mainData,lockedData,setLockedData,primaryTableData, set
  if (log_btnfe134?.isHidden) {
     return <></>
   }
- 
+
   return (
-    <div >
+    <div 
+     onMouseDown={(e:any) => 
+      getRouteScreenDetails('CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1','transaction','needstopPropagate')=='not in assembler'?e.stopPropagation():null
+    }
+    >
+       
       <Modal 
         open={showProfileAsModalOpen4} 
         onClose={() => setShowProfileAsModalOpen4(false)}

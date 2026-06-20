@@ -55,7 +55,7 @@ export const CommonHeaderAndTooltip: React.FC<CommonHeaderAndTooltip> = ({
               fillContainer ? 'h-full w-full' : ''
             } ${className}`}
           >
-            <div className={headerClasses}>{headerContent}</div>
+            <div className={`${headerClasses} overflow-x-auto whitespace-nowrap`}>{headerContent}</div>
             <div className={fillContainer ? 'min-h-0 flex-1' : ''}>
               {element}
             </div>
@@ -71,7 +71,7 @@ export const CommonHeaderAndTooltip: React.FC<CommonHeaderAndTooltip> = ({
             <div className={fillContainer ? 'min-h-0 flex-1' : ''}>
               {element}
             </div>
-            <div className={`${headerClasses} mb-0 mt-1`}>{headerContent}</div>
+            <div className={`${headerClasses} mb-0 mt-1 overflow-x-auto whitespace-nowrap`}>{headerContent}</div>
           </div>
         )
       case 'left':
@@ -82,7 +82,7 @@ export const CommonHeaderAndTooltip: React.FC<CommonHeaderAndTooltip> = ({
             } ${className}`}
           >
             <div
-              className={`${headerClasses} mb-0 flex-shrink-0 ${
+              className={`${headerClasses} mb-0 flex-shrink-0 overflow-x-auto whitespace-nowrap ${
                 direction === 'RTL' ? 'ml-2' : 'mr-2'
               }`}
             >
@@ -104,7 +104,7 @@ export const CommonHeaderAndTooltip: React.FC<CommonHeaderAndTooltip> = ({
               {element}
             </div>
             <div
-              className={`${headerClasses} mb-0 flex-shrink-0 ${
+              className={`${headerClasses} mb-0 flex-shrink-0 overflow-x-auto whitespace-nowrap ${
                 direction === 'RTL' ? 'mr-2' : 'ml-2'
               }`}
             >
