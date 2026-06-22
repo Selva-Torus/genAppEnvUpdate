@@ -1048,7 +1048,6 @@ const OPRTopNavSelector = ({
           className={clsx(
             'flex items-center justify-center gap-2 rounded-full bg-[var(--brand-color)]',
             {
-              'bg-[var(--selection-color)]': activeStage == 'org',
               'w-[unset] px-3 py-1': !fullView,
               'max-w-[8vw] min-w-[7vw] px-[1vw] py-[0.3vh]': fullView
             }
@@ -1096,7 +1095,6 @@ const OPRTopNavSelector = ({
           className={clsx(
             'flex items-center justify-center gap-2 rounded-full bg-[var(--brand-color)]',
             {
-              'bg-[var(--selection-color)]': activeStage == 'prod',
               'w-[unset] px-3 py-1': !fullView,
               'max-w-[8vw] min-w-[7vw] px-[1vw] py-[0.3vh]': fullView
             }
@@ -1144,7 +1142,6 @@ const OPRTopNavSelector = ({
           className={clsx(
             'flex items-center justify-center gap-2 rounded-full bg-[var(--brand-color)]',
             {
-              'bg-[var(--selection-color)]': activeStage == 'role',
               'w-[unset] px-3 py-1': !fullView,
               'max-w-[8vw] min-w-[7vw] px-[1vw] py-[0.3vh]': fullView
             }

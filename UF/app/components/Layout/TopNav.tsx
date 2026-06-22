@@ -53,8 +53,8 @@ const TopNav = ({
   const selectedAccessProfile = decodedTokenObj?.selectedAccessProfile
   const pathname = usePathname()
   const menuRef = useRef<HTMLDivElement>(null)
-  const { borderColor, isDark } = useTheme()
-  const bgColor = isDark ? "bg-gray-800" : "bg-white"
+  const { borderColor, isDark , textStyle } = useTheme()
+  const bgStyle = isDark ? "#1f2937" : "#ffffff"
   const [visibleItems, setVisibleItems] = useState<MenuItem[]>(navData || [])
   const [hiddenItems, setHiddenItems] = useState<MenuItem[]>([])
   const tp_ps = getCookie('tp_ps')
@@ -63,6 +63,10 @@ const TopNav = ({
   const brandTextColor = useMemo(() => {
     return isLightColor(brandColor)
   } , [brandColor])
+  const menuBgColor = "#0736C4"
+  const menuTextColor = "#ffffff" 
+  const menuSelectionBgColor = "#ffffff"
+  const menuSelectionTextColor = "#0736C4"
 
   useEffect(() => {
     const checkOverflow = () => {
@@ -176,6 +180,37 @@ const TopNav = ({
     },
     [brandColor]
   )
+  const getMenuStyle = (selected: boolean): React.CSSProperties => {
+  const style: React.CSSProperties = {}
+
+  if (selected) {
+    if (menuSelectionBgColor) {
+      style.backgroundColor = menuSelectionBgColor
+    } else {
+      style.backgroundColor = brandColor
+    }
+
+    if (menuSelectionTextColor) {
+      style.color = menuSelectionTextColor
+    } else {
+      style.color = brandTextColor
+    }
+  } else {
+    if (menuBgColor) {
+      style.backgroundColor = menuBgColor
+    }else{
+      style.backgroundColor = bgStyle
+    }
+
+    if (menuTextColor) {
+      style.color = menuTextColor
+    }else{
+      style.color = textStyle
+    }
+  }
+
+  return style
+}
 
   // Helper function to get grid style for a section
   const getGridStyle: (sectionName: string) => React.CSSProperties = (
@@ -247,11 +282,10 @@ const TopNav = ({
                     renderSwitcher={(props: any) => (
                       <button
                         {...props}
-                        className={twMerge(
-                          'px-[1vw] py-[0.5vh] !text-nowrap rounded-[1vw] hover:bg-[var(--hover-color)] text-fsbase',
-                          selected ? `bg-[var(--brand-color)] text-["${brandTextColor}"]` : bgColor
-                         )}
-                        style={selected ? { color: brandTextColor } : undefined} 
+                         className={twMerge(
+                            'px-[1vw] py-[0.5vh] !text-nowrap rounded-[1vw] hover:bg-[var(--hover-color)] text-fsbase'
+                          )}
+                        style={getMenuStyle(selected)}
                       >
                         {menu.menuGroupLabel}
                       </button>
@@ -271,10 +305,9 @@ const TopNav = ({
               return (
                 <button
                  className={twMerge(
-                          'px-[1vw] py-[0.5vh] !text-nowrap rounded-[1vw] hover:bg-[var(--hover-color)] text-fsbase',
-                          selected ? `bg-[var(--brand-color)]` : bgColor
-                         )}
-                  style={selected ? { color: brandTextColor } : undefined}
+                            'px-[1vw] py-[0.5vh] !text-nowrap rounded-[1vw] hover:bg-[var(--hover-color)] text-fsbase'
+                          )}
+                  style={getMenuStyle(selected)}
                   key={index}
                   onClick={() => router.push(routingName)}
                 >
