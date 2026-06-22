@@ -1,0 +1,32 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: ct006-ams-df-generator-virtualservice
+  namespace: ct006-ams-df-v1
+spec:
+  hosts:
+    - "tgadev2.toruslowcode.com"
+  gateways:
+    - istio-system/wp-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /ct006/ecp/ams/v1/api/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ct006-ams-df-generator
+            port:
+              number: 443 
+    - match:
+        - uri:
+            exact: /ct006/ecp/ams/v1/api
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ct006-ams-df-generator
+            port:
+              number: 443
+

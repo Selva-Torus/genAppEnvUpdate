@@ -1,0 +1,97 @@
+'use client'
+
+
+import React, { useContext,useEffect } from 'react';
+import { Text } from '@/components/Text';
+import { TotalContext, TotalContextProps } from '@/app/globalContext';
+import { AxiosService } from "@/app/components/axiosService";
+import { codeExecution } from '@/app/utils/codeExecution';
+import { deleteAllCookies,getCookie } from '@/app/components/cookieMgment';
+import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,PaginationData,AllowedGroupNode,ActionDetails } from "@/types/global";
+import i18n from '@/app/components/i18n';
+
+const Textcategory_name = ({encryptionFlagCompData,isDynamic,item,index,setIsProcessing}:any) => {
+  const token: string = getCookie('token')
+  const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_categorydoctable_v1Props, setdfd_categorydoctable_v1Props} = useContext(TotalContext) as TotalContextProps; 
+  const keyset:any=i18n.keyset("language");
+  const encryptionFlagCont: boolean = encryptionFlagCompData.flag || false ;
+  let encryptionDpd: string = "";
+  encryptionDpd = encryptionDpd !=='' ? encryptionDpd: encryptionFlagCompData.dpd
+  let encryptionMethod: string = "";
+  encryptionMethod  = encryptionMethod !=='' ? encryptionMethod: encryptionFlagCompData.method;
+  /////////////
+   //another screen
+  const {doc_attached_groupb9604, setdoc_attached_groupb9604}= useContext(TotalContext) as TotalContextProps;
+  const {doc_attached_groupb9604Props, setdoc_attached_groupb9604Props}= useContext(TotalContext) as TotalContextProps;
+  const {table_groupefcb8, settable_groupefcb8}= useContext(TotalContext) as TotalContextProps;
+  const {table_groupefcb8Props, settable_groupefcb8Props}= useContext(TotalContext) as TotalContextProps;
+  const {acat_id_text04690, setacat_id_text04690}= useContext(TotalContext) as TotalContextProps;
+  const {acat_ida2d51, setacat_ida2d51}= useContext(TotalContext) as TotalContextProps;
+  const {acat_name_textc9d3e, setacat_name_textc9d3e}= useContext(TotalContext) as TotalContextProps;
+  const {category_name4ccfb, setcategory_name4ccfb}= useContext(TotalContext) as TotalContextProps;
+  const {category_doc_table9b042, setcategory_doc_table9b042}= useContext(TotalContext) as TotalContextProps;
+  const {category_doc_table9b042Props, setcategory_doc_table9b042Props}= useContext(TotalContext) as TotalContextProps;
+  //////////////
+
+  const handleMapperValue=async()=>{
+    try{
+      if ("hasLogicCenter" in dfd_categorydoctable_v1Props && !dfd_categorydoctable_v1Props.hasLogicCenter) {
+        const api_paginationData: any = await AxiosService.post('/UF/pagination',
+          {
+            key: dfd_categorydoctable_v1Props.dstKey,
+            page: 1,
+            count: 1
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        if(api_paginationData.data.records?.length){
+        settable_groupefcb8((pre: any) => {
+          return { ...pre, category_name: api_paginationData.data.records[0]?.category_name }
+        })
+        }
+      }
+      else{
+      if(Array.isArray(dfd_categorydoctable_v1Props) && dfd_categorydoctable_v1Props && !table_groupefcb8.category_name){
+        settable_groupefcb8((pre:any)=>({...pre,category_name:dfd_categorydoctable_v1Props[0]?.category_name}));
+      }
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  useEffect(()=>{
+    handleMapperValue()
+  },[category_name4ccfb?.refresh])
+
+  useEffect(() => {
+  if(Array.isArray(dfd_categorydoctable_v1Props) && !table_groupefcb8.category_name){
+    settable_groupefcb8((pre:any)=>({...pre,category_name:dfd_categorydoctable_v1Props[0]?.category_name}));
+  }
+  },[dfd_categorydoctable_v1Props])
+
+  if (category_name4ccfb?.isHidden) {
+    return <></>
+  }
+
+return (
+  <div className="" style={{gridColumn: `7 / 25`,gridRow: `8 / 14`, gap:``, height: `100%`}} >
+<Text
+  contentAlign={"left"}
+  className="!bg-[#f0f2f7] !border !border-[#c4c4c4] !text-black"
+  variant="subheader-1"
+  color="primary"
+>
+      {keyset(isDynamic ? item?.category_name : (table_groupefcb8?.category_name || ""))}
+</Text>
+  </div>
+  )
+}
+
+export default Textcategory_name

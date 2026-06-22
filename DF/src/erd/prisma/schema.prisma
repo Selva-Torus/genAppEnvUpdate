@@ -1,0 +1,350 @@
+
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+provider = "prisma-client-js"
+}
+
+model ams_asset_assignments {
+assign_id  BigInt @default(autoincrement())
+assigned_to  String 
+assigned_by  String 
+assigned_at  DateTime 
+returned_at  DateTime? 
+condition_at_assign  String  @db.VarChar(length: 20)
+condition_at_return  String?  @db.VarChar(length: 20)
+assignment_status  String? 
+expected_return_date  DateTime? 
+actual_return_date  DateTime? 
+approved_by  String? 
+approval_status  String? 
+digital_signature  String? 
+assignment_notes  String? 
+notes  String? 
+acknowledgement_signed  Boolean 
+additional_details  Json? 
+doc_url  String[]   @default([])
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
+trs_app_code  String @default("00000") @db.VarChar(length: 16)
+trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 32)
+trs_version  String?  @db.VarChar(length: 16)
+asset_id   BigInt? 
+ams_assets   ams_assets?  @relation(fields: [asset_id], references: [asset_id])  
+
+@@id([assign_id])
+}
+
+
+model ams_asset_categories {
+acat_id  BigInt @default(autoincrement())
+parent_acat_id  BigInt? 
+category_code  String  @db.VarChar(length: 30)
+asset_prefix  String?  @db.VarChar(length: 128)
+category_name  String  @db.VarChar(length: 30)
+depreciation_method  String? 
+useful_life_years  String? 
+approval_required  Boolean? 
+maintenance_required  Boolean? 
+additional_details  Json? 
+doc_url  String[]   @default([])
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
+trs_app_code  String @default("00000") @db.VarChar(length: 16)
+trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 32)
+trs_version  String?  @db.VarChar(length: 16)
+ams_assets   ams_assets[]    
+
+@@id([acat_id])
+}
+
+
+model ams_asset_disposal {
+disposal_id  BigInt @default(autoincrement())
+disposal_method  String 
+reason  String? 
+approval_reference  String? 
+witness_name  String? 
+data_wiped  Boolean? 
+data_wipe_method  String? 
+certificate_url  String? 
+disposal_date  DateTime? 
+disposal_value  Decimal? 
+disposal_cost  Decimal? 
+resale_amount  Decimal? 
+vendor_id  BigInt? 
+additional_details  Json? 
+doc_url  String[]   @default([])
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
+trs_app_code  String @default("00000") @db.VarChar(length: 16)
+trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 32)
+trs_version  String?  @db.VarChar(length: 16)
+asset_id   BigInt? 
+ams_assets   ams_assets?  @relation(fields: [asset_id], references: [asset_id])  
+
+@@id([disposal_id])
+}
+
+
+model ams_asset_maintenance {
+maint_id  BigInt @default(autoincrement())
+maint_type  String 
+scheduled_date  DateTime 
+completed_date  DateTime? 
+next_maintenance_date  DateTime? 
+priority  String? 
+downtime_hours  Decimal? 
+performed_by  String? 
+vendor_id  BigInt? 
+vendor_reference  String? 
+cost  Decimal? 
+description  String? 
+maintenance_checklist  Json? 
+additional_details  Json? 
+doc_url  String[]   @default([])
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
+trs_app_code  String @default("00000") @db.VarChar(length: 16)
+trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 32)
+trs_version  String?  @db.VarChar(length: 16)
+asset_id   BigInt? 
+ams_assets   ams_assets?  @relation(fields: [asset_id], references: [asset_id])  
+
+@@id([maint_id])
+}
+
+
+model ams_assets {
+asset_id  BigInt @default(autoincrement())
+ci_id  BigInt? 
+asset_tag  String 
+asset_code  String? 
+asset_name  String 
+description  String? 
+serial_number  String? 
+model_number  String? 
+manufacturer  String? 
+purchase_date  DateTime? 
+purchase_cost  Decimal? 
+currency  String 
+vendor_id  BigInt? 
+warranty_expiry  DateTime? 
+warranty_status  String? 
+insurance_status  String? 
+asset_type  String 
+classification  String 
+data_classification  String? 
+ownership_type  String? 
+lifecycle_stage  String? 
+asset_condition  String? 
+is_critical  Boolean 
+compliance_status  String? 
+risk_level  String? 
+purchase_value  Decimal? 
+current_value  Decimal? 
+depreciation_rate  Decimal? 
+salvage_value  Decimal? 
+disposal_date  DateTime? 
+disposal_method  String? 
+disposal_ref  String? 
+asset_metadata  Json? 
+additional_details  Json? 
+doc_url  String[]   @default([])
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
+trs_app_code  String @default("00000") @db.VarChar(length: 16)
+trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 32)
+trs_version  String?  @db.VarChar(length: 16)
+acat_id   BigInt? 
+ams_asset_categories   ams_asset_categories?  @relation(fields: [acat_id], references: [acat_id])  
+ams_asset_assignments   ams_asset_assignments[]    
+ams_asset_maintenance   ams_asset_maintenance[]    
+ams_asset_disposal   ams_asset_disposal[]    
+ams_software_licenses   ams_software_licenses[]    
+
+@@id([asset_id])
+}
+
+
+model ams_license_allocations {
+alloc_id  BigInt @default(autoincrement())
+device_asset_id  BigInt? 
+allocation_type  DateTime? 
+allocation_status  DateTime? 
+device_details  Json? 
+allocation_metadata  Json? 
+allocated_at  DateTime 
+revoked_at  DateTime? 
+additional_details  Json? 
+doc_url  String[]   @default([])
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
+trs_app_code  String @default("00000") @db.VarChar(length: 16)
+trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 32)
+trs_version  String?  @db.VarChar(length: 16)
+license_id   BigInt? 
+ams_software_licenses   ams_software_licenses?  @relation(fields: [license_id], references: [license_id])  
+
+@@id([alloc_id])
+}
+
+
+model ams_software_licenses {
+license_id  BigInt @default(autoincrement())
+product_name  String 
+vendor_id  BigInt? 
+license_key  String? 
+license_type  String 
+auto_renewal  Boolean? 
+seats_total  Int? 
+seats_used  Int 
+purchase_date  DateTime? 
+expiry_date  DateTime? 
+support_expiry  DateTime? 
+cost  Decimal? 
+additional_details  Json? 
+doc_url  String[]   @default([])
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
+trs_app_code  String @default("00000") @db.VarChar(length: 16)
+trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 32)
+trs_version  String?  @db.VarChar(length: 16)
+asset_id   BigInt? 
+ams_assets   ams_assets?  @relation(fields: [asset_id], references: [asset_id])  
+ams_license_allocations   ams_license_allocations[]    
+
+@@id([license_id])
+}
+
+
