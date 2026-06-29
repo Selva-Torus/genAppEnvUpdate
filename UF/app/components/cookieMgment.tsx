@@ -12,7 +12,7 @@ export function setCookie(
   cname: string,
   cvalue: string,
   exdays: number = 10,
-  path: string = "/"
+  path: string = basePath
 ) {
   const d = new Date();
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
@@ -38,7 +38,7 @@ export function setCookie(
     return "";
   }
 
-export function deleteAllCookies(path: string = "/") {
+export function deleteAllCookies(path: string = basePath) {
   const cookies = document.cookie.split(";");
 
   for (let i = 0; i < cookies.length; i++) {
@@ -52,7 +52,7 @@ export function deleteAllCookies(path: string = "/") {
   }
 }
 
-export function deleteCookie(cookieName: string, path: string = "/") {
+export function deleteCookie(cookieName: string, path: string = basePath) {
   document.cookie = `${prefixName(cookieName)}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path};`;
 }
 

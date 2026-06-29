@@ -1,230 +1,156 @@
 
 /* {
-  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT006:AFGK:ECP:AFK:AMS:AFVK:v1:bldc",
-  "deploymentArtifactKey": "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:ECP:AFGK:AMS:AFK:amsDPD:AFVK:v1",
-  "appGroupDesc": "Enterprise Compliance Portal",
+  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT005:AFGK:GSS:AFK:VGPH:AFVK:v1:bldc",
+  "deploymentArtifactKey": "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:VGPH:AFK:VGPH_DPD:AFVK:v1",
+  "appGroupDesc": "GSS",
   "logType": "dfs",
-  "appDesc": "AMS",
+  "appDesc": "VGPH",
+  "appLogo": "torus/9.1/CT005/resources/images/White global payment hub.png",
   "isOld": true,
-  "clientCode": "CT006",
+  "clientCode": "CT005",
   "loginDetails": {
-    "firstName": "Haritha",
-    "lastName": "Rk",
-    "loginId": "Haritha",
-    "email": "haritha@torus.tech",
+    "edit": "",
+    "email": "dominica@gsstvl.com",
+    "users": "DominicDominic A",
+    "client": "CT005",
     "mobile": "",
     "status": "active",
-    "accessProfile": [
-      "Dev"
-    ],
-    "accessExpires": "",
-    "dateAdded": "2026-05-22T13:18:13.118Z",
+    "loginId": "Dominic",
     "profile": "",
-    "userUniqueId": "bb0decdf-1901-40e5-8f51-d646de94bd10",
     "touring": {
-      "isneedTouring": true,
       "touringData": {
-        "/torus": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
         "/home": {
-          "stepIndex": 0,
-          "isSkipped": true,
           "completed": false,
+          "isSkipped": true,
+          "stepIndex": 1,
           "notVisited": []
         },
-        "artifactselector": {
-          "stepIndex": 0,
-          "isSkipped": true,
+        "/torus": {
           "completed": false,
-          "notVisited": []
-        },
-        "/control-center/company-profile": {
-          "stepIndex": 0,
           "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/tenant": {
           "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "build": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/user-management": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/storage-configuration": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
           "notVisited": []
         },
         "/logic-center": {
-          "stepIndex": 0,
-          "isSkipped": true,
           "completed": false,
+          "isSkipped": true,
+          "stepIndex": 0,
           "notVisited": []
         },
-        "/orchestrator": {
-          "stepIndex": 0,
-          "isSkipped": false,
+        "artifactselector": {
           "completed": false,
-          "notVisited": []
-        },
-        "/tenant-settings": {
-          "stepIndex": 0,
           "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "Security": {
           "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/user-roles": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/resource-library": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/appearance": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
           "notVisited": []
         }
-      }
+      },
+      "isneedTouring": false
     },
-    "users": "HarithaHaritha Rk",
-    "noOfProductsService": 0,
-    "edit": "",
-    "lastActive": "2026-06-22T07:31:44.282Z",
-    "client": "CT006"
+    "lastName": "A",
+    "dateAdded": "2026-04-08T08:02:02.245Z",
+    "firstName": "Dominic",
+    "lastActive": "2026-06-29T13:47:02.442Z",
+    "userUniqueId": "cc1efc49-5291-4f48-a7cc-92a89d876e7e",
+    "accessExpires": "2028-06-23",
+    "accessProfile": [
+      "Dev Team"
+    ],
+    "noOfProductsService": 0
   },
   "setupData": {
     "appInfo": {
-      "name": "AMS",
-      "code": "AMS",
+      "code": "VGPH",
+      "logo": "torus/9.1/CT005/resources/images/Blue Logo.png",
+      "name": "VGPH",
+      "appLogo": "torus/9.1/CT005/resources/images/White global payment hub.png",
+      "accessUrl": "https://tgadev2.toruslowcode.com/ct005/gss/vgph/v1",
+      "appGrpCode": "GSS",
+      "appGrpName": "GSS",
       "encryption": {
         "type": ""
       },
-      "applicationUniqueId": "b273d406-451b-406e-b8b6-65b302a66d71",
-      "deploymentArtifactKey": "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:ECP:AFGK:AMS:AFK:amsDPD:AFVK:v1",
+      "lastBuildOn": "2026-06-03T09:34:32.415Z",
       "lastBuildVersion": "v1",
-      "lastBuildOn": "2026-06-04T04:35:49.266Z",
-      "accessUrl": "https://tgadev2.toruslowcode.com/ct006/ecp/ams/v1",
-      "needAutoDbPush": true,
-      "appGrpName": "Enterprise Compliance Portal",
-      "appGrpCode": "ECP",
-      "fusionAuthAppClientSecret": "NXRGuMfH4-FxN3SRBO7-Nwl3V2Eb0o7tk7FiGREm1W4"
+      "applicationUniqueId": "ae093d5d-f44a-444b-afab-9476f31e7dca",
+      "deploymentArtifactKey": "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:VGPH:AFK:VGPH_DPD:AFVK:v1",
+      "fusionAuthAppClientSecret": "AKE3Mkrdhezw9vln9mTV-Wnb8WVEivZ3BY0KTxqtmbc"
     },
-    "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT006:AFK:PROFILE:AFVK:v1:appearance",
-    "selectedPresetKey": "1780467258338",
-    "group-bg-color": "#ffffff",
+    "selectedPresetKey": "default",
+    "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT005:AFK:PROFILE:AFVK:v1:appearance",
+    "name": "default",
+    "theme": "light",
     "fontSize": {
-      "minPx": "7",
-      "preferredVw": "0.85",
-      "maxPx": "13"
+      "maxPx": "12",
+      "minPx": "6",
+      "preferredVw": "0.85"
     },
+    "language": "English",
     "direction": "LTR",
     "brandColor": "#0737c9",
-    "selectionColor": "#579eff",
+    "fontFamily": [
+      {
+        "label": "Inter",
+        "fontUrl": "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      }
+    ],
     "hoverColor": "#d5eeff",
-    "borderRadius": "s",
-    "topbarColor": "#ffffff",
-    "menubarColor": "#ffffff",
-    "sidebarStyle": "compact",
-    "navigationStyles": "vertical",
-    "theme": "light",
-    "layoutMode": "fluid",
+    "layoutMode": "detached",
+    "borderRadius": "m",
+    "sidebarStyle": "",
+    "selectionColor": "#579eff",
+    "text-body-font": "Inter",
     "mobileAppearance": {
+      "theme": "light",
+      "fontSize": {
+        "bodyLarge": "16",
+        "bodySmall": "12",
+        "bodyMedium": "14",
+        "labelLarge": "16",
+        "labelSmall": "12",
+        "titleLarge": "20",
+        "titleSmall": "16",
+        "labelMedium": "14",
+        "titleMedium": "18",
+        "displayLarge": "64",
+        "displaySmall": "36",
+        "displayMedium": "44",
+        "headlineLarge": "32",
+        "headlineSmall": "24",
+        "headlineMedium": "28"
+      },
       "language": "English",
       "direction": "LTR",
-      "theme": "light",
+      "fontFamily": "Roboto",
       "brandColors": {
-        "primary": "#4b39ef",
-        "secondary": "#39d2c0",
-        "tertiary": "#ee8b60"
+        "primary": "#0025dd",
+        "tertiary": "#000000",
+        "secondary": "#000e51"
       },
+      "drawerStyle": "",
       "accentColors": {
-        "accentOne": "#4c4b39",
-        "accentTwo": "#4d39d2"
+        "accentOne": "#f4f5ff",
+        "accentTwo": "#ffffff"
       },
       "utilityColors": {
-        "lightMode": {
-          "primaryText": "#14181b",
-          "secondaryText": "#57636c",
-          "primaryBackground": "#f1f4f8",
-          "secondaryBackground": "#ffffff"
-        },
         "darkMode": {
           "primaryText": "#ffffff",
           "secondaryText": "#95a1ac",
           "primaryBackground": "#1d2428",
           "secondaryBackground": "#14181b"
+        },
+        "lightMode": {
+          "primaryText": "#14181b",
+          "secondaryText": "#57636c",
+          "primaryBackground": "#f1f4f8",
+          "secondaryBackground": "#ffffff"
         }
       },
-      "fontSize": {
-        "displayLarge": "64",
-        "displayMedium": "44",
-        "displaySmall": "36",
-        "headlineLarge": "32",
-        "headlineMedium": "28",
-        "headlineSmall": "24",
-        "titleLarge": "20",
-        "titleMedium": "18",
-        "titleSmall": "16",
-        "labelLarge": "16",
-        "labelMedium": "14",
-        "labelSmall": "12",
-        "bodyLarge": "16",
-        "bodyMedium": "14",
-        "bodySmall": "12"
-      },
-      "fontFamily": "Roboto",
-      "navigationStyle": "Bottom Navigation",
-      "drawerStyle": ""
+      "navigationStyle": "Bottom Navigation"
     },
-    "page-bg-color": "#ffffff",
-    "language": "English",
-    "name": "ecp_styles",
-    "appBackgroundImage": "torus/9.1/CT006/resources/images/Home (1).png",
-    "fontFamily": [
-      {
-        "label": "Google Sans",
-        "fontUrl": "https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Pliant:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-      }
-    ],
-    "text-body-font": "Google Sans",
-    "text-header-font": "Google Sans",
-    "text-display-font": "Google Sans"
+    "navigationStyles": "horizontal",
+    "text-header-font": "Inter",
+    "text-display-font": "Inter",
+    "appBackgroundImage": "torus/9.1/CT005/resources/images/Home.png"
   }
 } */
 import { NestFactory } from '@nestjs/core';
@@ -257,7 +183,7 @@ async function bootstrap() {
 
   let configData = null;
   try {
-    const redisResult = await redis.call('JSON.GET', "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:ECP:AFGK:AMS:AFK:amsDPD:AFVK:v1:NDP");
+    const redisResult = await redis.call('JSON.GET', "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:VGPH:AFK:VGPH_DPD:AFVK:v1:NDP");
     if (redisResult) {
       const parsed = JSON.parse(redisResult);
       const rootKey = Object.keys(parsed)[0];
@@ -345,7 +271,7 @@ async function bootstrap() {
     { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 
     'JWT-auth',
     )
-    .addServer('https://tgadev2.toruslowcode.com/ct006/ecp/ams/v1/api','Production Server')
+    .addServer('https://tgadev2.toruslowcode.com/ct005/gss/vgph/v1/api','Production Server')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   fs.writeFileSync('./swagger.json', JSON.stringify(document, null, 2));

@@ -165,9 +165,7 @@ export class TeService{
                 pfRuleValue = JSON.parse(pfRuleValue)
                 let rule = (Object.values(pfRuleValue)[0])['rule']
   
-                let RCMresult:any = await this.CommonService.PfRuleExtract(rule,SessionInfo,pfdto.data,pfdto.controlName);
-                console.log('RCMresult',RCMresult);
-                  
+                let RCMresult:any = await this.CommonService.PfRuleExtract(rule,SessionInfo,pfdto.data,pfdto.controlName);                
                 if (RCMresult && Object.keys(RCMresult).length > 0) {
                   pfdto.data = (Object.assign(pfdto.data,RCMresult))
                   ifoObj = Object.assign(ifoObj,RCMresult) 
@@ -266,6 +264,9 @@ export class TeService{
                   // OPTIMIZATION: Parallelize Redis writes with Promise.all()
                   const npvKey = processedKey + pfdto.upId + ':NPV:' + poNode[i].nodeName + '.PRO';
                   const jsonData = JSON.stringify(pfdto.data);
+                  if(!await this.redisService.exist(npvKey,client)){
+                    await this.pfPreProcessor(processedKey, pfjson, pfdto.upId, currentFabric);
+                  }
                   await Promise.all([
                     this.redisService.setJsonData(npvKey, jsonData, client, 'response'),
                     this.redisService.setJsonData(npvKey, jsonData, client, 'request')
@@ -293,7 +294,7 @@ export class TeService{
                   if (!eventResponse.status && eventResponse.status != 200) {
                     throw eventResponse;
                   }
-                  console.log(`${eventResponse.targetStatus} Event emitted successfully by ${poNode[i].nodeName}`);
+                  this.logger.log(`${eventResponse.targetStatus} Event emitted successfully by ${poNode[i].nodeName}`)                  
                   //Change current status to success
                   // OPTIMIZATION: Use helper method (eliminates get + loop)
                   await this.updateNodeStatus(processedKey, pfdto.upId, pfdto.nodeId, 'Success', client, executionCache);
@@ -369,7 +370,7 @@ export class TeService{
             if (!eventResponse.status && eventResponse.status != 200) {
               throw eventResponse;
             }
-            console.log(`${eventResponse.targetStatus} Event emitted successfully by ${poNode[i].nodeName}`);
+            this.logger.log(`${eventResponse.targetStatus} Event emitted successfully by ${poNode[i].nodeName}`)            
             //Change current status to success
             // OPTIMIZATION: Use helper method (eliminates get + loop)
             await this.updateNodeStatus(processedKey, pfdto.upId, pfdto.nodeId, 'Success', client, executionCache);
@@ -434,7 +435,7 @@ export class TeService{
               if (!eventResponse.status && eventResponse.status != 200) {
                 throw eventResponse
               }
-              console.log(`${eventResponse.targetStatus} Event emitted successfully by ${poNode[i].nodeName}`);
+              this.logger.log(`${eventResponse.targetStatus} Event emitted successfully by ${poNode[i].nodeName}`)              
               pfdto.data = eventResponse?.data
 
               //Change current status to success
@@ -493,7 +494,7 @@ export class TeService{
               if (!eventResponse.status && eventResponse.status != 200) {
                 throw eventResponse
               }
-              console.log(`${eventResponse.targetStatus} Event emitted successfully by ${poNode[i].nodeName}`);
+              this.logger.log(`${eventResponse.targetStatus} Event emitted successfully by ${poNode[i].nodeName}`)            
 
               //Change current status to success
               // OPTIMIZATION: Use helper method (eliminates get + loop)
@@ -531,8 +532,7 @@ export class TeService{
             } else {
               srcStatus = poNode[i].events?.sourceStatus
               srcQueue = poNode[i].events.sourceQueue
-            }
-           // console.log("eventResponse?.data",eventResponse?.data);
+            }         
             
             if (!pfdto.data)
               pfdto.data = eventResponse?.data
@@ -560,7 +560,7 @@ export class TeService{
               if (!eventResponse.status && eventResponse.status != 200) {
                 throw eventResponse
               }
-              console.log(`${eventResponse.targetStatus} Event emitted successfully by ${poNode[i].nodeName}`);
+              this.logger.log(`${eventResponse.targetStatus} Event emitted successfully by ${poNode[i].nodeName}`)             
               //Change current status to success
               // OPTIMIZATION: Use helper method (eliminates get + loop)
               await this.updateNodeStatus(processedKey, pfdto.upId, pfdto.nodeId, 'Success', client, executionCache);
@@ -628,26 +628,26 @@ export class TeService{
                               pfresponse = pfresponse.data && pfresponse.data?.[pfjson[pfs].nodeName] || pfresponse.data?.[pfjson[pfs].nodeName] == ''? pfresponse.data[pfjson[pfs].nodeName] : pfresponse.data; 
                               
                               // OPTIMIZATION: Parallelize cleanup operations with concurrency limiting
-                              // const [processedNodes, processedQueues] = await Promise.all([
-                              //   this.redisService.getKeys(processedKey + pfdto.upId, client),
-                              //   this.redisService.getKeys(client + '_*_ProcessStatus', client)
-                              // ]);
+                               const [processedNodes, processedQueues] = await Promise.all([
+                                 this.redisService.getKeys(processedKey + pfdto.upId, client),
+                                 this.redisService.getKeys(client + '_*_ProcessStatus', client)
+                               ]);
 
-                              // // Batch delete with chunking to prevent connection pool exhaustion
-                              // const allKeysToDelete = [
-                              //   ...(processedNodes || []),
-                              //   ...(processedQueues || [])
-                              // ];
+                               // Batch delete with chunking to prevent connection pool exhaustion
+                               const allKeysToDelete = [
+                                 ...(processedNodes || []),
+                                 ...(processedQueues || [])
+                               ];
 
-                              // if(allKeysToDelete.length > 0){
-                              //   // Delete in chunks of 10 to avoid overwhelming connection pool
-                              //   await this.executeInChunks(
-                              //     allKeysToDelete,
-                              //     (key) => this.redisService.deleteKey(key, client),
-                              //     10
-                              //   );
-                              //   this.logger.log(`✅ Cleaned up ${allKeysToDelete.length} keys in chunks`);
-                              // }  
+                               if(allKeysToDelete.length > 0){
+                                 // Delete in chunks of 10 to avoid overwhelming connection pool
+                                 await this.executeInChunks(
+                                   allKeysToDelete,
+                                   (key) => this.redisService.deleteKey(key, client),
+                                   10
+                                 );
+                                 this.logger.log(`✅ Cleaned up ${allKeysToDelete.length} keys in chunks`);
+                               }  
                              
                               this.logger.log('Event Emmiter Completed....');                             
                               if(pfjson[pfs].nodeType == 'outputnode' && (Array.isArray(pfresponse) && pfresponse?.length>0 || Object.keys(pfresponse).length>0))
@@ -778,7 +778,7 @@ export class TeService{
                       if (!eventResponse.status || eventResponse.status != 200) {
                         throw eventResponse;
                       }
-                      console.log(`${eventResponse.targetStatus} Event emitted successfully by ${poNode[i].nodeName}`);
+                      this.logger.log(`${eventResponse.targetStatus} Event emitted successfully by ${poNode[i].nodeName}`)                     
                       if (eventResponse) {
                         let eventData = eventResponse?.data;
                         if (eventData) {
@@ -801,7 +801,7 @@ export class TeService{
                       if (!eventResponse.status && eventResponse.status != 200 ) { //&& logicCenter
                         throw eventResponse;
                       }
-                      console.log(`${eventResponse.targetStatus} Event emitted successfully by ${poNode[i].nodeName}`);                       
+                      this.logger.log(`${eventResponse.targetStatus} Event emitted successfully by ${poNode[i].nodeName}`)                                        
                       let eventData = eventResponse?.data;
                       if (eventData && Array.isArray(eventData) && eventData.length > 0) {                        
                         mergearr = eventData;                         
@@ -823,7 +823,7 @@ export class TeService{
                       if (!eventResponse.status && eventResponse.status != 200 ) {
                         throw eventResponse;
                       }
-                      console.log(`${eventResponse.targetStatus} Event emitted successfully by ${poNode[i].nodeName}`);
+                      this.logger.log(`${eventResponse.targetStatus} Event emitted successfully by ${poNode[i].nodeName}`)                     
                     }
                   }
 
@@ -863,8 +863,7 @@ export class TeService{
        if (invalidEventFlg == poNode.length - 2) {
          throw new CustomException(`${pfdto.nodeName} node ${event} doesn't matched`, 400);
        }
-     } catch (error) {
-        console.log('PO ERROR:', error);
+     } catch (error) {        
        if (pfdto.upId) {
          if (error.statusCode) {
           let requestData = await this.redisService.getJsonDataWithPath(processedKey + pfdto.upId + ':NPV:'+pfdto.nodeName+'.PRO','.request',process.env.CLIENTCODE)
@@ -1037,8 +1036,10 @@ export class TeService{
     try {
       let placeholder;
       let client = process.env.CLIENTCODE;
+      let nodeNameObj = {}
       for (var i = 0; i < pfjson.length; i++) {
         if ( pfjson[i].nodeType != 'startnode' && pfjson[i].nodeType != 'endnode') {
+          Object.assign(nodeNameObj,{[pfjson[i].nodeName]:{}})
           //set npc, ipc placeholders         
           if (fabric == 'DF-DFD') {
             placeholder = { request: {},response: {}, exception: {}, event: {}, customResponse: {}};            
@@ -1046,8 +1047,10 @@ export class TeService{
             placeholder = {request: {}, response: {}, exception: {}, event: {}, ifo: {}, code: {}, rollback:{}};
           }          
           await this.redisService.setJsonData(processedKey + upId + ':NPV:' + pfjson[i].nodeName + '.PRO',JSON.stringify(placeholder), client);
+
         }
       }
+      await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(nodeNameObj), client);
       this.logger.log('pf Preprocessor completed');
       return 'Success';
     }  catch (error) {

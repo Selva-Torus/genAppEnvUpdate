@@ -313,7 +313,7 @@ getConfig(): FusionAuthConfig {
 
  async insertDocToVgphSourceTranDocMain(category: string, doc_name: string, url: string, size?: number, doc_group?: string): Promise<any> {
     try {
-      const insertUrl = `${process.env.APP_MANAGER_URL}/ct006/attachments`;
+      const insertUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments`;
       //const vgphstm_uuid = uuid();
       const currentDate = new Date().toISOString().slice(0, 19) + '+00:00';
 
@@ -341,7 +341,7 @@ getConfig(): FusionAuthConfig {
 
   async getUrlByVgphstdmId(vgphstdm_id: any): Promise<string> {
     try {
-      const getUrl = `${process.env.APP_MANAGER_URL}/ct006/attachments/${vgphstdm_id}`;
+      const getUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments/${vgphstdm_id}`;
 
       const response = await axios.get(getUrl, {
         headers: {
@@ -843,8 +843,7 @@ getConfig(): FusionAuthConfig {
 
       if (Object.keys(filterobj)?.length > 0) {
             payload['filterData'] = [filterobj];
-        } 
-      console.log('payload',JSON.stringify(payload));
+        }      
           
        await this.commonService.postCall(
               //process.env.BE_URL + '/te/eventEmitter',
@@ -859,8 +858,7 @@ getConfig(): FusionAuthConfig {
           return { records: data, totalRecords: Number(data?.[0]?.total_records) || data.length } 
       
        
-    } catch (err:any) {
-      //console.log("err",err.response.data.message)
+    } catch (err:any) {     
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -963,7 +961,26 @@ getConfig(): FusionAuthConfig {
       if (!tokenDecode?.loginId)
         throw new Error('loginId not found');
 
-      // ✅ Build session object
+      // // ✅ Get AFI
+      // const afkey = key.replace(':FNGK:AFP:FNK:DF-DST:', ':FNGK:AF:FNK:DF-DFD:');
+
+      const afi = JSON.parse(
+        await this.redisService.getJsonData(key.replace(':FNGK:AFP:FNK:DF-DST:', ':FNGK:AF:FNK:DF-DFD:') + 'AFI', process.env.CLIENTCODE),
+      );
+
+      if (!afi.logicCenter) {       
+        return await this.getpaginationwithLogicCenter(
+          key,
+          page,
+          count,
+          filter,
+          searchObj,
+          token,
+          filterData
+        );     
+      }
+
+       // ✅ Build session object
       const sobj: any = {
         orgGrpCode: tokenDecode?.orgGrpCode,
         orgCode: tokenDecode?.orgCode,
@@ -985,25 +1002,6 @@ getConfig(): FusionAuthConfig {
         subOrgCode: tokenDecode?.subOrgCode,
         subOrgName: tokenDecode?.subOrgName,
       };
-
-      // ✅ Get AFI
-      const afkey = key.replace(':FNGK:AFP:FNK:DF-DST:', ':FNGK:AF:FNK:DF-DFD:');
-
-      const afi = JSON.parse(
-        await this.redisService.getJsonData(afkey + 'AFI', process.env.CLIENTCODE),
-      );
-
-      if (!afi.logicCenter) {       
-        return await this.getpaginationwithLogicCenter(
-          key,
-          page,
-          count,
-          filter,
-          searchObj,
-          token,
-          filterData
-        );     
-      }
 
       // ✅ Get dataset
       const dsObject = await this.redisService.getAllRecordshash(
@@ -1138,8 +1136,7 @@ getConfig(): FusionAuthConfig {
         `Error in pagination: ${err.message}`,
         key,
         token,
-      );
-      //throw err;
+      );     
       throw new CustomException(err.message,err.statusCode)
     }
   }

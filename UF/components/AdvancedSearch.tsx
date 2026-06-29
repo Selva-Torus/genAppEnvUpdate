@@ -141,9 +141,9 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
           border: 'none'
         }}
       >
-        <span className='min-w-0 flex-1 truncate text-left'>
-          {selected ? selected.label : placeholder}
-        </span>
+          <span className='min-w-0 flex-1 truncate text-left' style={{ fontFamily: 'var(--font-body)' }}>
+            {selected ? selected.label : placeholder}
+          </span>
         <MdKeyboardArrowDown
           size={16}
           className={`flex-shrink-0 transition-transform duration-150 ${
@@ -166,7 +166,7 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
           {options.length === 0 ? (
             <div
               className='px-3 py-2 text-center text-xs'
-              style={{ color: placeholderCl }}
+              style={{ color: placeholderCl, fontFamily: 'var(--font-body)' }}
             >
               No options
             </div>
@@ -197,7 +197,7 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
                         'transparent'
                   }}
                 >
-                  <span className='truncate'>{opt.label}</span>
+                  <span className='truncate' style={{ fontFamily: 'var(--font-body)' }}>{opt.label}</span>
                   {isActive && (
                     <MdCheck size={14} className='ml-1 flex-shrink-0' />
                   )}
@@ -342,6 +342,7 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
           className={`text-sm font-semibold sm:text-base ${
             isDark ? 'text-gray-100' : 'text-gray-900'
           }`}
+          style={{ fontFamily: 'var(--font-body)' }}
         >
           {label}
         </span>
@@ -376,7 +377,7 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
             }}
           >
             <MdSearch size={16} />
-            <span className='hidden sm:inline'>Search</span>
+            <span className='hidden sm:inline' style={{ fontFamily: 'var(--font-body)' }}>Search</span>
           </button>
         </div>
       </div>
@@ -412,9 +413,9 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
 
               {/* Field */}
               <div className='flex w-full min-w-0 flex-col gap-1 self-stretch'>
-                <span className={labelCls}>Field</span>
+                <span className={labelCls} style={{ fontFamily: 'var(--font-body)' }}>Field</span>
                 <div className={cellCls} style={cellStyle}>
-                  <span className='whitespace-normal break-words px-3 text-sm'>
+                  <span className='whitespace-normal break-words px-3 ' style={{ fontFamily: 'var(--font-body)' }}>
                     {field.label ?? field.controllerName}
                   </span>
                 </div>
@@ -422,7 +423,7 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
 
               {/* Condition */}
               <div className='flex w-full min-w-0 flex-col gap-1 self-stretch'>
-                <span className={labelCls}>Condition</span>
+                <span className={labelCls} style={{ fontFamily: 'var(--font-body)' }}>Condition</span>
                 <div className={cellCls} style={cellStyle}>
                   <DropdownSelect
                     options={filterOpts}
@@ -440,7 +441,7 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
 
               {/* Value */}
               <div className='flex w-full min-w-0 flex-col gap-1 self-stretch'>
-                <span className={labelCls}>Value</span>
+                <span className={labelCls} style={{ fontFamily: 'var(--font-body)' }}>Value</span>
                 {isBetween ? (
                   <div className='flex items-stretch gap-1'>
                     <div
@@ -467,7 +468,7 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
                           onKeyDown={e => {
                             if (e.key === 'Enter') handleSearch()
                           }}
-                          className={`h-full w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-0 sm:text-sm ${
+                          className={`h-full w-full border-0 bg-transparent px-2 focus:outline-none focus:ring-0  ${
                             isDark
                               ? 'text-white placeholder-gray-500'
                               : 'text-gray-900 placeholder-gray-400'
@@ -477,9 +478,10 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
                       )}
                     </div>
                     <span
-                      className={`flex-shrink-0 text-sm ${
+                      className={`flex-shrink-0 ${
                         isDark ? 'text-gray-400' : 'text-gray-500'
                       }`}
+                      style={{ fontFamily: 'var(--font-body)' }}
                     >
                       –
                     </span>
@@ -507,7 +509,7 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
                           onKeyDown={e => {
                             if (e.key === 'Enter') handleSearch()
                           }}
-                          className={`h-full w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-0 sm:text-sm ${
+                          className={`h-full w-full border-0 bg-transparent px-2 focus:outline-none focus:ring-0 ${
                             isDark
                               ? 'text-white placeholder-gray-500'
                               : 'text-gray-900 placeholder-gray-400'
@@ -538,7 +540,7 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
                         onKeyDown={e => {
                           if (e.key === 'Enter') handleSearch()
                         }}
-                        className={`h-full w-full border-0 bg-transparent px-2 py-1 text-xs focus:outline-none focus:ring-0 sm:text-sm ${
+                        className={`h-full w-full border-0 bg-transparent px-2 focus:outline-none focus:ring-0 ${
                           isDark
                             ? 'text-white placeholder-gray-500'
                             : 'text-gray-900 placeholder-gray-400'

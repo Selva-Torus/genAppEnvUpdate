@@ -139,7 +139,7 @@ const TopNav = ({
 //  async function logout() {
 //    localStorage.clear()
 //    deleteAllCookies()
-//    window.location.href = '/ct006/ecp/ams/v1'
+//    window.location.href = '/ct005/gss/vgph/v1'
 //  }
 
   async function logout() {
@@ -554,8 +554,8 @@ const TopNav = ({
           </>
         )}
         {
-          pathname === '/select-context' || pathname == '/app-hub' &&
-          ( <ProfileSection />)
+          pathname === '/select-context' || pathname == '/app-hub' ?
+          ( <ProfileSection />) : <></>
         }
       </div>
     )
@@ -583,8 +583,8 @@ const TopNav = ({
         </>
       )}
       {
-        pathname === '/select-context' || pathname == '/app-hub' &&
-        ( <ProfileSection />)
+        pathname === '/select-context' || pathname == '/app-hub' ?
+        ( <ProfileSection />) : <></>
       }
     </div>
   )

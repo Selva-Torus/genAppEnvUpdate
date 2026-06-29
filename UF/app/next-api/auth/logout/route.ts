@@ -59,13 +59,14 @@ export async function GET(request: NextRequest) {
   const cookieOptions = {
     // httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax' as const,
-    path: '/',
+    sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+    path: FULL_BASE_PATH,
     maxAge: 0
   }
 
   // Clear all cookie name variants
   response.cookies.set(`${COOKIE_PREFIX}_token`, '', cookieOptions)
+  response.cookies.set(`${COOKIE_PREFIX}_tp_ps`, '', cookieOptions)
   response.cookies.set('token', '', cookieOptions)
   response.cookies.set(`${COOKIE_PREFIX}_oauth_state`, '', cookieOptions)
   response.cookies.set(`${COOKIE_PREFIX}_app_tenant`, '', cookieOptions)

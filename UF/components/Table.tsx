@@ -273,16 +273,78 @@ const sortedData = sortColumn
   };
     
   const formatDateDisplay = (dateStr: string): string => {
-    if (!dateStr) return "";
-    const parts = dateStr.split("-");
-    if (parts.length !== 3) return dateStr;
-    const [year, month, day] = parts;
-    switch (displayFormat?.datePickerProperty?.dateDisplayFormat||"DD-MM-YYYY") {
-      case "DD-MM-YYYY": return `${day}-${month}-${year}`;
-      case "d,M,yyyy":      return `${parseInt(day)},${parseInt(month)},${year}`;
-      default:           return `${year}-${month}-${day}`;
-    }
-  };
+  if (!dateStr) return "";
+
+  const parts = dateStr.split("-");
+  if (parts.length !== 3) return dateStr;
+
+  const [year, month, day] = parts;
+
+  const d = parseInt(day, 10);
+  const m = parseInt(month, 10);
+
+  const shortMonths = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+
+  const fullMonths = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  const weekdays = [
+    "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
+  ];
+
+  const date = new Date(Number(year), m - 1, d);
+
+  switch (
+    displayFormat?.datePickerProperty?.dateDisplayFormat || "DD-MM-YYYY"
+  ) {
+    case "YYYY-MM-DD":
+      return `${year}-${month}-${day}`;
+
+    case "DD-MM-YYYY":
+      return `${day}-${month}-${year}`;
+
+    case "MM-DD-YYYY":
+      return `${month}-${day}-${year}`;
+
+    case "DD/MM/YYYY":
+      return `${day}/${month}/${year}`;
+
+    case "MM/DD/YYYY":
+      return `${month}/${day}/${year}`;
+
+    case "YYYY/MM/DD":
+      return `${year}/${month}/${day}`;
+
+    case "DD.MM.YYYY":
+      return `${day}.${month}.${year}`;
+
+    case "D MMM YYYY":
+      return `${d} ${shortMonths[m - 1]} ${year}`;
+
+    case "MMM D, YYYY":
+      return `${shortMonths[m - 1]} ${d}, ${year}`;
+
+    case "MMMM D, YYYY":
+      return `${fullMonths[m - 1]} ${d}, ${year}`;
+
+    case "D MMMM YYYY":
+      return `${d} ${fullMonths[m - 1]} ${year}`;
+
+    case "ddd, D MMM YYYY":
+      return `${weekdays[date.getDay()]}, ${d} ${shortMonths[m - 1]} ${year}`;
+
+    case "d,M,yyyy":
+      return `${d},${m},${year}`;
+
+    default:
+      return `${year}-${month}-${day}`;
+  }
+};
   const convertToformat=(data:any)=>{
     const isISODate = typeof data === 'string' && /^\d{4}-\d{2}-\d{2}(T|$)/.test(data);
     if(isISODate)
@@ -468,7 +530,7 @@ const sortedData = sortColumn
                     ${isDark ? "text-gray-200" : "text-gray-700"}
                   `}
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="component-header-text flex items-center gap-2">
                     Actions
                   </div>
                 </th>)}

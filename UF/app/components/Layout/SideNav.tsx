@@ -22,6 +22,7 @@ import { Text } from '@/components/Text'
 import clsx from 'clsx'
 import OPRTopNavSelector from './OPRTopNavSelector'
 import { OrgStructure, ProdStructure, RoleStructure } from '../svgApplication'
+import { Logo } from '../Logo'
 
 const SideNav = ({
   navData,
@@ -32,7 +33,10 @@ const SideNav = ({
   brandColor,
   hoverColor,
   userDetails,
-  navBarItemsOrder
+  navBarItemsOrder,
+  logo,
+  appLogo,
+  appName
 }: {
   navData: MenuStructure
   mode?: 'fluid' | 'closed' | 'detached'
@@ -52,7 +56,10 @@ const SideNav = ({
     name: string
     'gridColumn'?: string
     'gridRow'?: string
-  }[]
+  }[],
+  logo?: string
+  appLogo?: string
+  appName: string
 }) => {
   const router = useRouter()
   const tp_ps = getCookie('tp_ps')
@@ -165,9 +172,9 @@ const SideNav = ({
 
   async function logout() {
     localStorage.clear()
-    sessionStorage.clear()
-    deleteAllCookies()
-    window.location.href = '/ct006/ecp/ams/v1'
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+    const from = encodeURIComponent(`${basePath}/`)
+    window.location.href = `${basePath}/next-api/auth/logout?from=${from}`
   }
 
   const hasMatchingName = (obj: any, input: string): boolean => {
@@ -602,6 +609,39 @@ const SideNav = ({
     </div>
   ), [fullView, brandColor, logout, user, userDetails, selectedAccessProfile])
 
+  const LogoSection = useCallback(() => (
+      <div className='flex flex-col w-full items-center gap-1' style={getGridStyle('logo') ? {...getGridStyle('logo') , gridColumn: '2 /8'} : {}}>
+        {logo ? (
+          <img
+            className='min-h-[3vh] max-h-[5vh] h-auto w-auto'
+            width={100}
+            height={100}
+            src={getCdnImage(logo)}
+            alt='logo'
+          />
+        ) : (
+          <Logo />
+        )}
+        <Text className='text text-center font-bold w-full truncate text-[var(--brand-color)]' contentAlign='left'>
+          <span title={appName}>
+          {appName}
+          </span>
+        </Text>
+      </div>
+    ) , [logo, appName])
+
+  const AppLogoSection = useCallback(() => (
+    <div className='flex items-center gap-1' style={getGridStyle('app logo')}>
+      {appLogo && (
+        <img
+          className='min-h-[3vh] max-h-[5vh] h-auto w-auto'
+          src={getCdnImage(appLogo)}
+          alt='appLogo'
+        />
+      )}
+    </div>
+  ), [appLogo])  
+
   // Default layout (without grid)
   if (!navBarItemsOrder || navBarItemsOrder?.length === 0) {
     return (
@@ -610,7 +650,11 @@ const SideNav = ({
         onMouseEnter={() => sidebarStyle == 'hoverView' && setFullView(true)}
         onMouseLeave={() => sidebarStyle == 'hoverView' && setFullView(false)}
       >
+        <div>
+        <LogoSection />
+        <AppLogoSection />
         <MenuItemsSection />
+        </div>
         <div className='flex w-full flex-col items-center justify-center'>
           <OPRMatrixSection />
           <ProfileSection />
@@ -631,6 +675,8 @@ const SideNav = ({
       onMouseEnter={() => sidebarStyle == 'hoverView' && setFullView(true)}
       onMouseLeave={() => sidebarStyle == 'hoverView' && setFullView(false)}
     >
+      <LogoSection />
+      <AppLogoSection />
       <MenuItemsSection />
       <OPRMatrixSection />
       <ProfileSection />

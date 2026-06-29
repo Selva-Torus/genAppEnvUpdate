@@ -26,8 +26,8 @@ const Page = () => {
 
   return (
     <ForgotPassword
-      logo=""  
-      appName="AMS"
+      logo="torus/9.1/CT005/resources/images/Blue Logo.png"  
+      appName="VGPH"
       appTenantList={appTenantList}
     />
   )

@@ -6,6 +6,7 @@ import { Client } from 'pg';
 import 'dotenv/config';
 import { Db, MongoClient } from 'mongodb';
 const _ = require("lodash")
+import { Queue, QueueOptions } from 'bullmq';
 // import { connectToMongo, connectToRedis, getDb, getRedis,connectPG } from './mongoClient';
 // import { queueMongoOperation } from './mongoQueue-dynamic';
 
@@ -44,7 +45,7 @@ let redis
 @Injectable()
 export class RedisService {
   private readonly BATCH_SIZE = 10000
-
+  private queues: Map< string, Queue> = new Map(); 
   constructor(
     // @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {}
@@ -57,7 +58,47 @@ export class RedisService {
    * @returns The JSON data retrieved from Redis.
    * @throws {Error} If there is an error retrieving the JSON data.
    */
-   async getJsonData(key: string, collectionName: string) {
+
+   getQueue(queueName: string, key: string, value: any): void {
+    const jobId = key?.split(':').join('');
+
+    let queue = this.queues.get(queueName);
+
+    if (!queue) {
+      const queueOptions: QueueOptions = {
+        connection: {
+          host: process.env.HOST,
+          port: Number(process.env.PORT),
+        },
+        defaultJobOptions: {
+          attempts: 3,
+          backoff: {
+            type: 'exponential',
+            delay: 2000,
+          },
+          removeOnComplete: true,
+          removeOnFail: false,
+        },
+      };
+
+      queue = new Queue(queueName, queueOptions);
+
+      this.queues.set(queueName, queue);
+
+      // create only once
+      // this.createWorker(queueName);
+    }
+
+    queue.add(
+      key,
+      { value },
+      {
+        jobId,
+      }
+    ).catch(console.error);
+  }
+
+    async getJsonData(key: string, collectionName: string) {
     try {
       let returnValue: any;
       
@@ -74,8 +115,8 @@ export class RedisService {
         if (redisResult) {
           returnValue = redisResult;
         }else{
-          //if(key.includes(':FNGK:AF:'))
-          //  returnValue = await this.getpgData(key)
+          if(key.includes(':FNGK:AFP:'))
+           returnValue = await this.getpgData(key)
         }
         
       }else{
@@ -159,7 +200,7 @@ export class RedisService {
    * @returns A string indicating that the value was stored.
    * @throws {Error} If there is an error storing the JSON data.
    */
-   async setJsonData(key: string, value: any, loginId: string, path?: string) { 
+    async setJsonData(key: string, value: any, loginId: string, path?: string) { 
     try {
       if (!loginId || !key || !value) throw "loginId/key/value not found";  
             
@@ -175,6 +216,14 @@ export class RedisService {
         let pg_response
          const defpath = path ? `.${path}` : "$";
          pg_response = await redis.call("JSON.SET", key, defpath, value);
+        //  if(key.includes(':FNGK:AF:'))
+        //  this.getQueue(`AMDKEY-PERSISTENCE`,key,value);
+        if(pg_response == 'Value Stored'){
+           let valuejson = await redis.call('JSON.GET', key)
+        if(key.includes(':FNGK:AFP:') && !key.includes('nodeResponse'))
+          this.getQueue(`AFP-PERSISTENCE`,key,JSON.parse(valuejson));
+        }
+         
          //if(pg_response == 'Value Stored') {
        // if(key.includes(':FNGK:AF:')){
           //  await this.setPgData(loginId,key,value,path)
@@ -1276,7 +1325,235 @@ async select(db: number) {
     return redis.ping();
   }
 
- 
+  //__________________________PG_______________________________
+
+
+  async connectPG() {
+    try {      
+      const { Client } = require('pg');
+      let pgClient
+      if (pgClient && pgClient._connected) {
+        return pgClient;
+      }
+      pgClient = new Client({
+        connectionString: process.env.PG_URL,
+        application_name: 'AFP-Service',
+      });
+  
+      await pgClient.connect();
+      console.log('PG connected');
+      
+      return pgClient;
+
+    } catch (error) {
+      throw error
+    }
+  }
+  
+  async setPgData(key: string, value:any,path?): Promise<any> {
+    let pgClient
+    try {
+      pgClient = await this.connectPG();
+      const DbSchema = process.env.PG_SCHEMANAME;
+      if (!DbSchema || !pgClient) throw ('pgClient/schema not found')
+      let tableName
+      if(key){
+        if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+          tableName = 'amd_node_registry'
+         else if(key.includes(':FNGK:AFP:'))
+          tableName = 'tam_app_process_dtl'
+        else
+          tableName = 'amd_registry'
+      }       
+     let query,result;
+      const keys = key.split(':');
+      if (keys.length <= 14) throw ('Invalid key')            
+       
+        const values = [
+          key,
+          keys[1],
+          keys[3],
+          keys[5],
+          keys[7],
+          keys[9],
+          keys[11],
+          keys[13],
+          keys[14],
+          value
+        ]      
+       
+       let  existquery = `
+        SELECT EXISTS (
+          SELECT 1
+          FROM "${DbSchema}".${tableName}
+          WHERE full_key = $1
+        ) AS exists
+      `;
+      let existresult = await pgClient.query(existquery, [key]);
+    
+      if(existresult.rows[0].exists){        
+         query = `
+           UPDATE "${DbSchema}".${tableName} SET
+            data = $2,
+            trs_modified_by = '',
+            trs_modified_date = CURRENT_TIMESTAMP where full_key = $1
+        `;      
+        result = await pgClient.query(query, [key,value]);      
+      }else{        
+         query = `INSERT INTO "${DbSchema}".${tableName}
+          (full_key, ck_code, fngk_code, fnk_code, catk_code, afgk_code, 
+          afk_code, afvk_code, afsk_code, data, trs_created_by, trs_created_date, trs_modified_by, trs_modified_date)
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, '', CURRENT_TIMESTAMP, '', CURRENT_TIMESTAMP)         
+          `
+          result = await pgClient.query(query, values);       
+      }
+         let audit_query = `
+          INSERT INTO "${DbSchema}".amd_registry_auditlogs
+          (full_key, ck_code, fngk_code, fnk_code, catk_code, afgk_code, 
+          afk_code, afvk_code, afsk_code, data, trs_created_by, trs_created_date, trs_modified_by, trs_modified_date)
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, '', CURRENT_TIMESTAMP, '', CURRENT_TIMESTAMP)        
+        `;      
+       
+        await pgClient.query(audit_query, values);        
+        await pgClient.end();
+        if (result.rowCount > 0) 
+          return 'OK';
+    } catch (error) {
+      if (pgClient && pgClient._connected) {
+        await pgClient.end();
+      }     
+      throw error;
+    }
+  }
+
+  async getpgData(key){ 
+    let pgClient   
+    try {
+      pgClient = await this.connectPG();
+      let DbSchema = process.env.PG_SCHEMANAME;
+      if (!DbSchema || !pgClient) throw ('pgClient/schema not found')
+      let tableName
+      if(key){
+        if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+          tableName = 'amd_node_registry'
+        else if(key.includes(':FNGK:AFP:'))
+          tableName = 'tam_app_process_dtl'
+        else 
+          tableName = 'amd_registry'
+      }     
+      const query = `        
+        SELECT data
+        FROM "${DbSchema}".${tableName}
+        WHERE full_key = $1        
+      `;
+      
+      const result = await pgClient.query(query, [key]);      
+        
+      await pgClient.end();
+      if (!result?.rows[0]?.data) return null
+      return result.rows[0].data
+    } catch (error) {
+      console.log('error',error);
+      
+      if (pgClient && pgClient._connected) {
+        await pgClient.end();
+      }
+      throw error
+    }
+  }
+
+  async getpgKeys(key){    
+    let pgClient
+    try {
+      pgClient = await this.connectPG();
+      let DbSchema = process.env.PG_SCHEMANAME;     
+      
+      if (!DbSchema || !pgClient) throw ('pgClient/schema not found')
+      let tableName
+      if(key){
+        if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+          tableName = 'amd_node_registry'
+        else
+          tableName = 'amd_registry'
+      }
+      key = key.replaceAll('*','%');
+     
+      let result = await pgClient.query(`SELECT full_key from "${DbSchema}".${tableName} where full_key LIKE '${key}%'`)
+     
+      await pgClient.end();
+      let allApiKeys = result?.rows?.map(row => row.full_key) || [] 
+      return allApiKeys
+    } catch (error) {
+      if (pgClient && pgClient._connected) {
+        await pgClient.end();
+      }
+      throw error
+    }
+  }
+
+  async isExist(key){
+    let pgClient
+    try {
+      pgClient = await this.connectPG();
+      let DbSchema = process.env.PG_SCHEMANAME;
+      if (!DbSchema || !pgClient) throw ('pgClient/schema not found')
+      let tableName
+      if(key){
+        if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+          tableName = 'amd_node_registry'
+        else
+          tableName = 'amd_registry'
+      }
+      // let result = await pgClient.query(`SELECT data from ${DbSchema}.${tableName} where full_key = ${key}`)
+      const query = `
+        SELECT EXISTS (
+          SELECT 1
+          FROM "${DbSchema}".${tableName}
+          WHERE full_key = $1
+        ) AS exists
+      `;
+      const result = await pgClient.query(query, [key]);
+      await pgClient.end();      
+      if (!result.rows[0].exists) return 0
+      return 1
+    } catch (error) {
+      if (pgClient && pgClient._connected) {
+        await pgClient.end();
+      }
+      throw error
+    }
+  }
+
+  async deletePgKey(key){
+    let pgClient
+    try {
+      pgClient = await this.connectPG();
+      let DbSchema = process.env.PG_SCHEMANAME;
+      if (!DbSchema || !pgClient) throw ('pgClient/schema not found')
+      let tableName
+      if(key){
+        if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+          tableName = 'amd_node_registry'
+        else
+          tableName = 'amd_registry'
+      }
+      const query = `
+        DELETE FROM "${DbSchema}".${tableName}
+        WHERE full_key = $1
+      `;
+
+      const result = await pgClient.query(query, [key]);
+      await pgClient.end();     
+      if (!result?.rowCount) return 0
+      return 1
+    } catch (error) {
+      if (pgClient && pgClient._connected) {
+        await pgClient.end();
+      }
+      throw error
+    }
+  }
+  
   
 }
 

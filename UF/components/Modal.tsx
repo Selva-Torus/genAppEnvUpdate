@@ -5,6 +5,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { eventBus } from "@/app/eventBus";
 import { Tooltip } from "./Tooltip";
 import { Icon } from "./Icon";
+import { Text, TextVariant } from './Text'
 import { Button } from "./Button";
 import { ComponentSize, HeaderPosition, TooltipProps as TooltipPropsType } from "@/types/global";
 import { getBorderRadiusClass } from "@/app/utils/branding";
@@ -28,6 +29,7 @@ interface ModalProps {
   open: boolean;
   onClose: () => void;
   title?: string | React.ReactNode;
+  variant?: TextVariant
   showCloseButton?: boolean;
   closeOnOverlayClick?: boolean;
   closeOnEscape?: boolean;
@@ -48,6 +50,7 @@ export const Modal: React.FC<ModalProps> = ({
   onClose,
 
   title,
+  variant,
   showCloseButton = true,
   closeOnOverlayClick = true,
   closeOnEscape = true,
@@ -146,8 +149,8 @@ export const Modal: React.FC<ModalProps> = ({
   const overlayStyles: React.CSSProperties = showOverlay
     ? {
         backgroundColor: "rgba(0, 0, 0, 0.6)",
-        backdropFilter: "blur(2px)",
-        WebkitBackdropFilter: "blur(2px)",
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
       }
     : {};
 
@@ -193,14 +196,7 @@ export const Modal: React.FC<ModalProps> = ({
                 : "linear-gradient(to bottom, rgba(249, 250, 251, 0.8), rgba(255, 255, 255, 0.6))",
             }}
           >
-            {title && (
-              <h2
-                className={`text-xl font-semibold`}
-                style={{ color: isDark ? "#F9FAFB" : "#111827" }}
-              >
-                {title}
-              </h2>
-            )}
+            {title && <Text variant={variant} contentAlign='left' className={`modal-title`}>{title}</Text>}
             <div className="flex-1" />
             {showCloseButton && (
               <button

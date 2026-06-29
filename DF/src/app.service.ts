@@ -22,7 +22,7 @@ export class AppService implements OnModuleInit{
     console.log('Application started, calling API...');
     console.log('DDL changes update started.');
     console.log('DDL changes update completed.');    
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoiSGFyaXRoYSIsImNsaWVudCI6IkNUMDA2IiwidHlwZSI6ImMiLCJsb2dUeXBlIjoiZGZzIiwic2lkIjoiMzVkM2FjMzYtZGUyMS00NGYwLTg3MWUtN2IwN2Q5OGE2YWMzIiwiaWF0IjoxNzgyMTEzNTA0LCJleHAiOjE3ODIxMTQ3MDR9.Wo3PbZMYC3KKzavqJRwFJMN7-qFKsuMugkf2OGZ3-LU';
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoiRG9taW5pYyIsImNsaWVudCI6IkNUMDA1IiwidHlwZSI6ImMiLCJsb2dUeXBlIjoiZGZzIiwic2lkIjoiMjg1NjBjMTktNTU1ZS00MDA0LWJlMzMtZGU2MzgxM2U3YjViIiwiaWF0IjoxNzgyNzQwODIyLCJleHAiOjE3ODI3NDIwMjJ9.E4nUPaUdPajRkvuzyK5YHtmep8q4niLzppCkzFUuO00';
     let preParedData:any=await this.dataPrep(JSON.parse(fs.readFileSync('./swagger.json', 'utf-8')))
     if(Object.keys(preParedData).includes('erdWithData'))
       {
@@ -37,12 +37,12 @@ export class AppService implements OnModuleInit{
       //  }
       //});
       erdDatas.endpoint = res;
-      erdDatas.tenant =  "CT006";
-      erdDatas.domain = "Enterprise Compliance Portal";
-      erdDatas.collection = "AMS";
+      erdDatas.tenant =  "CT005";
+      erdDatas.domain = "GSS";
+      erdDatas.collection = "VGPH";
       erdDatas.data = preParedData?.erdWithData||{}
       erdDatas.fabric = 'API-APIPD';
-      erdDatas.loginId = "Haritha";    
+      erdDatas.loginId = "Dominic";    
       erdDatas.erdFlag = true;  
       await this.ufservice.createApiCollection(erdDatas,this.clientcode);
       //await axios.post(this.apiUrl+'/createApiCollection', erdDatas,{
@@ -59,12 +59,12 @@ export class AppService implements OnModuleInit{
       //endPointData.type =  "json";
       //let res =  await axios.post(this.apiUrl+'/getEndPoints', endPointData);
       //torusData.endpoint = res.data;
-      torusData.tenant =  "CT006";
-      torusData.domain = "Enterprise Compliance Portal"; 
-      torusData.collection = "AMS";
+      torusData.tenant =  "CT005";
+      torusData.domain = "GSS"; 
+      torusData.collection = "VGPH";
       torusData.fabric = 'API-APIPD-TORUS';
       torusData.data = preParedData?.torusApis||{}
-      torusData.loginId = "Haritha";    
+      torusData.loginId = "Dominic";    
       //await axios.post(this.apiUrl, torusData);
     }
   }

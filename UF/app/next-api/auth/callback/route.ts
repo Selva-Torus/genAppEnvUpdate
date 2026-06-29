@@ -72,43 +72,13 @@ export async function GET(request: NextRequest) {
 
     const { token, redirectToORPSelector } = await torusRes.json()
 
-    let screenName:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetCategory:AFVK:v1';
+    let screenName:string = 'CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1';
     let screenDetails: any = {
         keys:[
   {
-    "screenName": "dashboard",
-    "screensName": "dashboard-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetDasboard:AFVK:v1"
-  },
-  {
-    "screenName": "assets",
-    "screensName": "assets-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assets:AFVK:v1"
-  },
-  {
-    "screenName": "assignments",
-    "screensName": "assignments-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetAssignments:AFVK:v1"
-  },
-  {
-    "screenName": "maintenance",
-    "screensName": "maintenance-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetMaintenance:AFVK:v1"
-  },
-  {
-    "screenName": "disposal",
-    "screensName": "disposal-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetDisposal:AFVK:v1"
-  },
-  {
-    "screenName": "category",
-    "screensName": "category-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetCategory:AFVK:v1"
-  },
-  {
-    "screenName": "software licenses",
-    "screensName": "software_licenses-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetSoftwareLicenses:AFVK:v1"
+    "screenName": "my transaction",
+    "screensName": "my_transaction-v1",
+    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1"
   }
 ]
     }
@@ -136,11 +106,17 @@ export async function GET(request: NextRequest) {
     response.cookies.set(`${COOKIE_PREFIX}_token`, token, {
       // httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
+      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+      path: FULL_BASE_PATH,
       maxAge: 60 * 60 * 8
     })
-    response.cookies.delete(`${COOKIE_PREFIX}_oauth_state`)
+    response.cookies.set(`${COOKIE_PREFIX}_oauth_state`, '', {
+      // httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+      path: FULL_BASE_PATH,
+      maxAge: 0
+    })
 
     return response
   } catch (err: any) {

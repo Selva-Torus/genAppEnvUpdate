@@ -1,5 +1,5 @@
 /* {
-  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT006:AFGK:ECP:AFK:AMS:AFVK:v1:bldc",
+  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT005:AFGK:GSS:AFK:VGPH:AFVK:v1:bldc",
   "ufKey": "Logs Screen",
   "screenName": "logs",
   "screenLabel": "logs",
@@ -29,427 +29,218 @@
       "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
     },
     {
-      "menuGroupLabel": "Dashboard",
+      "menuGroupLabel": "My Transaction",
       "screenDetails": [
         {
-          "name": "dashboard",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetDasboard:AFVK:v1",
+          "name": "my transaction",
+          "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",
           "allowedAccessProfile": [
-            "Maker",
-            "Checker"
+            "IT Team",
+            "Operation Team",
+            "Business Team"
           ],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/dashboard (1).png"
+          "static": false
         }
       ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/dashboard (1).png"
-    },
-    {
-      "menuGroupLabel": "Assets",
-      "screenDetails": [
-        {
-          "name": "assets",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assets:AFVK:v1",
-          "allowedAccessProfile": [
-            "Network Engineer",
-            "Checker",
-            "Maker",
-            "Network Admin"
-          ],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/computer.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/computer.png"
-    },
-    {
-      "menuGroupLabel": "Assignments",
-      "screenDetails": [
-        {
-          "name": "assignments",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetAssignments:AFVK:v1",
-          "allowedAccessProfile": [
-            "Maker",
-            "Checker"
-          ],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/assign.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/assign.png"
-    },
-    {
-      "menuGroupLabel": "Maintenance",
-      "screenDetails": [
-        {
-          "name": "maintenance",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetMaintenance:AFVK:v1",
-          "allowedAccessProfile": [
-            "Maker",
-            "Checker"
-          ],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/troubleshooting.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/troubleshooting.png"
-    },
-    {
-      "menuGroupLabel": "Disposal",
-      "screenDetails": [
-        {
-          "name": "disposal",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetDisposal:AFVK:v1",
-          "allowedAccessProfile": [
-            "IT Engineer",
-            "Checker",
-            "Maker",
-            "IT Manager"
-          ],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/ChatGPT Image Jun 17, 2026, 04_58_22 PM.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/ChatGPT Image Jun 17, 2026, 04_58_22 PM.png"
-    },
-    {
-      "menuGroup": "masters",
-      "menuGroupLabel": "Masters",
-      "screenDetails": [
-        {
-          "name": "category",
-          "label": "Category",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetCategory:AFVK:v1",
-          "allowedAccessProfile": [
-            "Maker",
-            "Checker"
-          ],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/checklist.png"
-        },
-        {
-          "name": "software licenses",
-          "label": "Software Licenses",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetSoftwareLicenses:AFVK:v1",
-          "allowedAccessProfile": [
-            "Maker",
-            "Checker"
-          ],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/certificate.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/dashboard.png"
+      "items": []
     }
   ],
   "setupData": {
     "appInfo": {
-      "name": "AMS",
-      "code": "AMS",
+      "code": "VGPH",
+      "logo": "torus/9.1/CT005/resources/images/Blue Logo.png",
+      "name": "VGPH",
+      "appLogo": "torus/9.1/CT005/resources/images/White global payment hub.png",
+      "accessUrl": "https://tgadev2.toruslowcode.com/ct005/gss/vgph/v1",
+      "appGrpCode": "GSS",
+      "appGrpName": "GSS",
       "encryption": {
         "type": ""
       },
-      "applicationUniqueId": "b273d406-451b-406e-b8b6-65b302a66d71",
-      "deploymentArtifactKey": "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:ECP:AFGK:AMS:AFK:amsDPD:AFVK:v1",
+      "lastBuildOn": "2026-06-03T09:34:32.415Z",
       "lastBuildVersion": "v1",
-      "lastBuildOn": "2026-06-04T04:35:49.266Z",
-      "accessUrl": "https://tgadev2.toruslowcode.com/ct006/ecp/ams/v1",
-      "needAutoDbPush": true,
-      "appGrpName": "Enterprise Compliance Portal",
-      "appGrpCode": "ECP",
-      "fusionAuthAppClientSecret": "NXRGuMfH4-FxN3SRBO7-Nwl3V2Eb0o7tk7FiGREm1W4"
+      "applicationUniqueId": "ae093d5d-f44a-444b-afab-9476f31e7dca",
+      "deploymentArtifactKey": "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:VGPH:AFK:VGPH_DPD:AFVK:v1",
+      "fusionAuthAppClientSecret": "AKE3Mkrdhezw9vln9mTV-Wnb8WVEivZ3BY0KTxqtmbc"
     },
-    "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT006:AFK:PROFILE:AFVK:v1:appearance",
-    "selectedPresetKey": "1780467258338",
-    "group-bg-color": "#ffffff",
+    "selectedPresetKey": "default",
+    "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT005:AFK:PROFILE:AFVK:v1:appearance",
+    "name": "default",
+    "theme": "light",
     "fontSize": {
-      "minPx": "7",
-      "preferredVw": "0.85",
-      "maxPx": "13"
+      "maxPx": "12",
+      "minPx": "6",
+      "preferredVw": "0.85"
     },
+    "language": "English",
     "direction": "LTR",
     "brandColor": "#0737c9",
-    "selectionColor": "#579eff",
+    "fontFamily": [
+      {
+        "label": "Inter",
+        "fontUrl": "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      }
+    ],
     "hoverColor": "#d5eeff",
-    "borderRadius": "s",
-    "topbarColor": "#ffffff",
-    "menubarColor": "#ffffff",
-    "sidebarStyle": "compact",
-    "navigationStyles": "vertical",
-    "theme": "light",
-    "layoutMode": "fluid",
+    "layoutMode": "detached",
+    "borderRadius": "m",
+    "sidebarStyle": "",
+    "selectionColor": "#579eff",
+    "text-body-font": "Inter",
     "mobileAppearance": {
+      "theme": "light",
+      "fontSize": {
+        "bodyLarge": "16",
+        "bodySmall": "12",
+        "bodyMedium": "14",
+        "labelLarge": "16",
+        "labelSmall": "12",
+        "titleLarge": "20",
+        "titleSmall": "16",
+        "labelMedium": "14",
+        "titleMedium": "18",
+        "displayLarge": "64",
+        "displaySmall": "36",
+        "displayMedium": "44",
+        "headlineLarge": "32",
+        "headlineSmall": "24",
+        "headlineMedium": "28"
+      },
       "language": "English",
       "direction": "LTR",
-      "theme": "light",
+      "fontFamily": "Roboto",
       "brandColors": {
-        "primary": "#4b39ef",
-        "secondary": "#39d2c0",
-        "tertiary": "#ee8b60"
+        "primary": "#0025dd",
+        "tertiary": "#000000",
+        "secondary": "#000e51"
       },
+      "drawerStyle": "",
       "accentColors": {
-        "accentOne": "#4c4b39",
-        "accentTwo": "#4d39d2"
+        "accentOne": "#f4f5ff",
+        "accentTwo": "#ffffff"
       },
       "utilityColors": {
-        "lightMode": {
-          "primaryText": "#14181b",
-          "secondaryText": "#57636c",
-          "primaryBackground": "#f1f4f8",
-          "secondaryBackground": "#ffffff"
-        },
         "darkMode": {
           "primaryText": "#ffffff",
           "secondaryText": "#95a1ac",
           "primaryBackground": "#1d2428",
           "secondaryBackground": "#14181b"
+        },
+        "lightMode": {
+          "primaryText": "#14181b",
+          "secondaryText": "#57636c",
+          "primaryBackground": "#f1f4f8",
+          "secondaryBackground": "#ffffff"
         }
       },
-      "fontSize": {
-        "displayLarge": "64",
-        "displayMedium": "44",
-        "displaySmall": "36",
-        "headlineLarge": "32",
-        "headlineMedium": "28",
-        "headlineSmall": "24",
-        "titleLarge": "20",
-        "titleMedium": "18",
-        "titleSmall": "16",
-        "labelLarge": "16",
-        "labelMedium": "14",
-        "labelSmall": "12",
-        "bodyLarge": "16",
-        "bodyMedium": "14",
-        "bodySmall": "12"
-      },
-      "fontFamily": "Roboto",
-      "navigationStyle": "Bottom Navigation",
-      "drawerStyle": ""
+      "navigationStyle": "Bottom Navigation"
     },
-    "page-bg-color": "#ffffff",
-    "language": "English",
-    "name": "ecp_styles",
-    "appBackgroundImage": "torus/9.1/CT006/resources/images/Home (1).png",
-    "fontFamily": [
-      {
-        "label": "Google Sans",
-        "fontUrl": "https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Pliant:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-      }
-    ],
-    "text-body-font": "Google Sans",
-    "text-header-font": "Google Sans",
-    "text-display-font": "Google Sans"
+    "navigationStyles": "horizontal",
+    "text-header-font": "Inter",
+    "text-display-font": "Inter",
+    "appBackgroundImage": "torus/9.1/CT005/resources/images/Home.png"
   },
-  "setupKey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT006:AFGK:ECP:AFK:AMS:AFVK:v1:appearance",
+  "setupKey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT005:AFGK:GSS:AFK:VGPH:AFVK:v1:appearance",
   "allKeys": [
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetDasboard:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assets:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetAssignments:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetMaintenance:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetDisposal:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetCategory:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetSoftwareLicenses:AFVK:v1"
+    "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1"
   ],
   "loginDetails": {
-    "firstName": "Haritha",
-    "lastName": "Rk",
-    "loginId": "Haritha",
-    "email": "haritha@torus.tech",
+    "edit": "",
+    "email": "dominica@gsstvl.com",
+    "users": "DominicDominic A",
+    "client": "CT005",
     "mobile": "",
     "status": "active",
-    "accessProfile": [
-      "Dev"
-    ],
-    "accessExpires": "",
-    "dateAdded": "2026-05-22T13:18:13.118Z",
+    "loginId": "Dominic",
     "profile": "",
-    "userUniqueId": "bb0decdf-1901-40e5-8f51-d646de94bd10",
     "touring": {
-      "isneedTouring": true,
       "touringData": {
-        "/torus": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
         "/home": {
-          "stepIndex": 0,
-          "isSkipped": true,
           "completed": false,
+          "isSkipped": true,
+          "stepIndex": 1,
           "notVisited": []
         },
-        "artifactselector": {
-          "stepIndex": 0,
-          "isSkipped": true,
+        "/torus": {
           "completed": false,
-          "notVisited": []
-        },
-        "/control-center/company-profile": {
-          "stepIndex": 0,
           "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/tenant": {
           "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "build": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/user-management": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/storage-configuration": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
           "notVisited": []
         },
         "/logic-center": {
-          "stepIndex": 0,
-          "isSkipped": true,
           "completed": false,
+          "isSkipped": true,
+          "stepIndex": 0,
           "notVisited": []
         },
-        "/orchestrator": {
-          "stepIndex": 0,
-          "isSkipped": false,
+        "artifactselector": {
           "completed": false,
-          "notVisited": []
-        },
-        "/tenant-settings": {
-          "stepIndex": 0,
           "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "Security": {
           "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/user-roles": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/resource-library": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/appearance": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
           "notVisited": []
         }
-      }
+      },
+      "isneedTouring": false
     },
-    "users": "HarithaHaritha Rk",
-    "noOfProductsService": 0,
-    "edit": "",
-    "lastActive": "2026-06-22T07:31:44.282Z",
-    "client": "CT006"
+    "lastName": "A",
+    "dateAdded": "2026-04-08T08:02:02.245Z",
+    "firstName": "Dominic",
+    "lastActive": "2026-06-29T13:47:02.442Z",
+    "userUniqueId": "cc1efc49-5291-4f48-a7cc-92a89d876e7e",
+    "accessExpires": "2028-06-23",
+    "accessProfile": [
+      "Dev Team"
+    ],
+    "noOfProductsService": 0
   },
   "webOnBoarding": {
+    "image": "torus/9.1/CT005/resources/images/Login 1.png",
+    "loginType": "standard",
     "navBarStyle": {
       "activeItems": [
         {
-          "name": "profile",
-          "gridRow": "12/13"
+          "name": "app logo",
+          "gridColumn": "1/3"
         },
         {
           "name": "menu items",
-          "gridRow": "1/7"
+          "gridRow": "1/6",
+          "gridColumn": "3/8"
+        },
+        {
+          "name": "profile",
+          "gridRow": "12/13",
+          "gridColumn": "12/13"
         },
         {
           "name": "opr matrix",
-          "gridRow": "9/12"
+          "gridRow": "6/9",
+          "gridColumn": "9/12"
         }
       ],
       "deletedItems": [
         {
           "name": "logo",
           "gridColumn": "1/2"
-        },
-        {
-          "name": "app logo",
-          "gridColumn": "2/4"
         }
       ]
     },
-    "loginType": "standard",
-    "landingScreen": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetCategory:AFVK:v1"
+    "landingScreen": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1"
   },
   "allKeyswithScreenNames": [
     {
-      "screenName": "dashboard",
-      "screensName": "dashboard-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetDasboard:AFVK:v1"
-    },
-    {
-      "screenName": "assets",
-      "screensName": "assets-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assets:AFVK:v1"
-    },
-    {
-      "screenName": "assignments",
-      "screensName": "assignments-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetAssignments:AFVK:v1"
-    },
-    {
-      "screenName": "maintenance",
-      "screensName": "maintenance-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetMaintenance:AFVK:v1"
-    },
-    {
-      "screenName": "disposal",
-      "screensName": "disposal-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetDisposal:AFVK:v1"
-    },
-    {
-      "screenName": "category",
-      "screensName": "category-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetCategory:AFVK:v1"
-    },
-    {
-      "screenName": "software licenses",
-      "screensName": "software_licenses-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetSoftwareLicenses:AFVK:v1"
+      "screenName": "my transaction",
+      "screensName": "my_transaction-v1",
+      "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1"
     }
   ],
-  "deploymentArtifactKey": "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:ECP:AFGK:AMS:AFK:amsDPD:AFVK:v1",
-  "appGroupDesc": "Enterprise Compliance Portal",
+  "deploymentArtifactKey": "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:VGPH:AFK:VGPH_DPD:AFVK:v1",
+  "appGroupDesc": "GSS",
   "logType": "dfs",
-  "appDesc": "AMS",
+  "appDesc": "VGPH",
+  "appLogo": "torus/9.1/CT005/resources/images/White global payment hub.png",
   "isOld": true,
-  "clientCode": "CT006"
+  "clientCode": "CT005"
 } */
 import './globals.css';
 import type { Metadata } from 'next';
@@ -461,8 +252,8 @@ import { GlobalProvider } from '@/context/GlobalContext';
 import { EventBusProvider } from '@/context/EventBusContext';
 import { ThemeWrapper } from '@/components/ThemeWrapper';
 export const metadata: Metadata = {
-  title: 'AMS',
-  description: 'AMS Generated by Torus'
+  title: 'VGPH',
+  description: 'VGPH Generated by Torus'
 }
 
 export default function RootLayout({

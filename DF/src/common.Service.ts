@@ -134,7 +134,7 @@ export class CommonService{
   }
 
   private readonly logger = new Logger(CommonService.name) 
-  private readonly GRIDFS_BUCKET = 'CT006/ECP/AMS/v1';
+  private readonly GRIDFS_BUCKET = 'CT005/GSS/VGPH/v1';
 
   private async getBucket(): Promise<GridFSBucket> {
     if (!db) {
@@ -839,9 +839,9 @@ export class CommonService{
         let fieldarr = []
         let rule = currentNode?.rule
         let customCode = currentNode?.code   
+      inputparam = JSON.parse(await this.redisService.getJsonData(processedKey+':rule',process.env.CLIENTCODE))
         if (customCode ) {
-          var customcoderesult = await this.codeService.customCode(processedKey, customCode, inputparam,fabric,SessionInfo)
-          // console.log("customcoderesult",customcoderesult);
+          var customcoderesult = await this.codeService.customCode(processedKey, customCode, inputparam,fabric,SessionInfo)        
           
          if(customcoderesult){
             if(inputparam[currentNode.nodeName]) 
@@ -866,17 +866,7 @@ export class CommonService{
                     return null;
                   }
                   return value;
-                }));
-                console.log(
-                "RULE PAYLOAD",
-                JSON.stringify(gparamreq, (_, value) => {
-                  if (typeof value === 'number') {
-                    if (Number.isNaN(value)) return 'NaN';
-                    if (!Number.isFinite(value)) return 'Infinity';
-                  }
-                  return value;
-                }, 2)
-              );
+                }));               
               var goruleres = await this.ruleEngine.goRule(rule,gparamreq)
               if(Object.keys(goruleres.result).length > 0){
                 //zenresult = goruleres.result.output
@@ -922,9 +912,6 @@ export class CommonService{
                 }      
               }            
             }  
-
-            // console.log('gparamreq',gparamreq);
-
             var goruleres = await this.ruleEngine.goRule(rule, gparamreq) 
             if(Object.keys(goruleres.result).length > 0){  
               return goruleres.result
@@ -1413,8 +1400,8 @@ export class CommonService{
         
         if(typeof key != 'string')
         key = 'commonError'
-        tenant=tenant || "CT006"
-        app=app ||  "AMS"
+        tenant=tenant || "CT005"
+        app=app ||  "VGPH"
         await this.redisService.setStreamData(tenant+'-'+app+'-TSL',key,JSON.stringify(logs))    
         return logs
 
@@ -1563,7 +1550,7 @@ export class CommonService{
     };
   } catch (error: any) {
     console.error('Upload error:', error?.response?.data || error.message);
-    throw error;
+    throw error?.response?.data || error.message || 'some error occured in seaWeeduploadFile';
   }
   }
 
@@ -1757,169 +1744,132 @@ export class CommonService{
 
    
 
-      async getseaWeedExpLogs(input,type): Promise<any> {
-      try {        
-        this.logger.log('Seaweed started');
+  async getseaWeedExpLogs(input,type): Promise<any> {
+    try {        
+      this.logger.log('Seaweed started');
 
-        let {tenant, user, FromDate, ToDate, fabric, appgroup, app, searchParam, page, limit, sortOrder } = input;
-        if(!tenant || !app?.code) throw 'Invalid Payload'   
-        let dateRange,fileName,data
+      let {tenant, user, FromDate, ToDate, fabric, appgroup, app, searchParam, page, limit, sortOrder } = input;
+      if(!tenant || !app?.code) throw 'Invalid Payload'   
+      let dateRange,fileName,data
 
-        fileName = `${tenant}-${app.code}${type}`  
+      fileName = `${tenant}-${app.code}${type}`  
 
-        const getDateRange = (start, end) => {
-          const dateArray = [];
-          if (start && end) {
-            var currentDate = new Date(start);
-            var endDate = new Date(end);
-          } else if (start) {
-            var currentDate = new Date(start);
-            var endDate = new Date();
-          } else if (end) {
-            var currentDate = new Date();
-            var endDate = new Date(end);
-          }
-     
-          while (currentDate <= endDate) {
-            dateArray.push(currentDate.toISOString().split('T')[0]);
-            currentDate.setDate(currentDate.getDate() + 1);
-          }
-          return dateArray;
-        };
-  
-        if (FromDate && ToDate) {
-          dateRange = getDateRange(FromDate, ToDate);
-        } else if (FromDate) {
-          dateRange = getDateRange(FromDate, '');
-        } else if (ToDate) {
-          dateRange = getDateRange('', ToDate);
-        }else{
-          dateRange = []
-        }             
-
-       
-        page = page ? page : 1
-        limit = limit ? limit : 10
-        const start = (page - 1) * limit;
-        const end = start + limit;
+      const getDateRange = (start, end) => {
+        if (!start && !end) return [];
         
-       let baseFolder = user? `${fileName}/${user}`: fileName;
-       
-       let folders = dateRange.length > 0 ? dateRange.map(date => `${baseFolder}/${date}`) : [baseFolder];
-        
-       let logType = fileName.endsWith('TPL') ? 'PrcLog' : 'ExpLog';
+        const dateArray = [];
+        const currentDate = start ? new Date(start) : new Date();
+        const endDate = end ? new Date(end) : new Date();          
+    
+        while (currentDate <= endDate) {
+          dateArray.push(currentDate.toISOString().split('T')[0]);
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+        return dateArray;
+      };
 
-        let fileResponses = await Promise.all(
-          folders.map(folder =>
-            this.listFiles(logType, folder)
-          )
-        );
+      dateRange = getDateRange(FromDate, ToDate);           
 
-        data = fileResponses.flat();
-   
-       if (searchParam) {
-        data = data.filter(item => item.includes(searchParam));
-       }
+      
+      page = page ? page : 1
+      limit = limit ? limit : 10
+      const start = (page - 1) * limit;
+      const end = start + limit;
+      
+      let baseFolder = user.length > 0 ? user.map(singleUser => `${fileName}/${singleUser}`) : [fileName];
+      
+      if(dateRange.length > 0){
+        baseFolder = baseFolder.flatMap(folder => dateRange.map(date => `${folder}/${date}/${tenant}/`))          
+      }       
+      
+      let logType = fileName.endsWith('TPL') ? 'PrcLog' : 'ExpLog';
+    
+      data = await Promise.all(
+        baseFolder.map(folder =>
+          this.listFiles(logType, folder)
+        )
+      );
 
-       let tenarr = [],finalarr = [], filtereddata, usearr, fabarr, appgrparr, apparr, arr;
-
-       if (dateRange?.length > 0) { 
-          filtereddata = await this.getlogFormat(data, dateRange)
-       }else{
-            filtereddata = data
-       }
-  
-       usearr = filtereddata     
+      data = data.flat();     
      
-        if (tenant) {
-          for (var i = 0; i < usearr.length; i++) {
-            if (usearr[i].includes(tenant)) {
-              tenarr.push(usearr[i])
-            }
-          }
-        }
-    
-        if (fabric && fabric.length > 0) {
-         fabarr = await this.getlogFormat(tenarr, fabric)
-         
-        } else {
-          fabarr = tenarr
-        }     
-     
-        if (appgroup && appgroup.code) {
-           appgrparr = await this.getlogFormat(fabarr, [appgroup.code])      
-         
-        } else {
-          appgrparr = fabarr
-        }
-     
-        if (app && app.code) {
-           apparr = await this.getlogFormat(appgrparr, [app.code])
-         
-        } else {
-          apparr = appgrparr
-        }
-    
-        let filteredArr = apparr.flat() 
-        const totalDocuments = filteredArr.length;
-       
-        // filteredArr = filteredArr.slice(start,end);      
-        
-        const DOWNLOAD_CONCURRENCY = 20;
-        const downloaded = new Array(filteredArr.length);
-        let nextIndex = 0;
-        const worker = async () => {
-          while (true) {
-            const m = nextIndex++;
-            if (m >= filteredArr.length) break;
-            downloaded[m] = await this.downloadAndParseFile(filteredArr[m]);
-          }
-        };
-        await Promise.all(
-          Array.from({ length: Math.min(DOWNLOAD_CONCURRENCY, filteredArr.length) }, worker)
-        );
-        finalarr = downloaded.flat();
-        if(finalarr.length == 0){
-          throw 'Given User data is empty'
-        }          
-    
-        if(sortOrder){
-          if(sortOrder == 'newest'){
-            finalarr = finalarr.sort((a, b) => {                
-              const dateA = new Date(a.DateAndTime);
-              const dateB = new Date(b.DateAndTime);
-              return dateB.getTime() - dateA.getTime();
-            });
-          }else if(sortOrder == 'oldest'){              
-            finalarr = finalarr.sort((a, b) => {
-              const dateA = new Date(a.DateAndTime);
-              const dateB = new Date(b.DateAndTime);
-              return dateA.getTime() - dateB.getTime();
-            });
-          }
-        }
-    
-        if(Array.isArray(finalarr) && finalarr?.length >0){ 
-          finalarr = finalarr?finalarr.flat():finalarr
-          // const totalDocuments = filteredArr.length;
-          const totalPages = Math.ceil(totalDocuments / limit);       
-          this.logger.log('get MongoProcess completed');   
-          return {
-            data: finalarr.slice(start,end),
-            page,
-            limit,
-            totalPages,
-            totalDocuments,
-          };
-        }else{
-          throw `Data not found in ${fileName}`
-        }        
-       
-      } catch (error:any) {
-        console.log('ERROR', error);
-        if(error.message) error = error.message       
-        throw new BadRequestException(error)
+      if (searchParam) {
+      data = data.filter(item => item.includes(searchParam));
       }
+
+      let finalarr = []
+          
+      if (fabric && fabric.length > 0) {       
+        data = data.filter(item => fabric.some(item2 => item.includes(`/${item2}/`)));     
+      }
+    
+      if (appgroup && appgroup.code) {        
+        data = data.filter(item => item.includes(`/${appgroup.code}/`))
+      } 
+     
+      if (app && app.code) {       
+        data = data.filter(item => item.includes(`/${app.code}/`))         
+      } 
+     
+      let filteredArr = data.flat() 
+      const totalDocuments = filteredArr.length;
+      
+      // filteredArr = filteredArr.slice(start,end);      
+     
+      const DOWNLOAD_CONCURRENCY = 20;
+      const downloaded = new Array(filteredArr.length);
+      let nextIndex = 0;
+      const worker = async () => {
+        while (true) {
+          const m = nextIndex++;
+          if (m >= filteredArr.length) break;
+          downloaded[m] = await this.downloadAndParseFile(filteredArr[m]);         
+        }
+      };
+      await Promise.all(
+        Array.from({ length: Math.min(DOWNLOAD_CONCURRENCY, filteredArr.length) }, worker)
+      );
+      finalarr = downloaded.flat();
+      if(finalarr.length == 0){
+        throw 'Given User data is empty'
+      }          
+  
+      if(sortOrder){
+        if(sortOrder == 'newest'){
+          finalarr = finalarr.sort((a, b) => {                
+            const dateA = new Date(a.DateAndTime);
+            const dateB = new Date(b.DateAndTime);
+            return dateB.getTime() - dateA.getTime();
+          });
+        }else if(sortOrder == 'oldest'){              
+          finalarr = finalarr.sort((a, b) => {
+            const dateA = new Date(a.DateAndTime);
+            const dateB = new Date(b.DateAndTime);
+            return dateA.getTime() - dateB.getTime();
+          });
+        }
+      }
+  
+      if(Array.isArray(finalarr) && finalarr?.length >0){ 
+        finalarr = finalarr?finalarr.flat():finalarr
+        // const totalDocuments = filteredArr.length;
+        const totalPages = Math.ceil(totalDocuments / limit);       
+        this.logger.log('get MongoProcess completed');   
+        return {
+          data: finalarr.slice(start,end),
+          page,
+          limit,
+          totalPages,
+          totalDocuments,
+        };
+      }else{
+        throw `Data not found in ${fileName}`
+      }        
+      
+    } catch (error:any) {
+      console.log('ERROR', error);
+      if(error.message) error = error.message       
+      throw new BadRequestException(error)
+    }
   }
 
 async structuredPrcLogs(streamName) {
@@ -2867,8 +2817,7 @@ async structuredPrcLogs(streamName) {
 
   private DecryptFile(encryptedData: Buffer): Buffer {
     const decipher = crypto.createDecipheriv('aes-256-ctr', Buffer.from(process.env.AES_KEY!, 'base64'), Buffer.from(process.env.AES_IV!, 'base64'));
-    const decrypted = Buffer.concat([decipher.update(encryptedData), decipher.final()]);
-    // console.log('decrypted',decrypted);      
+    const decrypted = Buffer.concat([decipher.update(encryptedData), decipher.final()]);      
     return decrypted;
   }
 
@@ -2886,8 +2835,7 @@ async structuredPrcLogs(streamName) {
       let auth = {
         username: config.username,
         password: config.password
-      }
-      // console.log("insertData",insertData);
+      }    
 
       if (operationName == 'read') {
         if (fileType == 'xlsx' || fileType == 'pfx') {
@@ -2917,8 +2865,7 @@ async structuredPrcLogs(streamName) {
       }
 
 
-    } catch (error) {
-      console.log(error);
+    } catch (error) {     
       throw error
     }
   }

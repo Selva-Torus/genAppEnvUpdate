@@ -16,6 +16,8 @@ import { useGlobal } from '@/context/GlobalContext'
 import { DecodedToken, Branding } from '@/types/global'
 import { useTheme } from '@/hooks/useTheme'
 import { twMerge } from 'tailwind-merge'
+import clsx from 'clsx'
+
 const LayoutDecider = ({
   mode = 'detached',
   navigationStyles = 'vertical',
@@ -41,15 +43,15 @@ const LayoutDecider = ({
   const { borderColor, bgColor } : { borderColor: string; bgColor: string } = useTheme()
   const { brandColor, hoverColor, selectionColor } : { brandColor: string; hoverColor: string; selectionColor: string } = branding;
   const encryptionFlagApp: boolean = false;    
-  const encryptionDpd: string = "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:ECP:AFGK:AMS:AFK:amsDPD:AFVK:v1";
+  const encryptionDpd: string = "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:VGPH:AFK:VGPH_DPD:AFVK:v1";
   const encryptionMethod: string = "";
-  const logo: string = ""
-  const appLogo: string = ""
-  const appName: string = "AMS"
+  const logo: string = "torus/9.1/CT005/resources/images/Blue Logo.png"
+  const appLogo: string = "torus/9.1/CT005/resources/images/White global payment hub.png"
+  const appName: string = "VGPH"
   const toast: Function = useInfoMsg()
   const [loading, setLoading] = useState<boolean>(true)
   const [updatedNavData, setUpdatedNavData] = useState<MenuItem[]>([])
-  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT006:AFGK:ECP:AFK:AMS:AFVK:v1:bldc"
+  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT005:AFGK:GSS:AFK:VGPH:AFVK:v1:bldc"
   const [rawNavData, setRawNavData] = useState<MenuItem[] | null>(null);
   const navData: MenuItem[] = [
   {
@@ -77,123 +79,20 @@ const LayoutDecider = ({
     "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
   },
   {
-    "menuGroupLabel": "Dashboard",
+    "menuGroupLabel": "My Transaction",
     "screenDetails": [
       {
-        "name": "dashboard",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetDasboard:AFVK:v1",
+        "name": "my transaction",
+        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",
         "allowedAccessProfile": [
-          "Maker",
-          "Checker"
+          "IT Team",
+          "Operation Team",
+          "Business Team"
         ],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/dashboard (1).png"
+        "static": false
       }
     ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/dashboard (1).png"
-  },
-  {
-    "menuGroupLabel": "Assets",
-    "screenDetails": [
-      {
-        "name": "assets",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assets:AFVK:v1",
-        "allowedAccessProfile": [
-          "Network Engineer",
-          "Checker",
-          "Maker",
-          "Network Admin"
-        ],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/computer.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/computer.png"
-  },
-  {
-    "menuGroupLabel": "Assignments",
-    "screenDetails": [
-      {
-        "name": "assignments",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetAssignments:AFVK:v1",
-        "allowedAccessProfile": [
-          "Maker",
-          "Checker"
-        ],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/assign.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/assign.png"
-  },
-  {
-    "menuGroupLabel": "Maintenance",
-    "screenDetails": [
-      {
-        "name": "maintenance",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetMaintenance:AFVK:v1",
-        "allowedAccessProfile": [
-          "Maker",
-          "Checker"
-        ],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/troubleshooting.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/troubleshooting.png"
-  },
-  {
-    "menuGroupLabel": "Disposal",
-    "screenDetails": [
-      {
-        "name": "disposal",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetDisposal:AFVK:v1",
-        "allowedAccessProfile": [
-          "IT Engineer",
-          "Checker",
-          "Maker",
-          "IT Manager"
-        ],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/ChatGPT Image Jun 17, 2026, 04_58_22 PM.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/ChatGPT Image Jun 17, 2026, 04_58_22 PM.png"
-  },
-  {
-    "menuGroup": "masters",
-    "menuGroupLabel": "Masters",
-    "screenDetails": [
-      {
-        "name": "category",
-        "label": "Category",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetCategory:AFVK:v1",
-        "allowedAccessProfile": [
-          "Maker",
-          "Checker"
-        ],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/checklist.png"
-      },
-      {
-        "name": "software licenses",
-        "label": "Software Licenses",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:AMS:AFK:assetSoftwareLicenses:AFVK:v1",
-        "allowedAccessProfile": [
-          "Maker",
-          "Checker"
-        ],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/certificate.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/dashboard.png"
+    "items": []
   }
 ]
   const token:string = getCookie('token'); 
@@ -470,16 +369,23 @@ const LayoutDecider = ({
     'gridRow'?: string
   }[] =[
   {
-    "name": "profile",
-    "gridRow": "12/13"
+    "name": "app logo",
+    "gridColumn": "1/3"
   },
   {
     "name": "menu items",
-    "gridRow": "1/7"
+    "gridRow": "1/6",
+    "gridColumn": "3/8"
+  },
+  {
+    "name": "profile",
+    "gridRow": "12/13",
+    "gridColumn": "12/13"
   },
   {
     "name": "opr matrix",
-    "gridRow": "9/12"
+    "gridRow": "6/9",
+    "gridColumn": "9/12"
   }
 ]
 
@@ -488,7 +394,9 @@ const LayoutDecider = ({
   }
   return (
     <div className={`flex h-screen w-screen flex-col overflow-auto  bg-cover bg-center`} >
-      <div className={`g-root flex-shrink-0`}>
+      <div className={clsx(`g-root flex-shrink-0` , {
+        'hidden' : navigationStyles == 'vertical'
+      })}>
         <TopNav
           navData={updatedNavData}
           listMenuItems={listMenuItems()}
@@ -516,6 +424,9 @@ const LayoutDecider = ({
             hoverColor={hoverColor}
             userDetails={userDetails}
             navBarItemsOrder={navBarItemsOrder}
+            appName={appName}
+            logo={logo}
+            appLogo={appLogo}
           />
         </div>
         <div

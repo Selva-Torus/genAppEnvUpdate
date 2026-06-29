@@ -6,7 +6,7 @@ import { Icon } from './Icon'
 import { Tooltip } from './Tooltip'
 import { TooltipProps as TooltipPropsType } from '@/types/global'
 import { getBorderRadiusClass } from '@/app/utils/branding'
-type TextVariant =
+export type TextVariant =
   | 'display-4'
   | 'display-3'
   | 'display-2'

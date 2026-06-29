@@ -307,7 +307,8 @@ export const TextInput: React.FC<TextInputProps> = ({
       });
       if(itsHaveCurrency)
       {
-        formatted=(displayFormat?.textInputProperty?.currencyDisplayFormat||"₹")+formatted
+        // if currency simbol is needed just uncommant this code
+        // formatted=(displayFormat?.textInputProperty?.currencyDisplayFormat||"₹")+formatted
       }
       setInternalValue(formatted)
     }
@@ -332,7 +333,8 @@ export const TextInput: React.FC<TextInputProps> = ({
         });
         if(itsHaveCurrency)
         {
-          formatted=(displayFormat?.textInputProperty?.currencyDisplayFormat||"₹")+formatted
+          // if currency simbol is needed just uncommant this code
+          //formatted=(displayFormat?.textInputProperty?.currencyDisplayFormat||"₹")+formatted
         }
         setInternalValue(formatted)
       }

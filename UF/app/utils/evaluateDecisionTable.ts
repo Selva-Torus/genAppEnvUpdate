@@ -448,7 +448,7 @@ class DecisionTableEvaluator {
       // Check if this rule matches the input data
       if (this.doesRuleMatch(rule, inputData, inputs)) {
         // Build the result from matched rule
-        const result = this.buildResult(rule, outputs);
+        const result:any = this.buildResult(rule, outputs);
 
         // Get the first output value and convert to boolean
         const outputKeys = Object.keys(result);
@@ -456,6 +456,10 @@ class DecisionTableEvaluator {
           const outputValue = result[outputKeys[0]];
           // Handle string "true"/"false"
           if (typeof outputValue === "string") {
+            if('Show' in result)
+            {
+              return result.Show==true || result.Show=='true'?true : false
+            }
             return outputValue.toLowerCase() === "true";
           }
           // Handle array - return true if non-empty
