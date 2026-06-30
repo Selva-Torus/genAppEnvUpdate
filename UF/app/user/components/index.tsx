@@ -144,6 +144,9 @@ const SetupScreen = ({
   let srcOrgIds: Array<string> = useMemo(() => {
     return collectUniqueSrcIds(orgGrpData)
   }, [orgGrpData])
+  const selectedTextColor = useMemo(() => {
+    return isLightColor(brandColor)
+  } , [brandColor])
 
   const onUpdateSecurityData = (updatedData: any[]) => {
     setSecurityData(updatedData)
@@ -277,39 +280,15 @@ const SetupScreen = ({
   }
 
   const menuItems = useMemo(() => {
-    if (userManagementAccess) {
+ 
       return [
         {
           name: 'General',
-          svg: <GeneralSettingsIcon fill={isDark ? 'white' : 'black'} />,
-          code: 'general'
-        },
-        {
-          name: 'Organizational Matrix',
-          svg: <Org fill={isDark ? 'white' : 'black'} />,
-          code: 'org'
-        },
-        {
-          name: 'Access Template',
-          svg: <Security fill={isDark ? 'white' : 'black'} />,
-          code: 'st'
-        },
-        {
-          name: 'User Management',
-          svg: <Management fill={isDark ? 'white' : 'black'} />,
-          code: 'user'
-        }
-      ]
-    } else {
-      return [
-        {
-          name: 'General',
-          svg: <GeneralSettingsIcon fill={isDark ? 'white' : 'black'} />,
+          svg: <GeneralSettingsIcon fill={selectedMenuItem == 'general' ? selectedTextColor : isDark ? 'white' : 'black'} />,
           code: 'general'
         }
       ]
-    }
-  }, [selectedMenuItem, isDark])
+  }, [selectedMenuItem, isDark , selectedTextColor ])
 
   const resetStates = (code: 'org' | 'st' | 'user' | string) => {
     switch (code) {

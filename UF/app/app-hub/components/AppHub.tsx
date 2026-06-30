@@ -82,7 +82,7 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
       <div className='flex items-center justify-between px-6 py-4'>
         <div
           className={twMerge(
-            'flex w-96 items-center gap-[.5vw] rounded-lg border px-3 py-1 text-fsbase',
+            'flex w-96 items-center gap-[.5vw] rounded-lg border px-[0.5vw] py-[0.85vh] text-fsbase',
             borderColor,
             bgColor
           )}

@@ -98,7 +98,7 @@ const GeneralSettings = ({ currentLang, setCurrentLang }: {
         </div>
       </div>
       {/* Divider Line */}
-      <hr className={twMerge('my-2 w-full border', borderColor)} />
+      <hr className={twMerge('my-2 w-full border border-0.5', borderColor)} />
       {/* Theme Selection */}
       <div className='flex flex-col gap-4'>
         <div className='flex flex-col gap-2'>
@@ -149,7 +149,7 @@ const GeneralSettings = ({ currentLang, setCurrentLang }: {
         </div>
       </div>
       {/* Divider Line */}
-      <hr className={twMerge('my-2 w-full border', borderColor)} />
+      <hr className={twMerge('my-2 w-full border border-0.5', borderColor)} />
       {/* Language Selection */}
       <div className='flex flex-wrap items-center'>
         <div className='flex flex-col w-1/3'>
@@ -172,7 +172,7 @@ const GeneralSettings = ({ currentLang, setCurrentLang }: {
         </div>
       </div>
       {/* Divider Line */}
-      <hr className={twMerge('my-2 w-full border', borderColor)} />
+      <hr className={twMerge('my-2 w-full border border-0.5', borderColor)} />
     </div>
   )
 }

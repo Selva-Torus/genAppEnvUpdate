@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation'
 import decodeToken from '@/app/components/decodeToken'
 import { Text } from '@/components/Text'
 import { useGlobal } from '@/context/GlobalContext'
-import { twMerge } from 'tailwind-merge'
 import { useTheme } from '@/hooks/useTheme'
 import { Dropdown } from '@/components/Dropdown'
 import { Button } from '@/components/Button'
@@ -24,9 +23,9 @@ import { TotalContext, TotalContextProps } from '../../globalContext'
 import TopNav from '@/app/components/Layout/TopNav'
 import OPRList from './OprList'
 import { LuBuilding2 } from 'react-icons/lu'
-import { hexWithOpacity, isLightColor } from '@/app/components/utils'
+import { hexWithOpacity } from '@/app/components/utils'
 import { BiPackage } from 'react-icons/bi'
-import { RiUserShared2Fill } from 'react-icons/ri'
+import { RiUserShared2Line } from 'react-icons/ri'
 import clsx from 'clsx'
 
 const ContextSelector = () => {
@@ -293,7 +292,7 @@ const ContextSelector = () => {
         subtitle: selectedPs.psCode
       },
       {
-        icon: RiUserShared2Fill,
+        icon: RiUserShared2Line,
         group: selectedRole.roleGrpName,
         title: selectedRole?.roleCount ? `${selectedRole.roleCount} Role` : ''
       }
