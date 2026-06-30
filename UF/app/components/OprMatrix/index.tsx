@@ -10,7 +10,7 @@ import RenderChild from './RenderChild'
 import RenderSubOrg from './SubOrg'
 import { LuBuilding2 } from 'react-icons/lu'
 import { BiPackage } from 'react-icons/bi'
-import { RiUserShared2Fill } from 'react-icons/ri'
+import { RiUserShared2Line } from 'react-icons/ri'
 import { SetupScreenContext, SetupScreenContextType } from '@/app/user/components'
 import { Text } from '@/components/Text'
 import { useGlobal } from '@/context/GlobalContext'
@@ -940,7 +940,7 @@ const OPRMatrix = ({ assignedOPRList }: { assignedOPRList: Array<string> }) => {
         subtitle: selectedPs.psCode
       },
       {
-        icon: RiUserShared2Fill,
+        icon: RiUserShared2Line,
         group: selectedRole.roleGrpName,
         title: selectedRole?.roleCount ? `${selectedRole.roleCount} Role` : ''
       }

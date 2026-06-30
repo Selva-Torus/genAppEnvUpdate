@@ -279,7 +279,7 @@ const SetupScreen = ({
     }
   }
 
-  const menuItems = useMemo(() => {
+ const menuItems = useMemo(() => {
  
       return [
         {
