@@ -399,33 +399,6 @@ export class UfController {
     return result;
   }
 
-   @Post('sendMailOTP')
-  @ApiBadRequestResponse({ description: 'Invalid Email' })
-  async sendMailOTP(@Body() input: any, @Req() req: any) {
-    const token: string = req.headers.authorization?.split(' ')[1];
-
-    if (!token) {
-      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED); 
-    }
-
-    const {email,dpdKey,method} = input;
-  
-    if (email) {
-      try {
-        let result : any = await this.appService.sendMailOTP(email);
-        if(dpdKey && method){
-          result["dpdKey"] = dpdKey
-          result["method"] = method
-        }
-        return result;
-      } catch (err) {
-        return err;
-      }
-    } else {
-      return 'Email is required';
-    }
-  } 
-
   // @Post('elementsFilter')
   // @ApiBody({ type: elementsFilterDto })
   // async elementsFilter(@Body() body: elementsFilterDto,@Req() req: any) {
@@ -812,7 +785,6 @@ export class UfController {
     @Req() req: any
   ) {
     const { username, password, dpdKey, method, ufClientType, app_tenant, app_tenant_id, fusionAuthLoginResponse , isOauthUser } = body;
-    const { DEFAULT_AUTHENTICATION} = process.env;
     let result : any;
     if(ufClientType === 'UFM') {
       result = await this.appService.signInViaIAM(username, password, ufClientType, false , app_tenant, app_tenant_id);
@@ -1066,25 +1038,6 @@ export class UfController {
     return this.appService.getAPPSecurityTemplateData();
   }
 
-  @Get('getAppAccessProfiles')
-  async getAppAccessProfiles() {
-    return this.appService.getAppAccessProfiles();
-  }
-
-  @Post('postAppUserList')
-  async postAppUserList(@Body() body:any , @Req() req:any) {
-    const { data } = body;
-    const token: string = req?.headers?.authorization?.split(' ')?.[1];
-    return this.appService.postAppUserList(data , token);
-  }
-  
-  @Post('appSecurityTemplateData')
-  async appSecurityTemplateData(@Body() body, @Req() req: any) {
-    const token: string = req.headers.authorization.split(' ')[1];
-    const {data} = body
-    return this.appService.AppSecurityTemplateData(data, token);
-  }
-
   @Post('setJson')
   async setJson(
     @Query(new ValidationPipe({ transform: true })) query: any,
@@ -1190,12 +1143,6 @@ export class UfController {
     return this.appService.resetPassword(email, password, app_tenant, tenantId);
   }
 
-  @Post("oauthSignIn")
-  async oauthSignIn(@Body() body:any) {
-    const { user } = body;
-    return this.appService.oauthSignIn(user)
-  }
-
   @Post("getNavbarData")
   async getNavbarData(@Body() body:any, @Req() req: any) {
     const { key } = body;
@@ -1216,13 +1163,6 @@ export class UfController {
     return this.appService.sso(token , ufClientType);
   }
 
-  @Post('postTenantUser')
-  async postTenantUsers(@Body() body: any , @Req() req:any) {
-    const { data } = body;
-    const token: string = req?.headers?.authorization?.split(' ')?.[1];
-    return this.appService.setTenantUser(data , token);
-  }
-
   @Post('uploadFromLocalPath')
    async post_uploadFromLocalPath(@Req() req: FastifyRequest,@Body() body: any) {
      const { bucketFolderame, folderPath , localPaths,enableEncryption} =body; 
@@ -1233,13 +1173,6 @@ export class UfController {
       enableEncryption
     );
     return { imageUrl };
-  }
-
-  @Post('postOrgData')
-  async postOrgData(@Body() body: any , @Req() req: any) {
-    const { masterData , matrixData } = body;
-    const token: string = req?.headers?.authorization?.split(' ')?.[1];
-    return this.appService.postOrgData(masterData, matrixData, token);
   }
 
   @Get('app-tenant-app')

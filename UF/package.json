@@ -26,7 +26,6 @@
     "lodash": "4.17.21",
     "mitt": "3.0.1",
     "next": "15.3.4",
-    "next-auth": "^5.0.0-beta.29",
     "node-rsa": "1.1.1",
     "node-vault": "0.10.5",
     "postcss": "8.4.38",

@@ -461,20 +461,6 @@
         ]
       }
     },
-    "/UF/sendMailOTP": {
-      "post": {
-        "operationId": "UfController_sendMailOTP",
-        "parameters": [],
-        "responses": {
-          "400": {
-            "description": "Invalid Email"
-          }
-        },
-        "tags": [
-          "TG"
-        ]
-      }
-    },
     "/UF/getMapperDetails": {
       "post": {
         "description": "Retrived dropdown component values from the table with mapped orchestraion",
@@ -1116,48 +1102,6 @@
         ]
       }
     },
-    "/UF/getAppAccessProfiles": {
-      "get": {
-        "operationId": "UfController_getAppAccessProfiles",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "TG"
-        ]
-      }
-    },
-    "/UF/postAppUserList": {
-      "post": {
-        "operationId": "UfController_postAppUserList",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "TG"
-        ]
-      }
-    },
-    "/UF/appSecurityTemplateData": {
-      "post": {
-        "operationId": "UfController_appSecurityTemplateData",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "TG"
-        ]
-      }
-    },
     "/UF/setJson": {
       "post": {
         "operationId": "UfController_setJson",
@@ -1279,20 +1223,6 @@
         ]
       }
     },
-    "/UF/oauthSignIn": {
-      "post": {
-        "operationId": "UfController_oauthSignIn",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "TG"
-        ]
-      }
-    },
     "/UF/getNavbarData": {
       "post": {
         "operationId": "UfController_getNavbarData",
@@ -1335,37 +1265,9 @@
         ]
       }
     },
-    "/UF/postTenantUser": {
-      "post": {
-        "operationId": "UfController_postTenantUsers",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "TG"
-        ]
-      }
-    },
     "/UF/uploadFromLocalPath": {
       "post": {
         "operationId": "UfController_post_uploadFromLocalPath",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "TG"
-        ]
-      }
-    },
-    "/UF/postOrgData": {
-      "post": {
-        "operationId": "UfController_postOrgData",
         "parameters": [],
         "responses": {
           "201": {

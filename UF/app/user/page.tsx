@@ -69,7 +69,7 @@ function page() {
 
   return (
     <div>
-      <SetupScreen tenantAccess={'edit'} />
+      <SetupScreen />
     </div>
   )
 }
