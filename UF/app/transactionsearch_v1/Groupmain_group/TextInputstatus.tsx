@@ -206,6 +206,10 @@ const TextInputstatus = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryption
       setIsProcessing(false);
     }
   }
+
+  const handleValidate=async (e?:any) => {
+      let validate:any
+  }
   const handleBlur=async (e?:any) => {
       let validate:any
 
@@ -285,7 +289,7 @@ const TextInputstatus = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryption
   useEffect(()=>{
       handleMapperValue();
       if(validateRefetch.init!=0)
-        handleBlur();
+        handleValidate();
     const handlerChange = (id:any) => {
       if (id === "d9a26bb02dd843dbabb84b9db334bd75") {
         handleChange({target:{value:main_group9066fRef?.current?.trs_status||""}});

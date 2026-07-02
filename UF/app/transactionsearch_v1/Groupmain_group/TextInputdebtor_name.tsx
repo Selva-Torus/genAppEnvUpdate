@@ -206,6 +206,10 @@ const TextInputdebtor_name = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encry
       setIsProcessing(false);
     }
   }
+
+  const handleValidate=async (e?:any) => {
+      let validate:any
+  }
   const handleBlur=async (e?:any) => {
       let validate:any
 
@@ -285,7 +289,7 @@ const TextInputdebtor_name = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encry
   useEffect(()=>{
       handleMapperValue();
       if(validateRefetch.init!=0)
-        handleBlur();
+        handleValidate();
     const handlerChange = (id:any) => {
       if (id === "02ea918896784a32a595a828d70e2d9f") {
         handleChange({target:{value:main_group9066fRef?.current?.dr_name||""}});

@@ -380,6 +380,19 @@ export default function PageTrandataviewV1() {
       handleArtfactRule(trandataview_v1?._artfactPFRule_,data,allRuleData)
     }
   },[])
+
+  const parentRef:any = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event:any) => {
+      if (parentRef.current && !parentRef.current.contains(event.target)) {
+        settrandataview_v1((pre:any)=>({...pre,_selectedGroup_:""}))
+      }
+    };
+      document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <>
 
@@ -388,6 +401,8 @@ export default function PageTrandataviewV1() {
         isDark ? 'text-white' : 'text-black',
         isProcessing && "pointer-events-none select-none"
       )}
+
+      ref={parentRef}
      style={{
         gridColumn: '',
         gridRow: '',

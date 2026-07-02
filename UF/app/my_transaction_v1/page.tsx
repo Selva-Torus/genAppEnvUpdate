@@ -535,6 +535,19 @@ tran_tab_group:tran_tab_group08b64.tran_tab_group,      }
       handleArtfactRule(transaction_v1?._artfactPFRule_,data,allRuleData)
     }
   },[tran_tab_group08b64.tran_tab_group,])
+
+  const parentRef:any = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event:any) => {
+      if (parentRef.current && !parentRef.current.contains(event.target)) {
+        settransaction_v1((pre:any)=>({...pre,_selectedGroup_:""}))
+      }
+    };
+      document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <>
 
@@ -543,6 +556,8 @@ tran_tab_group:tran_tab_group08b64.tran_tab_group,      }
         isDark ? 'text-white' : 'text-black',
         isProcessing && "pointer-events-none select-none"
       )}
+
+      ref={parentRef}
      style={{
         gridColumn: '',
         gridRow: '',

@@ -8,6 +8,7 @@ import { getBorderRadiusClass } from '@/app/utils/branding'
 import { useInfoMsg } from '@/app/components/infoMsgHandler'
 import { MdKeyboardArrowDown, MdSearch } from 'react-icons/md'
 import { MdCheck } from 'react-icons/md'
+import { MdClose } from 'react-icons/md'
 
 // ─── Public types ─────────────────────────────────────────────────────────────
 
@@ -247,7 +248,7 @@ const FILTER_MAP: Record<DataType, DropdownOption[]> = {
 }
 
 const DEFAULT_FILTER: Record<DataType, string> = {
-  string: 'LIKE',
+  string: '=',
   number: '=',
   date: '='
 }
@@ -300,6 +301,19 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
 
   const showToast = useInfoMsg()
 
+  const handleClear = () => {
+    const cleared = rows.map(row => ({
+      ...row,
+      value: '',
+      value2: '',
+      selected: false,
+      operator: DEFAULT_FILTER[row.dataType]
+    }))
+    setRows(cleared)
+    onChange?.([])
+    // onSubmit?.([])
+  }
+
   const handleSearch = () => {
     const selected = rows.filter(r => r.selected)
     if (selected.length === 0) {
@@ -349,8 +363,27 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
         <div className='flex items-center gap-1.5 sm:gap-2'>
           <button
             type='button'
+            onClick={handleClear}
+            className='flex h-8 w-8 cursor-pointer items-center justify-center gap-1 rounded-lg border px-2 text-xs font-medium duration-150 sm:w-auto sm:px-3 sm:py-1.5 sm:text-sm'
+            style={{
+              backgroundColor: 'transparent',
+              borderColor: borderColor,
+              color: isDark ? '#9CA3AF' : '#6B7280'
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.backgroundColor = isDark ? '#374151' : '#F3F4F6'
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'
+            }}
+          >
+            <MdClose size={16} />
+            <span className='hidden sm:inline' style={{ fontFamily: 'var(--font-body)' }}>Clear</span>
+          </button>
+          <button
+            type='button'
             onClick={handleSearch}
-            className='flex h-8 w-8 cursor-pointer items-center justify-center gap-1 rounded-lg text-xs font-medium text-white duration-150 sm:h-auto sm:w-auto sm:px-3 sm:py-1.5 sm:text-sm'
+            className='flex h-8 w-8 cursor-pointer items-center justify-center gap-1 rounded-lg border border-transparent text-xs font-medium text-white duration-150 sm:w-auto sm:px-3 sm:py-1.5 sm:text-sm'
             style={{
               backgroundColor: branding.selectionColor,
               boxShadow: `0 0 0 0px ${hexToRgba(branding.selectionColor, 0.2)}`

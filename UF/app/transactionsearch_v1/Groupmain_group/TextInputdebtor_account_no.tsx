@@ -206,6 +206,10 @@ const TextInputdebtor_account_no = ({checkToAdd,setCheckToAdd,refetch,setRefetch
       setIsProcessing(false);
     }
   }
+
+  const handleValidate=async (e?:any) => {
+      let validate:any
+  }
   const handleBlur=async (e?:any) => {
       let validate:any
 
@@ -285,7 +289,7 @@ const TextInputdebtor_account_no = ({checkToAdd,setCheckToAdd,refetch,setRefetch
   useEffect(()=>{
       handleMapperValue();
       if(validateRefetch.init!=0)
-        handleBlur();
+        handleValidate();
     const handlerChange = (id:any) => {
       if (id === "f2138b56e9f04f25b97ae414d73963e4") {
         handleChange({target:{value:main_group9066fRef?.current?.dr_account||""}});

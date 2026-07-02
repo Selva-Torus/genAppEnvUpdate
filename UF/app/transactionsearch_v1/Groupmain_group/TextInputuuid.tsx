@@ -205,6 +205,10 @@ const TextInputuuid = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFl
       setIsProcessing(false);
     }
   }
+
+  const handleValidate=async (e?:any) => {
+      let validate:any
+  }
   const handleBlur=async (e?:any) => {
       let validate:any
 
@@ -284,7 +288,7 @@ const TextInputuuid = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFl
   useEffect(()=>{
       handleMapperValue();
       if(validateRefetch.init!=0)
-        handleBlur();
+        handleValidate();
     const handlerChange = (id:any) => {
       if (id === "145647b72a0f4d5baea6bcf29cb29c9f") {
         handleChange({target:{value:main_group9066fRef?.current?.uuid||""}});

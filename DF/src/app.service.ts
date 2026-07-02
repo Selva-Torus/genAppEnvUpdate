@@ -22,7 +22,7 @@ export class AppService implements OnModuleInit{
     console.log('Application started, calling API...');
     console.log('DDL changes update started.');
     console.log('DDL changes update completed.');    
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoiRG9taW5pYyIsImNsaWVudCI6IkNUMDA1IiwidHlwZSI6ImMiLCJsb2dUeXBlIjoiZGZzIiwic2lkIjoiMjg1NjBjMTktNTU1ZS00MDA0LWJlMzMtZGU2MzgxM2U3YjViIiwiaWF0IjoxNzgyNzQwODIyLCJleHAiOjE3ODI3NDIwMjJ9.E4nUPaUdPajRkvuzyK5YHtmep8q4niLzppCkzFUuO00';
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoiRG9taW5pYyIsImNsaWVudCI6IkNUMDA1IiwidHlwZSI6ImMiLCJsb2dUeXBlIjoiZGZzIiwic2lkIjoiOTU3MzFkYzItN2U4NS00NGUwLWEyNjYtNjdkMjM2NzBiNjljIiwiaWF0IjoxNzgyODgwMjIzLCJleHAiOjE3ODI4ODE0MjN9.qu3MJGwPaI7UB-BPoEN7-_QQq5piKXbBnPYZUW9Qc58';
     let preParedData:any=await this.dataPrep(JSON.parse(fs.readFileSync('./swagger.json', 'utf-8')))
     if(Object.keys(preParedData).includes('erdWithData'))
       {

@@ -56,7 +56,7 @@ const SetupScreen = () => {
 
             <hr className={twMerge('w-full', borderColor)}></hr>
             <div
-              className={clsx(`flex h-[85vh]`)}
+              className={clsx(`flex h-[87vh]`)}
             >
               <div
                 style={{

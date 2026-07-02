@@ -717,6 +717,19 @@ export default function PageTransactionsearchV1() {
       handleArtfactRule(transactionsearch_v1?._artfactPFRule_,data,allRuleData)
     }
   },[])
+
+  const parentRef:any = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event:any) => {
+      if (parentRef.current && !parentRef.current.contains(event.target)) {
+        settransactionsearch_v1((pre:any)=>({...pre,_selectedGroup_:""}))
+      }
+    };
+      document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <>
 
@@ -725,6 +738,8 @@ export default function PageTransactionsearchV1() {
         isDark ? 'text-white' : 'text-black',
         isProcessing && "pointer-events-none select-none"
       )}
+
+      ref={parentRef}
      style={{
         gridColumn: '',
         gridRow: '',
