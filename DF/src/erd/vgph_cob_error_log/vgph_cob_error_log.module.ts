@@ -6,7 +6,7 @@ import { RedisService } from "src/redisService";
 import { JwtServices } from "src/jwt.services";
 import { CommonService } from "src/common.Service";
 import { PrismaService } from "../prisma.service";
-import { CdcPrismaService } from "../cdc_prisma.service";
+import { CdcPrismaService } from "../cdc_prisma.service";     
 import { AbilityModule } from "../ability/ability.module";
 import { RuleService } from "src/ruleService";
 import { CodeService } from "src/codeService";

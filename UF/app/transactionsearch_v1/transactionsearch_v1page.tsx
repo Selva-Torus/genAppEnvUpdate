@@ -21,22 +21,13 @@ export default function PageTransactionsearchV1() {
   const [isProcessing, setIsProcessing] = useState(false);
   const securityData : SecurityData = {
   "IT Team": {
-    "allowedGroups": [
-      "canvas",
-      "main_group"
-    ]
+    "blockedGroups": []
   },
   "Business Team": {
-    "allowedGroups": [
-      "canvas",
-      "main_group"
-    ]
+    "blockedGroups": []
   },
   "Operation Team": {
-    "allowedGroups": [
-      "canvas",
-      "main_group"
-    ]
+    "blockedGroups": []
   }
 };
   let code : string = "";

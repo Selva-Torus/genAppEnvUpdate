@@ -98,7 +98,7 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
         : 'clamp(13px, 0.9vw, 18px)';
       const language = languageMap[data?.language] || 'en';
       const dateDisplayData=data?.localization?.datetime?.display||{}
-      const timeDisplayData=data?.localization?.currency?.display||{}
+      const currencyDisplayData=data?.localization?.currency?.display||{}
       const bgImage = `url("${process.env.NEXT_PUBLIC_FTP_OUTPUT_HOST}/${data['appBackgroundImage']}")`;
       // Set CSS variables for legacy components
       document.documentElement.style.setProperty('--brand-color', brandColor);
@@ -133,6 +133,7 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
       /////////////
       let localizationdata={
         datedisplay:"DD-MM-YYYY",
+        timedisplay:"HH:mm[:ss]",
         currencyDisplayFormat:"₹",
         decimal_places:3
       }
@@ -140,19 +141,23 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
       {
         localizationdata={...localizationdata,datedisplay:dateDisplayData?.date?.value||"DD-MM-YYYY"}
       }
-      if("symbol" in timeDisplayData)
+      if("time" in dateDisplayData)
       {
-        localizationdata={...localizationdata,currencyDisplayFormat:timeDisplayData?.symbol||"₹"}
+        localizationdata={...localizationdata,timedisplay:dateDisplayData?.time?.value||"HH:mm[:ss]"}
       }
-      if("decimal_places" in timeDisplayData)
+      if("symbol" in currencyDisplayData)
       {
-        localizationdata={...localizationdata,decimal_places:timeDisplayData?.decimal_places||null}
+        localizationdata={...localizationdata,currencyDisplayFormat:currencyDisplayData?.symbol||"₹"}
+      }
+      if("decimal_places" in currencyDisplayData)
+      {
+        localizationdata={...localizationdata,decimal_places:currencyDisplayData?.decimal_places||null}
       }
       setDisplayFormat((pre:any)=>({
         ...pre,
         datePickerProperty:{...pre.datePickerProperty, dateDisplayFormat:localizationdata?.datedisplay},
         textInputProperty:{...pre.textInputProperty, currencyDisplayFormat:localizationdata?.currencyDisplayFormat,decimal_places:localizationdata?.decimal_places},
-        dateTimeProperty:{...pre.dateTimeProperty, dateTimeDisplayFormat:dateDisplayData?.datetime?.value||"DD-MM-YYYY HH:mm:ss"},
+        timePickerProperty:{...pre.timePickerProperty, timeDisplayFormat:localizationdata?.timedisplay},
       }))
       //////////////
 

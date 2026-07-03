@@ -49,7 +49,7 @@
     "lastName": "A",
     "dateAdded": "2026-04-08T08:02:02.245Z",
     "firstName": "Dominic",
-    "lastActive": "2026-07-01T04:30:23.532Z",
+    "lastActive": "2026-07-02T07:35:06.437Z",
     "userUniqueId": "cc1efc49-5291-4f48-a7cc-92a89d876e7e",
     "accessExpires": "2028-06-23",
     "accessProfile": [
@@ -90,7 +90,7 @@
     "fontFamily": [
       {
         "label": "Inter",
-        "fontUrl": "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        "fontUrl": "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&d…"
       }
     ],
     "hoverColor": "#d5eeff",
@@ -271,7 +271,7 @@ async function bootstrap() {
     { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 
     'JWT-auth',
     )
-    .addServer('https://tgadev2.toruslowcode.com/ct005/gss/vgph/v1/api','Production Server')
+    .addServer('https://tgaprod910.toruslowcode.com/ct005/gss/vgph/v1/api','Production Server')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   fs.writeFileSync('./swagger.json', JSON.stringify(document, null, 2));

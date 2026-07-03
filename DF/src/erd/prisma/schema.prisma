@@ -1697,7 +1697,6 @@ trs_token_id  String?  @db.VarChar(length: 32)
 trs_version  String?  @db.VarChar(length: 16)
 
 @@id([vgphb_id])
-@@unique(fields: [beneficiary_category, beneficiary_id], map: "vgphb_category_id_ukey")
 }
 
 

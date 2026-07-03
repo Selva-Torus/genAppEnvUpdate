@@ -21,22 +21,13 @@ export default function PageMessagedataviewV1() {
   const [isProcessing, setIsProcessing] = useState(false);
   const securityData : SecurityData = {
   "IT Team": {
-    "allowedGroups": [
-      "canvas",
-      "tran_data_group"
-    ]
+    "blockedGroups": []
   },
   "Business Team": {
-    "allowedGroups": [
-      "canvas",
-      "tran_data_group"
-    ]
+    "blockedGroups": []
   },
   "Operation Team": {
-    "allowedGroups": [
-      "canvas",
-      "tran_data_group"
-    ]
+    "blockedGroups": []
   }
 };
   let code : string = "";

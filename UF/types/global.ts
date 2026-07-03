@@ -52,7 +52,7 @@ export interface PrimaryTableData {
 }
 
 export interface SecurityDataRole {
-  allowedGroups: string[];
+  blockedGroups: string[];
 }
 
 export interface SecurityData {

@@ -329,7 +329,7 @@ const Buttonview_tran_log_btn = ({ lockedData, setLockedData, tableData, setTabl
     setres_data_group9d75aProps({...res_data_group9d75aProps,presetValues:journey_details_groupd9a0e||{}})  
     // showArtifactAsModal
     let filterProps6:any =  [];
-    let filterData6 = await getFilterProps(filterProps6,journey_details_groupd9a0e);
+      let filterData6 = await getFilterProps(filterProps6,{...journey_details_groupd9a0e});
     settrandataview_v1Props([...filterData6 ]);
     setShowProfileAsModalOpen6(true);
       await handleCustomCode();

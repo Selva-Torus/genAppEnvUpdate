@@ -319,7 +319,7 @@ const Buttonview_msg_data_btn = ({ lockedData, setLockedData, tableData, setTabl
     settran_data_group84f25Props({...tran_data_group84f25Props,presetValues:journey_details_groupd9a0e||{}})  
     // showArtifactAsModal
     let filterProps4:any =  [];
-    let filterData4 = await getFilterProps(filterProps4,journey_details_groupd9a0e);
+      let filterData4 = await getFilterProps(filterProps4,{...journey_details_groupd9a0e});
     setmessagedataview_v1Props([...filterData4 ]);
     setShowProfileAsModalOpen4(true);
       await handleCustomCode();

@@ -19,10 +19,7 @@ export class AppService implements OnModuleInit{
   private readonly commonService: CommonService) {}
 
   async onModuleInit() {
-    console.log('Application started, calling API...');
-    console.log('DDL changes update started.');
-    console.log('DDL changes update completed.');    
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoiRG9taW5pYyIsImNsaWVudCI6IkNUMDA1IiwidHlwZSI6ImMiLCJsb2dUeXBlIjoiZGZzIiwic2lkIjoiOTU3MzFkYzItN2U4NS00NGUwLWEyNjYtNjdkMjM2NzBiNjljIiwiaWF0IjoxNzgyODgwMjIzLCJleHAiOjE3ODI4ODE0MjN9.qu3MJGwPaI7UB-BPoEN7-_QQq5piKXbBnPYZUW9Qc58';
+    console.info('Starting Swagger upload to API Fabric...');
     let preParedData:any=await this.dataPrep(JSON.parse(fs.readFileSync('./swagger.json', 'utf-8')))
     if(Object.keys(preParedData).includes('erdWithData'))
       {
@@ -31,11 +28,6 @@ export class AppService implements OnModuleInit{
       endPointData.data = preParedData?.erdWithData||{}
       endPointData.type =  "json";
       let res =  await this.ufservice.getEndPoints(endPointData);
-      //let res =  await axios.post(this.apiUrl+'/getEndPoints', endPointData,{
-      //  headers: {
-      //    Authorization: `Bearer ${token}`, 
-      //  }
-      //});
       erdDatas.endpoint = res;
       erdDatas.tenant =  "CT005";
       erdDatas.domain = "GSS";
@@ -45,28 +37,8 @@ export class AppService implements OnModuleInit{
       erdDatas.loginId = "Dominic";    
       erdDatas.erdFlag = true;  
       await this.ufservice.createApiCollection(erdDatas,this.clientcode);
-      //await axios.post(this.apiUrl+'/createApiCollection', erdDatas,{
-      //  headers: {
-      //    Authorization: `Bearer ${token}`, 
-      //  }
-      //});
+      console.info('Swagger upload to API Fabric completed successfully.');
       }
-    if(Object.keys(preParedData).includes('torusApis'))
-    {
-      let torusData: any = {};
-      //let endPointData : any = {};
-      //endPointData.data = preParedData?.torusApis||{}
-      //endPointData.type =  "json";
-      //let res =  await axios.post(this.apiUrl+'/getEndPoints', endPointData);
-      //torusData.endpoint = res.data;
-      torusData.tenant =  "CT005";
-      torusData.domain = "GSS"; 
-      torusData.collection = "VGPH";
-      torusData.fabric = 'API-APIPD-TORUS';
-      torusData.data = preParedData?.torusApis||{}
-      torusData.loginId = "Dominic";    
-      //await axios.post(this.apiUrl, torusData);
-    }
   }
 
 

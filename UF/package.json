@@ -17,6 +17,7 @@
     "autoprefixer": "10.4.15",
     "axios": "1.6.8",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.21",
     "eslint": "8.48.0",
     "eslint-config-next": "15.4.1",
     "fast-xml-parser": "^5.2.5",

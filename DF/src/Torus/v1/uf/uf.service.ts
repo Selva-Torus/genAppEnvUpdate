@@ -1167,118 +1167,6 @@ getConfig(): FusionAuthConfig {
       .reduce((acc, key) => acc?.[key], obj);
   }
 
-  async OrchestrationAll(
-    key: string,
-    token: string,
-    accessProfile?: any[],
-  ): Promise<{ pageData: any; groupData: Record<string, any>; controlData: Record<string, Record<string, any>> }> {
-    // 1. Read UO once to get nodeTree
-    const UO: any = await this.commonService.readAPI(
-      key + ':UO',
-      process.env.CLIENTCODE,
-      token,
-    );
-
-    if (!UO) {
-      return { pageData: null, groupData: {}, controlData: {} };
-    }
-
-    // 2. Preload common data (UFS, NDP) to avoid redundant reads in control processing
-    const [UFSData, NDPData] = await Promise.all([
-      this.commonService.readAPI(key + ':UFS', process.env.CLIENTCODE, token),
-      this.commonService.readAPI(key + ':NDP', process.env.CLIENTCODE, token),
-    ]);
-
-    // 3. Get page-level data (pass preloaded UO to avoid redundant read)
-    const pageData = await this.Orchestration(key, null, null, token, false, accessProfile, UO, UFSData, NDPData);
-
-    // 4. Extract groups/controls from mappedData.artifact.node (flat array with parentId)
-    const groupBatches: { componentId: string; controlIds: string[] }[] = [];
-    const nodes: any[] = UO.mappedData?.artifact?.node || [];
-
-    // Find all group nodes
-    const groupNodes = nodes.filter((node: any) => node.nodeType === 'group');
-
-    for (const groupNode of groupNodes) {
-      const componentId = groupNode.nodeId;
-
-      // Controls are stored in objElements array of the group node, not as separate nodes
-      const ctrlIds: string[] = [];
-      if (groupNode.objElements && Array.isArray(groupNode.objElements)) {
-        for (const element of groupNode.objElements) {
-          if (element.elementId) {
-            ctrlIds.push(element.elementId);
-          }
-        }
-      }
-
-      // Always add the group to groupBatches (even if no controls)
-      groupBatches.push({
-        componentId,
-        controlIds: ctrlIds,
-      });
-    }
-
-    // 5. Process all groups using existing Orchestration function (group-level)
-    // Pass preloaded data to avoid redundant API calls
-    const groupData: Record<string, any> = {};
-
-    await Promise.all(
-      groupBatches.map(async (batch) => {
-        const { componentId } = batch;
-        const result = await this.Orchestration(
-          key,
-          componentId,
-          null,
-          token,
-          false,
-          accessProfile,
-          UO,
-          UFSData,
-          NDPData,
-        );
-        groupData[componentId] = result;
-      }),
-    );
-
-    // 6. Process ALL controls in parallel (not sequentially per group)
-    // Pass preloaded data to avoid redundant API calls
-    const controlData: Record<string, Record<string, any>> = {};
-
-    // Initialize controlData structure
-    for (const batch of groupBatches) {
-      controlData[batch.componentId] = {};
-    }
-
-    // Flatten all control calls into a single parallel batch
-    const allControlCalls: { componentId: string; controlId: string }[] = [];
-    for (const batch of groupBatches) {
-      for (const controlId of batch.controlIds) {
-        allControlCalls.push({ componentId: batch.componentId, controlId });
-      }
-    }
-
-    // Process all controls in parallel
-    await Promise.all(
-      allControlCalls.map(async ({ componentId, controlId }) => {
-        const result = await this.Orchestration(
-          key,
-          componentId,
-          controlId,
-          token,
-          false,
-          accessProfile,
-          UO,
-          UFSData,
-          NDPData,
-        );
-        controlData[componentId][controlId] = result;
-      }),
-    );
-
-    console.log("🚀 ~ UfService ~ OrchestrationAll ~ controlData:", JSON.stringify(controlData));
-    return { pageData, groupData, controlData };
-  }
   async OrchestrationBatch(key: string, token: string, accessProfile: any[]) {
   
     const UO: any = await this.commonService.readAPI(
@@ -1369,6 +1257,17 @@ getConfig(): FusionAuthConfig {
                     security: nodes?.SIFlag.selectedValue,
                   });
                 });
+                break;
+              }else{
+                //--------------------------
+                templateArray[i].security.artifact?.node?.map((nodes: any) => {
+                  allowedGroup.push({
+                    groupName: nodes?.resource,
+                    security: "AA",
+                  });
+                });
+                security = "AA";
+                //--------------------------
               }
             }
           } else {
@@ -1664,7 +1563,33 @@ getConfig(): FusionAuthConfig {
                       );
                       // return controlNames;
                     }
+                    break;
                   }
+                }else{
+                  //--------------
+                  for(let m = 0;m < templateArray[i].security.artifact.node.length;m++){
+                    componentNameArray.push(
+                            templateArray[i].security.artifact.node[
+                              m
+                            ].resource.toLowerCase(),
+                          );
+                  }
+                  for (
+                        let k = 0;
+                        k <
+                        templateArray[i].security.artifact.node[j].objElements
+                          .length;
+                        k++
+                      ) {
+                        controlNames.push(
+                              templateArray[i].security.artifact.node[j]
+                                .objElements[k].resource,
+                            );
+                  }
+                  controlNames = controlNames.map((item) =>
+                          item.toLowerCase(),
+                        );
+                  //--------------
                 }
               }
             }
@@ -8059,14 +7984,14 @@ getConfig(): FusionAuthConfig {
       token,
     );
     let templateArray:any = UO?.securityData?.accessProfile||[];
-    let allowedAccessProfile:any=[]
+    let restrictedAccessProfile:any=[]
     templateArray.map((profile:any)=>{
-      if(profile?.security?.artifact?.SIFlag?.selectedValue=='AA'||profile?.security?.artifact?.SIFlag?.selectedValue=='RA' )
+      if(profile?.security?.artifact?.SIFlag?.selectedValue=='BA')
       {
-          allowedAccessProfile.push(profile?.accessProfile);
+          restrictedAccessProfile.push(profile?.accessProfile);
         }
     })
-    return allowedAccessProfile
+    return restrictedAccessProfile
     } catch (error) {
     return []
     }
@@ -8088,9 +8013,9 @@ getConfig(): FusionAuthConfig {
 
       // Process the screens and convert to the desired format
       for (const screen of group.screens) {
-        let allowedAccessProfile: any = [];
+        let restrictedAccessProfile: any = [];
         if (screen.UF != 'Logs Screen' && screen.UF != 'User Screen') {
-          allowedAccessProfile = await this.getAccessProfileForArtifact(
+          restrictedAccessProfile = await this.getAccessProfileForArtifact(
             screen.UF + ':UO',
             clientCode,
             token,
@@ -8100,7 +8025,7 @@ getConfig(): FusionAuthConfig {
           name: screen.screenName,
           label: screen.screenNameLabel,
           key: screen.UF,
-          allowedAccessProfile: allowedAccessProfile,
+          restrictedAccessProfile: restrictedAccessProfile,
           static: screen?.static || false,
           icon: screen.icon,
         });

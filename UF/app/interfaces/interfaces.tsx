@@ -153,7 +153,7 @@ export interface ScreenDetail {
   label?: string;
   static?:boolean;
   icon?:string;
-  allowedAccessProfile:any;
+  restrictedAccessProfile:any;
 }
 
 export interface MenuItem {

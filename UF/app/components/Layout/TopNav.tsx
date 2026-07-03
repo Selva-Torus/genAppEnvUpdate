@@ -64,10 +64,10 @@ const TopNav = ({
   const brandTextColor = useMemo(() => {
     return isLightColor(brandColor)
   } , [brandColor])
-  const menuBgColor =""
-  const menuTextColor =""
-  const menuSelectionBgColor =""
-  const menuSelectionTextColor =""
+  const menuBgColor ="#0736C4"
+  const menuTextColor ="#ffffff"
+  const menuSelectionBgColor ="#ffffff"
+  const menuSelectionTextColor ="#0736C4"
 
   useEffect(() => {
     const checkOverflow = () => {

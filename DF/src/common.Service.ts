@@ -848,7 +848,9 @@ export class CommonService{
               inputparam[currentNode.nodeName] = Object.assign(inputparam[currentNode.nodeName],customcoderesult)
             else
             inputparam = Object.assign(inputparam,{[currentNode.nodeName]:customcoderesult})
+            
             await this.redisService.setJsonData(processedKey + ':NPV:' +currentNode.nodeName + '.PRO', JSON.stringify(customcoderesult), process.env.CLIENTCODE, 'response',);       
+            await this.redisService.setJsonData(processedKey+':rule', JSON.stringify(inputparam), process.env.CLIENTCODE);
           }        
         }    
 

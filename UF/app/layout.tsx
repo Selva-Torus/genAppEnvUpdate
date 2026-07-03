@@ -12,7 +12,7 @@
           "name": "logs",
           "label": "Logs",
           "key": "Logs Screen",
-          "allowedAccessProfile": [],
+          "restrictedAccessProfile": [],
           "static": true,
           "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/document-add-svgrepo-com.svg"
         },
@@ -20,7 +20,7 @@
           "name": "user",
           "label": "User",
           "key": "User Screen",
-          "allowedAccessProfile": [],
+          "restrictedAccessProfile": [],
           "static": true,
           "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/user-plus-svgrepo-com.svg"
         }
@@ -34,11 +34,7 @@
         {
           "name": "my transaction",
           "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",
-          "allowedAccessProfile": [
-            "IT Team",
-            "Operation Team",
-            "Business Team"
-          ],
+          "restrictedAccessProfile": [],
           "static": false
         }
       ],
@@ -78,7 +74,7 @@
     "fontFamily": [
       {
         "label": "Inter",
-        "fontUrl": "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        "fontUrl": "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&d…"
       }
     ],
     "hoverColor": "#d5eeff",
@@ -185,7 +181,7 @@
     "lastName": "A",
     "dateAdded": "2026-04-08T08:02:02.245Z",
     "firstName": "Dominic",
-    "lastActive": "2026-07-01T04:30:23.532Z",
+    "lastActive": "2026-07-02T07:35:06.437Z",
     "userUniqueId": "cc1efc49-5291-4f48-a7cc-92a89d876e7e",
     "accessExpires": "2028-06-23",
     "accessProfile": [
@@ -196,6 +192,7 @@
   "webOnBoarding": {
     "image": "torus/9.1/CT005/resources/images/Login 1.png",
     "loginType": "standard",
+    "menuBgColor": "#0736C4",
     "navBarStyle": {
       "activeItems": [
         {
@@ -225,7 +222,10 @@
         }
       ]
     },
-    "landingScreen": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1"
+    "landingScreen": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",
+    "menuTextColor": "#ffffff",
+    "menuSelectionBgColor": "#ffffff",
+    "menuSelectionTextColor": "#0736C4"
   },
   "allKeyswithScreenNames": [
     {

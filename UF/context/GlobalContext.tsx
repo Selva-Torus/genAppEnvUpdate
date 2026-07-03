@@ -42,6 +42,9 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
     textInputProperty:{
       currencyDisplayFormat: "₹",
       decimal_places:3
+    },
+    timePickerProperty:{
+       timeDisplayFormat: "HH:mm",
     }
   });
   const [branding, setBrandingState] = useState<Branding>({

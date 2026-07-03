@@ -218,9 +218,9 @@ export class RedisService {
          pg_response = await redis.call("JSON.SET", key, defpath, value);
         //  if(key.includes(':FNGK:AF:'))
         //  this.getQueue(`AMDKEY-PERSISTENCE`,key,value);
-        if(pg_response == 'Value Stored'){
+        if(pg_response == 'Value Stored' || pg_response == 'OK'){
            let valuejson = await redis.call('JSON.GET', key)
-        if(key.includes(':FNGK:AFP:') && !key.includes('nodeResponse'))
+        if(key.includes(':FNGK:AFP:FNK:PF-PFD:') && !key.includes('nodeResponse'))
           this.getQueue(`AFP-PERSISTENCE`,key,JSON.parse(valuejson));
         }
          
@@ -799,7 +799,8 @@ export class RedisService {
       }
 
       await redis.set( key+':total', records.length);
-      await redis.set(key+':batches', totalBatches);
+      await redis.set(key+':batches', totalBatches);     
+      this.getQueue(`AFP-PERSISTENCE`,key,records);
     } catch (error) {
       throw error
     }

@@ -327,14 +327,6 @@ export class UfController {
     }
     return result;
   }
-
-  @Post('batch')
-  async orchestrationBatch(@Body() body: any, @Req() req: any) {
-    const token = req.headers.authorization?.split(' ')[1];
-    return this.appService.OrchestrationAll(
-      body.key,  token, body.accessProfile
-    );
-  }
   
   @Post('OrchestrationBatch')
   @ApiHeader({

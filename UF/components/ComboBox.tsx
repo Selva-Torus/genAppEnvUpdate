@@ -32,6 +32,7 @@ interface ComboboxProps {
   validationState?: "valid" | "invalid" | "none";
   errorMessage?: string;
   contentAlign?: ContentAlign;
+  required?: boolean;
   onBlur?: (e:any) => void;
   search?:string;
   setSearch?:(e:any) => void;
@@ -60,6 +61,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
   validationState = "none",
   errorMessage,
   contentAlign = "center",
+  required = false,
   onBlur=(e:any)=>{},
   search="",
   setSearch=(e:any)=>{}
@@ -167,9 +169,6 @@ export const Combobox: React.FC<ComboboxProps> = ({
     }
   };
 
-  
-
-
   const getBorderColor = () => {
     if (validationState === "invalid") return "border-red-500";
     if (validationState === "valid") return "border-green-500";
@@ -207,7 +206,7 @@ useEffect(() => {
   const comboboxElement = (
     <div
     ref={containerRef}   // add this
-      className={`relative ${getContentAlignClass()} w-full h-full ${className}`}
+      className={`relative flex ${getContentAlignClass()} w-full h-full ${className}`}
       tabIndex={-1}
     >
       <button
@@ -351,6 +350,7 @@ useEffect(() => {
       headerPosition={headerPosition}
       className={className}
       fillContainer={true}
+      required={required}
     >
       {comboboxElement}
     </CommonHeaderAndTooltip>

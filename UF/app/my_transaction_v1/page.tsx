@@ -21,49 +21,13 @@ export default function PageMyTransactionV1() {
   const [isProcessing, setIsProcessing] = useState(false);
   const securityData : SecurityData = {
   "IT Team": {
-    "allowedGroups": [
-      "canvas",
-      "tran_main_group",
-      "tran_tab_group",
-      "view_all_tab",
-      "view_all_table",
-      "failure_queue_tab",
-      "failure_queue_table",
-      "success_queue_tab",
-      "success_queue_table",
-      "return_queue_tab",
-      "return_queue_table"
-    ]
+    "blockedGroups": []
   },
   "Operation Team": {
-    "allowedGroups": [
-      "canvas",
-      "tran_main_group",
-      "tran_tab_group",
-      "view_all_tab",
-      "view_all_table",
-      "failure_queue_tab",
-      "failure_queue_table",
-      "success_queue_tab",
-      "success_queue_table",
-      "return_queue_tab",
-      "return_queue_table"
-    ]
+    "blockedGroups": []
   },
   "Business Team": {
-    "allowedGroups": [
-      "canvas",
-      "tran_main_group",
-      "tran_tab_group",
-      "view_all_tab",
-      "view_all_table",
-      "failure_queue_tab",
-      "failure_queue_table",
-      "success_queue_tab",
-      "success_queue_table",
-      "return_queue_tab",
-      "return_queue_table"
-    ]
+    "blockedGroups": []
   }
 };
   let code : string = "";

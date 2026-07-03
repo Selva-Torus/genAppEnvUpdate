@@ -303,7 +303,7 @@ const Buttonsearch = ({ lockedData, setLockedData, tableData, setTableData, prim
 
     // showArtifactAsModal
     let filterProps2:any =  [];
-    let filterData2 = await getFilterProps(filterProps2,tran_tab_group08b64);
+      let filterData2 = await getFilterProps(filterProps2,{...tran_main_group1dc7f,...tran_tab_group08b64});
     settransactionsearch_v1Props([...filterData2 ]);
     setShowProfileAsModalOpen2(true);
       await handleCustomCode();

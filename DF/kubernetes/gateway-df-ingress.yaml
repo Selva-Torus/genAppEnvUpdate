@@ -5,9 +5,9 @@ metadata:
   namespace: ct005-vgph-df-v1
 spec:
   hosts:
-    - "tgadev2.toruslowcode.com"
+    - "tgaprod910.toruslowcode.com"
   gateways:
-    - istio-system/wp-gateway
+    - istio-system/tgaprod-gw
   http:
     - match:
         - uri:

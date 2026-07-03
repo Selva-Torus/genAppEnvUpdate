@@ -60,7 +60,7 @@ const statusMap: Record<string, { icon: any; color: string }> = {
       setjourney_details_groupd9a0eProps({...journey_details_groupd9a0eProps,presetValues:step});
     // showArtifactAsModal
     let filterProps4:any =  [];
-    let filterData4 = await getFilterProps(filterProps4,tran_journey_group9eb2e);
+  let filterData4 = await getFilterProps(filterProps4,{...tran_journey_group9eb2e});
     settranjourneydetails_v1Props([...filterData4 ]);
     setShowProfileAsModalOpen4(true);
   }

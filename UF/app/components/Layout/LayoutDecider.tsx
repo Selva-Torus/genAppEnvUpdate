@@ -62,7 +62,7 @@ const LayoutDecider = ({
         "name": "logs",
         "label": "Logs",
         "key": "Logs Screen",
-        "allowedAccessProfile": [],
+        "restrictedAccessProfile": [],
         "static": true,
         "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/document-add-svgrepo-com.svg"
       },
@@ -70,7 +70,7 @@ const LayoutDecider = ({
         "name": "user",
         "label": "User",
         "key": "User Screen",
-        "allowedAccessProfile": [],
+        "restrictedAccessProfile": [],
         "static": true,
         "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/user-plus-svgrepo-com.svg"
       }
@@ -84,11 +84,7 @@ const LayoutDecider = ({
       {
         "name": "my transaction",
         "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",
-        "allowedAccessProfile": [
-          "IT Team",
-          "Operation Team",
-          "Business Team"
-        ],
+        "restrictedAccessProfile": [],
         "static": false
       }
     ],
@@ -185,7 +181,7 @@ const LayoutDecider = ({
         for (const screen of newItem.screenDetails) {
           if (screen.static) validScreens.push(screen)
           if (screen.key && !screen.static) {
-            const isValid: boolean = screen.allowedAccessProfile.includes(user) ? true : false
+            const isValid: boolean = screen.restrictedAccessProfile.includes(user) ? false : true
             if (isValid) validScreens.push(screen)
           }
         }
