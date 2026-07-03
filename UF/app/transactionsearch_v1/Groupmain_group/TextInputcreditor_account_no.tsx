@@ -76,10 +76,7 @@ const TextInputcreditor_account_no = ({checkToAdd,setCheckToAdd,refetch,setRefet
   ],
   "dfdKey": "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1:",
   "schemaData": {
-    "type": "string",
-    "nullable": true,
-    "x-pg-type": "character varying",
-    "x-expression": "cr_account"
+    "type": "string"
   },
   "dataType": "string"
 }

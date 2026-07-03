@@ -76,11 +76,7 @@ const TextInputpayment_amount = ({checkToAdd,setCheckToAdd,refetch,setRefetch,en
   ],
   "dfdKey": "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1:",
   "schemaData": {
-    "type": "number",
-    "format": "double",
-    "nullable": true,
-    "x-pg-type": "double precision",
-    "x-expression": "dr_amount"
+    "type": "number"
   },
   "dataType": "number"
 }

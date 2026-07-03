@@ -76,9 +76,7 @@ const TextInputuuid = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFl
   ],
   "dfdKey": "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1:",
   "schemaData": {
-    "type": "string",
-    "x-pg-type": "character varying",
-    "x-expression": "uuid"
+    "type": "string"
   },
   "dataType": "string"
 }

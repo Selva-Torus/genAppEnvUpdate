@@ -25,7 +25,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { BullModule } from '@nestjs/bullmq';
 import { EnvDataModule } from './envData/envData.module';
 import { EnvData } from './envData/envData.service';
-import { PersistenceService } from './persistence.service';
+//import { PersistenceService } from './persistence.service';
 
 
 @Module({
@@ -39,7 +39,7 @@ import { PersistenceService } from './persistence.service';
   CacheModule.register({isGlobal:true}),
   ScheduleModule.forRoot(),UfModule,TeModule,EnvDataModule,DFcomboCurrencySearchModule,DFtransactionModule,DFprocessStatusComboSearchModule,DFchannelComboSearchModule,DFjourneyModule,changeStatusTranUpdateLogInsertModule,ErdModule,], 
   controllers: [AppController],
-  providers: [AppService,CommonService,RuleService,CodeService,JwtService,RedisService,ConfigService,EnvData,PersistenceService,{
+  providers: [AppService,CommonService,RuleService,CodeService,JwtService,RedisService,ConfigService,EnvData,{
       provide: APP_INTERCEPTOR,
       useClass: EncryptInterceptor,
     }],

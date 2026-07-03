@@ -56,7 +56,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   filterable = false,
   hasClear = false,
   value,
-  validationState = "none",
+  validationState = undefined,
   errorMessage,
   fillContainer = true,
   contentAlign = "center",
@@ -76,6 +76,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [filterText, setFilterText] = useState("");
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+  const [dropDirection, setDropDirection] = useState<"down" | "up">("down");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const highlightedItemRef = useRef<HTMLDivElement | null>(null);
@@ -96,6 +97,37 @@ export const Dropdown: React.FC<DropdownProps> = ({
       highlightedItemRef.current.scrollIntoView({ block: "nearest" });
     }
   }, [highlightedIndex]);
+
+  // Flip the options panel to open upward when there isn't enough room
+  // below (e.g. this field sits near the bottom of a modal). Re-checks
+  // on scroll/resize while open so it stays correct if the modal itself
+  // scrolls or the viewport changes.
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const ESTIMATED_PANEL_HEIGHT = 260; // ~search bar (if any) + max-h-60 list
+
+    const updateDirection = () => {
+      const el = dropdownRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      if (spaceBelow < ESTIMATED_PANEL_HEIGHT && spaceAbove > spaceBelow) {
+        setDropDirection("up");
+      } else {
+        setDropDirection("down");
+      }
+    };
+
+    updateDirection();
+    window.addEventListener("resize", updateDirection);
+    window.addEventListener("scroll", updateDirection, true);
+    return () => {
+      window.removeEventListener("resize", updateDirection);
+      window.removeEventListener("scroll", updateDirection, true);
+    };
+  }, [isOpen]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!isOpen) {
@@ -419,7 +451,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
           className={`
             absolute
             w-full
-            mt-1
+            ${dropDirection === "up" ? "bottom-full mb-1" : "top-full mt-1"}
             border-2
             ${isDark ? "bg-gray-800 border-gray-600" : "bg-white border-gray-300"}
             shadow-lg

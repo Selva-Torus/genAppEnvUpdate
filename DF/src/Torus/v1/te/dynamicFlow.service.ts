@@ -3816,7 +3816,7 @@ export class DynamicFlowService {
                             if (!DfExecutedDataSet || DfExecutedDataSet.length == 0) throw new CustomException(`Dataset not found ${DstKey + 'DS_Object'}`, 404)
                         }
                         
-                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey, currentFabric, SessionInfo,pfdto.controlName)
+                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName)
                         if (RCMresult) {
                             zenresult = RCMresult?.rule
                             customcoderesult = RCMresult?.code
@@ -5274,7 +5274,8 @@ export class DynamicFlowService {
                                 }
                             }
                             if (mapobj && Object.keys(mapobj).length > 0) {
-                                executecommand = await this.replaceQuery(executecommand,mapobj)                              
+                                executecommand = await this.replaceQuery(executecommand,mapobj)
+                                procedurequery = await this.replaceQuery(procedurequery,mapobj)                              
                             } else {
                                 throw new CustomException('params was required in ' + nodeName, 400)
                             }
@@ -5292,7 +5293,8 @@ export class DynamicFlowService {
                             }
                         }
                         if (mapobj && Object.keys(mapobj).length > 0) {
-                            executecommand = await this.replaceQuery(executecommand,mapobj)    
+                            executecommand = await this.replaceQuery(executecommand,mapobj) 
+                            procedurequery = await this.replaceQuery(procedurequery,mapobj)   
                         }
                     }
                     if (filterData && Array.isArray(filterData) && filterData.length > 0) {

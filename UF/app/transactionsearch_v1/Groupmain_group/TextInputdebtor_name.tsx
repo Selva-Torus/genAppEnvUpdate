@@ -76,10 +76,7 @@ const TextInputdebtor_name = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encry
   ],
   "dfdKey": "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1:",
   "schemaData": {
-    "type": "string",
-    "nullable": true,
-    "x-pg-type": "character varying",
-    "x-expression": "dr_name"
+    "type": "string"
   },
   "dataType": "string"
 }

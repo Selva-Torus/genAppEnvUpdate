@@ -84,7 +84,10 @@ const Switchoutbound_or_inbound = ({checkToAdd,setCheckToAdd,encryptionFlagCompD
   }
 
   useEffect(() => {
-    settran_tab_group08b64((pre:any)=>({...pre,outbound_or_inbound:null}))
+    if(prevRefreshRef.current)
+      settran_tab_group08b64((pre:any)=>({...pre,outbound_or_inbound:null}))
+    else
+      prevRefreshRef.current=true
     handleMapperValue()
   },[outbound_or_inbound5e076?.refresh])
 

@@ -127,6 +127,8 @@ export const Combobox: React.FC<ComboboxProps> = ({
     });
   };
 
+  const [dropDirection, setDropDirection] = useState<"down" | "up">("down");
+
   const handleOpen = () => {
     if (disabled) return;
     if (isOpen) {
@@ -140,6 +142,37 @@ export const Combobox: React.FC<ComboboxProps> = ({
       }
     }
   };
+
+  // Flip the options panel to open upward when there isn't enough room
+  // below (e.g. this field sits near the bottom of a modal). Re-checks
+  // on scroll/resize while open so it stays correct if the modal itself
+  // scrolls or the viewport changes.
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const ESTIMATED_PANEL_HEIGHT = 260; // ~search bar + max-h-60 list
+
+    const updateDirection = () => {
+      const el = containerRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      if (spaceBelow < ESTIMATED_PANEL_HEIGHT && spaceAbove > spaceBelow) {
+        setDropDirection("up");
+      } else {
+        setDropDirection("down");
+      }
+    };
+
+    updateDirection();
+    window.addEventListener("resize", updateDirection);
+    window.addEventListener("scroll", updateDirection, true);
+    return () => {
+      window.removeEventListener("resize", updateDirection);
+      window.removeEventListener("scroll", updateDirection, true);
+    };
+  }, [isOpen]);
 
   const handleListScroll = (e: React.UIEvent<HTMLDivElement>) => {
     if (isStatic) return;
@@ -181,6 +214,14 @@ export const Combobox: React.FC<ComboboxProps> = ({
       case "left": return "justify-start";
       case "right": return "justify-end";
       default: return "justify-center";
+    }
+  };
+
+  const getTextAlignClass = () => {
+    switch (contentAlign) {
+      case "left": return "text-left";
+      case "right": return "text-right";
+      default: return "text-center";
     }
   };
 
@@ -233,7 +274,7 @@ useEffect(() => {
             e.currentTarget.style.borderColor = "";
         }}
       >
-        <span className={`w-4/5 truncate ${(isArray ? selectedArray.length === 0 : !value) ? (isDark ? "text-gray-500" : "text-gray-400") : ""}`}>
+        <span className={`w-4/5 truncate ${getTextAlignClass()} ${(isArray ? selectedArray.length === 0 : !value) ? (isDark ? "text-gray-500" : "text-gray-400") : ""}`}>
           {isArray
             ? selectedArray.length > 0 ? `${selectedArray.length} selected` : placeholder
             : (value as string) || placeholder}
@@ -265,7 +306,7 @@ useEffect(() => {
       {isOpen && (
         <div
           ref={listDivRef}
-          className={`absolute z-50 w-full mt-1 max-h-60 overflow-y-auto border-2 shadow-lg ${isDark ? "bg-gray-800 border-gray-600" : "bg-white border-gray-300"}`}
+          className={`absolute z-50 w-full ${dropDirection === "up" ? "bottom-full mb-1" : "top-full mt-1"} max-h-60 overflow-y-auto border-2 shadow-lg ${isDark ? "bg-gray-800 border-gray-600" : "bg-white border-gray-300"}`}
           style={{ borderRadius: "var(--border-radius)" }}
           onScroll={handleListScroll}
           onWheel={handleListWheel}

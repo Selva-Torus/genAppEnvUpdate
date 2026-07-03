@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'slave-195'
+        label 'slave-224'
     }
     tools {
         jdk 'jdk17' 
@@ -89,7 +89,7 @@ pipeline {
             }
             steps {
                 script {
-                    withKubeConfig(credentialsId: 'kubernetes-195', serverUrl: 'https://lb.kubesphere.local:6443') {
+                    withKubeConfig(credentialsId: 'kubernetes-224', serverUrl: 'https://lb.kubesphere.local:6443') {
                         sh "kubectl get ns ct005-vgph-df-v1 || kubectl create ns ct005-vgph-df-v1"
                         sh "kubectl apply -f apps/CT005/GSS/VGPH/v1/Nest-df/kubernetes/deploymentservice.yaml"
                         sh "kubectl apply -f apps/CT005/GSS/VGPH/v1/Nest-df/kubernetes/gateway-df-ingress.yaml"                      

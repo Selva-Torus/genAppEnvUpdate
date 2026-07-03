@@ -62,12 +62,7 @@ const XmlViewerxmlviewer = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encrypt
   ],
   "dfdKey": "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:journey:AFVK:v1:",
   "schemaData": {
-    "type": "string",
-    "nullable": true,
-    "x-pg-type": "text",
-    "x-expression": "t1.message_data",
-    "x-source-table": "ct005_vgph.vgph_tran_log_main",
-    "x-source-column": "message_data"
+    "type": "string"
   },
   "dataType": "string"
 }
