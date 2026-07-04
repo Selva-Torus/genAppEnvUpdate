@@ -1,12 +1,3 @@
-// lib/fusionauth.ts
-// export const fusionAuthConfig = {
-//   baseUrl: process.env.AUTH_FUSIONAUTH_ISSUER!,
-//   clientId: process.env.AUTH_FUSIONAUTH_ID!,
-//   clientSecret: process.env.AUTH_FUSIONAUTH_SECRET!,
-//   tenantId: process.env.AUTH_FUSIONAUTH_TENANT_ID!,
-//   redirectUri: `${process.env.NEXT_PUBLIC_APP_URL}${process.env.NEXT_PUBLIC_BASE_PATH}/next-api/auth/callback`
-// }
-
 export async function buildAuthorizationUrl(
   state: string,
   appTenantParam: string | null,
@@ -29,7 +20,7 @@ export async function buildAuthorizationUrl(
     );
 
     if (!response.ok) {
-      throw new Error(`Request failed with status ${response.status}`);
+      throw new Error(`Failed to fetch FusionAuth registration details: ${response.status}`);
     }
 
     const {
@@ -37,6 +28,7 @@ export async function buildAuthorizationUrl(
       applicationId,
       fusionAuthAppClientSecret,
       appTenantId,
+      fusionAuthBaseUrl,
     } = await response.json();
 
     const params = new URLSearchParams({
@@ -50,7 +42,7 @@ export async function buildAuthorizationUrl(
     });
 
     return {
-      url: `${process.env.AUTH_FUSIONAUTH_ISSUER}/oauth2/authorize?${params.toString()}`,
+      url: `${fusionAuthBaseUrl}/oauth2/authorize?${params.toString()}`,
       appTenantId,
     };
   } catch (error) {
@@ -80,7 +72,7 @@ export async function exchangeCodeForTokens(
 
   if (!response.ok) {
     throw new Error(
-      `Issue while getting FusionAuth registration details: ${response.status}`,
+      `Failed to fetch FusionAuth registration details: ${response.status}`,
     );
   }
 
@@ -88,6 +80,8 @@ export async function exchangeCodeForTokens(
     tenantUniqueId,
     applicationId,
     fusionAuthAppClientSecret,
+    fusionAuthBaseUrl,
+    fusionAuthApiKey
   } = await response.json();
 
   const params = new URLSearchParams({
@@ -99,7 +93,7 @@ export async function exchangeCodeForTokens(
   });
 
   const res = await fetch(
-    `${process.env.AUTH_FUSIONAUTH_ISSUER}/oauth2/token`,
+    `${fusionAuthBaseUrl}/oauth2/token`,
     {
       method: 'POST',
       headers: {

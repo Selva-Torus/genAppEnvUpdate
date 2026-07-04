@@ -40,9 +40,38 @@ export async function GET(request: NextRequest) {
     // 1. Exchange code for tokens
     const fusionAuthTokens = await exchangeCodeForTokens(code , storedAppTenantParam)
 
+    const queryParams = new URLSearchParams();
+    const app_tenant = request.cookies.get(`${COOKIE_PREFIX}_app_tenant`)?.value;
+    
+      if (app_tenant) {
+        queryParams.append('tenant', app_tenant);
+      }
+
+    const credentialsResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/UF/fusionauth-credentials?${queryParams.toString()}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+
+  if (!credentialsResponse.ok) {
+    throw new Error(
+      `Failed to fetch FusionAuth registration details: ${credentialsResponse.status}`,
+    );
+  }
+
+  const {
+    fusionAuthBaseUrl,
+    fusionAuthApiKey
+  } = await credentialsResponse.json();
+
+
     // 2. Get user info
     const userInfoRes = await fetch(
-      `${process.env.AUTH_FUSIONAUTH_ISSUER}/oauth2/userinfo`,
+      `${fusionAuthBaseUrl}/oauth2/userinfo`,
       { headers: { Authorization: `Bearer ${fusionAuthTokens.access_token}` } }
     )
     const userInfo = await userInfoRes.json()

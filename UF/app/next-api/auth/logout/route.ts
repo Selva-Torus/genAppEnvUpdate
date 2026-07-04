@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
 
   if (!response.ok) {
     throw new Error(
-      `Issue while getting FusionAuth registration details: ${response.status}`,
+      `Failed to fetch FusionAuth registration details: ${response.status}`,
     );
   }
 
@@ -37,10 +37,12 @@ export async function GET(request: NextRequest) {
     tenantUniqueId,
     applicationId,
     fusionAuthAppClientSecret,
+    fusionAuthBaseUrl,
+    fusionAuthApiKey
   } = await response.json();
 
     await fetch(
-      `${process.env.AUTH_FUSIONAUTH_ISSUER}/oauth2/logout?client_id=${applicationId}`,
+      `${fusionAuthBaseUrl}/oauth2/logout?client_id=${applicationId}`,
       {
         method: 'GET',
         redirect: 'manual',
@@ -65,11 +67,11 @@ export async function GET(request: NextRequest) {
   }
 
   // Clear all cookie name variants
-  response.cookies.set(`${COOKIE_PREFIX}_token`, '', cookieOptions)
-  response.cookies.set(`${COOKIE_PREFIX}_tp_ps`, '', cookieOptions)
-  response.cookies.set('token', '', cookieOptions)
-  response.cookies.set(`${COOKIE_PREFIX}_oauth_state`, '', cookieOptions)
-  response.cookies.set(`${COOKIE_PREFIX}_app_tenant`, '', cookieOptions)
+  response.cookies.set(`${COOKIE_PREFIX}_token`, '', cookieOptions as any)
+  response.cookies.set(`${COOKIE_PREFIX}_tp_ps`, '', cookieOptions as any)
+  response.cookies.set('token', '', cookieOptions as any)
+  response.cookies.set(`${COOKIE_PREFIX}_oauth_state`, '', cookieOptions as any)
+  response.cookies.set(`${COOKIE_PREFIX}_app_tenant`, '', cookieOptions as any)
 
   return response
 }

@@ -6,10 +6,9 @@ import { api_signinDto } from '../interfaces/interfaces'
 import { useInfoMsg } from './infoMsgHandler'
 import { setCookie } from './cookieMgment'
 import { useRouter } from 'next/navigation'
-import { DefaultLoginImage, FusionAuth } from '../utils/svgApplications'
+import { DefaultLoginImage } from '../utils/svgApplications'
 import { BsEyeFill, BsEyeSlash } from 'react-icons/bs'
 import Link from 'next/link'
-import { singleSignOn } from '../utils/serverUtils'
 import decodeToken from './decodeToken'
 import { Text } from '@/components/Text'
 import { Button } from '@/components/Button'
@@ -326,21 +325,6 @@ const LoginForm = ({ logo, appName = "VGPH", loginType = "standard", image, appT
                   'Login'
                 )}
               </Button>
-
-              {process.env.NEXT_PUBLIC_NEXT_AUTH_NEEDED === 'true' && (
-                <div className='flex w-full justify-center'>
-                  <Button
-                    onClick={() => singleSignOn('fusionauth')}
-                    view='outlined'
-                    className='h-8 !w-fit rounded-lg p-2'
-                  >
-                    <span className='flex gap-2'>
-                      <FusionAuth fill={brandColor} />
-                      FusionAuth
-                    </span>
-                  </Button>
-                </div>
-              )}
 
               <div className='flex justify-center pb-2'>
                 <Text className='flex items-center gap-1 text-nowrap'>

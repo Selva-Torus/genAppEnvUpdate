@@ -54,7 +54,6 @@ const ag = process.env.APPGROUPCODE;
 const app = process.env.APPCODE;
 const appName = process.env.APPNAME;
 const version = process.env.VERSION;
-const defaultAuth =  process.env.DEFAULT_AUTHENTICATION;
 const schemaName = new URL(process.env.PG_URL).searchParams.get('schema')
 
 @Injectable()
@@ -215,10 +214,6 @@ getConfig(): FusionAuthConfig {
     try {
       let tenantUniqueId = '';
       const { fusionAuthBaseUrl , fusionAuthApiKey } = this.getConfig();
-
-      if (defaultAuth != 'fusionauth') {
-        return undefined;
-      }
 
       const possible_FA_tenant_name = `${tenant}-Tenant`;
       // CHECK EXISTENCE OF THE APPLICATION TENANT IN FUSIONAUTH
@@ -5020,7 +5015,7 @@ getConfig(): FusionAuthConfig {
          
           // if authentication_type is OPENID_CONNECT , then it's google and github
         const userInfoRes = await fetch(
-          `${process.env.FUSIONAUTH_BASEURL}/oauth2/userinfo`,
+          `${config.fusionAuthBaseUrl}/oauth2/userinfo`,
           {
             headers: {
               Authorization: `Bearer ${fusionAuthLoginResponse.access_token}`,
@@ -5900,7 +5895,6 @@ getConfig(): FusionAuthConfig {
       }
 
       // --- FusionAuth flow ---
-      if (process.env.DEFAULT_AUTHENTICATION === 'fusionauth') {
         if(app_tenant){
           ApplicationTenantDetails = await this.getApplicationTenantFusionauthDetails(app_tenant)
         }
@@ -5924,21 +5918,13 @@ getConfig(): FusionAuthConfig {
             value?.error ?? 'FusionAuth password update failed',
           );
         }
-      }
 
       // --- Update Redis only after FusionAuth success (or if not fusionauth) ---
       await this.updateTable('tam_tenant_user' , {
         password : this.hashPassword(password),
         email
       } , 'email', tenantId)
-      // tenantUser.password = this.hashPassword(password);
-      // tenantList.splice(index, 1, tenantUser);
-      // await this.redisService.setJsonData(
-      //   tenantUserKey,
-      //   JSON.stringify(tenantList),
-      //   process.env.CLIENTCODE,
-      // );
-
+     
       return 'Password updated successfully';
     } catch (error) {
       await this.commonService.errorLog(
@@ -8395,13 +8381,16 @@ getConfig(): FusionAuthConfig {
 
   async getFusionAuthCredentials(app_tenant:string | undefined) {
     try {
+      const { fusionAuthBaseUrl , fusionAuthApiKey } = this.getConfig();
       if(!app_tenant){
         const credentials = await this.getTenantAndApplicationFusionAuthIdSecret();
         if(credentials && typeof credentials == 'object'){
           return {
             tenantUniqueId : credentials.tenantUniqueId,
             applicationId : credentials.applicationId,
-            fusionAuthAppClientSecret : credentials.fusionAuthAppClientSecret
+            fusionAuthAppClientSecret : credentials.fusionAuthAppClientSecret,
+            fusionAuthBaseUrl,
+            fusionAuthApiKey
           };
         }else{
           throw new BadRequestException('fusionauth configuration details not found');
@@ -8416,7 +8405,9 @@ getConfig(): FusionAuthConfig {
             tenantUniqueId : credentials.applicationTenantUniqueId,
             applicationId : credentials.fusionAuthApplicationTenantId,
             fusionAuthAppClientSecret : credentials.fusionAuthApplicationTenantClientSecret,
-            appTenantId : foundAppTenant.at_id
+            appTenantId : foundAppTenant.at_id,
+            fusionAuthBaseUrl,
+            fusionAuthApiKey
           };
         }else{
           throw new BadRequestException('fusionauth configuration details not found');
