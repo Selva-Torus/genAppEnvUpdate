@@ -389,6 +389,7 @@ const Dropdownchannel = ({lockedData,setLockedData,checkToAdd,setCheckToAdd,refe
     }
     try{
     setIsProcessing(true);
+    let te_eventEmitter : any =  {};
     let copyFormhandlerData :any = {}
     }catch (err: any) {
       setIsProcessing(false);

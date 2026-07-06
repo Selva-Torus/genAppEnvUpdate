@@ -389,6 +389,7 @@ const Dropdownprocessstatus = ({lockedData,setLockedData,checkToAdd,setCheckToAd
     }
     try{
     setIsProcessing(true);
+    let te_eventEmitter : any =  {};
     let copyFormhandlerData :any = {}
     }catch (err: any) {
       setIsProcessing(false);

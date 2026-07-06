@@ -49,7 +49,7 @@
     "lastName": "A",
     "dateAdded": "2026-04-08T08:02:02.245Z",
     "firstName": "Dominic",
-    "lastActive": "2026-07-03T09:55:30.637Z",
+    "lastActive": "2026-07-06T04:37:39.014Z",
     "userUniqueId": "cc1efc49-5291-4f48-a7cc-92a89d876e7e",
     "accessExpires": "2028-06-23",
     "accessProfile": [
@@ -271,7 +271,7 @@ async function bootstrap() {
     { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 
     'JWT-auth',
     )
-    .addServer('https://tgadev910.toruslowcode.com/ct005/%3CAppGroupCode%3E/%3CAppCode%3E/%3Cversion%3E/api','Production Server')
+    .addServer('https://tgaprod910.toruslowcode.com/ct005/gss/vgph/v1/api','Production Server')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   fs.writeFileSync('./swagger.json', JSON.stringify(document, null, 2));

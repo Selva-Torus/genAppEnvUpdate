@@ -38,7 +38,7 @@ export class SecurityService {
                 }
                 for (var i = 0; i < security.accessProfile.length; i++) {
                   var accessProfile = security.accessProfile[i]                  
-                    if (securityProfile?.includes(accessProfile.accessProfile)) {
+                    // if (securityProfile?.includes(accessProfile.accessProfile)) {
                       if (accessProfile.security.artifact.resource) {
                         if (accessProfile.security.artifact.resource == artifact) {
                           if (accessProfile.security.artifact.SIFlag.selectedValue == 'AA' || accessProfile.security.artifact.SIFlag.selectedValue == '') {
@@ -50,7 +50,7 @@ export class SecurityService {
                               throw 'Node Detail was empty'
                             }
 
-                          } else if (accessProfile.security.artifact.SIFlag.selectedValue == 'BA') {
+                          } else if (accessProfile.security.artifact.SIFlag.selectedValue == 'BA' && securityProfile?.includes(accessProfile.accessProfile)) {
                             throw `Permission denied to access the artifact ${artifact}`;
                           }
                         } else {
@@ -58,14 +58,14 @@ export class SecurityService {
                           // throw `Invalid artifact ${artifact}`;
                         }
                       }
-                    } else {
-                      tokenFlg++
-                    }                  
+                    // } else {
+                    //   tokenFlg++
+                    // }                  
                 }
-                if (tokenFlg == security.accessProfile.length) {
-                  throw new CustomException(`user was not authorized`, 403)
-                  // throw new CustomException(`${tokenDecode.loginId} this user was not authorized`,403)
-                }
+                // if (tokenFlg == security.accessProfile.length) {
+                //   throw new CustomException(`user was not authorized`, 403)
+                //   // throw new CustomException(`${tokenDecode.loginId} this user was not authorized`,403)
+                // }
 
                 if (artifactFlg == security.accessProfile.length) {
                   throw new CustomException(`Invalid artifact ${artifact}`, 400);

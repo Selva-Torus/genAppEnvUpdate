@@ -337,7 +337,7 @@ export const DateAndTime: React.FC<DatePickerProps> = ({
         {selectedDate && !disabled && !readOnly && (
           <FiX size={16} className="opacity-60 hover:opacity-100 shrink-0" onClick={handleClear} />
         )}
-        {!disabled && !readOnly && (
+        {!disabled && !readOnly&&value && (
           <FiEdit2
             size={14}
             className="opacity-60 hover:opacity-100 shrink-0"

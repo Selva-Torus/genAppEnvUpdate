@@ -583,7 +583,7 @@ const SideNav = ({
   ), [fullView, tp_ps, selectedAccessProfile])
 
   // Profile section
-  const ProfileSection = useCallback(() => (
+  const ProfileSection = useMemo(() => (
     <div
       style={getGridStyle('profile')}
       className='flex col-span-full items-center justify-center'
@@ -623,7 +623,7 @@ const SideNav = ({
           <Logo />
         )}
         <Text className='text text-center font-bold w-full truncate text-[var(--brand-color)]' contentAlign='left'>
-          <span title={appName}>
+          <span className="block w-[4vw] truncate" title={appName}>
           {appName}
           </span>
         </Text>
@@ -631,7 +631,7 @@ const SideNav = ({
     ) , [logo, appName])
 
   const AppLogoSection = useCallback(() => (
-    <div className='flex items-center gap-1' style={getGridStyle('app logo')}>
+    <div className='flex items-center gap-1 justify-center' style={getGridStyle('app logo')}>
       {appLogo && (
         <img
           className='min-h-[3vh] max-h-[5vh] h-auto w-auto'
@@ -657,7 +657,7 @@ const SideNav = ({
         </div>
         <div className='flex w-full flex-col items-center justify-center'>
           <OPRMatrixSection />
-          <ProfileSection />
+          {ProfileSection}
         </div>
       </div>
     )
@@ -679,7 +679,7 @@ const SideNav = ({
       <AppLogoSection />
       <MenuItemsSection />
       <OPRMatrixSection />
-      <ProfileSection />
+      {ProfileSection}
     </div>
   )
 }

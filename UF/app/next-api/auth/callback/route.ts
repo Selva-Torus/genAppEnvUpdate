@@ -39,7 +39,8 @@ export async function GET(request: NextRequest) {
     const storedAppTenantId = request.cookies.get(`${COOKIE_PREFIX}_app_tenant_id`)?.value
     // 1. Exchange code for tokens
     const fusionAuthTokens = await exchangeCodeForTokens(code , storedAppTenantParam)
-
+    
+    
     const queryParams = new URLSearchParams();
     const app_tenant = request.cookies.get(`${COOKIE_PREFIX}_app_tenant`)?.value;
     

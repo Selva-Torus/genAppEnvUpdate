@@ -785,7 +785,7 @@ export class vgph_destination_mainService {
           
           const result = await this.cdcPrismaService.withConnection(() =>
           this.cdcPrismaService.$queryRaw<any[]>`
-            SELECT <clientCode>_tam.approve_change(
+            SELECT tam.approve_change(
               ${+approvalId},
               ${userInfo.username},
               ${userInfo.remarks || null}
@@ -815,7 +815,7 @@ export class vgph_destination_mainService {
           // Call approve_change(approval_id, checker_id, checker_remarks)
           const result = await this.cdcPrismaService.withConnection(() =>
           this.cdcPrismaService.$queryRaw<any[]>`
-            SELECT <clientCode>_tam.reject_change(
+            SELECT tam.reject_change(
               ${+approvalId},
               ${userInfo.username},
               ${userInfo.remarks || null}
@@ -932,7 +932,7 @@ export class vgph_destination_mainService {
         
         const result = await this.cdcPrismaService.withConnection(() =>
         this.cdcPrismaService.$queryRaw<any[]>`
-          SELECT <clientCode>_tam.request_change(
+          SELECT tam.request_change(
             p_table_name     := 'vgph_destination_main',
             p_operation_type := 'INSERT',
             p_record_id      := NULL,
@@ -940,7 +940,7 @@ export class vgph_destination_mainService {
             p_changes        := ${encryptedData}::JSONB,
             p_maker_id       := ${userInfo.username},
             p_maker_remarks  := ${userInfo.remarks || null},
-            p_schema    := 'CT007_ag001'
+            p_schema    := 'ct005_vgph'
           ) AS approval_id
         `);
 
@@ -1125,7 +1125,7 @@ uuid: string,
         if (userInfo.approvalStatus === 'APPROVED') {
         const result = await this.cdcPrismaService.withConnection(() =>
         this.cdcPrismaService.$queryRaw<any[]>`
-          SELECT * FROM <clientCode>_tam.approve_change_by_record(
+          SELECT * FROM tam.approve_change_by_record(
               p_table_name      := 'vgph_destination_main',
               p_record_id       := ${updateMaster_id.toString()},
               p_checker_id      := ${userInfo.username},
@@ -1156,7 +1156,7 @@ uuid: string,
         }else if (userInfo.approvalStatus === 'REJECTED') {
           const result = await this.cdcPrismaService.withConnection(() =>
           this.cdcPrismaService.$queryRaw<any[]>`
-            SELECT * FROM <clientCode>_tam.reject_change_by_record(
+            SELECT * FROM tam.reject_change_by_record(
                 p_table_name      := 'vgph_destination_main',
                 p_record_id       := ${updateMaster_id.toString()},
                 p_checker_id      := ${userInfo.username},
@@ -1266,7 +1266,7 @@ uuid: string,
       // For UPDATE: p_record_id is the ID, p_changes contains only changed fields
       const result = await this.cdcPrismaService.withConnection(() =>
       this.cdcPrismaService.$queryRaw<any[]>`
-        SELECT <clientCode>_tam.request_change(
+        SELECT tam.request_change(
           p_table_name     := 'vgph_destination_main',
           p_operation_type := 'UPDATE',
           p_record_id      := ${updateMaster_id.toString()},
@@ -1274,7 +1274,7 @@ uuid: string,
           p_changes        := ${encryptedData}::JSONB,
           p_maker_id       := ${userInfo.username},
           p_maker_remarks  := ${userInfo.remarks || null},
-          p_schema    := 'CT007_ag001'
+          p_schema    := 'ct005_vgph'
         ) AS approval_id
       `);
 
@@ -1382,7 +1382,7 @@ vgphdm_id:number,
         if (userInfo.approvalStatus === 'APPROVED') {
         const result = await this.cdcPrismaService.withConnection(() =>
         this.cdcPrismaService.$queryRaw<any[]>`
-          SELECT * FROM <clientCode>_tam.approve_change_by_record(
+          SELECT * FROM tam.approve_change_by_record(
               p_table_name      := 'vgph_destination_main',
               p_record_id       := ${deleteMaster_id.toString()},
               p_checker_id      := ${userInfo.username},
@@ -1413,7 +1413,7 @@ vgphdm_id:number,
         }else if (userInfo.approvalStatus === 'REJECTED') {
           const result = await this.cdcPrismaService.withConnection(() =>
           this.cdcPrismaService.$queryRaw<any[]>`
-            SELECT * FROM <clientCode>_tam.reject_change_by_record(
+            SELECT * FROM tam.reject_change_by_record(
                 p_table_name      := 'vgph_destination_main',
                 p_record_id       := ${deleteMaster_id.toString()},
                 p_checker_id      := ${userInfo.username},
@@ -1461,7 +1461,7 @@ vgphdm_id:number,
       // For DELETE: p_record_id is the ID, p_changes is empty object
       const result = await this.cdcPrismaService.withConnection(() =>
       this.cdcPrismaService.$queryRaw<any[]>`
-        SELECT <clientCode>_tam.request_change(
+        SELECT tam.request_change(
           p_table_name     := 'vgph_destination_main',
           p_operation_type := 'DELETE',
           p_record_id      := ${deleteMaster_id.toString()},
@@ -1469,7 +1469,7 @@ vgphdm_id:number,
           p_changes        := '{}'::JSONB,
           p_maker_id       := ${userInfo.username},
           p_maker_remarks  := ${userInfo.remarks || null},
-          p_schema    := 'CT007_ag001'
+          p_schema    := 'ct005_vgph'
         ) AS approval_id
       `);
 

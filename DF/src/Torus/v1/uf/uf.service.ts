@@ -5917,14 +5917,14 @@ getConfig(): FusionAuthConfig {
           throw new UnauthorizedException(
             value?.error ?? 'FusionAuth password update failed',
           );
-        }
+      }
 
       // --- Update Redis only after FusionAuth success (or if not fusionauth) ---
       await this.updateTable('tam_tenant_user' , {
         password : this.hashPassword(password),
         email
       } , 'email', tenantId)
-     
+
       return 'Password updated successfully';
     } catch (error) {
       await this.commonService.errorLog(

@@ -389,6 +389,7 @@ const Dropdownpayment_currency = ({lockedData,setLockedData,checkToAdd,setCheckT
     }
     try{
     setIsProcessing(true);
+    let te_eventEmitter : any =  {};
     let copyFormhandlerData :any = {}
     }catch (err: any) {
       setIsProcessing(false);

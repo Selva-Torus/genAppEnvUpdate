@@ -5,9 +5,8 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const token = searchParams.get('token')
   const origin = searchParams.get('origin') || '/'
-  const baseUrl = new URL(process.env.NEXT_PUBLIC_API_BASE_URL!).origin  
+  const baseUrl = new URL(process.env.NEXT_PUBLIC_API_BASE_URL!).origin
   const FULL_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
-
 
   try {
     if (!token) {
