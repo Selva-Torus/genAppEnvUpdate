@@ -64,10 +64,10 @@ const TopNav = ({
   const brandTextColor = useMemo(() => {
     return isLightColor(brandColor)
   } , [brandColor])
-  const menuBgColor ="#0736C4"
-  const menuTextColor ="#ffffff"
-  const menuSelectionBgColor ="#ffffff"
-  const menuSelectionTextColor ="#0736C4"
+  const menuBgColor =""
+  const menuTextColor =""
+  const menuSelectionBgColor =""
+  const menuSelectionTextColor =""
 
   useEffect(() => {
     const checkOverflow = () => {
@@ -139,7 +139,7 @@ const TopNav = ({
 //  async function logout() {
 //    localStorage.clear()
 //    deleteAllCookies()
-//    window.location.href = '/ct005/gss/vgph/v1'
+//    window.location.href = '/ct001/tgw01/tgw004/v1'
 //  }
 
   async function logout() {

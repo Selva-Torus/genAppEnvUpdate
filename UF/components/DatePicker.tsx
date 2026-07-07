@@ -57,6 +57,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   const prevValidationState = useRef(validationState);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
+  const initialWidthRef = useRef(0);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [viewDate, setViewDate] = useState(() => {
@@ -73,15 +74,63 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 
   useEffect(() => {
     if (!isModalOpen) return;
-    const rafId = requestAnimationFrame(function tick() {
-      if (modalRef.current && wrapperRef.current) {
-        const rect = wrapperRef.current.getBoundingClientRect();
-        modalRef.current.style.top = (rect.bottom + 4) + 'px';
-        modalRef.current.style.left = rect.left + 'px';
-        modalRef.current.style.width = rect.width + 'px';
+
+    const isMobile = () => window.innerWidth < 640;
+    const POPUP_MARGIN = 12;
+
+    const positionPopup = () => {
+      if (!modalRef.current || !wrapperRef.current) return;
+      const rect = wrapperRef.current.getBoundingClientRect();
+      const popup = modalRef.current;
+      const popupHeight = popup.offsetHeight;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      popup.style.position = "fixed";
+      if (isMobile()) {
+        const popupWidth = vw - POPUP_MARGIN * 2;
+        popup.style.width = `${popupWidth}px`;
+        popup.style.left = `${POPUP_MARGIN}px`;
+        const spaceBelow = vh - rect.bottom - 4;
+        const spaceAbove = rect.top - 4;
+        if (popupHeight <= spaceBelow || spaceBelow >= spaceAbove) {
+          popup.style.top = `${Math.min(rect.bottom + 4, vh - popupHeight - POPUP_MARGIN)}px`;
+        } else {
+          popup.style.top = `${Math.max(rect.top - popupHeight - 4, POPUP_MARGIN)}px`;
+        }
+      } else {
+        let left = rect.left;
+        let width = Math.max(rect.width, initialWidthRef.current, 200);
+        const extraWidth = width - rect.width;
+        left = Math.max(left - extraWidth / 2, POPUP_MARGIN);
+
+        if (left + width > vw - POPUP_MARGIN) {
+          left = Math.max(vw - width - POPUP_MARGIN, POPUP_MARGIN);
+        }
+        if (left < POPUP_MARGIN) {
+          left = POPUP_MARGIN;
+          width = vw - POPUP_MARGIN * 2;
+        }
+
+        popup.style.width = `${width}px`;
+        popup.style.left = `${left}px`;
+        const spaceBelow = vh - rect.bottom - 4;
+        const spaceAbove = rect.top - 4;
+        if (popupHeight <= spaceBelow || spaceBelow >= spaceAbove) {
+          popup.style.top = `${Math.min(rect.bottom + 4, vh - popupHeight - POPUP_MARGIN)}px`;
+        } else {
+          popup.style.top = `${Math.max(rect.top - popupHeight - 4, POPUP_MARGIN)}px`;
+        }
       }
+    };
+
+    const rafId = requestAnimationFrame(function tick() {
+      positionPopup();
       requestAnimationFrame(tick);
     });
+
+    const handleResize = () => positionPopup();
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setIsModalOpen(false);
     };
@@ -93,10 +142,12 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     };
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener("resize", handleResize);
     return () => {
       cancelAnimationFrame(rafId);
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("resize", handleResize);
     };
   }, [isModalOpen]);
 
@@ -215,6 +266,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       setIsModalOpen(false);
       return;
     }
+    if (wrapperRef.current) {
+      initialWidthRef.current = wrapperRef.current.getBoundingClientRect().width;
+    }
     if (dateValue) {
       const parts = dateValue.split("-");
       setViewDate({ year: parseInt(parts[0]), month: parseInt(parts[1]) - 1 });
@@ -319,7 +373,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         onClick={openPicker}
         className={`
           relative flex-1 min-h-0 flex items-center
-          border-2 px-2
+          border-2 px-2 sm:px-3
           ${disabled ? "opacity-50 cursor-not-allowed" : readOnly ? "cursor-default" : "cursor-pointer"}
           ${validationState === "invalid" ? "border-red-500" : isDark ? "border-gray-600" : "border-gray-300"}
           ${isDark ? "bg-gray-800 text-white" : "bg-white text-gray-900"}
@@ -336,11 +390,11 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           if (!disabled && !readOnly && validationState !== "invalid") setBorderColor("");
         }}
       >
-        <span className={`pointer-events-none select-none flex-1 ${!dateValue ? (isDark ? "text-gray-500" : "text-gray-400") : ""}`}>
+        <span className={`pointer-events-none select-none flex-1 text-xs sm:text-sm truncate ${!dateValue ? (isDark ? "text-gray-500" : "text-gray-400") : ""}`}>
           {dateValue ? formatDateDisplay(dateValue) : (displayFormat?.datePickerProperty?.dateDisplayFormat||"DD-MM-YYYY").toLowerCase()}
         </span>
 
-        <svg className="w-4 h-4 opacity-50 flex-shrink-0 ml-1 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-4 h-4 sm:w-5 sm:h-5 opacity-50 flex-shrink-0 ml-1 sm:ml-2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <rect x="3" y="4" width="18" height="18" rx="2" strokeWidth="2"/>
           <line x1="16" y1="2" x2="16" y2="6" strokeWidth="2" strokeLinecap="round"/>
           <line x1="8" y1="2" x2="8" y2="6" strokeWidth="2" strokeLinecap="round"/>
@@ -359,6 +413,26 @@ export const DatePicker: React.FC<DatePickerProps> = ({
               from { opacity: 0; transform: translateY(-8px) scaleY(0.95); }
               to { opacity: 1; transform: translateY(0) scaleY(1); }
             }
+            @media (max-width: 639px) {
+              .datepicker-popup .cal-btn {
+                width: 2.25rem;
+                height: 2.25rem;
+                font-size: 0.8125rem;
+              }
+              .datepicker-popup .cal-grid {
+                gap: 0.125rem;
+              }
+            }
+            @media (min-width: 640px) {
+              .datepicker-popup .cal-btn {
+                width: 2rem;
+                height: 2rem;
+                font-size: 0.75rem;
+              }
+              .datepicker-popup .cal-grid {
+                gap: 0.25rem;
+              }
+            }
           `}</style>
           <div
             ref={modalRef}
@@ -366,38 +440,38 @@ export const DatePicker: React.FC<DatePickerProps> = ({
             style={{
               backgroundColor: branding.brandColor,
               color: "#FFFFFF",
-              maxHeight: "50vh",
+              maxHeight: "70vh",
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between px-3 py-2">
-              <span className="text-sm font-semibold">Select Date</span>
-              <button onClick={handleClear} className="text-xs underline hover:opacity-70 transition-opacity" style={{ color: "#FFFFFF" }}>
+            <div className="flex items-center justify-between px-3 py-2 sm:px-4">
+              <span className="text-xs sm:text-sm font-semibold">Select Date</span>
+              <button onClick={handleClear} className="text-[11px] sm:text-xs underline hover:opacity-70 transition-opacity" style={{ color: "#FFFFFF" }}>
                 Clear
               </button>
             </div>
-            <div className="px-3 pb-3">
+            <div className="px-3 pb-3 sm:px-4">
               <div className="flex items-center justify-between py-1">
-                <button onClick={prevMonth} className="p-1 hover:opacity-70 transition-opacity" style={{ color: "#FFFFFF" }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <button onClick={prevMonth} className="p-1.5 sm:p-1 hover:opacity-70 transition-opacity" style={{ color: "#FFFFFF" }}>
+                  <svg width="20" height="20" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <polyline points={isRtl ? "9 18 15 12 9 6" : "15 18 9 12 15 6"} />
                   </svg>
                 </button>
-                <span className="font-semibold text-xs">{MONTH_NAMES[viewDate.month]} {viewDate.year}</span>
-                <button onClick={nextMonth} className="p-1 hover:opacity-70 transition-opacity" style={{ color: "#FFFFFF" }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <span className="font-semibold text-[13px] sm:text-xs">{MONTH_NAMES[viewDate.month]} {viewDate.year}</span>
+                <button onClick={nextMonth} className="p-1.5 sm:p-1 hover:opacity-70 transition-opacity" style={{ color: "#FFFFFF" }}>
+                  <svg width="20" height="20" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <polyline points={isRtl ? "15 18 9 12 15 6" : "9 18 15 12 9 6"} />
                   </svg>
                 </button>
               </div>
-              <div className="grid grid-cols-7 gap-x-1 pb-1">
+              <div className="grid grid-cols-7 gap-x-0.5 sm:gap-x-1 pb-1">
                 {DAY_NAMES.map(name => (
-                  <div key={name} className="text-center text-xs font-medium py-1" style={{ color: "rgba(255,255,255,0.7)" }}>
+                  <div key={name} className="text-center text-[11px] sm:text-xs font-medium py-1" style={{ color: "rgba(255,255,255,0.7)" }}>
                     {name}
                   </div>
                 ))}
               </div>
-              <div className="grid grid-cols-7 gap-x-1 gap-y-1">
+              <div className="cal-grid grid grid-cols-7">
                 {calendarDays.map((day, i) => {
                   if (day === null) return <div key={`empty-${i}`} />;
                   const dateStr = `${viewDate.year}-${pad(viewDate.month + 1)}-${pad(day)}`;
@@ -409,7 +483,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                       key={dateStr}
                       disabled={disabledDay}
                       onClick={() => handleSelect(dateStr)}
-                      className={`text-xs rounded-full w-8 h-8 flex items-center justify-center mx-auto transition-all duration-150 ${disabledDay ? "opacity-30 cursor-not-allowed" : "hover:opacity-80"} ${isSelected ? "font-bold" : ""}`}
+                      className={`cal-btn rounded-full flex items-center justify-center mx-auto transition-all duration-150 touch-manipulation ${disabledDay ? "opacity-30 cursor-not-allowed" : "hover:opacity-80 active:opacity-60"} ${isSelected ? "font-bold" : ""}`}
                       style={{
                         backgroundColor: isSelected ? "rgba(255,255,255,0.3)" : "transparent",
                         color: "#FFFFFF",

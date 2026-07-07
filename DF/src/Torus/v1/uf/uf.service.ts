@@ -308,7 +308,7 @@ getConfig(): FusionAuthConfig {
 
  async insertDocToVgphSourceTranDocMain(category: string, doc_name: string, url: string, size?: number, doc_group?: string): Promise<any> {
     try {
-      const insertUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments`;
+      const insertUrl = `${process.env.APP_MANAGER_URL}/ct001/attachments`;
       //const vgphstm_uuid = uuid();
       const currentDate = new Date().toISOString().slice(0, 19) + '+00:00';
 
@@ -336,7 +336,7 @@ getConfig(): FusionAuthConfig {
 
   async getUrlByVgphstdmId(vgphstdm_id: any): Promise<string> {
     try {
-      const getUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments/${vgphstdm_id}`;
+      const getUrl = `${process.env.APP_MANAGER_URL}/ct001/attachments/${vgphstdm_id}`;
 
       const response = await axios.get(getUrl, {
         headers: {
@@ -5727,7 +5727,7 @@ getConfig(): FusionAuthConfig {
             ON au.org_tu_id = tu.org_tu_id
           WHERE au.tenant_code = $1
             AND au.ag_code     = $2
-            AND au.app_code    = $3 and trs_tenant_id=$1`
+            AND au.app_code    = $3 and au.trs_tenant_id=$1`
         
             const values = [tenant , ag , app ]
 

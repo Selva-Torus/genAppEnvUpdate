@@ -778,11 +778,11 @@ export class UfController {
   ) {
     const { username, password, dpdKey, method, ufClientType, app_tenant, app_tenant_id, fusionAuthLoginResponse , isOauthUser } = body;
     let result : any;
-    if(ufClientType === 'UFM') {
-      result = await this.appService.signInViaIAM(username, password, ufClientType, false , app_tenant, app_tenant_id);
-    } else{
+    // if(ufClientType === 'UFM') {
+    //   result = await this.appService.signInViaIAM(username, password, ufClientType, false , app_tenant, app_tenant_id);
+    // } else{
       result = await this.appService.signIntoTorus(username, password, ufClientType, isOauthUser , app_tenant, app_tenant_id, fusionAuthLoginResponse);
-    }
+    //}
     if(dpdKey && method){
       result["dpdKey"] = dpdKey
       result["method"] = method

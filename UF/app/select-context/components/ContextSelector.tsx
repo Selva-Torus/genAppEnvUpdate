@@ -9,7 +9,7 @@ import React, {
 } from 'react'
 import { useInfoMsg } from '@/app/components/infoMsgHandler'
 import axios from 'axios'
-import { getCookie, setCookie } from '@/app/components/cookieMgment'
+import { getCookie, setCookie, deleteAllCookies } from '@/app/components/cookieMgment'
 import { useRouter } from 'next/navigation'
 import decodeToken from '@/app/components/decodeToken'
 import { Text } from '@/components/Text'
@@ -32,7 +32,7 @@ const ContextSelector = () => {
   const [selectedAccessProfile, setSelectedAccessProfile] = useState<string[]>(
     []
   )
-  const [navigationStyles] = useState<'vertical' | 'horizontal'>("horizontal");
+  const [navigationStyles] = useState<'vertical' | 'horizontal'>("vertical");
   const { userDetails, setUserDetails , setMatchedAccessProfileData } = useContext(
     TotalContext
   ) as TotalContextProps
@@ -40,7 +40,7 @@ const ContextSelector = () => {
   const tp_ps: any = getCookie('tp_ps')
   const toast = useInfoMsg()
   const baseUrl: any = process.env.NEXT_PUBLIC_API_BASE_URL
-  const appName = 'VGPH'
+  const appName = 'TGW4'
   const [accessProfiles, setAccessProfiles] = useState<any[]>([])
   const router = useRouter()
   const [loading, setLoading] = useState(false)
@@ -56,13 +56,33 @@ const ContextSelector = () => {
   const [selectedRole, setSelectedRole] = useState<Record<string, string>>({})
   const [orgGrpData, setOrgGrpData] = useState<any>([])
   const [isPending, startTransition] = useTransition();  
-  let landingScreen:string = 'CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1';
+  let landingScreen:string = 'CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:dynamicAction:AFVK:v1';
   let screenDetails: any = {
            keys:[
   {
-    "screenName": "my transaction",
-    "screensName": "my_transaction-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1"
+    "screenName": "dynamicaction",
+    "screensName": "dynamicaction-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:dynamicAction:AFVK:v1"
+  },
+  {
+    "screenName": "test",
+    "screensName": "test-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:sample_test:AFVK:v1"
+  },
+  {
+    "screenName": "mycomps",
+    "screensName": "mycomps-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:mycomps:AFVK:v1"
+  },
+  {
+    "screenName": "ggggg",
+    "screensName": "ggggg-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:ffff:AFVK:v1"
+  },
+  {
+    "screenName": "report",
+    "screensName": "report-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFR:CATK:TGW01:AFGK:TGW004:AFK:myreport:AFVK:v1"
   }
 ]
   }
@@ -82,9 +102,44 @@ const ContextSelector = () => {
       landingScreen.split('-')[0] + '_' + landingScreen.split('-').at(-1)
   }
 
+  const introspect = async () => {
+    if (!token) {
+      logout();
+      return;
+    }
+
+    try {
+      const response = await AxiosService.get("/UF/introspect", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          key: "context-selector",
+        },
+      });
+
+      if (response?.data?.authenticated === false) {
+        logout();
+        return;
+      }
+    } catch (err) {
+      toast("The token is no longer active.", "danger");
+      logout();
+    }
+  };
+
+  const logout = () => {
+    localStorage.clear();
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+    const from = encodeURIComponent(`${basePath}/`);
+
+    window.location.href = `${basePath}/next-api/auth/logout?from=${from}`;
+  };
+
   useEffect(() => {
     orpsData()
     userDetailsData()
+    introspect()
   }, [])
 
   const userDetailsData = async () => {
@@ -304,30 +359,10 @@ const ContextSelector = () => {
     name: string
     'gridColumn'?: string
     'gridRow'?: string
-  }[] = [
-  {
-    "name": "app logo",
-    "gridColumn": "1/3"
-  },
-  {
-    "name": "menu items",
-    "gridRow": "1/6",
-    "gridColumn": "3/8"
-  },
-  {
-    "name": "profile",
-    "gridRow": "12/13",
-    "gridColumn": "12/13"
-  },
-  {
-    "name": "opr matrix",
-    "gridRow": "6/9",
-    "gridColumn": "9/12"
-  }
-]
+  }[] = []
 
-  const logo: string = "torus/9.1/CT005/resources/images/Blue Logo.png"
-  const appLogo: string = "torus/9.1/CT005/resources/images/White global payment hub.png"
+  const logo: string = ""
+  const appLogo: string = ""
 
   return (
     <div className='h-full w-full  bg-cover bg-center'>

@@ -4,9 +4,29 @@ import UOmapperData from '@/context/dfdmapperContolnames.json'
 export function getRouteScreenDetails(key: string, artfactName: string,other:string=''): string {
   let assemblerKeys: any = [
   {
-    "screenName": "my transaction",
-    "screensName": "my_transaction-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1"
+    "screenName": "dynamicaction",
+    "screensName": "dynamicaction-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:dynamicAction:AFVK:v1"
+  },
+  {
+    "screenName": "test",
+    "screensName": "test-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:sample_test:AFVK:v1"
+  },
+  {
+    "screenName": "mycomps",
+    "screensName": "mycomps-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:mycomps:AFVK:v1"
+  },
+  {
+    "screenName": "ggggg",
+    "screensName": "ggggg-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:ffff:AFVK:v1"
+  },
+  {
+    "screenName": "report",
+    "screensName": "report-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFR:CATK:TGW01:AFGK:TGW004:AFK:myreport:AFVK:v1"
   }
 ]
 

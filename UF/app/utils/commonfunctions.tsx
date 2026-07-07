@@ -16,6 +16,17 @@ export function normalToDynamicArrayCopyFormData(copiedData:any,type:any,state:a
 export function useHandleGroupArrayCopyFormData(){
     const AllStates:any = useContext(TotalContext) as TotalContextProps;
     return(copiedData:any,type:any,arraygroupName:any)=>{
+
+        if(arraygroupName=="grouparray81c1a")
+        {
+            normalToDynamicArrayCopyFormData(copiedData,type,AllStates.grouparray81c1a_0,AllStates.setgrouparray81c1a_0)
+            normalToDynamicArrayCopyFormData(copiedData,type,AllStates.grouparray81c1a_1,AllStates.setgrouparray81c1a_1)
+            normalToDynamicArrayCopyFormData(copiedData,type,AllStates.grouparray81c1a_2,AllStates.setgrouparray81c1a_2)
+            normalToDynamicArrayCopyFormData(copiedData,type,AllStates.grouparray81c1a_3,AllStates.setgrouparray81c1a_3)
+            normalToDynamicArrayCopyFormData(copiedData,type,AllStates.grouparray81c1a_4,AllStates.setgrouparray81c1a_4)
+            normalToDynamicArrayCopyFormData(copiedData,type,AllStates.grouparray81c1a_5,AllStates.setgrouparray81c1a_5)
+            normalToDynamicArrayCopyFormData(copiedData,type,AllStates.grouparray81c1a_6,AllStates.setgrouparray81c1a_6)
+        }
     }
 }
 

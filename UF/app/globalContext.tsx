@@ -10,436 +10,384 @@ export interface TotalContextProps {
   setCurrentToken: React.Dispatch<React.SetStateAction<any>>
   matchedAccessProfileData: any;
   setMatchedAccessProfileData: React.Dispatch<React.SetStateAction<any>>
-  tran_main_group1dc7f: any 
-  settran_main_group1dc7f: React.Dispatch<React.SetStateAction<any>>
-  tran_main_group1dc7fProps: any 
-  settran_main_group1dc7fProps: React.Dispatch<React.SetStateAction<any>>
-  tran_tab_group08b64: any 
-  settran_tab_group08b64: React.Dispatch<React.SetStateAction<any>>
-  tran_tab_group08b64Props: any 
-  settran_tab_group08b64Props: React.Dispatch<React.SetStateAction<any>>
-  view_all_tab4a963: any 
-  setview_all_tab4a963: React.Dispatch<React.SetStateAction<any>>
-  view_all_tab4a963Props: any 
-  setview_all_tab4a963Props: React.Dispatch<React.SetStateAction<any>>
-  view_all_tablec9e87: any 
-  setview_all_tablec9e87: React.Dispatch<React.SetStateAction<any>>
-  view_all_tablec9e87Props: any 
-  setview_all_tablec9e87Props: React.Dispatch<React.SetStateAction<any>>
-  failure_queue_tab69f01: any 
-  setfailure_queue_tab69f01: React.Dispatch<React.SetStateAction<any>>
-  failure_queue_tab69f01Props: any 
-  setfailure_queue_tab69f01Props: React.Dispatch<React.SetStateAction<any>>
-  failure_queue_tablea476f: any 
-  setfailure_queue_tablea476f: React.Dispatch<React.SetStateAction<any>>
-  failure_queue_tablea476fProps: any 
-  setfailure_queue_tablea476fProps: React.Dispatch<React.SetStateAction<any>>
-  success_queue_tabef582: any 
-  setsuccess_queue_tabef582: React.Dispatch<React.SetStateAction<any>>
-  success_queue_tabef582Props: any 
-  setsuccess_queue_tabef582Props: React.Dispatch<React.SetStateAction<any>>
-  success_queue_table63aae: any 
-  setsuccess_queue_table63aae: React.Dispatch<React.SetStateAction<any>>
-  success_queue_table63aaeProps: any 
-  setsuccess_queue_table63aaeProps: React.Dispatch<React.SetStateAction<any>>
-  return_queue_tab5611e: any 
-  setreturn_queue_tab5611e: React.Dispatch<React.SetStateAction<any>>
-  return_queue_tab5611eProps: any 
-  setreturn_queue_tab5611eProps: React.Dispatch<React.SetStateAction<any>>
-  return_queue_table267f0: any 
-  setreturn_queue_table267f0: React.Dispatch<React.SetStateAction<any>>
-  return_queue_table267f0Props: any 
-  setreturn_queue_table267f0Props: React.Dispatch<React.SetStateAction<any>>
-  main_group9066f: any 
-  setmain_group9066f: React.Dispatch<React.SetStateAction<any>>
-  main_group9066fProps: any 
-  setmain_group9066fProps: React.Dispatch<React.SetStateAction<any>>
-  tran_journey_group9eb2e: any 
-  settran_journey_group9eb2e: React.Dispatch<React.SetStateAction<any>>
-  tran_journey_group9eb2eProps: any 
-  settran_journey_group9eb2eProps: React.Dispatch<React.SetStateAction<any>>
-  journey_details_groupd9a0e: any 
-  setjourney_details_groupd9a0e: React.Dispatch<React.SetStateAction<any>>
-  journey_details_groupd9a0eProps: any 
-  setjourney_details_groupd9a0eProps: React.Dispatch<React.SetStateAction<any>>
-  tran_data_group84f25: any 
-  settran_data_group84f25: React.Dispatch<React.SetStateAction<any>>
-  tran_data_group84f25Props: any 
-  settran_data_group84f25Props: React.Dispatch<React.SetStateAction<any>>
-  req_data_group8d4d7: any 
-  setreq_data_group8d4d7: React.Dispatch<React.SetStateAction<any>>
-  req_data_group8d4d7Props: any 
-  setreq_data_group8d4d7Props: React.Dispatch<React.SetStateAction<any>>
-  res_data_group9d75a: any 
-  setres_data_group9d75a: React.Dispatch<React.SetStateAction<any>>
-  res_data_group9d75aProps: any 
-  setres_data_group9d75aProps: React.Dispatch<React.SetStateAction<any>>
-  outbound_or_inbound5e076: any,
-  setoutbound_or_inbound5e076:React.Dispatch<React.SetStateAction<any>>
-  outbound_or_inbound5e076Props: any 
-  setoutbound_or_inbound5e076Props: React.Dispatch<React.SetStateAction<any>>
-  searchcc244: any,
-  setsearchcc244:React.Dispatch<React.SetStateAction<any>>
-  searchcc244Props: any 
-  setsearchcc244Props: React.Dispatch<React.SetStateAction<any>>
-  refresh313d0: any,
-  setrefresh313d0:React.Dispatch<React.SetStateAction<any>>
-  refresh313d0Props: any 
-  setrefresh313d0Props: React.Dispatch<React.SetStateAction<any>>
-  downloadcb505: any,
-  setdownloadcb505:React.Dispatch<React.SetStateAction<any>>
-  downloadcb505Props: any 
-  setdownloadcb505Props: React.Dispatch<React.SetStateAction<any>>
-  product_code_view_allb0df6: any,
-  setproduct_code_view_allb0df6:React.Dispatch<React.SetStateAction<any>>
-  product_code_view_allb0df6Props: any 
-  setproduct_code_view_allb0df6Props: React.Dispatch<React.SetStateAction<any>>
-  channel_name_view_all33724: any,
-  setchannel_name_view_all33724:React.Dispatch<React.SetStateAction<any>>
-  channel_name_view_all33724Props: any 
-  setchannel_name_view_all33724Props: React.Dispatch<React.SetStateAction<any>>
-  uuid_view_allc0a46: any,
-  setuuid_view_allc0a46:React.Dispatch<React.SetStateAction<any>>
-  uuid_view_allc0a46Props: any 
-  setuuid_view_allc0a46Props: React.Dispatch<React.SetStateAction<any>>
-  dr_account_view_all54da6: any,
-  setdr_account_view_all54da6:React.Dispatch<React.SetStateAction<any>>
-  dr_account_view_all54da6Props: any 
-  setdr_account_view_all54da6Props: React.Dispatch<React.SetStateAction<any>>
-  dr_amount_view_all88d6b: any,
-  setdr_amount_view_all88d6b:React.Dispatch<React.SetStateAction<any>>
-  dr_amount_view_all88d6bProps: any 
-  setdr_amount_view_all88d6bProps: React.Dispatch<React.SetStateAction<any>>
-  cr_account_view_alld4b39: any,
-  setcr_account_view_alld4b39:React.Dispatch<React.SetStateAction<any>>
-  cr_account_view_alld4b39Props: any 
-  setcr_account_view_alld4b39Props: React.Dispatch<React.SetStateAction<any>>
-  cr_amount_view_all19d14: any,
-  setcr_amount_view_all19d14:React.Dispatch<React.SetStateAction<any>>
-  cr_amount_view_all19d14Props: any 
-  setcr_amount_view_all19d14Props: React.Dispatch<React.SetStateAction<any>>
-  remittance_info_view_all82afd: any,
-  setremittance_info_view_all82afd:React.Dispatch<React.SetStateAction<any>>
-  remittance_info_view_all82afdProps: any 
-  setremittance_info_view_all82afdProps: React.Dispatch<React.SetStateAction<any>>
-  status_view_all47e6b: any,
-  setstatus_view_all47e6b:React.Dispatch<React.SetStateAction<any>>
-  status_view_all47e6bProps: any 
-  setstatus_view_all47e6bProps: React.Dispatch<React.SetStateAction<any>>
-  log_btnfe134: any,
-  setlog_btnfe134:React.Dispatch<React.SetStateAction<any>>
-  log_btnfe134Props: any 
-  setlog_btnfe134Props: React.Dispatch<React.SetStateAction<any>>
-  product_code_failure_queue12297: any,
-  setproduct_code_failure_queue12297:React.Dispatch<React.SetStateAction<any>>
-  product_code_failure_queue12297Props: any 
-  setproduct_code_failure_queue12297Props: React.Dispatch<React.SetStateAction<any>>
-  channel_name_failure_queue42953: any,
-  setchannel_name_failure_queue42953:React.Dispatch<React.SetStateAction<any>>
-  channel_name_failure_queue42953Props: any 
-  setchannel_name_failure_queue42953Props: React.Dispatch<React.SetStateAction<any>>
-  uuid_failure_queue03c86: any,
-  setuuid_failure_queue03c86:React.Dispatch<React.SetStateAction<any>>
-  uuid_failure_queue03c86Props: any 
-  setuuid_failure_queue03c86Props: React.Dispatch<React.SetStateAction<any>>
-  dr_account_failure_queuef9d2d: any,
-  setdr_account_failure_queuef9d2d:React.Dispatch<React.SetStateAction<any>>
-  dr_account_failure_queuef9d2dProps: any 
-  setdr_account_failure_queuef9d2dProps: React.Dispatch<React.SetStateAction<any>>
-  dr_amount_failure_queue95d4e: any,
-  setdr_amount_failure_queue95d4e:React.Dispatch<React.SetStateAction<any>>
-  dr_amount_failure_queue95d4eProps: any 
-  setdr_amount_failure_queue95d4eProps: React.Dispatch<React.SetStateAction<any>>
-  cr_account_failure_queuea7246: any,
-  setcr_account_failure_queuea7246:React.Dispatch<React.SetStateAction<any>>
-  cr_account_failure_queuea7246Props: any 
-  setcr_account_failure_queuea7246Props: React.Dispatch<React.SetStateAction<any>>
-  cr_amount_failure_queue57c4d: any,
-  setcr_amount_failure_queue57c4d:React.Dispatch<React.SetStateAction<any>>
-  cr_amount_failure_queue57c4dProps: any 
-  setcr_amount_failure_queue57c4dProps: React.Dispatch<React.SetStateAction<any>>
-  remittance_info_failure_queue09d7a: any,
-  setremittance_info_failure_queue09d7a:React.Dispatch<React.SetStateAction<any>>
-  remittance_info_failure_queue09d7aProps: any 
-  setremittance_info_failure_queue09d7aProps: React.Dispatch<React.SetStateAction<any>>
-  status_failure_queue0aef8: any,
-  setstatus_failure_queue0aef8:React.Dispatch<React.SetStateAction<any>>
-  status_failure_queue0aef8Props: any 
-  setstatus_failure_queue0aef8Props: React.Dispatch<React.SetStateAction<any>>
-  product_code_success_queue7c209: any,
-  setproduct_code_success_queue7c209:React.Dispatch<React.SetStateAction<any>>
-  product_code_success_queue7c209Props: any 
-  setproduct_code_success_queue7c209Props: React.Dispatch<React.SetStateAction<any>>
-  channel_name_success_queueeddaf: any,
-  setchannel_name_success_queueeddaf:React.Dispatch<React.SetStateAction<any>>
-  channel_name_success_queueeddafProps: any 
-  setchannel_name_success_queueeddafProps: React.Dispatch<React.SetStateAction<any>>
-  uuid_success_queuec805b: any,
-  setuuid_success_queuec805b:React.Dispatch<React.SetStateAction<any>>
-  uuid_success_queuec805bProps: any 
-  setuuid_success_queuec805bProps: React.Dispatch<React.SetStateAction<any>>
-  dr_account_operational_pending10a49: any,
-  setdr_account_operational_pending10a49:React.Dispatch<React.SetStateAction<any>>
-  dr_account_operational_pending10a49Props: any 
-  setdr_account_operational_pending10a49Props: React.Dispatch<React.SetStateAction<any>>
-  dr_amount_success_queueda254: any,
-  setdr_amount_success_queueda254:React.Dispatch<React.SetStateAction<any>>
-  dr_amount_success_queueda254Props: any 
-  setdr_amount_success_queueda254Props: React.Dispatch<React.SetStateAction<any>>
-  cr_account_success_queue60480: any,
-  setcr_account_success_queue60480:React.Dispatch<React.SetStateAction<any>>
-  cr_account_success_queue60480Props: any 
-  setcr_account_success_queue60480Props: React.Dispatch<React.SetStateAction<any>>
-  cr_amount_success_queueb80d4: any,
-  setcr_amount_success_queueb80d4:React.Dispatch<React.SetStateAction<any>>
-  cr_amount_success_queueb80d4Props: any 
-  setcr_amount_success_queueb80d4Props: React.Dispatch<React.SetStateAction<any>>
-  remittance_info_success_queue2f950: any,
-  setremittance_info_success_queue2f950:React.Dispatch<React.SetStateAction<any>>
-  remittance_info_success_queue2f950Props: any 
-  setremittance_info_success_queue2f950Props: React.Dispatch<React.SetStateAction<any>>
-  status_success_queue019a2: any,
-  setstatus_success_queue019a2:React.Dispatch<React.SetStateAction<any>>
-  status_success_queue019a2Props: any 
-  setstatus_success_queue019a2Props: React.Dispatch<React.SetStateAction<any>>
-  product_code_return_queuee5e11: any,
-  setproduct_code_return_queuee5e11:React.Dispatch<React.SetStateAction<any>>
-  product_code_return_queuee5e11Props: any 
-  setproduct_code_return_queuee5e11Props: React.Dispatch<React.SetStateAction<any>>
-  channel_name_return_queuebdabb: any,
-  setchannel_name_return_queuebdabb:React.Dispatch<React.SetStateAction<any>>
-  channel_name_return_queuebdabbProps: any 
-  setchannel_name_return_queuebdabbProps: React.Dispatch<React.SetStateAction<any>>
-  uuid_return_queue958c9: any,
-  setuuid_return_queue958c9:React.Dispatch<React.SetStateAction<any>>
-  uuid_return_queue958c9Props: any 
-  setuuid_return_queue958c9Props: React.Dispatch<React.SetStateAction<any>>
-  dr_account_return_queuee94b2: any,
-  setdr_account_return_queuee94b2:React.Dispatch<React.SetStateAction<any>>
-  dr_account_return_queuee94b2Props: any 
-  setdr_account_return_queuee94b2Props: React.Dispatch<React.SetStateAction<any>>
-  dr_amount_return_queue2f324: any,
-  setdr_amount_return_queue2f324:React.Dispatch<React.SetStateAction<any>>
-  dr_amount_return_queue2f324Props: any 
-  setdr_amount_return_queue2f324Props: React.Dispatch<React.SetStateAction<any>>
-  cr_account_return_queue21a57: any,
-  setcr_account_return_queue21a57:React.Dispatch<React.SetStateAction<any>>
-  cr_account_return_queue21a57Props: any 
-  setcr_account_return_queue21a57Props: React.Dispatch<React.SetStateAction<any>>
-  cr_amount_return_queue13fec: any,
-  setcr_amount_return_queue13fec:React.Dispatch<React.SetStateAction<any>>
-  cr_amount_return_queue13fecProps: any 
-  setcr_amount_return_queue13fecProps: React.Dispatch<React.SetStateAction<any>>
-  remittance_info_return_queuef37f7: any,
-  setremittance_info_return_queuef37f7:React.Dispatch<React.SetStateAction<any>>
-  remittance_info_return_queuef37f7Props: any 
-  setremittance_info_return_queuef37f7Props: React.Dispatch<React.SetStateAction<any>>
-  status_return_queue95903: any,
-  setstatus_return_queue95903:React.Dispatch<React.SetStateAction<any>>
-  status_return_queue95903Props: any 
-  setstatus_return_queue95903Props: React.Dispatch<React.SetStateAction<any>>
-  divider_top0354b: any,
-  setdivider_top0354b:React.Dispatch<React.SetStateAction<any>>
-  divider_top0354bProps: any 
-  setdivider_top0354bProps: React.Dispatch<React.SetStateAction<any>>
-  trs_created_date2cea8: any,
-  settrs_created_date2cea8:React.Dispatch<React.SetStateAction<any>>
-  trs_created_date2cea8Props: any 
-  settrs_created_date2cea8Props: React.Dispatch<React.SetStateAction<any>>
-  debtor_account_no963e4: any,
-  setdebtor_account_no963e4:React.Dispatch<React.SetStateAction<any>>
-  debtor_account_no963e4Props: any 
-  setdebtor_account_no963e4Props: React.Dispatch<React.SetStateAction<any>>
-  debtor_namee2d9f: any,
-  setdebtor_namee2d9f:React.Dispatch<React.SetStateAction<any>>
-  debtor_namee2d9fProps: any 
-  setdebtor_namee2d9fProps: React.Dispatch<React.SetStateAction<any>>
-  creditor_account_noca692: any,
-  setcreditor_account_noca692:React.Dispatch<React.SetStateAction<any>>
-  creditor_account_noca692Props: any 
-  setcreditor_account_noca692Props: React.Dispatch<React.SetStateAction<any>>
-  payment_currency703d2: any,
-  setpayment_currency703d2:React.Dispatch<React.SetStateAction<any>>
-  payment_currency703d2Props: any 
-  setpayment_currency703d2Props: React.Dispatch<React.SetStateAction<any>>
-  payment_amount042b1: any,
-  setpayment_amount042b1:React.Dispatch<React.SetStateAction<any>>
-  payment_amount042b1Props: any 
-  setpayment_amount042b1Props: React.Dispatch<React.SetStateAction<any>>
-  uuid29c9f: any,
-  setuuid29c9f:React.Dispatch<React.SetStateAction<any>>
-  uuid29c9fProps: any 
-  setuuid29c9fProps: React.Dispatch<React.SetStateAction<any>>
-  channel26e83: any,
-  setchannel26e83:React.Dispatch<React.SetStateAction<any>>
-  channel26e83Props: any 
-  setchannel26e83Props: React.Dispatch<React.SetStateAction<any>>
-  processstatus134a1: any,
-  setprocessstatus134a1:React.Dispatch<React.SetStateAction<any>>
-  processstatus134a1Props: any 
-  setprocessstatus134a1Props: React.Dispatch<React.SetStateAction<any>>
-  status4bd75: any,
-  setstatus4bd75:React.Dispatch<React.SetStateAction<any>>
-  status4bd75Props: any 
-  setstatus4bd75Props: React.Dispatch<React.SetStateAction<any>>
-  divider_bottom72ab5: any,
-  setdivider_bottom72ab5:React.Dispatch<React.SetStateAction<any>>
-  divider_bottom72ab5Props: any 
-  setdivider_bottom72ab5Props: React.Dispatch<React.SetStateAction<any>>
-  search0e695: any,
-  setsearch0e695:React.Dispatch<React.SetStateAction<any>>
-  search0e695Props: any 
-  setsearch0e695Props: React.Dispatch<React.SetStateAction<any>>
-  cleareddfa: any,
-  setcleareddfa:React.Dispatch<React.SetStateAction<any>>
-  cleareddfaProps: any 
-  setcleareddfaProps: React.Dispatch<React.SetStateAction<any>>
-  tran_journey1602a: any,
-  settran_journey1602a:React.Dispatch<React.SetStateAction<any>>
-  tran_journey1602aProps: any 
-  settran_journey1602aProps: React.Dispatch<React.SetStateAction<any>>
-  divider_tope6917: any,
-  setdivider_tope6917:React.Dispatch<React.SetStateAction<any>>
-  divider_tope6917Props: any 
-  setdivider_tope6917Props: React.Dispatch<React.SetStateAction<any>>
-  transaction_date_time_label669d7: any,
-  settransaction_date_time_label669d7:React.Dispatch<React.SetStateAction<any>>
-  transaction_date_time_label669d7Props: any 
-  settransaction_date_time_label669d7Props: React.Dispatch<React.SetStateAction<any>>
-  status_labelf3713: any,
-  setstatus_labelf3713:React.Dispatch<React.SetStateAction<any>>
-  status_labelf3713Props: any 
-  setstatus_labelf3713Props: React.Dispatch<React.SetStateAction<any>>
-  transaction_date_time14856: any,
-  settransaction_date_time14856:React.Dispatch<React.SetStateAction<any>>
-  transaction_date_time14856Props: any 
-  settransaction_date_time14856Props: React.Dispatch<React.SetStateAction<any>>
-  status88bc7: any,
-  setstatus88bc7:React.Dispatch<React.SetStateAction<any>>
-  status88bc7Props: any 
-  setstatus88bc7Props: React.Dispatch<React.SetStateAction<any>>
-  processed_by_label542e8: any,
-  setprocessed_by_label542e8:React.Dispatch<React.SetStateAction<any>>
-  processed_by_label542e8Props: any 
-  setprocessed_by_label542e8Props: React.Dispatch<React.SetStateAction<any>>
-  debit_account_label3b1b7: any,
-  setdebit_account_label3b1b7:React.Dispatch<React.SetStateAction<any>>
-  debit_account_label3b1b7Props: any 
-  setdebit_account_label3b1b7Props: React.Dispatch<React.SetStateAction<any>>
-  processed_byd2b69: any,
-  setprocessed_byd2b69:React.Dispatch<React.SetStateAction<any>>
-  processed_byd2b69Props: any 
-  setprocessed_byd2b69Props: React.Dispatch<React.SetStateAction<any>>
-  debit_account36b40: any,
-  setdebit_account36b40:React.Dispatch<React.SetStateAction<any>>
-  debit_account36b40Props: any 
-  setdebit_account36b40Props: React.Dispatch<React.SetStateAction<any>>
-  currency_labele21ba: any,
-  setcurrency_labele21ba:React.Dispatch<React.SetStateAction<any>>
-  currency_labele21baProps: any 
-  setcurrency_labele21baProps: React.Dispatch<React.SetStateAction<any>>
-  credit_account_label65c7b: any,
-  setcredit_account_label65c7b:React.Dispatch<React.SetStateAction<any>>
-  credit_account_label65c7bProps: any 
-  setcredit_account_label65c7bProps: React.Dispatch<React.SetStateAction<any>>
-  currency9c8a2: any,
-  setcurrency9c8a2:React.Dispatch<React.SetStateAction<any>>
-  currency9c8a2Props: any 
-  setcurrency9c8a2Props: React.Dispatch<React.SetStateAction<any>>
-  credit_account0d1f4: any,
-  setcredit_account0d1f4:React.Dispatch<React.SetStateAction<any>>
-  credit_account0d1f4Props: any 
-  setcredit_account0d1f4Props: React.Dispatch<React.SetStateAction<any>>
-  amount_labelfd725: any,
-  setamount_labelfd725:React.Dispatch<React.SetStateAction<any>>
-  amount_labelfd725Props: any 
-  setamount_labelfd725Props: React.Dispatch<React.SetStateAction<any>>
-  transaction_reference_labelb1ca9: any,
-  settransaction_reference_labelb1ca9:React.Dispatch<React.SetStateAction<any>>
-  transaction_reference_labelb1ca9Props: any 
-  settransaction_reference_labelb1ca9Props: React.Dispatch<React.SetStateAction<any>>
-  amount01416: any,
-  setamount01416:React.Dispatch<React.SetStateAction<any>>
-  amount01416Props: any 
-  setamount01416Props: React.Dispatch<React.SetStateAction<any>>
-  transaction_reference500d6: any,
-  settransaction_reference500d6:React.Dispatch<React.SetStateAction<any>>
-  transaction_reference500d6Props: any 
-  settransaction_reference500d6Props: React.Dispatch<React.SetStateAction<any>>
-  divider_bottom8bad5: any,
-  setdivider_bottom8bad5:React.Dispatch<React.SetStateAction<any>>
-  divider_bottom8bad5Props: any 
-  setdivider_bottom8bad5Props: React.Dispatch<React.SetStateAction<any>>
-  view_msg_data_btne6a88: any,
-  setview_msg_data_btne6a88:React.Dispatch<React.SetStateAction<any>>
-  view_msg_data_btne6a88Props: any 
-  setview_msg_data_btne6a88Props: React.Dispatch<React.SetStateAction<any>>
-  view_tran_log_btn9cd8c: any,
-  setview_tran_log_btn9cd8c:React.Dispatch<React.SetStateAction<any>>
-  view_tran_log_btn9cd8cProps: any 
-  setview_tran_log_btn9cd8cProps: React.Dispatch<React.SetStateAction<any>>
-  divider_topf46a0: any,
-  setdivider_topf46a0:React.Dispatch<React.SetStateAction<any>>
-  divider_topf46a0Props: any 
-  setdivider_topf46a0Props: React.Dispatch<React.SetStateAction<any>>
-  xmlviewer9fe8d: any,
-  setxmlviewer9fe8d:React.Dispatch<React.SetStateAction<any>>
-  xmlviewer9fe8dProps: any 
-  setxmlviewer9fe8dProps: React.Dispatch<React.SetStateAction<any>>
-  divider_bottom6920d: any,
-  setdivider_bottom6920d:React.Dispatch<React.SetStateAction<any>>
-  divider_bottom6920dProps: any 
-  setdivider_bottom6920dProps: React.Dispatch<React.SetStateAction<any>>
-  cancel_btn5e840: any,
-  setcancel_btn5e840:React.Dispatch<React.SetStateAction<any>>
-  cancel_btn5e840Props: any 
-  setcancel_btn5e840Props: React.Dispatch<React.SetStateAction<any>>
-  req_jsonviewerc80ab: any,
-  setreq_jsonviewerc80ab:React.Dispatch<React.SetStateAction<any>>
-  req_jsonviewerc80abProps: any 
-  setreq_jsonviewerc80abProps: React.Dispatch<React.SetStateAction<any>>
-  res_jsonviewer9d6d1: any,
-  setres_jsonviewer9d6d1:React.Dispatch<React.SetStateAction<any>>
-  res_jsonviewer9d6d1Props: any 
-  setres_jsonviewer9d6d1Props: React.Dispatch<React.SetStateAction<any>>
+  grouped023: any 
+  setgrouped023: React.Dispatch<React.SetStateAction<any>>
+  grouped023Props: any 
+  setgrouped023Props: React.Dispatch<React.SetStateAction<any>>
+  dynamicactionsc9120: any 
+  setdynamicactionsc9120: React.Dispatch<React.SetStateAction<any>>
+  dynamicactionsc9120Props: any 
+  setdynamicactionsc9120Props: React.Dispatch<React.SetStateAction<any>>
+  dynamicactionsa32986: any 
+  setdynamicactionsa32986: React.Dispatch<React.SetStateAction<any>>
+  dynamicactionsa32986Props: any 
+  setdynamicactionsa32986Props: React.Dispatch<React.SetStateAction<any>>
+  table12312058a8: any 
+  settable12312058a8: React.Dispatch<React.SetStateAction<any>>
+  table12312058a8Props: any 
+  settable12312058a8Props: React.Dispatch<React.SetStateAction<any>>
+  tab_group03bf3: any 
+  settab_group03bf3: React.Dispatch<React.SetStateAction<any>>
+  tab_group03bf3Props: any 
+  settab_group03bf3Props: React.Dispatch<React.SetStateAction<any>>
+  tab_header_119fae: any 
+  settab_header_119fae: React.Dispatch<React.SetStateAction<any>>
+  tab_header_119faeProps: any 
+  settab_header_119faeProps: React.Dispatch<React.SetStateAction<any>>
+  gggg721e2: any 
+  setgggg721e2: React.Dispatch<React.SetStateAction<any>>
+  gggg721e2Props: any 
+  setgggg721e2Props: React.Dispatch<React.SetStateAction<any>>
+  tab_header_2d8952: any 
+  settab_header_2d8952: React.Dispatch<React.SetStateAction<any>>
+  tab_header_2d8952Props: any 
+  settab_header_2d8952Props: React.Dispatch<React.SetStateAction<any>>
+  xbxvvcv42015: any 
+  setxbxvvcv42015: React.Dispatch<React.SetStateAction<any>>
+  xbxvvcv42015Props: any 
+  setxbxvvcv42015Props: React.Dispatch<React.SetStateAction<any>>
+  group123488888: any 
+  setgroup123488888: React.Dispatch<React.SetStateAction<any>>
+  group123488888Props: any 
+  setgroup123488888Props: React.Dispatch<React.SetStateAction<any>>
+  stateaa824: any 
+  setstateaa824: React.Dispatch<React.SetStateAction<any>>
+  stateaa824Props: any 
+  setstateaa824Props: React.Dispatch<React.SetStateAction<any>>
+  groupaaa97733: any 
+  setgroupaaa97733: React.Dispatch<React.SetStateAction<any>>
+  groupaaa97733Props: any 
+  setgroupaaa97733Props: React.Dispatch<React.SetStateAction<any>>
+  groupb8f3d7: any 
+  setgroupb8f3d7: React.Dispatch<React.SetStateAction<any>>
+  groupb8f3d7Props: any 
+  setgroupb8f3d7Props: React.Dispatch<React.SetStateAction<any>>
+  groupc0c048: any 
+  setgroupc0c048: React.Dispatch<React.SetStateAction<any>>
+  groupc0c048Props: any 
+  setgroupc0c048Props: React.Dispatch<React.SetStateAction<any>>
+  groupd487a8: any 
+  setgroupd487a8: React.Dispatch<React.SetStateAction<any>>
+  groupd487a8Props: any 
+  setgroupd487a8Props: React.Dispatch<React.SetStateAction<any>>
+  group0e6f3: any 
+  setgroup0e6f3: React.Dispatch<React.SetStateAction<any>>
+  group0e6f3Props: any 
+  setgroup0e6f3Props: React.Dispatch<React.SetStateAction<any>>
+  group0843e: any 
+  setgroup0843e: React.Dispatch<React.SetStateAction<any>>
+  group0843eProps: any 
+  setgroup0843eProps: React.Dispatch<React.SetStateAction<any>>
+  group5635d: any 
+  setgroup5635d: React.Dispatch<React.SetStateAction<any>>
+  group5635dProps: any 
+  setgroup5635dProps: React.Dispatch<React.SetStateAction<any>>
+  grouparray81c1a: any 
+  setgrouparray81c1a: React.Dispatch<React.SetStateAction<any>>
+  grouparray81c1aProps: any 
+  setgrouparray81c1aProps: React.Dispatch<React.SetStateAction<any>>
+  grouparray81c1a_0: any 
+  setgrouparray81c1a_0: React.Dispatch<React.SetStateAction<any>>
+  grouparray81c1a_0Props: any 
+  setgrouparray81c1a_0Props: React.Dispatch<React.SetStateAction<any>>
+  grouparray81c1a_1: any 
+  setgrouparray81c1a_1: React.Dispatch<React.SetStateAction<any>>
+  grouparray81c1a_1Props: any 
+  setgrouparray81c1a_1Props: React.Dispatch<React.SetStateAction<any>>
+  grouparray81c1a_2: any 
+  setgrouparray81c1a_2: React.Dispatch<React.SetStateAction<any>>
+  grouparray81c1a_2Props: any 
+  setgrouparray81c1a_2Props: React.Dispatch<React.SetStateAction<any>>
+  grouparray81c1a_3: any 
+  setgrouparray81c1a_3: React.Dispatch<React.SetStateAction<any>>
+  grouparray81c1a_3Props: any 
+  setgrouparray81c1a_3Props: React.Dispatch<React.SetStateAction<any>>
+  grouparray81c1a_4: any 
+  setgrouparray81c1a_4: React.Dispatch<React.SetStateAction<any>>
+  grouparray81c1a_4Props: any 
+  setgrouparray81c1a_4Props: React.Dispatch<React.SetStateAction<any>>
+  grouparray81c1a_5: any 
+  setgrouparray81c1a_5: React.Dispatch<React.SetStateAction<any>>
+  grouparray81c1a_5Props: any 
+  setgrouparray81c1a_5Props: React.Dispatch<React.SetStateAction<any>>
+  grouparray81c1a_6: any 
+  setgrouparray81c1a_6: React.Dispatch<React.SetStateAction<any>>
+  grouparray81c1a_6Props: any 
+  setgrouparray81c1a_6Props: React.Dispatch<React.SetStateAction<any>>
+  tab_group4b1a3: any 
+  settab_group4b1a3: React.Dispatch<React.SetStateAction<any>>
+  tab_group4b1a3Props: any 
+  settab_group4b1a3Props: React.Dispatch<React.SetStateAction<any>>
+  tab_header_22515d: any 
+  settab_header_22515d: React.Dispatch<React.SetStateAction<any>>
+  tab_header_22515dProps: any 
+  settab_header_22515dProps: React.Dispatch<React.SetStateAction<any>>
+  groupb5565e: any 
+  setgroupb5565e: React.Dispatch<React.SetStateAction<any>>
+  groupb5565eProps: any 
+  setgroupb5565eProps: React.Dispatch<React.SetStateAction<any>>
+  table050eb: any 
+  settable050eb: React.Dispatch<React.SetStateAction<any>>
+  table050ebProps: any 
+  settable050ebProps: React.Dispatch<React.SetStateAction<any>>
+  tab_header_370ce9: any 
+  settab_header_370ce9: React.Dispatch<React.SetStateAction<any>>
+  tab_header_370ce9Props: any 
+  settab_header_370ce9Props: React.Dispatch<React.SetStateAction<any>>
+  groupa1825e: any 
+  setgroupa1825e: React.Dispatch<React.SetStateAction<any>>
+  groupa1825eProps: any 
+  setgroupa1825eProps: React.Dispatch<React.SetStateAction<any>>
+  group02593: any 
+  setgroup02593: React.Dispatch<React.SetStateAction<any>>
+  group02593Props: any 
+  setgroup02593Props: React.Dispatch<React.SetStateAction<any>>
+  group6c7b4: any 
+  setgroup6c7b4: React.Dispatch<React.SetStateAction<any>>
+  group6c7b4Props: any 
+  setgroup6c7b4Props: React.Dispatch<React.SetStateAction<any>>
+  buttona0ee1f: any,
+  setbuttona0ee1f:React.Dispatch<React.SetStateAction<any>>
+  buttona0ee1fProps: any 
+  setbuttona0ee1fProps: React.Dispatch<React.SetStateAction<any>>
+  buttonbe1b8e: any,
+  setbuttonbe1b8e:React.Dispatch<React.SetStateAction<any>>
+  buttonbe1b8eProps: any 
+  setbuttonbe1b8eProps: React.Dispatch<React.SetStateAction<any>>
+  buttonc177ba: any,
+  setbuttonc177ba:React.Dispatch<React.SetStateAction<any>>
+  buttonc177baProps: any 
+  setbuttonc177baProps: React.Dispatch<React.SetStateAction<any>>
+  buttond0665e: any,
+  setbuttond0665e:React.Dispatch<React.SetStateAction<any>>
+  buttond0665eProps: any 
+  setbuttond0665eProps: React.Dispatch<React.SetStateAction<any>>
+  value9087e: any,
+  setvalue9087e:React.Dispatch<React.SetStateAction<any>>
+  value9087eProps: any 
+  setvalue9087eProps: React.Dispatch<React.SetStateAction<any>>
+  switch63dd1: any,
+  setswitch63dd1:React.Dispatch<React.SetStateAction<any>>
+  switch63dd1Props: any 
+  setswitch63dd1Props: React.Dispatch<React.SetStateAction<any>>
+  textinput123292f1: any,
+  settextinput123292f1:React.Dispatch<React.SetStateAction<any>>
+  textinput123292f1Props: any 
+  settextinput123292f1Props: React.Dispatch<React.SetStateAction<any>>
+  buttoncc181d5: any,
+  setbuttoncc181d5:React.Dispatch<React.SetStateAction<any>>
+  buttoncc181d5Props: any 
+  setbuttoncc181d5Props: React.Dispatch<React.SetStateAction<any>>
+  buttonbb596df: any,
+  setbuttonbb596df:React.Dispatch<React.SetStateAction<any>>
+  buttonbb596dfProps: any 
+  setbuttonbb596dfProps: React.Dispatch<React.SetStateAction<any>>
+  buttonaaf8012: any,
+  setbuttonaaf8012:React.Dispatch<React.SetStateAction<any>>
+  buttonaaf8012Props: any 
+  setbuttonaaf8012Props: React.Dispatch<React.SetStateAction<any>>
+  dateandtimef72a6: any,
+  setdateandtimef72a6:React.Dispatch<React.SetStateAction<any>>
+  dateandtimef72a6Props: any 
+  setdateandtimef72a6Props: React.Dispatch<React.SetStateAction<any>>
+  datepickerb9ae2: any,
+  setdatepickerb9ae2:React.Dispatch<React.SetStateAction<any>>
+  datepickerb9ae2Props: any 
+  setdatepickerb9ae2Props: React.Dispatch<React.SetStateAction<any>>
+  dropdown16aa0: any,
+  setdropdown16aa0:React.Dispatch<React.SetStateAction<any>>
+  dropdown16aa0Props: any 
+  setdropdown16aa0Props: React.Dispatch<React.SetStateAction<any>>
+  textinput1f103: any,
+  settextinput1f103:React.Dispatch<React.SetStateAction<any>>
+  textinput1f103Props: any 
+  settextinput1f103Props: React.Dispatch<React.SetStateAction<any>>
+  name31e2e: any,
+  setname31e2e:React.Dispatch<React.SetStateAction<any>>
+  name31e2eProps: any 
+  setname31e2eProps: React.Dispatch<React.SetStateAction<any>>
+  hh6c7c1: any,
+  sethh6c7c1:React.Dispatch<React.SetStateAction<any>>
+  hh6c7c1Props: any 
+  sethh6c7c1Props: React.Dispatch<React.SetStateAction<any>>
+  routee4686: any,
+  setroutee4686:React.Dispatch<React.SetStateAction<any>>
+  routee4686Props: any 
+  setroutee4686Props: React.Dispatch<React.SetStateAction<any>>
+  rrrrb3f0c: any,
+  setrrrrb3f0c:React.Dispatch<React.SetStateAction<any>>
+  rrrrb3f0cProps: any 
+  setrrrrb3f0cProps: React.Dispatch<React.SetStateAction<any>>
+  xcvxvxce4e1f: any,
+  setxcvxvxce4e1f:React.Dispatch<React.SetStateAction<any>>
+  xcvxvxce4e1fProps: any 
+  setxcvxvxce4e1fProps: React.Dispatch<React.SetStateAction<any>>
+  buttondfgdf29503: any,
+  setbuttondfgdf29503:React.Dispatch<React.SetStateAction<any>>
+  buttondfgdf29503Props: any 
+  setbuttondfgdf29503Props: React.Dispatch<React.SetStateAction<any>>
+  buttondsdfsd487f1: any,
+  setbuttondsdfsd487f1:React.Dispatch<React.SetStateAction<any>>
+  buttondsdfsd487f1Props: any 
+  setbuttondsdfsd487f1Props: React.Dispatch<React.SetStateAction<any>>
+  country0bab5: any,
+  setcountry0bab5:React.Dispatch<React.SetStateAction<any>>
+  country0bab5Props: any 
+  setcountry0bab5Props: React.Dispatch<React.SetStateAction<any>>
+  city886d7: any,
+  setcity886d7:React.Dispatch<React.SetStateAction<any>>
+  city886d7Props: any 
+  setcity886d7Props: React.Dispatch<React.SetStateAction<any>>
+  lock00a31: any,
+  setlock00a31:React.Dispatch<React.SetStateAction<any>>
+  lock00a31Props: any 
+  setlock00a31Props: React.Dispatch<React.SetStateAction<any>>
+  otherdetails9c51d: any,
+  setotherdetails9c51d:React.Dispatch<React.SetStateAction<any>>
+  otherdetails9c51dProps: any 
+  setotherdetails9c51dProps: React.Dispatch<React.SetStateAction<any>>
+  ddd73ecf: any,
+  setddd73ecf:React.Dispatch<React.SetStateAction<any>>
+  ddd73ecfProps: any 
+  setddd73ecfProps: React.Dispatch<React.SetStateAction<any>>
+  text23423bb984: any,
+  settext23423bb984:React.Dispatch<React.SetStateAction<any>>
+  text23423bb984Props: any 
+  settext23423bb984Props: React.Dispatch<React.SetStateAction<any>>
+  text1231c2aa3: any,
+  settext1231c2aa3:React.Dispatch<React.SetStateAction<any>>
+  text1231c2aa3Props: any 
+  settext1231c2aa3Props: React.Dispatch<React.SetStateAction<any>>
+  text234245d6a: any,
+  settext234245d6a:React.Dispatch<React.SetStateAction<any>>
+  text234245d6aProps: any 
+  settext234245d6aProps: React.Dispatch<React.SetStateAction<any>>
+  text54509a93: any,
+  settext54509a93:React.Dispatch<React.SetStateAction<any>>
+  text54509a93Props: any 
+  settext54509a93Props: React.Dispatch<React.SetStateAction<any>>
+  datepicker123acd53: any,
+  setdatepicker123acd53:React.Dispatch<React.SetStateAction<any>>
+  datepicker123acd53Props: any 
+  setdatepicker123acd53Props: React.Dispatch<React.SetStateAction<any>>
+  comboboxa2ee09: any,
+  setcomboboxa2ee09:React.Dispatch<React.SetStateAction<any>>
+  comboboxa2ee09Props: any 
+  setcomboboxa2ee09Props: React.Dispatch<React.SetStateAction<any>>
+  textinputaee10: any,
+  settextinputaee10:React.Dispatch<React.SetStateAction<any>>
+  textinputaee10Props: any 
+  settextinputaee10Props: React.Dispatch<React.SetStateAction<any>>
+  comboboxb9056e: any,
+  setcomboboxb9056e:React.Dispatch<React.SetStateAction<any>>
+  comboboxb9056eProps: any 
+  setcomboboxb9056eProps: React.Dispatch<React.SetStateAction<any>>
+  comboboxccfb84: any,
+  setcomboboxccfb84:React.Dispatch<React.SetStateAction<any>>
+  comboboxccfb84Props: any 
+  setcomboboxccfb84Props: React.Dispatch<React.SetStateAction<any>>
+  textinput12354a98: any,
+  settextinput12354a98:React.Dispatch<React.SetStateAction<any>>
+  textinput12354a98Props: any 
+  settextinput12354a98Props: React.Dispatch<React.SetStateAction<any>>
+  datepicker0e91e: any,
+  setdatepicker0e91e:React.Dispatch<React.SetStateAction<any>>
+  datepicker0e91eProps: any 
+  setdatepicker0e91eProps: React.Dispatch<React.SetStateAction<any>>
+  button62ae4: any,
+  setbutton62ae4:React.Dispatch<React.SetStateAction<any>>
+  button62ae4Props: any 
+  setbutton62ae4Props: React.Dispatch<React.SetStateAction<any>>
+  textinput55664: any,
+  settextinput55664:React.Dispatch<React.SetStateAction<any>>
+  textinput55664Props: any 
+  settextinput55664Props: React.Dispatch<React.SetStateAction<any>>
+  comboboxb40b7: any,
+  setcomboboxb40b7:React.Dispatch<React.SetStateAction<any>>
+  comboboxb40b7Props: any 
+  setcomboboxb40b7Props: React.Dispatch<React.SetStateAction<any>>
+  textinput123123539f0: any,
+  settextinput123123539f0:React.Dispatch<React.SetStateAction<any>>
+  textinput123123539f0Props: any 
+  settextinput123123539f0Props: React.Dispatch<React.SetStateAction<any>>
+  pininputdfec6: any,
+  setpininputdfec6:React.Dispatch<React.SetStateAction<any>>
+  pininputdfec6Props: any 
+  setpininputdfec6Props: React.Dispatch<React.SetStateAction<any>>
+  text_to_speechdcae4: any,
+  settext_to_speechdcae4:React.Dispatch<React.SetStateAction<any>>
+  text_to_speechdcae4Props: any 
+  settext_to_speechdcae4Props: React.Dispatch<React.SetStateAction<any>>
+  country961dc: any,
+  setcountry961dc:React.Dispatch<React.SetStateAction<any>>
+  country961dcProps: any 
+  setcountry961dcProps: React.Dispatch<React.SetStateAction<any>>
+  ddd40a79: any,
+  setddd40a79:React.Dispatch<React.SetStateAction<any>>
+  ddd40a79Props: any 
+  setddd40a79Props: React.Dispatch<React.SetStateAction<any>>
+  textinput5c43e: any,
+  settextinput5c43e:React.Dispatch<React.SetStateAction<any>>
+  textinput5c43eProps: any 
+  settextinput5c43eProps: React.Dispatch<React.SetStateAction<any>>
+  textarea1bbf8: any,
+  settextarea1bbf8:React.Dispatch<React.SetStateAction<any>>
+  textarea1bbf8Props: any 
+  settextarea1bbf8Props: React.Dispatch<React.SetStateAction<any>>
+  textinput950e5: any,
+  settextinput950e5:React.Dispatch<React.SetStateAction<any>>
+  textinput950e5Props: any 
+  settextinput950e5Props: React.Dispatch<React.SetStateAction<any>>
+  textc76eb1: any,
+  settextc76eb1:React.Dispatch<React.SetStateAction<any>>
+  textc76eb1Props: any 
+  settextc76eb1Props: React.Dispatch<React.SetStateAction<any>>
+  texta1d27a: any,
+  settexta1d27a:React.Dispatch<React.SetStateAction<any>>
+  texta1d27aProps: any 
+  settexta1d27aProps: React.Dispatch<React.SetStateAction<any>>
+  textbca8ba: any,
+  settextbca8ba:React.Dispatch<React.SetStateAction<any>>
+  textbca8baProps: any 
+  settextbca8baProps: React.Dispatch<React.SetStateAction<any>>
+  editor2d754: any,
+  seteditor2d754:React.Dispatch<React.SetStateAction<any>>
+  editor2d754Props: any 
+  seteditor2d754Props: React.Dispatch<React.SetStateAction<any>>
 
 ////// screen states 
-  transaction_v1: any 
-  settransaction_v1: React.Dispatch<React.SetStateAction<any>>
-  transaction_v1Props: any 
-  settransaction_v1Props: React.Dispatch<React.SetStateAction<any>>
-  transactionsearch_v1: any 
-  settransactionsearch_v1: React.Dispatch<React.SetStateAction<any>>
-  transactionsearch_v1Props: any 
-  settransactionsearch_v1Props: React.Dispatch<React.SetStateAction<any>>
-  transactionjourney_v1: any 
-  settransactionjourney_v1: React.Dispatch<React.SetStateAction<any>>
-  transactionjourney_v1Props: any 
-  settransactionjourney_v1Props: React.Dispatch<React.SetStateAction<any>>
-  tranjourneydetails_v1: any 
-  settranjourneydetails_v1: React.Dispatch<React.SetStateAction<any>>
-  tranjourneydetails_v1Props: any 
-  settranjourneydetails_v1Props: React.Dispatch<React.SetStateAction<any>>
-  messagedataview_v1: any 
-  setmessagedataview_v1: React.Dispatch<React.SetStateAction<any>>
-  messagedataview_v1Props: any 
-  setmessagedataview_v1Props: React.Dispatch<React.SetStateAction<any>>
-  trandataview_v1: any 
-  settrandataview_v1: React.Dispatch<React.SetStateAction<any>>
-  trandataview_v1Props: any 
-  settrandataview_v1Props: React.Dispatch<React.SetStateAction<any>>
+  dynamicaction_v1: any 
+  setdynamicaction_v1: React.Dispatch<React.SetStateAction<any>>
+  dynamicaction_v1Props: any 
+  setdynamicaction_v1Props: React.Dispatch<React.SetStateAction<any>>
+  comboboxcheck_v1: any 
+  setcomboboxcheck_v1: React.Dispatch<React.SetStateAction<any>>
+  comboboxcheck_v1Props: any 
+  setcomboboxcheck_v1Props: React.Dispatch<React.SetStateAction<any>>
+  sample_test_v1: any 
+  setsample_test_v1: React.Dispatch<React.SetStateAction<any>>
+  sample_test_v1Props: any 
+  setsample_test_v1Props: React.Dispatch<React.SetStateAction<any>>
+  sample_test1_v1: any 
+  setsample_test1_v1: React.Dispatch<React.SetStateAction<any>>
+  sample_test1_v1Props: any 
+  setsample_test1_v1Props: React.Dispatch<React.SetStateAction<any>>
+  mycomps_v1: any 
+  setmycomps_v1: React.Dispatch<React.SetStateAction<any>>
+  mycomps_v1Props: any 
+  setmycomps_v1Props: React.Dispatch<React.SetStateAction<any>>
+  ffff_v1: any 
+  setffff_v1: React.Dispatch<React.SetStateAction<any>>
+  ffff_v1Props: any 
+  setffff_v1Props: React.Dispatch<React.SetStateAction<any>>
+  myreport_v1: any 
+  setmyreport_v1: React.Dispatch<React.SetStateAction<any>>
+  myreport_v1Props: any 
+  setmyreport_v1Props: React.Dispatch<React.SetStateAction<any>>
 
 ///////// dfd
-  dfd_combocurrencysearch_v1Props: any 
-  setdfd_combocurrencysearch_v1Props: React.Dispatch<React.SetStateAction<any>>
-  dfd_transaction_v1Props: any 
-  setdfd_transaction_v1Props: React.Dispatch<React.SetStateAction<any>>
-  dfd_processstatuscombosearch_v1Props: any 
-  setdfd_processstatuscombosearch_v1Props: React.Dispatch<React.SetStateAction<any>>
-  dfd_channelcombosearch_v1Props: any 
-  setdfd_channelcombosearch_v1Props: React.Dispatch<React.SetStateAction<any>>
-  dfd_journey_v1Props: any 
-  setdfd_journey_v1Props: React.Dispatch<React.SetStateAction<any>>
+  dfd_country_code_dfd_v1Props: any 
+  setdfd_country_code_dfd_v1Props: React.Dispatch<React.SetStateAction<any>>
 
   refetch: any,
   setRefetch: React.Dispatch<React.SetStateAction<any>>
@@ -485,8 +433,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     const [matchedAccessProfileData, setMatchedAccessProfileData] = React.useState<any>({})
     const pathname = usePathname()
       //////////
-        const [tran_main_group1dc7f, settran_main_group1dc7f ] = React.useState<any>({}) 
-    const [tran_main_group1dc7fProps, settran_main_group1dc7fProps ] = React.useState<any>({
+        const [grouped023, setgrouped023 ] = React.useState<any>({}) 
+    const [grouped023Props, setgrouped023Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -496,161 +444,17 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
-      ]
-      }) 
-        const [tran_tab_group08b64, settran_tab_group08b64 ] = React.useState<any>({}) 
-    const [tran_tab_group08b64Props, settran_tab_group08b64Props ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "outbound_or_inbound",
-            "search",
-            "refresh",
-            "download",
-      ]
-      }) 
-        const [view_all_tab4a963, setview_all_tab4a963 ] = React.useState<any>({}) 
-    const [view_all_tab4a963Props, setview_all_tab4a963Props ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-      ]
-      }) 
-    
-    const [view_all_tablec9e87, setview_all_tablec9e87 ] = React.useState<any>([]) 
-    const [view_all_tablec9e87Props, setview_all_tablec9e87Props ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      refresh:false,
-      filterInitalLoad: false,
-      }) 
-        const [failure_queue_tab69f01, setfailure_queue_tab69f01 ] = React.useState<any>({}) 
-    const [failure_queue_tab69f01Props, setfailure_queue_tab69f01Props ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-      ]
-      }) 
-    
-    const [failure_queue_tablea476f, setfailure_queue_tablea476f ] = React.useState<any>([]) 
-    const [failure_queue_tablea476fProps, setfailure_queue_tablea476fProps ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      refresh:false,
-      filterInitalLoad: false,
-      }) 
-        const [success_queue_tabef582, setsuccess_queue_tabef582 ] = React.useState<any>({}) 
-    const [success_queue_tabef582Props, setsuccess_queue_tabef582Props ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-      ]
-      }) 
-    
-    const [success_queue_table63aae, setsuccess_queue_table63aae ] = React.useState<any>([]) 
-    const [success_queue_table63aaeProps, setsuccess_queue_table63aaeProps ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      refresh:false,
-      filterInitalLoad: false,
-      }) 
-        const [return_queue_tab5611e, setreturn_queue_tab5611e ] = React.useState<any>({}) 
-    const [return_queue_tab5611eProps, setreturn_queue_tab5611eProps ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-      ]
-      }) 
-    
-    const [return_queue_table267f0, setreturn_queue_table267f0 ] = React.useState<any>([]) 
-    const [return_queue_table267f0Props, setreturn_queue_table267f0Props ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      refresh:false,
-      filterInitalLoad: false,
-      }) 
-        const [main_group9066f, setmain_group9066f ] = React.useState<any>({}) 
-    const [main_group9066fProps, setmain_group9066fProps ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "divider_top",
+            "value",
+            "switch",
+            "my_id",
+            "dateandtime",
             "trs_created_date",
-            "dr_account",
-            "dr_name",
-            "cr_account",
-            "payment_currency",
-            "payment_currency",
-            "dr_amount",
-            "uuid",
-            "channel",
-            "channel",
-            "processstatus",
-            "processstatus",
-            "trs_status",
-            "divider_bottom",
-            "search",
-            "clear",
+            "dropdown",
+            "my_id",
       ]
       }) 
-        const [tran_journey_group9eb2e, settran_journey_group9eb2e ] = React.useState<any>({}) 
-    const [tran_journey_group9eb2eProps, settran_journey_group9eb2eProps ] = React.useState<any>({
+        const [dynamicactionsc9120, setdynamicactionsc9120 ] = React.useState<any>({}) 
+    const [dynamicactionsc9120Props, setdynamicactionsc9120Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -660,11 +464,14 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
-            "vgphstm_uuid",
+            "buttona",
+            "buttonb",
+            "buttonc",
+            "buttond",
       ]
       }) 
-        const [journey_details_groupd9a0e, setjourney_details_groupd9a0e ] = React.useState<any>({}) 
-    const [journey_details_groupd9a0eProps, setjourney_details_groupd9a0eProps ] = React.useState<any>({
+        const [dynamicactionsa32986, setdynamicactionsa32986 ] = React.useState<any>({}) 
+    const [dynamicactionsa32986Props, setdynamicactionsa32986Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -674,30 +481,26 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
-            "divider_top",
-            "transaction_date_time_label",
-            "status_label",
-            "trs_created_date",
-            "result",
-            "processed_by_label",
-            "debit_account_label",
-            "processing_system",
-            "dr_account",
-            "currency_label",
-            "credit_account_label",
-            "dr_currency",
-            "cr_account",
-            "amount_label",
-            "transaction_reference_label",
-            "dr_amount",
-            "tran_reference",
-            "divider_bottom",
-            "view_msg_data_btn",
-            "view_tran_log_btn",
+            "buttoncc",
+            "buttonbb",
+            "buttonaa",
       ]
       }) 
-        const [tran_data_group84f25, settran_data_group84f25 ] = React.useState<any>({}) 
-    const [tran_data_group84f25Props, settran_data_group84f25Props ] = React.useState<any>({
+    
+    const [table12312058a8, settable12312058a8 ] = React.useState<any>([]) 
+    const [table12312058a8Props, settable12312058a8Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      refresh:false,
+      filterInitalLoad: false,
+      }) 
+        const [tab_group03bf3, settab_group03bf3 ] = React.useState<any>({}) 
+    const [tab_group03bf3Props, settab_group03bf3Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -707,13 +510,12 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
-            "divider_top",
-            "divider_bottom",
-            "cancel_btn",
+            "rrrr",
+            "xcvxvxc",
       ]
       }) 
-        const [req_data_group8d4d7, setreq_data_group8d4d7 ] = React.useState<any>({}) 
-    const [req_data_group8d4d7Props, setreq_data_group8d4d7Props ] = React.useState<any>({
+        const [tab_header_119fae, settab_header_119fae ] = React.useState<any>({}) 
+    const [tab_header_119faeProps, settab_header_119faeProps ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -723,11 +525,10 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
-            "request_data",
       ]
       }) 
-        const [res_data_group9d75a, setres_data_group9d75a ] = React.useState<any>({}) 
-    const [res_data_group9d75aProps, setres_data_group9d75aProps ] = React.useState<any>({
+        const [gggg721e2, setgggg721e2 ] = React.useState<any>({}) 
+    const [gggg721e2Props, setgggg721e2Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -737,266 +538,408 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
-            "response_data",
+            "buttondfgdf",
       ]
       }) 
-   const [outbound_or_inbound5e076,setoutbound_or_inbound5e076] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [searchcc244,setsearchcc244] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [refresh313d0,setrefresh313d0] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [downloadcb505,setdownloadcb505] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [product_code_view_allb0df6,setproduct_code_view_allb0df6] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [channel_name_view_all33724,setchannel_name_view_all33724] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [uuid_view_allc0a46,setuuid_view_allc0a46] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [dr_account_view_all54da6,setdr_account_view_all54da6] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [dr_amount_view_all88d6b,setdr_amount_view_all88d6b] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [cr_account_view_alld4b39,setcr_account_view_alld4b39] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [cr_amount_view_all19d14,setcr_amount_view_all19d14] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [remittance_info_view_all82afd,setremittance_info_view_all82afd] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [status_view_all47e6b,setstatus_view_all47e6b] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [log_btnfe134,setlog_btnfe134] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [product_code_failure_queue12297,setproduct_code_failure_queue12297] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [channel_name_failure_queue42953,setchannel_name_failure_queue42953] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [uuid_failure_queue03c86,setuuid_failure_queue03c86] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [dr_account_failure_queuef9d2d,setdr_account_failure_queuef9d2d] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [dr_amount_failure_queue95d4e,setdr_amount_failure_queue95d4e] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [cr_account_failure_queuea7246,setcr_account_failure_queuea7246] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [cr_amount_failure_queue57c4d,setcr_amount_failure_queue57c4d] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [remittance_info_failure_queue09d7a,setremittance_info_failure_queue09d7a] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [status_failure_queue0aef8,setstatus_failure_queue0aef8] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [product_code_success_queue7c209,setproduct_code_success_queue7c209] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [channel_name_success_queueeddaf,setchannel_name_success_queueeddaf] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [uuid_success_queuec805b,setuuid_success_queuec805b] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [dr_account_operational_pending10a49,setdr_account_operational_pending10a49] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [dr_amount_success_queueda254,setdr_amount_success_queueda254] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [cr_account_success_queue60480,setcr_account_success_queue60480] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [cr_amount_success_queueb80d4,setcr_amount_success_queueb80d4] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [remittance_info_success_queue2f950,setremittance_info_success_queue2f950] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [status_success_queue019a2,setstatus_success_queue019a2] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
+        const [tab_header_2d8952, settab_header_2d8952 ] = React.useState<any>({}) 
+    const [tab_header_2d8952Props, settab_header_2d8952Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        const [xbxvvcv42015, setxbxvvcv42015 ] = React.useState<any>({}) 
+    const [xbxvvcv42015Props, setxbxvvcv42015Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "buttondsdfsd",
+      ]
+      }) 
+        const [group123488888, setgroup123488888 ] = React.useState<any>({}) 
+    const [group123488888Props, setgroup123488888Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "comboboxa",
+            "comboboxa",
+            "textinput",
+            "comboboxb",
+            "comboboxb",
+            "comboboxc",
+            "comboboxc",
+            "textinput123",
+            "datepicker",
+      ]
+      }) 
+    
+    const [stateaa824, setstateaa824 ] = React.useState<any>([]) 
+    const [stateaa824Props, setstateaa824Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      refresh:false,
+      filterInitalLoad: false,
+      }) 
+        const [groupaaa97733, setgroupaaa97733 ] = React.useState<any>({}) 
+    const [groupaaa97733Props, setgroupaaa97733Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "text23423",
+      ]
+      }) 
+        const [groupb8f3d7, setgroupb8f3d7 ] = React.useState<any>({}) 
+    const [groupb8f3d7Props, setgroupb8f3d7Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "text1231",
+      ]
+      }) 
+        const [groupc0c048, setgroupc0c048 ] = React.useState<any>({}) 
+    const [groupc0c048Props, setgroupc0c048Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "text2342",
+      ]
+      }) 
+        const [groupd487a8, setgroupd487a8 ] = React.useState<any>({}) 
+    const [groupd487a8Props, setgroupd487a8Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "text545",
+            "datepicker123",
+      ]
+      }) 
+        const [group0e6f3, setgroup0e6f3 ] = React.useState<any>({}) 
+    const [group0e6f3Props, setgroup0e6f3Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "button",
+      ]
+      }) 
+        const [group0843e, setgroup0843e ] = React.useState<any>({}) 
+    const [group0843eProps, setgroup0843eProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "textinput",
+      ]
+      }) 
+        const [group5635d, setgroup5635d ] = React.useState<any>({}) 
+    const [group5635dProps, setgroup5635dProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "combobox",
+            "pininput",
+            "text_to_speech",
+      ]
+      }) 
+        const [grouparray81c1a, setgrouparray81c1a ] = React.useState<any>({}) 
+    const [grouparray81c1aProps, setgrouparray81c1aProps ] = React.useState<any>({
+      validation:false,
+
+      length:7,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "textinput123123",
+      ]
+      }) 
+        const [grouparray81c1a_0, setgrouparray81c1a_0 ] = React.useState<any>({}) 
+    const [grouparray81c1a_0Props, setgrouparray81c1a_0Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        const [grouparray81c1a_1, setgrouparray81c1a_1 ] = React.useState<any>({}) 
+    const [grouparray81c1a_1Props, setgrouparray81c1a_1Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        const [grouparray81c1a_2, setgrouparray81c1a_2 ] = React.useState<any>({}) 
+    const [grouparray81c1a_2Props, setgrouparray81c1a_2Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        const [grouparray81c1a_3, setgrouparray81c1a_3 ] = React.useState<any>({}) 
+    const [grouparray81c1a_3Props, setgrouparray81c1a_3Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        const [grouparray81c1a_4, setgrouparray81c1a_4 ] = React.useState<any>({}) 
+    const [grouparray81c1a_4Props, setgrouparray81c1a_4Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        const [grouparray81c1a_5, setgrouparray81c1a_5 ] = React.useState<any>({}) 
+    const [grouparray81c1a_5Props, setgrouparray81c1a_5Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        const [grouparray81c1a_6, setgrouparray81c1a_6 ] = React.useState<any>({}) 
+    const [grouparray81c1a_6Props, setgrouparray81c1a_6Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        const [tab_group4b1a3, settab_group4b1a3 ] = React.useState<any>({}) 
+    const [tab_group4b1a3Props, settab_group4b1a3Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        const [tab_header_22515d, settab_header_22515d ] = React.useState<any>({}) 
+    const [tab_header_22515dProps, settab_header_22515dProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        const [groupb5565e, setgroupb5565e ] = React.useState<any>({}) 
+    const [groupb5565eProps, setgroupb5565eProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+    
+    const [table050eb, settable050eb ] = React.useState<any>([]) 
+    const [table050ebProps, settable050ebProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      refresh:false,
+      filterInitalLoad: false,
+      }) 
+        const [tab_header_370ce9, settab_header_370ce9 ] = React.useState<any>({}) 
+    const [tab_header_370ce9Props, settab_header_370ce9Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        const [groupa1825e, setgroupa1825e ] = React.useState<any>({}) 
+    const [groupa1825eProps, setgroupa1825eProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "textinput",
+            "textarea",
+      ]
+      }) 
+        const [group02593, setgroup02593 ] = React.useState<any>({}) 
+    const [group02593Props, setgroup02593Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "button",
+            "textinput",
+            "textc",
+            "texta",
+            "textb",
+      ]
+      }) 
+        const [group6c7b4, setgroup6c7b4 ] = React.useState<any>({}) 
+    const [group6c7b4Props, setgroup6c7b4Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "my_id",
+      ]
+      }) 
+   const [buttona0ee1f,setbuttona0ee1f] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [buttonbe1b8e,setbuttonbe1b8e] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
     trigger: null
     }) 
-   const [product_code_return_queuee5e11,setproduct_code_return_queuee5e11] = React.useState<any>({
+   const [buttonc177ba,setbuttonc177ba] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1004,7 +947,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [channel_name_return_queuebdabb,setchannel_name_return_queuebdabb] = React.useState<any>({
+   const [buttond0665e,setbuttond0665e] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1012,7 +955,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [uuid_return_queue958c9,setuuid_return_queue958c9] = React.useState<any>({
+   const [value9087e,setvalue9087e] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1020,7 +963,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [dr_account_return_queuee94b2,setdr_account_return_queuee94b2] = React.useState<any>({
+   const [switch63dd1,setswitch63dd1] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1028,7 +971,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [dr_amount_return_queue2f324,setdr_amount_return_queue2f324] = React.useState<any>({
+   const [textinput123292f1,settextinput123292f1] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1036,7 +979,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [cr_account_return_queue21a57,setcr_account_return_queue21a57] = React.useState<any>({
+   const [buttoncc181d5,setbuttoncc181d5] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1044,7 +987,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [cr_amount_return_queue13fec,setcr_amount_return_queue13fec] = React.useState<any>({
+   const [buttonbb596df,setbuttonbb596df] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1052,7 +995,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [remittance_info_return_queuef37f7,setremittance_info_return_queuef37f7] = React.useState<any>({
+   const [buttonaaf8012,setbuttonaaf8012] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1060,7 +1003,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [status_return_queue95903,setstatus_return_queue95903] = React.useState<any>({
+   const [dateandtimef72a6,setdateandtimef72a6] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1068,7 +1011,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [divider_top0354b,setdivider_top0354b] = React.useState<any>({
+   const [datepickerb9ae2,setdatepickerb9ae2] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1076,7 +1019,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [trs_created_date2cea8,settrs_created_date2cea8] = React.useState<any>({
+   const [dropdown16aa0,setdropdown16aa0] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1084,7 +1027,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [debtor_account_no963e4,setdebtor_account_no963e4] = React.useState<any>({
+   const [textinput1f103,settextinput1f103] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1092,7 +1035,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [debtor_namee2d9f,setdebtor_namee2d9f] = React.useState<any>({
+   const [name31e2e,setname31e2e] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1100,7 +1043,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [creditor_account_noca692,setcreditor_account_noca692] = React.useState<any>({
+   const [hh6c7c1,sethh6c7c1] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1108,7 +1051,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [payment_currency703d2,setpayment_currency703d2] = React.useState<any>({
+   const [routee4686,setroutee4686] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1116,7 +1059,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [payment_amount042b1,setpayment_amount042b1] = React.useState<any>({
+   const [rrrrb3f0c,setrrrrb3f0c] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1124,7 +1067,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [uuid29c9f,setuuid29c9f] = React.useState<any>({
+   const [xcvxvxce4e1f,setxcvxvxce4e1f] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1132,7 +1075,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [channel26e83,setchannel26e83] = React.useState<any>({
+   const [buttondfgdf29503,setbuttondfgdf29503] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1140,7 +1083,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [processstatus134a1,setprocessstatus134a1] = React.useState<any>({
+   const [buttondsdfsd487f1,setbuttondsdfsd487f1] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1148,7 +1091,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [status4bd75,setstatus4bd75] = React.useState<any>({
+   const [country0bab5,setcountry0bab5] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1156,7 +1099,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [divider_bottom72ab5,setdivider_bottom72ab5] = React.useState<any>({
+   const [city886d7,setcity886d7] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1164,7 +1107,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [search0e695,setsearch0e695] = React.useState<any>({
+   const [lock00a31,setlock00a31] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1172,7 +1115,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [cleareddfa,setcleareddfa] = React.useState<any>({
+   const [otherdetails9c51d,setotherdetails9c51d] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1180,7 +1123,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [tran_journey1602a,settran_journey1602a] = React.useState<any>({
+   const [ddd73ecf,setddd73ecf] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1188,7 +1131,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [divider_tope6917,setdivider_tope6917] = React.useState<any>({
+   const [text23423bb984,settext23423bb984] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1196,7 +1139,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [transaction_date_time_label669d7,settransaction_date_time_label669d7] = React.useState<any>({
+   const [text1231c2aa3,settext1231c2aa3] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1204,7 +1147,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [status_labelf3713,setstatus_labelf3713] = React.useState<any>({
+   const [text234245d6a,settext234245d6a] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1212,7 +1155,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [transaction_date_time14856,settransaction_date_time14856] = React.useState<any>({
+   const [text54509a93,settext54509a93] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1220,7 +1163,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [status88bc7,setstatus88bc7] = React.useState<any>({
+   const [datepicker123acd53,setdatepicker123acd53] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1228,7 +1171,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [processed_by_label542e8,setprocessed_by_label542e8] = React.useState<any>({
+   const [comboboxa2ee09,setcomboboxa2ee09] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1236,7 +1179,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [debit_account_label3b1b7,setdebit_account_label3b1b7] = React.useState<any>({
+   const [textinputaee10,settextinputaee10] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1244,7 +1187,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [processed_byd2b69,setprocessed_byd2b69] = React.useState<any>({
+   const [comboboxb9056e,setcomboboxb9056e] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1252,7 +1195,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [debit_account36b40,setdebit_account36b40] = React.useState<any>({
+   const [comboboxccfb84,setcomboboxccfb84] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1260,7 +1203,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [currency_labele21ba,setcurrency_labele21ba] = React.useState<any>({
+   const [textinput12354a98,settextinput12354a98] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1268,7 +1211,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [credit_account_label65c7b,setcredit_account_label65c7b] = React.useState<any>({
+   const [datepicker0e91e,setdatepicker0e91e] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1276,7 +1219,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [currency9c8a2,setcurrency9c8a2] = React.useState<any>({
+   const [button62ae4,setbutton62ae4] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1284,7 +1227,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [credit_account0d1f4,setcredit_account0d1f4] = React.useState<any>({
+   const [textinput55664,settextinput55664] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1292,7 +1235,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [amount_labelfd725,setamount_labelfd725] = React.useState<any>({
+   const [comboboxb40b7,setcomboboxb40b7] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1300,7 +1243,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [transaction_reference_labelb1ca9,settransaction_reference_labelb1ca9] = React.useState<any>({
+   const [textinput123123539f0,settextinput123123539f0] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1308,7 +1251,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [amount01416,setamount01416] = React.useState<any>({
+   const [pininputdfec6,setpininputdfec6] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1316,7 +1259,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [transaction_reference500d6,settransaction_reference500d6] = React.useState<any>({
+   const [text_to_speechdcae4,settext_to_speechdcae4] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1324,7 +1267,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [divider_bottom8bad5,setdivider_bottom8bad5] = React.useState<any>({
+   const [country961dc,setcountry961dc] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1332,7 +1275,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [view_msg_data_btne6a88,setview_msg_data_btne6a88] = React.useState<any>({
+   const [ddd40a79,setddd40a79] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1340,7 +1283,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [view_tran_log_btn9cd8c,setview_tran_log_btn9cd8c] = React.useState<any>({
+   const [textinput5c43e,settextinput5c43e] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1348,7 +1291,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [divider_topf46a0,setdivider_topf46a0] = React.useState<any>({
+   const [textarea1bbf8,settextarea1bbf8] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1356,7 +1299,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [xmlviewer9fe8d,setxmlviewer9fe8d] = React.useState<any>({
+   const [textinput950e5,settextinput950e5] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1364,7 +1307,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [divider_bottom6920d,setdivider_bottom6920d] = React.useState<any>({
+   const [textc76eb1,settextc76eb1] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1372,7 +1315,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [cancel_btn5e840,setcancel_btn5e840] = React.useState<any>({
+   const [texta1d27a,settexta1d27a] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1380,7 +1323,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [req_jsonviewerc80ab,setreq_jsonviewerc80ab] = React.useState<any>({
+   const [textbca8ba,settextbca8ba] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1388,7 +1331,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [res_jsonviewer9d6d1,setres_jsonviewer9d6d1] = React.useState<any>({
+   const [editor2d754,seteditor2d754] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1397,144 +1340,133 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: null
     }) 
     ///////////
-    const [refresh, setRefresh] = React.useState<Record<string, boolean>>({       switchoutbound_or_inbound5e076:false,
-       buttonsearchcc244:false,
-       buttonrefresh313d0:false,
-       buttondownloadcb505:false,
-       columnproduct_code_view_allb0df6:false,
-       columnchannel_name_view_all33724:false,
-       columnuuid_view_allc0a46:false,
-       columndr_account_view_all54da6:false,
-       columndr_amount_view_all88d6b:false,
-       columncr_account_view_alld4b39:false,
-       columncr_Amount_view_all19d14:false,
-       columnremittance_info_view_all82afd:false,
-       columnstatus_view_all47e6b:false,
-       buttonlog_btnfe134:false,
-       columnproduct_code_failure_queue12297:false,
-       columnchannel_name_failure_queue42953:false,
-       columnuuid_failure_queue03c86:false,
-       columndr_account_failure_queuef9d2d:false,
-       columndr_amount_failure_queue95d4e:false,
-       columncr_account_failure_queuea7246:false,
-       columncr_Amount_failure_queue57c4d:false,
-       columnremittance_info_failure_queue09d7a:false,
-       columnstatus_failure_queue0aef8:false,
-       columnproduct_code_success_queue7c209:false,
-       columnchannel_name_success_queueeddaf:false,
-       columnuuid_success_queuec805b:false,
-       columndr_account_operational_pending10a49:false,
-       columndr_amount_success_queueda254:false,
-       columncr_account_success_queue60480:false,
-       columncr_Amount_success_queueb80d4:false,
-       columnremittance_info_success_queue2f950:false,
-       columnstatus_success_queue019a2:false,
-       columnproduct_code_return_queuee5e11:false,
-       columnchannel_name_return_queuebdabb:false,
-       columnuuid_return_queue958c9:false,
-       columndr_account_return_queuee94b2:false,
-       columndr_amount_return_queue2f324:false,
-       columncr_account_return_queue21a57:false,
-       columncr_Amount_return_queue13fec:false,
-       columnremittance_info_return_queuef37f7:false,
-       columnstatus_return_queue95903:false,
-       dividerdivider_top0354b:false,
-       datepickertrs_created_date2cea8:false,
-       textinputdebtor_account_no963e4:false,
-       textinputdebtor_namee2d9f:false,
-       textinputcreditor_account_noca692:false,
-       dropdownpayment_currency703d2:false,
-       textinputpayment_amount042b1:false,
-       textinputuuid29c9f:false,
-       dropdownchannel26e83:false,
-       dropdownprocessstatus134a1:false,
-       textinputstatus4bd75:false,
-       dividerdivider_bottom72ab5:false,
-       buttonsearch0e695:false,
-       buttoncleareddfa:false,
-       timelinetran_journey1602a:false,
-       dividerdivider_tope6917:false,
-       texttransaction_date_time_label669d7:false,
-       textstatus_labelf3713:false,
-       texttransaction_date_time14856:false,
-       textstatus88bc7:false,
-       textprocessed_by_label542e8:false,
-       textdebit_account_label3b1b7:false,
-       textprocessed_byd2b69:false,
-       textdebit_account36b40:false,
-       textcurrency_labele21ba:false,
-       textcredit_account_label65c7b:false,
-       textcurrency9c8a2:false,
-       textcredit_account0d1f4:false,
-       textamount_labelfd725:false,
-       texttransaction_reference_labelb1ca9:false,
-       textamount01416:false,
-       texttransaction_reference500d6:false,
-       dividerdivider_bottom8bad5:false,
-       buttonview_msg_data_btne6a88:false,
-       buttonview_tran_log_btn9cd8c:false,
-       dividerdivider_topf46a0:false,
-       xmlviewerxmlviewer9fe8d:false,
-       dividerdivider_bottom6920d:false,
-       buttoncancel_btn5e840:false,
-       jsonviewerreq_jsonviewerc80ab:false,
-       jsonviewerres_jsonviewer9d6d1:false,
-       grouptran_main_group1dc7f:false,
-       grouptran_tab_group08b64:false,
-       groupview_all_tab4a963:false,
-       tableview_all_tablec9e87:false,
-       groupfailure_queue_tab69f01:false,
-       tablefailure_queue_tablea476f:false,
-       groupsuccess_queue_tabef582:false,
-       tablesuccess_queue_table63aae:false,
-       groupreturn_queue_tab5611e:false,
-       tablereturn_queue_table267f0:false,
-       groupmain_group9066f:false,
-       grouptran_journey_group9eb2e:false,
-       groupjourney_details_groupd9a0e:false,
-       grouptran_data_group84f25:false,
-       groupreq_data_group8d4d7:false,
-       groupres_data_group9d75a:false,
+    const [refresh, setRefresh] = React.useState<Record<string, boolean>>({       buttonbuttona0ee1f:false,
+       buttonbuttonbe1b8e:false,
+       buttonbuttonc177ba:false,
+       buttonbuttond0665e:false,
+       textinputvalue9087e:false,
+       switchswitch63dd1:false,
+       textinputtextinput123292f1:false,
+       buttonbuttoncc181d5:false,
+       buttonbuttonbb596df:false,
+       buttonbuttonaaf8012:false,
+       dateandtimedateandtimef72a6:false,
+       datepickerdatepickerb9ae2:false,
+       dropdowndropdown16aa0:false,
+       textinputtextinput1f103:false,
+       columnname31e2e:false,
+       buttonhh6c7c1:false,
+       buttonroutee4686:false,
+       buttonrrrrb3f0c:false,
+       buttonxcvxvxce4e1f:false,
+       buttonbuttondfgdf29503:false,
+       buttonbuttondsdfsd487f1:false,
+       columncountry0bab5:false,
+       columncity886d7:false,
+       buttonlock00a31:false,
+       columnotherdetails9c51d:false,
+       buttonddd73ecf:false,
+       texttext23423bb984:false,
+       texttext1231c2aa3:false,
+       texttext234245d6a:false,
+       texttext54509a93:false,
+       datepickerdatepicker123acd53:false,
+       comboboxcomboboxa2ee09:false,
+       textinputtextinputaee10:false,
+       comboboxcomboboxb9056e:false,
+       comboboxcomboboxccfb84:false,
+       textinputtextinput12354a98:false,
+       datepickerdatepicker0e91e:false,
+       buttonbutton62ae4:false,
+       textinputtextinput55664:false,
+       comboboxcomboboxb40b7:false,
+       textinputtextinput123123539f0:false,
+       pininputpininputdfec6:false,
+       text_to_speechtext_to_speechdcae4:false,
+       columncountry961dc:false,
+       buttonddd40a79:false,
+       textinputtextinput5c43e:false,
+       textareatextarea1bbf8:false,
+       textinputtextinput950e5:false,
+       texttextc76eb1:false,
+       texttexta1d27a:false,
+       texttextbca8ba:false,
+       editoreditor2d754:false,
+       groupgrouped023:false,
+       groupdynamicactionsc9120:false,
+       groupdynamicactionsa32986:false,
+       tabletable12312058a8:false,
+       grouptab_group03bf3:false,
+       grouptab_header_119fae:false,
+       groupgggg721e2:false,
+       grouptab_header_2d8952:false,
+       groupxbxvvcv42015:false,
+       groupgroup123488888:false,
+       tablestateaa824:false,
+       groupgroupaaa97733:false,
+       groupgroupb8f3d7:false,
+       groupgroupc0c048:false,
+       groupgroupd487a8:false,
+       groupgroup0e6f3:false,
+       groupgroup0843e:false,
+       groupgroup5635d:false,
+       grouparraygrouparray81c1a:false,
+       grouparraygrouparray81c1a_0:false,
+       grouparraygrouparray81c1a_1:false,
+       grouparraygrouparray81c1a_2:false,
+       grouparraygrouparray81c1a_3:false,
+       grouparraygrouparray81c1a_4:false,
+       grouparraygrouparray81c1a_5:false,
+       grouparraygrouparray81c1a_6:false,
+       grouptab_group4b1a3:false,
+       grouptab_header_22515d:false,
+       groupgroupb5565e:false,
+       tabletable050eb:false,
+       grouptab_header_370ce9:false,
+       groupgroupa1825e:false,
+       groupgroup02593:false,
+       groupgroup6c7b4:false,
       })
 
   ////// screen states 
-  const [transaction_v1,settransaction_v1] = React.useState<any>({
+  const [dynamicaction_v1,setdynamicaction_v1] = React.useState<any>({
     _selectedGroup_:"",
     _selectionColor_:"!bg-blue-200"
     })
-  const [transaction_v1Props,settransaction_v1Props] = React.useState<any>({})
-  const [transactionsearch_v1,settransactionsearch_v1] = React.useState<any>({
+  const [dynamicaction_v1Props,setdynamicaction_v1Props] = React.useState<any>({})
+  const [comboboxcheck_v1,setcomboboxcheck_v1] = React.useState<any>({
     _selectedGroup_:"",
     _selectionColor_:"!bg-blue-200"
     })
-  const [transactionsearch_v1Props,settransactionsearch_v1Props] = React.useState<any>({})
-  const [transactionjourney_v1,settransactionjourney_v1] = React.useState<any>({
+  const [comboboxcheck_v1Props,setcomboboxcheck_v1Props] = React.useState<any>({})
+  const [sample_test_v1,setsample_test_v1] = React.useState<any>({
     _selectedGroup_:"",
     _selectionColor_:"!bg-blue-200"
     })
-  const [transactionjourney_v1Props,settransactionjourney_v1Props] = React.useState<any>({})
-  const [tranjourneydetails_v1,settranjourneydetails_v1] = React.useState<any>({
+  const [sample_test_v1Props,setsample_test_v1Props] = React.useState<any>({})
+  const [sample_test1_v1,setsample_test1_v1] = React.useState<any>({
     _selectedGroup_:"",
     _selectionColor_:"!bg-blue-200"
     })
-  const [tranjourneydetails_v1Props,settranjourneydetails_v1Props] = React.useState<any>({})
-  const [messagedataview_v1,setmessagedataview_v1] = React.useState<any>({
+  const [sample_test1_v1Props,setsample_test1_v1Props] = React.useState<any>({})
+  const [mycomps_v1,setmycomps_v1] = React.useState<any>({
     _selectedGroup_:"",
     _selectionColor_:"!bg-blue-200"
     })
-  const [messagedataview_v1Props,setmessagedataview_v1Props] = React.useState<any>({})
-  const [trandataview_v1,settrandataview_v1] = React.useState<any>({
+  const [mycomps_v1Props,setmycomps_v1Props] = React.useState<any>({})
+  const [ffff_v1,setffff_v1] = React.useState<any>({
     _selectedGroup_:"",
     _selectionColor_:"!bg-blue-200"
     })
-  const [trandataview_v1Props,settrandataview_v1Props] = React.useState<any>({})
+  const [ffff_v1Props,setffff_v1Props] = React.useState<any>({})
+  const [myreport_v1,setmyreport_v1] = React.useState<any>({
+    _selectedGroup_:"",
+    _selectionColor_:"!bg-blue-200"
+    })
+  const [myreport_v1Props,setmyreport_v1Props] = React.useState<any>({})
 
 ///////// dfd
-  const [dfd_combocurrencysearch_v1Props,setdfd_combocurrencysearch_v1Props] = React.useState<any>([])
-  const [dfd_transaction_v1Props,setdfd_transaction_v1Props] = React.useState<any>([])
-  const [dfd_processstatuscombosearch_v1Props,setdfd_processstatuscombosearch_v1Props] = React.useState<any>([])
-  const [dfd_channelcombosearch_v1Props,setdfd_channelcombosearch_v1Props] = React.useState<any>([])
-  const [dfd_journey_v1Props,setdfd_journey_v1Props] = React.useState<any>([])
+  const [dfd_country_code_dfd_v1Props,setdfd_country_code_dfd_v1Props] = React.useState<any>([])
     const [searchParam , setSearchParam] = React.useState<string>("")
     const [disableParam , setDisableParam] = React.useState<Record<string, boolean>>({})
     const [globalState , setGlobalState] = React.useState<Record<string, any>>({})
@@ -1558,7 +1490,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
 
 
   const emptifyStateValues=()=>{ // for refresh disable key values exapmle app RTGS
-    setoutbound_or_inbound5e076(
+    setbuttona0ee1f(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1567,7 +1499,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setsearchcc244(
+    setbuttonbe1b8e(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1576,7 +1508,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setrefresh313d0(
+    setbuttonc177ba(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1585,7 +1517,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setdownloadcb505(
+    setbuttond0665e(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1594,7 +1526,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setproduct_code_view_allb0df6(
+    setvalue9087e(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1603,7 +1535,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setchannel_name_view_all33724(
+    setswitch63dd1(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1612,7 +1544,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setuuid_view_allc0a46(
+    settextinput123292f1(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1621,7 +1553,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setdr_account_view_all54da6(
+    setbuttoncc181d5(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1630,7 +1562,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setdr_amount_view_all88d6b(
+    setbuttonbb596df(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1639,7 +1571,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcr_account_view_alld4b39(
+    setbuttonaaf8012(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1648,7 +1580,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcr_amount_view_all19d14(
+    setdateandtimef72a6(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1657,7 +1589,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setremittance_info_view_all82afd(
+    setdatepickerb9ae2(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1666,7 +1598,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setstatus_view_all47e6b(
+    setdropdown16aa0(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1675,7 +1607,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setlog_btnfe134(
+    settextinput1f103(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1684,7 +1616,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setproduct_code_failure_queue12297(
+    setname31e2e(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1693,7 +1625,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setchannel_name_failure_queue42953(
+    sethh6c7c1(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1702,7 +1634,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setuuid_failure_queue03c86(
+    setroutee4686(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1711,7 +1643,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setdr_account_failure_queuef9d2d(
+    setrrrrb3f0c(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1720,7 +1652,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setdr_amount_failure_queue95d4e(
+    setxcvxvxce4e1f(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1729,7 +1661,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcr_account_failure_queuea7246(
+    setbuttondfgdf29503(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1738,7 +1670,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcr_amount_failure_queue57c4d(
+    setbuttondsdfsd487f1(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1747,7 +1679,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setremittance_info_failure_queue09d7a(
+    setcountry0bab5(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1756,7 +1688,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setstatus_failure_queue0aef8(
+    setcity886d7(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1765,7 +1697,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setproduct_code_success_queue7c209(
+    setlock00a31(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1774,7 +1706,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setchannel_name_success_queueeddaf(
+    setotherdetails9c51d(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1783,7 +1715,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setuuid_success_queuec805b(
+    setddd73ecf(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1792,7 +1724,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setdr_account_operational_pending10a49(
+    settext23423bb984(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1801,7 +1733,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setdr_amount_success_queueda254(
+    settext1231c2aa3(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1810,7 +1742,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcr_account_success_queue60480(
+    settext234245d6a(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1819,7 +1751,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcr_amount_success_queueb80d4(
+    settext54509a93(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1828,7 +1760,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setremittance_info_success_queue2f950(
+    setdatepicker123acd53(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1837,7 +1769,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setstatus_success_queue019a2(
+    setcomboboxa2ee09(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1846,7 +1778,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setproduct_code_return_queuee5e11(
+    settextinputaee10(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1855,7 +1787,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setchannel_name_return_queuebdabb(
+    setcomboboxb9056e(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1864,7 +1796,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setuuid_return_queue958c9(
+    setcomboboxccfb84(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1873,7 +1805,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setdr_account_return_queuee94b2(
+    settextinput12354a98(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1882,7 +1814,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setdr_amount_return_queue2f324(
+    setdatepicker0e91e(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1891,7 +1823,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcr_account_return_queue21a57(
+    setbutton62ae4(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1900,7 +1832,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcr_amount_return_queue13fec(
+    settextinput55664(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1909,7 +1841,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setremittance_info_return_queuef37f7(
+    setcomboboxb40b7(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1918,7 +1850,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setstatus_return_queue95903(
+    settextinput123123539f0(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1927,7 +1859,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setdivider_top0354b(
+    setpininputdfec6(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1936,7 +1868,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    settrs_created_date2cea8(
+    settext_to_speechdcae4(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1945,7 +1877,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setdebtor_account_no963e4(
+    setcountry961dc(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1954,7 +1886,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setdebtor_namee2d9f(
+    setddd40a79(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1963,7 +1895,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcreditor_account_noca692(
+    settextinput5c43e(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1972,7 +1904,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setpayment_currency703d2(
+    settextarea1bbf8(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1981,7 +1913,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setpayment_amount042b1(
+    settextinput950e5(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1990,7 +1922,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setuuid29c9f(
+    settextc76eb1(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -1999,7 +1931,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setchannel26e83(
+    settexta1d27a(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -2008,7 +1940,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setprocessstatus134a1(
+    settextbca8ba(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -2017,277 +1949,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setstatus4bd75(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setdivider_bottom72ab5(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setsearch0e695(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setcleareddfa(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    settran_journey1602a(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setdivider_tope6917(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    settransaction_date_time_label669d7(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setstatus_labelf3713(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    settransaction_date_time14856(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setstatus88bc7(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setprocessed_by_label542e8(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setdebit_account_label3b1b7(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setprocessed_byd2b69(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setdebit_account36b40(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setcurrency_labele21ba(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setcredit_account_label65c7b(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setcurrency9c8a2(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setcredit_account0d1f4(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setamount_labelfd725(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    settransaction_reference_labelb1ca9(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setamount01416(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    settransaction_reference500d6(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setdivider_bottom8bad5(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setview_msg_data_btne6a88(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setview_tran_log_btn9cd8c(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setdivider_topf46a0(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setxmlviewer9fe8d(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setdivider_bottom6920d(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setcancel_btn5e840(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setreq_jsonviewerc80ab(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setres_jsonviewer9d6d1(
+    seteditor2d754(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -2312,272 +1974,280 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setCurrentToken,
         matchedAccessProfileData,
         setMatchedAccessProfileData,
-        tran_main_group1dc7f, 
-        settran_main_group1dc7f,
-        tran_main_group1dc7fProps, 
-        settran_main_group1dc7fProps,
-        tran_tab_group08b64, 
-        settran_tab_group08b64,
-        tran_tab_group08b64Props, 
-        settran_tab_group08b64Props,
-        view_all_tab4a963, 
-        setview_all_tab4a963,
-        view_all_tab4a963Props, 
-        setview_all_tab4a963Props,
-        view_all_tablec9e87, 
-        setview_all_tablec9e87,
-        view_all_tablec9e87Props, 
-        setview_all_tablec9e87Props,
-        failure_queue_tab69f01, 
-        setfailure_queue_tab69f01,
-        failure_queue_tab69f01Props, 
-        setfailure_queue_tab69f01Props,
-        failure_queue_tablea476f, 
-        setfailure_queue_tablea476f,
-        failure_queue_tablea476fProps, 
-        setfailure_queue_tablea476fProps,
-        success_queue_tabef582, 
-        setsuccess_queue_tabef582,
-        success_queue_tabef582Props, 
-        setsuccess_queue_tabef582Props,
-        success_queue_table63aae, 
-        setsuccess_queue_table63aae,
-        success_queue_table63aaeProps, 
-        setsuccess_queue_table63aaeProps,
-        return_queue_tab5611e, 
-        setreturn_queue_tab5611e,
-        return_queue_tab5611eProps, 
-        setreturn_queue_tab5611eProps,
-        return_queue_table267f0, 
-        setreturn_queue_table267f0,
-        return_queue_table267f0Props, 
-        setreturn_queue_table267f0Props,
-        main_group9066f, 
-        setmain_group9066f,
-        main_group9066fProps, 
-        setmain_group9066fProps,
-        tran_journey_group9eb2e, 
-        settran_journey_group9eb2e,
-        tran_journey_group9eb2eProps, 
-        settran_journey_group9eb2eProps,
-        journey_details_groupd9a0e, 
-        setjourney_details_groupd9a0e,
-        journey_details_groupd9a0eProps, 
-        setjourney_details_groupd9a0eProps,
-        tran_data_group84f25, 
-        settran_data_group84f25,
-        tran_data_group84f25Props, 
-        settran_data_group84f25Props,
-        req_data_group8d4d7, 
-        setreq_data_group8d4d7,
-        req_data_group8d4d7Props, 
-        setreq_data_group8d4d7Props,
-        res_data_group9d75a, 
-        setres_data_group9d75a,
-        res_data_group9d75aProps, 
-        setres_data_group9d75aProps,
-        outbound_or_inbound5e076,
-        setoutbound_or_inbound5e076, 
-        searchcc244,
-        setsearchcc244, 
-        refresh313d0,
-        setrefresh313d0, 
-        downloadcb505,
-        setdownloadcb505, 
-        product_code_view_allb0df6,
-        setproduct_code_view_allb0df6, 
-        channel_name_view_all33724,
-        setchannel_name_view_all33724, 
-        uuid_view_allc0a46,
-        setuuid_view_allc0a46, 
-        dr_account_view_all54da6,
-        setdr_account_view_all54da6, 
-        dr_amount_view_all88d6b,
-        setdr_amount_view_all88d6b, 
-        cr_account_view_alld4b39,
-        setcr_account_view_alld4b39, 
-        cr_amount_view_all19d14,
-        setcr_amount_view_all19d14, 
-        remittance_info_view_all82afd,
-        setremittance_info_view_all82afd, 
-        status_view_all47e6b,
-        setstatus_view_all47e6b, 
-        log_btnfe134,
-        setlog_btnfe134, 
-        product_code_failure_queue12297,
-        setproduct_code_failure_queue12297, 
-        channel_name_failure_queue42953,
-        setchannel_name_failure_queue42953, 
-        uuid_failure_queue03c86,
-        setuuid_failure_queue03c86, 
-        dr_account_failure_queuef9d2d,
-        setdr_account_failure_queuef9d2d, 
-        dr_amount_failure_queue95d4e,
-        setdr_amount_failure_queue95d4e, 
-        cr_account_failure_queuea7246,
-        setcr_account_failure_queuea7246, 
-        cr_amount_failure_queue57c4d,
-        setcr_amount_failure_queue57c4d, 
-        remittance_info_failure_queue09d7a,
-        setremittance_info_failure_queue09d7a, 
-        status_failure_queue0aef8,
-        setstatus_failure_queue0aef8, 
-        product_code_success_queue7c209,
-        setproduct_code_success_queue7c209, 
-        channel_name_success_queueeddaf,
-        setchannel_name_success_queueeddaf, 
-        uuid_success_queuec805b,
-        setuuid_success_queuec805b, 
-        dr_account_operational_pending10a49,
-        setdr_account_operational_pending10a49, 
-        dr_amount_success_queueda254,
-        setdr_amount_success_queueda254, 
-        cr_account_success_queue60480,
-        setcr_account_success_queue60480, 
-        cr_amount_success_queueb80d4,
-        setcr_amount_success_queueb80d4, 
-        remittance_info_success_queue2f950,
-        setremittance_info_success_queue2f950, 
-        status_success_queue019a2,
-        setstatus_success_queue019a2, 
-        product_code_return_queuee5e11,
-        setproduct_code_return_queuee5e11, 
-        channel_name_return_queuebdabb,
-        setchannel_name_return_queuebdabb, 
-        uuid_return_queue958c9,
-        setuuid_return_queue958c9, 
-        dr_account_return_queuee94b2,
-        setdr_account_return_queuee94b2, 
-        dr_amount_return_queue2f324,
-        setdr_amount_return_queue2f324, 
-        cr_account_return_queue21a57,
-        setcr_account_return_queue21a57, 
-        cr_amount_return_queue13fec,
-        setcr_amount_return_queue13fec, 
-        remittance_info_return_queuef37f7,
-        setremittance_info_return_queuef37f7, 
-        status_return_queue95903,
-        setstatus_return_queue95903, 
-        divider_top0354b,
-        setdivider_top0354b, 
-        trs_created_date2cea8,
-        settrs_created_date2cea8, 
-        debtor_account_no963e4,
-        setdebtor_account_no963e4, 
-        debtor_namee2d9f,
-        setdebtor_namee2d9f, 
-        creditor_account_noca692,
-        setcreditor_account_noca692, 
-        payment_currency703d2,
-        setpayment_currency703d2, 
-        payment_amount042b1,
-        setpayment_amount042b1, 
-        uuid29c9f,
-        setuuid29c9f, 
-        channel26e83,
-        setchannel26e83, 
-        processstatus134a1,
-        setprocessstatus134a1, 
-        status4bd75,
-        setstatus4bd75, 
-        divider_bottom72ab5,
-        setdivider_bottom72ab5, 
-        search0e695,
-        setsearch0e695, 
-        cleareddfa,
-        setcleareddfa, 
-        tran_journey1602a,
-        settran_journey1602a, 
-        divider_tope6917,
-        setdivider_tope6917, 
-        transaction_date_time_label669d7,
-        settransaction_date_time_label669d7, 
-        status_labelf3713,
-        setstatus_labelf3713, 
-        transaction_date_time14856,
-        settransaction_date_time14856, 
-        status88bc7,
-        setstatus88bc7, 
-        processed_by_label542e8,
-        setprocessed_by_label542e8, 
-        debit_account_label3b1b7,
-        setdebit_account_label3b1b7, 
-        processed_byd2b69,
-        setprocessed_byd2b69, 
-        debit_account36b40,
-        setdebit_account36b40, 
-        currency_labele21ba,
-        setcurrency_labele21ba, 
-        credit_account_label65c7b,
-        setcredit_account_label65c7b, 
-        currency9c8a2,
-        setcurrency9c8a2, 
-        credit_account0d1f4,
-        setcredit_account0d1f4, 
-        amount_labelfd725,
-        setamount_labelfd725, 
-        transaction_reference_labelb1ca9,
-        settransaction_reference_labelb1ca9, 
-        amount01416,
-        setamount01416, 
-        transaction_reference500d6,
-        settransaction_reference500d6, 
-        divider_bottom8bad5,
-        setdivider_bottom8bad5, 
-        view_msg_data_btne6a88,
-        setview_msg_data_btne6a88, 
-        view_tran_log_btn9cd8c,
-        setview_tran_log_btn9cd8c, 
-        divider_topf46a0,
-        setdivider_topf46a0, 
-        xmlviewer9fe8d,
-        setxmlviewer9fe8d, 
-        divider_bottom6920d,
-        setdivider_bottom6920d, 
-        cancel_btn5e840,
-        setcancel_btn5e840, 
-        req_jsonviewerc80ab,
-        setreq_jsonviewerc80ab, 
-        res_jsonviewer9d6d1,
-        setres_jsonviewer9d6d1, 
+        grouped023, 
+        setgrouped023,
+        grouped023Props, 
+        setgrouped023Props,
+        dynamicactionsc9120, 
+        setdynamicactionsc9120,
+        dynamicactionsc9120Props, 
+        setdynamicactionsc9120Props,
+        dynamicactionsa32986, 
+        setdynamicactionsa32986,
+        dynamicactionsa32986Props, 
+        setdynamicactionsa32986Props,
+        table12312058a8, 
+        settable12312058a8,
+        table12312058a8Props, 
+        settable12312058a8Props,
+        tab_group03bf3, 
+        settab_group03bf3,
+        tab_group03bf3Props, 
+        settab_group03bf3Props,
+        tab_header_119fae, 
+        settab_header_119fae,
+        tab_header_119faeProps, 
+        settab_header_119faeProps,
+        gggg721e2, 
+        setgggg721e2,
+        gggg721e2Props, 
+        setgggg721e2Props,
+        tab_header_2d8952, 
+        settab_header_2d8952,
+        tab_header_2d8952Props, 
+        settab_header_2d8952Props,
+        xbxvvcv42015, 
+        setxbxvvcv42015,
+        xbxvvcv42015Props, 
+        setxbxvvcv42015Props,
+        group123488888, 
+        setgroup123488888,
+        group123488888Props, 
+        setgroup123488888Props,
+        stateaa824, 
+        setstateaa824,
+        stateaa824Props, 
+        setstateaa824Props,
+        groupaaa97733, 
+        setgroupaaa97733,
+        groupaaa97733Props, 
+        setgroupaaa97733Props,
+        groupb8f3d7, 
+        setgroupb8f3d7,
+        groupb8f3d7Props, 
+        setgroupb8f3d7Props,
+        groupc0c048, 
+        setgroupc0c048,
+        groupc0c048Props, 
+        setgroupc0c048Props,
+        groupd487a8, 
+        setgroupd487a8,
+        groupd487a8Props, 
+        setgroupd487a8Props,
+        group0e6f3, 
+        setgroup0e6f3,
+        group0e6f3Props, 
+        setgroup0e6f3Props,
+        group0843e, 
+        setgroup0843e,
+        group0843eProps, 
+        setgroup0843eProps,
+        group5635d, 
+        setgroup5635d,
+        group5635dProps, 
+        setgroup5635dProps,
+        grouparray81c1a, 
+        setgrouparray81c1a,
+        grouparray81c1aProps, 
+        setgrouparray81c1aProps,
+        grouparray81c1a_0, 
+        setgrouparray81c1a_0,
+        grouparray81c1a_0Props, 
+        setgrouparray81c1a_0Props,
+        grouparray81c1a_1, 
+        setgrouparray81c1a_1,
+        grouparray81c1a_1Props, 
+        setgrouparray81c1a_1Props,
+        grouparray81c1a_2, 
+        setgrouparray81c1a_2,
+        grouparray81c1a_2Props, 
+        setgrouparray81c1a_2Props,
+        grouparray81c1a_3, 
+        setgrouparray81c1a_3,
+        grouparray81c1a_3Props, 
+        setgrouparray81c1a_3Props,
+        grouparray81c1a_4, 
+        setgrouparray81c1a_4,
+        grouparray81c1a_4Props, 
+        setgrouparray81c1a_4Props,
+        grouparray81c1a_5, 
+        setgrouparray81c1a_5,
+        grouparray81c1a_5Props, 
+        setgrouparray81c1a_5Props,
+        grouparray81c1a_6, 
+        setgrouparray81c1a_6,
+        grouparray81c1a_6Props, 
+        setgrouparray81c1a_6Props,
+        tab_group4b1a3, 
+        settab_group4b1a3,
+        tab_group4b1a3Props, 
+        settab_group4b1a3Props,
+        tab_header_22515d, 
+        settab_header_22515d,
+        tab_header_22515dProps, 
+        settab_header_22515dProps,
+        groupb5565e, 
+        setgroupb5565e,
+        groupb5565eProps, 
+        setgroupb5565eProps,
+        table050eb, 
+        settable050eb,
+        table050ebProps, 
+        settable050ebProps,
+        tab_header_370ce9, 
+        settab_header_370ce9,
+        tab_header_370ce9Props, 
+        settab_header_370ce9Props,
+        groupa1825e, 
+        setgroupa1825e,
+        groupa1825eProps, 
+        setgroupa1825eProps,
+        group02593, 
+        setgroup02593,
+        group02593Props, 
+        setgroup02593Props,
+        group6c7b4, 
+        setgroup6c7b4,
+        group6c7b4Props, 
+        setgroup6c7b4Props,
+        buttona0ee1f,
+        setbuttona0ee1f, 
+        buttonbe1b8e,
+        setbuttonbe1b8e, 
+        buttonc177ba,
+        setbuttonc177ba, 
+        buttond0665e,
+        setbuttond0665e, 
+        value9087e,
+        setvalue9087e, 
+        switch63dd1,
+        setswitch63dd1, 
+        textinput123292f1,
+        settextinput123292f1, 
+        buttoncc181d5,
+        setbuttoncc181d5, 
+        buttonbb596df,
+        setbuttonbb596df, 
+        buttonaaf8012,
+        setbuttonaaf8012, 
+        dateandtimef72a6,
+        setdateandtimef72a6, 
+        datepickerb9ae2,
+        setdatepickerb9ae2, 
+        dropdown16aa0,
+        setdropdown16aa0, 
+        textinput1f103,
+        settextinput1f103, 
+        name31e2e,
+        setname31e2e, 
+        hh6c7c1,
+        sethh6c7c1, 
+        routee4686,
+        setroutee4686, 
+        rrrrb3f0c,
+        setrrrrb3f0c, 
+        xcvxvxce4e1f,
+        setxcvxvxce4e1f, 
+        buttondfgdf29503,
+        setbuttondfgdf29503, 
+        buttondsdfsd487f1,
+        setbuttondsdfsd487f1, 
+        country0bab5,
+        setcountry0bab5, 
+        city886d7,
+        setcity886d7, 
+        lock00a31,
+        setlock00a31, 
+        otherdetails9c51d,
+        setotherdetails9c51d, 
+        ddd73ecf,
+        setddd73ecf, 
+        text23423bb984,
+        settext23423bb984, 
+        text1231c2aa3,
+        settext1231c2aa3, 
+        text234245d6a,
+        settext234245d6a, 
+        text54509a93,
+        settext54509a93, 
+        datepicker123acd53,
+        setdatepicker123acd53, 
+        comboboxa2ee09,
+        setcomboboxa2ee09, 
+        textinputaee10,
+        settextinputaee10, 
+        comboboxb9056e,
+        setcomboboxb9056e, 
+        comboboxccfb84,
+        setcomboboxccfb84, 
+        textinput12354a98,
+        settextinput12354a98, 
+        datepicker0e91e,
+        setdatepicker0e91e, 
+        button62ae4,
+        setbutton62ae4, 
+        textinput55664,
+        settextinput55664, 
+        comboboxb40b7,
+        setcomboboxb40b7, 
+        textinput123123539f0,
+        settextinput123123539f0, 
+        pininputdfec6,
+        setpininputdfec6, 
+        text_to_speechdcae4,
+        settext_to_speechdcae4, 
+        country961dc,
+        setcountry961dc, 
+        ddd40a79,
+        setddd40a79, 
+        textinput5c43e,
+        settextinput5c43e, 
+        textarea1bbf8,
+        settextarea1bbf8, 
+        textinput950e5,
+        settextinput950e5, 
+        textc76eb1,
+        settextc76eb1, 
+        texta1d27a,
+        settexta1d27a, 
+        textbca8ba,
+        settextbca8ba, 
+        editor2d754,
+        seteditor2d754, 
         ////// screen states 
-          transaction_v1,
-          settransaction_v1,
-          transaction_v1Props,
-          settransaction_v1Props,
-          transactionsearch_v1,
-          settransactionsearch_v1,
-          transactionsearch_v1Props,
-          settransactionsearch_v1Props,
-          transactionjourney_v1,
-          settransactionjourney_v1,
-          transactionjourney_v1Props,
-          settransactionjourney_v1Props,
-          tranjourneydetails_v1,
-          settranjourneydetails_v1,
-          tranjourneydetails_v1Props,
-          settranjourneydetails_v1Props,
-          messagedataview_v1,
-          setmessagedataview_v1,
-          messagedataview_v1Props,
-          setmessagedataview_v1Props,
-          trandataview_v1,
-          settrandataview_v1,
-          trandataview_v1Props,
-          settrandataview_v1Props,
+          dynamicaction_v1,
+          setdynamicaction_v1,
+          dynamicaction_v1Props,
+          setdynamicaction_v1Props,
+          comboboxcheck_v1,
+          setcomboboxcheck_v1,
+          comboboxcheck_v1Props,
+          setcomboboxcheck_v1Props,
+          sample_test_v1,
+          setsample_test_v1,
+          sample_test_v1Props,
+          setsample_test_v1Props,
+          sample_test1_v1,
+          setsample_test1_v1,
+          sample_test1_v1Props,
+          setsample_test1_v1Props,
+          mycomps_v1,
+          setmycomps_v1,
+          mycomps_v1Props,
+          setmycomps_v1Props,
+          ffff_v1,
+          setffff_v1,
+          ffff_v1Props,
+          setffff_v1Props,
+          myreport_v1,
+          setmyreport_v1,
+          myreport_v1Props,
+          setmyreport_v1Props,
         //////////
 
         ///////// dfd
-        dfd_combocurrencysearch_v1Props,
-        setdfd_combocurrencysearch_v1Props,
-        dfd_transaction_v1Props,
-        setdfd_transaction_v1Props,
-        dfd_processstatuscombosearch_v1Props,
-        setdfd_processstatuscombosearch_v1Props,
-        dfd_channelcombosearch_v1Props,
-        setdfd_channelcombosearch_v1Props,
-        dfd_journey_v1Props,
-        setdfd_journey_v1Props,
+        dfd_country_code_dfd_v1Props,
+        setdfd_country_code_dfd_v1Props,
         refetch,
         setRefetch,
         searchParam,

@@ -1,0 +1,3635 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/expLog": {
+      "post": {
+        "operationId": "AppController_getExceplogs",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/prcLog": {
+      "post": {
+        "operationId": "AppController_getProcessLog",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/setPrcLog": {
+      "post": {
+        "operationId": "AppController_setPrcLog",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrcLogInputDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogOutputDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "summary": "Set Process log in DFS",
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/setExpLog": {
+      "post": {
+        "operationId": "AppController_setExpLog",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpLogInputDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogOutputDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "summary": "Set Exception log in DFS",
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/dropLog": {
+      "delete": {
+        "operationId": "AppController_deleteLog",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/logSatus": {
+      "post": {
+        "description": "Accepts the raw AFSK process-log payload and returns a flat array of entries containing only nodeName, event, status, and DateAndTime.",
+        "operationId": "AppController_transform",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RawProcessLogInputDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully transformed process log entries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessLogResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "summary": "Transform process log",
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/logiccenter": {
+      "post": {
+        "operationId": "AppController_getLogicCenterValue",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/UF/screenRoute": {
+      "post": {
+        "operationId": "UfController_screenRoute",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/getAccessToken": {
+      "post": {
+        "operationId": "UfController_getAccessToken",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns updated token with the orps structure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Credentials"
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/getAccessTemplates": {
+      "get": {
+        "operationId": "UfController_getAccessTemplates",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns all possible access template of the loggedin user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Credentials"
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/upload": {
+      "post": {
+        "operationId": "UfController_uploadFile",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/download": {
+      "post": {
+        "description": "Download file from the specified path",
+        "operationId": "UfController_download",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Download file from seaweed direct URL",
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/gridfs": {
+      "post": {
+        "description": "Download file from the stored MongoDb GridFSBucket on specified path",
+        "operationId": "UfController_getFile",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Download file from MongoDb GridFSBucket",
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/setUpKey": {
+      "post": {
+        "description": "Retrieve properties for achieve branding,laguage,direction and forts",
+        "operationId": "UfController_setUpKey",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/setUpKeyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request parameters"
+          }
+        },
+        "summary": "Retrieve setUpKey properties",
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/OrchestrationBatch": {
+      "post": {
+        "operationId": "UfController_OrchestrationBatch",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/Orchestration": {
+      "post": {
+        "description": "Retrived action,code,rule,events,mapper,dstData,schemaData from the orchestration on level of artifacts,components and controls with the specified key",
+        "operationId": "UfController_Orchestration",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrchestrationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Common Details Fetched"
+          },
+          "201": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "summary": "Retrive orchestration properties for a artifacts,components and controls",
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/getMapperDetails": {
+      "post": {
+        "description": "Retrived dropdown component values from the table with mapped orchestraion",
+        "operationId": "UfController_getMapperDetails",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/getMapperDetailsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Get Mapper Details Completed"
+          },
+          "201": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "summary": "Retrive dropdown component values",
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/code": {
+      "post": {
+        "operationId": "UfController_codefilter",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/codefilterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/dfKey": {
+      "get": {
+        "description": "Fetch the DFD key for the specified ufKey and groupId with the mapped orchestration",
+        "operationId": "UfController_getDfkey",
+        "parameters": [
+          {
+            "name": "ufKey",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "example": "TGA:ABKUF:BUILD:ABC:mvp:bank:v2",
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get DFKey Completed"
+          },
+          "201": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "summary": "Fetch the DFD key",
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/PaginationDataFilter": {
+      "post": {
+        "description": "Fetch the records for the table component with the specified DST key",
+        "operationId": "UfController_paginationDataFilter",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/paginationDataFilterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Data PaginationDataFilter Completed"
+          },
+          "201": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "summary": "Fetch the records for the table component",
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/InitiatePF": {
+      "post": {
+        "description": "Retrived node property and event property from the specified PFD key",
+        "operationId": "UfController_InitiatePF",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InitiatePFDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request parameters"
+          }
+        },
+        "summary": "Retrive node property and event property from the processflow",
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/ifo": {
+      "post": {
+        "description": "Check the table records are mapped in the orchestration with the specified UF key",
+        "operationId": "UfController_ifo",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ifoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request parameters"
+          }
+        },
+        "summary": "Table records are mapped or not in the orchestration",
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/signin": {
+      "post": {
+        "description": "Token generated for the user based on the client, username, password",
+        "operationId": "UfController_signinToTorus",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/signinToTorusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request parameters"
+          }
+        },
+        "summary": "Token generated for the user",
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/myAccount-for-client": {
+      "get": {
+        "description": "Provide the template for the user based on the token",
+        "operationId": "UfController_MyAccountForClient",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Provide the template for the user",
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/logout": {
+      "get": {
+        "description": "Logout the user from the generated app based on the token",
+        "operationId": "UfController_logout",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/logoutDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Logout the user",
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/introspect": {
+      "get": {
+        "description": "If the token was expired ,It will return authenticate false",
+        "operationId": "UfController_introspectToken",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Check the expire time of the token",
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/pagination": {
+      "post": {
+        "operationId": "UfController_getpagination",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request parameters"
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/dataget": {
+      "post": {
+        "operationId": "UfController_dataGet",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Returns a list of all payments made by users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request parameters"
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/getAppSecurityData": {
+      "get": {
+        "operationId": "UfController_getAppSecurityData",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/getAPPSecurityTemplateData": {
+      "get": {
+        "operationId": "UfController_getAPPSecurityTemplateData",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/setJson": {
+      "post": {
+        "operationId": "UfController_setJson",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/getDFS": {
+      "post": {
+        "operationId": "UfController_getDFS",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/getUrlByVgphstdmId": {
+      "post": {
+        "operationId": "UfController_getUrlByVgphstdmId",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/uploadimg": {
+      "post": {
+        "operationId": "UfController_post_upload",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/readAMDKey": {
+      "get": {
+        "operationId": "UfController_readAMDKey",
+        "parameters": [
+          {
+            "name": "key",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/getResetPasswordOtp": {
+      "get": {
+        "operationId": "UfController_getResetPasswordOtp",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/verifyOtp": {
+      "get": {
+        "operationId": "UfController_verifyOtp",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/resetPassword": {
+      "patch": {
+        "operationId": "UfController_resetPassword",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/getNavbarData": {
+      "post": {
+        "operationId": "UfController_getNavbarData",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/app-list": {
+      "get": {
+        "operationId": "UfController_getAppList",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/sso": {
+      "post": {
+        "operationId": "UfController_sso",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/uploadFromLocalPath": {
+      "post": {
+        "operationId": "UfController_post_uploadFromLocalPath",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/app-tenant-app": {
+      "get": {
+        "operationId": "UfController_getAppTenantsLinkedWithApp",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/UF/fusionauth-credentials": {
+      "get": {
+        "operationId": "UfController_getFusionAuthCredentials",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "TG"
+        ]
+      }
+    },
+    "/te/eventEmitter": {
+      "post": {
+        "operationId": "TeController_pfEventEmitter",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pfDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Torus API"
+        ]
+      }
+    },
+    "/te/update": {
+      "post": {
+        "operationId": "TeController_getUpdate",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Torus API"
+        ]
+      }
+    },
+    "/te/save": {
+      "post": {
+        "operationId": "TeController_save",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Torus API"
+        ]
+      }
+    },
+    "/scheduler/startAllScheduler": {
+      "post": {
+        "description": "Start All Scheduler",
+        "operationId": "SchedulerController_startAllScheduler",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/start_all_scheduler"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Start All Scheduler",
+        "tags": [
+          "Scheduler API"
+        ]
+      }
+    },
+    "/scheduler/startSpecificScheduler": {
+      "post": {
+        "description": "Start Specific Scheduler",
+        "operationId": "SchedulerController_startSpecificScheduler",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/start_specific_scheduler"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Start Specific Scheduler",
+        "tags": [
+          "Scheduler API"
+        ]
+      }
+    },
+    "/scheduler/stopAllScheduler": {
+      "post": {
+        "description": "Stop All Scheduler",
+        "operationId": "SchedulerController_stopAllScheduler",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/stop_all_scheduler"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Stop All Scheduler",
+        "tags": [
+          "Scheduler API"
+        ]
+      }
+    },
+    "/scheduler/stopSpecificScheduler": {
+      "post": {
+        "description": "Stop Specific Scheduler",
+        "operationId": "SchedulerController_stopSpecificScheduler",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/stop_specific_scheduler"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Stop Specific Scheduler",
+        "tags": [
+          "Scheduler API"
+        ]
+      }
+    },
+    "/user/schema": {
+      "get": {
+        "description": "Retrive the datatype of the user table",
+        "operationId": "userController_findSchema",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/userEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "schema validation",
+        "tags": [
+          "ERD API"
+        ]
+      }
+    },
+    "/user/get": {
+      "get": {
+        "description": "Filter all the records from the user table",
+        "operationId": "userController_findAllmethod",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of records to fetch",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/userEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Filter the records",
+        "tags": [
+          "ERD API"
+        ]
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "description": "Read only one records from the user table",
+        "operationId": "userController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/userEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Fetch the only one record",
+        "tags": [
+          "ERD API"
+        ]
+      },
+      "patch": {
+        "description": "Update the record for the user table",
+        "operationId": "userController_update",
+        "parameters": [
+          {
+            "name": "xCdcaRole",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaUsername",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaRemarks",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaApprovalStatus",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateuserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/userEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update the record",
+        "tags": [
+          "ERD API"
+        ]
+      },
+      "delete": {
+        "description": "Delete the record for the user table",
+        "operationId": "userController_remove",
+        "parameters": [
+          {
+            "name": "xCdcaRole",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaUsername",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaRemarks",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaApprovalStatus",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/userEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete the record",
+        "tags": [
+          "ERD API"
+        ]
+      }
+    },
+    "/user": {
+      "get": {
+        "description": "Read all the records from the user table",
+        "operationId": "userController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/userEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Read all the records",
+        "tags": [
+          "ERD API"
+        ]
+      },
+      "post": {
+        "description": "Create the record for the user table",
+        "operationId": "userController_create",
+        "parameters": [
+          {
+            "name": "xCdcaRole",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaUsername",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaRemarks",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaApprovalStatus",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaApprovalID",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateuserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/userEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create the record",
+        "tags": [
+          "ERD API"
+        ]
+      }
+    },
+    "/user/find/first": {
+      "get": {
+        "description": "Read first record from the user table",
+        "operationId": "userController_findFirst",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/userEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Fetch the first record",
+        "tags": [
+          "ERD API"
+        ]
+      }
+    },
+    "/user/find/last": {
+      "get": {
+        "description": "Read last record from the user table",
+        "operationId": "userController_findLast",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/userEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Fetch the last record",
+        "tags": [
+          "ERD API"
+        ]
+      }
+    },
+    "/comboboxtable/schema": {
+      "get": {
+        "description": "Retrive the datatype of the comboboxtable table",
+        "operationId": "comboboxtableController_findSchema",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/comboboxtableEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "schema validation",
+        "tags": [
+          "ERD API"
+        ]
+      }
+    },
+    "/comboboxtable/get": {
+      "get": {
+        "description": "Filter all the records from the comboboxtable table",
+        "operationId": "comboboxtableController_findAllmethod",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of records to fetch",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/comboboxtableEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Filter the records",
+        "tags": [
+          "ERD API"
+        ]
+      }
+    },
+    "/comboboxtable/{my_id}": {
+      "get": {
+        "description": "Read only one records from the comboboxtable table",
+        "operationId": "comboboxtableController_findOne",
+        "parameters": [
+          {
+            "name": "my_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/comboboxtableEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Fetch the only one record",
+        "tags": [
+          "ERD API"
+        ]
+      },
+      "patch": {
+        "description": "Update the record for the comboboxtable table",
+        "operationId": "comboboxtableController_update",
+        "parameters": [
+          {
+            "name": "xCdcaRole",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaUsername",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaRemarks",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaApprovalStatus",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "my_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatecomboboxtableDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/comboboxtableEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update the record",
+        "tags": [
+          "ERD API"
+        ]
+      },
+      "delete": {
+        "description": "Delete the record for the comboboxtable table",
+        "operationId": "comboboxtableController_remove",
+        "parameters": [
+          {
+            "name": "xCdcaRole",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaUsername",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaRemarks",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaApprovalStatus",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "my_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/comboboxtableEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete the record",
+        "tags": [
+          "ERD API"
+        ]
+      }
+    },
+    "/comboboxtable": {
+      "get": {
+        "description": "Read all the records from the comboboxtable table",
+        "operationId": "comboboxtableController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/comboboxtableEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Read all the records",
+        "tags": [
+          "ERD API"
+        ]
+      },
+      "post": {
+        "description": "Create the record for the comboboxtable table",
+        "operationId": "comboboxtableController_create",
+        "parameters": [
+          {
+            "name": "xCdcaRole",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaUsername",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaRemarks",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaApprovalStatus",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xCdcaApprovalID",
+            "required": false,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatecomboboxtableDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/comboboxtableEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create the record",
+        "tags": [
+          "ERD API"
+        ]
+      }
+    },
+    "/comboboxtable/find/first": {
+      "get": {
+        "description": "Read first record from the comboboxtable table",
+        "operationId": "comboboxtableController_findFirst",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/comboboxtableEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Fetch the first record",
+        "tags": [
+          "ERD API"
+        ]
+      }
+    },
+    "/comboboxtable/find/last": {
+      "get": {
+        "description": "Read last record from the comboboxtable table",
+        "operationId": "comboboxtableController_findLast",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/comboboxtableEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Fetch the last record",
+        "tags": [
+          "ERD API"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Nest API",
+    "description": "The Nestjs API documentation",
+    "version": "0.1",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "ERD API",
+      "description": ""
+    },
+    {
+      "name": "Torus API",
+      "description": ""
+    },
+    {
+      "name": "Scheduler API",
+      "description": ""
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://tgadev2.toruslowcode.com/ct001/tgw/tgw004/v1/api",
+      "description": "Production Server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "JWT-auth": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "PrcnestedValue": {
+        "type": "object",
+        "properties": {}
+      },
+      "nestedData": {
+        "type": "object",
+        "properties": {
+          "currentDate": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-04-15T08:19:02.651Z"
+          },
+          "field": {
+            "type": "string",
+            "example": "CK:TT001:FNGK:AFP:FNK:PF-PFD:CATK:Torus20261:AFGK:Torus202601:AFK:Stop_Specificscheduler_Flow:AFVK:v1:d7g9g3ghr5pg008bsbqg"
+          },
+          "value": {
+            "example": {},
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PrcnestedValue"
+              }
+            ]
+          }
+        },
+        "required": [
+          "currentDate",
+          "field",
+          "value"
+        ]
+      },
+      "PrcLogInputDto": {
+        "type": "object",
+        "properties": {
+          "streamname": {
+            "type": "string",
+            "example": "TT001-T001-TPL"
+          },
+          "data": {
+            "example": [
+              {
+                "currentDate": "2026-04-15T08:19:02.651Z",
+                "field": "CK:TT001:FNGK:AFP:FNK:PF-PFD:CATK:Torus20261:AFGK:Torus202601:AFK:Stop_Specificscheduler_Flow:AFVK:v1:d7g9g3ghr5pg008bsbqg",
+                "value": {
+                  "sessionInfo": {
+                    "user": "sri"
+                  },
+                  "processInfo": {
+                    "key": "CK:TT001:FNGK:AFP:FNK:PF-PFD:CATK:Torus20261:AFGK:Torus202601:AFK:Stop_Specificscheduler_Flow:AFVK:v1:",
+                    "upId": "d7g9g3ghr5pg008bsbqg",
+                    "status": "Success",
+                    "nodeName": "Post_Stop_SpecificScheduler",
+                    "nodeId": "b88ac92eac404d3c919c623925fc6741",
+                    "nodeType": "apinode",
+                    "event": "RequestCompleted",
+                    "queue": "TEH",
+                    "request": {},
+                    "response": {}
+                  }
+                }
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/nestedData"
+            }
+          }
+        },
+        "required": [
+          "streamname",
+          "data"
+        ]
+      },
+      "LogOutputDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "ExpLogInputDto": {
+        "type": "object",
+        "properties": {
+          "streamname": {
+            "type": "string",
+            "example": "TT001-T001-TSL"
+          },
+          "data": {
+            "example": [
+              {
+                "currentDate": "2026-04-15T08:19:02.651Z",
+                "field": "CK:TT001:FNGK:AFP:FNK:PF-PFD:CATK:Torus20261:AFGK:Torus202601:AFK:Stop_Specificscheduler_Flow:AFVK:v1:",
+                "value": {
+                  "sessionInfo": {
+                    "user": "sri"
+                  },
+                  "errorDetails": {
+                    "T_ErrorSource": "TG",
+                    "T_ErrorGroup": "Technical",
+                    "T_ErrorCategory": "AK",
+                    "T_ErrorType": "Fatal",
+                    "T_ErrorCode": "TG023",
+                    "errorCode": 500,
+                    "errorDetail": {
+                      "code": "GenericFailure",
+                      "clientVersion": "6.19.3"
+                    }
+                  }
+                }
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/nestedData"
+            }
+          }
+        },
+        "required": [
+          "streamname",
+          "data"
+        ]
+      },
+      "RawProcessLogInputDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Raw process log payload from the upstream API (full AFSK structure)",
+            "example": {
+              "data": [
+                {
+                  "CK": "CT010",
+                  "AFSK": {
+                    "d757p7ra1bjg008yerhg": [
+                      {
+                        "sessionInfo": {
+                          "user": "Haritha"
+                        },
+                        "processInfo": {
+                          "nodeName": "make_payment",
+                          "event": "RequestInitiated",
+                          "status": "Success"
+                        },
+                        "DateAndTime": "2026-03-30 13:31:11:883"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "ProcessLogEntryDto": {
+        "type": "object",
+        "properties": {
+          "nodeName": {
+            "type": "string",
+            "example": "make_payment",
+            "description": "Name of the process node"
+          },
+          "event": {
+            "type": "string",
+            "example": "RequestInitiated",
+            "description": "Event triggered at this node"
+          },
+          "status": {
+            "type": "string",
+            "example": "Success",
+            "description": "Execution status of the node",
+            "enum": [
+              "Success",
+              "Failed"
+            ]
+          },
+          "DateAndTime": {
+            "type": "string",
+            "example": "2026-03-30 13:31:11:883",
+            "description": "Timestamp when the node was executed"
+          }
+        },
+        "required": [
+          "nodeName",
+          "event",
+          "status",
+          "DateAndTime"
+        ]
+      },
+      "ProcessLogResponseDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Filtered list of process log entries",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProcessLogEntryDto"
+            }
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "setUpKeyDto": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "example": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:TT001:AFK:PROFILE:AFVK:v1:tpc"
+          }
+        },
+        "required": [
+          "key"
+        ]
+      },
+      "OrchestrationDto": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "key"
+          },
+          "componentId": {
+            "type": "string",
+            "description": "componentId"
+          },
+          "controlId": {
+            "type": "string",
+            "description": "controlId"
+          },
+          "isTable": {
+            "type": "boolean",
+            "description": "isTable"
+          },
+          "accessProfile": {
+            "description": "accessProfile",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dpdKey": {
+            "type": "string",
+            "description": "dpdKey"
+          },
+          "method": {
+            "type": "string",
+            "description": "method"
+          }
+        },
+        "required": [
+          "key",
+          "componentId",
+          "controlId",
+          "isTable",
+          "accessProfile",
+          "dpdKey",
+          "method"
+        ]
+      },
+      "getMapperDetailsDto": {
+        "type": "object",
+        "properties": {
+          "ufkey": {
+            "type": "string",
+            "description": "ufkey"
+          },
+          "componentId": {
+            "type": "string",
+            "description": "componentId"
+          },
+          "category": {
+            "type": "string",
+            "description": "category"
+          },
+          "controlId": {
+            "type": "string",
+            "description": "controlId"
+          },
+          "bindtranValue": {
+            "type": "object",
+            "description": "bindtranValue"
+          },
+          "code": {
+            "type": "object",
+            "description": "code"
+          },
+          "dpdKey": {
+            "type": "string",
+            "description": "dpdKey"
+          },
+          "method": {
+            "type": "string",
+            "description": "method"
+          }
+        },
+        "required": [
+          "ufkey",
+          "componentId",
+          "category",
+          "controlId",
+          "bindtranValue",
+          "code",
+          "dpdKey",
+          "method"
+        ]
+      },
+      "codefilterDto": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "key"
+          },
+          "groupId": {
+            "type": "object",
+            "description": "groupId"
+          },
+          "controlId": {
+            "type": "string",
+            "description": "controlId"
+          },
+          "event": {
+            "type": "object",
+            "description": "event"
+          },
+          "dpdKey": {
+            "type": "string",
+            "description": "dpdKey"
+          },
+          "method": {
+            "type": "string",
+            "description": "method"
+          }
+        },
+        "required": [
+          "key",
+          "groupId",
+          "controlId",
+          "event",
+          "dpdKey",
+          "method"
+        ]
+      },
+      "paginationDataFilterDto": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "key"
+          },
+          "data": {
+            "type": "object",
+            "description": "data"
+          },
+          "dpdKey": {
+            "type": "string",
+            "description": "dpdKey"
+          },
+          "method": {
+            "type": "string",
+            "description": "method"
+          },
+          "primaryKey": {
+            "type": "string",
+            "description": "primaryKey"
+          }
+        },
+        "required": [
+          "key",
+          "data",
+          "dpdKey",
+          "method",
+          "primaryKey"
+        ]
+      },
+      "InitiatePFDto": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "key"
+          },
+          "sourceId": {
+            "type": "object",
+            "description": "sourceId"
+          },
+          "dpdKey": {
+            "type": "string",
+            "description": "dpdKey"
+          },
+          "method": {
+            "type": "string",
+            "description": "method"
+          }
+        },
+        "required": [
+          "key",
+          "sourceId",
+          "dpdKey",
+          "method"
+        ]
+      },
+      "ifoDto": {
+        "type": "object",
+        "properties": {
+          "formData": {
+            "type": "object",
+            "description": "formData"
+          },
+          "key": {
+            "type": "string",
+            "description": "key"
+          },
+          "controlId": {
+            "type": "string",
+            "description": "controlId"
+          },
+          "isTable": {
+            "type": "boolean",
+            "description": "isTable"
+          },
+          "dpdKey": {
+            "type": "string",
+            "description": "dpdKey"
+          },
+          "method": {
+            "type": "string",
+            "description": "method"
+          }
+        },
+        "required": [
+          "formData",
+          "key",
+          "controlId",
+          "isTable",
+          "dpdKey",
+          "method"
+        ]
+      },
+      "signinToTorusDto": {
+        "type": "object",
+        "properties": {
+          "client": {
+            "type": "string",
+            "description": "client"
+          },
+          "username": {
+            "type": "string",
+            "description": "username"
+          },
+          "password": {
+            "type": "string",
+            "description": "password"
+          },
+          "type": {
+            "type": "string",
+            "description": "type"
+          },
+          "dpdKey": {
+            "type": "string",
+            "description": "dpdKey"
+          },
+          "method": {
+            "type": "string",
+            "description": "method"
+          },
+          "ufClientType": {
+            "type": "string",
+            "description": "ufClientType"
+          },
+          "app_tenant": {
+            "type": "string",
+            "description": "app_tenant"
+          },
+          "app_tenant_id": {
+            "type": "number",
+            "description": "app_tenant_id"
+          },
+          "fusionAuthLoginResponse": {
+            "type": "object",
+            "description": "fusionAuthLoginResponse"
+          },
+          "isOauthUser": {
+            "type": "boolean",
+            "description": "isOauthUser"
+          }
+        },
+        "required": [
+          "client",
+          "username",
+          "password",
+          "type",
+          "dpdKey",
+          "method",
+          "ufClientType"
+        ]
+      },
+      "logoutDto": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "key"
+          },
+          "dpdKey": {
+            "type": "string",
+            "description": "dpdKey"
+          },
+          "method": {
+            "type": "string",
+            "description": "method"
+          }
+        },
+        "required": [
+          "key",
+          "dpdKey",
+          "method"
+        ]
+      },
+      "pageDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "pfDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "start_all_scheduler": {
+        "type": "object",
+        "properties": {}
+      },
+      "start_specific_scheduler": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "stop_all_scheduler": {
+        "type": "object",
+        "properties": {}
+      },
+      "stop_specific_scheduler": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "userEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": "number"
+          },
+          "name": {
+            "type": "string",
+            "example": "string"
+          },
+          "onlydate": {
+            "format": "date-time",
+            "type": "string",
+            "example": "date"
+          },
+          "dateandtime": {
+            "format": "date-time",
+            "type": "string",
+            "example": "datetime"
+          },
+          "trs_created_date": {
+            "format": "date-time",
+            "type": "string",
+            "example": "datetime"
+          },
+          "trs_created_by": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_modified_date": {
+            "format": "date-time",
+            "type": "string",
+            "example": "datetime"
+          },
+          "trs_modified_by": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_process_id": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_access_profile": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_org_grp_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_org_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_role_grp_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_role_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_ps_grp_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_ps_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_sub_org_grp_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_sub_org_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_locked_by": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_locked_time": {
+            "format": "date-time",
+            "type": "string",
+            "example": "datetime"
+          },
+          "trs_tenant_id": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_app_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_product_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_event_process_status": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_event_status": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_token_id": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_version": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_prev_process_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_prev_status": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_prev_process_status": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_process_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_status": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_process_status": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_next_process_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_next_status": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_next_process_status": {
+            "type": "string",
+            "example": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "CreateuserDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "onlydate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateandtime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trs_created_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trs_created_by": {
+            "type": "string"
+          },
+          "trs_modified_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trs_modified_by": {
+            "type": "string"
+          },
+          "trs_process_id": {
+            "type": "string"
+          },
+          "trs_access_profile": {
+            "type": "string"
+          },
+          "trs_org_grp_code": {
+            "type": "string"
+          },
+          "trs_org_code": {
+            "type": "string"
+          },
+          "trs_role_grp_code": {
+            "type": "string"
+          },
+          "trs_role_code": {
+            "type": "string"
+          },
+          "trs_ps_grp_code": {
+            "type": "string"
+          },
+          "trs_ps_code": {
+            "type": "string"
+          },
+          "trs_sub_org_grp_code": {
+            "type": "string"
+          },
+          "trs_sub_org_code": {
+            "type": "string"
+          },
+          "trs_locked_by": {
+            "type": "string"
+          },
+          "trs_locked_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trs_tenant_id": {
+            "type": "string"
+          },
+          "trs_app_code": {
+            "type": "string"
+          },
+          "trs_product_code": {
+            "type": "string"
+          },
+          "trs_event_process_status": {
+            "type": "string"
+          },
+          "trs_event_status": {
+            "type": "string"
+          },
+          "trs_token_id": {
+            "type": "string"
+          },
+          "trs_version": {
+            "type": "string"
+          },
+          "trs_prev_process_code": {
+            "type": "string"
+          },
+          "trs_prev_status": {
+            "type": "string"
+          },
+          "trs_prev_process_status": {
+            "type": "string"
+          },
+          "trs_process_code": {
+            "type": "string"
+          },
+          "trs_status": {
+            "type": "string"
+          },
+          "trs_process_status": {
+            "type": "string"
+          },
+          "trs_next_process_code": {
+            "type": "string"
+          },
+          "trs_next_status": {
+            "type": "string"
+          },
+          "trs_next_process_status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "UpdateuserDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "onlydate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateandtime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trs_created_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trs_created_by": {
+            "type": "string"
+          },
+          "trs_modified_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trs_modified_by": {
+            "type": "string"
+          },
+          "trs_process_id": {
+            "type": "string"
+          },
+          "trs_access_profile": {
+            "type": "string"
+          },
+          "trs_org_grp_code": {
+            "type": "string"
+          },
+          "trs_org_code": {
+            "type": "string"
+          },
+          "trs_role_grp_code": {
+            "type": "string"
+          },
+          "trs_role_code": {
+            "type": "string"
+          },
+          "trs_ps_grp_code": {
+            "type": "string"
+          },
+          "trs_ps_code": {
+            "type": "string"
+          },
+          "trs_sub_org_grp_code": {
+            "type": "string"
+          },
+          "trs_sub_org_code": {
+            "type": "string"
+          },
+          "trs_locked_by": {
+            "type": "string"
+          },
+          "trs_locked_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trs_tenant_id": {
+            "type": "string"
+          },
+          "trs_app_code": {
+            "type": "string"
+          },
+          "trs_product_code": {
+            "type": "string"
+          },
+          "trs_event_process_status": {
+            "type": "string"
+          },
+          "trs_event_status": {
+            "type": "string"
+          },
+          "trs_token_id": {
+            "type": "string"
+          },
+          "trs_version": {
+            "type": "string"
+          },
+          "trs_prev_process_code": {
+            "type": "string"
+          },
+          "trs_prev_status": {
+            "type": "string"
+          },
+          "trs_prev_process_status": {
+            "type": "string"
+          },
+          "trs_process_code": {
+            "type": "string"
+          },
+          "trs_status": {
+            "type": "string"
+          },
+          "trs_process_status": {
+            "type": "string"
+          },
+          "trs_next_process_code": {
+            "type": "string"
+          },
+          "trs_next_status": {
+            "type": "string"
+          },
+          "trs_next_process_status": {
+            "type": "string"
+          }
+        }
+      },
+      "comboboxtableEntity": {
+        "type": "object",
+        "properties": {
+          "my_id": {
+            "type": "number",
+            "example": "number"
+          },
+          "country": {
+            "type": "string",
+            "example": "string"
+          },
+          "country_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "state": {
+            "type": "string",
+            "example": "string"
+          },
+          "state_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "city": {
+            "type": "string",
+            "example": "string"
+          },
+          "otherdetails": {
+            "type": "object",
+            "example": "any"
+          },
+          "trs_created_date": {
+            "format": "date-time",
+            "type": "string",
+            "example": "datetime"
+          },
+          "trs_created_by": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_modified_date": {
+            "format": "date-time",
+            "type": "string",
+            "example": "datetime"
+          },
+          "trs_modified_by": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_process_id": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_access_profile": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_org_grp_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_org_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_role_grp_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_role_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_ps_grp_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_ps_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_sub_org_grp_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_sub_org_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_locked_by": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_locked_time": {
+            "format": "date-time",
+            "type": "string",
+            "example": "datetime"
+          },
+          "trs_tenant_id": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_app_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_product_code": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_event_process_status": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_event_status": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_token_id": {
+            "type": "string",
+            "example": "string"
+          },
+          "trs_version": {
+            "type": "string",
+            "example": "string"
+          }
+        },
+        "required": [
+          "my_id"
+        ]
+      },
+      "CreatecomboboxtableDto": {
+        "type": "object",
+        "properties": {
+          "my_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "country": {
+            "type": "string"
+          },
+          "country_code": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "state_code": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "otherdetails": {
+            "type": "object"
+          },
+          "trs_created_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trs_created_by": {
+            "type": "string"
+          },
+          "trs_modified_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trs_modified_by": {
+            "type": "string"
+          },
+          "trs_process_id": {
+            "type": "string"
+          },
+          "trs_access_profile": {
+            "type": "string"
+          },
+          "trs_org_grp_code": {
+            "type": "string"
+          },
+          "trs_org_code": {
+            "type": "string"
+          },
+          "trs_role_grp_code": {
+            "type": "string"
+          },
+          "trs_role_code": {
+            "type": "string"
+          },
+          "trs_ps_grp_code": {
+            "type": "string"
+          },
+          "trs_ps_code": {
+            "type": "string"
+          },
+          "trs_sub_org_grp_code": {
+            "type": "string"
+          },
+          "trs_sub_org_code": {
+            "type": "string"
+          },
+          "trs_locked_by": {
+            "type": "string"
+          },
+          "trs_locked_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trs_tenant_id": {
+            "type": "string"
+          },
+          "trs_app_code": {
+            "type": "string"
+          },
+          "trs_product_code": {
+            "type": "string"
+          },
+          "trs_event_process_status": {
+            "type": "string"
+          },
+          "trs_event_status": {
+            "type": "string"
+          },
+          "trs_token_id": {
+            "type": "string"
+          },
+          "trs_version": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "my_id"
+        ]
+      },
+      "UpdatecomboboxtableDto": {
+        "type": "object",
+        "properties": {
+          "my_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "country": {
+            "type": "string"
+          },
+          "country_code": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "state_code": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "otherdetails": {
+            "type": "object"
+          },
+          "trs_created_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trs_created_by": {
+            "type": "string"
+          },
+          "trs_modified_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trs_modified_by": {
+            "type": "string"
+          },
+          "trs_process_id": {
+            "type": "string"
+          },
+          "trs_access_profile": {
+            "type": "string"
+          },
+          "trs_org_grp_code": {
+            "type": "string"
+          },
+          "trs_org_code": {
+            "type": "string"
+          },
+          "trs_role_grp_code": {
+            "type": "string"
+          },
+          "trs_role_code": {
+            "type": "string"
+          },
+          "trs_ps_grp_code": {
+            "type": "string"
+          },
+          "trs_ps_code": {
+            "type": "string"
+          },
+          "trs_sub_org_grp_code": {
+            "type": "string"
+          },
+          "trs_sub_org_code": {
+            "type": "string"
+          },
+          "trs_locked_by": {
+            "type": "string"
+          },
+          "trs_locked_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trs_tenant_id": {
+            "type": "string"
+          },
+          "trs_app_code": {
+            "type": "string"
+          },
+          "trs_product_code": {
+            "type": "string"
+          },
+          "trs_event_process_status": {
+            "type": "string"
+          },
+          "trs_event_status": {
+            "type": "string"
+          },
+          "trs_token_id": {
+            "type": "string"
+          },
+          "trs_version": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

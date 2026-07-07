@@ -79,7 +79,7 @@ export class CommonService{
     this.encryptionKey = this.vaultKey;
   }
 
-  async  getLatestMigrationSql(isLocal?: string ): Promise<string> {
+  async  getLatestMigrationSql(isLocal?: string ): Promise<{ baseline: string; incremental: string }> {
     // Determine the base migrations directory based on isLocal
     const migrationsDir = isLocal === 'dev'
       ? './dist/erd/prisma/migrations'
@@ -104,11 +104,13 @@ export class CommonService{
 
     // Read the SQL file inside the latest migration folder
     //const migrationSqlPath = `${migrationsDir}/${latestMigrationFolder}/migration.sql`;
-    const migrationSql = await readFile(`${migrationsDir}/ddlChanges.sql`, 'utf-8');
+    const migrationSql_baseline = await readFile(`${migrationsDir}/ddl_changes_baseline.sql`, 'utf-8');
+    const migrationSql_incremental = await readFile(`${migrationsDir}/ddl_changes_incremental.sql`, 'utf-8');
 
-    console.log('Migration SQL content:', migrationSql);
+    console.log('Migration SQL content:', migrationSql_baseline);
+    console.log('Incremental Migration SQL content:', migrationSql_incremental);
 
-    return migrationSql;
+    return {'baseline': migrationSql_baseline, 'incremental': migrationSql_incremental};
   }
 
   replaceKeysWithDollar(
@@ -134,7 +136,7 @@ export class CommonService{
   }
 
   private readonly logger = new Logger(CommonService.name) 
-  private readonly GRIDFS_BUCKET = 'CT005/GSS/VGPH/v1';
+  private readonly GRIDFS_BUCKET = 'CT001/TGW01/TGW004/v1';
 
   private async getBucket(): Promise<GridFSBucket> {
     if (!db) {
@@ -1402,8 +1404,8 @@ export class CommonService{
         
         if(typeof key != 'string')
         key = 'commonError'
-        tenant=tenant || "CT005"
-        app=app ||  "VGPH"
+        tenant=tenant || "CT001"
+        app=app ||  "TGW004"
         await this.redisService.setStreamData(tenant+'-'+app+'-TSL',key,JSON.stringify(logs))    
         return logs
 

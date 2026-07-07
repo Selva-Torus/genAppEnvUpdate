@@ -21,6 +21,7 @@ export class AppService implements OnModuleInit{
   async onModuleInit() {
     console.info('Starting Swagger upload to API Fabric...');
     let preParedData:any=await this.dataPrep(JSON.parse(fs.readFileSync('./swagger.json', 'utf-8')))
+    return
     if(Object.keys(preParedData).includes('erdWithData'))
       {
       let endPointData : any = {};
@@ -29,12 +30,12 @@ export class AppService implements OnModuleInit{
       endPointData.type =  "json";
       let res =  await this.ufservice.getEndPoints(endPointData);
       erdDatas.endpoint = res;
-      erdDatas.tenant =  "CT005";
-      erdDatas.domain = "GSS";
-      erdDatas.collection = "VGPH";
+      erdDatas.tenant =  "CT001";
+      erdDatas.domain = "TGW";
+      erdDatas.collection = "TGW4";
       erdDatas.data = preParedData?.erdWithData||{}
       erdDatas.fabric = 'API-APIPD';
-      erdDatas.loginId = "Dominic";    
+      erdDatas.loginId = "madhu";    
       erdDatas.erdFlag = true;  
       await this.ufservice.createApiCollection(erdDatas,this.clientcode);
       console.info('Swagger upload to API Fabric completed successfully.');

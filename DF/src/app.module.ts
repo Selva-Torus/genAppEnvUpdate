@@ -12,12 +12,7 @@ import { TeModule } from './Torus/v1/te/te.module';
 import { ConfigService } from "@nestjs/config";
 import { ScheduleModule } from '@nestjs/schedule';
 import { ErdModule } from './erd/erd.module';
-import { DFcomboCurrencySearchModule } from './dfd/DFcomboCurrencySearch/v1/DFcomboCurrencySearch.module';    
-import { DFtransactionModule } from './dfd/DFtransaction/v1/DFtransaction.module';    
-import { DFprocessStatusComboSearchModule } from './dfd/DFprocessStatusComboSearch/v1/DFprocessStatusComboSearch.module';    
-import { DFchannelComboSearchModule } from './dfd/DFchannelComboSearch/v1/DFchannelComboSearch.module';    
-import { DFjourneyModule } from './dfd/DFjourney/v1/DFjourney.module';    
-import { changeStatusTranUpdateLogInsertModule } from './pfd/changeStatusTranUpdateLogInsert/v1/changeStatusTranUpdateLogInsert.module';    
+import { DFcountry_code_dfdModule } from './dfd/DFcountry_code_dfd/v1/DFcountry_code_dfd.module';    
 //import { DecryptPayloadMiddleware } from './decryptPayloadMiddleware';
 import { EncryptInterceptor } from './encryptInterceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -37,7 +32,7 @@ import { EnvData } from './envData/envData.service';
       },
     }),
   CacheModule.register({isGlobal:true}),
-  ScheduleModule.forRoot(),UfModule,TeModule,EnvDataModule,DFcomboCurrencySearchModule,DFtransactionModule,DFprocessStatusComboSearchModule,DFchannelComboSearchModule,DFjourneyModule,changeStatusTranUpdateLogInsertModule,ErdModule,], 
+  ScheduleModule.forRoot(),UfModule,TeModule,EnvDataModule,DFcountry_code_dfdModule,ErdModule,], 
   controllers: [AppController],
   providers: [AppService,CommonService,RuleService,CodeService,JwtService,RedisService,ConfigService,EnvData,{
       provide: APP_INTERCEPTOR,

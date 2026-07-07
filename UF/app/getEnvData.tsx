@@ -1,5 +1,5 @@
 let data:any ={
-  "VGPH_DPD": {
+  "tgw4_dpd": {
     "encryptionType": {
       "name": "encryptionType",
       "_type": "select",

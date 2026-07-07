@@ -43,15 +43,15 @@ const LayoutDecider = ({
   const { borderColor, bgColor } : { borderColor: string; bgColor: string } = useTheme()
   const { brandColor, hoverColor, selectionColor } : { brandColor: string; hoverColor: string; selectionColor: string } = branding;
   const encryptionFlagApp: boolean = false;    
-  const encryptionDpd: string = "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:VGPH:AFK:VGPH_DPD:AFVK:v1";
+  const encryptionDpd: string = "CK:CT001:FNGK:AF:FNK:CDF-DPD:CATK:TGW01:AFGK:TGW004:AFK:tgw4_dpd:AFVK:v1";
   const encryptionMethod: string = "";
-  const logo: string = "torus/9.1/CT005/resources/images/Blue Logo.png"
-  const appLogo: string = "torus/9.1/CT005/resources/images/White global payment hub.png"
-  const appName: string = "VGPH"
+  const logo: string = ""
+  const appLogo: string = ""
+  const appName: string = "TGW4"
   const toast: Function = useInfoMsg()
   const [loading, setLoading] = useState<boolean>(true)
   const [updatedNavData, setUpdatedNavData] = useState<MenuItem[]>([])
-  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT005:AFGK:GSS:AFK:VGPH:AFVK:v1:bldc"
+  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT001:AFGK:TGW01:AFK:TGW004:AFVK:v1:bldc"
   const [rawNavData, setRawNavData] = useState<MenuItem[] | null>(null);
   const navData: MenuItem[] = [
   {
@@ -79,11 +79,59 @@ const LayoutDecider = ({
     "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
   },
   {
-    "menuGroupLabel": "My Transaction",
+    "menuGroupLabel": "dynamicAction",
     "screenDetails": [
       {
-        "name": "my transaction",
-        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",
+        "name": "dynamicaction",
+        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:dynamicAction:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      }
+    ],
+    "items": []
+  },
+  {
+    "menuGroupLabel": "test",
+    "screenDetails": [
+      {
+        "name": "test",
+        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:sample_test:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      }
+    ],
+    "items": []
+  },
+  {
+    "menuGroupLabel": "mycomps",
+    "screenDetails": [
+      {
+        "name": "mycomps",
+        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:mycomps:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      }
+    ],
+    "items": []
+  },
+  {
+    "menuGroupLabel": "ggggg",
+    "screenDetails": [
+      {
+        "name": "ggggg",
+        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:ffff:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      }
+    ],
+    "items": []
+  },
+  {
+    "menuGroupLabel": "report",
+    "screenDetails": [
+      {
+        "name": "report",
+        "key": "CK:CT001:FNGK:AF:FNK:UF-UFR:CATK:TGW01:AFGK:TGW004:AFK:myreport:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false
       }
@@ -363,27 +411,7 @@ const LayoutDecider = ({
     name: string
     'gridColumn'?: string
     'gridRow'?: string
-  }[] =[
-  {
-    "name": "app logo",
-    "gridColumn": "1/3"
-  },
-  {
-    "name": "menu items",
-    "gridRow": "1/6",
-    "gridColumn": "3/8"
-  },
-  {
-    "name": "profile",
-    "gridRow": "12/13",
-    "gridColumn": "12/13"
-  },
-  {
-    "name": "opr matrix",
-    "gridRow": "6/9",
-    "gridColumn": "9/12"
-  }
-]
+  }[] =[]
 
    if (loading == true){
     return (<div className='flex w-[100vw] h-[100vh] bg-slate-200 justify-center items-center '><span>Loading...</span></div>);
