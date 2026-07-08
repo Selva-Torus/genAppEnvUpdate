@@ -161,21 +161,21 @@ const OtpVerification = ({
     <>
       {isOtpVerified ? (
         <>
-          <div className='flex h-[100px] w-full flex-col items-center justify-center gap-[2px]'>
+          <div className='flex h-[100px] w-full flex-col items-center justify-center py-[1vh] gap-[2px]'>
             <Text
               variant={getFontSizeForHeader(branding.fontSize)}
-              className='font-semibold'
+              className='font-bold text-[1.5vw]'
             >
               Set New Password
             </Text>
-           <Text color='secondary' className='w-[300px] text-wrap text-center text-[12px]'>
+           <Text color='secondary' className='w-[18vw] text-wrap text-center text-[.7vw]'>
               Your new password must be different from previous used passwords
             </Text>
           </div>
           <div
-            className={`flex ${validation ? 'h-[410px] gap-[5px]' : 'h-[350px] gap-[20px]'} w-full flex-col items-center justify-center`}
+            className={`flex w-full flex-col gap-[1.5vh] items-center justify-center`}
           >
-            <label className='flex w-[300px] flex-col gap-[5px] text-[15px]'>
+            <label className='flex w-[18vw] flex-col gap-[1vh] text-[.8vw] font-medium'>
               Password
               <span
                 style={{
@@ -183,7 +183,7 @@ const OtpVerification = ({
                   color: 'var(--g-color-text-primary)',
                   borderColor: 'var(--g-color-line-generic)'
                 }}
-                className='flex w-full justify-between rounded-full border px-[15px] py-[20px] text-[15px] font-medium outline-none'
+                className='flex w-full justify-between rounded-lg border px-[.5vw] py-[1vh] text-[.8vw] font-medium outline-none'
               >
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -204,12 +204,12 @@ const OtpVerification = ({
                 />
                 <Button
                   onClick={() => setShowPassword(prev => !prev)}
-                  className='text-[0.7vw] focus:outline-none'
+                  className='text-[0.7vw] focus:outline-none !w-[1.5vw]'
                 >
                   {showPassword ? (
-                    <BsEyeFill className='h-[17px] w-[17px]' />
+                    <BsEyeFill className='h-[1vw] w-[1vw]' />
                   ) : (
-                    <BsEyeSlash className='h-[17px] w-[17px]' />
+                    <BsEyeSlash className='h-[1vw] w-[1vw]' />
                   )}
                 </Button>
               </span>
@@ -294,7 +294,7 @@ const OtpVerification = ({
               </div>
             )}
 
-            <label className='flex w-[300px] flex-col gap-[5px] text-[15px]'>
+            <label className='flex w-[18vw] flex-col gap-[1vh] text-[.8vw] font-medium'>
               Confirm Password
               <span
                 style={{
@@ -302,12 +302,12 @@ const OtpVerification = ({
                   color: 'var(--g-color-text-primary)',
                   borderColor: 'var(--g-color-line-generic)'
                 }}
-                className='flex w-full justify-between rounded-full border px-[15px] py-[20px] text-[15px] font-medium outline-none'
+                className='flex w-full justify-between rounded-lg border px-[.5vw] py-[1vh] text-[.8vw] font-medium outline-none'
               >
                 <input
                   type={showConfirmPassword ? 'text' : 'password'}
                   name='confirmPassword'
-                  className='text-[15px] font-medium outline-none'
+                  className='text-[.8vw] font-medium outline-none'
                   placeholder='Enter password'
                   style={{
                     backgroundColor: 'var(--g-color-base-float)',
@@ -323,19 +323,19 @@ const OtpVerification = ({
                 />
                 <Button
                   onClick={() => setShowConfirmPassword(prev => !prev)}
-                  className='text-[0.7vw] focus:outline-none'
+                  className='text-[0.7vw] focus:outline-none !w-[1.5vw]'
                 >
                   {showConfirmPassword ? (
-                    <BsEyeFill className='h-[17px] w-[17px]' />
+                    <BsEyeFill className='h-[1vw] w-[1vw]' />
                   ) : (
-                    <BsEyeSlash className='h-[17px] w-[17px]' />
+                    <BsEyeSlash className='h-[1vw] w-[1vw]' />
                   )}
                 </Button>
               </span>
             </label>
 
             <Button
-              className='!w-[300px] rounded-full px-[0.83vw] py-[2vh] text-[15px] font-medium'
+              className='!w-[18vw] rounded-lg text-[.8vw] py-[1vh] font-medium'
               onClick={handleFormSubmit}
               disabled={!formData.password || !formData.confirmPassword}
             >
@@ -343,7 +343,7 @@ const OtpVerification = ({
             </Button>
             <Link
               href='/'
-              className='flex items-center gap-[10px] text-[15px] font-medium opacity-50'
+              className='flex items-center gap-[.5vw] text-[.8vw] font-medium opacity-50 mb-[2vh]'
             >
               <ArrowBackward
                 fill={isDark ? '#ffffff' : '#000000'}
@@ -354,16 +354,16 @@ const OtpVerification = ({
         </>
       ) : (
         <>
-          <div className='flex h-[150px] w-full flex-col items-center justify-center gap-[2px]'>
-            <Text className='font-semibold'>Verification Code</Text>
-            <Text color='secondary' className='text-center'>
+          <div className='flex w-full flex-col items-center justify-center py-[2vh]'>
+            <Text className='font-bold text-[1.5vw]'>Verification Code</Text>
+            <Text color='secondary' className='text-center text-[.75vw]'>
               We&apos;ve sent a code to {email}
             </Text>
           </div>
-          <div className='flex h-[200px] w-full flex-col items-center justify-center gap-[20px]'>
-            <label className='flex w-[300px] flex-col gap-[10px] text-[15px]'>
-              code
-              <div className='flex gap-[10px]'>
+          <div className='flex w-full flex-col items-center justify-center gap-[1.5vh]'>
+            <label className='flex w-[18vw] flex-col gap-[1vh] text-[.8vw] font-medium'>
+              Verification Code
+              <div className='flex gap-[1.2vw]'>
                 {otp.map((_, index) => (
                   <input
                     key={index}
@@ -379,7 +379,7 @@ const OtpVerification = ({
                       color: 'var(--g-color-text-primary)',
                       borderColor: 'var(--g-color-line-generic)'
                     }}
-                    className={`h-[40px] w-[40px] rounded-md border text-center text-lg focus:outline-none focus:ring-2`}
+                    className={`h-[2.1vw] w-[2.1vw] rounded-md border-[0.1vw] text-center text-lg focus:outline-none focus:ring-2`}
                   />
                 ))}
               </div>
@@ -390,27 +390,27 @@ const OtpVerification = ({
                 //   backgroundColor: brandColor,
                 //   color: isLightColor(brandColor)
                 // }}
-                className='w-[360px] rounded-full px-[0.83vw] py-[2vh] text-[15px] font-medium'
+                className='!w-[18.7vw] px-[.3vw] rounded-lg py-[1vh] text-[1vw] font-medium'
                 onClick={() => handleVerifyOtp()}
                 disabled={otp.join('').length !== 6}
               >
                 Verify
               </Button>
             </div>
-            <span className='flex items-center gap-[5px]'>
-              <Text color='secondary' className='text-[15px]'>
+            <span className='flex w-[15vw] items-center'>
+              <Text color='secondary' className='text-[.8vw] text-nowrap'>
                 Didn&apos;t get a code?
               </Text>
               <Button
                 onClick={handleGetOtp}
-                className='text-[15px] font-semibold'
+                className='text-[.8vw] font-semibold'
               >
-                Click to resend
+                Click to resend code
               </Button>
             </span>
             <Link
               href='/'
-              className='flex items-center gap-[10px] text-[15px] font-medium opacity-50'
+              className='flex items-center gap-[.5vw] text-[.8vw] font-medium opacity-50 mb-[2vh]'
             >
               <ArrowBackward
                 fill={isDark ? '#ffffff' : '#000000'}

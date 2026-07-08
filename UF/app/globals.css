@@ -32,6 +32,15 @@
 
 }
 
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none;
+}
+
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-textfield-decoration-container {
+    display: none !important;
+}
 
 /* .pc-Grid .container-fluid, .pc-Grid .container {
     max-width: none !important
