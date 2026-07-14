@@ -1131,7 +1131,6 @@ const colurIndicator = (keyValue:any=[], comingValue:any,ColourIndicatorType:any
       })
     }
   }
-
   useEffect(() => {
     if (table12312058a8Props?.selectedIds?.length != 0) handlePrimaryTable()
     if (table12312058a8Props?.selectedIds?.length == 0){

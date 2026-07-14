@@ -82,13 +82,15 @@ export default function ComboBoxcomboboxb({encryptionFlagCompData,setIsProcessin
   const {stateaa824Props, setstateaa824Props}= useContext(TotalContext) as TotalContextProps;
   const {groupaaa97733, setgroupaaa97733}= useContext(TotalContext) as TotalContextProps;
   const {groupaaa97733Props, setgroupaaa97733Props}= useContext(TotalContext) as TotalContextProps;
-  const {groupb8f3d7, setgroupb8f3d7}= useContext(TotalContext) as TotalContextProps;
-  const {groupb8f3d7Props, setgroupb8f3d7Props}= useContext(TotalContext) as TotalContextProps;
   const {groupc0c048, setgroupc0c048}= useContext(TotalContext) as TotalContextProps;
   const {groupc0c048Props, setgroupc0c048Props}= useContext(TotalContext) as TotalContextProps;
   const {groupd487a8, setgroupd487a8}= useContext(TotalContext) as TotalContextProps;
   const {groupd487a8Props, setgroupd487a8Props}= useContext(TotalContext) as TotalContextProps;
+  const {groupb8f3d7, setgroupb8f3d7}= useContext(TotalContext) as TotalContextProps;
+  const {groupb8f3d7Props, setgroupb8f3d7Props}= useContext(TotalContext) as TotalContextProps;
   const {comboboxa2ee09, setcomboboxa2ee09}= useContext(TotalContext) as TotalContextProps;
+  const {dateandtime26c68, setdateandtime26c68}= useContext(TotalContext) as TotalContextProps;
+  const {buttonba9c0, setbuttonba9c0}= useContext(TotalContext) as TotalContextProps;
   const {textinputaee10, settextinputaee10}= useContext(TotalContext) as TotalContextProps;
   const {comboboxb9056e, setcomboboxb9056e}= useContext(TotalContext) as TotalContextProps;
   const {comboboxccfb84, setcomboboxccfb84}= useContext(TotalContext) as TotalContextProps;
@@ -117,10 +119,6 @@ export default function ComboBoxcomboboxb({encryptionFlagCompData,setIsProcessin
         codeStates['setgroupaaa'] = setgroupaaa97733,
         codeStates['groupaaa97733'] = groupaaa97733Props,
         codeStates['setgroupaaa97733'] = setgroupaaa97733Props,
-        codeStates['groupb'] = groupb8f3d7,
-        codeStates['setgroupb'] = setgroupb8f3d7,
-        codeStates['groupb8f3d7'] = groupb8f3d7Props,
-        codeStates['setgroupb8f3d7'] = setgroupb8f3d7Props,
         codeStates['groupc'] = groupc0c048,
         codeStates['setgroupc'] = setgroupc0c048,
         codeStates['groupc0c048'] = groupc0c048Props,
@@ -129,8 +127,16 @@ export default function ComboBoxcomboboxb({encryptionFlagCompData,setIsProcessin
         codeStates['setgroupd'] = setgroupd487a8,
         codeStates['groupd487a8'] = groupd487a8Props,
         codeStates['setgroupd487a8'] = setgroupd487a8Props,
+        codeStates['groupb'] = groupb8f3d7,
+        codeStates['setgroupb'] = setgroupb8f3d7,
+        codeStates['groupb8f3d7'] = groupb8f3d7Props,
+        codeStates['setgroupb8f3d7'] = setgroupb8f3d7Props,
         codeStates['comboboxa'] = comboboxa2ee09,
         codeStates['setcomboboxa'] = setcomboboxa2ee09,
+        codeStates['dateandtime'] = dateandtime26c68,
+        codeStates['setdateandtime'] = setdateandtime26c68,
+        codeStates['button'] = buttonba9c0,
+        codeStates['setbutton'] = setbuttonba9c0,
         codeStates['textinput'] = textinputaee10,
         codeStates['settextinput'] = settextinputaee10,
         codeStates['comboboxb'] = comboboxb9056e,
@@ -340,7 +346,7 @@ return (
         contentAlign={"center"}
         onBlur={handleBlur}
         isStatic={false}
-        placeholder="Search state..."
+        placeholder={ "comboboxb"}
         value={selectedData}
         onChange={handleOnUpdate}
 

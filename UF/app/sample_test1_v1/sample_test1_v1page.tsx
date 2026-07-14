@@ -41,7 +41,7 @@ export default function PageSampleTest1V1() {
 }
   const token:string = getCookie('token'); 
   const decodedTokenObj: DecodedToken = decodeToken(token);
-  const screenName:string = "test";
+  const screenName:string = "dynamicaction";
   const user : string | undefined = decodedTokenObj?.selectedAccessProfile;
   const {memoryVariables, setMemoryVariables} = useContext(TotalContext) as TotalContextProps;
   const {refetch, setRefetch} = useContext(TotalContext) as TotalContextProps;

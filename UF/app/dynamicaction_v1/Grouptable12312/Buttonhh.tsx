@@ -83,7 +83,7 @@ const Buttonhh = ({ mainData,lockedData,setLockedData,primaryTableData, setPrima
     pageSize: 0,
     total: 0,
   })
-  const savedData=useRef<Record<string, any>>({})
+  const savedData=useRef<Record<string, any>>({});
   const keyset:any=i18n.keyset("language");
   const confirmMsgFlag: boolean = false; 
   const toast : Function=useInfoMsg();
@@ -219,6 +219,7 @@ const Buttonhh = ({ mainData,lockedData,setLockedData,primaryTableData, setPrima
   useEffect(()=>{
     setShowProfileAsModalOpen2(false)
   },[hh6c7c1?.refresh])
+
 
   function SourceIdFilter(eventProperty:any,matchingSequence?:string){
     let ans : any[] = [];

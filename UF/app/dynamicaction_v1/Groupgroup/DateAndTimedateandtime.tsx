@@ -76,9 +76,21 @@ const DatePickerdateandtime = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encr
   let schemaArray :any =[];
 
 
+
+        const today = new Date();
+         today.setHours(0, 0, 0, 0); // Set to midnight (start of today)
+          const tomorrow = new Date(today);
+          tomorrow.setDate(tomorrow.getDate() + 1); // Move to tomorrow
+           const schema = v.pipe(v.string(),v.minLength(1, 'Date is required'),v.transform((value) => new Date(value)),v.date(),v.minValue(today, 'Date must be in the future'));
 const handleUpdate = async(date: any) => {
   try{
   //setIsProcessing(true);
+  if(date == "" || date == null || date == undefined) {
+    setError('Date is required')
+    setValidate((pre:any)=>({...pre,dynamicAction_v1:{...pre?.dynamicAction_v1,dateandtime: "invalid"}}))
+    setgrouped023((prev: any) => ({ ...prev, dateandtime: "" }))
+    return;
+  }
   setError('')
   setValidate((pre:any)=>({...pre,dynamicAction_v1:{...pre?.dynamicAction_v1,dateandtime:undefined}}));
   if (!date) {
@@ -109,6 +121,23 @@ async function handleConfirmonUpdate(){
 
 const handleBlur=async () => {
     //validation
+    if(grouped023?.dateandtime == "" || grouped023?.dateandtime == undefined){
+    grouped023.dateandtime = "";
+    const validate:any = v.safeParse(schema, grouped023?.dateandtime);
+    if(!validate.success){
+      setError(validate?.issues[0]?.message);
+      setValidate((pre:any)=>({...pre,dynamicAction_v1:{...pre?.dynamicAction_v1,dateandtime:"invalid"}}))
+    }else{
+    setError('')
+    setValidate((pre:any)=>({...pre,dynamicAction_v1:{...pre?.dynamicAction_v1,dateandtime:undefined}  }))
+    }
+    }else if(grouped023?.dateandtime !== ""){
+      const validate:any = v.safeParse(schema, grouped023?.dateandtime);  
+      if(!validate.success){
+        setError(validate?.issues[0]?.message);
+        setValidate((pre:any)=>({...pre,dynamicAction_v1:{...pre?.dynamicAction_v1,dateandtime: "invalid"}}));
+      }
+    }
     let code:any;
     const orchestrationData : any = getControlOrchestrationData(
         controlData,
@@ -172,11 +201,23 @@ const handleBlur=async () => {
 }
 
 useEffect(()=>{
-  setgrouped023Props((pre:any)=>({...pre,validation:true}))
+  if(!grouped023?.dateandtime)
+  {
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const IST_OFFSET = 5.5 * 60 * 60 * 1000;
+    const indiaToday = new Date(today.getTime() + IST_OFFSET);
+    setgrouped023((pre:any)=>({...pre,dateandtime:indiaToday.toISOString()}))
+  }
+  setgrouped023Props((pre:any)=>({...pre,validation:true,required:true}))
  },[dateandtimef72a6?.refresh])
 
 useEffect(()=>{
-  handleBlur();
+  if(!grouped023?.dateandtime){ 
+    setgrouped023Props((pre:any)=>({...pre,required:true}));
+    setIsRequiredData(true);
+  }
+  if(validateRefetch.init!=0)
+    handleBlur();
 },[validateRefetch.value])
 
 if (dateandtimef72a6?.isHidden) {
@@ -191,9 +232,9 @@ return (
       value={grouped023?.dateandtime}
       onUpdate= {handleUpdate}
       onBlur= {()=>handleBlur()} 
-      required={ false }
+      required={ true }
       readOnly=  {dateandtimef72a6?.isDisabled ? true : false}
-      disabled={ true }
+      disabled= {dateandtimef72a6?.isDisabled ? true : false}
       contentAlign={"center"}
       headerPosition='left'
       headerText="ddd"

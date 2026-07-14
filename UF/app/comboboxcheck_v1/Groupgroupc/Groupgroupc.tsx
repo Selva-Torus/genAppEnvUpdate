@@ -19,6 +19,7 @@ import evaluateDecisionTable,{ evaluateDecisionForDynamicActions,eventDecisionTa
 import decodeToken from '@/app/components/decodeToken';
 import uoMapperData from '@/context/dfdmapperContolnames.json';
 import Texttext2342  from "./Texttext2342";
+import ComboBoxcombobox1231  from "./ComboBoxcombobox1231";
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
 import { getCookie } from "@/app/components/cookieMgment";
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
@@ -56,48 +57,51 @@ const Groupgroupc = ({lockedData={},setLockedData,primaryTableData={},tableData=
   const securityData:any={
   "emplyoee": {
     "allowedControls": [
-      "text2342"
+      "text2342",
+      "combobox1231"
     ],
     "allowedGroups": [
       "canvas",
       "group1234",
       "state",
       "groupaaa",
-      "groupb",
       "groupc",
-      "groupd"
+      "groupd",
+      "groupb"
     ],
     "blockedControls": [],
     "readOnlyControls": []
   },
   "user": {
     "allowedControls": [
-      "text2342"
+      "text2342",
+      "combobox1231"
     ],
     "allowedGroups": [
       "canvas",
       "group1234",
       "state",
       "groupaaa",
-      "groupb",
       "groupc",
-      "groupd"
+      "groupd",
+      "groupb"
     ],
     "blockedControls": [],
     "readOnlyControls": []
   },
   "Template": {
     "allowedControls": [
-      "text2342"
+      "text2342",
+      "combobox1231"
     ],
     "allowedGroups": [
       "canvas",
       "group1234",
       "state",
       "groupaaa",
-      "groupb",
       "groupc",
-      "groupd"
+      "groupd",
+      "groupb"
     ],
     "blockedControls": [],
     "readOnlyControls": []
@@ -122,13 +126,14 @@ const Groupgroupc = ({lockedData={},setLockedData,primaryTableData={},tableData=
   const {stateaa824Props, setstateaa824Props}= useContext(TotalContext) as TotalContextProps;
   const {groupaaa97733, setgroupaaa97733}= useContext(TotalContext) as TotalContextProps;
   const {groupaaa97733Props, setgroupaaa97733Props}= useContext(TotalContext) as TotalContextProps;
-  const {groupb8f3d7, setgroupb8f3d7}= useContext(TotalContext) as TotalContextProps;
-  const {groupb8f3d7Props, setgroupb8f3d7Props}= useContext(TotalContext) as TotalContextProps;
   const {groupc0c048, setgroupc0c048}= useContext(TotalContext) as TotalContextProps;
   const {groupc0c048Props, setgroupc0c048Props}= useContext(TotalContext) as TotalContextProps;
   const {text234245d6a, settext234245d6a}= useContext(TotalContext) as TotalContextProps;
+  const {combobox1231f35a2, setcombobox1231f35a2}= useContext(TotalContext) as TotalContextProps;
   const {groupd487a8, setgroupd487a8}= useContext(TotalContext) as TotalContextProps;
   const {groupd487a8Props, setgroupd487a8Props}= useContext(TotalContext) as TotalContextProps;
+  const {groupb8f3d7, setgroupb8f3d7}= useContext(TotalContext) as TotalContextProps;
+  const {groupb8f3d7Props, setgroupb8f3d7Props}= useContext(TotalContext) as TotalContextProps;
   //////////////
   const [ruleData,setRuleData]=useState<any>([])
   const [open, setOpen] = React.useState(false);
@@ -183,6 +188,16 @@ const Groupgroupc = ({lockedData={},setLockedData,primaryTableData={},tableData=
         settext234245d6a({...text234245d6a,isDisabled:false});
       }
     }
+    if(orchestrationData?.data?.readableControls.includes("combobox1231")){
+        setcombobox1231f35a2({...combobox1231f35a2,isDisabled:true});
+
+    }else
+    {
+      if(combobox1231f35a2?.isDisabled==null)
+      {
+        setcombobox1231f35a2({...combobox1231f35a2,isDisabled:false});
+      }
+    }
   //////////////
     if (code != '') {
       let codeStates: any = {};
@@ -198,20 +213,22 @@ const Groupgroupc = ({lockedData={},setLockedData,primaryTableData={},tableData=
         codeStates['setgroupaaa'] = setgroupaaa97733,
         codeStates['groupaaa97733'] = groupaaa97733Props,
         codeStates['setgroupaaa97733'] = setgroupaaa97733Props,
-        codeStates['groupb'] = groupb8f3d7,
-        codeStates['setgroupb'] = setgroupb8f3d7,
-        codeStates['groupb8f3d7'] = groupb8f3d7Props,
-        codeStates['setgroupb8f3d7'] = setgroupb8f3d7Props,
         codeStates['groupc'] = groupc0c048,
         codeStates['setgroupc'] = setgroupc0c048,
         codeStates['groupc0c048'] = groupc0c048Props,
         codeStates['setgroupc0c048'] = setgroupc0c048Props,
         codeStates['text2342'] = text234245d6a,
         codeStates['settext2342'] = settext234245d6a,
+        codeStates['combobox1231'] = combobox1231f35a2,
+        codeStates['setcombobox1231'] = setcombobox1231f35a2,
         codeStates['groupd'] = groupd487a8,
         codeStates['setgroupd'] = setgroupd487a8,
         codeStates['groupd487a8'] = groupd487a8Props,
         codeStates['setgroupd487a8'] = setgroupd487a8Props,
+        codeStates['groupb'] = groupb8f3d7,
+        codeStates['setgroupb'] = setgroupb8f3d7,
+        codeStates['groupb8f3d7'] = groupb8f3d7Props,
+        codeStates['setgroupb8f3d7'] = setgroupb8f3d7Props,
 
     codeExecution(code,codeStates);
     } 
@@ -244,20 +261,22 @@ const Groupgroupc = ({lockedData={},setLockedData,primaryTableData={},tableData=
         codeStates['setgroupaaa'] = setgroupaaa97733,
         codeStates['groupaaa97733'] = groupaaa97733Props,
         codeStates['setgroupaaa97733'] = setgroupaaa97733Props,
-        codeStates['groupb'] = groupb8f3d7,
-        codeStates['setgroupb'] = setgroupb8f3d7,
-        codeStates['groupb8f3d7'] = groupb8f3d7Props,
-        codeStates['setgroupb8f3d7'] = setgroupb8f3d7Props,
         codeStates['groupc'] = groupc0c048,
         codeStates['setgroupc'] = setgroupc0c048,
         codeStates['groupc0c048'] = groupc0c048Props,
         codeStates['setgroupc0c048'] = setgroupc0c048Props,
         codeStates['text2342'] = text234245d6a,
         codeStates['settext2342'] = settext234245d6a,
+        codeStates['combobox1231'] = combobox1231f35a2,
+        codeStates['setcombobox1231'] = setcombobox1231f35a2,
         codeStates['groupd'] = groupd487a8,
         codeStates['setgroupd'] = setgroupd487a8,
         codeStates['groupd487a8'] = groupd487a8Props,
         codeStates['setgroupd487a8'] = setgroupd487a8Props,
+        codeStates['groupb'] = groupb8f3d7,
+        codeStates['setgroupb'] = setgroupb8f3d7,
+        codeStates['groupb8f3d7'] = groupb8f3d7Props,
+        codeStates['setgroupb8f3d7'] = setgroupb8f3d7Props,
       customCode = codeExecution(allCode,codeStates);
       return customCode;
     }
@@ -319,6 +338,7 @@ const Groupgroupc = ({lockedData={},setLockedData,primaryTableData={},tableData=
         }}
     >
           {allowedControls.includes("text2342") ?<Texttext2342   /* 45d6a */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+        {allowedControls.includes("combobox1231") ?<ComboBoxcombobox1231 /* f35a2 */ encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
     </div>
  )
 }

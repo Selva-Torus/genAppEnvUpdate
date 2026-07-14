@@ -40,6 +40,12 @@ export default function PageComboboxcheckV1() {
     "comboboxa": {
       "show": false
     },
+    "dateandtime": {
+      "show": false
+    },
+    "button": {
+      "show": false
+    },
     "textinput": {
       "show": false
     },
@@ -78,13 +84,11 @@ export default function PageComboboxcheckV1() {
       "show": false
     }
   },
-  "groupb": {
-    "text1231": {
-      "show": false
-    }
-  },
   "groupc": {
     "text2342": {
+      "show": false
+    },
+    "combobox1231": {
       "show": false
     }
   },
@@ -93,6 +97,14 @@ export default function PageComboboxcheckV1() {
       "show": false
     },
     "datepicker123": {
+      "show": false
+    }
+  },
+  "groupb": {
+    "text1231": {
+      "show": false
+    },
+    "dropdown": {
       "show": false
     }
   }
@@ -113,15 +125,15 @@ export default function PageComboboxcheckV1() {
   const [checkgroup1234,setCheckgroup1234,]=useState<boolean>(false);
   const [checkstate,setCheckstate,]=useState<boolean>(false);
   const [checkgroupaaa,setCheckgroupaaa,]=useState<boolean>(false);
-  const [checkgroupb,setCheckgroupb,]=useState<boolean>(false);
   const [checkgroupc,setCheckgroupc,]=useState<boolean>(false);
   const [checkgroupd,setCheckgroupd,]=useState<boolean>(false);
+  const [checkgroupb,setCheckgroupb,]=useState<boolean>(false);
   const {group123488888, setgroup123488888} = useContext(TotalContext) as TotalContextProps;
   const {stateaa824, setstateaa824} = useContext(TotalContext) as TotalContextProps;
   const {groupaaa97733, setgroupaaa97733} = useContext(TotalContext) as TotalContextProps;
-  const {groupb8f3d7, setgroupb8f3d7} = useContext(TotalContext) as TotalContextProps;
   const {groupc0c048, setgroupc0c048} = useContext(TotalContext) as TotalContextProps;
   const {groupd487a8, setgroupd487a8} = useContext(TotalContext) as TotalContextProps;
+  const {groupb8f3d7, setgroupb8f3d7} = useContext(TotalContext) as TotalContextProps;
   const {dfd_country_code_dfd_v1Props, setdfd_country_code_dfd_v1Props} = useContext(TotalContext) as TotalContextProps;
   const [controlData, setControlData] = useState<any>({});
   const [groupData, setGroupData] = useState<any>({});
@@ -353,10 +365,6 @@ export default function PageComboboxcheckV1() {
             {
               setCheckgroupaaa(true)
             }
-            if(nodes?.groupName == 'groupb' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
-            {
-              setCheckgroupb(true)
-            }
             if(nodes?.groupName == 'groupc' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
               setCheckgroupc(true)
@@ -364,6 +372,10 @@ export default function PageComboboxcheckV1() {
             if(nodes?.groupName == 'groupd' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
               setCheckgroupd(true)
+            }
+            if(nodes?.groupName == 'groupb' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            {
+              setCheckgroupb(true)
             }
           })
           }
@@ -384,12 +396,12 @@ export default function PageComboboxcheckV1() {
           codeStates['setstate'] = setstateaa824;
           codeStates['groupaaa'] = groupaaa97733;
           codeStates['setgroupaaa'] = setgroupaaa97733;
-          codeStates['groupb'] = groupb8f3d7;
-          codeStates['setgroupb'] = setgroupb8f3d7;
           codeStates['groupc'] = groupc0c048;
           codeStates['setgroupc'] = setgroupc0c048;
           codeStates['groupd'] = groupd487a8;
           codeStates['setgroupd'] = setgroupd487a8;
+          codeStates['groupb'] = groupb8f3d7;
+          codeStates['setgroupb'] = setgroupb8f3d7;
           const { codeExecution } = await import("../utils/codeExecution");
           codeExecution(code,codeStates);
         }   

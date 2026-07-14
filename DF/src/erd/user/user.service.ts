@@ -10,15 +10,43 @@ import { CommonService } from 'src/common.Service';
 import { parsePrismaCreateError } from 'src/prisma-error-handler';
 import { userEntity } from './entity/user.entity';
 import { CustomException } from 'src/customException';
+import axios from 'axios';
 @Injectable()
 export class userService {
   constructor(private readonly prismaService: PrismaService,
   private readonly cdcPrismaService: CdcPrismaService,
   private readonly commonService: CommonService) {}
   private encryptedCols: any={
-  "user": [],
-  "comboboxtable": []
+  "comboboxtable": [],
+  "user": []
 }
+  private readonly tokenizationRules:any = {
+  "rules": {
+    "fields": [
+      {
+        "id": "name",
+        "path": "$.name",
+        "label": "name",
+        "masks": [
+          {
+            "label": "Full_mask",
+            "pattern": "^(.{0})(.*)(.{0})$",
+            "is_default": "Y"
+          },
+          {
+            "label": "Mid_mask",
+            "pattern": "^(.{4})(.*)(.{4})$",
+            "is_default": "N"
+          }
+        ],
+        "encrypt": {
+          "method": "AES_256"
+        }
+      }
+    ],
+    "version": "1.0"
+  }
+};    
 
   async encryptData(data: any, tableName: string, method) {
     let encryptedData = { ...data };
@@ -325,7 +353,7 @@ export class userService {
     return data;
   }
 
- async findAllmethod(queryDto: any, limit:number,selectColumns:any,token:any) {
+ async findAllmethod(queryDto: any, limit:number, selectColumns:any, token:any) {
     try {
       let queryCondition:any ={}
       let queryValue:any = {}
@@ -551,12 +579,12 @@ export class userService {
     }
   }
 
-  async findOne(id:number,token : string) {
+  async findOne(id:number,token : string,detokenize?: string) {
     try{
       const res = await this.prismaService.withConnection(() =>
       this.prismaService.user.findMany({ 
       where: {id},
-      select: {id:true,name:true,onlydate:true,dateandtime:true,trs_created_date:true,trs_created_by:true,trs_modified_date:true,trs_modified_by:true,trs_process_id:true,trs_access_profile:true,trs_org_grp_code:true,trs_org_code:true,trs_role_grp_code:true,trs_role_code:true,trs_ps_grp_code:true,trs_ps_code:true,trs_sub_org_grp_code:true,trs_sub_org_code:true,trs_locked_by:true,trs_locked_time:true,trs_tenant_id:true,trs_app_code:true,trs_product_code:true,trs_event_process_status:true,trs_event_status:true,trs_token_id:true,trs_version:true,trs_prev_process_code:true,trs_prev_status:true,trs_prev_process_status:true,trs_process_code:true,trs_status:true,trs_process_status:true,trs_next_process_code:true,trs_next_status:true,trs_next_process_status:true,        }
+      select: {name:true,onlydate:true,dateandtime:true,trs_created_date:true,trs_created_by:true,trs_modified_date:true,trs_modified_by:true,trs_process_id:true,trs_access_profile:true,trs_org_grp_code:true,trs_org_code:true,trs_role_grp_code:true,trs_role_code:true,trs_ps_grp_code:true,trs_ps_code:true,trs_sub_org_grp_code:true,trs_sub_org_code:true,trs_locked_by:true,trs_locked_time:true,trs_tenant_id:true,trs_app_code:true,trs_product_code:true,trs_event_process_status:true,trs_event_status:true,trs_token_id:true,trs_version:true,trs_prev_process_code:true,trs_prev_status:true,trs_prev_process_status:true,trs_process_code:true,trs_status:true,trs_process_status:true,trs_next_process_code:true,trs_next_status:true,trs_next_process_status:true,        }
     }));
     //return await this.decryptData(await this.commonDecimalDatahandle(res), 'user');
     let decryptedRes: any = [];
@@ -565,6 +593,13 @@ export class userService {
       const decryptedData = await this.decryptData(plain, 'user');
       decryptedRes.push(decryptedData);
     }
+    if (this.tokenizationRules?.rules?.fields?.length > 0 && decryptedRes[0]?.trs_token_id && detokenize == 'true') {
+        let deTokenizedData =  await axios.get(
+            `${process.env.TOKENIZATION_BASE_URL}/detokenization/${decryptedRes[0]['trs_token_id']}`,
+          )
+        decryptedRes[0] = { ...decryptedRes[0], ...deTokenizedData?.data} ;
+    }
+
     return decryptedRes;
   } catch (error:any) {
     const errorMessage = 'Error in findOne';
@@ -581,7 +616,7 @@ export class userService {
   }
   }
 
-  async findAll(token : string
+  async findAll(token : string,detokenize?: string
 ) {
     try{
       const whereClause: any = {};
@@ -595,6 +630,17 @@ export class userService {
         const plain = await this.commonDecimalDatahandle(indiviual)
         const decryptedData = await this.decryptData(plain, 'user');
         decryptedRes.push(decryptedData);
+      }
+      if (this.tokenizationRules?.rules?.fields?.length > 0 && detokenize == 'true') {
+        for (let data = 0; data < decryptedRes.length; data++) {
+          if(decryptedRes[data]?.trs_token_id){
+            let deTokenizedData =  await axios.get(
+              `${process.env.TOKENIZATION_BASE_URL}/detokenization/${decryptedRes[data]['trs_token_id']}`,
+            )
+            deTokenizedData = deTokenizedData.data;
+            decryptedRes[data] = { ...decryptedRes[data], ...deTokenizedData} ;            
+          }
+        }
       }
       return decryptedRes;
     } catch (error:any) {
@@ -612,11 +658,10 @@ export class userService {
     }
     }
     
-  async create(createuserDto: Prisma.userCreateInput,token:string) {
+  async create(createuserDto: Prisma.userCreateInput,token:string,detokenize:string) {
     try{
 
       const dataSchema:any =  v.object({
-            id :v.number() , 
             name :  v.optional(v.string()), 
             onlydate :  v.optional(v.pipe(
                   v.string(),
@@ -647,47 +692,86 @@ export class userService {
             trs_product_code :  v.optional(v.pipe(v.string(),v.maxLength(16 ))), 
             trs_event_process_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
             trs_event_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
-            trs_token_id :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
+            trs_token_id :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
             trs_version :  v.optional(v.pipe(v.string(),v.maxLength(16 ))), 
             trs_prev_process_code :  v.optional(v.pipe(v.string(),v.maxLength(128 ))), 
-            trs_prev_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
+            trs_prev_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
             trs_prev_process_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
             trs_process_code :  v.optional(v.pipe(v.string(),v.maxLength(128 ))), 
-            trs_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
+            trs_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
             trs_process_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
             trs_next_process_code :  v.optional(v.pipe(v.string(),v.maxLength(128 ))), 
-            trs_next_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
+            trs_next_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
             trs_next_process_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
-        });
-        let validate : any = v.safeParse(dataSchema,createuserDto);
-        if (!validate.success) {
-          let errorObj: errorObj = {
-            tname: 'TG',
-            errGrp: 'Data',
-            fabric: 'DF',
-            errType: 'Fatal',
-            errCode: 'TG101',
-          };
-          const errorMessage = validate.issues[0].message;
+      });
+      let validate : any = v.safeParse(dataSchema,createuserDto);
+      if (!validate.success) {
+        let errorObj: errorObj = {
+          tname: 'TG',
+          errGrp: 'Data',
+          fabric: 'DF',
+          errType: 'Fatal',
+          errCode: 'TG101',
+        };
+        const allErrors: any[] = [];
+        for (const issue of validate.issues) {
+          const columnName = issue.path?.[0]?.key ?? 'unknown';
+          const errorMessage = issue.message;
+          allErrors.push({
+            columnName,
+            message: errorMessage,
+            error: 'Bad Request',
+            statusCode: HttpStatus.BAD_REQUEST,
+          });
           await this.commonService.errorLog(
             "Technical",
             'AK',
             'Fatal',
             "TG021",
-            errorMessage,
+            `${columnName}: ${errorMessage}`,
             "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
             token
           );
         }
-      const encryptedData = await this.normalizeDatesToUTC(await this.encryptData(createuserDto, 'user', 'create'), token);
-      const res = await this.prismaService.withConnection(() =>
+        throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
+      }
+      let encryptedData = await this.normalizeDatesToUTC(await this.encryptData(createuserDto, 'user', 'create'), token);
+      if (this.tokenizationRules?.rules?.fields?.length > 0) {
+        let tokenizedData = { ...this.tokenizationRules, payload: encryptedData };
+        tokenizedData =     await axios.post(
+            `${process.env.TOKENIZATION_BASE_URL}/dynamic-tokenization`,
+            tokenizedData,
+            { headers: { 
+              'Content-Type': 'application/json',
+              app_code : process.env.APPCODE,
+              product_code : `${process.env.APPCODE}_${process.env.APPGROUPNAME}`,
+              tnt_id : process.env.TENANT
+            },         
+            }
+          );
+        encryptedData = tokenizedData?.data
+        if ('tokenId' in encryptedData) {
+          encryptedData.trs_token_id = encryptedData.tokenId;
+          delete encryptedData.tokenId;
+        }
+      }
+      let res = await this.prismaService.withConnection(() =>
         this.prismaService.user.create({
           data: encryptedData,
           select:{id:true,name:true,onlydate:true,dateandtime:true,trs_created_date:true,trs_created_by:true,trs_modified_date:true,trs_modified_by:true,trs_process_id:true,trs_access_profile:true,trs_org_grp_code:true,trs_org_code:true,trs_role_grp_code:true,trs_role_code:true,trs_ps_grp_code:true,trs_ps_code:true,trs_sub_org_grp_code:true,trs_sub_org_code:true,trs_locked_by:true,trs_locked_time:true,trs_tenant_id:true,trs_app_code:true,trs_product_code:true,trs_event_process_status:true,trs_event_status:true,trs_token_id:true,trs_version:true,trs_prev_process_code:true,trs_prev_status:true,trs_prev_process_status:true,trs_process_code:true,trs_status:true,trs_process_status:true,trs_next_process_code:true,trs_next_status:true,trs_next_process_status:true,}          
         })
       );
+      if (detokenize ==="true" && this.tokenizationRules?.rules?.fields?.length > 0 && res?.trs_token_id) {
+        let deTokenizedData =  await axios.get(
+              `${process.env.TOKENIZATION_BASE_URL}/detokenization/${res['trs_token_id']}`,
+            )
+            res = { ...res, ...deTokenizedData?.data} ;            
+      }      
     return await this.decryptData(await this.commonDecimalDatahandle(res), 'user');
   } catch (error:any) {
+    if (error instanceof CustomException) {
+      throw error;
+    }
     const errMsg = parsePrismaCreateError(error);
     const errorMessage = 'Create Error';
     await this.commonService.errorLog(
@@ -812,7 +896,6 @@ export class userService {
       // Validate the input data
 
       const dataSchema:any =  v.object({
-            id :v.number() , 
             name :  v.optional(v.string()), 
             onlydate :  v.optional(v.pipe(
                   v.string(),
@@ -843,43 +926,73 @@ export class userService {
             trs_product_code :  v.optional(v.pipe(v.string(),v.maxLength(16 ))), 
             trs_event_process_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
             trs_event_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
-            trs_token_id :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
+            trs_token_id :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
             trs_version :  v.optional(v.pipe(v.string(),v.maxLength(16 ))), 
             trs_prev_process_code :  v.optional(v.pipe(v.string(),v.maxLength(128 ))), 
-            trs_prev_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
+            trs_prev_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
             trs_prev_process_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
             trs_process_code :  v.optional(v.pipe(v.string(),v.maxLength(128 ))), 
-            trs_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
+            trs_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
             trs_process_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
             trs_next_process_code :  v.optional(v.pipe(v.string(),v.maxLength(128 ))), 
-            trs_next_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
+            trs_next_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
             trs_next_process_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
-        });
-        let validate : any = v.safeParse(dataSchema,createuserDto);
-        if (!validate.success) {
-          let errorObj: errorObj = {
-            tname: 'TG',
-            errGrp: 'Data',
-            fabric: 'DF',
-            errType: 'Fatal',
-            errCode: 'TG101',
-          };
-          const errorMessage = validate.issues[0].message;
+      });
+      let validate : any = v.safeParse(dataSchema,createuserDto);
+      if (!validate.success) {
+        let errorObj: errorObj = {
+          tname: 'TG',
+          errGrp: 'Data',
+          fabric: 'DF',
+          errType: 'Fatal',
+          errCode: 'TG101',
+        };
+        const allErrors: any[] = [];
+        for (const issue of validate.issues) {
+          const columnName = issue.path?.[0]?.key ?? 'unknown';
+          const errorMessage = issue.message;
+          allErrors.push({
+            columnName,
+            message: errorMessage,
+            error: 'Bad Request',
+            statusCode: HttpStatus.BAD_REQUEST,
+          });
           await this.commonService.errorLog(
             "Technical",
             'AK',
             'Fatal',
             "TG021",
-            errorMessage,
+            `${columnName}: ${errorMessage}`,
             "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
             token
           );
-          throw new HttpException(errorMessage, HttpStatus.BAD_REQUEST);
         }
+        throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
+      }
       
       // Encrypt data if needed
-      const encryptedData = await this.normalizeDatesToUTC(await this.encryptData(createuserDto, 'user', 'create'), token);
+      let encryptedData = await this.normalizeDatesToUTC(await this.encryptData(createuserDto, 'user', 'create'), token);
       encryptedData['trs_modified_date'] = new Date();
+      if (this.tokenizationRules?.rules?.fields?.length > 0) {
+        let tokenizedData = { ...this.tokenizationRules, payload: encryptedData };
+        tokenizedData =     await axios.post(
+            `${process.env.TOKENIZATION_BASE_URL}/dynamic-tokenization`,
+            tokenizedData,
+            { headers: { 
+              'Content-Type': 'application/json',
+              app_code : process.env.APPCODE,
+              product_code : `${process.env.APPCODE}_${process.env.APPGROUPNAME}`,
+              tnt_id : process.env.TENANT
+            },         
+            }
+          );
+        encryptedData = tokenizedData?.data
+        if ('tokenId' in encryptedData) {
+          encryptedData.trs_token_id = encryptedData.tokenId;
+          delete encryptedData.tokenId;
+        }
+      }
+
 
       // Convert numeric values to strings for JSONB (as per the documentation pattern)
       //const changes: Record<string, string> = {};
@@ -918,6 +1031,9 @@ export class userService {
       // For INSERT: p_record_id is NULL, p_changes contains the new data
 
     } catch (error: any) {
+      if (error instanceof CustomException) {
+        throw error;
+      }
       const errorMessage = 'Error in createMaster';
       await this.commonService.errorLog(
         "Technical",
@@ -928,7 +1044,7 @@ export class userService {
         "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
         token
       );
-
+      
       // Handle specific PostgreSQL errors
       if (error.message?.includes('Maker and checker cannot be the same')) {
         throw new HttpException('You cannot approve your own request', HttpStatus.FORBIDDEN);
@@ -943,7 +1059,7 @@ export class userService {
     }
   }
 
-  async update(id:number, updateuserDto: Prisma.userUpdateInput,token:string) {   
+  async update(id:number, updateuserDto: Prisma.userUpdateInput,token:string, detokenize:string) {   
     try{
 
       const dataSchema:any =  v.object({
@@ -977,16 +1093,16 @@ export class userService {
           trs_product_code :  v.optional(v.pipe(v.string(),v.maxLength(16 ))), 
           trs_event_process_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
           trs_event_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
-          trs_token_id :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
+          trs_token_id :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
           trs_version :  v.optional(v.pipe(v.string(),v.maxLength(16 ))), 
           trs_prev_process_code :  v.optional(v.pipe(v.string(),v.maxLength(128 ))), 
-          trs_prev_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
+          trs_prev_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
           trs_prev_process_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
           trs_process_code :  v.optional(v.pipe(v.string(),v.maxLength(128 ))), 
-          trs_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
+          trs_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
           trs_process_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
           trs_next_process_code :  v.optional(v.pipe(v.string(),v.maxLength(128 ))), 
-          trs_next_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
+          trs_next_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
           trs_next_process_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
       });
       let validate : any = v.safeParse(dataSchema,updateuserDto);
@@ -998,18 +1114,49 @@ export class userService {
           errType: 'Fatal',
           errCode: 'TG101',
         };
-        const errorMessage = validate.issues[0].message;
-        await this.commonService.errorLog(
-          "Technical",
-          'AK',
-          'Fatal',
-          "TG025",
-          errorMessage,
-          "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
-          token
-        );
+        const allErrors: any[] = [];
+        for (const issue of validate.issues) {
+          const columnName = issue.path?.[0]?.key ?? 'unknown';
+          const errorMessage = issue.message;
+          allErrors.push({
+            columnName,
+            message: errorMessage,
+            error: 'Bad Request',
+            statusCode: HttpStatus.BAD_REQUEST,
+          });
+          await this.commonService.errorLog(
+            "Technical",
+            'AK',
+            'Fatal',
+            "TG021",
+            `${columnName}: ${errorMessage}`,
+            "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
+            token
+          );
+        }
+        throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
       }
-      const encryptedData = await this.normalizeDatesToUTC(await this.encryptData(updateuserDto,'user','update'), token);
+      let encryptedData = await this.normalizeDatesToUTC(await this.encryptData(updateuserDto,'user','update'), token);
+      if (this.tokenizationRules?.rules?.fields?.length > 0) {
+        let tokenizedData = { ...this.tokenizationRules, payload: encryptedData };
+        tokenizedData =     await axios.post(
+        `${process.env.TOKENIZATION_BASE_URL}/dynamic-tokenization`,
+          tokenizedData,
+          { headers: { 
+            'Content-Type': 'application/json',
+            app_code : process.env.APPCODE,
+            product_code : `${process.env.APPCODE}_${process.env.APPGROUPNAME}`,
+            tnt_id : process.env.TENANT
+          },         
+          }
+        );
+        encryptedData = tokenizedData?.data
+        if ('tokenId' in encryptedData) {
+          encryptedData.trs_token_id = encryptedData.tokenId;
+          delete encryptedData.tokenId;
+        }        
+      }
+
       await this.prismaService.withConnection(() =>
       this.prismaService.user.updateMany({
       where: {id},
@@ -1018,7 +1165,7 @@ export class userService {
     const updated = await this.prismaService.withConnection(() =>
       this.prismaService.user.findMany({
       where: {id},
-      select: {id:true,name:true,onlydate:true,dateandtime:true,trs_created_date:true,trs_created_by:true,trs_modified_date:true,trs_modified_by:true,trs_process_id:true,trs_access_profile:true,trs_org_grp_code:true,trs_org_code:true,trs_role_grp_code:true,trs_role_code:true,trs_ps_grp_code:true,trs_ps_code:true,trs_sub_org_grp_code:true,trs_sub_org_code:true,trs_locked_by:true,trs_locked_time:true,trs_tenant_id:true,trs_app_code:true,trs_product_code:true,trs_event_process_status:true,trs_event_status:true,trs_token_id:true,trs_version:true,trs_prev_process_code:true,trs_prev_status:true,trs_prev_process_status:true,trs_process_code:true,trs_status:true,trs_process_status:true,trs_next_process_code:true,trs_next_status:true,trs_next_process_status:true,}
+      select: {name:true,onlydate:true,dateandtime:true,trs_created_date:true,trs_created_by:true,trs_modified_date:true,trs_modified_by:true,trs_process_id:true,trs_access_profile:true,trs_org_grp_code:true,trs_org_code:true,trs_role_grp_code:true,trs_role_code:true,trs_ps_grp_code:true,trs_ps_code:true,trs_sub_org_grp_code:true,trs_sub_org_code:true,trs_locked_by:true,trs_locked_time:true,trs_tenant_id:true,trs_app_code:true,trs_product_code:true,trs_event_process_status:true,trs_event_status:true,trs_token_id:true,trs_version:true,trs_prev_process_code:true,trs_prev_status:true,trs_prev_process_status:true,trs_process_code:true,trs_status:true,trs_process_status:true,trs_next_process_code:true,trs_next_status:true,trs_next_process_status:true,}
     }));
     // return await this.decryptData(await this.commonDecimalDatahandle(res), 'user');
     let decryptedRes: any = [];
@@ -1027,19 +1174,33 @@ export class userService {
       const decryptedData = await this.decryptData(plain, 'user');
       decryptedRes.push(decryptedData);
     }
+    if (this.tokenizationRules?.rules?.fields?.length > 0 && detokenize == 'true') {
+        for (let data = 0; data < decryptedRes.length; data++) {
+          if(decryptedRes[data]?.trs_token_id){
+          let deTokenizedData =  await axios.get(
+              `${process.env.TOKENIZATION_BASE_URL}/detokenization/${decryptedRes[data]['trs_token_id']}`,
+            )
+            deTokenizedData = deTokenizedData.data;
+            decryptedRes[data] = { ...decryptedRes[data], ...deTokenizedData} ;   
+          }          
+        }
+    }
     return decryptedRes;
     } catch (error:any) {
-        const errorMessage = 'update Error';
-        await this.commonService.errorLog(
-          "Technical",
-          'AK',
-          'Fatal',
-          "TG023",
-          error,
-          "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
-          token
-        );
-        throw new CustomException(errorMessage, error);
+      if (error instanceof CustomException) {
+        throw error;
+      }
+      const errorMessage = 'update Error';
+      await this.commonService.errorLog(
+        "Technical",
+        'AK',
+        'Fatal',
+        "TG023",
+        error,
+        "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
+        token
+      );
+      throw new CustomException(errorMessage, error);
     }  
 }
 
@@ -1185,31 +1346,41 @@ id:number,
           trs_product_code :  v.optional(v.pipe(v.string(),v.maxLength(16 ))), 
           trs_event_process_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
           trs_event_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
-          trs_token_id :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
+          trs_token_id :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
           trs_version :  v.optional(v.pipe(v.string(),v.maxLength(16 ))), 
           trs_prev_process_code :  v.optional(v.pipe(v.string(),v.maxLength(128 ))), 
-          trs_prev_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
+          trs_prev_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
           trs_prev_process_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
           trs_process_code :  v.optional(v.pipe(v.string(),v.maxLength(128 ))), 
-          trs_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
+          trs_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
           trs_process_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
           trs_next_process_code :  v.optional(v.pipe(v.string(),v.maxLength(128 ))), 
-          trs_next_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
+          trs_next_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
           trs_next_process_status :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
       });
       let validate : any = v.safeParse(dataSchema,updateuserDto);
       if (!validate.success) {
-        const errorMessage = validate.issues[0].message;
-        await this.commonService.errorLog(
-          "Technical",
-          'AK',
-          'Fatal',
-          "TG025",
-          errorMessage,
-          "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
-          token
-        );
-        throw new HttpException(errorMessage, HttpStatus.BAD_REQUEST);
+        const allErrors: any[] = [];
+        for (const issue of validate.issues) {
+          const columnName = issue.path?.[0]?.key ?? 'unknown';
+          const errorMessage = issue.message;
+          allErrors.push({
+            columnName,
+            message: errorMessage,
+            error: 'Bad Request',
+            statusCode: HttpStatus.BAD_REQUEST,
+          });
+          await this.commonService.errorLog(
+            "Technical",
+            'AK',
+            'Fatal',
+            "TG021",
+            `${columnName}: ${errorMessage}`,
+            "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
+            token
+          );
+        }
+        throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
       }
 
       // Verify record exists
@@ -1223,7 +1394,26 @@ id:number,
       }
 
       // Encrypt data if needed
-      const encryptedData = await this.normalizeDatesToUTC(await this.encryptData(updateuserDto, 'user', 'update'), token);
+      let encryptedData = await this.normalizeDatesToUTC(await this.encryptData(updateuserDto, 'user', 'update'), token);
+      if (this.tokenizationRules?.rules?.fields?.length > 0) {
+        let tokenizedData = { ...this.tokenizationRules, payload: encryptedData };
+        tokenizedData =     await axios.post(
+        `${process.env.TOKENIZATION_BASE_URL}/dynamic-tokenization`,
+          tokenizedData,
+          { headers: { 
+            'Content-Type': 'application/json',
+            app_code : process.env.APPCODE,
+            product_code : `${process.env.APPCODE}_${process.env.APPGROUPNAME}`,
+            tnt_id : process.env.TENANT
+          },         
+          }
+        );
+        encryptedData = tokenizedData?.data
+        if ('tokenId' in encryptedData) {
+          encryptedData.trs_token_id = encryptedData.tokenId;
+          delete encryptedData.tokenId;
+        }        
+      }      
 
       // Call request_change() for UPDATE
       // For UPDATE: p_record_id is the ID, p_changes contains only changed fields
@@ -1251,6 +1441,9 @@ id:number,
         status: 'CREATED'
       };
     } catch (error: any) {
+      if (error instanceof CustomException) {
+        throw error;
+      }
       const errorMessage = 'Error in updateMaster';
       await this.commonService.errorLog(
         "Technical",
@@ -1279,12 +1472,12 @@ id:number,
     }
   }
 
-  async remove(id:number,token : string) {
+  async remove(id:number,token : string, detokenize: string) {
     try{
     const toDelete = await this.prismaService.withConnection(() =>
       this.prismaService.user.findMany({
       where: {id},
-      select: {id:true,name:true,onlydate:true,dateandtime:true,trs_created_date:true,trs_created_by:true,trs_modified_date:true,trs_modified_by:true,trs_process_id:true,trs_access_profile:true,trs_org_grp_code:true,trs_org_code:true,trs_role_grp_code:true,trs_role_code:true,trs_ps_grp_code:true,trs_ps_code:true,trs_sub_org_grp_code:true,trs_sub_org_code:true,trs_locked_by:true,trs_locked_time:true,trs_tenant_id:true,trs_app_code:true,trs_product_code:true,trs_event_process_status:true,trs_event_status:true,trs_token_id:true,trs_version:true,trs_prev_process_code:true,trs_prev_status:true,trs_prev_process_status:true,trs_process_code:true,trs_status:true,trs_process_status:true,trs_next_process_code:true,trs_next_status:true,trs_next_process_status:true,}
+      select: {name:true,onlydate:true,dateandtime:true,trs_created_date:true,trs_created_by:true,trs_modified_date:true,trs_modified_by:true,trs_process_id:true,trs_access_profile:true,trs_org_grp_code:true,trs_org_code:true,trs_role_grp_code:true,trs_role_code:true,trs_ps_grp_code:true,trs_ps_code:true,trs_sub_org_grp_code:true,trs_sub_org_code:true,trs_locked_by:true,trs_locked_time:true,trs_tenant_id:true,trs_app_code:true,trs_product_code:true,trs_event_process_status:true,trs_event_status:true,trs_token_id:true,trs_version:true,trs_prev_process_code:true,trs_prev_status:true,trs_prev_process_status:true,trs_process_code:true,trs_status:true,trs_process_status:true,trs_next_process_code:true,trs_next_status:true,trs_next_process_status:true,}
     })); 
     await this.prismaService.withConnection(() =>
       this.prismaService.user.deleteMany({
@@ -1296,6 +1489,17 @@ id:number,
       const plain = await this.commonDecimalDatahandle(indiviual)
       const decryptedData = await this.decryptData(plain, 'user');
       decryptedRes.push(decryptedData);
+    }
+    if (this.tokenizationRules?.rules?.fields?.length > 0 && detokenize == 'true') {
+        for (let data = 0; data < decryptedRes.length; data++) {
+          if(decryptedRes[data]?.trs_token_id){
+          let deTokenizedData =  await axios.get(
+              `${process.env.TOKENIZATION_BASE_URL}/detokenization/${decryptedRes[data]['trs_token_id']}`,
+            )
+            deTokenizedData = deTokenizedData.data;
+            decryptedRes[data] = { ...decryptedRes[data], ...deTokenizedData} ;   
+          }          
+        }
     }
     return decryptedRes;
   } catch (error:any) {
@@ -1473,12 +1677,18 @@ id:number,
       throw new CustomException(errorMessage, error);
     }
   }
-  async findFirst(token : string) {
+  async findFirst(token : string, detokenize: string) {
     try{
-      const res = await this.prismaService.withConnection(() =>
+      let res = await this.prismaService.withConnection(() =>
       this.prismaService.user.findFirst({ 
         orderBy: { trs_created_date: 'asc' },
       }));
+      if (this.tokenizationRules?.rules?.fields?.length > 0 && res?.trs_token_id && detokenize == 'true') {
+          let deTokenizedData =  await axios.get(
+              `${process.env.TOKENIZATION_BASE_URL}/detokenization/${res['trs_token_id']}`,
+            )
+          res = { ...res, ...deTokenizedData?.data} ;
+      }         
       return await this.decryptData(await this.commonDecimalDatahandle(res), 'user');
     } catch (error:any) {
       const errorMessage = 'Error in findFirst';
@@ -1494,12 +1704,18 @@ id:number,
         throw new CustomException(errorMessage, error);
       }
   }
-  async findLast(token : string) {
+  async findLast(token : string, detokenize: string) {
     try{
-      const res = await this.prismaService.withConnection(() =>
+      let res = await this.prismaService.withConnection(() =>
       this.prismaService.user.findFirst({ 
         orderBy: { trs_created_date: 'desc' },
       }));
+      if (this.tokenizationRules?.rules?.fields?.length > 0 && res?.trs_token_id && detokenize == 'true') {
+          let deTokenizedData =  await axios.get(
+              `${process.env.TOKENIZATION_BASE_URL}/detokenization/${res['trs_token_id']}`,
+            )
+          res = { ...res, ...deTokenizedData?.data} ;
+      }         
       return await this.decryptData(await this.commonDecimalDatahandle(res), 'user');
     } catch (error:any) {
       const errorMessage = 'Error in findLast';

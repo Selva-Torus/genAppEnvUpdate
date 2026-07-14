@@ -49,7 +49,7 @@ export const ArrowForward = ({ fill = '#0736C4' }) => {
   )
 }
 
-export const ArrowBackward = ({ fill = 'black' }) => {
+export const ArrowBackward = ({ fill = 'black', opacity='0.35' }) => {
   return (
     <svg
       width='24'
@@ -58,7 +58,7 @@ export const ArrowBackward = ({ fill = 'black' }) => {
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
     >
-      <g opacity='0.35'>
+      <g opacity={opacity}>
         <path
           d='M17.75 12H6.25M6.25 12L11.0417 17M6.25 12L11.0417 7'
           stroke={fill}

@@ -32,7 +32,7 @@ const ForgotPassword = ({ logo, appName, appTenantList }: Props) => {
   const { branding } = useGlobal()
   const { brandColor } = branding
   const isSaasApp = process.env.NEXT_PUBLIC_IS_SAAS_APPLICATION
-  const [selectedAppTenant, setSelectedAppTenant] = useState('')
+  const [selectedAppTenant , setSelectedAppTenant] = useState('')
   const keyset: any = i18n.keyset('language')
 
   const handleGetOtp = async () => {
@@ -85,7 +85,7 @@ const ForgotPassword = ({ logo, appName, appTenantList }: Props) => {
         ) : (
           <div className={clsx('flex w-full h-full rounded-lg flex-col items-center justify-center py-[3vh] gap-[1.5vh]', bgColor)}>
             <div className='flex w-full flex-col items-center justify-center gap-[.5vh]'>
-              <span className='font-bold text-[1.5vw]'>Forgot Password?</span>
+              <span className='font-bold text-[1.5vw]'>Forgot Password</span>
               <Text color='secondary' className='text-[.8vw]'>
                 No worries, we&apos;ll send you instructions
               </Text>
@@ -110,7 +110,7 @@ const ForgotPassword = ({ logo, appName, appTenantList }: Props) => {
                 <input
                   type='text'
                   name='email'
-                  className='rounded-lg border px-[0.83vw] py-[1vh] text-[15px] font-medium outline-none'
+                  className='rounded-lg border px-[0.83vw] py-[1vh] text-[.8vw] font-medium outline-none'
                   placeholder='Enter your email'
                   onChange={handleInputChange}
                 //   onKeyDown={e => {
@@ -133,9 +133,10 @@ const ForgotPassword = ({ logo, appName, appTenantList }: Props) => {
               </button>
               <Link
                 href='/'
-                className='flex items-center gap-[.5vw] text-[.8vw] py-[1vh] font-medium opacity-50'
+                className='flex items-center gap-[.5vw] text-[.8vw] py-[1vh] font-medium'
               >
                 <ArrowBackward
+                  opacity='1'
                   fill={isDark ? '#ffffff' : '#000000'}
                 />{' '}
                 Back to Login

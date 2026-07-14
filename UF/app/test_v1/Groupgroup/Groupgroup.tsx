@@ -18,7 +18,14 @@ import { useHandleDfdRefresh } from '@/context/dfdRefreshContext';
 import evaluateDecisionTable,{ evaluateDecisionForDynamicActions,eventDecisionTable } from '@/app/utils/evaluateDecisionTable';
 import decodeToken from '@/app/components/decodeToken';
 import uoMapperData from '@/context/dfdmapperContolnames.json';
-import Buttonbutton  from "./Buttonbutton";
+import TextInputtextinput  from "./TextInputtextinput";
+import TextInputtextinput5  from "./TextInputtextinput5";
+import DateAndTimedateandtime  from "./DateAndTimedateandtime";
+import DatePickerdatepicker  from "./DatePickerdatepicker";
+import TextInputtextinput1  from "./TextInputtextinput1";
+import TextInputtextinput2  from "./TextInputtextinput2";
+import TextInputtextinput3  from "./TextInputtextinput3";
+import TextInputtextinput4  from "./TextInputtextinput4";
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
 import { getCookie } from "@/app/components/cookieMgment";
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
@@ -41,6 +48,7 @@ const Groupgroup = ({lockedData={},setLockedData,primaryTableData={},tableData=[
   let idx = "";
   let item = "";
   const { isDark, isHighContrast, bgStyle, textStyle } = useTheme();
+  const {dfd_country_code_dfd_v1Props, setdfd_country_code_dfd_v1Props} = useContext(TotalContext) as TotalContextProps;
   const encryptionFlagComp: boolean = encryptionFlagPageData?.flag || false;
   let encryptionDpd: string = "";
   encryptionDpd = encryptionDpd !=='' ? encryptionDpd: encryptionFlagPageData?.dpd;
@@ -53,9 +61,16 @@ const Groupgroup = ({lockedData={},setLockedData,primaryTableData={},tableData=[
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
   const securityData:any={
-  "user": {
+  "emplyoee": {
     "allowedControls": [
-      "button"
+      "textinput",
+      "textinput5",
+      "dateandtime",
+      "datepicker",
+      "textinput1",
+      "textinput2",
+      "textinput3",
+      "textinput4"
     ],
     "allowedGroups": [
       "canvas",
@@ -64,9 +79,34 @@ const Groupgroup = ({lockedData={},setLockedData,primaryTableData={},tableData=[
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "emplyoee": {
+  "user": {
     "allowedControls": [
-      "button"
+      "textinput",
+      "textinput5",
+      "dateandtime",
+      "datepicker",
+      "textinput1",
+      "textinput2",
+      "textinput3",
+      "textinput4"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Template": {
+    "allowedControls": [
+      "textinput",
+      "textinput5",
+      "dateandtime",
+      "datepicker",
+      "textinput1",
+      "textinput2",
+      "textinput3",
+      "textinput4"
     ],
     "allowedGroups": [
       "canvas",
@@ -89,19 +129,26 @@ const Groupgroup = ({lockedData={},setLockedData,primaryTableData={},tableData=[
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
  /////////////
    //another screen
-  const {group0e6f3, setgroup0e6f3}= useContext(TotalContext) as TotalContextProps;
-  const {group0e6f3Props, setgroup0e6f3Props}= useContext(TotalContext) as TotalContextProps;
-  const {button62ae4, setbutton62ae4}= useContext(TotalContext) as TotalContextProps;
+  const {group7f2ed, setgroup7f2ed}= useContext(TotalContext) as TotalContextProps;
+  const {group7f2edProps, setgroup7f2edProps}= useContext(TotalContext) as TotalContextProps;
+  const {textinputd0435, settextinputd0435}= useContext(TotalContext) as TotalContextProps;
+  const {textinput5daae3, settextinput5daae3}= useContext(TotalContext) as TotalContextProps;
+  const {dateandtimec481e, setdateandtimec481e}= useContext(TotalContext) as TotalContextProps;
+  const {datepicker019ca, setdatepicker019ca}= useContext(TotalContext) as TotalContextProps;
+  const {textinput165d1d, settextinput165d1d}= useContext(TotalContext) as TotalContextProps;
+  const {textinput204f11, settextinput204f11}= useContext(TotalContext) as TotalContextProps;
+  const {textinput38ac83, settextinput38ac83}= useContext(TotalContext) as TotalContextProps;
+  const {textinput455cca, settextinput455cca}= useContext(TotalContext) as TotalContextProps;
   //////////////
   const [ruleData,setRuleData]=useState<any>([])
   const [open, setOpen] = React.useState(false);
-  const {sample_test_v1, setsample_test_v1} = useContext(TotalContext) as TotalContextProps;
+  const {ffff_v1, setffff_v1} = useContext(TotalContext) as TotalContextProps;
   const checkOrchestrationData = async (): Promise<{ groupData: any; controlData: any }> => {
   if (Object.keys(groupData).length > 0) {
     return { groupData, controlData } 
   };
   const data: any = await fetchBatchData(
-    'CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:sample_test:AFVK:v1',
+    'CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:ffff:AFVK:v1',
     [user],
     'GroupGroup',
     token
@@ -113,7 +160,7 @@ const Groupgroup = ({lockedData={},setLockedData,primaryTableData={},tableData=[
   };
   async function securityCheck() {
   const { groupData: currentGroupData } = await checkOrchestrationData();
-  let orchestrationData:any = getGroupOrchestrationData(currentGroupData, "7afa934c92084b6cb66f3dd40f60e6f3");
+  let orchestrationData:any = getGroupOrchestrationData(currentGroupData, "aaa21094dc8b49d0be2621f7ea87f2ed");
   code = orchestrationData?.data?.code;
   setAllCode(code)
   const security:any[] = orchestrationData?.data?.security;
@@ -126,7 +173,7 @@ const Groupgroup = ({lockedData={},setLockedData,primaryTableData={},tableData=[
   setAllowedComponent(allowedGroups) 
   if(orchestrationData?.data?.rule?.nodes?.length > 0){
     setRuleData(orchestrationData?.data?.rule?.nodes)
-    setgroup0e6f3Props((pre:any)=>({...pre,isHaveRule:true}))
+    setgroup7f2edProps((pre:any)=>({...pre,isHaveRule:true}))
     let schemaFlag:any = evaluateDecisionTable(orchestrationData?.data?.rule.nodes,{},{...decodedTokenObj});
     if (schemaFlag.output) {
       setShowFlag(schemaFlag.output.toLowerCase());
@@ -136,25 +183,109 @@ const Groupgroup = ({lockedData={},setLockedData,primaryTableData={},tableData=[
   }
     
   /////////////
-    if(orchestrationData?.data?.readableControls.includes("button")){
-        setbutton62ae4({...button62ae4,isDisabled:true});
+    if(orchestrationData?.data?.readableControls.includes("textinput")){
+        settextinputd0435({...textinputd0435,isDisabled:true});
 
     }else
     {
-      if(button62ae4?.isDisabled==null)
+      if(textinputd0435?.isDisabled==null)
       {
-        setbutton62ae4({...button62ae4,isDisabled:false});
+        settextinputd0435({...textinputd0435,isDisabled:false});
+      }
+    }
+    if(orchestrationData?.data?.readableControls.includes("textinput5")){
+        settextinput5daae3({...textinput5daae3,isDisabled:true});
+
+    }else
+    {
+      if(textinput5daae3?.isDisabled==null)
+      {
+        settextinput5daae3({...textinput5daae3,isDisabled:false});
+      }
+    }
+    if(orchestrationData?.data?.readableControls.includes("dateandtime")){
+        setdateandtimec481e({...dateandtimec481e,isDisabled:true});
+
+    }else
+    {
+      if(dateandtimec481e?.isDisabled==null)
+      {
+        setdateandtimec481e({...dateandtimec481e,isDisabled:false});
+      }
+    }
+    if(orchestrationData?.data?.readableControls.includes("datepicker")){
+        setdatepicker019ca({...datepicker019ca,isDisabled:true});
+
+    }else
+    {
+      if(datepicker019ca?.isDisabled==null)
+      {
+        setdatepicker019ca({...datepicker019ca,isDisabled:false});
+      }
+    }
+    if(orchestrationData?.data?.readableControls.includes("textinput1")){
+        settextinput165d1d({...textinput165d1d,isDisabled:true});
+
+    }else
+    {
+      if(textinput165d1d?.isDisabled==null)
+      {
+        settextinput165d1d({...textinput165d1d,isDisabled:false});
+      }
+    }
+    if(orchestrationData?.data?.readableControls.includes("textinput2")){
+        settextinput204f11({...textinput204f11,isDisabled:true});
+
+    }else
+    {
+      if(textinput204f11?.isDisabled==null)
+      {
+        settextinput204f11({...textinput204f11,isDisabled:false});
+      }
+    }
+    if(orchestrationData?.data?.readableControls.includes("textinput3")){
+        settextinput38ac83({...textinput38ac83,isDisabled:true});
+
+    }else
+    {
+      if(textinput38ac83?.isDisabled==null)
+      {
+        settextinput38ac83({...textinput38ac83,isDisabled:false});
+      }
+    }
+    if(orchestrationData?.data?.readableControls.includes("textinput4")){
+        settextinput455cca({...textinput455cca,isDisabled:true});
+
+    }else
+    {
+      if(textinput455cca?.isDisabled==null)
+      {
+        settextinput455cca({...textinput455cca,isDisabled:false});
       }
     }
   //////////////
     if (code != '') {
       let codeStates: any = {};
-        codeStates['group'] = group0e6f3,
-        codeStates['setgroup'] = setgroup0e6f3,
-        codeStates['group0e6f3'] = group0e6f3Props,
-        codeStates['setgroup0e6f3'] = setgroup0e6f3Props,
-        codeStates['button'] = button62ae4,
-        codeStates['setbutton'] = setbutton62ae4,
+        codeStates['group'] = group7f2ed,
+        codeStates['setgroup'] = setgroup7f2ed,
+        codeStates['group7f2ed'] = group7f2edProps,
+        codeStates['setgroup7f2ed'] = setgroup7f2edProps,
+        codeStates['textinput'] = textinputd0435,
+        codeStates['settextinput'] = settextinputd0435,
+        codeStates['textinput5'] = textinput5daae3,
+        codeStates['settextinput5'] = settextinput5daae3,
+        codeStates['dateandtime'] = dateandtimec481e,
+        codeStates['setdateandtime'] = setdateandtimec481e,
+        codeStates['datepicker'] = datepicker019ca,
+        codeStates['setdatepicker'] = setdatepicker019ca,
+        codeStates['textinput1'] = textinput165d1d,
+        codeStates['settextinput1'] = settextinput165d1d,
+        codeStates['textinput2'] = textinput204f11,
+        codeStates['settextinput2'] = settextinput204f11,
+        codeStates['textinput3'] = textinput38ac83,
+        codeStates['settextinput3'] = settextinput38ac83,
+        codeStates['textinput4'] = textinput455cca,
+        codeStates['settextinput4'] = settextinput455cca,
 
     codeExecution(code,codeStates);
     } 
@@ -175,12 +306,26 @@ const Groupgroup = ({lockedData={},setLockedData,primaryTableData={},tableData=[
     let customCode:any=""
     if (allCode != '') {
       let codeStates: any = {};
-        codeStates['group'] = group0e6f3,
-        codeStates['setgroup'] = setgroup0e6f3,
-        codeStates['group0e6f3'] = group0e6f3Props,
-        codeStates['setgroup0e6f3'] = setgroup0e6f3Props,
-        codeStates['button'] = button62ae4,
-        codeStates['setbutton'] = setbutton62ae4,
+        codeStates['group'] = group7f2ed,
+        codeStates['setgroup'] = setgroup7f2ed,
+        codeStates['group7f2ed'] = group7f2edProps,
+        codeStates['setgroup7f2ed'] = setgroup7f2edProps,
+        codeStates['textinput'] = textinputd0435,
+        codeStates['settextinput'] = settextinputd0435,
+        codeStates['textinput5'] = textinput5daae3,
+        codeStates['settextinput5'] = settextinput5daae3,
+        codeStates['dateandtime'] = dateandtimec481e,
+        codeStates['setdateandtime'] = setdateandtimec481e,
+        codeStates['datepicker'] = datepicker019ca,
+        codeStates['setdatepicker'] = setdatepicker019ca,
+        codeStates['textinput1'] = textinput165d1d,
+        codeStates['settextinput1'] = settextinput165d1d,
+        codeStates['textinput2'] = textinput204f11,
+        codeStates['settextinput2'] = settextinput204f11,
+        codeStates['textinput3'] = textinput38ac83,
+        codeStates['settextinput3'] = settextinput38ac83,
+        codeStates['textinput4'] = textinput455cca,
+        codeStates['settextinput4'] = settextinput455cca,
       customCode = codeExecution(allCode,codeStates);
       return customCode;
     }
@@ -188,23 +333,23 @@ const Groupgroup = ({lockedData={},setLockedData,primaryTableData={},tableData=[
   }
 
 
-  const group0e6f3Ref = useRef<any>(null);
+  const group7f2edRef = useRef<any>(null);
   const handleClearSearch = () => {
-    group0e6f3Ref.current?.setSearchParams();
-    group0e6f3Ref.current?.handleSearch({});
+    group7f2edRef.current?.setSearchParams();
+    group7f2edRef.current?.handleSearch({});
   };
 
   useEffect(() => {    
     securityCheck()   
     handleOnload()
     if (prevRefreshRef.current) {
-      if(!Array.isArray(group0e6f3) && Object.keys(group0e6f3)?.length>0)
+      if(!Array.isArray(group7f2ed) && Object.keys(group7f2ed)?.length>0)
       {
-        setgroup0e6f3({})
+        setgroup7f2ed({})
       }
     }else 
       prevRefreshRef.current= true
-  }, [group0e6f3Props?.refresh,token])
+  }, [group7f2edProps?.refresh,token])
 
 
   const renderBUttons=()=>{
@@ -216,7 +361,7 @@ const Groupgroup = ({lockedData={},setLockedData,primaryTableData={},tableData=[
     <div 
       style={{          
         gridColumn: '1 / 25',
-        gridRow: '1 / 186',
+        gridRow: '1 / 133',
       
         //rowGap: '0px',
         display: 'grid',
@@ -238,11 +383,17 @@ const Groupgroup = ({lockedData={},setLockedData,primaryTableData={},tableData=[
       className={`flex flex-col overflow-auto rounded-md  ${isDark ? 'text-white' : 'text-black'}`}
        onClick={(e:any)=>{e.stopPropagation()
         handleOnClick({}, 0);
-          setsample_test_v1((pre:any)=>({...pre,_selectedGroup_:"group"}))
+          setffff_v1((pre:any)=>({...pre,_selectedGroup_:"group"}))
         }}
     >
-        {        ((ruleData?.length>0 && "button" in ButtonGoRuleData)?ButtonGoRuleData["button"]:true) && 
-          allowedControls.includes("button")  ?            <Buttonbutton tableData={tableData} setTableData={setTableData} lockedData={lockedData} setLockedData={setLockedData} primaryTableData={primaryTableData} setPrimaryTableData={setPrimaryTableData} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} controlData={controlData} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing}/>: <div></div>} 
+        {allowedControls.includes("textinput") ?<TextInputtextinput   /* d0435 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+        {allowedControls.includes("textinput5") ?<TextInputtextinput5   /* daae3 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+        {allowedControls.includes("dateandtime") ?<DateAndTimedateandtime   /* c481e */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+        {allowedControls.includes("datepicker") ?<DatePickerdatepicker   /* 019ca */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+        {allowedControls.includes("textinput1") ?<TextInputtextinput1   /* 65d1d */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+        {allowedControls.includes("textinput2") ?<TextInputtextinput2   /* 04f11 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+        {allowedControls.includes("textinput3") ?<TextInputtextinput3   /* 8ac83 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+        {allowedControls.includes("textinput4") ?<TextInputtextinput4   /* 55cca */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
     </div>
  )
 }

@@ -27,13 +27,14 @@ const Texttext1231 = ({encryptionFlagCompData,isDynamic,item,index,setIsProcessi
   const {stateaa824Props, setstateaa824Props}= useContext(TotalContext) as TotalContextProps;
   const {groupaaa97733, setgroupaaa97733}= useContext(TotalContext) as TotalContextProps;
   const {groupaaa97733Props, setgroupaaa97733Props}= useContext(TotalContext) as TotalContextProps;
-  const {groupb8f3d7, setgroupb8f3d7}= useContext(TotalContext) as TotalContextProps;
-  const {groupb8f3d7Props, setgroupb8f3d7Props}= useContext(TotalContext) as TotalContextProps;
-  const {text1231c2aa3, settext1231c2aa3}= useContext(TotalContext) as TotalContextProps;
   const {groupc0c048, setgroupc0c048}= useContext(TotalContext) as TotalContextProps;
   const {groupc0c048Props, setgroupc0c048Props}= useContext(TotalContext) as TotalContextProps;
   const {groupd487a8, setgroupd487a8}= useContext(TotalContext) as TotalContextProps;
   const {groupd487a8Props, setgroupd487a8Props}= useContext(TotalContext) as TotalContextProps;
+  const {groupb8f3d7, setgroupb8f3d7}= useContext(TotalContext) as TotalContextProps;
+  const {groupb8f3d7Props, setgroupb8f3d7Props}= useContext(TotalContext) as TotalContextProps;
+  const {text1231c2aa3, settext1231c2aa3}= useContext(TotalContext) as TotalContextProps;
+  const {dropdown4af30, setdropdown4af30}= useContext(TotalContext) as TotalContextProps;
   //////////////
 
   const handleMapperValue=async()=>{

@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect, forwardRef, useImperativeHandle } from "react";
+import { createPortal } from "react-dom";
 import { useGlobal } from "@/context/GlobalContext";
 import { Tooltip } from "./Tooltip";
 import { HeaderPosition, TooltipProps as TooltipPropsType } from "@/types/global";
@@ -35,7 +36,8 @@ interface DatePickerProps {
 
 /* ---------------------------------- helpers ---------------------------------- */
 
-const WEEKDAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+// Sunday-first, matching the target design (Su Mo Tu We Th Fr Sa)
+const WEEKDAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 const MONTHS = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December",
@@ -44,19 +46,16 @@ const MONTHS = [
 const pad = (n: number) => n.toString().padStart(2, "0");
 
 function daysInMonth(year: number, month: number) {
-  // month can be negative/>11, Date() normalizes it
   return new Date(year, month + 1, 0).getDate();
 }
 
-// Monday-first weekday index (0 = Mon ... 6 = Sun)
-function mondayIndex(date: Date) {
-  const d = date.getDay(); // 0 = Sun
-  return (d + 6) % 7;
+function sundayIndex(date: Date) {
+  return date.getDay();
 }
 
 function buildCalendarGrid(year: number, month: number) {
   const firstOfMonth = new Date(year, month, 1);
-  const startOffset = mondayIndex(firstOfMonth);
+  const startOffset = sundayIndex(firstOfMonth);
   const totalDays = daysInMonth(year, month);
   const prevMonthDays = daysInMonth(year, month - 1);
 
@@ -104,63 +103,82 @@ const ITEM_HEIGHT = 32;
 
 interface WheelColumnProps {
   values: (number | string)[];
-  selected: number | string;
-  onSelect: (v: number | string) => void;
+  initialSelected: number | string;
   isDark: boolean;
   width?: number;
 }
 
+export interface WheelColumnHandle {
+  getCurrentValue: () => number | string;
+}
+
 const formatWheelValue = (v: number | string) => (typeof v === "number" ? pad(v) : v);
 
-const WheelColumn: React.FC<WheelColumnProps> = ({ values, selected, onSelect, isDark, width = 40 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const selectedIndex = values.findIndex((v) => v === selected);
+const WheelColumn = forwardRef<WheelColumnHandle, WheelColumnProps>(
+  ({ values, initialSelected, isDark, width = 40 }, ref) => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const [centeredValue, setCenteredValue] = useState<number | string>(initialSelected);
 
-  // Keep the wheel scrolled to whatever is actually selected. This only
-  // reacts to real value changes (e.g. a click elsewhere, or the value
-  // prop being reset), not to the user's own free-scrolling.
-  useEffect(() => {
-    if (containerRef.current && selectedIndex >= 0) {
-      containerRef.current.scrollTop = selectedIndex * ITEM_HEIGHT;
-    }
-  }, [selectedIndex]);
+    const readCenteredValue = (): number | string => {
+      const el = containerRef.current;
+      if (!el) return centeredValue;
+      const index = Math.round(el.scrollTop / ITEM_HEIGHT);
+      const clamped = Math.max(0, Math.min(values.length - 1, index));
+      return values[clamped];
+    };
 
-  const scrollToIndex = (index: number) => {
-    const el = containerRef.current;
-    if (!el) return;
-    el.scrollTo({ top: index * ITEM_HEIGHT, behavior: "smooth" });
-    onSelect(values[index]);
-  };
+    useEffect(() => {
+      const index = values.findIndex((v) => v === initialSelected);
+      if (containerRef.current && index >= 0) {
+        containerRef.current.scrollTop = index * ITEM_HEIGHT;
+      }
+      setCenteredValue(initialSelected);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [initialSelected]);
 
-  return (
-    <div
-      ref={containerRef}
-      className="overflow-y-scroll"
-      style={{ height: ITEM_HEIGHT * 3, width, scrollSnapType: "y mandatory", scrollbarWidth: "none" }}
-    >
-      <div style={{ height: ITEM_HEIGHT }} />
-      {values.map((v, i) => (
-        <div
-          key={i}
-          onClick={() => scrollToIndex(i)}
-          className={`flex items-center justify-center cursor-pointer select-none ${
-            v === selected
-              ? isDark
-                ? "text-white font-semibold text-base"
-                : "text-gray-900 font-semibold text-base"
-              : isDark
-              ? "text-gray-500 text-sm"
-              : "text-gray-400 text-sm"
-          }`}
-          style={{ height: ITEM_HEIGHT, scrollSnapAlign: "center" }}
-        >
-          {formatWheelValue(v)}
-        </div>
-      ))}
-      <div style={{ height: ITEM_HEIGHT }} />
-    </div>
-  );
-};
+    const handleScroll = () => {
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+      scrollTimeout.current = setTimeout(() => {
+        setCenteredValue(readCenteredValue());
+      }, 60);
+    };
+
+    useImperativeHandle(ref, () => ({
+      getCurrentValue: () => centeredValue,
+    }));
+
+    return (
+      <div
+        ref={containerRef}
+        onScroll={handleScroll}
+        className="overflow-y-scroll"
+        style={{ height: ITEM_HEIGHT * 3, width, scrollSnapType: "y mandatory", scrollbarWidth: "none" }}
+      >
+        <div style={{ height: ITEM_HEIGHT }} />
+        {values.map((v, i) => (
+          <div
+            key={i}
+            className={`flex items-center justify-center select-none ${
+              v === centeredValue
+                ? isDark
+                  ? "text-white font-semibold text-base"
+                  : "text-gray-900 font-semibold text-base"
+                : isDark
+                ? "text-gray-500 text-sm"
+                : "text-gray-400 text-sm"
+            }`}
+            style={{ height: ITEM_HEIGHT, scrollSnapAlign: "center" }}
+          >
+            {formatWheelValue(v)}
+          </div>
+        ))}
+        <div style={{ height: ITEM_HEIGHT }} />
+      </div>
+    );
+  }
+);
+WheelColumn.displayName = "WheelColumn";
 
 /* --------------------------------- main component -------------------------------- */
 
@@ -190,8 +208,26 @@ export const DateAndTime: React.FC<DatePickerProps> = ({
   const prevValidationState = useRef(validationState);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Refs used for smart (flip-aware) positioning of the dropdown panel.
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // The panel is rendered through a portal (see below), so we need to wait
+  // for the client to mount before we can reach `document.body`.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  // Computed inline (fixed) position for the panel, derived from
+  // getBoundingClientRect() on the trigger + panel. Using position:fixed +
+  // a portal means the panel is never clipped by an ancestor's
+  // overflow:hidden/auto, which is what caused the scrollbar/clipping seen
+  // when <DateAndTime /> sits inside a constrained wrapper <div>.
+  const [panelStyle, setPanelStyle] = useState<React.CSSProperties>({});
+
   const dateFormat = displayFormat?.datePickerProperty?.dateDisplayFormat || "DD-MM-YYYY";
   const timeFormat = displayFormat?.timePickerProperty?.timeDisplayFormat || "HH:mm:ss";
+
+  const panelColor = branding.brandColor || "#2F3EC7";
 
   React.useEffect(() => {
     if (validationState === "invalid" && errorMessage && prevValidationState.current !== "invalid") {
@@ -204,7 +240,16 @@ export const DateAndTime: React.FC<DatePickerProps> = ({
 
   const parseValue = (val: string | Date | null): Date | null => {
     if (!val) return null;
-    const d = val instanceof Date ? val : new Date(val);
+    if (val instanceof Date) return isNaN(val.getTime()) ? null : val;
+
+    const dateOnlyMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(val.trim());
+    if (dateOnlyMatch) {
+      const [, y, mo, d] = dateOnlyMatch;
+      const local = new Date(Number(y), Number(mo) - 1, Number(d));
+      return isNaN(local.getTime()) ? null : local;
+    }
+
+    const d = new Date(val);
     return isNaN(d.getTime()) ? null : d;
   };
 
@@ -218,7 +263,6 @@ export const DateAndTime: React.FC<DatePickerProps> = ({
   const [viewMonth, setViewMonth] = useState<Date>(initial ?? new Date());
   const [step, setStep] = useState<"closed" | "date" | "time">("closed");
 
-  // sync when the value prop changes externally
   useEffect(() => {
     const v = parseValue(value);
     setSelectedDate(v);
@@ -232,16 +276,107 @@ export const DateAndTime: React.FC<DatePickerProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
-  // close popup on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      // Because the panel is portaled to document.body, it's no longer a
+      // DOM descendant of containerRef — it must be checked separately or
+      // every click inside it (e.g. picking a day) would immediately close it.
+      const insideTrigger = containerRef.current?.contains(target);
+      const insidePanel = panelRef.current?.contains(target);
+      if (!insideTrigger && !insidePanel) {
         setStep("closed");
       }
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
+
+  /* ----------------------- smart panel positioning ----------------------- */
+  // Uses getBoundingClientRect() on both the trigger element and the panel
+  // itself to compute a position:fixed style (top/bottom/left/right in
+  // viewport coordinates). Combined with the portal below, this is what
+  // lets the panel escape a wrapper <div> that clips or scrolls it —
+  // position:fixed is measured against the viewport, not the nearest
+  // scrollable/overflow ancestor, so wrapping markup like
+  // `<div><DateAndTime /></div>` can no longer cause the panel to be
+  // clipped or to force that wrapper to scroll.
+  useLayoutEffect(() => {
+    if (step === "closed") {
+      return;
+    }
+
+    const GAP = 4; // px gap between trigger and panel
+    const VIEWPORT_MARGIN = 8; // keep a small breathing margin from the edges
+
+    const recalcPosition = () => {
+      const trigger = triggerRef.current;
+      if (!trigger) return;
+
+      const triggerRect = trigger.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const viewportWidth = window.innerWidth;
+
+      // Fall back to sensible estimates before the panel has painted,
+      // then refine using the panel's real rect once it's mounted.
+      const panelRect = panelRef.current?.getBoundingClientRect();
+      const estimatedHeight = step === "date" ? 340 : 220;
+      const panelHeight = panelRect?.height || estimatedHeight;
+      const panelWidth = triggerRect.width;
+
+      const spaceBelow = viewportHeight - triggerRect.bottom - GAP;
+      const spaceAbove = triggerRect.top - GAP;
+      const openUpward = spaceBelow < panelHeight && spaceAbove > spaceBelow;
+
+      const spaceRight = viewportWidth - triggerRect.left;
+      const openLeftward = spaceRight < panelWidth && triggerRect.right > panelWidth;
+
+      const availableVertical = Math.max(
+        120,
+        (openUpward ? spaceAbove : spaceBelow) - VIEWPORT_MARGIN
+      );
+
+      const style: React.CSSProperties = {
+        position: "fixed",
+        width: panelWidth,
+        zIndex: 9999,
+        backgroundColor: panelColor,
+      };
+
+      if (openLeftward) {
+        style.right = viewportWidth - triggerRect.right;
+      } else {
+        style.left = triggerRect.left;
+      }
+
+      if (openUpward) {
+        style.bottom = viewportHeight - triggerRect.top + GAP;
+      } else {
+        style.top = triggerRect.bottom + GAP;
+      }
+
+      if (panelHeight > availableVertical) {
+        style.maxHeight = availableVertical;
+        style.overflowY = "auto";
+      }
+
+      setPanelStyle(style);
+    };
+
+    // Measure once synchronously (pre-paint estimate), then again after the
+    // panel has actually rendered so we can use its real bounding rect.
+    recalcPosition();
+    const raf = requestAnimationFrame(recalcPosition);
+
+    window.addEventListener("resize", recalcPosition);
+    window.addEventListener("scroll", recalcPosition, true); // capture: catches scrollable ancestors too
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", recalcPosition);
+      window.removeEventListener("scroll", recalcPosition, true);
+    };
+  }, [step, panelColor]);
 
   const buildJsDate = (date: Date, h12: number, m: number, s: number, ap: "AM" | "PM") => {
     let h24 = h12 % 12;
@@ -254,7 +389,7 @@ export const DateAndTime: React.FC<DatePickerProps> = ({
   const buildCombined = (date: Date | null, h12: number, m: number, s: number, ap: "AM" | "PM") => {
     if (!date) return "";
     if (!showTime) return dayjs(date).format("YYYY-MM-DD");
-    return dayjs(buildJsDate(date, h12, m, s, ap)).format("YYYY-MM-DDTHH:mm:ss");
+    return dayjs(buildJsDate(date, h12, m, s, ap)).format("YYYY-MM-DDTHH:mm:ssZ");
   };
 
   const emit = (date: Date | null, h12: number, m: number, s: number, ap: "AM" | "PM") => {
@@ -269,13 +404,23 @@ export const DateAndTime: React.FC<DatePickerProps> = ({
     setStep(showTime ? "time" : "closed");
   };
 
-  const handleTimePartChange = (part: "hour" | "minute" | "second" | "ampm", val: number | "AM" | "PM") => {
-    let h = hour12, m = minute, s = second, a = ampm;
-    if (part === "hour") { h = val as number; setHour12(h); }
-    if (part === "minute") { m = val as number; setMinute(m); }
-    if (part === "second") { s = val as number; setSecond(s); }
-    if (part === "ampm") { a = val as "AM" | "PM"; setAmpm(a); }
+  const hourWheelRef = useRef<WheelColumnHandle>(null);
+  const minuteWheelRef = useRef<WheelColumnHandle>(null);
+  const secondWheelRef = useRef<WheelColumnHandle>(null);
+  const ampmWheelRef = useRef<WheelColumnHandle>(null);
+
+  const commitTimeSelection = () => {
+    const h = (hourWheelRef.current?.getCurrentValue() as number) ?? hour12;
+    const m = (minuteWheelRef.current?.getCurrentValue() as number) ?? minute;
+    const s = (secondWheelRef.current?.getCurrentValue() as number) ?? second;
+    const a = (ampmWheelRef.current?.getCurrentValue() as "AM" | "PM") ?? ampm;
+    setHour12(h);
+    setMinute(m);
+    setSecond(s);
+    setAmpm(a);
     emit(selectedDate, h, m, s, a);
+    setStep("closed");
+    onBlur?.({} as React.FocusEvent<HTMLInputElement>);
   };
 
   const handleClear = (e: React.MouseEvent) => {
@@ -289,6 +434,17 @@ export const DateAndTime: React.FC<DatePickerProps> = ({
   const toggleOpen = () => {
     if (disabled || readOnly) return;
     setStep((prev) => (prev === "closed" ? "date" : "closed"));
+  };
+
+  const getTextAlignClass = () => {
+    switch (contentAlign) {
+      case "left":
+        return "text-left";
+      case "right":
+        return "text-right";
+      default:
+        return "text-center";
+    }
   };
 
   const displayText = () => {
@@ -312,7 +468,7 @@ export const DateAndTime: React.FC<DatePickerProps> = ({
   const datePickerElement = (
     <div
       ref={containerRef}
-      className={`relative flex flex-col ${getAlignClass(contentAlign)} ${fillContainer ? "w-full" : ""}`}
+      className={`relative flex flex-col ${getAlignClass(contentAlign)} ${fillContainer ? "w-full h-full" : ""}`}
       style={style}
     >
       {label && (
@@ -323,21 +479,23 @@ export const DateAndTime: React.FC<DatePickerProps> = ({
       )}
 
       <div
+        ref={triggerRef}
         onClick={toggleOpen}
-        className={`flex items-center border-2 px-3 py-2 gap-2 transition-colors ${borderColorClass} ${
+        className={`flex flex-1 min-h-0 flex items-center
+          border-2 px-2 sm:px-3 transition-colors ${borderColorClass} ${
           isDark ? "bg-gray-800 text-white" : "bg-white text-gray-900"
         } ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"} ${
           fillContainer ? "w-full" : ""
         } ${className}`}
         style={{ borderRadius: "var(--border-radius, 6px)" }}
       >
-        <span className={`flex-1 text-sm truncate ${!selectedDate ? (isDark ? "text-gray-500" : "text-gray-400") : ""}`}>
+        <span className={`flex-1 text-sm truncate ${getTextAlignClass()} ${!selectedDate ? (isDark ? "text-gray-500" : "text-gray-400") : ""}`}>
           {selectedDate ? displayText() : "Select Date"}
         </span>
         {selectedDate && !disabled && !readOnly && (
           <FiX size={16} className="opacity-60 hover:opacity-100 shrink-0" onClick={handleClear} />
         )}
-        {!disabled && !readOnly&&value && (
+        {!disabled && !readOnly && value && (
           <FiEdit2
             size={14}
             className="opacity-60 hover:opacity-100 shrink-0"
@@ -350,47 +508,50 @@ export const DateAndTime: React.FC<DatePickerProps> = ({
         {!selectedDate && <FiCalendar size={16} className="opacity-60 shrink-0" />}
       </div>
 
-      {step !== "closed" && (
+      {mounted && step !== "closed" && createPortal(
         <div
-          className={`absolute z-50 top-full left-0 mt-1 rounded-md shadow-lg border p-3 ${
-            isDark ? "bg-gray-800 border-gray-600" : "bg-white border-gray-200"
-          }`}
-          style={{ minWidth: 280 }}
+          ref={panelRef}
+          className="rounded-lg shadow-lg p-4"
+          style={panelStyle}
+          onMouseDown={(e) => e.stopPropagation()}
           onClick={(e) => e.stopPropagation()}
         >
           {step === "date" && (
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span className={`flex items-center gap-1 text-base font-semibold ${isDark ? "text-gray-100" : "text-gray-800"}`}>
+                <span className="text-white font-bold text-base">Select Date</span>
+                <button
+                  type="button"
+                  onClick={handleClear}
+                  className="text-white text-sm underline underline-offset-2 opacity-90 hover:opacity-100"
+                >
+                  Clear
+                </button>
+              </div>
+
+              <div className="flex items-center justify-between mb-3">
+                <button
+                  type="button"
+                  onClick={() => setViewMonth(new Date(viewMonth.getFullYear(), viewMonth.getMonth() - 1, 1))}
+                  className="text-white opacity-90 hover:opacity-100"
+                >
+                  <FiChevronLeft size={18} />
+                </button>
+                <span className="flex items-center gap-1 text-sm font-semibold text-white">
                   {MONTHS[viewMonth.getMonth()]} {viewMonth.getFullYear()}
-                  <FiChevronDown size={16} className="opacity-70" />
                 </span>
-                <div className="flex items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setViewMonth(new Date(viewMonth.getFullYear(), viewMonth.getMonth() - 1, 1))}
-                    className={isDark ? "text-gray-300" : "text-gray-500"}
-                  >
-                    <FiChevronLeft size={16} />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setViewMonth(new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 1))}
-                    className={isDark ? "text-gray-300" : "text-gray-500"}
-                  >
-                    <FiChevronRight size={16} />
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setViewMonth(new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 1))}
+                  className="text-white opacity-90 hover:opacity-100"
+                >
+                  <FiChevronRight size={18} />
+                </button>
               </div>
 
               <div className="grid grid-cols-7 text-xs mb-1">
                 {WEEKDAYS.map((wd) => (
-                  <div
-                    key={wd}
-                    className={`text-center py-1 font-medium ${
-                      wd === "Sa" || wd === "Su" ? "text-red-500" : isDark ? "text-gray-300" : "text-gray-500"
-                    }`}
-                  >
+                  <div key={wd} className="text-center py-1 font-medium text-white opacity-80">
                     {wd}
                   </div>
                 ))}
@@ -398,7 +559,6 @@ export const DateAndTime: React.FC<DatePickerProps> = ({
 
               <div className="grid grid-cols-7 gap-y-1 text-sm">
                 {grid.map((cell, i) => {
-                  const isWeekend = cell.date.getDay() === 0 || cell.date.getDay() === 6;
                   const selected = isSameDay(cell.date, selectedDate);
                   const isToday = isSameDay(cell.date, today);
                   return (
@@ -406,27 +566,18 @@ export const DateAndTime: React.FC<DatePickerProps> = ({
                       type="button"
                       key={i}
                       onClick={() => handleDayClick(cell.date)}
-                      className={`h-7 w-7 mx-auto rounded-md flex items-center justify-center relative ${
-                        !cell.currentMonth ? "opacity-30" : ""
-                      } ${
-                        selected
-                          ? isDark
-                            ? "text-white font-semibold"
-                            : "text-gray-900 font-semibold"
-                          : isWeekend
-                          ? "text-red-500"
-                          : isDark
-                          ? "text-gray-200"
-                          : "text-gray-700"
+                      className={`h-7 w-7 mx-auto rounded-full flex items-center justify-center relative text-white ${
+                        !cell.currentMonth ? "opacity-40" : ""
                       } hover:opacity-80`}
-                      style={selected ? { backgroundColor: isDark ? "#4b4f80" : "#c7cffa" } : undefined}
+                      style={
+                        selected
+                          ? { backgroundColor: "#fff", color: panelColor, fontWeight: 600 }
+                          : isToday
+                          ? { border: "1px solid rgba(255,255,255,0.8)" }
+                          : undefined
+                      }
                     >
                       {cell.day}
-                      {isToday && !selected && (
-                        <span
-                          className={`absolute bottom-0 h-1 w-1 rounded-full ${isDark ? "bg-gray-400" : "bg-gray-500"}`}
-                        />
-                      )}
                     </button>
                   );
                 })}
@@ -436,49 +587,45 @@ export const DateAndTime: React.FC<DatePickerProps> = ({
 
           {step === "time" && (
             <div>
-              <div className={`text-sm font-semibold mb-3 ${isDark ? "text-gray-200" : "text-gray-800"}`}>
-                Set time
-              </div>
+              <div className="text-sm font-semibold mb-3 text-white">Set time</div>
               <div className="relative flex items-center justify-center">
                 <div
                   className="pointer-events-none absolute left-0 right-0 border-y"
-                  style={{ top: ITEM_HEIGHT, height: ITEM_HEIGHT, borderColor: isDark ? "#4b5563" : "#e5e7eb" }}
+                  style={{ top: ITEM_HEIGHT, height: ITEM_HEIGHT, borderColor: "rgba(255,255,255,0.3)" }}
                 />
-                <WheelColumn values={hourValues} selected={hour12} onSelect={(v) => handleTimePartChange("hour", v as number)} isDark={isDark} />
+                <WheelColumn ref={hourWheelRef} values={hourValues} initialSelected={hour12} isDark={true} />
                 <div className="flex items-center" style={{ height: ITEM_HEIGHT * 3 }}>
-                  <span className={`font-semibold ${isDark ? "text-gray-300" : "text-gray-700"}`}>:</span>
+                  <span className="font-semibold text-white">:</span>
                 </div>
-                <WheelColumn values={minuteValues} selected={minute} onSelect={(v) => handleTimePartChange("minute", v as number)} isDark={isDark} />
+                <WheelColumn ref={minuteWheelRef} values={minuteValues} initialSelected={minute} isDark={true} />
                 <div className="flex items-center" style={{ height: ITEM_HEIGHT * 3 }}>
-                  <span className={`font-semibold ${isDark ? "text-gray-300" : "text-gray-700"}`}>:</span>
+                  <span className="font-semibold text-white">:</span>
                 </div>
-                <WheelColumn values={secondValues} selected={second} onSelect={(v) => handleTimePartChange("second", v as number)} isDark={isDark} />
+                <WheelColumn ref={secondWheelRef} values={secondValues} initialSelected={second} isDark={true} />
                 <div style={{ width: 12 }} />
-                <WheelColumn values={["AM", "PM"]} selected={ampm} onSelect={(v) => handleTimePartChange("ampm", v as "AM" | "PM")} isDark={isDark} width={36} />
+                <WheelColumn ref={ampmWheelRef} values={["AM", "PM"]} initialSelected={ampm} isDark={true} width={36} />
               </div>
               <div className="flex justify-between mt-3">
                 <button
                   type="button"
                   onClick={() => setStep("date")}
-                  className={`text-xs px-3 py-1 rounded ${isDark ? "text-gray-300" : "text-gray-600"}`}
+                  className="text-xs px-3 py-1 rounded text-white opacity-90"
                 >
                   Back
                 </button>
                 <button
                   type="button"
-                  onClick={() => {
-                    setStep("closed");
-                    onBlur?.({} as React.FocusEvent<HTMLInputElement>);
-                  }}
-                  className="text-xs px-3 py-1 rounded text-white"
-                  style={{ backgroundColor: branding?.selectionColor || "#6366f1" }}
+                  onClick={commitTimeSelection}
+                  className="text-xs px-3 py-1 rounded font-semibold"
+                  style={{ backgroundColor: "#fff", color: panelColor }}
                 >
                   Done
                 </button>
               </div>
             </div>
           )}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

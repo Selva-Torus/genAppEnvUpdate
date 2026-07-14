@@ -82,7 +82,7 @@ export class CommonService{
   async  getLatestMigrationSql(isLocal?: string ): Promise<{ baseline: string; incremental: string }> {
     // Determine the base migrations directory based on isLocal
     const migrationsDir = isLocal === 'dev'
-      ? './dist/erd/prisma/migrations'
+      ? './src/erd/prisma/migrations'
       : './dist/prisma/migrations';
 
     // Read all entries in the migrations directory
@@ -1470,8 +1470,8 @@ export class CommonService{
   
 ) {
   try {
-    
-    const fileUrl = `${this.seaweedOutPutPath}/${bucketName}/${folderPath}/${filename.endsWith('.json') ? filename : `${filename}.json`}`;
+     let client = folderPath.split('-')[0]
+    const fileUrl = `${this.seaweedOutPutPath}/buckets/torus/9.1/${client}/${bucketName}/${folderPath}/${filename.endsWith('.json') ? filename : `${filename}.json`}`;
     // Helper to check if JSON
     const isJSONString = (str: string): boolean => {
       try {
@@ -1710,7 +1710,8 @@ export class CommonService{
   }
 
   async listFiles(bucketName: string, prefixPath: string): Promise<string[]> {
-      const basePath = `/${bucketName}/${prefixPath}`;
+    let client = prefixPath.split('-')[0]
+       let basePath = `/buckets/torus/9.1/${client}/${bucketName}/${prefixPath}`
       const allFiles: string[] = [];
       const traverse = async (path: string) => {
         try {
@@ -1951,7 +1952,7 @@ async structuredPrcLogs(streamName) {
             afskvalue['DateAndTime'] = format(date, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"); //format(date, 'yyyy-MM-dd HH:mm:ss:SSS');
 
           let user;
-          if (afskvalue?.sessionInfo && Object.keys(afskvalue.sessionInfo).length > 0) {
+          if (afskvalue?.sessionInfo && Object.keys(afskvalue.sessionInfo).length > 0 && afskvalue?.sessionInfo?.user) {
             user = afskvalue.sessionInfo.user;
           } else {
             user = 'user';
@@ -2686,12 +2687,12 @@ async structuredPrcLogs(streamName) {
         SessionInfo['userCode'] = SessionToken?.userCode || ''
         SessionInfo['subOrgGrpName'] = SessionToken?.subOrgGrpName || process.env?.SUBORGGRPNAME || '';
         SessionInfo['subOrgName'] = SessionToken?.subOrgName || process.env?.SUBORGNAME || '';
-        SessionInfo['orgGrpCode'] = SessionToken.orgGrpCode || process.env?.ORGGRPCODE
-        SessionInfo['orgCode'] = SessionToken.orgCode || process.env?.ORGCODE
-        SessionInfo['roleGrpCode'] = SessionToken.roleGrpCode || process.env?.ROLEGRPCODE
-        SessionInfo['roleCode'] = SessionToken.roleCode || process.env?.ROLECODE
-        SessionInfo['psGrpCode'] = SessionToken.psGrpCode || process.env?.PSGRPCODE
-        SessionInfo['psCode'] = SessionToken.psCode || process.env?.PSCODE
+        SessionInfo['orgGrpCode'] = SessionToken.orgGrpCode || process.env?.ORGGRPCODE || '';
+        SessionInfo['orgCode'] = SessionToken.orgCode || process.env?.ORGCODE || '';
+        SessionInfo['roleGrpCode'] = SessionToken.roleGrpCode || process.env?.ROLEGRPCODE || '';
+        SessionInfo['roleCode'] = SessionToken.roleCode || process.env?.ROLECODE || '';
+        SessionInfo['psGrpCode'] = SessionToken.psGrpCode || process.env?.PSGRPCODE || '';
+        SessionInfo['psCode'] = SessionToken.psCode || process.env?.PSCODE || '';
         
         return {sobj,SessionInfo,SessionToken}
     } catch (error) {

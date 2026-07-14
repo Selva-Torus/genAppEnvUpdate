@@ -71,6 +71,7 @@ export class comboboxtableController {
 
   @Get(':my_id')
   @ApiBearerAuth('JWT-auth')
+  @ApiHeader({ name: 'xDetokenize', required: false })
   @ApiParam({name: 'my_id',type:Number})
   @ApiOkResponse({ type: comboboxtableEntity, isArray: true })
   @ApiOperation({
@@ -78,14 +79,15 @@ export class comboboxtableController {
     description: 'Read only one records from the comboboxtable table',
   })
   
-  async findOne(@Headers() authHeader: string,@Param('my_id') my_id:number,@Req() req: any) {
+  async findOne(@Headers('xDetokenize') detokenize: string,@Headers() authHeader: string,@Param('my_id') my_id:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.comboboxtableService.findOne(+my_id,token);
+    const result = await this.comboboxtableService.findOne(+my_id,token,detokenize);
     return plainToInstance(comboboxtableEntity, result);
   }
  
   @Get()
+  @ApiHeader({ name: 'xDetokenize', required: false })
   @ApiBearerAuth('JWT-auth')
   @ApiOkResponse({ type: comboboxtableEntity, isArray: true })
   @ApiOperation({
@@ -93,7 +95,7 @@ export class comboboxtableController {
     description: 'Read all the records from the comboboxtable table',
   })
   
-  async findAll(@Headers() authHeader: string,@Req() req: any,@Query() query?: Record<string, any>) {
+  async findAll(@Headers('xDetokenize') detokenize: string,@Headers() authHeader: string,@Req() req: any,@Query() query?: Record<string, any>) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
     let presentQueryKeys:any=[
@@ -118,13 +120,14 @@ export class comboboxtableController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = await this.comboboxtableService.findAll(token,);
+    const result = await this.comboboxtableService.findAll(token,detokenize,);
     return plainToInstance(comboboxtableEntity, result);
   } 
 
   @Post()
   @UsePipes(new PrismaModelValidationPipe('comboboxtable'))
   @ApiBearerAuth('JWT-auth')
+  @ApiHeader({ name: 'xDetokenize', required: false })
   @ApiHeader({ name: 'xCdcaRole', required: false })
   @ApiHeader({ name: 'xCdcaUsername', required: false })
   @ApiHeader({ name: 'xCdcaRemarks', required: false })
@@ -138,6 +141,7 @@ export class comboboxtableController {
   })
   
   async create(
+    @Headers('xDetokenize') detokenize: string,
     @Headers('xCdcaRole') mcRole: string,
     @Headers('xCdcaUsername') mcUsername: string,
     @Headers('xCdcaRemarks') mcRemarks: string,
@@ -151,18 +155,19 @@ export class comboboxtableController {
 
     // Flag-driven routing: if maker-checker headers are present, use createMaster
     if (mcRole && mcUsername) {
-      const makerInfo = { role: mcRole, username: mcUsername, remarks: mcRemarks, approvalStatus: mcApprovalStatus,approvalId:mcApprovalID };
+      const makerInfo = { role: mcRole, username: mcUsername, remarks: mcRemarks, approvalStatus: mcApprovalStatus,approvalId:mcApprovalID,detokenize:detokenize };
       const result = await this.comboboxtableService.createMaster(createcomboboxtableDto, makerInfo, token);
       return result;
     }
 
-    const result = this.comboboxtableService.create(createcomboboxtableDto,token);
+    const result = this.comboboxtableService.create(createcomboboxtableDto,token,detokenize);
     return plainToInstance(comboboxtableEntity, result);
   }
  
   @Patch(':my_id')
   @UsePipes(new PrismaModelValidationPipe('comboboxtable', true))
   @ApiBearerAuth('JWT-auth')
+  @ApiHeader({ name: 'xDetokenize', required: false })
   @ApiParam({name: 'my_id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
   @ApiHeader({ name: 'xCdcaUsername', required: false })
@@ -176,6 +181,7 @@ export class comboboxtableController {
   })
     
   async update(
+    @Headers('xDetokenize') detokenize: string,
     @Headers('xCdcaRole') mcRole: string,
     @Headers('xCdcaUsername') mcUsername: string,
     @Headers('xCdcaRemarks') mcRemarks: string,
@@ -189,17 +195,18 @@ export class comboboxtableController {
 
     // Flag-driven routing: if maker-checker headers are present, use updateMaster
     if (mcRole && mcUsername) {
-      const makerInfo = { role: mcRole, username: mcUsername, remarks: mcRemarks,approvalStatus: mcApprovalStatus };
+      const makerInfo = { role: mcRole, username: mcUsername, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
       const result = await this.comboboxtableService.updateMaster(+my_id,updatecomboboxtableDto,makerInfo,token);
       return result;
     }
 
-    const result = await this.comboboxtableService.update(+my_id,updatecomboboxtableDto,token);
+    const result = await this.comboboxtableService.update(+my_id,updatecomboboxtableDto,token,detokenize);
     return plainToInstance(comboboxtableEntity, result);
   }
  
   @Delete(':my_id')
   @ApiBearerAuth('JWT-auth')
+  @ApiHeader({ name: 'xDetokenize', required: false })
   @ApiParam({name: 'my_id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
   @ApiHeader({ name: 'xCdcaUsername', required: false })
@@ -212,6 +219,7 @@ export class comboboxtableController {
   })
   
   async remove(
+    @Headers('xDetokenize') detokenize: string,
     @Headers('xCdcaRole') mcRole: string,
     @Headers('xCdcaUsername') mcUsername: string,
     @Headers('xCdcaRemarks') mcRemarks: string,
@@ -224,17 +232,18 @@ export class comboboxtableController {
 
     // Flag-driven routing: if maker-checker headers are present, use deleteMaster
     if (mcRole && mcUsername) {
-      const makerInfo = { role: mcRole, username: mcUsername, remarks: mcRemarks,approvalStatus: mcApprovalStatus };
+      const makerInfo = { role: mcRole, username: mcUsername, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
       const result = await this.comboboxtableService.deleteMaster(+my_id,makerInfo,token);
       return result;
     }
 
-    const result = await this.comboboxtableService.remove(+my_id,token);
+    const result = await this.comboboxtableService.remove(+my_id,token,detokenize);
     return plainToInstance(comboboxtableEntity, result);
   }  
  
   @Get('/find/first')
   @ApiBearerAuth('JWT-auth')
+  @ApiHeader({ name: 'xDetokenize', required: false })
   //@ApiParam({name: ''})
   @ApiOkResponse({ type: comboboxtableEntity })
   @ApiOperation({
@@ -242,15 +251,16 @@ export class comboboxtableController {
     description: 'Read first record from the comboboxtable table',
   })
   
-  async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
+  async findFirst(@Headers('xDetokenize') detokenize: string,@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.comboboxtableService.findFirst(token);
+    const result = await this.comboboxtableService.findFirst(token, detokenize);
     return plainToInstance(comboboxtableEntity, result);
   }
 
   @Get('/find/last')
   @ApiBearerAuth('JWT-auth')
+  @ApiHeader({ name: 'xDetokenize', required: false })
   //@ApiParam({name: ''})
   @ApiOkResponse({ type: comboboxtableEntity })
   @ApiOperation({
@@ -258,10 +268,10 @@ export class comboboxtableController {
     description: 'Read last record from the comboboxtable table',
   })
   
-  async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
+  async findLast(@Headers('xDetokenize') detokenize: string,@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.comboboxtableService.findLast(token);
+    const result = await this.comboboxtableService.findLast(token, detokenize);
     return plainToInstance(comboboxtableEntity, result);
   }
 }

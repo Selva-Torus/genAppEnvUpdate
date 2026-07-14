@@ -436,7 +436,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           `}</style>
           <div
             ref={modalRef}
-            className="datepicker-popup fixed z-50 rounded-lg shadow-2xl overflow-hidden"
+            className="datepicker-popup fixed z-[1000] rounded-lg shadow-2xl overflow-hidden"
             style={{
               backgroundColor: branding.brandColor,
               color: "#FFFFFF",

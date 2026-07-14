@@ -95,7 +95,6 @@ const Switchswitch = ({checkToAdd,setCheckToAdd,encryptionFlagCompData,setIsProc
     handleMapperValue()
   },[switch63dd1?.refresh])
 
-
   const handleChange = async (checked: boolean,comingRule:any={}) => {
     try{
     setIsProcessing(true);

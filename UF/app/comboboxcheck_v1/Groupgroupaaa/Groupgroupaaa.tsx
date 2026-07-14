@@ -63,9 +63,9 @@ const Groupgroupaaa = ({lockedData={},setLockedData,primaryTableData={},tableDat
       "group1234",
       "state",
       "groupaaa",
-      "groupb",
       "groupc",
-      "groupd"
+      "groupd",
+      "groupb"
     ],
     "blockedControls": [],
     "readOnlyControls": []
@@ -79,9 +79,9 @@ const Groupgroupaaa = ({lockedData={},setLockedData,primaryTableData={},tableDat
       "group1234",
       "state",
       "groupaaa",
-      "groupb",
       "groupc",
-      "groupd"
+      "groupd",
+      "groupb"
     ],
     "blockedControls": [],
     "readOnlyControls": []
@@ -95,9 +95,9 @@ const Groupgroupaaa = ({lockedData={},setLockedData,primaryTableData={},tableDat
       "group1234",
       "state",
       "groupaaa",
-      "groupb",
       "groupc",
-      "groupd"
+      "groupd",
+      "groupb"
     ],
     "blockedControls": [],
     "readOnlyControls": []
@@ -123,12 +123,12 @@ const Groupgroupaaa = ({lockedData={},setLockedData,primaryTableData={},tableDat
   const {groupaaa97733, setgroupaaa97733}= useContext(TotalContext) as TotalContextProps;
   const {groupaaa97733Props, setgroupaaa97733Props}= useContext(TotalContext) as TotalContextProps;
   const {text23423bb984, settext23423bb984}= useContext(TotalContext) as TotalContextProps;
-  const {groupb8f3d7, setgroupb8f3d7}= useContext(TotalContext) as TotalContextProps;
-  const {groupb8f3d7Props, setgroupb8f3d7Props}= useContext(TotalContext) as TotalContextProps;
   const {groupc0c048, setgroupc0c048}= useContext(TotalContext) as TotalContextProps;
   const {groupc0c048Props, setgroupc0c048Props}= useContext(TotalContext) as TotalContextProps;
   const {groupd487a8, setgroupd487a8}= useContext(TotalContext) as TotalContextProps;
   const {groupd487a8Props, setgroupd487a8Props}= useContext(TotalContext) as TotalContextProps;
+  const {groupb8f3d7, setgroupb8f3d7}= useContext(TotalContext) as TotalContextProps;
+  const {groupb8f3d7Props, setgroupb8f3d7Props}= useContext(TotalContext) as TotalContextProps;
   //////////////
   const [ruleData,setRuleData]=useState<any>([])
   const [open, setOpen] = React.useState(false);
@@ -200,10 +200,6 @@ const Groupgroupaaa = ({lockedData={},setLockedData,primaryTableData={},tableDat
         codeStates['setgroupaaa97733'] = setgroupaaa97733Props,
         codeStates['text23423'] = text23423bb984,
         codeStates['settext23423'] = settext23423bb984,
-        codeStates['groupb'] = groupb8f3d7,
-        codeStates['setgroupb'] = setgroupb8f3d7,
-        codeStates['groupb8f3d7'] = groupb8f3d7Props,
-        codeStates['setgroupb8f3d7'] = setgroupb8f3d7Props,
         codeStates['groupc'] = groupc0c048,
         codeStates['setgroupc'] = setgroupc0c048,
         codeStates['groupc0c048'] = groupc0c048Props,
@@ -212,6 +208,10 @@ const Groupgroupaaa = ({lockedData={},setLockedData,primaryTableData={},tableDat
         codeStates['setgroupd'] = setgroupd487a8,
         codeStates['groupd487a8'] = groupd487a8Props,
         codeStates['setgroupd487a8'] = setgroupd487a8Props,
+        codeStates['groupb'] = groupb8f3d7,
+        codeStates['setgroupb'] = setgroupb8f3d7,
+        codeStates['groupb8f3d7'] = groupb8f3d7Props,
+        codeStates['setgroupb8f3d7'] = setgroupb8f3d7Props,
 
     codeExecution(code,codeStates);
     } 
@@ -246,10 +246,6 @@ const Groupgroupaaa = ({lockedData={},setLockedData,primaryTableData={},tableDat
         codeStates['setgroupaaa97733'] = setgroupaaa97733Props,
         codeStates['text23423'] = text23423bb984,
         codeStates['settext23423'] = settext23423bb984,
-        codeStates['groupb'] = groupb8f3d7,
-        codeStates['setgroupb'] = setgroupb8f3d7,
-        codeStates['groupb8f3d7'] = groupb8f3d7Props,
-        codeStates['setgroupb8f3d7'] = setgroupb8f3d7Props,
         codeStates['groupc'] = groupc0c048,
         codeStates['setgroupc'] = setgroupc0c048,
         codeStates['groupc0c048'] = groupc0c048Props,
@@ -258,6 +254,10 @@ const Groupgroupaaa = ({lockedData={},setLockedData,primaryTableData={},tableDat
         codeStates['setgroupd'] = setgroupd487a8,
         codeStates['groupd487a8'] = groupd487a8Props,
         codeStates['setgroupd487a8'] = setgroupd487a8Props,
+        codeStates['groupb'] = groupb8f3d7,
+        codeStates['setgroupb'] = setgroupb8f3d7,
+        codeStates['groupb8f3d7'] = groupb8f3d7Props,
+        codeStates['setgroupb8f3d7'] = setgroupb8f3d7Props,
       customCode = codeExecution(allCode,codeStates);
       return customCode;
     }

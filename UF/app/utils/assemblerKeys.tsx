@@ -11,22 +11,17 @@ export function getRouteScreenDetails(key: string, artfactName: string,other:str
   {
     "screenName": "test",
     "screensName": "test-v1",
-    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:sample_test:AFVK:v1"
-  },
-  {
-    "screenName": "mycomps",
-    "screensName": "mycomps-v1",
-    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:mycomps:AFVK:v1"
-  },
-  {
-    "screenName": "ggggg",
-    "screensName": "ggggg-v1",
     "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:ffff:AFVK:v1"
   },
   {
-    "screenName": "report",
-    "screensName": "report-v1",
-    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFR:CATK:TGW01:AFGK:TGW004:AFK:myreport:AFVK:v1"
+    "screenName": "maker",
+    "screensName": "maker-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:maker:AFVK:v1"
+  },
+  {
+    "screenName": "checker",
+    "screensName": "checker-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:checker:AFVK:v1"
   }
 ]
 

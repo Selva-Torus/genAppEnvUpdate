@@ -15,6 +15,7 @@ import Redis from "ioredis";
 import { Kafka, Producer, Consumer, CompressionTypes, EachMessagePayload } from 'kafkajs';
 import * as pg from "pg";
 import { MongoClient } from "mongodb";
+import { format } from "date-fns";
 import { EnvData } from "src/envData/envData.service";
 
 @Injectable()
@@ -100,7 +101,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
 
     let keyarr = []
         
-    let artifactToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoibWFkaHUiLCJjbGllbnQiOiJDVDAwMSIsInR5cGUiOiJjIiwibG9nVHlwZSI6ImRmcyIsInNpZCI6ImEyN2E5OTQ4LWNlMjktNDFhZi1iODU1LWFiOWY0ODExMDI0MSIsImlhdCI6MTc4MzQwMzUzMiwiZXhwIjoxNzgzNDA0NzMyfQ.sjqcDEE2lz0NfttBya7YRKkb8T4O_Vezm3kijYG77J8';  
+    let artifactToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoibWFkaHUiLCJjbGllbnQiOiJDVDAwMSIsInR5cGUiOiJjIiwibG9nVHlwZSI6ImRmcyIsInNpZCI6IjVkZDc4N2ExLWFiNDQtNDFhYS1hNmZmLWEzNTAyZGNkMTk3ZCIsImlhdCI6MTc4NDAwNjQ4NSwiZXhwIjoxNzg0MDA3Njg1fQ.GiiTXg26lzjsX11tKIj7F0FMiB2JEbh0E1v-vdIOY6A';  
     for (const key of keyarr) {
       this.listenToKey(key,artifactToken); // fire & forget
     }  
@@ -221,11 +222,10 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
         if (!tokenDecode || !tokenDecode.loginId)
           throw new CustomException('Invalid token', 401);
 
-      const lockKey = `scheduler:${tokenDecode.loginId}:${name}`;
-      const lockTTL = interval - 10 // slightly less than minimum cron interval
-
-      const acquired = await this.redisService.setIfNotExist(lockKey,'locked',lockTTL)
-      if (acquired) {
+      //const lockKey = `scheduler:${tokenDecode.loginId}:${name}`;
+      //const lockTTL = interval - 10 // slightly less than minimum cron interval    
+      //const acquired = await this.redisService.setIfNotExist(lockKey,'locked',lockTTL)
+      //if (acquired) {
         try {    
           pfdto = temp   
         let artifactKey = pfdto.key
@@ -334,10 +334,16 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
             pfdto['nodeType'] = ponode[1].nodeType
             pfdto['event'] = sourceStatus        
         }
-      }else{
-        this.logger.log(`Skipping cron ${name} - another instance is processing`);          
-      }
-    });   
+      //}
+      // else{
+      //   this.logger.log(`Skipping cron ${name} - another instance is processing`);          
+      // }
+    },
+    null,              // onComplete
+    false,             // start immediately? (false because you call job.start())
+    'Asia/Kolkata' 
+  ); 
+      
     await this.schedulerRegistry.addCronJob(name, job);
     job.start();   
     this.logger.log(`Started job: ${name}`); 
@@ -495,7 +501,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
               delay: 1000,  // ✅ Reduced from 2000ms for faster retries
             },
             priority: options?.priority,
-            removeOnComplete: false,
+            removeOnComplete: true,
             removeOnFail: false,
           }
         }));
@@ -600,51 +606,12 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
         processedKey = pfdto.key.replace(fngkKey, fngkKey + 'P');
       }
       let dstkey = processedKey.replace('DF-DFD', 'DF-DST');
-      let staticQueue = currentFabric == 'DF-DFD' ? 'TDH' : 'TPH';   
-      //let afi = await this.redisService.getJsonData(key+'AFI',collectionName)
+      let staticQueue = currentFabric == 'DF-DFD' ? 'TDH' : 'TPH'; 
       let inputCollection: any = {};   
-      var poNode = poJson?.mappedData?.artifact?.node;
-      var internalEdges = poJson?.internalMappingEdges;
+      var poNode = poJson?.mappedData?.artifact?.node;     
       let statickeyword = ['get', 'post', 'patch', '200', '201', '202', '204', '400','401','403','404', '500','requestBody','*/*','responses','content', 'application/json','application/xml','text/plain', 'application/jwt', 'application/json; charset=utf-8','schema','properties','allOf', 'oneOf', 'inputschema','outputschema',];
-      let numberArr: string[] = Array.from({ length: 101 }, (_, i) => i.toString());       
-      let SessionToken = await this.jwtService.decode(token, {json: true});  
-      let tokenDecode  =  await this.CommonService.MyAccountForClient(token);
-      let sobj = {}, SessionInfo = {}
-      //this.logger.log("SessionToken",SessionToken)
-        
-        sobj['session.orgGrpCode'] = SessionToken.orgGrpCode || process.env?.ORGGRPCODE
-        sobj['session.orgCode'] = SessionToken.orgCode || process.env?.ORGCODE
-        sobj['session.roleGrpCode'] = SessionToken.roleGrpCode || process.env?.ROLEGRPCODE
-        sobj['session.roleCode'] = SessionToken.roleCode || process.env?.ROLECODE
-        sobj['session.psGrpCode'] = SessionToken.psGrpCode || process.env?.PSGRPCODE
-        sobj['session.psCode'] =  SessionToken.psCode || process.env?.PSCODE
-        sobj['session.selectedAccessProfile']= SessionToken.selectedAccessProfile || process.env?.ACCESSPROFILE
-        sobj['session.loginId'] = SessionToken.loginId || process.env?.LOGINID
-        sobj['session.orgGrpName'] = SessionToken?.orgGrpName || process.env?.ORGGRPNAME
-        sobj['session.orgName'] =  SessionToken?.orgName || process.env?.ORGNAME
-        sobj['session.roleGrpName'] = SessionToken?.roleGrpName || process.env?.ROLEGRPNAME
-        sobj['session.roleName'] = SessionToken?.roleName || process.env?.ROLENAME
-        sobj['session.psGrpName'] = SessionToken?.psGrpName || process.env?.PSGRPNAME
-        sobj['session.psName'] =  SessionToken?.psName || process.env?.PSNAME
-        sobj['session.trs_process_id'] = upId
-        sobj['session.userCode'] = SessionToken?.userCode
-        sobj['session.subOrgGrpCode'] = SessionToken?.subOrgGrpCode || process.env?.SUBORGGRPCODE
-        sobj['session.subOrgGrpName'] = SessionToken?.subOrgGrpName || process.env?.SUBORGGRPNAME
-        sobj['session.subOrgCode'] = SessionToken?.subOrgCode || process.env?.SUBORGCODE
-        sobj['session.subOrgName'] = SessionToken?.subOrgName || process.env?.SUBORGNAME
-          
-        SessionInfo['loginId'] = SessionToken?.loginId || process.env?.LOGINID || '' ;
-        SessionInfo['accessProfile'] = SessionToken?.selectedAccessProfile || process.env?.ACCESSPROFILE || '';
-        SessionInfo['orgGrpName'] = SessionToken?.orgGrpName || process.env?.ORGGRPNAME || '';
-        SessionInfo['orgName'] = SessionToken?.orgName || process.env?.ORGNAME || '';
-        SessionInfo['roleGrpName'] = SessionToken?.roleGrpName || process.env?.ROLEGRPNAME || '';
-        SessionInfo['roleName'] = SessionToken?.roleName || process.env?.ROLENAME || '';
-        SessionInfo['psGrpName'] = SessionToken?.psGrpName || process.env?.PSGRPNAME || '';
-        SessionInfo['psName'] = SessionToken?.psName || process.env?.PSNAME || '';
-        SessionInfo['userCode'] = SessionToken?.userCode || ''      
-        SessionInfo['subOrgGrpName'] = SessionToken?.subOrgGrpName || process.env?.SUBORGGRPNAME || '';        
-        SessionInfo['subOrgName'] = SessionToken?.subOrgName || process.env?.SUBORGNAME || '';
-        
+      let numberArr: string[] = Array.from({ length: 101 }, (_, i) => i.toString());
+       let {sobj,SessionInfo} = await this.CommonService.sessionDecode(token, upId);        
         let sourceStatus,srcQueue,targetStatus,targetQueue,failureQueue,failureTargetStatus,suspiciousStatus,suspiciousQueue,errorStatus,errorQueue,dfoSchema;
         for (var j = 0; j < poNode.length; j++) {
           if (poNode[j].nodeId == nodeId) {
@@ -695,8 +662,8 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
               let nodeVersion = customConfig?.nodeVersion;            
 
               if (!referenceKey)
-                throw new CustomException('Reference key not found', 404);
-
+                throw new CustomException('Reference key not found', 404);            
+              
               let ApiConfig: any = JSON.parse(await this.redisService.getJsonData(referenceKey, collectionName));
 
               if (!ApiConfig || Object.keys(ApiConfig).length == 0)
@@ -723,15 +690,9 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
               }    
               
               let apiResult: any;
-              if (customConfig ) { 
-                //serverUrl = 'http://192.168.2.105:5000'
+              if (customConfig ) {                
                 let apiUrl = serverUrl + endPoint                
-                if (apiUrl && methodName == 'get' && !semarc) {
-                    // let params = {}                  
-                      // params.headers['Authorization'] = `Bearer ${token}`;
-                      // const requestConfig: AxiosRequestConfig = {
-                      //   headers: params.headers,
-                      // };   
+                if (apiUrl && methodName == 'get' && !semarc) {                     
                         const requestConfig: AxiosRequestConfig = {
                           headers: {
                           'Content-Type': 'application/json',
@@ -742,21 +703,10 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                         apiResult = apiResult?.result;
                       } else {
                         throw apiResult;
-                      }                
-                } else if(semarc){
-                    let internalMappingNodes = poJson?.internalMappingNodes;
-                let internalMappedObj = {};
-                for (let n = 0; n < internalMappingNodes.length; n++) {
-                  if (internalMappingNodes[n].nodeId == poNode[j].nodeId && internalMappingNodes[n].ifo?.length > 0) {
-                    for (let f = 0; f < internalMappingNodes[n].ifo.length; f++) {
-                      if (internalMappingNodes[n].ifo[f].value) {
-                        internalMappedObj[internalMappingNodes[n].ifo[f].key] = internalMappingNodes[n].ifo[f].value;
-                      } else {
-                        internalMappedObj[internalMappingNodes[n].ifo[f].key] = '';
-                      }
-                    }
-                  }
-                }
+                      }                      
+                } else if(semarc){                                             
+                await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(inputparam), collectionName, 'response',);
+                await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(inputparam)?inputparam[0]:inputparam),collectionName,nodeName);            
                 let RCMresult, customcoderesult,zenresult,codeObj = {};;
                 if (currentFabric == 'PF-SCDL') {
                   RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], inputparam, processedKey + upId, currentFabric, SessionInfo);               
@@ -765,54 +715,46 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                     customcoderesult = RCMresult.code;
                   }
                   
-                  if (customcoderesult != undefined) {
-                    if (customcoderesult && Object.keys(customcoderesult).length > 0) {
-                      for (let item in customcoderesult) {
-                        codeObj[item.toLowerCase()] = customcoderesult[item];
-                      }
-                    }
+                  if (customcoderesult && customcoderesult != undefined && customcoderesult != null) {                   
+                    codeObj = await this.codeAssign(customcoderesult)
+                    if(codeObj)
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(codeObj), collectionName, 'code',);
                   }
                 }
-                  let ifoObj = {}                             
-                if (internalMappedObj && Object.keys(internalMappedObj).length > 0) {
-                  for (let item in internalMappedObj) {
-                    ifoObj[item.toLowerCase()] = internalMappedObj[item];
-                  }
+                  let ifoObj = {} 
+                  ifoObj = await this.ifoAssign(poJson?.internalMappingNodes, poNode[j].nodeId,sobj,zenresult,processedKey + upId,inputparam,pfdto)
                   if(await this.redisService.exist(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO',collectionName))  
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(ifoObj), collectionName, 'ifo',);
-                }               
-
-                  if (Array.isArray(inputparam)) {
-                    for (let r = 0; r < inputparam.length; r++) {
-                      if (codeObj && Object.keys(codeObj).length > 0)
-                        inputparam[r] = Object.assign(inputparam[r], codeObj);
-
-                      if (ifoObj && Object.keys(ifoObj).length > 0)
-                        inputparam[r] = Object.assign(inputparam[r], ifoObj);
-                    // inputparam[r] = Object.assign(inputparam[r], { [nodeName]:  });
+                   
+                
+                if (inputparam){
+                   if(ifoObj && codeObj){
+                        if ( Object.keys(ifoObj).length > 0 && Object.keys(codeObj).length > 0) 
+                            ifoObj = Object.assign(ifoObj, codeObj)
                     }
-                  } else if (typeof inputparam == 'object'){
-                    if (codeObj && Object.keys(codeObj).length > 0)
-                        inputparam = Object.assign(inputparam, codeObj);
-
-                      if (ifoObj && Object.keys(ifoObj).length > 0)
-                        inputparam = Object.assign(inputparam, ifoObj);
-                  }                  
+                  if(codeObj)
+                  inputparam = await this.codeORifoAndInputparamAssign(codeObj, inputparam)
+                  if(ifoObj)
+                    inputparam = await this.codeORifoAndInputparamAssign(ifoObj,inputparam)
+                }  
+                if (upId) {
+                    await this.redisService.setStreamData(srcQueue, collectionName + '-TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: apiUrl, response: inputparam } }));
+                    await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, apiUrl, inputparam);
+                    await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(apiUrl), collectionName, 'request');
+                    await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(inputparam), collectionName, 'response');
+                  }                              
                 }
                 else {
                   throw new CustomException('API Endpoint does not exist', 404);
                 }
-              }
-
+              }            
+              
               this.logger.log('Api first node completed'); 
               if(semarc)    
                 return { status: 200, targetStatus: targetStatus, data:{[nodeName]:inputparam}};  
               else      
                 return { status: 200, targetStatus: targetStatus, data: apiResult };
             } catch (error) {
-              console.log(error);
-              
               throw error
             }
           } 
@@ -1440,157 +1382,52 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
               let customConfig = ndp[poNode[j].nodeId]
               let nodeVersion = customConfig?.nodeVersion;
               if (!nodeVersion)
-                throw new CustomException('Node version not found', 404);
-              let oprname, oprkey, tablename, sessionParams, selcol, filterParams, connectorType, storageType, dpdkey, conncectorName, manualQuery, insertParams;
-              if (nodeVersion.toLowerCase() == 'v1') {
-                connectorType = customConfig?.data?.pro?.connector?.value;
-                storageType = customConfig?.data?.pro?.connector?._selection?._selection?.value;
-                dpdkey = customConfig?.data?.pro?.connector?._selection?.value;
-                conncectorName = customConfig?.data?.pro?.connector?._selection?.subSelection?.value;
-                oprname = customConfig.data?.pro?.operationName?.value;
-                oprkey = Object.keys(customConfig.data.pro);
-                tablename = customConfig.data?.pro?.tableName;
-                sessionParams = customConfig.data?.pro?.filterParams
-                if (oprname == 'select') {
-                  selcol = customConfig.data?.pro[oprname]?.selectColumns.items;
-                  filterParams = customConfig.data?.pro[oprname]?.filterParams?.items;
-                }
-                manualQuery = customConfig.data?.pro?.manualQuery;
-                if (oprname == 'insert') {
-                  insertParams = customConfig.data?.pro[oprname]?.insertParams?.items;
-                }
-              }
-              //else if (nodeVersion.toLowerCase() == 'v2') {
-
-              //}
+                throw new CustomException('Node version not found', 404);         
+              
+              let oprname,RCMresult:any = {} ,mapObj = {},ifoObj = {},client, oprkey, tablename, sessionParams, selcol, filterParams, connectorType, storageType, dpdkey, conncectorName, manualQuery, insertParams;
+              let dbconfig = await this.CommonService.dbconfig(customConfig, collectionName)
+              client = dbconfig?.client
+             if (nodeVersion?.toLowerCase() == 'v1') {
+                  RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], inputparam, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                  let queryName
+                  let ruleRes = RCMresult?.rule                        
+                  if(ruleRes && typeof ruleRes == 'object'){
+                      queryName = Object?.values(ruleRes)[0]
+                  }else if(ruleRes && typeof ruleRes == 'string'){
+                      queryName = ruleRes
+                  }    
+                  let qryfield = dbconfig?.qrydata
+                  if(qryfield?.length>0){
+                  for(let item of qryfield){
+                  if(queryName){
+                  if(item?.value?.queryname?.value == queryName){
+                      manualQuery = item?.value?.query?.value
+                  }
+                  }else if(qryfield.length == 1){
+                      manualQuery = item?.value?.query?.value.replace(/\r?\n/g, ' ')   // replace newline with space
+                      .replace(/\s+/g, ' ')     // remove extra spaces
+                      .trim();
+                  }
+                  }
+                  }         
+              }             
               let dbUrl, schemaname, dbConfig, Querystr, qry;
               if (customConfig) {
                 if (currentFabric == 'PF-SCDL' && !semarc) {
-                  if (storageType?.toLowerCase() == 'external') {
-                    if (!dpdkey) throw new CustomException('DPD key not found', 404);
-                    let extdata = JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName));
-                    let nodedata = Object.keys(extdata)[0];
-                    let configConnectors = extdata[nodedata].data['externalConnectors-DB']?.items;
-                    if (configConnectors?.length > 0) {
-                      for (let i = 0; i < configConnectors.length; i++) {
-                        if (configConnectors[i].connectorName == conncectorName) {
-                          dbConfig = configConnectors[i]?.credentials;
-                        }
-                      }
-                    }
-                    if (!dbConfig?.host) {
-                      throw new CustomException(`Invalid DB credentials`, 404);
-                    }
-                    if (dbConfig?.port && dbConfig?.username && dbConfig?.password && dbConfig?.database && dbConfig?.schema)
-                      dbUrl = `postgresql://${dbConfig?.username}:${dbConfig?.password}@${dbConfig?.host}:${dbConfig?.port}/${dbConfig?.database}?schema=${dbConfig?.schema}`
-                    else
-                      dbUrl = dbConfig?.host
-                    schemaname = dbConfig?.schema
-                  } else {
-                    dbUrl = this.envData.getDatabaseUrl()//process.env.DATABASE_URL;
-                    schemaname = (this.envData.getDatabaseUrl()).split('schema=')[1]//process.env.DATABASE_URL.split('schema=')[1];
-                  }
-
-                  if (!dbUrl) throw new CustomException('DB url not found', 404);
-                  const { Client } = pg;
-                  const client = new Client({
-                    connectionString: dbUrl,
-                  });
-                  if (!oprname) {
-                    oprname = 'select';
-                  }
-                  let str = [];
-                  if (sessionParams?.length > 0) {
-                    for (let i = 0; i < sessionParams.length; i++) {
-                      var filcol = sessionParams[i].name;
-                      var filval = sessionParams[i].value;
-                      if (filval) {
-                        if ((Object.keys(sobj)).includes(filval)) {
-                          let strobj = ` ${filcol} = '${sobj[filval]}' `
-                          str.push(strobj);
-                        }
-                      }
-                    }
-                  }
-
-                  if (filterParams?.length > 0) {
-                    for (let i = 0; i < filterParams.length; i++) {
-                      var filcol = filterParams[i].key;
-                      var filval = filterParams[i].value.value;
-                      if (filval && filval.includes('session.') && filcol)
-                        str.push(` ${filcol} = '${sobj[filval]}' `);
-                      else if (filcol && filval)
-                        str.push(` ${filcol} = '${filval}' `);
-
-                    }
-                  }                
-
-                  if (manualQuery) {
-                    qry = manualQuery;                      
-                      if (qry.endsWith(';')) {
-                        qry = qry.slice(0, -1);
-                      }
-                      if (page && count) {
-                        const cleanedQuery = qry.trim();
-                        if (/limit\s+\d+/i.test(cleanedQuery)) {
-                          throw new Error('LIMIT clause detected. Please do not include it.');
-                        }
-                        qry = `${cleanedQuery} LIMIT ${count} OFFSET ${offset}`;
-                      }
-
-                      let formKey: any = ``;
-                      let removedVal
-                      if (filterData && filterData.length) {
-                        for (let f = 0; f < filterData.length; f++) {
-                          if (filterData[f].nodeId && filterData[f].nodeId == poNode[j].nodeId) {
-                            const { nodeId, ...filterParamsObj } = filterData[f];
-                            const filterParamsObjKey = Object.keys(filterParamsObj);
-                            const filterParamsObjvalues =
-                              Object.values(filterParamsObj);
-                            for (let p = 0; p < filterParamsObjKey.length; p++) {
-                              const key = filterParamsObjKey[p];
-                              if (key.includes('.')) {
-                                let s_item = key.split('.');
-                                removedVal = s_item.filter((item) => !statickeyword.includes(item)).join('.');
-                                if (removedVal.includes('.') && removedVal.startsWith('items.')) {
-                                  removedVal = removedVal.replace('items.', '');
-                                }
-                              } else {
-                                removedVal = key
-                              }
-                              const value = filterParamsObjvalues[p];
-                              if (typeof value == 'number') {
-                                formKey = formKey + ` ${removedVal} = ${value} AND`;
-                              } else if (typeof value == 'string') {
-                                formKey = formKey + ` ${removedVal} = '${value}' AND`;
-                              } else if (Array.isArray(value) && value.length > 0) {
-                                let s = ''
-                                for (let item of value) {
-                                  s = s + `'${item}',`
-                                }
-                                if (s.endsWith(',')) {
-                                  s = s.slice(0, -1);
-                                }
-                                formKey = formKey + ` ${removedVal}  IN (${s}) AND`;
-                              }
+                   mapObj = sobj
+                            if (mapObj && Object.keys(mapObj).length > 0) {                                            
+                                manualQuery = await this.replaceQuery(manualQuery,mapObj)                            
                             }
-                          }
-
-                        }
-                        if (formKey.endsWith(' AND')) {
-                          formKey = formKey.slice(0, -4);
-                        }
-                      }
-                      if (formKey) str.push(formKey)
-                      if (str.length > 0) {
-                        Querystr = str.join('AND');
-                        qry = await this.CommonService.appendWhereClause(qry, Querystr);
-                      }                 
-                  }
-                  await client.connect();
-                  if (qry) qryres = await client.query(qry);
-                  if (qryres) dbres = qryres.rows;
-                  await client.end();
+                  qry = qry.replace(/\u2003/g, ' ');
+                    await client.connect();
+                    try{   
+                    if (qry) qryres = await client.query(qry);                   
+                    if (qryres) dbres = qryres.rows;                   
+                    }catch(err){
+                        await client.end();
+                        throw err;
+                    }                     
+                    await client.end();
                 } else if (semarc) {
                   if (flag != 'N' && inputparam?.length == 0) {
                     await this.redisService.setStreamData(srcQueue, collectionName + '-TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: qry, response: inputparam } }));
@@ -1601,26 +1438,34 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                   }
 
                   let RCMresult, zenresult, customcoderesult, codeObj = {};
+                  await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(inputparam), collectionName, 'response',);
+                  await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(inputparam)?inputparam[0]:inputparam),collectionName,nodeName);
                   RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], inputparam, processedKey + upId, currentFabric, SessionInfo);
                   if (RCMresult) {
                     zenresult = RCMresult.rule;
                     customcoderesult = RCMresult.code;
                   }
-                  if (customcoderesult != undefined) {
-                    if (customcoderesult && Object.keys(customcoderesult).length > 0) {
-                      for (let item in customcoderesult) {
-                        codeObj[item.toLowerCase()] = customcoderesult[item];
-                      }
-                    }
+                  if (customcoderesult && customcoderesult != undefined && customcoderesult != null) {                   
+                    codeObj = await this.codeAssign(customcoderesult)
+                    if(codeObj)
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(codeObj), collectionName, 'code',);
+                  }                              
+                  ifoObj = await this.ifoAssign(poJson?.internalMappingNodes, poNode[j].nodeId,sobj,zenresult,processedKey + upId,inputparam,pfdto)
+                  if(await this.redisService.exist(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO',collectionName))  
+                    await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(ifoObj), collectionName, 'ifo',);
+                   
+                
+                if (inputparam){
+                   if(ifoObj && codeObj){
+                        if ( Object.keys(ifoObj).length > 0 && Object.keys(codeObj).length > 0) 
+                            ifoObj = Object.assign(ifoObj, codeObj)
+                    }
+                  if(codeObj)
+                  inputparam = await this.codeORifoAndInputparamAssign(codeObj, inputparam)
+                  if(ifoObj)
+                    inputparam = await this.codeORifoAndInputparamAssign(ifoObj,inputparam)
+                } 
 
-                    if (Array.isArray(inputparam) && inputparam?.length > 0) {
-                      for (let i = 0; i < inputparam.length; i++) {
-                        inputparam[i] = Object.assign(inputparam[i], codeObj)
-                      }
-                    } else if (typeof inputparam == 'object')
-                      inputparam = Object.assign(inputparam, codeObj)
-                  }
                   if (upId) {
                     await this.redisService.setStreamData(srcQueue, collectionName + '-TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: qry, response: inputparam } }));
                     await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, qry, inputparam);
@@ -2338,6 +2183,203 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
         
         }
   }
+
+   async replaceQuery(replaceQry,mapObj){
+        try {           
+           const matches = [...replaceQry.matchAll(/\$\$([a-zA-Z0-9_.]+)/g)];
+            const variables = matches.map(match => match[1]);           
+            function getValueByKey(obj, key) {
+                if (typeof obj !== 'object' || obj === null) {
+                    return undefined;
+                }
+
+                // Check current level
+                if (key in obj) {
+                    return obj[key];
+                }
+
+                // Check nested levels
+                for (const value of Object.values(obj)) {
+                    if (typeof value === 'object') {
+                    const result = getValueByKey(value, key);
+
+                    if (result !== undefined) {
+                        return result;
+                    }
+                    }
+                }
+
+                return undefined;
+            }
+            if(variables?.length>0){
+                for(let item of variables){
+                    let value = getValueByKey(mapObj, item);                   
+                    const regex = new RegExp(`\\$\\$${item}`, 'g');
+                    if (value === null || value === undefined) {
+                        value = 'NULL';
+                    }
+                      else if (Array.isArray(value) &&(value.every(v => typeof v === 'number') || value.every(v => typeof v === 'string')) ) {                       
+                        const isNumberArray = value.every(v => typeof v === 'number');
+                        const isStringArray = value.every(v => typeof v === 'string');
+                        if (isNumberArray) {
+                            value = `ARRAY[${value.join(',')}]`;
+                        } else if(isStringArray){
+                            value = `ARRAY[${value.map(v => `'${String(v).replace(/'/g, "''")}'`).join(',')}]`;
+                        }
+                    }
+                    else if (typeof value === 'object') {
+                        value = `'${JSON.stringify(value)}'`;
+                    }
+                    else if (typeof value === 'string') {
+                        value = `'${value.replace(/'/g, "''")}'`;
+                    }                   
+                    replaceQry = replaceQry.replace(regex, value);                                    
+                }
+            }
+            return replaceQry
+        } catch (error) {
+            throw error
+        }
+    }
+
+
+   codeAssign(data: any) {
+        if (Array.isArray(data)) {
+            return data.map(item => this.codeAssign(item));
+        }
+
+         if (data instanceof Date || typeof data === 'string') {
+            return data; // keep date unchanged
+        } 
+        if (data !== null && typeof data === 'object') {
+            return Object.fromEntries(
+                Object.entries(data).map(([key, value]) => [
+                    key.toLowerCase(),
+                    this.codeAssign(value),
+                ])
+            );
+        }
+        return data;
+    }
+
+   async codeORifoAndInputparamAssign(customcoderesult, apires) {
+        try {
+            if (Array.isArray(customcoderesult) && customcoderesult.length > 0) {
+                //for (let a = 0; a < customcoderesult?.length; a++) {
+                if (Array.isArray(apires) && apires?.length > 0) {
+                    for (let i = 0; i < apires?.length; i++) {
+                        Object.assign(apires[i], customcoderesult[i]);
+                    }
+                } else {
+                    Object.assign(apires, customcoderesult[0]);
+                }
+                // }
+            } else if (Object.keys(customcoderesult).length > 0) {
+                if (Array.isArray(apires) && apires.length > 0) {
+                    for (let i = 0; i < apires.length; i++) {
+                        Object.assign(apires[i], customcoderesult);
+                    }
+                } else {
+                    Object.assign(apires, customcoderesult);
+                }
+
+            }
+            return apires
+        } catch (error) {
+            throw error
+        }
+    }
+
+     async ifoAssign(internalMappingNodes, nodeId,sobj,zenresult,processedKey,InputParam,pfdto) {
+            let internalMappedObj = {};
+    
+            const node = internalMappingNodes?.find(n => n.nodeId === nodeId);
+            let humantasknodeInfo = internalMappingNodes?.find(n => n.nodeType === "humantasknode")
+           
+            let humantasknodeName,humantasknodeType,humantasknodeId
+            if(humantasknodeInfo){
+                humantasknodeName = humantasknodeInfo?.nodeName
+                humantasknodeId = humantasknodeInfo?.nodeId
+                humantasknodeType = humantasknodeInfo?.nodeType
+            }      
+    
+            if (!node?.ifo?.length) return internalMappedObj;
+    
+            for (const item of node.ifo) {
+                let src_ufMainKey = pfdto.sourceId? ((pfdto.sourceId).split('|'))[0]:''
+                let con_ufMainKey = ((item.path).split('|'))[0]
+    
+                let formedSsKey = []
+                if(pfdto?.ssKey){
+                    let sKeyArr = pfdto.ssKey
+                    for(let i=0;i< sKeyArr?.length;i++){
+                        let subkeyval = (sKeyArr[i]).split(':')
+                        if(subkeyval.length == 7)                          
+                        formedSsKey.push(`CK:${subkeyval[0]}:FNGK:${subkeyval[1]}:FNK:${subkeyval[2]}:CATK:${subkeyval[3]}:AFGK:${subkeyval[4]}:AFK:${subkeyval[5]}:AFVK:${subkeyval[6]}`)
+                    }
+                }
+    
+               if (item.path?.includes('|ifo|') || item.path?.includes('|gifo|') || item.path?.includes('UF_Processvariable')) { 
+                    //Session Params
+    
+                    if(item.type == 'session'){   
+                        if(sobj[`session.${item.value}`]){
+                            internalMappedObj[item?.key?.toLowerCase()] = sobj[`session.${item.value}`]
+                        }
+                    }else if (item.type == 'date'){
+                        const formatMap = {
+                            "YYYY-MM-DDTHH:mm:ss.sssZ": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+                            "YYYY-MM-DDTHH:mm:ss": "yyyy-MM-dd'T'HH:mm:ss",
+                            "YYYY-MM-DD": "yyyy-MM-dd",
+                            "YYYY-MM-DDTHH:mm:ss.sss.": "yyyy-MM-dd'T'HH:mm:ss.SSS.",
+                            "YYYY-MM-DDTHH:mm:ss.sss": "yyyy-MM-dd'T'HH:mm:ss.SSS",
+                        };
+    
+                        item.value = formatMap[item.value] ?? item?.value; 
+                        let formatttedDate = format(new Date(), item?.value);
+                        internalMappedObj[item?.key?.toLowerCase()] = formatttedDate
+                    }else if(item.type == 'rule'){
+                        if(zenresult?.[item.key]){
+                        internalMappedObj[item?.key?.toLowerCase()] = zenresult[item.key]
+                        }
+                    }else if(item.type == 'pfrule' && item?.value){   
+                        let nodeId = item?.nodeId  
+                        let nodeName = (internalMappingNodes?.find(n => n.nodeId === nodeId)).nodeName;   
+                              
+                        let ht_afpVal:any = await this.redisService.getJsonDataWithPath(processedKey+':NPV:'+ nodeName + '.PRO', '.ifo',process.env.CLIENTCODE)               
+                        if(ht_afpVal){
+                            ht_afpVal = JSON.parse(ht_afpVal)
+                            internalMappedObj[item?.key?.toLowerCase()] = ht_afpVal[item.key]  
+                        }
+                    }
+                    else{
+                         let requiredKeys = ['CK:',':FNGK:', ':FNK:',':CATK:', ':AFGK:',':AFK:',':AFVK:'];
+                        if(humantasknodeType == "humantasknode" && (formedSsKey.includes(item.artifact) || con_ufMainKey == src_ufMainKey)){                       
+                        if (requiredKeys.every((key) => item?.key?.includes(key),) && item?.key?.includes('UF_Processvariable')) {
+                            let splitkey = item.key.split('|')
+                            item.key = splitkey[splitkey.length -1]
+                         }
+                            if(item.value)
+                                internalMappedObj[item?.key?.toLowerCase()] = item.value
+                            else if(InputParam?.[item?.key])
+                                internalMappedObj[item?.key?.toLowerCase()] = InputParam[item.key]
+                            else
+                                internalMappedObj[item?.key?.toLowerCase()] = ''
+                        }else if(!requiredKeys.every((key) => item?.key?.includes(key))){
+                            if(item.value)
+                                internalMappedObj[item?.key?.toLowerCase()] = item?.value
+                            else if(InputParam?.[item?.key])
+                                internalMappedObj[item?.key?.toLowerCase()] = InputParam[item.key]
+                            else
+                                internalMappedObj[item?.key?.toLowerCase()] = ''
+                        }
+    
+                    }
+                }
+            }
+    
+            return internalMappedObj;
+     }
 
     keysToLowerCaseOnly(obj: any): any {
         if (Array.isArray(obj)) {

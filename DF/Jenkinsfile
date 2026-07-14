@@ -1,13 +1,13 @@
 pipeline {
     agent {
-        label 'slave-195'
+        label 'slave-32'
     }
     tools {
         jdk 'jdk17' 
         nodejs 'Node20.0.0'
     }
     environment {
-        DOCKERHUB_USERNAME = "192.168.2.164:5000"
+        DOCKERHUB_USERNAME = "192.168.2.34:5000"
         APP_NAME = "ct001-tgw004-df-v1"
         IMAGE_NAME = "${DOCKERHUB_USERNAME}/${APP_NAME}"
         BUILD_NUMBER = "${BUILD_NUMBER}"
@@ -89,7 +89,7 @@ pipeline {
             }
             steps {
                 script {
-                    withKubeConfig(credentialsId: 'kubernetes-195', serverUrl: 'https://lb.kubesphere.local:6443') {
+                    withKubeConfig(credentialsId: 'kubernetes-32', serverUrl: 'https://lb.kubesphere.local:6443') {
                         sh "kubectl get ns ct001-tgw004-df-v1 || kubectl create ns ct001-tgw004-df-v1"
                         sh "kubectl apply -f apps/CT001/TGW01/TGW004/v1/Nest-df/kubernetes/deploymentservice.yaml"
                         sh "kubectl apply -f apps/CT001/TGW01/TGW004/v1/Nest-df/kubernetes/gateway-df-ingress.yaml"                      

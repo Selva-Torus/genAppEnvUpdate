@@ -13,6 +13,8 @@ import { ConfigService } from "@nestjs/config";
 import { ScheduleModule } from '@nestjs/schedule';
 import { ErdModule } from './erd/erd.module';
 import { DFcountry_code_dfdModule } from './dfd/DFcountry_code_dfd/v1/DFcountry_code_dfd.module';    
+import { DFuserdfdModule } from './dfd/DFuserdfd/v1/DFuserdfd.module';    
+import { cdcusertablesaveModule } from './pfd/cdcusertablesave/v1/cdcusertablesave.module';    
 //import { DecryptPayloadMiddleware } from './decryptPayloadMiddleware';
 import { EncryptInterceptor } from './encryptInterceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -32,7 +34,7 @@ import { EnvData } from './envData/envData.service';
       },
     }),
   CacheModule.register({isGlobal:true}),
-  ScheduleModule.forRoot(),UfModule,TeModule,EnvDataModule,DFcountry_code_dfdModule,ErdModule,], 
+  ScheduleModule.forRoot(),UfModule,TeModule,EnvDataModule,DFcountry_code_dfdModule,DFuserdfdModule,cdcusertablesaveModule,ErdModule,], 
   controllers: [AppController],
   providers: [AppService,CommonService,RuleService,CodeService,JwtService,RedisService,ConfigService,EnvData,{
       provide: APP_INTERCEPTOR,

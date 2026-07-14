@@ -141,7 +141,7 @@ export const TimeLine: React.FC<TimeLineProps> = ({
       className={`rounded-xl ${
         isDark ? 'bg-gray-800' : 'bg-white'
       } ${className} ${isHorizontal ? 'overflow-x-auto' : 'overflow-y-auto'}`}
-      style={{ maxHeight: isHorizontal ? undefined : '100%', height: isHorizontal ? undefined : '100%' }}
+      style={{ maxHeight: isHorizontal ? undefined : '100%', height: isHorizontal ? undefined : '93%' }}
     >
       <ol
         className={

@@ -20,10 +20,13 @@ export default function PageTestV1() {
   const [initialLoad, setInitialLoad] = useState<boolean>(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const securityData : SecurityData = {
+  "emplyoee": {
+    "blockedGroups": []
+  },
   "user": {
     "blockedGroups": []
   },
-  "emplyoee": {
+  "Template": {
     "blockedGroups": []
   }
 };
@@ -34,7 +37,28 @@ export default function PageTestV1() {
   const [checkToAdd, setCheckToAdd] = useState<Record<string, any>>({});
   const allRuleData:any={
   "group": {
-    "button": {
+    "textinput": {
+      "show": false
+    },
+    "textinput5": {
+      "show": false
+    },
+    "dateandtime": {
+      "show": false
+    },
+    "datepicker": {
+      "show": false
+    },
+    "textinput1": {
+      "show": false
+    },
+    "textinput2": {
+      "show": false
+    },
+    "textinput3": {
+      "show": false
+    },
+    "textinput4": {
       "show": false
     }
   }
@@ -50,10 +74,11 @@ export default function PageTestV1() {
   const [tableData, setTableData] = useState<any[]>([]);  
   const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
   const { eventEmitterData,setEventEmitterData}= useContext(TotalContext) as TotalContextProps;
-  const {sample_test_v1, setsample_test_v1} = useContext(TotalContext) as TotalContextProps;
-  const {sample_test_v1Props, setsample_test_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {ffff_v1, setffff_v1} = useContext(TotalContext) as TotalContextProps;
+  const {ffff_v1Props, setffff_v1Props} = useContext(TotalContext) as TotalContextProps;
   const [checkgroup,setCheckgroup,]=useState<boolean>(false);
-  const {group0e6f3, setgroup0e6f3} = useContext(TotalContext) as TotalContextProps;
+  const {group7f2ed, setgroup7f2ed} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_country_code_dfd_v1Props, setdfd_country_code_dfd_v1Props} = useContext(TotalContext) as TotalContextProps;
   const [controlData, setControlData] = useState<any>({});
   const [groupData, setGroupData] = useState<any>({});
   const encryptionFlagPage: boolean = false|| encAppFalg.flag;
@@ -69,17 +94,127 @@ export default function PageTestV1() {
   const [paginationDetails, setpaginationDetails] = useState<Record<string, any>>({});
   const [paginationData,setPaginationData]=useState<PaginationData>({count:10,page:1})
     const prevRefreshRef = useRef<any>({
+      country_code_dfd_v1:false,
     });
+    async function country_code_dfd_v1DFD(pagination:any): Promise<void>{
+        let filterData :any[] =[];
+        let country_code_dfd_v1Body:te_refreshDto={
+          key: "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TGW01:AFGK:TGW004:AFK:country_code_dfd:AFVK:v1"+":",
+          refreshFlag: "Y",
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1
+        }
+        if (encryptionFlagPage) {          
+          country_code_dfd_v1Body["dpdKey"] = encryptionDpd;
+          country_code_dfd_v1Body["method"] = encryptionMethod;
+        }
+        if(ffff_v1Props.length > 0){
+          for(let i=0;i< ffff_v1Props.length;i++){
+            if(ffff_v1Props[i].DFDkey == "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TGW01:AFGK:TGW004:AFK:country_code_dfd:AFVK:v1"){
+              // delete ffff_v1Props[i].DFDkey;
+              let temp=structuredClone(ffff_v1Props[i])
+              delete temp?.DFDkey
+              filterData.push(temp)
+            }           
+          }
+          country_code_dfd_v1Body['filterData'] = filterData;
+        }
+        const country_code_dfd_v1Data:any=await AxiosService.post("/te/eventEmitter",country_code_dfd_v1Body,{
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        let dstKey:string=country_code_dfd_v1Body?.key || ""
+        dstKey=dstKey.replace(":AFC:",":AFCP:").replace(":AF:",":AFP:").replace(":DF-DFD:",":DF-DST:");
+        if(country_code_dfd_v1Data?.data?.dataset === 'Bulk Data Processing'){
+          if(filterData.length>0){
+            const api_paginationBody: api_paginationDto = {
+          key: dstKey,
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1,
+          filterData:filterData
+        }
+        // if(encryptionFlagCont) {
+        // api_paginationBody["dpdKey"] = encryptionDpd
+        // api_paginationBody["method"] = encryptionMethod
+        // }
+        const api_paginationData:any = await AxiosService.post(
+          '/UF/pagination',
+          api_paginationBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        if (api_paginationData?.data?.error == true) {
+          toast(api_paginationData?.data?.errorDetails?.message, 'danger')
+          return
+        }
+        setdfd_country_code_dfd_v1Props(api_paginationData?.data?.records || []);
+      }else{
+          setdfd_country_code_dfd_v1Props({ hasLogicCenter: false, dstKey: dstKey })
+      }
+      }else if (country_code_dfd_v1Data?.data?.dataset) {
+           setdfd_country_code_dfd_v1Props(
+              Array.isArray(country_code_dfd_v1Data?.data?.dataset?.data)
+                 ? country_code_dfd_v1Data?.data.dataset.data.map((obj: any) =>
+                  Object.fromEntries(
+                    Object.entries(obj || {}).map(([key, value]) => [
+                      key.toLowerCase(),
+                      value
+                    ])
+                  )
+                )
+              : []
+          );   
+        }else{
+         //////////////
+        
+
+        const api_paginationBody: api_paginationDto = {
+          key: dstKey,
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1
+        }
+        // if(encryptionFlagCont) {
+        // api_paginationBody["dpdKey"] = encryptionDpd
+        // api_paginationBody["method"] = encryptionMethod
+        // }
+        const api_paginationData:any = await AxiosService.post(
+          '/UF/pagination',
+          api_paginationBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        if (api_paginationData?.data?.error == true) {
+          toast(api_paginationData?.data?.errorDetails?.message, 'danger')
+          return
+        }
+        setdfd_country_code_dfd_v1Props(api_paginationData?.data?.records || []);
+        }
+      }
+  useEffect(()=>{
+    if (prevRefreshRef?.current?.country_code_dfd_v1) {
+      country_code_dfd_v1DFD(paginationData)
+    }else 
+      prevRefreshRef.current.country_code_dfd_v1= true
+  },[refetch?.country_code_dfd_v1])
   const handleArtfactRule=async(rule:any,data:any={},allRuleData:any)=>{
     const { getAftfactLevelRule } = await import("../utils/evaluateDecisionTable");
     let result :any =await getAftfactLevelRule(rule,data,allRuleData)
-    setsample_test_v1({...result,_artfactPFRule_:rule})
+    setffff_v1({...result,_artfactPFRule_:rule})
   }
 
   async function securityCheck(): Promise<void> {
     const { fetchBatchData } = await import("../utils/Orchestration");
     const data: any = await fetchBatchData(
-      'CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:sample_test:AFVK:v1',
+      'CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:ffff:AFVK:v1',
       [user],
       'pageTestV1',
       token
@@ -109,7 +244,7 @@ export default function PageTestV1() {
             params: {
               dpdKey: encryptionDpd,
               method: encryptionMethod,
-              key:"CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:sample_test:AFVK:v1"
+              key:"CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:ffff:AFVK:v1"
             }
           }) 
         }else{
@@ -118,7 +253,7 @@ export default function PageTestV1() {
               Authorization: `Bearer ${token}`
              },
             params: {
-              key:"CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:sample_test:AFVK:v1"  
+              key:"CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:ffff:AFVK:v1"  
             }
           })          
         }
@@ -142,7 +277,7 @@ export default function PageTestV1() {
           params: {
               dpdKey: encryptionDpd,
               method: encryptionMethod,
-              key:"CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:sample_test:AFVK:v1"
+              key:"CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:ffff:AFVK:v1"
             }
         })
         }else{
@@ -151,7 +286,7 @@ export default function PageTestV1() {
              Authorization: `Bearer ${token}`
            },
             params: {
-              key:"CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:sample_test:AFVK:v1"
+              key:"CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:ffff:AFVK:v1"
             }
          })
         }
@@ -159,6 +294,7 @@ export default function PageTestV1() {
           setAccessProfile([user]);
         }
         try{
+    await country_code_dfd_v1DFD(pagination)
           if (security == 'AA' || security == 'RA') {
           allowedGroup.map((nodes:AllowedGroupNode)=>{
             if(nodes?.groupName == 'group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
@@ -178,8 +314,8 @@ export default function PageTestV1() {
         //Code Execution
         if (code !="" ) {
           let codeStates: Record<string, any> = {}
-          codeStates['group'] = group0e6f3;
-          codeStates['setgroup'] = setgroup0e6f3;
+          codeStates['group'] = group7f2ed;
+          codeStates['setgroup'] = setgroup7f2ed;
           const { codeExecution } = await import("../utils/codeExecution");
           codeExecution(code,codeStates);
         }   
@@ -205,17 +341,17 @@ export default function PageTestV1() {
     }))
     securityCheck();
     handleOnload();
-    setsample_test_v1((pre:any)=>({...pre,...allRuleData||{}}))
+    setffff_v1((pre:any)=>({...pre,...allRuleData||{}}))
   }, [])
 
   useEffect(()=>{
-    if(sample_test_v1?._artfactPFRule_)
+    if(ffff_v1?._artfactPFRule_)
     {
       let data:any ={
         ...decodedTokenObj,
         session:decodedTokenObj,
       }
-      handleArtfactRule(sample_test_v1?._artfactPFRule_,data,allRuleData)
+      handleArtfactRule(ffff_v1?._artfactPFRule_,data,allRuleData)
     }
   },[])
 
@@ -223,7 +359,7 @@ export default function PageTestV1() {
   useEffect(() => {
     const handleClickOutside = (event:any) => {
       if (parentRef.current && !parentRef.current.contains(event.target)) {
-        setsample_test_v1((pre:any)=>({...pre,_selectedGroup_:""}))
+        setffff_v1((pre:any)=>({...pre,_selectedGroup_:""}))
       }
     };
       document.addEventListener("mousedown", handleClickOutside);

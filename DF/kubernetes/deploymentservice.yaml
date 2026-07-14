@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: ct001-tgw004-df-generator-backend-container
-        image: 192.168.2.164:5000/ct001-tgw004-df-v1:docker_tag
+        image: 192.168.2.34:5000/ct001-tgw004-df-v1:docker_tag
         imagePullPolicy: IfNotPresent
         ports:
         - name: http

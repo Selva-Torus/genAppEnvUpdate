@@ -45,30 +45,6 @@
       "screenDetails": [
         {
           "name": "test",
-          "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:sample_test:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false
-        }
-      ],
-      "items": []
-    },
-    {
-      "menuGroupLabel": "mycomps",
-      "screenDetails": [
-        {
-          "name": "mycomps",
-          "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:mycomps:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false
-        }
-      ],
-      "items": []
-    },
-    {
-      "menuGroupLabel": "ggggg",
-      "screenDetails": [
-        {
-          "name": "ggggg",
           "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:ffff:AFVK:v1",
           "restrictedAccessProfile": [],
           "static": false
@@ -77,11 +53,23 @@
       "items": []
     },
     {
-      "menuGroupLabel": "report",
+      "menuGroupLabel": "maker",
       "screenDetails": [
         {
-          "name": "report",
-          "key": "CK:CT001:FNGK:AF:FNK:UF-UFR:CATK:TGW01:AFGK:TGW004:AFK:myreport:AFVK:v1",
+          "name": "maker",
+          "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:maker:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false
+        }
+      ],
+      "items": []
+    },
+    {
+      "menuGroupLabel": "checker",
+      "screenDetails": [
+        {
+          "name": "checker",
+          "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:checker:AFVK:v1",
           "restrictedAccessProfile": [],
           "static": false
         }
@@ -128,16 +116,16 @@
           },
           "timezone": {
             "name": {
-              "value": "Pacific/Honolulu"
+              "value": "Asia/Riyadh"
             },
             "is_dst": {
               "value": false
             },
             "offset": {
-              "value": "-10:00"
+              "value": "+03:00"
             },
             "abbreviation": {
-              "value": "HST"
+              "value": "AST"
             }
           }
         },
@@ -199,9 +187,9 @@
     "name": "default",
     "theme": "light",
     "fontSize": {
-      "maxPx": "18",
+      "maxPx": "22",
       "minPx": "5",
-      "preferredVw": "0.675"
+      "preferredVw": "0.8"
     },
     "language": "English",
     "direction": "LTR",
@@ -264,15 +252,14 @@
       "navigationStyle": "Bottom Navigation"
     },
     "navigationStyles": "vertical",
-    "appBackgroundImage": ""
+    "appBackgroundImage": "torus/9.1/CT001/resources/images/vivid-blurred-colorful-wallpaper-background_58702-3883.avif"
   },
   "setupKey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT001:AFGK:TGW01:AFK:TGW004:AFVK:v1:appearance",
   "allKeys": [
     "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:dynamicAction:AFVK:v1",
-    "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:sample_test:AFVK:v1",
-    "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:mycomps:AFVK:v1",
     "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:ffff:AFVK:v1",
-    "CK:CT001:FNGK:AF:FNK:UF-UFR:CATK:TGW01:AFGK:TGW004:AFK:myreport:AFVK:v1"
+    "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:maker:AFVK:v1",
+    "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:checker:AFVK:v1"
   ],
   "loginDetails": {
     "edit": "",
@@ -299,7 +286,7 @@
     "lastName": "Bala",
     "dateAdded": "2026-05-05T12:11:42.383Z",
     "firstName": "Madhu",
-    "lastActive": "2026-07-07T05:52:12.840Z",
+    "lastActive": "2026-07-14T05:21:25.462Z",
     "isRestricted": false,
     "userUniqueId": "beaa1b7f-62af-4af7-b0ed-1694b359483b",
     "accessExpires": "",
@@ -337,7 +324,7 @@
         }
       ]
     },
-    "landingScreen": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:dynamicAction:AFVK:v1"
+    "landingScreen": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:maker:AFVK:v1"
   },
   "allKeyswithScreenNames": [
     {
@@ -348,22 +335,17 @@
     {
       "screenName": "test",
       "screensName": "test-v1",
-      "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:sample_test:AFVK:v1"
-    },
-    {
-      "screenName": "mycomps",
-      "screensName": "mycomps-v1",
-      "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:mycomps:AFVK:v1"
-    },
-    {
-      "screenName": "ggggg",
-      "screensName": "ggggg-v1",
       "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:ffff:AFVK:v1"
     },
     {
-      "screenName": "report",
-      "screensName": "report-v1",
-      "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFR:CATK:TGW01:AFGK:TGW004:AFK:myreport:AFVK:v1"
+      "screenName": "maker",
+      "screensName": "maker-v1",
+      "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:maker:AFVK:v1"
+    },
+    {
+      "screenName": "checker",
+      "screensName": "checker-v1",
+      "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:checker:AFVK:v1"
     }
   ],
   "deploymentArtifactKey": "CK:CT001:FNGK:AF:FNK:CDF-DPD:CATK:TGW01:AFGK:TGW004:AFK:tgw4_dpd:AFVK:v1",

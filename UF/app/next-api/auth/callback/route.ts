@@ -102,7 +102,7 @@ export async function GET(request: NextRequest) {
 
     const { token, redirectToORPSelector } = await torusRes.json()
 
-    let screenName:string = 'CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:dynamicAction:AFVK:v1';
+    let screenName:string = 'CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:maker:AFVK:v1';
     let screenDetails: any = {
         keys:[
   {
@@ -113,22 +113,17 @@ export async function GET(request: NextRequest) {
   {
     "screenName": "test",
     "screensName": "test-v1",
-    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:sample_test:AFVK:v1"
-  },
-  {
-    "screenName": "mycomps",
-    "screensName": "mycomps-v1",
-    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:mycomps:AFVK:v1"
-  },
-  {
-    "screenName": "ggggg",
-    "screensName": "ggggg-v1",
     "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:ffff:AFVK:v1"
   },
   {
-    "screenName": "report",
-    "screensName": "report-v1",
-    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFR:CATK:TGW01:AFGK:TGW004:AFK:myreport:AFVK:v1"
+    "screenName": "maker",
+    "screensName": "maker-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:maker:AFVK:v1"
+  },
+  {
+    "screenName": "checker",
+    "screensName": "checker-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:checker:AFVK:v1"
   }
 ]
     }

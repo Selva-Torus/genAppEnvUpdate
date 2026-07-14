@@ -229,7 +229,6 @@ const TextInputtextinput = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encrypt
       console.log(err);
     }
   }
-
   const group0843eRef = useRef<any>(group0843e);
   useEffect(() => { group0843eRef.current = group0843e; }, [group0843e]);
   useEffect(()=>{

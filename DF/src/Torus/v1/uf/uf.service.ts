@@ -76,7 +76,7 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
        max: 10,                // max connections in pool
        min: 2,                 // keep at least 2 alive
        idleTimeoutMillis: 30000,       // close idle connections after 30s
-       connectionTimeoutMillis: 5000,  // fail fast if can't connect in 5s
+       connectionTimeoutMillis: 30000,  // fail fast if can't connect in 5s
        allowExitOnIdle: false,         // keep pool alive
      });
     // // 🔑 Key: handle pool-level errors so they don't crash the process
@@ -741,9 +741,13 @@ getConfig(): FusionAuthConfig {
           if(!rule) throw `Node Id not found ${filter.nodeId}`
           rule = rule.rule
          
+           let fobj = {};
+          if(filterData && Object.keys(filterData).length > 0)
+          fobj = Object.assign(fobj,filterData[0])
+        
           let {sobj,SessionInfo} = await this.commonService.sessionDecode(token, '')
-         
-          const result = await this.gorule.goRule(rule, {session:SessionInfo});
+          fobj =  Object.assign(fobj,{session:SessionInfo})
+          const result = await this.gorule.goRule(rule, fobj); 
           let queryobj
           if (result?.result) {
            
@@ -1235,6 +1239,7 @@ getConfig(): FusionAuthConfig {
       let sourceData: any[];
       let dfData: any;
       let DS_Object: any = [];
+      let accessProfileCheck:boolean = false;
       if (UO) {
         if (key && !componentId && !controlId) {
           /*---------security start-------------*/
@@ -1244,6 +1249,7 @@ getConfig(): FusionAuthConfig {
                 accessProfile.includes(templateArray[i].accessProfile) &&
                 screenName === templateArray[i].security.artifact.resource
               ) {
+                accessProfileCheck = true;
                 security =
                   templateArray[i].security.artifact.SIFlag.selectedValue;
                 templateArray[i].security.artifact?.node?.map((nodes: any) => {
@@ -1253,18 +1259,20 @@ getConfig(): FusionAuthConfig {
                   });
                 });
                 break;
-              }else{
+              }
+              
+            }
+            if(!accessProfileCheck){
                 //--------------------------
-                templateArray[i].security.artifact?.node?.map((nodes: any) => {
+                mappedData?.map((nodes: any) => {
                   allowedGroup.push({
-                    groupName: nodes?.resource,
+                    groupName: nodes?.nodeName,
                     security: "AA",
                   });
                 });
                 security = "AA";
                 //--------------------------
               }
-            }
           } else {
             await this.commonService.errorLog(
               'Technical',
@@ -1344,6 +1352,7 @@ getConfig(): FusionAuthConfig {
                   if (
                   accessProfile.includes(templateArray[i].accessProfile)
                 ) {
+                accessProfileCheck = true;
                 if(screenName === templateArray[i].security.artifact.resource &&
                     componentId ===
                     templateArray[i].security.artifact.node[j].resourceId){
@@ -1560,34 +1569,22 @@ getConfig(): FusionAuthConfig {
                     }
                     break;
                   }
-                }else{
+                }
+              }
+            }
+            if(!accessProfileCheck){
                   //--------------
-                  for(let m = 0;m < templateArray[i].security.artifact.node.length;m++){
-                    componentNameArray.push(
-                            templateArray[i].security.artifact.node[
-                              m
-                            ].resource.toLowerCase(),
-                          );
-                  }
-                  for (
-                        let k = 0;
-                        k <
-                        templateArray[i].security.artifact.node[j].objElements
-                          .length;
-                        k++
-                      ) {
-                        controlNames.push(
-                              templateArray[i].security.artifact.node[j]
-                                .objElements[k].resource,
-                            );
+                  for(let m = 1;m < mappedData.length;m++){
+                    componentNameArray.push(mappedData[m].nodeName.toLowerCase(),);
+                    for (let k = 0;k < mappedData[m].objElements.length;k++) {
+                        controlNames.push(mappedData[m].objElements[k].elementName.toLowerCase());
+                    }
                   }
                   controlNames = controlNames.map((item) =>
                           item.toLowerCase(),
                         );
                   //--------------
                 }
-              }
-            }
           } else {
             await this.commonService.errorLog(
               'Technical',

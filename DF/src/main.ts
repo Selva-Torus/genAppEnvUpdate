@@ -32,7 +32,7 @@
     "lastName": "Bala",
     "dateAdded": "2026-05-05T12:11:42.383Z",
     "firstName": "Madhu",
-    "lastActive": "2026-07-07T05:52:12.840Z",
+    "lastActive": "2026-07-14T05:21:25.462Z",
     "isRestricted": false,
     "userUniqueId": "beaa1b7f-62af-4af7-b0ed-1694b359483b",
     "accessExpires": "",
@@ -80,16 +80,16 @@
           },
           "timezone": {
             "name": {
-              "value": "Pacific/Honolulu"
+              "value": "Asia/Riyadh"
             },
             "is_dst": {
               "value": false
             },
             "offset": {
-              "value": "-10:00"
+              "value": "+03:00"
             },
             "abbreviation": {
-              "value": "HST"
+              "value": "AST"
             }
           }
         },
@@ -151,9 +151,9 @@
     "name": "default",
     "theme": "light",
     "fontSize": {
-      "maxPx": "18",
+      "maxPx": "22",
       "minPx": "5",
-      "preferredVw": "0.675"
+      "preferredVw": "0.8"
     },
     "language": "English",
     "direction": "LTR",
@@ -216,7 +216,7 @@
       "navigationStyle": "Bottom Navigation"
     },
     "navigationStyles": "vertical",
-    "appBackgroundImage": ""
+    "appBackgroundImage": "torus/9.1/CT001/resources/images/vivid-blurred-colorful-wallpaper-background_58702-3883.avif"
   }
 } */
 import { NestFactory } from '@nestjs/core';
@@ -337,7 +337,7 @@ async function bootstrap() {
     { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 
     'JWT-auth',
     )
-    .addServer('https://tgadev2.toruslowcode.com/ct001/tgw/tgw004/v1/api','Production Server')
+    .addServer('https://tgatest910.toruslowcode.com/&lt;tenantCode&gt;/&lt;AppGroupCode&gt;/&lt;AppCode&gt;/&lt;version&gt;/api','Production Server')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   fs.writeFileSync('./swagger.json', JSON.stringify(document, null, 2));

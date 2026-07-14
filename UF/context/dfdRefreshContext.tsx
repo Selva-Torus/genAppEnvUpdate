@@ -127,6 +127,7 @@ export function useHandleDfdRefresh(){
 
 
     const {dfd_country_code_dfd_v1Props,setdfd_country_code_dfd_v1Props} = useContext(TotalContext) as TotalContextProps;
+    const {dfd_userdfd_v1Props,setdfd_userdfd_v1Props} = useContext(TotalContext) as TotalContextProps;
     const toast=useInfoMsg();
     const token:string = getCookie('token'); 
 
@@ -161,11 +162,26 @@ export function useHandleDfdRefresh(){
             if("otherdetails9c51d"==nodename){
                 dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TGW01:AFGK:TGW004:AFK:country_code_dfd:AFVK:v1",setdfd_country_code_dfd_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("country961dc"==nodename){
+            if("advancesearch6c997"==nodename){
                 dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TGW01:AFGK:TGW004:AFK:country_code_dfd:AFVK:v1",setdfd_country_code_dfd_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("editor2d754"==nodename){
+            if("country38670"==nodename){
                 dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TGW01:AFGK:TGW004:AFK:country_code_dfd:AFVK:v1",setdfd_country_code_dfd_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("statef29da"==nodename){
+                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TGW01:AFGK:TGW004:AFK:country_code_dfd:AFVK:v1",setdfd_country_code_dfd_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("textinput5daae3"==nodename){
+                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TGW01:AFGK:TGW004:AFK:country_code_dfd:AFVK:v1",setdfd_country_code_dfd_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("my_id84e54"==nodename){
+                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TGW01:AFGK:TGW004:AFK:userdfd:AFVK:v1",setdfd_userdfd_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("username0985a"==nodename){
+                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TGW01:AFGK:TGW004:AFK:userdfd:AFVK:v1",setdfd_userdfd_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("name36041"==nodename){
+                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TGW01:AFGK:TGW004:AFK:userdfd:AFVK:v1",setdfd_userdfd_v1Props,page,count,dpdEncryption,toast,token);
             }
     };
 }

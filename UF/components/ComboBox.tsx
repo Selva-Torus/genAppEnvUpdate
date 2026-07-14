@@ -147,32 +147,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
   // below (e.g. this field sits near the bottom of a modal). Re-checks
   // on scroll/resize while open so it stays correct if the modal itself
   // scrolls or the viewport changes.
-  useEffect(() => {
-    if (!isOpen) return;
 
-    const ESTIMATED_PANEL_HEIGHT = 260; // ~search bar + max-h-60 list
-
-    const updateDirection = () => {
-      const el = containerRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const spaceBelow = window.innerHeight - rect.bottom;
-      const spaceAbove = rect.top;
-      if (spaceBelow < ESTIMATED_PANEL_HEIGHT && spaceAbove > spaceBelow) {
-        setDropDirection("up");
-      } else {
-        setDropDirection("down");
-      }
-    };
-
-    updateDirection();
-    window.addEventListener("resize", updateDirection);
-    window.addEventListener("scroll", updateDirection, true);
-    return () => {
-      window.removeEventListener("resize", updateDirection);
-      window.removeEventListener("scroll", updateDirection, true);
-    };
-  }, [isOpen]);
 
   const handleListScroll = (e: React.UIEvent<HTMLDivElement>) => {
     if (isStatic) return;
@@ -226,7 +201,32 @@ export const Combobox: React.FC<ComboboxProps> = ({
   };
 
 const containerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!isOpen) return;
 
+    const ESTIMATED_PANEL_HEIGHT = 260; // ~search bar + max-h-60 list
+
+    const updateDirection = () => {
+      const el = containerRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      if (spaceBelow < ESTIMATED_PANEL_HEIGHT && spaceAbove > spaceBelow) {
+        setDropDirection("up");
+      } else {
+        setDropDirection("down");
+      }
+    };
+
+    updateDirection();
+    window.addEventListener("resize", updateDirection);
+    window.addEventListener("scroll", updateDirection, true);
+    return () => {
+      window.removeEventListener("resize", updateDirection);
+      window.removeEventListener("scroll", updateDirection, true);
+    };
+  }, [isOpen]);
 useEffect(() => {
   const handleClickOutside = (e: MouseEvent) => {
     if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
@@ -243,6 +243,58 @@ useEffect(() => {
     document.removeEventListener("mousedown", handleClickOutside);
   };
 }, [isOpen]);
+
+ useEffect(() => {
+    if (!containerRef.current) return;
+
+    // Find all parent containers that have overflow settings
+    const parentsToModify: Array<{ element: HTMLElement; originalOverflow: string }> = [];
+    let currentElement = containerRef.current.parentElement;
+
+    // Traverse up the DOM tree to find all parents with overflow
+    while (currentElement) {
+      const styles = window.getComputedStyle(currentElement);
+      const hasOverflow = styles.overflow !== 'visible' || 
+                         styles.overflowY !== 'visible' || 
+                         styles.overflowX !== 'visible';
+
+      if (hasOverflow) {
+        parentsToModify.push({
+          element: currentElement,
+          originalOverflow: currentElement.style.overflow
+        });
+      }
+
+      // Stop at the grid container or after 10 levels
+      if (styles.display === 'grid' && parentsToModify.length > 0) {
+        break;
+      }
+      
+      if (parentsToModify.length >= 10) break;
+      
+      currentElement = currentElement.parentElement;
+    }
+
+    // Set overflow based on dropdown state
+    if (isOpen) {
+      parentsToModify.forEach(({ element }) => {
+        element.style.overflow = 'visible';
+      });
+    } else {
+      parentsToModify.forEach(({ element, originalOverflow }) => {
+        element.style.overflow = originalOverflow || 'auto';
+      });
+    }
+
+    // Cleanup: restore original overflow when component unmounts
+    return () => {
+      parentsToModify.forEach(({ element, originalOverflow }) => {
+        if (element) {
+          element.style.overflow = originalOverflow;
+        }
+      });
+    };
+  }, [isOpen]);
 
   const comboboxElement = (
     <div

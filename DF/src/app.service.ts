@@ -21,7 +21,6 @@ export class AppService implements OnModuleInit{
   async onModuleInit() {
     console.info('Starting Swagger upload to API Fabric...');
     let preParedData:any=await this.dataPrep(JSON.parse(fs.readFileSync('./swagger.json', 'utf-8')))
-    return
     if(Object.keys(preParedData).includes('erdWithData'))
       {
       let endPointData : any = {};

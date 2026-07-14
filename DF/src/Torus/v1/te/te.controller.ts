@@ -54,9 +54,9 @@ export class TeController {
         for (const result of schedulerResults) {
           if (result) {
             const schedulerNode = JSON.parse(result);
-            const schInterval = schedulerNode?.data?.pro?.schedulerInfo?.interval;
+            const schInterval = schedulerNode?.data?.pro?.value?.schedulerInfo?.value?.interval;
             if (schInterval) {
-              TimeInterval = `${schInterval.seconds} ${schInterval.minutes} ${schInterval.hours} ${schInterval.dayOfmonth} ${schInterval.months} ${schInterval.dayOfweek}`;
+              TimeInterval = `${schInterval?.seconds?.value} ${schInterval.minutes?.value} ${schInterval.hours?.value} ${schInterval.dayOfmonth?.value} ${schInterval.months?.value} ${schInterval.dayOfweek?.value}`;
               break; // Take first valid interval
             }
           }
@@ -132,9 +132,9 @@ export class TeController {
     }
 
     // Handle multiple upIds - PARALLEL PROCESSING
-    if (pfdto.upId && pfdto.upId.length == 0) {
-      throw new CustomException('Process Id is empty', 400)
-    }
+    //if (pfdto.upId && pfdto.upId.length == 0) {
+      //throw new CustomException('Process Id is empty', 400)
+    //}
 
     const { upId: refupid, key, nodeId, nodeName, nodeType: nodetype, data, event, sourceId } = pfdto;
 

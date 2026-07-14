@@ -168,9 +168,9 @@ const OtpVerification = ({
             >
               Set New Password
             </Text>
-           <Text color='secondary' className='w-[18vw] text-wrap text-center text-[.7vw]'>
+           <span color='secondary' className='flex w-[12vw] text-center text-[.7vw]'>
               Your new password must be different from previous used passwords
-            </Text>
+            </span>
           </div>
           <div
             className={`flex w-full flex-col gap-[1.5vh] items-center justify-center`}
@@ -188,7 +188,7 @@ const OtpVerification = ({
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name='password'
-                  className='text-[15px] font-medium outline-none'
+                  className='text-[.8vw] font-medium outline-none'
                   placeholder='Enter password'
                   style={{
                     backgroundColor: 'var(--g-color-base-float)',
@@ -343,9 +343,10 @@ const OtpVerification = ({
             </Button>
             <Link
               href='/'
-              className='flex items-center gap-[.5vw] text-[.8vw] font-medium opacity-50 mb-[2vh]'
+              className='flex items-center gap-[.5vw] text-[.8vw] font-medium mb-[2vh]'
             >
               <ArrowBackward
+                opacity='1'
                 fill={isDark ? '#ffffff' : '#000000'}
               />{' '}
               Back to Login
@@ -397,22 +398,23 @@ const OtpVerification = ({
                 Verify
               </Button>
             </div>
-            <span className='flex w-[15vw] items-center'>
+            <span className='flex w-[15vw] items-center text-nowrap'>
               <Text color='secondary' className='text-[.8vw] text-nowrap'>
                 Didn&apos;t get a code?
               </Text>
               <Button
                 onClick={handleGetOtp}
-                className='text-[.8vw] font-semibold'
+                className='text-[.8vw] font-semibold text-nowrap'
               >
                 Click to resend code
               </Button>
             </span>
             <Link
               href='/'
-              className='flex items-center gap-[.5vw] text-[.8vw] font-medium opacity-50 mb-[2vh]'
+              className='flex items-center gap-[.5vw] text-[.8vw] font-medium mb-[2vh]'
             >
               <ArrowBackward
+                opacity='1'
                 fill={isDark ? '#ffffff' : '#000000'}
               />{' '}
               Back to Login

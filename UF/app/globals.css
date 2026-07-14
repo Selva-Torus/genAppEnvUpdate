@@ -28,19 +28,10 @@
   --font-body:var(--g-font-family-sans);
   --font-header:var(--g-font-family-monospace);  
   --font-display:var(--g-font-family-sans);  
-  --font-size-base: clamp(5px, 0.675vw, 18px);
+  --font-size-base: clamp(5px, 0.8vw, 22px);
 
 }
 
-input[type="password"]::-ms-reveal,
-input[type="password"]::-ms-clear {
-    display: none;
-}
-
-input[type="password"]::-webkit-credentials-auto-fill-button,
-input[type="password"]::-webkit-textfield-decoration-container {
-    display: none !important;
-}
 
 /* .pc-Grid .container-fluid, .pc-Grid .container {
     max-width: none !important
@@ -94,6 +85,16 @@ input[type="password"]::-webkit-textfield-decoration-container {
 /* Theme Support */
 html.light {
   color-scheme: light;
+}
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none;
+}
+
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-textfield-decoration-container {
+    display: none !important;
 }
 
 html.dark,

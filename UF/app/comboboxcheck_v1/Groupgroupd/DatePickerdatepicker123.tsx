@@ -1,7 +1,7 @@
 
 
 'use client'
-import React, { useState,useContext,useEffect } from 'react'
+import React, { useState,useContext,useEffect,useRef } from 'react'
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import i18n from '@/app/components/i18n';
 import { getCookie } from '@/app/components/cookieMgment';
@@ -50,14 +50,14 @@ const DatePickerdatepicker123 = ({checkToAdd,setCheckToAdd,refetch,setRefetch,en
   const {stateaa824Props, setstateaa824Props}= useContext(TotalContext) as TotalContextProps  
   const {groupaaa97733, setgroupaaa97733}= useContext(TotalContext) as TotalContextProps  
   const {groupaaa97733Props, setgroupaaa97733Props}= useContext(TotalContext) as TotalContextProps  
-  const {groupb8f3d7, setgroupb8f3d7}= useContext(TotalContext) as TotalContextProps  
-  const {groupb8f3d7Props, setgroupb8f3d7Props}= useContext(TotalContext) as TotalContextProps  
   const {groupc0c048, setgroupc0c048}= useContext(TotalContext) as TotalContextProps  
   const {groupc0c048Props, setgroupc0c048Props}= useContext(TotalContext) as TotalContextProps  
   const {groupd487a8, setgroupd487a8}= useContext(TotalContext) as TotalContextProps  
   const {groupd487a8Props, setgroupd487a8Props}= useContext(TotalContext) as TotalContextProps  
   const {text54509a93, settext54509a93}= useContext(TotalContext) as TotalContextProps  
   const {datepicker123acd53, setdatepicker123acd53}= useContext(TotalContext) as TotalContextProps  
+  const {groupb8f3d7, setgroupb8f3d7}= useContext(TotalContext) as TotalContextProps  
+  const {groupb8f3d7Props, setgroupb8f3d7Props}= useContext(TotalContext) as TotalContextProps  
   //////////////
 
 
@@ -116,10 +116,6 @@ const handleBlur=async () => {
     codeStates['setgroupaaa'] = setgroupaaa97733,
     codeStates['groupaaa97733'] = groupaaa97733Props,
     codeStates['setgroupaaa97733'] = setgroupaaa97733Props,
-    codeStates['groupb'] = groupb8f3d7,
-    codeStates['setgroupb'] = setgroupb8f3d7,
-    codeStates['groupb8f3d7'] = groupb8f3d7Props,
-    codeStates['setgroupb8f3d7'] = setgroupb8f3d7Props,
     codeStates['groupc'] = groupc0c048,
     codeStates['setgroupc'] = setgroupc0c048,
     codeStates['groupc0c048'] = groupc0c048Props,
@@ -132,6 +128,10 @@ const handleBlur=async () => {
     codeStates['settext545'] = settext54509a93,
     codeStates['datepicker123'] = datepicker123acd53,
     codeStates['setdatepicker123'] = setdatepicker123acd53,
+    codeStates['groupb'] = groupb8f3d7,
+    codeStates['setgroupb'] = setgroupb8f3d7,
+    codeStates['groupb8f3d7'] = groupb8f3d7Props,
+    codeStates['setgroupb8f3d7'] = setgroupb8f3d7Props,
     codeStates['toast'] = toast;
     codeExecution(code,codeStates);
   }
@@ -144,6 +144,7 @@ useEffect(()=>{
 useEffect(()=>{
   handleBlur();
 },[validateRefetch.value])
+
 
 if (datepicker123acd53?.isHidden) {
   return <></>

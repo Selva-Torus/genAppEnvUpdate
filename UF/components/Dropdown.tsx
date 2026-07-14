@@ -288,6 +288,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
     onChange?.(isMultiple ? [] : "");
   };
 
+  const tooltipTitle = isMultiple
+    ? selectedValues.join(', ')
+    : (selectedValues[0] || '');
+  const showTooltip = disabled;
+
   const isDark = theme === "dark" || theme === "dark-hc";
 
   const getBorderColor = () => {
@@ -325,6 +330,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
        `} 
     >
       {filterable ? (
+        <Tooltip
+          title={tooltipTitle}
+          placement="bottom-start"
+          disable={!showTooltip}
+        >
         <div className="relative w-full h-full">
           <input
             type="text"
@@ -345,7 +355,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
               border-2
               ${getBorderColor()}
               ${isDark ? "bg-gray-800 text-white placeholder-white" : "bg-white text-black placeholder-black"}
-              ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+              ${disabled ? "opacity-50 cursor-not-allowed pointer-events-none" : ""}
               transition-colors
               focus:outline-none
               ${className}
@@ -392,7 +402,13 @@ export const Dropdown: React.FC<DropdownProps> = ({
             </button>
           </div>
         </div>
+        </Tooltip>
       ) : (
+        <Tooltip
+          title={tooltipTitle}
+          placement="bottom-start"
+          disable={!showTooltip}
+        >
         <button
           onClick={() => !disabled && setIsOpen(!isOpen)}
           disabled={disabled}
@@ -403,7 +419,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
             ${getBorderColor()}
             flex items-center justify-between
             ${isDark ? "bg-gray-800 text-white" : "bg-white text-black"}
-            ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+            ${disabled ? "opacity-50 cursor-not-allowed pointer-events-none" : "cursor-pointer"}
             transition-colors
             ${className}
           `}
@@ -443,6 +459,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
             <Icon data={isOpen ? "IoIosArrowUp" : "IoIosArrowDown"} fillContainer={false} />
           </div>
         </button>
+        </Tooltip>
       )}
 
       {isOpen && (

@@ -95,30 +95,6 @@ const LayoutDecider = ({
     "screenDetails": [
       {
         "name": "test",
-        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:sample_test:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false
-      }
-    ],
-    "items": []
-  },
-  {
-    "menuGroupLabel": "mycomps",
-    "screenDetails": [
-      {
-        "name": "mycomps",
-        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:mycomps:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false
-      }
-    ],
-    "items": []
-  },
-  {
-    "menuGroupLabel": "ggggg",
-    "screenDetails": [
-      {
-        "name": "ggggg",
         "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:ffff:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false
@@ -127,11 +103,23 @@ const LayoutDecider = ({
     "items": []
   },
   {
-    "menuGroupLabel": "report",
+    "menuGroupLabel": "maker",
     "screenDetails": [
       {
-        "name": "report",
-        "key": "CK:CT001:FNGK:AF:FNK:UF-UFR:CATK:TGW01:AFGK:TGW004:AFK:myreport:AFVK:v1",
+        "name": "maker",
+        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:maker:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      }
+    ],
+    "items": []
+  },
+  {
+    "menuGroupLabel": "checker",
+    "screenDetails": [
+      {
+        "name": "checker",
+        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:checker:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false
       }

@@ -1,7 +1,7 @@
 
 
 'use client'
-import React, { useState,useContext,useEffect } from 'react'
+import React, { useState,useContext,useEffect,useRef } from 'react'
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import i18n from '@/app/components/i18n';
 import { getCookie } from '@/app/components/cookieMgment';
@@ -174,6 +174,7 @@ useEffect(()=>{
 useEffect(()=>{
   handleBlur();
 },[validateRefetch.value])
+
 
 if (datepickerb9ae2?.isHidden) {
   return <></>

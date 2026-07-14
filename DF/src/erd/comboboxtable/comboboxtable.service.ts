@@ -10,15 +10,17 @@ import { CommonService } from 'src/common.Service';
 import { parsePrismaCreateError } from 'src/prisma-error-handler';
 import { comboboxtableEntity } from './entity/comboboxtable.entity';
 import { CustomException } from 'src/customException';
+import axios from 'axios';
 @Injectable()
 export class comboboxtableService {
   constructor(private readonly prismaService: PrismaService,
   private readonly cdcPrismaService: CdcPrismaService,
   private readonly commonService: CommonService) {}
   private encryptedCols: any={
-  "user": [],
-  "comboboxtable": []
+  "comboboxtable": [],
+  "user": []
 }
+  private readonly tokenizationRules:any = {};    
 
   async encryptData(data: any, tableName: string, method) {
     let encryptedData = { ...data };
@@ -319,7 +321,7 @@ export class comboboxtableService {
     return data;
   }
 
- async findAllmethod(queryDto: any, limit:number,selectColumns:any,token:any) {
+ async findAllmethod(queryDto: any, limit:number, selectColumns:any, token:any) {
     try {
       let queryCondition:any ={}
       let queryValue:any = {}
@@ -521,7 +523,7 @@ export class comboboxtableService {
     }
   }
 
-  async findOne(my_id:number,token : string) {
+  async findOne(my_id:number,token : string,detokenize?: string) {
     try{
       const res = await this.prismaService.withConnection(() =>
       this.prismaService.comboboxtable.findMany({ 
@@ -535,6 +537,13 @@ export class comboboxtableService {
       const decryptedData = await this.decryptData(plain, 'comboboxtable');
       decryptedRes.push(decryptedData);
     }
+    if (this.tokenizationRules?.rules?.fields?.length > 0 && decryptedRes[0]?.trs_token_id && detokenize == 'true') {
+        let deTokenizedData =  await axios.get(
+            `${process.env.TOKENIZATION_BASE_URL}/detokenization/${decryptedRes[0]['trs_token_id']}`,
+          )
+        decryptedRes[0] = { ...decryptedRes[0], ...deTokenizedData?.data} ;
+    }
+
     return decryptedRes;
   } catch (error:any) {
     const errorMessage = 'Error in findOne';
@@ -551,7 +560,7 @@ export class comboboxtableService {
   }
   }
 
-  async findAll(token : string
+  async findAll(token : string,detokenize?: string
 ) {
     try{
       const whereClause: any = {};
@@ -565,6 +574,17 @@ export class comboboxtableService {
         const plain = await this.commonDecimalDatahandle(indiviual)
         const decryptedData = await this.decryptData(plain, 'comboboxtable');
         decryptedRes.push(decryptedData);
+      }
+      if (this.tokenizationRules?.rules?.fields?.length > 0 && detokenize == 'true') {
+        for (let data = 0; data < decryptedRes.length; data++) {
+          if(decryptedRes[data]?.trs_token_id){
+            let deTokenizedData =  await axios.get(
+              `${process.env.TOKENIZATION_BASE_URL}/detokenization/${decryptedRes[data]['trs_token_id']}`,
+            )
+            deTokenizedData = deTokenizedData.data;
+            decryptedRes[data] = { ...decryptedRes[data], ...deTokenizedData} ;            
+          }
+        }
       }
       return decryptedRes;
     } catch (error:any) {
@@ -582,11 +602,10 @@ export class comboboxtableService {
     }
     }
     
-  async create(createcomboboxtableDto: Prisma.comboboxtableCreateInput,token:string) {
+  async create(createcomboboxtableDto: Prisma.comboboxtableCreateInput,token:string,detokenize:string) {
     try{
 
       const dataSchema:any =  v.object({
-            my_id :v.number() , 
             country :  v.optional(v.string()), 
             country_code :  v.optional(v.string()), 
             state :  v.optional(v.string()), 
@@ -616,36 +635,75 @@ export class comboboxtableService {
             trs_event_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
             trs_token_id :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
             trs_version :  v.optional(v.pipe(v.string(),v.maxLength(16 ))), 
-        });
-        let validate : any = v.safeParse(dataSchema,createcomboboxtableDto);
-        if (!validate.success) {
-          let errorObj: errorObj = {
-            tname: 'TG',
-            errGrp: 'Data',
-            fabric: 'DF',
-            errType: 'Fatal',
-            errCode: 'TG101',
-          };
-          const errorMessage = validate.issues[0].message;
+      });
+      let validate : any = v.safeParse(dataSchema,createcomboboxtableDto);
+      if (!validate.success) {
+        let errorObj: errorObj = {
+          tname: 'TG',
+          errGrp: 'Data',
+          fabric: 'DF',
+          errType: 'Fatal',
+          errCode: 'TG101',
+        };
+        const allErrors: any[] = [];
+        for (const issue of validate.issues) {
+          const columnName = issue.path?.[0]?.key ?? 'unknown';
+          const errorMessage = issue.message;
+          allErrors.push({
+            columnName,
+            message: errorMessage,
+            error: 'Bad Request',
+            statusCode: HttpStatus.BAD_REQUEST,
+          });
           await this.commonService.errorLog(
             "Technical",
             'AK',
             'Fatal',
             "TG021",
-            errorMessage,
+            `${columnName}: ${errorMessage}`,
             "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
             token
           );
         }
-      const encryptedData = await this.normalizeDatesToUTC(await this.encryptData(createcomboboxtableDto, 'comboboxtable', 'create'), token);
-      const res = await this.prismaService.withConnection(() =>
+        throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
+      }
+      let encryptedData = await this.normalizeDatesToUTC(await this.encryptData(createcomboboxtableDto, 'comboboxtable', 'create'), token);
+      if (this.tokenizationRules?.rules?.fields?.length > 0) {
+        let tokenizedData = { ...this.tokenizationRules, payload: encryptedData };
+        tokenizedData =     await axios.post(
+            `${process.env.TOKENIZATION_BASE_URL}/dynamic-tokenization`,
+            tokenizedData,
+            { headers: { 
+              'Content-Type': 'application/json',
+              app_code : process.env.APPCODE,
+              product_code : `${process.env.APPCODE}_${process.env.APPGROUPNAME}`,
+              tnt_id : process.env.TENANT
+            },         
+            }
+          );
+        encryptedData = tokenizedData?.data
+        if ('tokenId' in encryptedData) {
+          encryptedData.trs_token_id = encryptedData.tokenId;
+          delete encryptedData.tokenId;
+        }
+      }
+      let res = await this.prismaService.withConnection(() =>
         this.prismaService.comboboxtable.create({
           data: encryptedData,
           select:{my_id:true,country:true,country_code:true,state:true,state_code:true,city:true,otherdetails:true,trs_created_date:true,trs_created_by:true,trs_modified_date:true,trs_modified_by:true,trs_process_id:true,trs_access_profile:true,trs_org_grp_code:true,trs_org_code:true,trs_role_grp_code:true,trs_role_code:true,trs_ps_grp_code:true,trs_ps_code:true,trs_sub_org_grp_code:true,trs_sub_org_code:true,trs_locked_by:true,trs_locked_time:true,trs_tenant_id:true,trs_app_code:true,trs_product_code:true,trs_event_process_status:true,trs_event_status:true,trs_token_id:true,trs_version:true,}          
         })
       );
+      if (detokenize ==="true" && this.tokenizationRules?.rules?.fields?.length > 0 && res?.trs_token_id) {
+        let deTokenizedData =  await axios.get(
+              `${process.env.TOKENIZATION_BASE_URL}/detokenization/${res['trs_token_id']}`,
+            )
+            res = { ...res, ...deTokenizedData?.data} ;            
+      }      
     return await this.decryptData(await this.commonDecimalDatahandle(res), 'comboboxtable');
   } catch (error:any) {
+    if (error instanceof CustomException) {
+      throw error;
+    }
     const errMsg = parsePrismaCreateError(error);
     const errorMessage = 'Create Error';
     await this.commonService.errorLog(
@@ -770,7 +828,6 @@ export class comboboxtableService {
       // Validate the input data
 
       const dataSchema:any =  v.object({
-            my_id :v.number() , 
             country :  v.optional(v.string()), 
             country_code :  v.optional(v.string()), 
             state :  v.optional(v.string()), 
@@ -800,32 +857,62 @@ export class comboboxtableService {
             trs_event_status :  v.optional(v.pipe(v.string(),v.maxLength(64 ))), 
             trs_token_id :  v.optional(v.pipe(v.string(),v.maxLength(32 ))), 
             trs_version :  v.optional(v.pipe(v.string(),v.maxLength(16 ))), 
-        });
-        let validate : any = v.safeParse(dataSchema,createcomboboxtableDto);
-        if (!validate.success) {
-          let errorObj: errorObj = {
-            tname: 'TG',
-            errGrp: 'Data',
-            fabric: 'DF',
-            errType: 'Fatal',
-            errCode: 'TG101',
-          };
-          const errorMessage = validate.issues[0].message;
+      });
+      let validate : any = v.safeParse(dataSchema,createcomboboxtableDto);
+      if (!validate.success) {
+        let errorObj: errorObj = {
+          tname: 'TG',
+          errGrp: 'Data',
+          fabric: 'DF',
+          errType: 'Fatal',
+          errCode: 'TG101',
+        };
+        const allErrors: any[] = [];
+        for (const issue of validate.issues) {
+          const columnName = issue.path?.[0]?.key ?? 'unknown';
+          const errorMessage = issue.message;
+          allErrors.push({
+            columnName,
+            message: errorMessage,
+            error: 'Bad Request',
+            statusCode: HttpStatus.BAD_REQUEST,
+          });
           await this.commonService.errorLog(
             "Technical",
             'AK',
             'Fatal',
             "TG021",
-            errorMessage,
+            `${columnName}: ${errorMessage}`,
             "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
             token
           );
-          throw new HttpException(errorMessage, HttpStatus.BAD_REQUEST);
         }
+        throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
+      }
       
       // Encrypt data if needed
-      const encryptedData = await this.normalizeDatesToUTC(await this.encryptData(createcomboboxtableDto, 'comboboxtable', 'create'), token);
+      let encryptedData = await this.normalizeDatesToUTC(await this.encryptData(createcomboboxtableDto, 'comboboxtable', 'create'), token);
       encryptedData['trs_modified_date'] = new Date();
+      if (this.tokenizationRules?.rules?.fields?.length > 0) {
+        let tokenizedData = { ...this.tokenizationRules, payload: encryptedData };
+        tokenizedData =     await axios.post(
+            `${process.env.TOKENIZATION_BASE_URL}/dynamic-tokenization`,
+            tokenizedData,
+            { headers: { 
+              'Content-Type': 'application/json',
+              app_code : process.env.APPCODE,
+              product_code : `${process.env.APPCODE}_${process.env.APPGROUPNAME}`,
+              tnt_id : process.env.TENANT
+            },         
+            }
+          );
+        encryptedData = tokenizedData?.data
+        if ('tokenId' in encryptedData) {
+          encryptedData.trs_token_id = encryptedData.tokenId;
+          delete encryptedData.tokenId;
+        }
+      }
+
 
       // Convert numeric values to strings for JSONB (as per the documentation pattern)
       //const changes: Record<string, string> = {};
@@ -864,6 +951,9 @@ export class comboboxtableService {
       // For INSERT: p_record_id is NULL, p_changes contains the new data
 
     } catch (error: any) {
+      if (error instanceof CustomException) {
+        throw error;
+      }
       const errorMessage = 'Error in createMaster';
       await this.commonService.errorLog(
         "Technical",
@@ -874,7 +964,7 @@ export class comboboxtableService {
         "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
         token
       );
-
+      
       // Handle specific PostgreSQL errors
       if (error.message?.includes('Maker and checker cannot be the same')) {
         throw new HttpException('You cannot approve your own request', HttpStatus.FORBIDDEN);
@@ -889,7 +979,7 @@ export class comboboxtableService {
     }
   }
 
-  async update(my_id:number, updatecomboboxtableDto: Prisma.comboboxtableUpdateInput,token:string) {   
+  async update(my_id:number, updatecomboboxtableDto: Prisma.comboboxtableUpdateInput,token:string, detokenize:string) {   
     try{
 
       const dataSchema:any =  v.object({
@@ -932,18 +1022,49 @@ export class comboboxtableService {
           errType: 'Fatal',
           errCode: 'TG101',
         };
-        const errorMessage = validate.issues[0].message;
-        await this.commonService.errorLog(
-          "Technical",
-          'AK',
-          'Fatal',
-          "TG025",
-          errorMessage,
-          "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
-          token
-        );
+        const allErrors: any[] = [];
+        for (const issue of validate.issues) {
+          const columnName = issue.path?.[0]?.key ?? 'unknown';
+          const errorMessage = issue.message;
+          allErrors.push({
+            columnName,
+            message: errorMessage,
+            error: 'Bad Request',
+            statusCode: HttpStatus.BAD_REQUEST,
+          });
+          await this.commonService.errorLog(
+            "Technical",
+            'AK',
+            'Fatal',
+            "TG021",
+            `${columnName}: ${errorMessage}`,
+            "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
+            token
+          );
+        }
+        throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
       }
-      const encryptedData = await this.normalizeDatesToUTC(await this.encryptData(updatecomboboxtableDto,'comboboxtable','update'), token);
+      let encryptedData = await this.normalizeDatesToUTC(await this.encryptData(updatecomboboxtableDto,'comboboxtable','update'), token);
+      if (this.tokenizationRules?.rules?.fields?.length > 0) {
+        let tokenizedData = { ...this.tokenizationRules, payload: encryptedData };
+        tokenizedData =     await axios.post(
+        `${process.env.TOKENIZATION_BASE_URL}/dynamic-tokenization`,
+          tokenizedData,
+          { headers: { 
+            'Content-Type': 'application/json',
+            app_code : process.env.APPCODE,
+            product_code : `${process.env.APPCODE}_${process.env.APPGROUPNAME}`,
+            tnt_id : process.env.TENANT
+          },         
+          }
+        );
+        encryptedData = tokenizedData?.data
+        if ('tokenId' in encryptedData) {
+          encryptedData.trs_token_id = encryptedData.tokenId;
+          delete encryptedData.tokenId;
+        }        
+      }
+
       await this.prismaService.withConnection(() =>
       this.prismaService.comboboxtable.updateMany({
       where: {my_id},
@@ -961,19 +1082,33 @@ export class comboboxtableService {
       const decryptedData = await this.decryptData(plain, 'comboboxtable');
       decryptedRes.push(decryptedData);
     }
+    if (this.tokenizationRules?.rules?.fields?.length > 0 && detokenize == 'true') {
+        for (let data = 0; data < decryptedRes.length; data++) {
+          if(decryptedRes[data]?.trs_token_id){
+          let deTokenizedData =  await axios.get(
+              `${process.env.TOKENIZATION_BASE_URL}/detokenization/${decryptedRes[data]['trs_token_id']}`,
+            )
+            deTokenizedData = deTokenizedData.data;
+            decryptedRes[data] = { ...decryptedRes[data], ...deTokenizedData} ;   
+          }          
+        }
+    }
     return decryptedRes;
     } catch (error:any) {
-        const errorMessage = 'update Error';
-        await this.commonService.errorLog(
-          "Technical",
-          'AK',
-          'Fatal',
-          "TG023",
-          error,
-          "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
-          token
-        );
-        throw new CustomException(errorMessage, error);
+      if (error instanceof CustomException) {
+        throw error;
+      }
+      const errorMessage = 'update Error';
+      await this.commonService.errorLog(
+        "Technical",
+        'AK',
+        'Fatal',
+        "TG023",
+        error,
+        "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
+        token
+      );
+      throw new CustomException(errorMessage, error);
     }  
 }
 
@@ -1121,17 +1256,27 @@ my_id:number,
       });
       let validate : any = v.safeParse(dataSchema,updatecomboboxtableDto);
       if (!validate.success) {
-        const errorMessage = validate.issues[0].message;
-        await this.commonService.errorLog(
-          "Technical",
-          'AK',
-          'Fatal',
-          "TG025",
-          errorMessage,
-          "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
-          token
-        );
-        throw new HttpException(errorMessage, HttpStatus.BAD_REQUEST);
+        const allErrors: any[] = [];
+        for (const issue of validate.issues) {
+          const columnName = issue.path?.[0]?.key ?? 'unknown';
+          const errorMessage = issue.message;
+          allErrors.push({
+            columnName,
+            message: errorMessage,
+            error: 'Bad Request',
+            statusCode: HttpStatus.BAD_REQUEST,
+          });
+          await this.commonService.errorLog(
+            "Technical",
+            'AK',
+            'Fatal',
+            "TG021",
+            `${columnName}: ${errorMessage}`,
+            "CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TGW01:AFGK:TGW004:AFK:mytable:AFVK:v1",
+            token
+          );
+        }
+        throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
       }
 
       // Verify record exists
@@ -1145,7 +1290,26 @@ my_id:number,
       }
 
       // Encrypt data if needed
-      const encryptedData = await this.normalizeDatesToUTC(await this.encryptData(updatecomboboxtableDto, 'comboboxtable', 'update'), token);
+      let encryptedData = await this.normalizeDatesToUTC(await this.encryptData(updatecomboboxtableDto, 'comboboxtable', 'update'), token);
+      if (this.tokenizationRules?.rules?.fields?.length > 0) {
+        let tokenizedData = { ...this.tokenizationRules, payload: encryptedData };
+        tokenizedData =     await axios.post(
+        `${process.env.TOKENIZATION_BASE_URL}/dynamic-tokenization`,
+          tokenizedData,
+          { headers: { 
+            'Content-Type': 'application/json',
+            app_code : process.env.APPCODE,
+            product_code : `${process.env.APPCODE}_${process.env.APPGROUPNAME}`,
+            tnt_id : process.env.TENANT
+          },         
+          }
+        );
+        encryptedData = tokenizedData?.data
+        if ('tokenId' in encryptedData) {
+          encryptedData.trs_token_id = encryptedData.tokenId;
+          delete encryptedData.tokenId;
+        }        
+      }      
 
       // Call request_change() for UPDATE
       // For UPDATE: p_record_id is the ID, p_changes contains only changed fields
@@ -1173,6 +1337,9 @@ my_id:number,
         status: 'CREATED'
       };
     } catch (error: any) {
+      if (error instanceof CustomException) {
+        throw error;
+      }
       const errorMessage = 'Error in updateMaster';
       await this.commonService.errorLog(
         "Technical",
@@ -1201,7 +1368,7 @@ my_id:number,
     }
   }
 
-  async remove(my_id:number,token : string) {
+  async remove(my_id:number,token : string, detokenize: string) {
     try{
     const toDelete = await this.prismaService.withConnection(() =>
       this.prismaService.comboboxtable.findMany({
@@ -1218,6 +1385,17 @@ my_id:number,
       const plain = await this.commonDecimalDatahandle(indiviual)
       const decryptedData = await this.decryptData(plain, 'comboboxtable');
       decryptedRes.push(decryptedData);
+    }
+    if (this.tokenizationRules?.rules?.fields?.length > 0 && detokenize == 'true') {
+        for (let data = 0; data < decryptedRes.length; data++) {
+          if(decryptedRes[data]?.trs_token_id){
+          let deTokenizedData =  await axios.get(
+              `${process.env.TOKENIZATION_BASE_URL}/detokenization/${decryptedRes[data]['trs_token_id']}`,
+            )
+            deTokenizedData = deTokenizedData.data;
+            decryptedRes[data] = { ...decryptedRes[data], ...deTokenizedData} ;   
+          }          
+        }
     }
     return decryptedRes;
   } catch (error:any) {
@@ -1395,12 +1573,18 @@ my_id:number,
       throw new CustomException(errorMessage, error);
     }
   }
-  async findFirst(token : string) {
+  async findFirst(token : string, detokenize: string) {
     try{
-      const res = await this.prismaService.withConnection(() =>
+      let res = await this.prismaService.withConnection(() =>
       this.prismaService.comboboxtable.findFirst({ 
         orderBy: { trs_created_date: 'asc' },
       }));
+      if (this.tokenizationRules?.rules?.fields?.length > 0 && res?.trs_token_id && detokenize == 'true') {
+          let deTokenizedData =  await axios.get(
+              `${process.env.TOKENIZATION_BASE_URL}/detokenization/${res['trs_token_id']}`,
+            )
+          res = { ...res, ...deTokenizedData?.data} ;
+      }         
       return await this.decryptData(await this.commonDecimalDatahandle(res), 'comboboxtable');
     } catch (error:any) {
       const errorMessage = 'Error in findFirst';
@@ -1416,12 +1600,18 @@ my_id:number,
         throw new CustomException(errorMessage, error);
       }
   }
-  async findLast(token : string) {
+  async findLast(token : string, detokenize: string) {
     try{
-      const res = await this.prismaService.withConnection(() =>
+      let res = await this.prismaService.withConnection(() =>
       this.prismaService.comboboxtable.findFirst({ 
         orderBy: { trs_created_date: 'desc' },
       }));
+      if (this.tokenizationRules?.rules?.fields?.length > 0 && res?.trs_token_id && detokenize == 'true') {
+          let deTokenizedData =  await axios.get(
+              `${process.env.TOKENIZATION_BASE_URL}/detokenization/${res['trs_token_id']}`,
+            )
+          res = { ...res, ...deTokenizedData?.data} ;
+      }         
       return await this.decryptData(await this.commonDecimalDatahandle(res), 'comboboxtable');
     } catch (error:any) {
       const errorMessage = 'Error in findLast';

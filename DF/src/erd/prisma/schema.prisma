@@ -3,53 +3,12 @@
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+   schemas   = ["ct001_tgw4"]
 }
 
 generator client {
 provider = "prisma-client-js"
 }
-
-model user {
-id  Int 
-name  String? 
-onlydate  DateTime? 
-dateandtime  DateTime? 
-trs_created_date  DateTime? @default(now())
-trs_created_by  String?  @db.VarChar(length: 64)
-trs_modified_date  DateTime? 
-trs_modified_by  String?  @db.VarChar(length: 64)
-trs_process_id  String?  @db.VarChar(length: 64)
-trs_access_profile  String?  @db.VarChar(length: 32)
-trs_org_grp_code  String?  @db.VarChar(length: 16)
-trs_org_code  String?  @db.VarChar(length: 16)
-trs_role_grp_code  String?  @db.VarChar(length: 64)
-trs_role_code  String?  @db.VarChar(length: 64)
-trs_ps_grp_code  String?  @db.VarChar(length: 64)
-trs_ps_code  String?  @db.VarChar(length: 64)
-trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
-trs_sub_org_code  String?  @db.VarChar(length: 16)
-trs_locked_by  String?  @db.VarChar(length: 64)
-trs_locked_time  DateTime? 
-trs_tenant_id  String? @default("00000") @db.VarChar(length: 16)
-trs_app_code  String? @default("00000") @db.VarChar(length: 16)
-trs_product_code  String? @default("00000_00000") @db.VarChar(length: 16)
-trs_event_process_status  String?  @db.VarChar(length: 64)
-trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
-trs_version  String?  @db.VarChar(length: 16)
-trs_prev_process_code  String?  @db.VarChar(length: 128)
-trs_prev_status  String?  @db.VarChar(length: 32)
-trs_prev_process_status  String?  @db.VarChar(length: 32)
-trs_process_code  String?  @db.VarChar(length: 128)
-trs_status  String?  @db.VarChar(length: 32)
-trs_process_status  String?  @db.VarChar(length: 32)
-trs_next_process_code  String?  @db.VarChar(length: 128)
-trs_next_status  String?  @db.VarChar(length: 32)
-trs_next_process_status  String?  @db.VarChar(length: 32)
-
-@@id([id])
-}
-
 
 model comboboxtable {
 my_id  Int 
@@ -84,6 +43,50 @@ trs_token_id  String?  @db.VarChar(length: 32)
 trs_version  String?  @db.VarChar(length: 16)
 
 @@id([my_id])
+@@schema("ct001_tgw4")
+}
+
+
+model user {
+id  Int @default(autoincrement())
+name  String? 
+onlydate  DateTime? 
+dateandtime  DateTime? 
+trs_created_date  DateTime? @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String?  @db.VarChar(length: 16)
+trs_app_code  String?  @db.VarChar(length: 16)
+trs_product_code  String?  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([id])
+@@schema("ct001_tgw4")
 }
 
 

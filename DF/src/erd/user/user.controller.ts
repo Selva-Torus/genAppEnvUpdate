@@ -71,6 +71,7 @@ export class userController {
 
   @Get(':id')
   @ApiBearerAuth('JWT-auth')
+  @ApiHeader({ name: 'xDetokenize', required: false })
   @ApiParam({name: 'id',type:Number})
   @ApiOkResponse({ type: userEntity, isArray: true })
   @ApiOperation({
@@ -78,14 +79,15 @@ export class userController {
     description: 'Read only one records from the user table',
   })
   
-  async findOne(@Headers() authHeader: string,@Param('id') id:number,@Req() req: any) {
+  async findOne(@Headers('xDetokenize') detokenize: string,@Headers() authHeader: string,@Param('id') id:number,@Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.userService.findOne(+id,token);
+    const result = await this.userService.findOne(+id,token,detokenize);
     return plainToInstance(userEntity, result);
   }
  
   @Get()
+  @ApiHeader({ name: 'xDetokenize', required: false })
   @ApiBearerAuth('JWT-auth')
   @ApiOkResponse({ type: userEntity, isArray: true })
   @ApiOperation({
@@ -93,7 +95,7 @@ export class userController {
     description: 'Read all the records from the user table',
   })
   
-  async findAll(@Headers() authHeader: string,@Req() req: any,@Query() query?: Record<string, any>) {
+  async findAll(@Headers('xDetokenize') detokenize: string,@Headers() authHeader: string,@Req() req: any,@Query() query?: Record<string, any>) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
     let presentQueryKeys:any=[
@@ -118,13 +120,14 @@ export class userController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = await this.userService.findAll(token,);
+    const result = await this.userService.findAll(token,detokenize,);
     return plainToInstance(userEntity, result);
   } 
 
   @Post()
   @UsePipes(new PrismaModelValidationPipe('user'))
   @ApiBearerAuth('JWT-auth')
+  @ApiHeader({ name: 'xDetokenize', required: false })
   @ApiHeader({ name: 'xCdcaRole', required: false })
   @ApiHeader({ name: 'xCdcaUsername', required: false })
   @ApiHeader({ name: 'xCdcaRemarks', required: false })
@@ -138,6 +141,7 @@ export class userController {
   })
   
   async create(
+    @Headers('xDetokenize') detokenize: string,
     @Headers('xCdcaRole') mcRole: string,
     @Headers('xCdcaUsername') mcUsername: string,
     @Headers('xCdcaRemarks') mcRemarks: string,
@@ -151,18 +155,19 @@ export class userController {
 
     // Flag-driven routing: if maker-checker headers are present, use createMaster
     if (mcRole && mcUsername) {
-      const makerInfo = { role: mcRole, username: mcUsername, remarks: mcRemarks, approvalStatus: mcApprovalStatus,approvalId:mcApprovalID };
+      const makerInfo = { role: mcRole, username: mcUsername, remarks: mcRemarks, approvalStatus: mcApprovalStatus,approvalId:mcApprovalID,detokenize:detokenize };
       const result = await this.userService.createMaster(createuserDto, makerInfo, token);
       return result;
     }
 
-    const result = this.userService.create(createuserDto,token);
+    const result = this.userService.create(createuserDto,token,detokenize);
     return plainToInstance(userEntity, result);
   }
  
   @Patch(':id')
   @UsePipes(new PrismaModelValidationPipe('user', true))
   @ApiBearerAuth('JWT-auth')
+  @ApiHeader({ name: 'xDetokenize', required: false })
   @ApiParam({name: 'id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
   @ApiHeader({ name: 'xCdcaUsername', required: false })
@@ -176,6 +181,7 @@ export class userController {
   })
     
   async update(
+    @Headers('xDetokenize') detokenize: string,
     @Headers('xCdcaRole') mcRole: string,
     @Headers('xCdcaUsername') mcUsername: string,
     @Headers('xCdcaRemarks') mcRemarks: string,
@@ -189,17 +195,18 @@ export class userController {
 
     // Flag-driven routing: if maker-checker headers are present, use updateMaster
     if (mcRole && mcUsername) {
-      const makerInfo = { role: mcRole, username: mcUsername, remarks: mcRemarks,approvalStatus: mcApprovalStatus };
+      const makerInfo = { role: mcRole, username: mcUsername, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
       const result = await this.userService.updateMaster(+id,updateuserDto,makerInfo,token);
       return result;
     }
 
-    const result = await this.userService.update(+id,updateuserDto,token);
+    const result = await this.userService.update(+id,updateuserDto,token,detokenize);
     return plainToInstance(userEntity, result);
   }
  
   @Delete(':id')
   @ApiBearerAuth('JWT-auth')
+  @ApiHeader({ name: 'xDetokenize', required: false })
   @ApiParam({name: 'id',type:Number})
   @ApiHeader({ name: 'xCdcaRole', required: false })
   @ApiHeader({ name: 'xCdcaUsername', required: false })
@@ -212,6 +219,7 @@ export class userController {
   })
   
   async remove(
+    @Headers('xDetokenize') detokenize: string,
     @Headers('xCdcaRole') mcRole: string,
     @Headers('xCdcaUsername') mcUsername: string,
     @Headers('xCdcaRemarks') mcRemarks: string,
@@ -224,17 +232,18 @@ export class userController {
 
     // Flag-driven routing: if maker-checker headers are present, use deleteMaster
     if (mcRole && mcUsername) {
-      const makerInfo = { role: mcRole, username: mcUsername, remarks: mcRemarks,approvalStatus: mcApprovalStatus };
+      const makerInfo = { role: mcRole, username: mcUsername, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
       const result = await this.userService.deleteMaster(+id,makerInfo,token);
       return result;
     }
 
-    const result = await this.userService.remove(+id,token);
+    const result = await this.userService.remove(+id,token,detokenize);
     return plainToInstance(userEntity, result);
   }  
  
   @Get('/find/first')
   @ApiBearerAuth('JWT-auth')
+  @ApiHeader({ name: 'xDetokenize', required: false })
   //@ApiParam({name: ''})
   @ApiOkResponse({ type: userEntity })
   @ApiOperation({
@@ -242,15 +251,16 @@ export class userController {
     description: 'Read first record from the user table',
   })
   
-  async findFirst(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
+  async findFirst(@Headers('xDetokenize') detokenize: string,@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.userService.findFirst(token);
+    const result = await this.userService.findFirst(token, detokenize);
     return plainToInstance(userEntity, result);
   }
 
   @Get('/find/last')
   @ApiBearerAuth('JWT-auth')
+  @ApiHeader({ name: 'xDetokenize', required: false })
   //@ApiParam({name: ''})
   @ApiOkResponse({ type: userEntity })
   @ApiOperation({
@@ -258,10 +268,10 @@ export class userController {
     description: 'Read last record from the user table',
   })
   
-  async findLast(@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
+  async findLast(@Headers('xDetokenize') detokenize: string,@Headers() authHeader: string,@Param() params: any, @Req() req: any) {
     const token = req.headers?.authorization?.split(' ')[1];
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.userService.findLast(token);
+    const result = await this.userService.findLast(token, detokenize);
     return plainToInstance(userEntity, result);
   }
 }

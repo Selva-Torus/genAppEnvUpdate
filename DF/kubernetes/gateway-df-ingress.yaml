@@ -5,11 +5,11 @@ metadata:
   namespace: ct001-tgw004-df-v1
 spec:
   parentRefs:
-    - name: wp-gateway
+    - name: tgatest-gw
       namespace: kgateway-system
       sectionName: https  
   hostnames:
-    - "tgadev2.toruslowcode.com"
+    - "tgatest910.toruslowcode.com"
   rules:
     - matches:
         - path:

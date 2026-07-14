@@ -135,7 +135,7 @@ export class DynamicFlowService {
                 } else if (currentFabric == 'PF-PFD' || currentFabric == 'PF-SFD' || currentFabric == 'PF-SCDL') {
                     if (Array.isArray(poNode[j].events) && poNode[j]?.events?.length > 0) {
                         for (let e = 0; e < poNode[j]?.events?.length; e++) {
-                            if (event == poNode[j]?.events[e]?.source?.status) {
+                            if (nodeType == 'humantasknode' ? (event == poNode[j]?.events[e]?.source?.status && pfdto.sourceId == poNode[j]?.events[e]?.sourceId) : event == poNode[j]?.events[e]?.source?.status ){
                                 sourceStatus = poNode[j]?.events[e]?.source?.status;
                                 srcQueue = poNode[j]?.events[e]?.source?.queue;
                                 targetStatus = poNode[j]?.events[e]?.success?.status;
@@ -317,7 +317,7 @@ export class DynamicFlowService {
                             rapikey = customConfigPro?.enableRollback?.subSelection._true?.apiKey?.value
                         }
                         let rule = customConfig?.rule
-                      
+                        let tokenization = customConfig?.tokenization
                         let methodName, parameterQuery, parameter, contentType, serverUrl, endPoint, headerParams = {},httpAgentParams = {},httpAgentType,httpAgent, encCredentials, codeObj;
                         if (!referenceKey)
                            throw new CustomException('Reference key not found', 404);
@@ -435,18 +435,32 @@ export class DynamicFlowService {
 
                         } 
 
-                        let apires: any,headerRole
+                        let apires: any,headerRole,tokenrule
                         if (customConfig) {                        
-                           if(rule?.approvalProcess){
-                            let rulekey = rule?.ruleKey                           
+                           const rulevar =  async (rulekey) => {
                             if (!rulekey) throw new CustomException(pfjson[i].nodeName+' rulekey key not found', 404);
                             let ruleConfig: any = JSON.parse(await this.redisService.getJsonData(rulekey, collectionName));                  
                             if (!ruleConfig || Object.keys(ruleConfig).length == 0)
                                 throw new CustomException(pfjson[i].nodeName +' Reference key value not found', 404);
                             let rulejson: any = Object.values(ruleConfig)[0]; 
                             let rulecheck:any = await this.CommonService.getRuleCodeMapper(rulejson, this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
-                            headerRole = rulecheck?.rule
+                            return rulecheck;
                            }
+                                                
+                           if(rule?.approvalProcess){
+                            let rulekey = rule?.ruleKey                           
+                            let hr = (await rulevar(rulekey))?.rule
+                            if(hr)
+                            headerRole = Object.values(hr)[0]
+                           }
+                           //tokenization
+                           if(tokenization?.tokenizationprocess){
+                            let rulekey = tokenization?.ruleKey                           
+                                let tr = (await rulevar(rulekey))?.rule
+                                if(tr)
+                                tokenrule = Object.values(tr)[0]
+                             }
+                           
                             encCredentials = await this.CommonService.checkEncryption(poNode[j]);
                             
                             if (currentFabric == 'PF-PFD' || currentFabric == 'PF-SFD' || currentFabric == 'PF-SCDL') {
@@ -547,11 +561,16 @@ export class DynamicFlowService {
                                                 apiUrl = apiUrl + '?' + queryParam;
                                             }
 
+                                            let dfdheaders = {}
+                                             dfdheaders['Authorization'] = `Bearer ${token}`; 
+                                                if(tokenrule){
+                                                dfdheaders['xDetokenize'] = tokenrule
+                                                }    
+
                                             const requestConfig: AxiosRequestConfig = {
-                                                headers: {
-                                                    Authorization: `Bearer ${token}`
-                                                },timeout: 300000 
-                                            }                                            
+                                                headers: dfdheaders,
+                                                timeout: 300000 
+                                            }                                                    
                                             let postres = await this.executeApiCall(methodName, apiUrl, requestConfig)
                                             if (flag != 'N' && postres?.result?.length == 0 && logicCenter) {
                                                 await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: apiUrl, response: postres } }));
@@ -699,7 +718,9 @@ export class DynamicFlowService {
                                                     let requestConfig: AxiosRequestConfig
                                                     let params = await this.buildRequestComponents(apiUrl, tempQryVal, mapObj);
                                                     apiUrl = params?.apiUrl;
-
+                                                     if(tokenrule){
+                                                        params.headers['xDetokenize'] = tokenrule
+                                                    }  
                                                     if(nodeVersion?.toLowerCase() == 'v1'){                                                        
                                                         if(Object.keys(headerParams).length>0 && params.headers && Object.keys(params.headers).length>0){
                                                             headerParams = Object.assign(headerParams,params.headers)
@@ -770,6 +791,9 @@ export class DynamicFlowService {
                                                             params.headers['xCdcaRole'] = headerRole;
                                                             params.headers['xCdcaUsername'] = SessionToken?.loginId;
                                                         } 
+                                                         if(tokenrule){
+                                                            params.headers['xDetokenize'] = tokenrule
+                                                        }
                                                         if(Object.keys(headerParams).length>0  && params?.headers && Object.keys(params?.headers).length>0){
                                                             headerParams = Object.assign(headerParams,params?.headers)
                                                             requestConfig = {
@@ -899,6 +923,9 @@ export class DynamicFlowService {
                                                     params.headers['xCdcaRole'] = headerRole;
                                                     params.headers['xCdcaUsername'] = SessionToken?.loginId;
                                                     } 
+                                                     if(tokenrule){
+                                                        params.headers['xDetokenize'] = tokenrule
+                                                    }
                                                     apiUrl = params?.apiUrl;
                                                     const requestConfig: AxiosRequestConfig = {
                                                         headers: params.headers,
@@ -1030,6 +1057,9 @@ export class DynamicFlowService {
                                                     params.headers['xCdcaRole'] = headerRole;
                                                     params.headers['xCdcaUsername'] = SessionToken?.loginId;
                                                     } 
+                                                     if(tokenrule){
+                                                        params.headers['xDetokenize'] = tokenrule
+                                                     }
                                                     apiUrl = params?.apiUrl;
                                                     const requestConfig: AxiosRequestConfig = {
                                                         headers: params.headers,
@@ -1056,7 +1086,9 @@ export class DynamicFlowService {
 
                                         let params = await this.buildRequestComponents(apiUrl, tempQryVal, mapObj);
                                         apiUrl = params?.apiUrl;
-
+                                         if(tokenrule){
+                                            params.headers['xDetokenize'] = tokenrule
+                                         } 
                                         if(nodeVersion?.toLowerCase() == 'v1'){                                                        
                                             if(Object.keys(headerParams).length>0 && params?.headers && Object.keys(params?.headers).length>0){
                                                 headerParams = Object.assign(headerParams,params?.headers)
@@ -1243,6 +1275,10 @@ export class DynamicFlowService {
              if (nodeType == 'dbnode' && poNode[j].nodeId == nodeId) {
                 let rollbackConfig, dbres: any
                 try {
+                     if (currentFabric == 'PF-SCDL' && poNode[j]?.nodeId == poNode[1].nodeId) {
+                        let firstnode = await this.listenerService.firstProcessor(pfdto, event, pfjson, poJson, pfo, ndp, currentFabric, flag, page, count, filterData, lockDetails, childtable, logicCenter, true)
+                        return { status: firstnode.status, targetStatus: firstnode.targetStatus, data: firstnode.data, }
+                    }else{
                     this.logger.log('DB node Started');
                     let qryres: any;
                     let customConfig = ndp[poNode[j]?.nodeId]
@@ -1291,6 +1327,12 @@ export class DynamicFlowService {
                             }
                         }
                     }
+
+                    //For Time Zone Convertion
+                    if(process.env.TIMEZONE && process.env.TIMEZONE != 'UTC'){
+                        manualQuery = this.convertColumnTimezone(manualQuery,'trs_created_date',process.env.TIMEZONE,schema)
+                    } 
+
                     if (internalEdges && internalEdges.hasOwnProperty(poNode[j]?.nodeId)) {
                         let currentNodeEdge = internalEdges[poNode[j]?.nodeId];
                         if (currentFabric == 'DF-DFD') {
@@ -1334,7 +1376,7 @@ export class DynamicFlowService {
                                 searchArrObj[item.key] = item.value
                             }
                             mapObj = Object.assign(mapObj,searchArrObj)                           
-                            let replaceData = await this.dollarReplace(manualQuery,searchArrObj,schema)  
+                            let replaceData = await this.dollarReplace(manualQuery,searchFilter,schema)  
                             manualQuery = replaceData.manualQuery
                             searchFilter = replaceData.filterObj  
 
@@ -1602,8 +1644,11 @@ export class DynamicFlowService {
                                 logqry = qry
                             }
 
-                             if((/\$where/i.test(qry) || /\$and/i.test(qry)))
-                            qry = qry.replace(/\$where/gi, '').replace(/\$and/gi, '');
+                             if((/\$where/i.test(qry) || /\$and/i.test(qry))){
+                                 qry = qry.replace(/\$where/gi, '').replace(/\$and/gi, '');
+                                 logqry = logqry.replace(/\$where/gi, '').replace(/\$and/gi, '');
+                             }
+                           
                             
                             //str.push(formKey)
                             // if (str.length > 0) { 
@@ -1612,7 +1657,10 @@ export class DynamicFlowService {
                             // }
                         }
                  
-                    qry = qry.replace(/\u2003/g, ' ');                  
+                    qry = qry.replace(/\u2003/g, ' ');  
+                    logqry = logqry.replace(/\u2003/g, ' ');
+                    await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(logqry), collectionName, 'request');
+                   
                     await client.connect();
                     try{
                     if (qry) qryres = await client.query(qry);                   
@@ -1625,14 +1673,15 @@ export class DynamicFlowService {
                     }else{
                         throw new CustomException('Query is Required', 404);
                     }  
-                    
+                                     
+
                     if (flag != 'N' && dbres?.length == 0 && logicCenter) {
                         // await this.redisService.setStreamData(srcQueue, collectionName + '-TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: logqry, response: dbres } }));
                         await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, logqry, dbres);
                         return { status: 200, targetStatus: targetStatus, data: dbres };
                     } else if (oprname == 'select' && dbres?.length == 0 && currentFabric == 'DF-DFD' && logicCenter) {
                         throw new CustomException('No Records Found', 404);
-                    }else if(currentFabric == 'PF-PFD' && dbres?.length == 0){                       
+                    }else if((currentFabric == 'PF-PFD' || currentFabric == 'PF-SCDL') && dbres?.length == 0){                       
                         let responseData = await this.CommonService.responseData(200,dbres)
                         responseData = Object.assign(responseData,{targetStatus})
                         await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, logqry, dbres);
@@ -1679,12 +1728,21 @@ export class DynamicFlowService {
                         await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(dbres), collectionName, 'response');
                         
                     }
-
+                     for(let item=0;item< dbres.length;item++){                        
+                        if(dbres[item]?.trs_token_id && dbres[item]?.trs_access_profile == sobj['session.selectedAccessProfile']){
+                            let detokenizedata = await this.CommonService.getCall(process.env.TOKENIZATION_BASE_URL+'/detokenization/'+dbres[item].trs_token_id)
+                            if(detokenizedata.status == 'Success')
+                           dbres[item] = Object.assign(dbres[item], detokenizedata?.result)
+                            else
+                                throw new CustomException(detokenizedata,400)                          
+                         }
+                      }
                     this.logger.log('DB Node execution completed');
                     if(currentFabric == 'DF-DFD')
                     return { status: 200, targetStatus: targetStatus, data: dbres };
                     else
                     return { status: 200, targetStatus: targetStatus, data:inputparam };
+                    }
                    } catch (error) {                  
                     await this.CommonService.checkRollBack(ndp, collectionName, 'rollback', {
                         key: processedKey + upId,
@@ -5766,7 +5824,21 @@ export class DynamicFlowService {
                     }
                     if(childInsertArr?.length>0){
                     for(let i=0;i< childInsertArr.length;i++){
-                        mapobj = childInsertArr[i]                      
+                        mapobj = childInsertArr[i]  
+                        if(inputparam && Object.values(inputparam).length>0)
+                          mapobj = Object.values(inputparam).reduce((acc, value) => {
+                                            if (Array.isArray(value)) {
+                                                value.forEach(item => {
+                                                if (item && typeof item === 'object') {
+                                                    Object.assign(acc, item);
+                                                }
+                                                });
+                                            } else if (value && typeof value === 'object') {
+                                                Object.assign(acc, value);
+                                            }
+
+                                            return acc;
+                                            }, mapobj);                     
                         if (mapobj && Object.keys(mapobj).length > 0) {
                             Object.keys(mapobj).forEach(key => {
                                 const regex = new RegExp(`\\$\\$${key}`, 'g');
@@ -8425,6 +8497,81 @@ export class DynamicFlowService {
                 }
             });
         });
+    }
+
+    convertColumnTimezone(query, column, timezone, schema) {
+        try { 
+         const range = this.getSelectRange(query);
+       
+        if (!range) {
+        return query;
+        }
+        let selectPart = range.selectPart;     
+        const columnRegex = new RegExp(
+            `(?:\\b\\w+\\.)?\\b${column}\\b`,
+            "i"
+        ); 
+        const match = selectPart.match(columnRegex); 
+        if (!match) {
+            return query;
+        } 
+         const columnReference = match[0]; 
+
+        selectPart = selectPart.replace(
+        columnRegex,
+        `to_char(${columnReference}::timestamptz AT TIME ZONE '${timezone}', 'YYYY-MM-DD HH24:MI:SS.MS') AS ${column}`
+        );
+
+        query = query.substring(0, range.start) + selectPart + query.substring(range.end);
+
+        return query;
+        } catch (error) {
+            throw error
+        }
+    }
+
+    getSelectRange(query: string) {
+        try {            
+            const lower = query.toLowerCase();
+        
+            const selectIndex = lower.indexOf("select");
+            if (selectIndex === -1) return null;
+        
+            let depth = 0;
+            let inSingleQuote = false;
+            let inDoubleQuote = false;
+           
+            for (let i = selectIndex + 6; i < query.length; i++) {
+                const ch = query[i];
+                
+                if (ch === "'" && !inDoubleQuote) {
+                inSingleQuote = !inSingleQuote;
+                continue;
+                }
+        
+                if (ch === '"' && !inSingleQuote) {
+                inDoubleQuote = !inDoubleQuote;
+                continue;
+                }
+        
+                if (inSingleQuote || inDoubleQuote) continue;
+        
+                if (ch === "(") depth++;
+                else if (ch === ")") depth--;
+        
+                if (depth === 0 && lower.substring(i, i + 5) === " from") {
+                return {
+                    start: selectIndex + 6,
+                    end: i,
+                    selectPart: query.substring(selectIndex + 6, i),
+                };
+                }
+            }
+        
+            return null;
+        } catch (error) {
+            throw error
+        }
     }
       
 }
