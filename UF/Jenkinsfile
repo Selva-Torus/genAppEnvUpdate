@@ -1,14 +1,14 @@
 pipeline {
     agent {
-        label 'slave-32'
+        label 'slave-195'
     }
     tools {
         jdk 'jdk17' 
         nodejs 'Node20.0.0'
     }
     environment {
-        DOCKERHUB_USERNAME = "192.168.2.34:5000"
-        APP_NAME = "ct001-tgw004-uf-v1"
+        DOCKERHUB_USERNAME = "192.168.2.164:5000"
+        APP_NAME = "ct006-hrm-uf-v1"
         IMAGE_NAME = "${DOCKERHUB_USERNAME}/${APP_NAME}"
         BUILD_NUMBER = "${BUILD_NUMBER}"
         GITHUB_CREDENTIALS = "GIT_HUB_PAT"
@@ -29,21 +29,21 @@ pipeline {
         stage('Code Checkout') {
             steps {
                 withCredentials([usernamePassword(credentialsId: "${GITHUB_CREDENTIALS}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    git branch: 'master', credentialsId: "${GITHUB_CREDENTIALS}", url: 'https://github.com/TorusDev2023/Claims5UF.git'
+                    git branch: 'master', credentialsId: "${GITHUB_CREDENTIALS}", url: 'https://github.com/kuttit/ECP-PROD.git'
                 }
             }
         }
 
-        stage('Detect Changes in CT001 App') {
+        stage('Detect Changes in CT006 App') {
             steps {
                 script {
                     def diff = sh(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim()
-                    if (diff.split('\n').any { it.startsWith('apps/CT001/TGW01/TGW004/v1/Next-uf/') }) {
+                    if (diff.split('\n').any { it.startsWith('apps/CT006/ECP/HRM/v1/Next-uf/') }) {
                         env.NEXT_UF_CHANGED = "true"
-                        echo "Changes detected in apps/CT001/TGW01/TGW004/v1/Next-uf"
+                        echo "Changes detected in apps/CT006/ECP/HRM/v1/Next-uf"
                     } else {
                         env.NEXT_UF_CHANGED = "false"
-                        echo "No changes in apps/CT001/TGW01/TGW004/v1/Next-uf. Skipping build and deployment stages."
+                        echo "No changes in apps/CT006/ECP/HRM/v1/Next-uf. Skipping build and deployment stages."
                     }
                 }
             }
@@ -63,8 +63,8 @@ pipeline {
                         docker buildx build \
                           --build-arg BUILDKIT_INLINE_CACHE=1 \
                           --tag ${IMAGE_NAME}:${IMAGE_TAG} \
-                          --file apps/CT001/TGW01/TGW004/v1/Next-uf/Dockerfile \
-                          apps/CT001/TGW01/TGW004/v1/Next-uf \
+                          --file apps/CT006/ECP/HRM/v1/Next-uf/Dockerfile \
+                          apps/CT006/ECP/HRM/v1/Next-uf \
                           --push
                         """
                     }
@@ -78,7 +78,7 @@ pipeline {
             }
             steps {
                 script {
-                    sh "sed -i 's/docker_tag/${IMAGE_TAG}/g' apps/CT001/TGW01/TGW004/v1/Next-uf/kubernetes/deploymentservice.yaml"
+                    sh "sed -i 's/docker_tag/${IMAGE_TAG}/g' apps/CT006/ECP/HRM/v1/Next-uf/kubernetes/deploymentservice.yaml"
                 }
             }
         }
@@ -89,10 +89,10 @@ pipeline {
             }
             steps {
                 script {
-                    withKubeConfig(credentialsId: 'kubernetes-32', serverUrl: 'https://lb.kubesphere.local:6443') {
-                        sh "kubectl get ns ct001-tgw004-uf-v1 || kubectl create ns ct001-tgw004-uf-v1"
-                        sh "kubectl apply -f apps/CT001/TGW01/TGW004/v1/Next-uf/kubernetes/deploymentservice.yaml"
-                        sh "kubectl apply -f apps/CT001/TGW01/TGW004/v1/Next-uf/kubernetes/gateway-uf-ingress.yaml"
+                    withKubeConfig(credentialsId: 'kubernetes-195', serverUrl: 'https://lb.kubesphere.local:6443') {
+                        sh "kubectl get ns ct006-hrm-uf-v1 || kubectl create ns ct006-hrm-uf-v1"
+                        sh "kubectl apply -f apps/CT006/ECP/HRM/v1/Next-uf/kubernetes/deploymentservice.yaml"
+                        sh "kubectl apply -f apps/CT006/ECP/HRM/v1/Next-uf/kubernetes/gateway-uf-ingress.yaml"
                     }
                 }
             }

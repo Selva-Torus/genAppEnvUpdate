@@ -10,7 +10,7 @@ RUN npm install
 COPY src/erd/prisma ./prisma
 
 COPY .env .env
- RUN npx prisma generate
+ RUN npx prisma db push --accept-data-loss
 
 # Stage 2: Build the application
 FROM docker.io/library/node:20-alpine AS builder
@@ -22,11 +22,16 @@ COPY --from=dependencies /app/node_modules ./node_modules
  
 COPY --from=dependencies /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=dependencies /app/node_modules/@prisma ./node_modules/@prisma
+# for trigger
+COPY --from=dependencies /app/prisma ./prisma
 COPY . .
  
 # Build the TypeScript code
 RUN npm run build
 
+RUN mkdir -p dist/prisma \
+&& cp src/erd/prisma/schema.prisma dist/prisma/schema.prisma \
+&& cp -r src/erd/prisma/migrations dist/prisma/migrations
  
 # Stage 3: Final stage - Run the application
 FROM docker.io/library/node:20-alpine AS production

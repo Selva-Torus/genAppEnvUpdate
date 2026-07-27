@@ -43,15 +43,15 @@ const LayoutDecider = ({
   const { borderColor, bgColor } : { borderColor: string; bgColor: string } = useTheme()
   const { brandColor, hoverColor, selectionColor } : { brandColor: string; hoverColor: string; selectionColor: string } = branding;
   const encryptionFlagApp: boolean = false;    
-  const encryptionDpd: string = "CK:CT001:FNGK:AF:FNK:CDF-DPD:CATK:TGW01:AFGK:TGW004:AFK:tgw4_dpd:AFVK:v1";
+  const encryptionDpd: string = "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:ECP:AFGK:HRM:AFK:hrmDPD:AFVK:v1";
   const encryptionMethod: string = "";
-  const logo: string = ""
-  const appLogo: string = ""
-  const appName: string = "TGW4"
+  const logo: string = "torus/9.1/CT006/resources/images/Frame 1000004022.png"
+  const appLogo: string = "torus/9.1/CT006/resources/images/Frame 1000004022.png"
+  const appName: string = "HRM"
   const toast: Function = useInfoMsg()
   const [loading, setLoading] = useState<boolean>(true)
   const [updatedNavData, setUpdatedNavData] = useState<MenuItem[]>([])
-  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT001:AFGK:TGW01:AFK:TGW004:AFVK:v1:bldc"
+  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT006:AFGK:ECP:AFK:HRM:AFVK:v1:bldc"
   const [rawNavData, setRawNavData] = useState<MenuItem[] | null>(null);
   const navData: MenuItem[] = [
   {
@@ -79,52 +79,128 @@ const LayoutDecider = ({
     "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
   },
   {
-    "menuGroupLabel": "dynamicAction",
+    "menuGroupLabel": "Dashboard",
     "screenDetails": [
       {
-        "name": "dynamicaction",
-        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:dynamicAction:AFVK:v1",
+        "name": "dashboard",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1",
         "restrictedAccessProfile": [],
-        "static": false
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/dashboards (2).png"
       }
     ],
-    "items": []
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/dashboards (2).png"
   },
   {
-    "menuGroupLabel": "test",
+    "menuGroupLabel": "Employees",
     "screenDetails": [
       {
-        "name": "test",
-        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:ffff:AFVK:v1",
+        "name": "employees",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employees:AFVK:v1",
         "restrictedAccessProfile": [],
-        "static": false
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/employees (1).png"
       }
     ],
-    "items": []
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/employees (1).png"
   },
   {
-    "menuGroupLabel": "maker",
+    "menuGroupLabel": "Access Request",
     "screenDetails": [
       {
-        "name": "maker",
-        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:maker:AFVK:v1",
+        "name": "access request",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:accessRequest:AFVK:v1",
         "restrictedAccessProfile": [],
-        "static": false
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/lock (1).png"
       }
     ],
-    "items": []
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/lock (1).png"
   },
   {
-    "menuGroupLabel": "checker",
+    "menuGroupLabel": "Leave Management",
     "screenDetails": [
       {
-        "name": "checker",
-        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TGW01:AFGK:TGW004:AFK:checker:AFVK:v1",
+        "name": "leave management",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leaveRequest:AFVK:v1",
         "restrictedAccessProfile": [],
-        "static": false
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/calendar-check (1).png"
       }
     ],
-    "items": []
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/calendar-check (1).png"
+  },
+  {
+    "menuGroupLabel": "Background Check",
+    "screenDetails": [
+      {
+        "name": "background check",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:backgroundCheck:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/protect (1).png"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/protect (1).png"
+  },
+  {
+    "menuGroupLabel": "Performance Review",
+    "screenDetails": [
+      {
+        "name": "performance review",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceReview:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/growth-chart (1).png"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/growth-chart (1).png"
+  },
+  {
+    "menuGroup": "masters",
+    "menuGroupLabel": "Masters",
+    "screenDetails": [
+      {
+        "name": "job grades",
+        "label": "Job Grades",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobGrades:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/layer (2).png"
+      },
+      {
+        "name": "job position",
+        "label": "Job Position",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobPositions:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/briefcase (1).png"
+      },
+      {
+        "name": "leave policy",
+        "label": "Leave Policy",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leavePolicy:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/schedule (1).png"
+      },
+      {
+        "name": "performance cycle",
+        "label": "Performance Cycle",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceCycles:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/cycle (1).png"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/settings (1).png"
   }
 ]
   const token:string = getCookie('token'); 
@@ -399,7 +475,24 @@ const LayoutDecider = ({
     name: string
     'gridColumn'?: string
     'gridRow'?: string
-  }[] =[]
+  }[] =[
+  {
+    "name": "menu items",
+    "gridRow": "2/10"
+  },
+  {
+    "name": "opr matrix",
+    "gridRow": "10/12"
+  },
+  {
+    "name": "profile",
+    "gridRow": "12/13"
+  },
+  {
+    "name": "logo",
+    "gridRow": "1/2"
+  }
+]
 
    if (loading == true){
     return (<div className='flex w-[100vw] h-[100vh] bg-slate-200 justify-center items-center '><span>Loading...</span></div>);

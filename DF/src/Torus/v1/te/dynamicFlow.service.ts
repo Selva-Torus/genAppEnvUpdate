@@ -437,28 +437,31 @@ export class DynamicFlowService {
 
                         let apires: any,headerRole,tokenrule
                         if (customConfig) {                        
-                           const rulevar =  async (rulekey) => {
+                           const rulevar =  async (rulekey,flag?) => {
                             if (!rulekey) throw new CustomException(pfjson[i].nodeName+' rulekey key not found', 404);
                             let ruleConfig: any = JSON.parse(await this.redisService.getJsonData(rulekey, collectionName));                  
                             if (!ruleConfig || Object.keys(ruleConfig).length == 0)
                                 throw new CustomException(pfjson[i].nodeName +' Reference key value not found', 404);
-                            let rulejson: any = Object.values(ruleConfig)[0]; 
-                            let rulecheck:any = await this.CommonService.getRuleCodeMapper(rulejson, this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                            let rulejson: any = Object.values(ruleConfig)[0];
+                            let rulecheck:any
+                            if(flag)                 
+                            rulecheck = await this.CommonService.getRuleCodeMapper(rulejson, this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                            else
+                            rulecheck= await this.CommonService.ruleCheck(rulejson?.rule,{session:SessionInfo})  
                             return rulecheck;
                            }
                                                 
                            if(rule?.approvalProcess){
-                            let rulekey = rule?.ruleKey                           
-                            let hr = (await rulevar(rulekey))?.rule
+                            let rulekey = rule?.ruleKey  
+                            let flag = true                         
+                            let hr = (await rulevar(rulekey,flag))?.rule
                             if(hr)
                             headerRole = Object.values(hr)[0]
                            }
                            //tokenization
                            if(tokenization?.tokenizationprocess){
                             let rulekey = tokenization?.ruleKey                           
-                                let tr = (await rulevar(rulekey))?.rule
-                                if(tr)
-                                tokenrule = Object.values(tr)[0]
+                               tokenrule = (await rulevar(rulekey))                               
                              }
                            
                             encCredentials = await this.CommonService.checkEncryption(poNode[j]);
@@ -563,8 +566,12 @@ export class DynamicFlowService {
 
                                             let dfdheaders = {}
                                              dfdheaders['Authorization'] = `Bearer ${token}`; 
-                                                if(tokenrule){
-                                                dfdheaders['xDetokenize'] = tokenrule
+                                               if(tokenrule?.length>0){
+                                                //dfdheaders['xDetokenize'] = tokenrule
+                                                     dfdheaders = tokenrule.reduce((acc, item) => {
+                                                    acc[item.field_name] = item.mask_type;
+                                                    return acc;
+                                                    }, dfdheaders as Record< string, string>);
                                                 }    
 
                                             const requestConfig: AxiosRequestConfig = {
@@ -718,8 +725,12 @@ export class DynamicFlowService {
                                                     let requestConfig: AxiosRequestConfig
                                                     let params = await this.buildRequestComponents(apiUrl, tempQryVal, mapObj);
                                                     apiUrl = params?.apiUrl;
-                                                     if(tokenrule){
-                                                        params.headers['xDetokenize'] = tokenrule
+                                                      if(tokenrule?.length>0){
+                                                        //params.headers['xDetokenize'] = tokenrule
+                                                         params.headers = tokenrule.reduce((acc, item) => {
+                                                        acc[item.field_name] = item.mask_type;
+                                                        return acc;
+                                                        }, params.headers as Record< string, string>);
                                                     }  
                                                     if(nodeVersion?.toLowerCase() == 'v1'){                                                        
                                                         if(Object.keys(headerParams).length>0 && params.headers && Object.keys(params.headers).length>0){
@@ -791,8 +802,12 @@ export class DynamicFlowService {
                                                             params.headers['xCdcaRole'] = headerRole;
                                                             params.headers['xCdcaUsername'] = SessionToken?.loginId;
                                                         } 
-                                                         if(tokenrule){
-                                                            params.headers['xDetokenize'] = tokenrule
+                                                         if(tokenrule?.length>0){
+                                                           // params.headers['xDetokenize'] = tokenrule
+                                                            params.headers = tokenrule.reduce((acc, item) => {
+                                                            acc[item.field_name] = item.mask_type;
+                                                            return acc;
+                                                            }, params.headers as Record< string, string>);
                                                         }
                                                         if(Object.keys(headerParams).length>0  && params?.headers && Object.keys(params?.headers).length>0){
                                                             headerParams = Object.assign(headerParams,params?.headers)
@@ -883,6 +898,15 @@ export class DynamicFlowService {
                                                                 }
                                                                 if (obj && Object.keys(obj).length > 0)
                                                                     mapObj = Object.assign(mapObj, obj) 
+
+                                                            if (tempQryVal?.length > 0) {
+                                                                for (let t = 0; t < tempQryVal.length; t++) {
+                                                                    if (mapObj[tempQryVal[t]['key']] && (tempQryVal[t]['type'] == 'header' )) {
+                                                                        //primaryKey = mapObj[tempQryVal[t]['key']];
+                                                                        delete mapObj[tempQryVal[t]['key']];
+                                                                    }
+                                                                }
+                                                            }
                                                                 requestBody = Object.assign({headers:requestConfig?.headers},mapObj)
                                                                 await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(requestBody), collectionName, 'request');
                                                                 apiResult = await this.executeApiCall(methodName, apiUrl, requestConfig, mapObj)
@@ -923,8 +947,12 @@ export class DynamicFlowService {
                                                     params.headers['xCdcaRole'] = headerRole;
                                                     params.headers['xCdcaUsername'] = SessionToken?.loginId;
                                                     } 
-                                                     if(tokenrule){
-                                                        params.headers['xDetokenize'] = tokenrule
+                                                     if(tokenrule?.length>0){
+                                                        //params.headers['xDetokenize'] = tokenrule
+                                                         params.headers = tokenrule.reduce((acc, item) => {
+                                                        acc[item.field_name] = item.mask_type;
+                                                        return acc;
+                                                        }, params.headers as Record< string, string>);
                                                     }
                                                     apiUrl = params?.apiUrl;
                                                     const requestConfig: AxiosRequestConfig = {
@@ -936,6 +964,8 @@ export class DynamicFlowService {
                                                             mapObj['trs_event_process_status'] = sourceStatus;
                                                             mapObj['trs_modified_by'] = SessionToken?.loginId;
                                                             mapObj['trs_process_id'] = upId;
+                                                            if(pfdto?.trs_version)
+                                                            mapObj['trs_version'] = pfdto?.trs_version
                                                         }
                                                     } else {
                                                         throw 'MappingObject is empty';
@@ -953,7 +983,7 @@ export class DynamicFlowService {
                                                     let primaryKey
                                                     if (tempQryVal?.length > 0) {
                                                         for (let t = 0; t < tempQryVal.length; t++) {
-                                                            if (mapObj[tempQryVal[t]['key']]) {
+                                                            if (mapObj[tempQryVal[t]['key']] && (tempQryVal[t]['type'] == 'path' || tempQryVal[t]['type'] == 'query')) {
                                                                 primaryKey = mapObj[tempQryVal[t]['key']];
                                                                 delete mapObj[tempQryVal[t]['key']];
                                                             }
@@ -1057,8 +1087,12 @@ export class DynamicFlowService {
                                                     params.headers['xCdcaRole'] = headerRole;
                                                     params.headers['xCdcaUsername'] = SessionToken?.loginId;
                                                     } 
-                                                     if(tokenrule){
-                                                        params.headers['xDetokenize'] = tokenrule
+                                                     if(tokenrule?.length>0){
+                                                        //params.headers['xDetokenize'] = tokenrule
+                                                         params.headers = tokenrule.reduce((acc, item) => {
+                                                        acc[item.field_name] = item.mask_type;
+                                                        return acc;
+                                                        }, params.headers as Record< string, string>);
                                                      }
                                                     apiUrl = params?.apiUrl;
                                                     const requestConfig: AxiosRequestConfig = {
@@ -1086,8 +1120,12 @@ export class DynamicFlowService {
 
                                         let params = await this.buildRequestComponents(apiUrl, tempQryVal, mapObj);
                                         apiUrl = params?.apiUrl;
-                                         if(tokenrule){
-                                            params.headers['xDetokenize'] = tokenrule
+                                        if(tokenrule?.length>0){
+                                            //params.headers['xDetokenize'] = tokenrule
+                                             params.headers = tokenrule.reduce((acc, item) => {
+                                                        acc[item.field_name] = item.mask_type;
+                                                        return acc;
+                                                        }, params.headers as Record< string, string>);
                                          } 
                                         if(nodeVersion?.toLowerCase() == 'v1'){                                                        
                                             if(Object.keys(headerParams).length>0 && params?.headers && Object.keys(params?.headers).length>0){
@@ -1188,7 +1226,7 @@ export class DynamicFlowService {
                                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(EncapiResult?.result), collectionName, 'response',);
                                     await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, EncryptedRqst, EncapiResult?.result,);
                                 } else {
-                                    if (apichildResult) {
+                                    if (apichildResult?.length>0 || Object.keys(apichildResult).length>0) {
                                         if(Array.isArray(apichildResult))
                                         apichildResult = apichildResult.flat()
                                         await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(apichildResult), collectionName, 'response',);
@@ -1196,7 +1234,7 @@ export class DynamicFlowService {
                                         apires = apichildResult;
                                         //this.ruleParams[nodeName] = Array.isArray(apichildResult)?apichildResult[0]:apichildResult
                                         await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(apichildResult)?apichildResult[0]:apichildResult),collectionName,nodeName);
-                                    } else {
+                                    } else if(apiResult){
                                          if(Array.isArray(apiResult))
                                         apiResult = apiResult.flat()
                                         await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(apiResult), collectionName, 'response',);
@@ -1204,6 +1242,11 @@ export class DynamicFlowService {
                                         apires = apiResult;
                                         //this.ruleParams[nodeName] = Array.isArray(apiResult)?apiResult[0]:apiResult 
                                         await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(apiResult)?apiResult[0]:apiResult),collectionName,nodeName);                                       
+                                    }else{
+                                        if(['patch','put'].includes(methodName))
+                                        throw new CustomException('Primary Key/update Failed',404)
+                                        else
+                                        throw new CustomException('ApiResult not found',404)
                                     }
                                     
                                 }
@@ -1310,7 +1353,26 @@ export class DynamicFlowService {
                         }
                         }
                         }         
-                    }
+                    }      
+                    
+                     let tokenrule;
+                    let tokenization = customConfig?.tokenization
+                    const rulevar =  async (rulekey) => {
+                            if (!rulekey) throw new CustomException(pfjson[i].nodeName+' rulekey key not found', 404);
+                            let ruleConfig: any = JSON.parse(await this.redisService.getJsonData(rulekey, collectionName));                  
+                            if (!ruleConfig || Object.keys(ruleConfig).length == 0)
+                                throw new CustomException(pfjson[i].nodeName +' Reference key value not found', 404);
+                            let rulejson: any = Object.values(ruleConfig)[0];
+                            //let rulecheck:any = await this.CommonService.getRuleCodeMapper(rulejson, this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                           let rulecheck:any = await this.CommonService.ruleCheck(rulejson?.rule,{session:SessionInfo})
+                            return rulecheck;
+                           }                                               
+                          
+                           //tokenization
+                           if(tokenization?.tokenizationprocess){
+                            let rulekey = tokenization?.ruleKey                           
+                               tokenrule = (await rulevar(rulekey))                               
+                             }
                    
                     let qry,cleanedQuery,logqry,mapObj = {};
                     let formKey: any = ``;
@@ -1326,12 +1388,7 @@ export class DynamicFlowService {
                                 schema = pfo[a]?.schema
                             }
                         }
-                    }
-
-                    //For Time Zone Convertion
-                    if(process.env.TIMEZONE && process.env.TIMEZONE != 'UTC'){
-                        manualQuery = this.convertColumnTimezone(manualQuery,'trs_created_date',process.env.TIMEZONE,schema)
-                    } 
+                    }                   
 
                     if (internalEdges && internalEdges.hasOwnProperty(poNode[j]?.nodeId)) {
                         let currentNodeEdge = internalEdges[poNode[j]?.nodeId];
@@ -1446,7 +1503,8 @@ export class DynamicFlowService {
                    
                     else if (manualQuery) {
                         qry = manualQuery;
-                        if (qry.toLowerCase().includes('insert into')) {
+                        const isDML = /^(insert\s+into|update|delete)\b/i.test(qry.trim()); 
+                        if (isDML) {
                             oprname = 'insert'
                             if (mapObj && Object.keys(mapObj).length > 0) {
                                 Object.keys(mapObj).forEach(key => {
@@ -1454,9 +1512,13 @@ export class DynamicFlowService {
                                     const value = typeof mapObj[key] === 'string' ? `'${mapObj[key]}'` : mapObj[key];
                                     qry = qry.replace(regex, value);
                                 });
-                            }                        
+                            }   
+                        //trs_version_no (lock update) 
+                        if(pfdto?.trs_version && qry.toLowerCase().includes('update')){                           
+                            qry =  await this.CommonService.appendWhereClause(qry,`trs_version == ${pfdto?.trs_version}`)//qry + ` where trs_version_no == ${pfdto?.trs_version_no}`
+                        }                   
                         logqry = qry
-                        } else {
+                        }  else {
                             oprname = 'select'
                             if (qry.endsWith(';')) {
                                 qry = qry.slice(0, -1);
@@ -1688,7 +1750,18 @@ export class DynamicFlowService {
                         await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(logqry), collectionName, 'request');
                         await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(dbres), collectionName, 'response');
                         return responseData
-                    }                   
+                    } 
+                    if(process.env.TIMEZONE && process.env.TIMEZONE != 'UTC'){
+                        let dateTimeFields = this.getDateTimeFields(schema);  
+                        if (dbres.length > 0) {
+                            for (let i = 0; i < dbres.length; i++) {
+                                for (const field of dateTimeFields) {
+                                    if(dbres[i]?.[field])
+                                        dbres[i][field] = this.CommonService.convertTimeZone(dbres[i][field]);
+                                }
+                            }
+                        }
+                    }                  
                      if(dbres && currentFabric == 'PF-PFD')
                      await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(dbres), collectionName, 'response');
                     
@@ -1728,15 +1801,29 @@ export class DynamicFlowService {
                         await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(dbres), collectionName, 'response');
                         
                     }
-                     for(let item=0;item< dbres.length;item++){                        
-                        if(dbres[item]?.trs_token_id && dbres[item]?.trs_access_profile == sobj['session.selectedAccessProfile']){
-                            let detokenizedata = await this.CommonService.getCall(process.env.TOKENIZATION_BASE_URL+'/detokenization/'+dbres[item].trs_token_id)
-                            if(detokenizedata.status == 'Success')
-                           dbres[item] = Object.assign(dbres[item], detokenizedata?.result)
+                        if(tokenrule?.length>0){
+                        for(let item=0;item< dbres.length;item++){ 
+                        if(dbres[item]?.trs_token_id){
+                            let detokenizedata = await this.CommonService.getCall(process.env.TOKENIZATION_BASE_URL+'/get-masked-tokenized-data/'+dbres[item].trs_token_id)
+                           if(detokenizedata?.status == 'Success'){                               
+                                let obj ={}
+                                for(let token of tokenrule){
+                                let mask = token['mask_type']
+                                let columnName = token['field_name']
+
+                                let valres = detokenizedata?.result[columnName]                              
+                                    if(valres?.[mask]){
+                                        obj[columnName] = valres[mask]
+                                    }                              
+                                }                                                    
+                                 dbres[item] = Object.assign(dbres[item], obj)
+                            }                          
                             else
                                 throw new CustomException(detokenizedata,400)                          
                          }
                       }
+                    }
+                      
                     this.logger.log('DB Node execution completed');
                     if(currentFabric == 'DF-DFD')
                     return { status: 200, targetStatus: targetStatus, data: dbres };
@@ -3823,7 +3910,7 @@ export class DynamicFlowService {
                                     }
                                 }
                                 //this.ruleParams[nodeName] = Array.isArray(datasetSchemaRes)?datasetSchemaRes[0]:datasetSchemaRes
-                                await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(datasetSchemaRes)?datasetSchemaRes[0]:datasetSchemaRes),collectionName,nodeName);
+                                await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(datasetSchemaRes) && datasetSchemaRes?.length>0 ?datasetSchemaRes[0]:datasetSchemaRes),collectionName,nodeName);
                                 return { status: 200, targetStatus: targetStatus, data: datasetSchemaRes };
                             }
                             else
@@ -6090,6 +6177,19 @@ export class DynamicFlowService {
 
     isDateTimeField(schema: any, key: string) {
     return schema?.properties?.[key]?.format === 'date-time';
+    }
+
+    getDateTimeFields(schema: any) {
+        let props = schema?.properties
+        if(!props) props = {};
+        let result = []
+        for(let key in props){  
+            if(props[key]?.format === 'date-time'){
+                result.push(key)
+            }     
+        }     
+        return result;        
+       
     }
 
     async replaceQuery(replaceQry,mapObj){
@@ -8497,81 +8597,5 @@ export class DynamicFlowService {
                 }
             });
         });
-    }
-
-    convertColumnTimezone(query, column, timezone, schema) {
-        try { 
-         const range = this.getSelectRange(query);
-       
-        if (!range) {
-        return query;
-        }
-        let selectPart = range.selectPart;     
-        const columnRegex = new RegExp(
-            `(?:\\b\\w+\\.)?\\b${column}\\b`,
-            "i"
-        ); 
-        const match = selectPart.match(columnRegex); 
-        if (!match) {
-            return query;
-        } 
-         const columnReference = match[0]; 
-
-        selectPart = selectPart.replace(
-        columnRegex,
-        `to_char(${columnReference}::timestamptz AT TIME ZONE '${timezone}', 'YYYY-MM-DD HH24:MI:SS.MS') AS ${column}`
-        );
-
-        query = query.substring(0, range.start) + selectPart + query.substring(range.end);
-
-        return query;
-        } catch (error) {
-            throw error
-        }
-    }
-
-    getSelectRange(query: string) {
-        try {            
-            const lower = query.toLowerCase();
-        
-            const selectIndex = lower.indexOf("select");
-            if (selectIndex === -1) return null;
-        
-            let depth = 0;
-            let inSingleQuote = false;
-            let inDoubleQuote = false;
-           
-            for (let i = selectIndex + 6; i < query.length; i++) {
-                const ch = query[i];
-                
-                if (ch === "'" && !inDoubleQuote) {
-                inSingleQuote = !inSingleQuote;
-                continue;
-                }
-        
-                if (ch === '"' && !inSingleQuote) {
-                inDoubleQuote = !inDoubleQuote;
-                continue;
-                }
-        
-                if (inSingleQuote || inDoubleQuote) continue;
-        
-                if (ch === "(") depth++;
-                else if (ch === ")") depth--;
-        
-                if (depth === 0 && lower.substring(i, i + 5) === " from") {
-                return {
-                    start: selectIndex + 6,
-                    end: i,
-                    selectPart: query.substring(selectIndex + 6, i),
-                };
-                }
-            }
-        
-            return null;
-        } catch (error) {
-            throw error
-        }
-    }
-      
+    }      
 }

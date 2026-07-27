@@ -54,18 +54,23 @@ import {
   logoutDto,
   uploadHandlerDto,
   myAccountForClientdto,
-  introspectDto
+  introspectDto,
+  LockRecordBodyDto
 } from 'src/dto';
 import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { Response } from 'express';
 import { lookup } from 'mime-types';
+import { JwtServices } from 'src/jwt.services';
 
 @ApiTags('TG')
 @Controller('UF')
 export class UfController {
-  constructor(private readonly appService: UfService) {}
+  constructor(
+    private readonly appService: UfService,
+    private readonly jwtService: JwtServices
+  ) {}
 
   @Post('screenRoute')
   async screenRoute(@Body() keys: any,@Headers() header) {
@@ -1060,9 +1065,10 @@ export class UfController {
   }
   
   @Post('uploadimg')
-   async post_upload(@Req() req: FastifyRequest) {
+  async post_upload(@Req() req: FastifyRequest) {
+    try {
       if (!req.isMultipart()) {
-        throw new Error('Request is not multipart');
+        throw new BadRequestException('Request is not multipart');
       }
       const parts: any = req.parts();
       const fields: any = {};
@@ -1077,7 +1083,7 @@ export class UfController {
       for await (const part of parts) {
         if (part.type === 'file') {
           const buffer = await part.toBuffer();
-            files.push({
+          files.push({
             filename: part.filename,
             mimetype: part.mimetype,
             size: buffer.length,
@@ -1088,28 +1094,42 @@ export class UfController {
           fields[part.fieldname] = part.value;
         }
       }
-    const { bucketFolderame, folderPath, enableEncryption, filename = "", returnType } = fields;
+
+      if (files.length === 0) {
+        throw new BadRequestException('No files uploaded');
+      }
+
+      const { bucketFolderame, folderPath, enableEncryption, filename = '', returnType } = fields;
 
     // Process all files and collect imageUrls
-    const imageUrls: string[] = [];
-    for (const file of files) {
-      const imageUrl = await this.appService.uploadImage(
-        file,
-        bucketFolderame,
-        folderPath,
-        filename || file.filename,
-        enableEncryption,
-        file?.doc_group||""
-      );
-      imageUrls.push(imageUrl);
-    }
+      const imageUrls: string[] = [];
+      for (const file of files) {
+        const imageUrl = await this.appService.uploadImage(
+          file,
+          bucketFolderame,
+          folderPath,
+          filename || file.filename,
+          enableEncryption,
+          file?.doc_group || '',
+        );
+        imageUrls.push(imageUrl);
+      }
 
     // Return based on returnType: 'string' returns single value, 'string[]' returns array
-    return {
-      success: true,
-      message: 'file saved',
-      imageUrl: returnType === 'string[]' ? imageUrls : imageUrls[0],
-    };
+      return {
+        success: true,
+        message: 'file saved',
+        imageUrl: returnType === 'string[]' ? imageUrls : imageUrls[0],
+      };
+    } catch (error: any) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        error?.message || 'An unexpected error occurred during file upload',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   @Get('readAMDKey')
@@ -1176,5 +1196,31 @@ export class UfController {
   async getFusionAuthCredentials(@Query() query: any ) {
     const { tenant : app_tenant } = query;
     return this.appService.getFusionAuthCredentials(app_tenant);
+  }
+
+  @Post('lock')
+  async lock(@Body() dto: LockRecordBodyDto, @Req() req: any) {
+    const token: string = req.headers.authorization.split(' ')[1]
+    const decodedToken: any = this.jwtService.decodeToken(token);
+    const loginId = decodedToken.loginId;
+    dto['userId'] = loginId;
+    return this.appService.acquireLock(dto);
+  }
+
+  @Post('unlock')
+  async unlock(@Body() dto: LockRecordBodyDto, @Req() req: any) {
+    const token: string = req.headers.authorization.split(' ')[1]
+    const decodedToken: any = this.jwtService.decodeToken(token);
+    const loginId = decodedToken.loginId;
+    dto['userId'] = loginId;
+    return this.appService.releaseLock(dto);
+  }
+
+  @Post('release-all-locks')
+  async releaseAllLocks(@Req() req: any) {
+    const token: string = req.headers.authorization.split(' ')[1]
+    const decodedToken: any = this.jwtService.decodeToken(token);
+    const loginId = decodedToken.loginId;
+    return this.appService.releaseAllLocks(loginId);
   }
 }

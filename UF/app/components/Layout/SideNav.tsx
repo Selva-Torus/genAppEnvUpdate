@@ -23,6 +23,7 @@ import clsx from 'clsx'
 import OPRTopNavSelector from './OPRTopNavSelector'
 import { OrgStructure, ProdStructure, RoleStructure } from '../svgApplication'
 import { Logo } from '../Logo'
+import { AxiosService } from '@/app/components/axiosService'
 
 const SideNav = ({
   navData,
@@ -171,6 +172,16 @@ const SideNav = ({
   }
 
   async function logout() {
+    try {
+      const token = getCookie('token')
+      if (token) {
+        await AxiosService.post('/UF/release-all-locks', null, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      }
+    } catch (e) {
+      // ignore error, proceed with logout
+    }
     localStorage.clear()
     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
     const from = encodeURIComponent(`${basePath}/`)

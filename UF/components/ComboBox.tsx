@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useLayoutEffect } from "react";
+import { createPortal } from "react-dom";
 import { useGlobal } from "@/context/GlobalContext";
 import { Icon } from "./Icon";
 import { HeaderPosition, TooltipProps as TooltipPropsType } from "@/types/global";
@@ -127,13 +128,87 @@ export const Combobox: React.FC<ComboboxProps> = ({
     });
   };
 
-  const [dropDirection, setDropDirection] = useState<"down" | "up">("down");
+  // ------------------------------------------------------------------
+  // Portal + fixed-position panel (same approach as DateAndTime).
+  // The options list is rendered into document.body via createPortal and
+  // positioned with position:fixed, computed from the trigger's
+  // getBoundingClientRect(). This means we no longer need to walk up the
+  // DOM tree and force ancestor overflow to "visible" -- the panel can
+  // never be clipped by an ancestor's overflow:hidden/auto because it's
+  // not a DOM descendant of any of them anymore.
+  // ------------------------------------------------------------------
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const triggerRef = useRef<HTMLDivElement>(null); // outer wrapper (kept for CommonHeaderAndTooltip sizing + click outside)
+  const panelRef = useRef<HTMLDivElement>(null);
+  const [panelStyle, setPanelStyle] = useState<React.CSSProperties>({});
+
+  useLayoutEffect(() => {
+    if (!isOpen) return;
+
+    const GAP = 4;
+    const VIEWPORT_MARGIN = 8;
+    const ESTIMATED_HEIGHT = 260; // search bar + max-h-60 list, before real measurement
+
+    const recalcPosition = () => {
+      const trigger = triggerRef.current;
+      if (!trigger) return;
+
+      const triggerRect = trigger.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      const panelRect = panelRef.current?.getBoundingClientRect();
+      const panelHeight = panelRect?.height || ESTIMATED_HEIGHT;
+      const panelWidth = triggerRect.width;
+
+      const spaceBelow = viewportHeight - triggerRect.bottom - GAP;
+      const spaceAbove = triggerRect.top - GAP;
+      const openUpward = spaceBelow < panelHeight && spaceAbove > spaceBelow;
+
+      const availableVertical = Math.max(
+        120,
+        (openUpward ? spaceAbove : spaceBelow) - VIEWPORT_MARGIN
+      );
+
+      const style: React.CSSProperties = {
+        position: "fixed",
+        left: triggerRect.left,
+        width: panelWidth,
+        zIndex: 9999,
+      };
+
+      if (openUpward) {
+        style.bottom = viewportHeight - triggerRect.top + GAP;
+      } else {
+        style.top = triggerRect.bottom + GAP;
+      }
+
+      if (panelHeight > availableVertical) {
+        style.maxHeight = availableVertical;
+      }
+
+      setPanelStyle(style);
+    };
+
+    recalcPosition();
+    const raf = requestAnimationFrame(recalcPosition);
+
+    window.addEventListener("resize", recalcPosition);
+    window.addEventListener("scroll", recalcPosition, true);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", recalcPosition);
+      window.removeEventListener("scroll", recalcPosition, true);
+    };
+  }, [isOpen, options.length, isLoading]);
 
   const handleOpen = () => {
     if (disabled) return;
     if (isOpen) {
       setIsOpen(false);
-  
     } else {
       setIsOpen(true);
       noMorePagesRef.current = false;
@@ -142,12 +217,6 @@ export const Combobox: React.FC<ComboboxProps> = ({
       }
     }
   };
-
-  // Flip the options panel to open upward when there isn't enough room
-  // below (e.g. this field sits near the bottom of a modal). Re-checks
-  // on scroll/resize while open so it stays correct if the modal itself
-  // scrolls or the viewport changes.
-
 
   const handleListScroll = (e: React.UIEvent<HTMLDivElement>) => {
     if (isStatic) return;
@@ -200,105 +269,31 @@ export const Combobox: React.FC<ComboboxProps> = ({
     }
   };
 
-const containerRef = useRef<HTMLDivElement>(null);
+  // Click-outside now needs to check BOTH the trigger wrapper and the
+  // portaled panel, since the panel is no longer a DOM descendant of
+  // triggerRef once it's rendered into document.body.
   useEffect(() => {
-    if (!isOpen) return;
-
-    const ESTIMATED_PANEL_HEIGHT = 260; // ~search bar + max-h-60 list
-
-    const updateDirection = () => {
-      const el = containerRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const spaceBelow = window.innerHeight - rect.bottom;
-      const spaceAbove = rect.top;
-      if (spaceBelow < ESTIMATED_PANEL_HEIGHT && spaceAbove > spaceBelow) {
-        setDropDirection("up");
-      } else {
-        setDropDirection("down");
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Node;
+      const insideTrigger = triggerRef.current?.contains(target);
+      const insidePanel = panelRef.current?.contains(target);
+      if (!insideTrigger && !insidePanel) {
+        setIsOpen(false);
       }
     };
 
-    updateDirection();
-    window.addEventListener("resize", updateDirection);
-    window.addEventListener("scroll", updateDirection, true);
-    return () => {
-      window.removeEventListener("resize", updateDirection);
-      window.removeEventListener("scroll", updateDirection, true);
-    };
-  }, [isOpen]);
-useEffect(() => {
-  const handleClickOutside = (e: MouseEvent) => {
-    if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-      setIsOpen(false);
-
-    }
-  };
-
-  if (isOpen) {
-    document.addEventListener("mousedown", handleClickOutside);
-  }
-
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, [isOpen]);
-
- useEffect(() => {
-    if (!containerRef.current) return;
-
-    // Find all parent containers that have overflow settings
-    const parentsToModify: Array<{ element: HTMLElement; originalOverflow: string }> = [];
-    let currentElement = containerRef.current.parentElement;
-
-    // Traverse up the DOM tree to find all parents with overflow
-    while (currentElement) {
-      const styles = window.getComputedStyle(currentElement);
-      const hasOverflow = styles.overflow !== 'visible' || 
-                         styles.overflowY !== 'visible' || 
-                         styles.overflowX !== 'visible';
-
-      if (hasOverflow) {
-        parentsToModify.push({
-          element: currentElement,
-          originalOverflow: currentElement.style.overflow
-        });
-      }
-
-      // Stop at the grid container or after 10 levels
-      if (styles.display === 'grid' && parentsToModify.length > 0) {
-        break;
-      }
-      
-      if (parentsToModify.length >= 10) break;
-      
-      currentElement = currentElement.parentElement;
-    }
-
-    // Set overflow based on dropdown state
     if (isOpen) {
-      parentsToModify.forEach(({ element }) => {
-        element.style.overflow = 'visible';
-      });
-    } else {
-      parentsToModify.forEach(({ element, originalOverflow }) => {
-        element.style.overflow = originalOverflow || 'auto';
-      });
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
-    // Cleanup: restore original overflow when component unmounts
     return () => {
-      parentsToModify.forEach(({ element, originalOverflow }) => {
-        if (element) {
-          element.style.overflow = originalOverflow;
-        }
-      });
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen]);
 
   const comboboxElement = (
     <div
-    ref={containerRef}   // add this
+      ref={triggerRef}
       className={`relative flex ${getContentAlignClass()} w-full h-full ${className}`}
       tabIndex={-1}
     >
@@ -355,11 +350,12 @@ useEffect(() => {
         </div>
       </button>
 
-      {isOpen && (
+      {mounted && isOpen && createPortal(
         <div
-          ref={listDivRef}
-          className={`absolute z-50 w-full ${dropDirection === "up" ? "bottom-full mb-1" : "top-full mt-1"} max-h-60 overflow-y-auto border-2 shadow-lg ${isDark ? "bg-gray-800 border-gray-600" : "bg-white border-gray-300"}`}
-          style={{ borderRadius: "var(--border-radius)" }}
+          ref={panelRef}
+          className={`overflow-y-auto border-2 shadow-lg ${isDark ? "bg-gray-800 border-gray-600" : "bg-white border-gray-300"}`}
+          style={panelStyle}
+          onMouseDown={(e) => e.stopPropagation()}
           onScroll={handleListScroll}
           onWheel={handleListWheel}
         >
@@ -396,7 +392,6 @@ useEffect(() => {
               onClick={() => {
                 if (isArray) {
                   if (isMultiple) {
-                    // case 3: toggle in/out, keep dropdown open
                     const next = selectedArray.includes(option.value)
                       ? selectedArray.filter((v) => v !== option.value)
                       : [...selectedArray, option.value];
@@ -404,22 +399,17 @@ useEffect(() => {
                     onChange(next);
                     onBlur?.(next)
                   } else {
-                    // case 2: replace with single-item array, close dropdown
                     const next = [option.value];
                     setSelectedArray(next);
                     onChange(next);
                     setIsOpen(false);
-                    // setSearch("");
                     onBlur?.(next)
                   }
                 } else {
-                  // case 1: single string
                   onChange({ [toSave]: option.value, ...(toDisplay ? { [toDisplay]: option.label } : {}) });
                   setIsOpen(false);
-                  // setSearch("");
                   onBlur?.({ [toSave]: option.value, ...(toDisplay ? { [toDisplay]: option.label } : {}) })
                 }
-                
               }}
             >
               {option.label}
@@ -430,7 +420,8 @@ useEffect(() => {
               Loading...
             </div>
           )}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

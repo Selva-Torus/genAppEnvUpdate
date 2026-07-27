@@ -1,0 +1,266 @@
+
+'use client'
+import React, { useState,useContext,useEffect, useRef } from 'react';
+import { TotalContext, TotalContextProps } from '@/app/globalContext';
+import { Modal } from "@/components/Modal";
+import { Text } from "@/components/Text";
+import { TextArea } from '@/components/TextArea';
+import { codeExecution } from '@/app/utils/codeExecution';
+import { AxiosService } from '@/app/components/axiosService';
+import { getCookie } from '@/app/components/cookieMgment';
+import decodeToken from '@/app/components/decodeToken';
+import { eventDecisionTable } from '@/app/utils/evaluateDecisionTable';
+import { useRouter } from 'next/navigation';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { useInfoMsg } from "@/app/components/infoMsgHandler";
+import { eventBus } from '@/app/eventBus';
+import { getFilterProps,getRouteScreenDetails } from '@/app/utils/assemblerKeys';
+import { getGroupOrchestrationData, getControlOrchestrationData } from '@/app/utils/Orchestration';
+import { useHandleDfdRefresh } from '@/context/dfdRefreshContext';
+import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,PaginationData,AllowedGroupNode,ActionDetails } from "@/types/global";
+import * as v from 'valibot';
+
+
+const TextAreaadditional_details = ({checkToAdd,setCheckToAdd,encryptionFlagCompData,setIsProcessing,controlData}:any) => {
+  const token: string = getCookie('token');
+  const {globalState , setGlobalState} = useContext(TotalContext) as TotalContextProps;
+  const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
+  const {memoryVariables, setMemoryVariables} = useContext(TotalContext) as TotalContextProps;
+  const {validateRefetch , setValidateRefetch} = useContext(TotalContext) as TotalContextProps;
+  const {validate , setValidate} = useContext(TotalContext) as TotalContextProps;
+  const handleDfdRefresh = useHandleDfdRefresh();
+  const decodedTokenObj:any = decodeToken(token);
+  let code:string="";
+  const prevRefreshRef = useRef<any>(false);
+  const encryptionFlagCont: boolean = encryptionFlagCompData.flag || false ;
+  let encryptionDpd: string = "";
+  encryptionDpd = encryptionDpd !=='' ? encryptionDpd: encryptionFlagCompData.dpd
+  let encryptionMethod: string = "";
+  encryptionMethod  = encryptionMethod !=='' ? encryptionMethod: encryptionFlagCompData.method
+  const [dynamicStateandType,setDynamicStateandType]=useState<any>({name:'additional_details',type:"string"})
+  const [allCode,setAllCode] = useState<string>("")
+  const toast : Function = useInfoMsg()
+  const routes : AppRouterInstance = useRouter()
+  const [error, setError] = useState<string>('');
+  const [isRequredData,setIsRequredData]=useState<boolean>(false)
+  let schemaArray :string[] =[];
+  schemaArray = [] ;
+ /////////////
+   //another screen
+  const {new_access_group1e8f3, setnew_access_group1e8f3}= useContext(TotalContext) as TotalContextProps;
+  const {new_access_group1e8f3Props, setnew_access_group1e8f3Props}= useContext(TotalContext) as TotalContextProps;
+  const {access_req__group3a221, setaccess_req__group3a221}= useContext(TotalContext) as TotalContextProps;
+  const {access_req__group3a221Props, setaccess_req__group3a221Props}= useContext(TotalContext) as TotalContextProps;
+  const {business_just__group75edc, setbusiness_just__group75edc}= useContext(TotalContext) as TotalContextProps;
+  const {business_just__group75edcProps, setbusiness_just__group75edcProps}= useContext(TotalContext) as TotalContextProps;
+  const {business_justify5b6e3, setbusiness_justify5b6e3}= useContext(TotalContext) as TotalContextProps;
+  const {business_justification8767b, setbusiness_justification8767b}= useContext(TotalContext) as TotalContextProps;
+  const {additional_detailsde33b, setadditional_detailsde33b}= useContext(TotalContext) as TotalContextProps;
+  const {valid_groupec21c, setvalid_groupec21c}= useContext(TotalContext) as TotalContextProps;
+  const {valid_groupec21cProps, setvalid_groupec21cProps}= useContext(TotalContext) as TotalContextProps;
+  const {app_inf_groupea43d, setapp_inf_groupea43d}= useContext(TotalContext) as TotalContextProps;
+  const {app_inf_groupea43dProps, setapp_inf_groupea43dProps}= useContext(TotalContext) as TotalContextProps;
+  const {provision_group4e2a2, setprovision_group4e2a2}= useContext(TotalContext) as TotalContextProps;
+  const {provision_group4e2a2Props, setprovision_group4e2a2Props}= useContext(TotalContext) as TotalContextProps;
+  const {prov_group3b4eb, setprov_group3b4eb}= useContext(TotalContext) as TotalContextProps;
+  const {prov_group3b4ebProps, setprov_group3b4ebProps}= useContext(TotalContext) as TotalContextProps;
+  const {revocation_groupc3044, setrevocation_groupc3044}= useContext(TotalContext) as TotalContextProps;
+  const {revocation_groupc3044Props, setrevocation_groupc3044Props}= useContext(TotalContext) as TotalContextProps;
+  const {rev_groupa6a87, setrev_groupa6a87}= useContext(TotalContext) as TotalContextProps;
+  const {rev_groupa6a87Props, setrev_groupa6a87Props}= useContext(TotalContext) as TotalContextProps;
+  const {audit_groupc16c3, setaudit_groupc16c3}= useContext(TotalContext) as TotalContextProps;
+  const {audit_groupc16c3Props, setaudit_groupc16c3Props}= useContext(TotalContext) as TotalContextProps;
+  const {dynamicactions820e8, setdynamicactions820e8}= useContext(TotalContext) as TotalContextProps;
+  const {dynamicactions820e8Props, setdynamicactions820e8Props}= useContext(TotalContext) as TotalContextProps;
+  //////////////
+
+  const handleMapperValue=async()=>{
+    try{
+      const orchestrationData:any = getControlOrchestrationData(
+        controlData,
+        "ecabc61cf26647320bd87bae79075edc",
+        "189101c77970262d7d3ee6fc894de33b"
+      );
+      if(orchestrationData?.data?.schemaData){
+        let allSchemas:any[]=orchestrationData?.data?.schemaData?.at(0)?.schema||[]
+        let type:any={name:'additional_details',type:'text'}
+        allSchemas.map((item:any)=>{
+          if(item.name=='additional_details')
+          {
+            type=item
+  
+          }
+        })
+        setDynamicStateandType(type)       
+      }
+      if(orchestrationData?.data?.schemaData?.at(0).schema.responses["200"].content["application/json"].schema.items.properties){
+        let type:any={name:'additional_details',type:'text'}
+        type={
+          name:'additional_details',
+          type: orchestrationData?.data?.schemaData[0].schema.responses["200"].content["application/json"].schema.items.properties.additional_details.type == 'string' ? 'text' : orchestrationData?.data?.schemaData[0].schema.responses["200"].content["application/json"].schema.items.properties.additional_details.type =='integer' ? 'number' : orchestrationData?.data?.schemaData[0].schema.responses["200"].content["application/json"].schema.items.properties.additional_details.type
+        }
+        setDynamicStateandType(type)
+       
+      }
+      if(orchestrationData?.data?.code)
+      {
+        setAllCode(orchestrationData?.data?.code)
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
+  useEffect(()=>{
+    handleMapperValue()
+  },[additional_detailsde33b?.refresh])
+  
+  useEffect(()=>{
+    if (prevRefreshRef.current) {
+      setbusiness_just__group75edc((pre:any)=>({...pre,additional_details:""}))
+    }else 
+      prevRefreshRef.current= true
+  },[additional_detailsde33b?.refresh])
+
+  const business_just__group75edcRef = useRef<any>(business_just__group75edc);
+  useEffect(() => { business_just__group75edcRef.current = business_just__group75edc; }, [business_just__group75edc]);
+  useEffect(()=>{
+      handleMapperValue();
+    if(validateRefetch.init!=0)
+      handleValidate();
+    const handlerChange = (id:any) => {
+      if (id === "189101c77970262d7d3ee6fc894de33b") {
+        handleChange({target:{value:business_just__group75edcRef?.current?.additional_details||""}});
+      }
+    };
+    const handlerBlur = (id:any) => {
+      if (id === "189101c77970262d7d3ee6fc894de33b") {
+        handleBlur({target:{value:business_just__group75edcRef?.current?.additional_details||""}});
+      }
+    };
+    eventBus.on("triggerTextAreaChange", handlerChange);
+    eventBus.on("triggerTextAreaBlur", handlerBlur);
+    return () => {
+      eventBus.off("triggerTextAreaChange", handlerChange);
+      eventBus.off("triggerTextAreaBlur", handlerBlur);
+    };
+  },[validateRefetch.value])
+
+
+  const handleBlur=async(e:any)=>{
+    let validate:any
+    code = allCode;
+    if (code != '') {
+      let codeStates: any = {};
+        codeStates['new_access_group'] = new_access_group1e8f3,
+        codeStates['setnew_access_group'] = setnew_access_group1e8f3,
+        codeStates['new_access_group1e8f3'] = new_access_group1e8f3Props,
+        codeStates['setnew_access_group1e8f3'] = setnew_access_group1e8f3Props,
+        codeStates['access_req__group'] = access_req__group3a221,
+        codeStates['setaccess_req__group'] = setaccess_req__group3a221,
+        codeStates['access_req__group3a221'] = access_req__group3a221Props,
+        codeStates['setaccess_req__group3a221'] = setaccess_req__group3a221Props,
+        codeStates['business_just__group'] = business_just__group75edc,
+        codeStates['setbusiness_just__group'] = setbusiness_just__group75edc,
+        codeStates['business_just__group75edc'] = business_just__group75edcProps,
+        codeStates['setbusiness_just__group75edc'] = setbusiness_just__group75edcProps,
+        codeStates['business_justify'] = business_justify5b6e3,
+        codeStates['setbusiness_justify'] = setbusiness_justify5b6e3,
+        codeStates['business_justification'] = business_justification8767b,
+        codeStates['setbusiness_justification'] = setbusiness_justification8767b,
+        codeStates['additional_details'] = additional_detailsde33b,
+        codeStates['setadditional_details'] = setadditional_detailsde33b,
+        codeStates['valid_group'] = valid_groupec21c,
+        codeStates['setvalid_group'] = setvalid_groupec21c,
+        codeStates['valid_groupec21c'] = valid_groupec21cProps,
+        codeStates['setvalid_groupec21c'] = setvalid_groupec21cProps,
+        codeStates['app_inf_group'] = app_inf_groupea43d,
+        codeStates['setapp_inf_group'] = setapp_inf_groupea43d,
+        codeStates['app_inf_groupea43d'] = app_inf_groupea43dProps,
+        codeStates['setapp_inf_groupea43d'] = setapp_inf_groupea43dProps,
+        codeStates['provision_group'] = provision_group4e2a2,
+        codeStates['setprovision_group'] = setprovision_group4e2a2,
+        codeStates['provision_group4e2a2'] = provision_group4e2a2Props,
+        codeStates['setprovision_group4e2a2'] = setprovision_group4e2a2Props,
+        codeStates['prov_group'] = prov_group3b4eb,
+        codeStates['setprov_group'] = setprov_group3b4eb,
+        codeStates['prov_group3b4eb'] = prov_group3b4ebProps,
+        codeStates['setprov_group3b4eb'] = setprov_group3b4ebProps,
+        codeStates['revocation_group'] = revocation_groupc3044,
+        codeStates['setrevocation_group'] = setrevocation_groupc3044,
+        codeStates['revocation_groupc3044'] = revocation_groupc3044Props,
+        codeStates['setrevocation_groupc3044'] = setrevocation_groupc3044Props,
+        codeStates['rev_group'] = rev_groupa6a87,
+        codeStates['setrev_group'] = setrev_groupa6a87,
+        codeStates['rev_groupa6a87'] = rev_groupa6a87Props,
+        codeStates['setrev_groupa6a87'] = setrev_groupa6a87Props,
+        codeStates['audit_group'] = audit_groupc16c3,
+        codeStates['setaudit_group'] = setaudit_groupc16c3,
+        codeStates['audit_groupc16c3'] = audit_groupc16c3Props,
+        codeStates['setaudit_groupc16c3'] = setaudit_groupc16c3Props,
+        codeStates['dynamicactions'] = dynamicactions820e8,
+        codeStates['setdynamicactions'] = setdynamicactions820e8,
+        codeStates['dynamicactions820e8'] = dynamicactions820e8Props,
+        codeStates['setdynamicactions820e8'] = setdynamicactions820e8Props,
+    codeExecution(code,codeStates)
+    }
+  }
+  const handleChange = async(e: any) => {
+    let validate:any;
+    setError('');
+    setValidate((pre:any)=>({...pre,newAccessRequest_v1:{...pre?.newAccessRequest_v1,additional_details:undefined}}));
+    setbusiness_just__group75edc((prev: any) => ({ ...prev, additional_details: e?.target?.value }));
+    try{
+    }catch (err: any) {
+    ///setIsProcessing(false);
+    if(typeof err == 'string')
+      toast(err, 'danger');
+    else
+      toast(err?.response?.data?.errorDetails?.message, 'danger');
+  }finally{
+    //setIsProcessing(false);
+  }
+  }
+
+  const handleValidate=async (e?:any) => {
+      let validate:any
+  }
+  const handleFocus=async(e:any)=>{
+    try{
+    setIsProcessing(true);
+    }catch (err: any) {
+      setIsProcessing(false);
+      if(typeof err == 'string')
+        toast(err, 'danger');
+      else
+        toast(err?.response?.data?.errorDetails?.message, 'danger');
+    }finally{
+      setIsProcessing(false);
+    }
+  }
+  if (additional_detailsde33b?.isHidden) {
+    return <></>
+  }
+return (
+  <div 
+  style={{gridColumn: `13 / 25`,gridRow: `7 / 32`, gap:``, height: `100%`}} >
+    <TextArea
+      require={isRequredData}
+      className=""
+      onFocus={handleFocus}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      disabled= {additional_detailsde33b?.isDisabled ? true : false}
+      placeholder = {'Enter any additional information...'}
+      contentAlign={"left"}
+      headerPosition='top'
+      headerText="Additional Details"
+      pin = {'brick-brick'}
+      value = { business_just__group75edc?.additional_details != null && typeof business_just__group75edc?.additional_details =='object' ? Object.keys(business_just__group75edc?.additional_details)?.length ?  JSON.stringify(business_just__group75edc?.additional_details,null ,2):"" : business_just__group75edc?.additional_details||""}
+      errorMessage={error}
+      validationState={validate?.newAccessRequest_v1?.additional_details ? "invalid" : undefined}
+    />
+  </div>
+  )
+}
+
+export default TextAreaadditional_details

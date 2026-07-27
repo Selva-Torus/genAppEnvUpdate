@@ -32,6 +32,7 @@ interface DatePickerProps {
   contentAlign?: ContentAlign;
   required?: boolean;
   showTime?: boolean;
+  dateValidation?: "Future" | "FutureOrPresent" | "PastOrPresent" | "Past";
 }
 
 /* ---------------------------------- helpers ---------------------------------- */
@@ -202,6 +203,7 @@ export const DateAndTime: React.FC<DatePickerProps> = ({
   contentAlign = "center",
   required = false,
   showTime = true,
+  dateValidation,
 }) => {
   const { theme, branding, displayFormat } = useGlobal();
   const showToast = useInfoMsg();
@@ -398,7 +400,50 @@ export const DateAndTime: React.FC<DatePickerProps> = ({
     onUpdate?.(combined);
   };
 
+  /* ----------------------------- date validation ----------------------------- */
+
+  const getMinDate = (): Date | null => {
+    if (dateValidation === "Future") {
+      const d = new Date();
+      d.setDate(d.getDate() + 1);
+      d.setHours(0, 0, 0, 0);
+      return d;
+    }
+    if (dateValidation === "FutureOrPresent") {
+      const d = new Date();
+      d.setHours(0, 0, 0, 0);
+      return d;
+    }
+    return null;
+  };
+
+  const getMaxDate = (): Date | null => {
+    if (dateValidation === "Past") {
+      const d = new Date();
+      d.setDate(d.getDate() - 1);
+      d.setHours(0, 0, 0, 0);
+      return d;
+    }
+    if (dateValidation === "PastOrPresent") {
+      const d = new Date();
+      d.setHours(0, 0, 0, 0);
+      return d;
+    }
+    return null;
+  };
+
+  const isDateDisabled = (date: Date): boolean => {
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0);
+    const min = getMinDate();
+    const max = getMaxDate();
+    if (min && d < min) return true;
+    if (max && d > max) return true;
+    return false;
+  };
+
   const handleDayClick = (date: Date) => {
+    if (isDateDisabled(date)) return;
     setSelectedDate(date);
     emit(date, hour12, minute, second, ampm);
     setStep(showTime ? "time" : "closed");
@@ -561,14 +606,18 @@ export const DateAndTime: React.FC<DatePickerProps> = ({
                 {grid.map((cell, i) => {
                   const selected = isSameDay(cell.date, selectedDate);
                   const isToday = isSameDay(cell.date, today);
+                  const disabledDay = isDateDisabled(cell.date);
                   return (
                     <button
                       type="button"
                       key={i}
+                      disabled={disabledDay}
                       onClick={() => handleDayClick(cell.date)}
                       className={`h-7 w-7 mx-auto rounded-full flex items-center justify-center relative text-white ${
                         !cell.currentMonth ? "opacity-40" : ""
-                      } hover:opacity-80`}
+                      } ${
+                        disabledDay ? "opacity-30 cursor-not-allowed" : "hover:opacity-80"
+                      }`}
                       style={
                         selected
                           ? { backgroundColor: "#fff", color: panelColor, fontWeight: 600 }

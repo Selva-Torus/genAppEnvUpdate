@@ -87,6 +87,8 @@ export class TeService{
       }else{
         logicCenter = true
       }
+      if(pfdto?.data?.['trs_version'])
+        pfdto['trs_version'] = pfdto?.data['trs_version']
       //if(logicCenter || currentFabric == 'PF-PFD')
       
        dstkey = processedKey.replace('DF-DFD', 'DF-DST');

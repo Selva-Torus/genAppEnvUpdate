@@ -442,6 +442,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
               color: "#FFFFFF",
               maxHeight: "70vh",
             }}
+            onMouseDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between px-3 py-2 sm:px-4">

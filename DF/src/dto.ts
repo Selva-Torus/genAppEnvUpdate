@@ -156,6 +156,7 @@ export class readAPIDTO {
       controlName?:string
       afiflag?:string
       searchFilter?:object
+      trs_version?:any
     }
   
     export class pageDto { 
@@ -1001,3 +1002,36 @@ export class exportdata {
   bldcKey: string;
 }
 
+export class LockRecordDto {
+  @IsString()
+  @IsNotEmpty()
+  tableName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  key: string;
+
+  @IsNotEmpty()
+  value: string | number;
+
+  @IsString()
+  @IsNotEmpty()
+  userId: string;
+}
+
+export class LockRecordBodyDto {
+  @IsString()
+  @IsNotEmpty()
+  tableName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  key: string;
+
+  @IsNotEmpty()
+  value: string | number;
+
+  @IsString()
+  @IsOptional()
+  userId: string;
+}

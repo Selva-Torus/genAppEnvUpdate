@@ -19,6 +19,7 @@ import { LogoutIcon, RotateIcon, SettingsIcon } from '../../utils/svgApplication
 import clsx from 'clsx'
 import { OrgStructure, ProdStructure, RoleStructure } from '../svgApplication'
 import { isLightColor } from '../utils'
+import { AxiosService } from '@/app/components/axiosService'
 
 const TopNav = ({
   navData,
@@ -139,10 +140,20 @@ const TopNav = ({
 //  async function logout() {
 //    localStorage.clear()
 //    deleteAllCookies()
-//    window.location.href = '/ct001/tgw01/tgw004/v1'
+//    window.location.href = '/ct006/ecp/hrm/v1'
 //  }
 
   async function logout() {
+    try {
+      const token = getCookie('token')
+      if (token) {
+        await AxiosService.post('/UF/release-all-locks', null, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      }
+    } catch (e) {
+      // ignore error, proceed with logout
+    }
     localStorage.clear()
     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
     const from = encodeURIComponent(`${basePath}/`)

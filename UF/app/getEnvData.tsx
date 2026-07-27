@@ -1,5 +1,5 @@
 let data:any ={
-  "tgw4_dpd": {
+  "hrmDPD": {
     "encryptionType": {
       "name": "encryptionType",
       "_type": "select",

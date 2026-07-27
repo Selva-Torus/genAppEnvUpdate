@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
+import { createPortal } from "react-dom";
 import { useGlobal } from "@/context/GlobalContext";
 import { Tooltip } from "./Tooltip";
 import { Icon } from "./Icon";
@@ -76,9 +77,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [filterText, setFilterText] = useState("");
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
-  const [dropDirection, setDropDirection] = useState<"down" | "up">("down");
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null); // trigger wrapper (input/button)
+  const listRef = useRef<HTMLDivElement>(null); // portaled options panel
   const highlightedItemRef = useRef<HTMLDivElement | null>(null);
 
   // Reset highlighted index when dropdown closes
@@ -98,36 +98,79 @@ export const Dropdown: React.FC<DropdownProps> = ({
     }
   }, [highlightedIndex]);
 
-  // Flip the options panel to open upward when there isn't enough room
-  // below (e.g. this field sits near the bottom of a modal). Re-checks
-  // on scroll/resize while open so it stays correct if the modal itself
-  // scrolls or the viewport changes.
-  useEffect(() => {
+  // ------------------------------------------------------------------
+  // Portal + fixed-position panel (same approach as DateAndTime/Combobox).
+  // The options list is rendered into document.body via createPortal and
+  // positioned with position:fixed, computed from the trigger's
+  // getBoundingClientRect(). This replaces the old approach of walking up
+  // the DOM tree and forcing every ancestor's overflow to "visible" --
+  // the panel can no longer be clipped by an ancestor's overflow:hidden
+  // /auto because it isn't a DOM descendant of any of them anymore.
+  // ------------------------------------------------------------------
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const [panelStyle, setPanelStyle] = useState<React.CSSProperties>({});
+
+  useLayoutEffect(() => {
     if (!isOpen) return;
 
-    const ESTIMATED_PANEL_HEIGHT = 260; // ~search bar (if any) + max-h-60 list
+    const GAP = 4;
+    const VIEWPORT_MARGIN = 8;
+    const ESTIMATED_HEIGHT = 260; // ~search bar (if any) + max-h-60 list, before real measurement
 
-    const updateDirection = () => {
-      const el = dropdownRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const spaceBelow = window.innerHeight - rect.bottom;
-      const spaceAbove = rect.top;
-      if (spaceBelow < ESTIMATED_PANEL_HEIGHT && spaceAbove > spaceBelow) {
-        setDropDirection("up");
+    const recalcPosition = () => {
+      const trigger = dropdownRef.current;
+      if (!trigger) return;
+
+      const triggerRect = trigger.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      const panelRect = listRef.current?.getBoundingClientRect();
+      const panelHeight = panelRect?.height || ESTIMATED_HEIGHT;
+      const panelWidth = triggerRect.width;
+
+      const spaceBelow = viewportHeight - triggerRect.bottom - GAP;
+      const spaceAbove = triggerRect.top - GAP;
+      const openUpward = spaceBelow < panelHeight && spaceAbove > spaceBelow;
+
+      const availableVertical = Math.max(
+        120,
+        (openUpward ? spaceAbove : spaceBelow) - VIEWPORT_MARGIN
+      );
+
+      const style: React.CSSProperties = {
+        position: "fixed",
+        left: triggerRect.left,
+        width: panelWidth,
+        zIndex: 9999,
+      };
+
+      if (openUpward) {
+        style.bottom = viewportHeight - triggerRect.top + GAP;
       } else {
-        setDropDirection("down");
+        style.top = triggerRect.bottom + GAP;
       }
+
+      if (panelHeight > availableVertical) {
+        style.maxHeight = availableVertical;
+      }
+
+      setPanelStyle(style);
     };
 
-    updateDirection();
-    window.addEventListener("resize", updateDirection);
-    window.addEventListener("scroll", updateDirection, true);
+    recalcPosition();
+    const raf = requestAnimationFrame(recalcPosition);
+
+    window.addEventListener("resize", recalcPosition);
+    window.addEventListener("scroll", recalcPosition, true);
     return () => {
-      window.removeEventListener("resize", updateDirection);
-      window.removeEventListener("scroll", updateDirection, true);
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", recalcPosition);
+      window.removeEventListener("scroll", recalcPosition, true);
     };
-  }, [isOpen]);
+  }, [isOpen, filterText, isLoadingMore]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!isOpen) {
@@ -188,63 +231,15 @@ export const Dropdown: React.FC<DropdownProps> = ({
     }
   }, [value]);
 
-  // Handle parent container overflow (including nested parents)
-  useEffect(() => {
-    if (!dropdownRef.current) return;
-
-    // Find all parent containers that have overflow settings
-    const parentsToModify: Array<{ element: HTMLElement; originalOverflow: string }> = [];
-    let currentElement = dropdownRef.current.parentElement;
-
-    // Traverse up the DOM tree to find all parents with overflow
-    while (currentElement) {
-      const styles = window.getComputedStyle(currentElement);
-      const hasOverflow = styles.overflow !== 'visible' || 
-                         styles.overflowY !== 'visible' || 
-                         styles.overflowX !== 'visible';
-
-      if (hasOverflow) {
-        parentsToModify.push({
-          element: currentElement,
-          originalOverflow: currentElement.style.overflow
-        });
-      }
-
-      // Stop at the grid container or after 10 levels
-      if (styles.display === 'grid' && parentsToModify.length > 0) {
-        break;
-      }
-      
-      if (parentsToModify.length >= 10) break;
-      
-      currentElement = currentElement.parentElement;
-    }
-
-    // Set overflow based on dropdown state
-    if (isOpen) {
-      parentsToModify.forEach(({ element }) => {
-        element.style.overflow = 'visible';
-      });
-    } else {
-      parentsToModify.forEach(({ element, originalOverflow }) => {
-        element.style.overflow = originalOverflow || 'auto';
-      });
-    }
-
-    // Cleanup: restore original overflow when component unmounts
-    return () => {
-      parentsToModify.forEach(({ element, originalOverflow }) => {
-        if (element) {
-          element.style.overflow = originalOverflow;
-        }
-      });
-    };
-  }, [isOpen]);
-
-  // Close dropdown when clicking outside
+  // Close dropdown when clicking outside.
+  // Checks both the trigger wrapper AND the portaled panel, since the
+  // panel is no longer a DOM descendant of dropdownRef once portaled.
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      const insideTrigger = dropdownRef.current?.contains(target);
+      const insidePanel = listRef.current?.contains(target);
+      if (!insideTrigger && !insidePanel) {
         setIsOpen(false);
       }
     };
@@ -319,6 +314,59 @@ export const Dropdown: React.FC<DropdownProps> = ({
     }
   };
 
+  const optionsPanel = (
+    <div
+      ref={listRef}
+      className={`
+        border-2
+        ${isDark ? "bg-gray-800 border-gray-600" : "bg-white border-gray-300"}
+        shadow-lg
+        overflow-auto
+      `}
+      style={{ borderRadius: "var(--border-radius)", maxHeight: panelStyle.maxHeight ?? 240, ...panelStyle }}
+      onMouseDown={(e) => e.stopPropagation()}
+    >
+      {filteredOptions.map((option, index) => {
+        const isSelected = selectedValues.includes(option);
+        const isHighlighted = index === highlightedIndex;
+        return (
+          <div
+            key={index}
+            ref={isHighlighted ? highlightedItemRef : null}
+            onClick={() => handleSelect(option)}
+            onMouseEnter={() => setHighlightedIndex(index)}
+            onMouseLeave={() => setHighlightedIndex(-1)}
+            className={`
+              px-4 py-2
+              cursor-pointer
+              flex items-center justify-between
+              transition-colors
+              ${isSelected
+                ? `text-white`
+                : isDark ? "text-gray-200" : "text-gray-700"
+              }
+              ${className}
+            `}
+            style={{
+              backgroundColor: isSelected
+                ? branding.selectionColor
+                : isHighlighted
+                ? branding.hoverColor
+                : undefined,
+            }}
+          >
+            <span>{option}</span>
+            {isMultiple && isSelected && <Icon fillContainer={false} data="FaCheck" />}
+          </div>
+        );
+      })}
+      {isLoadingMore && (
+        <div className={`px-4 py-2 text-center text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>
+          Loading...
+        </div>
+      )}
+    </div>
+  );
 
   const dropdownElement = (
     <div 
@@ -462,63 +510,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
         </Tooltip>
       )}
 
-      {isOpen && (
-        <div
-        ref={listRef}
-          className={`
-            absolute
-            w-full
-            ${dropDirection === "up" ? "bottom-full mb-1" : "top-full mt-1"}
-            border-2
-            ${isDark ? "bg-gray-800 border-gray-600" : "bg-white border-gray-300"}
-            shadow-lg
-            max-h-60
-            overflow-auto
-            z-50
-          `}
-          style={{ borderRadius: "var(--border-radius)" }}
-        >
-          {filteredOptions.map((option, index) => {
-            const isSelected = selectedValues.includes(option);
-            const isHighlighted = index === highlightedIndex;
-            return (
-              <div
-                key={index}
-                ref={isHighlighted ? highlightedItemRef : null}
-                onClick={() => handleSelect(option)}
-                onMouseEnter={() => setHighlightedIndex(index)}
-                onMouseLeave={() => setHighlightedIndex(-1)}
-                className={`
-                  px-4 py-2
-                  cursor-pointer
-                  flex items-center justify-between
-                  transition-colors
-                  ${isSelected
-                    ? `text-white`
-                    : isDark ? "text-gray-200" : "text-gray-700"
-                  }
-                  ${className}
-                `}
-                style={{
-                  backgroundColor: isSelected
-                    ? branding.selectionColor
-                    : isHighlighted
-                    ? branding.hoverColor
-                    : undefined,
-                }}
-              >
-                <span>{option}</span>
-                {isMultiple && isSelected && <Icon fillContainer={false} data="FaCheck" />}
-              </div>
-            );
-          })}
-          {isLoadingMore && (
-            <div className={`px-4 py-2 text-center text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>
-              Loading...
-            </div>
-          )}
-        </div>
-      )}
+      {mounted && isOpen && createPortal(optionsPanel, document.body)}
     </div>
   );
 

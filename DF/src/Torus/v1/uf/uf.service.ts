@@ -1,5 +1,4 @@
-
-import { BadGatewayException, HttpStatus, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { BadGatewayException, HttpException, HttpStatus, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { CommonService } from 'src/common.Service';
 import { RedisService } from 'src/redisService';
 import * as v from 'valibot';
@@ -29,8 +28,12 @@ import { Pool } from 'pg';
 import { FusionAuthApplicatonAssign, FusionAuthUserApplicatonGet, FusionAutRoleCRUDAlongWithApp,FusionAuthUserGet, FusionAuthUserCreation, FusionAuthGetTenantList, FusionAuthGetApplicationList, handleFusionAuthUserRegistrationForTokenLambda } from 'src/fusionAuth.api';
 import { EnvData } from 'src/envData/envData.service';
 import { decrypt } from 'src/decrypt';
+import { format } from 'date-fns';
+import { Cron } from "@nestjs/schedule";
 //import { connectPG } from 'src/mongoClient';
 // import { RuleService } from 'src/ruleService';
+import { LockRecordDto } from 'src/dto';
+
 const transporter = nodemailer.createTransport({
   host: 'smtp-mail.outlook.com',
   port: 587,
@@ -64,7 +67,7 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
     private readonly gorule: RuleService,
     private readonly redisService: RedisService,
     private readonly commonService: CommonService,
-    private readonly envData: EnvData
+    private readonly envData: EnvData,
   ) {}
     private pool : Pool;
     
@@ -95,7 +98,7 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
       const client = await this.pool.connect();
       console.log('PostgreSQL pool connected from uf.service');
       client.release();
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to connect to PostgreSQL:', err.message);
       throw err;
     }
@@ -113,7 +116,7 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
     try {
       const result = await client.query(text, params);
       return result.rows;
-    } catch (err) {
+    } catch (err: any) {
       console.error('Query error:', err.message);
       throw err;
     } finally {
@@ -308,7 +311,7 @@ getConfig(): FusionAuthConfig {
 
  async insertDocToVgphSourceTranDocMain(category: string, doc_name: string, url: string, size?: number, doc_group?: string): Promise<any> {
     try {
-      const insertUrl = `${process.env.APP_MANAGER_URL}/ct001/attachments`;
+      const insertUrl = `${process.env.APP_MANAGER_URL}/ct006/attachments`;
       //const vgphstm_uuid = uuid();
       const currentDate = new Date().toISOString().slice(0, 19) + '+00:00';
 
@@ -336,7 +339,7 @@ getConfig(): FusionAuthConfig {
 
   async getUrlByVgphstdmId(vgphstdm_id: any): Promise<string> {
     try {
-      const getUrl = `${process.env.APP_MANAGER_URL}/ct001/attachments/${vgphstdm_id}`;
+      const getUrl = `${process.env.APP_MANAGER_URL}/ct006/attachments/${vgphstdm_id}`;
 
       const response = await axios.get(getUrl, {
         headers: {
@@ -460,7 +463,7 @@ getConfig(): FusionAuthConfig {
           res.data || 'Error occurred while uploading file'
         );
       }
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -540,7 +543,7 @@ getConfig(): FusionAuthConfig {
           token,
         );
       }
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -763,7 +766,7 @@ getConfig(): FusionAuthConfig {
              }            
              queryobj = {[`${process.env.CLIENTCODE}_condition`]:query}                      
            } else {
-            throw 'rule value does not exist'
+            throw new CustomException('rule value does not exist',403)
            }      
           }          
           // let decisionTable = rule.nodes?.find(n => n.type === "decisionTableNode");
@@ -1948,7 +1951,7 @@ getConfig(): FusionAuthConfig {
           token,
         );
       }
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -2161,7 +2164,7 @@ getConfig(): FusionAuthConfig {
           token,
         );
       }
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -2358,7 +2361,7 @@ getConfig(): FusionAuthConfig {
             );
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -2425,6 +2428,9 @@ getConfig(): FusionAuthConfig {
                         }
                       }
                     }
+                    if ('trs_version' in formData) {
+                      filterItems['trs_version'] = formData['trs_version'];
+                    }
                     return filterItems;
                   }
                 }
@@ -2461,7 +2467,7 @@ getConfig(): FusionAuthConfig {
             token,
           );
         }
-      } catch (error) {
+      } catch (error: any) {
         await this.commonService.errorLog(
           'Technical',
           'AK',
@@ -2524,6 +2530,9 @@ getConfig(): FusionAuthConfig {
                         }
                         
                       }
+                    }
+                    if ('trs_version' in formData) {
+                      filterItems['trs_version'] = formData['trs_version'];
                     }
 
                     for (
@@ -2599,7 +2608,7 @@ getConfig(): FusionAuthConfig {
             token,
           );
         }
-      } catch (error) {
+      } catch (error: any) {
         await this.commonService.errorLog(
           'Technical',
           'AK',
@@ -2809,7 +2818,7 @@ getConfig(): FusionAuthConfig {
           token,
         );
       }
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -3972,7 +3981,7 @@ getConfig(): FusionAuthConfig {
         );
       }
       return 'logout successfully';
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -3985,19 +3994,20 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-     async getAccessToken(
+  async getAccessToken(
     token: string,
     selectedCombination: any,
     selectedAccessProfile: string,
     dap: string | undefined,
-    ufClientType: string
+    ufClientType: string,
   ) {
     try {
-      const config = this.getConfig()
-      const auth_secret = config.authSecret
-      const accessTokenExpiryTime = config.authAccessTokenExpiryTime 
+      const config = this.getConfig();
+      // const auth_secret = config.authSecret;
+      // const accessTokenExpiryTime = config.authAccessTokenExpiryTime;
 
-       const accessProfileList = await this.query(`select 
+      const accessProfileList = await this.query(
+        `select 
         opr_ap_id ,
         access_profile as "accessProfile" ,
         dap ,
@@ -4009,8 +4019,9 @@ getConfig(): FusionAuthConfig {
         from 
         ${schemaName}.tam_opr_access_profile 
         where 
-        tenant_code=$1 and ag_code=$2 and app_code=$3 and trs_tenant_id=$1`
-          , [tenant , ag , app])
+        tenant_code=$1 and ag_code=$2 and app_code=$3 and trs_tenant_id=$1`,
+        [tenant, ag, app],
+      );
       const filteredAccessprofile = accessProfileList.find(
         (t: any) => t?.accessProfile === selectedAccessProfile,
       );
@@ -4034,43 +4045,39 @@ getConfig(): FusionAuthConfig {
         dap: filteredCombination[0]?.dap,
       };
       const payload = await this.jwt.decode(token);
-      const { type, tenant: tenantFromToken, loginId, isAppAdmin, sid, userCode, tenantId , tid:tenantUniqueId , sub: userUniqueId , applicationId } = payload;
+      const {
+        type,
+        tenant: tenantFromToken,
+        loginId,
+        isAppAdmin,
+        sid,
+        userCode,
+        tenantId,
+        tid: tenantUniqueId,
+        sub: userUniqueId,
+        applicationId,
+      } = payload;
       const sessionListCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenantFromToken}:AFGK:${ag}:AFK:${app}:AFVK:v1:session`;
-
-      let updatedToken = await this.jwt.signAsync(
-        {
-          type,
-          tenant,
-          loginId,
-          isAppAdmin,
-          ag,
-          app,
-          selectedAccessProfile,
-          dap,
-          userCode,
-          ...accessObj,
-          userUniqueId,
-          sid,
-          tenantId
-        },
-        {
-          secret: auth_secret,
-          expiresIn: accessTokenExpiryTime as any,
-        },
-      );
 
       const sessionListResponse = await this.redisService.getJsonData(
         sessionListCacheKey,
         process.env.CLIENTCODE,
       );
       let updatedSessionList = [];
+      let updatedToken;
       if (sessionListResponse) {
         const sessionList = JSON.parse(sessionListResponse);
         updatedSessionList = await this.checkSession(sessionList);
         const previousActiveSession = updatedSessionList.find(
           (session: any) => session?.sid === sid,
         );
-                
+
+        if (!previousActiveSession?.refreshToken) {
+          throw new BadGatewayException(
+            'No active FusionAuth session found for this token',
+          );
+        }
+
         let tokenData = {
           type,
           tenant,
@@ -4083,26 +4090,33 @@ getConfig(): FusionAuthConfig {
           userCode,
           ...accessObj,
           userUniqueId,
-          tenantId
-        }
+          tenantId,
+        };
 
-    // add here patch required data to the registration object
+        // add here patch required data to the registration object
         await handleFusionAuthUserRegistrationForTokenLambda(
           tenantUniqueId,
           applicationId,
           config.fusionAuthApiKey,
           config.fusionAuthBaseUrl,
           userUniqueId,
-          tokenData
-        )
-        const value = await this.fusionAuthVerifyRefreshToken(previousActiveSession?.refreshToken, tenantId);
-        updatedToken = value.access_token
+          tokenData,
+        );
+        const value = await this.fusionAuthVerifyRefreshToken(
+          previousActiveSession?.refreshToken,
+          tenantId,
+        );
+        updatedToken = value.access_token;
 
-       updatedSessionList = updatedSessionList.filter((s: any) => s?.sid !== sid).concat({
+        updatedSessionList = updatedSessionList
+          .filter((s: any) => s?.sid !== sid)
+          .concat({
             ...previousActiveSession,
-          accessToken : updatedToken,
-          updatedOn : new Date().toISOString(),
+            accessToken: updatedToken,
+            updatedOn: new Date().toISOString(),
           });
+      } else {
+        throw new BadGatewayException('No active session found');
       }
       await this.redisService.setJsonData(
         sessionListCacheKey,
@@ -4115,7 +4129,7 @@ getConfig(): FusionAuthConfig {
         process.env.CLIENTCODE,
       );
       return updatedToken;
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -4130,7 +4144,7 @@ getConfig(): FusionAuthConfig {
       );
       throw new BadGatewayException(error);
     }
-  }
+  } 
 
   transformToCombinations(data: any[]) {
   try {
@@ -4279,7 +4293,7 @@ getConfig(): FusionAuthConfig {
       } else {
         throw new NotFoundException('Access Template not found');
       }
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -4459,7 +4473,7 @@ getConfig(): FusionAuthConfig {
           );
           return { ...reqiredUser, tenant: tenant };
         }
-      } catch (error) {
+      } catch (error: any) {
         await this.commonService.errorLog(
           'Technical',
           'AK',
@@ -4485,9 +4499,9 @@ getConfig(): FusionAuthConfig {
 
    async introspectToken(headers: any, key: string, tokens: string) {
     try {
-      const config = this.getConfig()
-      const auth_secret = config.authSecret
-      const accessTokenExpiryTime = config.authAccessTokenExpiryTime 
+      const config = this.getConfig();
+      const auth_secret = config.authSecret;
+      const accessTokenExpiryTime = config.authAccessTokenExpiryTime;
 
       const { authorization } = headers;
       if (!authorization || typeof authorization !== 'string') {
@@ -4530,13 +4544,12 @@ getConfig(): FusionAuthConfig {
         sessionListCacheKey,
         process.env.CLIENTCODE,
       );
-      const sessionList = sessionListCache && JSON.parse(sessionListCache) ? JSON.parse(sessionListCache) : [];
+      const sessionList =
+        sessionListCache && JSON.parse(sessionListCache)
+          ? JSON.parse(sessionListCache)
+          : [];
 
-      if (
-        !sessionList ||
-        !Array.isArray(sessionList) ||
-        !sessionList.length
-      ) {
+      if (!sessionList || !Array.isArray(sessionList) || !sessionList.length) {
         await this.commonService.errorLog(
           'Technical',
           'AK',
@@ -4582,80 +4595,25 @@ getConfig(): FusionAuthConfig {
         );
         throw new UnauthorizedException('Session not available');
       }
-      // if currentSession has refreshTokenId this token is from fusionAuth and we need to verify with fusionauth
-      if(currentSession['refreshTokenId']){
-        const value = await this.fusionAuthVerifyRefreshToken(refreshToken, payload?.tenantId );
+
+      if (currentSession['refreshTokenId']) {
+        const value = await this.fusionAuthVerifyRefreshToken(
+          refreshToken,
+          payload?.tenantId,
+        );
         if (value) {
           currentSession = {
             ...currentSession,
-            token : value?.access_token,
+            accessToken: value?.access_token,
             refreshToken: value?.refresh_token,
             refreshTokenId: value?.refresh_token_id,
-            updatedOn : new Date().toISOString()
-          }
-        }else{
-          await this.commonService.errorLog(
-            'Technical',
-            'AK',
-            'Fatal',
-            'TG075',
-            'Session not available',
-            key,
-            tokens,
-          );
-          throw new UnauthorizedException('Session not available');
-        }
-      }else{
-        try {
-         await this.jwt.verifyAsync(
-             currentSession['refreshToken'], {
-               secret : auth_secret
-             }
-           )
-        } catch (error) {
-          await this.commonService.errorLog(
-            'Technical',
-            'AK',
-            'Fatal',
-            'TG075',
-            'Session not available',
-            key,
-            tokens,
-          );
+            updatedOn: new Date().toISOString(),
+          };
+        } else {
           throw new UnauthorizedException('Session not available');
         }
       }
-      const timeNow = Math.ceil(new Date().getTime() / 1000);
-      const timegap = payload.exp - timeNow;
-      let updatedToken = undefined;
-      if (timegap < 300) {
-        updatedToken = await this.jwt.signAsync(
-          {
-            tenant: payload.client,
-            loginId: payload.loginId,
-            type: payload.type,
-            isAppAdmin: payload.isAppAdmin,
-            userCode: payload?.userCode,
-            ag,
-            app,
-            sid : payload.sid,
-          },
-          {
-            secret: auth_secret,
-            expiresIn: accessTokenExpiryTime as any,
-          },
-        );
-        currentSession = {
-          ...currentSession,
-          accessToken: updatedToken,
-          updatedOn : new Date().toISOString()
-        }
-      } else {
-        currentSession = {
-          ...currentSession,
-          updatedOn : new Date().toISOString()
-        }
-      }
+
       await this.redisService.setJsonData(
         sessionListCacheKey,
         JSON.stringify(
@@ -4665,8 +4623,13 @@ getConfig(): FusionAuthConfig {
         ),
         process.env.CLIENTCODE,
       );
-      return { authenticated: true, updatedToken };
-    } catch (error) {
+      // return { authenticated: true, updatedToken };
+      return {
+        authenticated: true,
+        updatedToken:
+          token == currentSession?.accessToken ? undefined : currentSession?.accessToken,
+      };
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -4716,15 +4679,15 @@ getConfig(): FusionAuthConfig {
     password: string,
     ufClientType: string,
     isOauthUser: boolean = false,
-    app_tenant : string | undefined = undefined,
+    app_tenant: string | undefined = undefined,
     app_tenant_id: number | undefined = undefined,
     fusionAuthLoginResponse?: any | undefined,
   ) {
     try {
-      const config = this.getConfig()
-      const auth_secret = config.authSecret
-      const accessTokenExpiryTime = config.authAccessTokenExpiryTime 
-      const refreshTokenExpiryTime = config.authRefreshTokenExpiryTime 
+      const config = this.getConfig();
+      // const auth_secret = config.authSecret
+      // const accessTokenExpiryTime = config.authAccessTokenExpiryTime
+      // const refreshTokenExpiryTime = config.authRefreshTokenExpiryTime
 
       let query = `
         SELECT
@@ -4752,18 +4715,18 @@ getConfig(): FusionAuthConfig {
           AND au.trs_tenant_id = $1
       `;
 
-        let values = [tenant, ag, app, username];
+      let values = [tenant, ag, app, username];
 
-        if (app_tenant_id) {
-          query += ` AND tu.at_id = $5`;
-          values.push(String(app_tenant_id));
-        } else {
-          query += ` AND tu.at_id IS NULL`;
-        }
+      if (app_tenant_id) {
+        query += ` AND tu.at_id = $5`;
+        values.push(String(app_tenant_id));
+      } else {
+        query += ` AND tu.at_id IS NULL`;
+      }
 
       const tenantUser = await this.query(query, values);
 
-       let tenantId = app_tenant ? app_tenant : tenant;      
+      let tenantId = app_tenant ? app_tenant : tenant;
 
       const sessionListCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:session`;
 
@@ -4776,20 +4739,27 @@ getConfig(): FusionAuthConfig {
             if (isOauthUser) {
               return true;
             } else {
-              return user?.password?this.comparePasswords(password, user.password):false
+              return user?.password
+                ? this.comparePasswords(password, user.password)
+                : false;
             }
           }) || null;
-        if (!loggedInUser){
-          if(isOauthUser)
-            return false;
-          else 
-            throw new NotFoundException('User not found');
-        }
-      
         if (!loggedInUser) {
-          throw new NotFoundException(`User did not have access to the application`);
+          if (isOauthUser) return false;
+          else throw new NotFoundException('User not found');
         }
-        loggedInUser={...loggedInUser,firstName:loggedInUser?.firstName,lastName:loggedInUser?.lastName,profile:loggedInUser?.profile}
+
+        if (!loggedInUser) {
+          throw new NotFoundException(
+            `User did not have access to the application`,
+          );
+        }
+        loggedInUser = {
+          ...loggedInUser,
+          firstName: loggedInUser?.firstName,
+          lastName: loggedInUser?.lastName,
+          profile: loggedInUser?.profile,
+        };
         const isExpiredUser = this.isUserAccessExpired(loggedInUser);
 
         if (isExpiredUser) {
@@ -4802,70 +4772,70 @@ getConfig(): FusionAuthConfig {
           throw new UnauthorizedException(
             `User access pending for ${loggedInUser.loginId ?? loggedInUser?.email} , you'll be notified when approved`,
           );
-        }
-        else if (!loggedInUser?.accessProfile?.length) {
+        } else if (!loggedInUser?.accessProfile?.length) {
           throw new UnauthorizedException(
             `User access pending for ${loggedInUser.loginId ?? loggedInUser?.email} , you'll be notified when approved`,
           );
         }
 
-        await this.query(`update ${schemaName}.tam_app_user set last_active=$1 where org_au_id=$2 and trs_tenant_id=$3`, [new Date().toISOString() , loggedInUser?.org_au_id , tenant])
-
+        await this.query(
+          `update ${schemaName}.tam_app_user set last_active=$1 where org_au_id=$2 and trs_tenant_id=$3`,
+          [new Date().toISOString(), loggedInUser?.org_au_id, tenant],
+        );
 
         delete loggedInUser.password;
 
-        let sid: string = uuid();
-        let token = await this.jwt.signAsync(
-          {
-            loginId: loggedInUser.loginId,
-            tenant: tenant,
-            type: 't',
-            ag,
-            app,
-            isAppAdmin: loggedInUser?.isAppAdmin ?? undefined,
-            userCode: loggedInUser?.userCode ?? undefined,
-            sid: sid,
-            tenantId
-          },
-          {
-            secret: auth_secret,
-            expiresIn: accessTokenExpiryTime as any,
-          },
-        );
-        let tokenData = {
-            loginId: loggedInUser.loginId,
-            tenant: tenant,
-            type: 't',
-            ag,
-            app,
-            isAppAdmin: loggedInUser?.isAppAdmin ?? undefined,
-            userCode: loggedInUser?.userCode ?? undefined,
-            tenantId
-          }
-        const fusionAuthTenantAndApplicationDetails = await this.getFusionAuthCredentials(app_tenant ?? undefined)
-        let refreshToken: string;
-        let refreshTokenId: string | undefined;
-
-        if (fusionAuthLoginResponse && fusionAuthLoginResponse?.refresh_token) {
-          refreshToken = fusionAuthLoginResponse?.refresh_token;
-          refreshTokenId = fusionAuthLoginResponse?.refresh_token_id;
-          sid = fusionAuthLoginResponse?.refresh_token_id;
-          // add here patch required data to the registration object
-          await handleFusionAuthUserRegistrationForTokenLambda(
-            fusionAuthTenantAndApplicationDetails.tenantUniqueId,
-            fusionAuthTenantAndApplicationDetails.applicationId,
-            config.fusionAuthApiKey,
-            config.fusionAuthBaseUrl,
-            loggedInUser.userUniqueId,
-            tokenData
-          )
-          const value = await this.fusionAuthVerifyRefreshToken(refreshToken, tenantId);
-          token = value.access_token
-        } else {
-          refreshToken = await this.jwt.signAsync(
-            { loginId: loggedInUser.loginId, tenant: tenant, type: 't' },
-            { secret: auth_secret, expiresIn: refreshTokenExpiryTime as any },
+        // ---- FusionAuth is now the single source of tokens; JWT signing removed ----
+        if (
+          !fusionAuthLoginResponse ||
+          !fusionAuthLoginResponse?.refresh_token
+        ) {
+          // NOTE: previously the JWT fallback silently generated tokens here.
+          // Since JWT sync is removed, a FusionAuth login response is now REQUIRED
+          // for password-based (non-OAuth) logins too.
+          // If your password-login flow does NOT currently call FusionAuth before
+          // reaching this function, you must add that call upstream (e.g. FusionAuth
+          // /api/login or /oauth2/token) and pass its response in as
+          // `fusionAuthLoginResponse` before this function is invoked.
+          throw new UnauthorizedException(
+            'FusionAuth login response is required to issue tokens',
           );
+        }
+
+        let sid: string = fusionAuthLoginResponse?.refresh_token_id;
+        let tokenData = {
+          loginId: loggedInUser.loginId,
+          tenant: tenant,
+          type: 't',
+          ag,
+          app,
+          isAppAdmin: loggedInUser?.isAppAdmin ?? undefined,
+          userCode: loggedInUser?.userCode ?? undefined,
+          tenantId,
+        };
+        const fusionAuthTenantAndApplicationDetails =
+          await this.getFusionAuthCredentials(app_tenant ?? undefined);
+
+        let refreshToken: string = fusionAuthLoginResponse.refresh_token;
+        let refreshTokenId: string | undefined =
+          fusionAuthLoginResponse.refresh_token_id;
+        let token: string;
+
+        // add here patch required data to the registration object
+        await handleFusionAuthUserRegistrationForTokenLambda(
+          fusionAuthTenantAndApplicationDetails.tenantUniqueId,
+          fusionAuthTenantAndApplicationDetails.applicationId,
+          config.fusionAuthApiKey,
+          config.fusionAuthBaseUrl,
+          loggedInUser.userUniqueId,
+          tokenData,
+        );
+        {
+          const value = await this.fusionAuthVerifyRefreshToken(
+            refreshToken,
+            tenantId,
+          );
+          token = value.access_token;
         }
 
         if (
@@ -4879,7 +4849,7 @@ getConfig(): FusionAuthConfig {
               sid,
               refreshToken,
               refreshTokenId,
-              createdOn : new Date().toISOString()
+              createdOn: new Date().toISOString(),
             },
             sessionListCacheKey,
           );
@@ -4890,7 +4860,8 @@ getConfig(): FusionAuthConfig {
             redirectToORPSelector: true,
           };
         }
-        const accessProfileList = await this.query(`select 
+        const accessProfileList = await this.query(
+          `select 
           opr_ap_id ,
           access_profile as "accessProfile" ,
           dap ,
@@ -4902,9 +4873,9 @@ getConfig(): FusionAuthConfig {
           from 
           ${schemaName}.tam_opr_access_profile 
           where 
-          tenant_code=$1 and ag_code=$2 and app_code=$3 and trs_tenant_id=$1`
-           , [tenant , ag , app])
-        
+          tenant_code=$1 and ag_code=$2 and app_code=$3 and trs_tenant_id=$1`,
+          [tenant, ag, app],
+        );
 
         if (accessProfileList.length == 0) {
           await this.addSession(
@@ -4913,7 +4884,7 @@ getConfig(): FusionAuthConfig {
               sid,
               refreshToken,
               refreshTokenId,
-              createdOn : new Date().toISOString()
+              createdOn: new Date().toISOString(),
             },
             sessionListCacheKey,
           );
@@ -4945,26 +4916,24 @@ getConfig(): FusionAuthConfig {
             const combination = filteredCombination[0].combinations;
             if (combination.length == 1) {
               for (const key in combination[0]) {
-                // if (key.toLowerCase().includes('code')) {
                 orpAccessObj[key] = combination[0][key];
                 orpAccessObj['selectedAccessProfile'] =
                   loggedInUser.accessProfile[0];
                 orpAccessObj['dap'] =
                   filteredCombination[0]['dap'] || undefined;
                 redirectToORPSelector = false;
-                // }
               }
-               tokenData = {
-                  loginId: loggedInUser.loginId,
-                  isAppAdmin: loggedInUser?.isAppAdmin ?? undefined,
-                  tenant: tenant,
-                  type: 't',
-                  ag,
-                  app,
-                  userCode: loggedInUser?.userCode ?? undefined,
-                  ...orpAccessObj,
-                 tenantId
-                }
+              tokenData = {
+                loginId: loggedInUser.loginId,
+                isAppAdmin: loggedInUser?.isAppAdmin ?? undefined,
+                tenant: tenant,
+                type: 't',
+                ag,
+                app,
+                userCode: loggedInUser?.userCode ?? undefined,
+                ...orpAccessObj,
+                tenantId,
+              };
               // add here patch required data to the registration object
               await handleFusionAuthUserRegistrationForTokenLambda(
                 fusionAuthTenantAndApplicationDetails.tenantUniqueId,
@@ -4972,11 +4941,13 @@ getConfig(): FusionAuthConfig {
                 config.fusionAuthApiKey,
                 config.fusionAuthBaseUrl,
                 loggedInUser.userUniqueId,
-                tokenData
-              )
-              const value = await this.fusionAuthVerifyRefreshToken(refreshToken, tenantId);
-              token = value.access_token
-            
+                tokenData,
+              );
+              const value = await this.fusionAuthVerifyRefreshToken(
+                refreshToken,
+                tenantId,
+              );
+              token = value.access_token;
             }
           }
         }
@@ -4987,7 +4958,7 @@ getConfig(): FusionAuthConfig {
             sid,
             refreshToken,
             refreshTokenId,
-            createdOn : new Date().toISOString()
+            createdOn: new Date().toISOString(),
           },
           sessionListCacheKey,
         );
@@ -5003,14 +4974,20 @@ getConfig(): FusionAuthConfig {
           redirectToORPSelector,
         };
       } else {
-        const fusionAuthAccessTokenFromRequest = fusionAuthLoginResponse?.access_token;
-        if(!fusionAuthAccessTokenFromRequest) throw new UnauthorizedException('Invalid Credentials')
-        const fusionPayload = await this.jwt.decode(fusionAuthAccessTokenFromRequest);
-        if(!fusionPayload) throw new UnauthorizedException('Invalid Credentials')
+        const fusionAuthAccessTokenFromRequest =
+          fusionAuthLoginResponse?.access_token;
+        if (!fusionAuthAccessTokenFromRequest)
+          throw new UnauthorizedException('Invalid Credentials');
+        const fusionPayload = await this.jwt.decode(
+          fusionAuthAccessTokenFromRequest,
+        );
+        if (!fusionPayload)
+          throw new UnauthorizedException('Invalid Credentials');
         const authentication_type = fusionPayload?.authenticationType;
-        if(!authentication_type || authentication_type != 'OPENID_CONNECT') throw new UnauthorizedException('Invalid Credentials')
-         
-          // if authentication_type is OPENID_CONNECT , then it's google and github
+        if (!authentication_type || authentication_type != 'OPENID_CONNECT')
+          throw new UnauthorizedException('Invalid Credentials');
+
+        // if authentication_type is OPENID_CONNECT , then it's google and github
         const userInfoRes = await fetch(
           `${config.fusionAuthBaseUrl}/oauth2/userinfo`,
           {
@@ -5019,7 +4996,7 @@ getConfig(): FusionAuthConfig {
             },
           },
         );
-        
+
         const userInfo = await userInfoRes.json();
 
         const tam_tenant_user_data = {
@@ -5045,7 +5022,7 @@ getConfig(): FusionAuthConfig {
           trs_ps_code: '',
           trs_sub_org_grp_code: '',
           trs_sub_org_code: '',
-          trs_tenant_id : tenant
+          trs_tenant_id: tenant,
         };
 
         const tamTenantUserRes = await this.insertIntoTable(
@@ -5082,19 +5059,19 @@ getConfig(): FusionAuthConfig {
           trs_sub_org_grp_code: '',
           trs_sub_org_code: '',
           trs_app_code: '',
-          trs_tenant_id: tenant
+          trs_tenant_id: tenant,
         };
 
         const tamAppUserRes = await this.insertIntoTable(
           'tam_app_user',
           tam_app_user_data,
         );
-        
+
         throw new UnauthorizedException(
           `User access pending for ${tamTenantUserRes.data[0].login_id ?? tamTenantUserRes.data[0]?.email} , you'll be notified when approved`,
         );
       }
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -5221,7 +5198,7 @@ getConfig(): FusionAuthConfig {
         fusionAuthLoginResponse,
       );
       return torusSignIn;
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -5463,7 +5440,7 @@ getConfig(): FusionAuthConfig {
         }
 
       return securityResponse;
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -5537,7 +5514,7 @@ getConfig(): FusionAuthConfig {
             return { ...data, 'no.ofusers': noOfUsers };
           });
       return securityTemplateData;
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -5562,7 +5539,7 @@ getConfig(): FusionAuthConfig {
         JSON.stringify(data),
         process.env.CLIENTCODE,
       );
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -5658,7 +5635,7 @@ getConfig(): FusionAuthConfig {
       }
 
       return result;
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -5798,7 +5775,7 @@ getConfig(): FusionAuthConfig {
         }
       });
       return 'Email sent to the registered email address';
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -5838,7 +5815,7 @@ getConfig(): FusionAuthConfig {
         process.env.CLIENTCODE,
       );
       return true;
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -5912,7 +5889,7 @@ getConfig(): FusionAuthConfig {
         );
         if (value.status !== 200) {
           throw new UnauthorizedException(
-            value?.error ?? 'FusionAuth password update failed',
+            (value as any)?.error ?? 'FusionAuth password update failed',
           );
       }
 
@@ -5923,7 +5900,7 @@ getConfig(): FusionAuthConfig {
       } , 'email', tenantId)
 
       return 'Password updated successfully';
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -8167,7 +8144,7 @@ getConfig(): FusionAuthConfig {
           process.env.CLIENTCODE,
         );
         let versionInfo = [];
-        for (let i = 0; i < appBuildKeyList.length; i++) {
+        for (let i = 0; i < appBuildKeyList?.length; i++) {
           const buildKey = appBuildKeyList[i];
           const buildKeyResponse = await this.redisService.getJsonData(
             buildKey,
@@ -8191,11 +8168,14 @@ getConfig(): FusionAuthConfig {
             if(typeof nodeData == "string"){
               nodeData = decrypt(nodeData)
             }
-            const appAccessUrl = nodeData?.data?.api?.release?.HOST?.replace('/api' , '');
-            if (appAccessUrl) {
+            const targetAppBaseURL = new URL(nodeData?.data?.api?.release?.HOST).origin ?? "";
+            const targetAppBasePath = `/${tenant}/${ag}/${application?.code}/${buildKey.split(':')[13]}`.toLowerCase();
+            const targetAppAccessUrl = `${targetAppBaseURL}${targetAppBasePath}`
+
+            if (targetAppAccessUrl && targetAppBaseURL) {
               versionInfo.push({
                 version: buildKey.split(':')[13],
-                accessUrl: appAccessUrl,
+                accessUrl: targetAppAccessUrl,
               });
             }
           }
@@ -8209,7 +8189,7 @@ getConfig(): FusionAuthConfig {
       }
 
       return accessibleAppList;
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -8252,7 +8232,7 @@ getConfig(): FusionAuthConfig {
         process.env.CLIENTCODE
       )
       return loggedInValue; 
-    } catch (error) {
+    } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
         'AK',
@@ -8412,6 +8392,564 @@ getConfig(): FusionAuthConfig {
 
     } catch (error) {
       await this.throwCustomException(error);
+    }
+  }
+
+  //___________________________LOGS__________________________________________
+
+  @Cron(process.env.MY_CRON)
+  async prcLog(): Promise<any> {
+    try {
+    let structuredData 
+    let tplstreamName = process.env.TENANT+'-'+ process.env.APPCODE+'-TPL'
+    let tslstreamName = process.env.TENANT+'-'+ process.env.APPCODE+'-TSL'
+    if (await this.redisService.exist(tplstreamName, process.env.CLIENTCODE)){
+      structuredData =await this.structuredPrcLogs(tplstreamName) 
+    } 
+    if (await this.redisService.exist(tslstreamName, process.env.CLIENTCODE)){
+      structuredData = await this.structuredPrcLogs(tslstreamName) 
+    } 
+    return structuredData
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async structuredPrcLogs(streamName) {
+    try {
+      const msgid = [];
+      const strmarr = [];
+      const result = [];
+      let groupName
+      let consumerName
+      if (await this.redisService.exist(streamName, process.env.CLIENTCODE)) {
+        
+      groupName  = streamName + 'ProcessLog_' + process.pid;
+      consumerName = streamName
+      
+        await this.redisService.createConsumerGroup(streamName, groupName);
+        let streamData: any = await this.redisService.readConsumerGroup(
+          streamName, 
+          groupName, 
+          consumerName
+        );
+        
+      
+        if (!streamData || streamData === 'No Data available to read') {
+          return [];
+        }
+        
+        if (!Array.isArray(streamData)) {
+          return [];
+        }
+
+        if (streamData.length === 0) {
+          return [];
+        }        
+        
+        for (let i = 0; i < streamData.length; i++) {
+          const item = streamData[i];          
+          
+          if (item.msgid && item.data) {
+            msgid.push(item.msgid);
+            strmarr.push(item.data);
+          }
+          else if (Array.isArray(item) && item.length === 2) {
+            msgid.push(item[0]);
+            strmarr.push(item[1]);
+          }
+          else {
+            console.log("Unexpected item structure at index", i, ":", item);
+          }
+        }
+        if (msgid?.length > 0) {
+          
+          for (let s = 0; s < msgid.length; s++) {           
+            let user,upid = 'logInfo';
+
+            if (streamName.endsWith('-TPL')) {
+              const upidsplit = strmarr[s][0].split(':');
+              if (upidsplit.length > 14) {
+                upid = upidsplit[upidsplit.length - 1];
+                // AfskValue = upid;
+              }
+            }
+            
+            const date = new Date(Number(msgid[s].split('-')[0]));
+            const utcDate = date.toISOString()
+            const entryId = utcDate.split('T')[0] //format(date, 'yyyy-MM-dd');
+
+            const afskvalue: any = JSON.parse(strmarr[s][1]);
+            if(typeof afskvalue == 'object')
+              afskvalue['DateAndTime'] = utcDate
+            
+            if (afskvalue?.sessionInfo && Object.keys(afskvalue.sessionInfo).length > 0 && afskvalue.sessionInfo.user) {
+              user = afskvalue.sessionInfo.user;
+            } else {
+              user = 'user';
+            }
+
+            const CK = await this.commonService.splitcommonkey(strmarr[s][0], 'CK');
+            const FNGK = await this.commonService.splitcommonkey(strmarr[s][0], 'FNGK');
+            const FNK = await this.commonService.splitcommonkey(strmarr[s][0], 'FNK');
+            const CATK = await this.commonService.splitcommonkey(strmarr[s][0], 'CATK');
+            const AFGK = await this.commonService.splitcommonkey(strmarr[s][0], 'AFGK');
+            const AFK = await this.commonService.splitcommonkey(strmarr[s][0], 'AFK');
+            const AFVK = await this.commonService.splitcommonkey(strmarr[s][0], 'AFVK');
+
+            let existingEntry = result.find(
+              (item) =>
+                item.CK === CK &&
+                item.FNGK === FNGK &&
+                item.FNK === FNK &&
+                item.CATK === CATK &&
+                item.AFGK === AFGK &&
+                item.AFK === AFK &&
+                item.AFVK === AFVK &&
+                item.UPID === upid &&
+                item.USER === user &&
+                item.DATE === entryId
+            );
+
+            if (!existingEntry) {
+              existingEntry = {
+                CK,
+                FNGK,
+                FNK,
+                CATK,
+                AFGK,
+                AFK,
+                AFVK,
+                UPID: upid,
+                DATE: entryId,
+                DateAndTime: utcDate,
+                USER: user,
+                AFSK: {},
+              };
+              result.push(existingEntry);
+            }
+
+            if (streamName.endsWith('-TPL')) {
+              if (!existingEntry.AFSK[upid]) {
+                existingEntry.AFSK[upid] = [];
+              }
+              existingEntry.AFSK[upid].push(afskvalue);
+            }else{
+              existingEntry.AFSK = afskvalue;
+            }
+          }
+          
+          result.forEach((entry, idx) => { Object.values(entry.AFSK).reduce((sum: number, arr: any[]) => sum + arr.length, 0);});
+          
+          if (result && result.length > 0) {
+            let upid
+            let bucketName = streamName.endsWith('-TSL')?'ExpLog':'PrcLog'
+            if (streamName.endsWith('-TSL')) {                 
+              upid = 'logInfo'
+            }
+            for (let i = 0; i < result.length; i++) {
+              const { USER, DATE: date,DateAndTime, CK, FNGK, FNK, CATK, AFGK, AFK, AFVK } = result[i];
+              upid = Object.keys(result[i].AFSK)[0];
+              let res;
+              if (USER && date && CK && FNGK && FNK && CATK && AFGK && AFK && AFVK) {
+                const path = `${USER}:${date}:${CK}:${FNGK}:${FNK}:${CATK}:${AFGK}:${AFK}:${AFVK}:${upid}`;    
+                
+                await this.structuredPrcLogsToPostgres(streamName,path,CK,FNK,CATK,AFGK,upid,USER,DateAndTime)
+               
+                res = await this.commonService.seaWeeduploadFile(JSON.stringify(result[i]), bucketName, streamName, path);                
+               
+                if(res?.status == 201){
+                  await this.redisService.ackMessage(streamName,groupName,msgid);
+                  await this.redisService.deleteWithEntryId(streamName,msgid)   
+                  let isStreamExist = await this.redisService.getStreamRange(streamName)
+                
+                  if(!isStreamExist || isStreamExist.length == 0){
+                    await this.redisService.deleteKey(streamName,streamName)
+                  }
+                }
+              }
+            }
+            return 'success';
+          }
+        }
+        return result;
+    }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async structuredPrcLogsToPostgres(tableName: string,Key:string,tenant:string,fabric:string,appGrp:string,app:string,upid:string,user:string,date) {  
+    try {         
+       tableName = tableName.toLowerCase()
+       await this.query(`CREATE SCHEMA IF NOT EXISTS "processlog"`);
+       await this.query(
+         `CREATE TABLE IF NOT EXISTS "processlog"."${tableName}" (
+          id BIGSERIAL PRIMARY KEY,
+          key TEXT,
+          ck_code varchar(50) NULL,
+          fnk_code varchar(100) NULL,
+          ag_code varchar(16) NOT NULL,
+          app_code varchar(16) NOT NULL,         
+          upid TEXT,
+          user_name TEXT,
+          date_and_time TIMESTAMPTZ
+        );
+        CREATE UNIQUE INDEX IF NOT EXISTS "${tableName}_key_idx" ON "processlog"."${tableName}" ("key")
+      `);   
+     
+      let params = [Key,tenant,fabric,appGrp,app,upid,user,date];
+
+      let insertquery =
+       `INSERT INTO "processlog"."${tableName}"(key,ck_code,fnk_code,ag_code,app_code,upid,user_name,date_and_time)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8) ON CONFLICT (key) DO NOTHING RETURNING *`;      
+
+      const insertRes = await this.query(insertquery, params);
+      return insertRes;
+    } catch (error) {
+      console.error('structuredPrcLogsToPostgres Error =>',error);
+      throw error;
+    }  
+  }
+
+  async getseaWeedProcessExpLogs(input,type): Promise<any> {
+    try {    
+      if(!input?.tenant || !input?.app?.code) throw 'Invalid Payload'
+      let downloadedFile = []
+      let filename = `${input?.tenant}-${input?.app?.code}${type}`
+     
+      let response = await this.getPostgresProcessLogs(input,type)
+      
+      let bucketName = type.endsWith('-TSL')?'ExpLog':'PrcLog'
+
+      if(response?.data.length>0){
+        for(let item of response.data){                    
+          downloadedFile.push(await this.commonService.downloadAndParseFile(input?.tenant,`/${bucketName}/${filename}/${item.key}.json`));
+        }
+      }
+      
+      downloadedFile = downloadedFile.flat()
+      
+        if(downloadedFile.length>0){    
+        const timeZone = process.env.TIMEZONE;
+     
+        if(timeZone && timeZone != 'UTC'){        
+
+          if(type.endsWith('-TPL')){
+          for (const item of downloadedFile) {
+
+            const utcDate = new Date(item.DateAndTime);
+              item.DateAndTime = this.commonService.convertTimeZone(utcDate);  
+
+              let upidVal = item.AFSK ? Object.values(item.AFSK)[0] : null;
+            if (Array.isArray(upidVal)) {
+              for (const upidItem of upidVal) {               
+                const upidutcDate = new Date(upidItem.DateAndTime);
+                  upidItem.DateAndTime = this.commonService.convertTimeZone(upidutcDate)             
+                }
+              }    
+            }
+          }else if(type.endsWith('-TSL')){
+            for (const item of downloadedFile) {
+              const utcDate = new Date(item.DateAndTime); 
+              item.DateAndTime = this.commonService.convertTimeZone(utcDate);  
+              if(item?.AFSK?.DateAndTime)
+                item.AFSK.DateAndTime = this.commonService.convertTimeZone(item.AFSK.DateAndTime)    
+            }
+          }
+        }
+      }
+      response['data'] = downloadedFile
+      return response
+    }catch(error:any){
+      console.log("ERROR123", error);
+      if(error.message) error = error.message    
+      throw new BadRequestException(error)
+    }
+  }
+
+  async getPostgresProcessLogs(input: any,type:string): Promise<any> {
+    try {
+      const {
+        tenant,user,FromDate,ToDate,fabric,appgroup,
+        app,searchParam,page = 1,limit = 10,sortOrder,} = input;
+      
+      const PG_SCHEMANAME = 'processlog';
+      const tableName = (`${tenant}-${app?.code}${type}`).toLowerCase();
+
+      // console.log('tableName', tableName);
+      const params: any[] = [];
+      let whereClause = `WHERE ck_code = $1`;
+      params.push(tenant);
+
+      // User Filter
+      if (user?.length > 0) {
+        whereClause += ` AND "user_name" = ANY($${params.length + 1})`;
+        params.push(user);
+      }
+
+      // Fabric Filter
+      if (fabric?.length > 0) {
+        whereClause += ` AND "fnk_code" = ANY($${params.length + 1})`;
+        params.push(fabric);
+      }
+
+      // App Group
+      if (appgroup?.code) {
+        whereClause += ` AND "ag_code" = $${params.length + 1}`;
+        params.push(appgroup.code);
+      }
+
+      // App
+      if (app?.code) {
+        whereClause += ` AND "app_code" = $${params.length + 1}`;
+        params.push(app.code);
+      }
+
+      // Date Filter
+      // if (FromDate) {
+      //   whereClause += ` AND "date_and_time" >= $${params.length + 1}`;
+      //   params.push(FromDate);
+      // }
+
+      // if (ToDate) {
+      //   // whereClause += ` AND "date_and_time" <= $${params.length + 1}`;
+      //   whereClause += ` AND "date_and_time" < $${params.length + 1} + INTERVAL '1 day'`;
+      //   params.push(ToDate);
+      // }
+
+      if (FromDate) {
+        whereClause += ` AND "date_and_time" >= $${params.length + 1}::date`;
+        params.push(FromDate);
+      }
+
+      if (ToDate) {
+        whereClause += ` AND "date_and_time" < ($${params.length + 1}::date + INTERVAL '1 day')`;
+        params.push(ToDate);
+      }
+
+      // Global Search
+      if (searchParam) {
+        whereClause += `
+        AND (
+          ck_code ILIKE $${params.length + 1}         
+          OR "fnk_code" ILIKE $${params.length + 1}
+          OR "ag_code" ILIKE $${params.length + 1}        
+          OR "app_code" ILIKE $${params.length + 1}         
+          OR "user_name" ILIKE $${params.length + 1} 
+          OR CAST("date_and_time" AS TEXT) ILIKE $${params.length + 1}
+          OR "upid" ILIKE $${params.length + 1}
+        )
+        `;
+        params.push(`%${searchParam}%`);
+      }
+
+      const orderBy = sortOrder === 'oldest' ? 'ASC' : 'DESC';
+
+      // Total Count
+      const countQuery = `
+      SELECT COUNT(*) AS total
+      FROM "${PG_SCHEMANAME}"."${tableName}"
+      ${whereClause}
+      `;
+
+      const countResult = await this.query(countQuery, params);
+
+      const totalDocuments = Number(countResult[0].total);
+
+      // Pagination
+      const offset = (page - 1) * limit;
+
+      const dataQuery = `
+        SELECT key,upid
+        FROM  "${PG_SCHEMANAME}"."${tableName}"
+        ${whereClause}
+        ORDER BY "date_and_time" ${orderBy}
+        LIMIT $${params.length + 1}
+        OFFSET $${params.length + 2}
+      `;
+      //console.log('dataQuery',dataQuery);
+      //console.log('params',params);
+      
+      const data = await this.query(dataQuery, [
+        ...params,
+        limit,
+        offset,
+      ]);
+      
+      return {
+        data,
+        page,
+        limit,
+        totalPages: Math.ceil(totalDocuments / limit),
+        totalDocuments,
+      }
+    } catch (error:any) {         
+      throw new BadRequestException( error);
+    }
+  }
+
+  async acquireLock(dto: LockRecordDto) {
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN');
+
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct006_hrm';
+
+      const rows = await client.query(
+        `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
+        [dto.value],
+      );
+
+      if (!rows.rows.length) {
+        throw new Error('Record not found');
+      }
+
+      if (rows.rows[0].trs_locked_by && rows.rows[0].trs_locked_by !== dto.userId) {
+        throw new HttpException(
+          {
+            message: `Record locked by ${rows.rows[0].trs_locked_by}`,
+            lockedBy: rows.rows[0].trs_locked_by,
+            lockedTime: rows.rows[0].trs_locked_time,
+          },
+          HttpStatus.CONFLICT,
+        );
+      }
+
+      await client.query(
+        `UPDATE ${recordSchema}."${dto.tableName}"
+         SET trs_locked_by = $2, trs_locked_time = CURRENT_TIMESTAMP
+         WHERE ${dto.key} = $1`,
+        [dto.value, dto.userId],
+      );
+
+      await client.query(
+        `INSERT INTO tam.tam_transaction_locks
+           (table_name, transaction_id, trs_locked_by, trs_locked_on)
+         VALUES ($1, $2, $3, CURRENT_TIMESTAMP)
+         ON CONFLICT (table_name, transaction_id)
+         DO UPDATE
+           SET trs_locked_by = EXCLUDED.trs_locked_by,
+               trs_locked_on = CURRENT_TIMESTAMP`,
+        [dto.tableName, String(dto.value), dto.userId],
+      );
+
+      await client.query('COMMIT');
+
+      return {
+        success: true,
+        message: 'Record locked successfully',
+      };
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  async releaseLock(dto: LockRecordDto) {
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN');
+
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct006_hrm';
+
+      const rows = await client.query(
+        `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
+        [dto.value],
+      );
+
+      if (!rows.rows.length) {
+        throw new Error('Record not found');
+      }
+
+      if (!rows.rows[0].trs_locked_by) {
+        throw new HttpException(
+          { message: 'Record is already unlocked' },
+          HttpStatus.CONFLICT,
+        );
+      }
+
+      if (rows.rows[0].trs_locked_by !== dto.userId) {
+        throw new HttpException(
+          {
+            message: `Only '${rows.rows[0].trs_locked_by}' can unlock this record.`,
+            lockedBy: rows.rows[0].trs_locked_by,
+            lockedTime: rows.rows[0].trs_locked_time,
+          },
+          HttpStatus.CONFLICT,
+        );
+      }
+
+      await client.query(
+        `UPDATE ${recordSchema}."${dto.tableName}"
+         SET trs_locked_by = NULL, trs_locked_time = NULL
+         WHERE ${dto.key} = $1`,
+        [dto.value],
+      );
+
+      await client.query(
+        `DELETE FROM tam.tam_transaction_locks
+         WHERE table_name = $1
+           AND transaction_id = $2
+           AND trs_locked_by = $3`,
+        [dto.tableName, String(dto.value), dto.userId],
+      );
+
+      await client.query('COMMIT');
+
+      return {
+        success: true,
+        message: 'Record unlocked successfully',
+      };
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  async releaseAllLocks(userId: string) {
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN');
+
+      const locks = await client.query(
+        `SELECT table_name, transaction_id FROM tam.tam_transaction_locks
+         WHERE trs_locked_by = $1`,
+        [userId],
+      );
+
+      for (const lock of locks.rows) {
+        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : 'ct006_hrm';
+        await client.query(
+          `UPDATE ${recordSchema}."${lock.table_name}"
+           SET trs_locked_by = NULL, trs_locked_time = NULL
+           WHERE trs_locked_by = $1`,
+          [userId],
+        );
+      }
+
+      await client.query(
+        `DELETE FROM tam.tam_transaction_locks
+         WHERE trs_locked_by = $1`,
+        [userId],
+      );
+
+      await client.query('COMMIT');
+
+      return {
+        success: true,
+        message: 'All locks released successfully',
+        releasedCount: locks.rows.length,
+      };
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
     }
   }
 }

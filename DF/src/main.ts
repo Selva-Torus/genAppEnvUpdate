@@ -1,222 +1,233 @@
 
 /* {
-  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT001:AFGK:TGW01:AFK:TGW004:AFVK:v1:bldc",
-  "deploymentArtifactKey": "CK:CT001:FNGK:AF:FNK:CDF-DPD:CATK:TGW01:AFGK:TGW004:AFK:tgw4_dpd:AFVK:v1",
-  "appGroupDesc": "TGW",
+  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT006:AFGK:ECP:AFK:HRM:AFVK:v1:bldc",
+  "deploymentArtifactKey": "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:ECP:AFGK:HRM:AFK:hrmDPD:AFVK:v1",
+  "appGroupDesc": "Enterprise Compliance Portal",
   "logType": "dfs",
-  "appDesc": "TGW4",
+  "appDesc": "HRM",
+  "appLogo": "torus/9.1/CT006/resources/images/Frame 1000004022.png",
   "isOld": true,
-  "clientCode": "CT001",
+  "clientCode": "CT006",
   "loginDetails": {
-    "edit": "",
-    "email": "madhus@torus.tech",
-    "scope": "client_admin",
-    "users": "madhuMadhu Bala",
-    "client": "CT001",
-    "mobile": "9874563210",
+    "firstName": "Haritha",
+    "lastName": "Rk",
+    "loginId": "Haritha",
+    "email": "haritha@torus.tech",
+    "mobile": "",
     "status": "active",
-    "2FAFlag": "N",
-    "loginId": "madhu",
-    "profile": "torus/9.1/CT001/resources/images/madhu/download.webp",
+    "accessProfile": [
+      "Dev"
+    ],
+    "accessExpires": "",
+    "dateAdded": "2026-05-22T13:18:13.118Z",
+    "profile": "",
+    "userUniqueId": "bb0decdf-1901-40e5-8f51-d646de94bd10",
     "touring": {
+      "isneedTouring": true,
       "touringData": {
         "/torus": {
-          "completed": false,
-          "isSkipped": true,
           "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "/home": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "artifactselector": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "/control-center/company-profile": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "/control-center/tenant": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "/": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "build": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "/control-center/user-management": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "/control-center/storage-configuration": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "/logic-center": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "/orchestrator": {
+          "stepIndex": 0,
+          "isSkipped": false,
+          "completed": false,
+          "notVisited": []
+        },
+        "/tenant-settings": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "Security": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "/control-center/user-roles": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "/control-center/resource-library": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "/control-center/appearance": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
           "notVisited": []
         }
-      },
-      "isneedTouring": false
+      }
     },
-    "lastName": "Bala",
-    "dateAdded": "2026-05-05T12:11:42.383Z",
-    "firstName": "Madhu",
-    "lastActive": "2026-07-14T05:21:25.462Z",
-    "isRestricted": false,
-    "userUniqueId": "beaa1b7f-62af-4af7-b0ed-1694b359483b",
-    "accessExpires": "",
-    "accessProfile": [
-      "admin"
-    ],
-    "noOfProductsService": 0
+    "users": "HarithaHaritha Rk",
+    "noOfProductsService": 0,
+    "edit": "",
+    "lastActive": "2026-07-27T10:52:44.611Z",
+    "client": "CT006"
   },
   "setupData": {
     "appInfo": {
-      "code": "TGW004",
-      "name": "TGW4",
-      "appGrpCode": "TGW01",
-      "appGrpName": "TGW",
+      "name": "HRM",
+      "code": "HRM",
       "encryption": {
         "type": ""
       },
-      "localization": {
-        "currency": {
-          "display": {
-            "symbol": "Nu",
-            "currency": "BTN",
-            "decimal_places": 2,
-            "grouping_rules": [
-              3
-            ],
-            "decimal_separator": ".",
-            "thousands_separator": ","
-          },
-          "rounding_rules": {
-            "rule": 3
-          }
-        },
-        "datetime": {
-          "display": {
-            "date": {
-              "value": "YYYY-MM-DD"
-            },
-            "time": {
-              "value": "HH:mm"
-            },
-            "datetime": {
-              "value": "YYYY-MM-DDTHH:mm[:ss]"
-            }
-          },
-          "timezone": {
-            "name": {
-              "value": "Asia/Riyadh"
-            },
-            "is_dst": {
-              "value": false
-            },
-            "offset": {
-              "value": "+03:00"
-            },
-            "abbreviation": {
-              "value": "AST"
-            }
-          }
-        },
-        "legal_and_compliance": {
-          "privacy": {
-            "regulations": {
-              "CCPA": {
-                "regions": [
-                  "US-CA"
-                ],
-                "opt_out_sale": false,
-                "right_to_know": false,
-                "right_to_delete": false
-              },
-              "GDPR": {
-                "regions": [
-                  "EU",
-                  "EEA",
-                  "UK"
-                ],
-                "dpo_required": false,
-                "consent_required": false,
-                "data_portability": false,
-                "right_to_erasure": false,
-                "breach_notification_hours": 72
-              },
-              "LGPD": {
-                "regions": [
-                  "BR"
-                ],
-                "consent_required": false,
-                "data_subject_rights": false
-              },
-              "PDPA": {
-                "regions": [
-                  "TH",
-                  "MY",
-                  "SG"
-                ],
-                "consent_required": false
-              },
-              "PIPL": {
-                "regions": [
-                  "CN"
-                ],
-                "data_localization": false,
-                "cross_border_transfer_restricted": false
-              }
-            }
-          }
-        }
-      },
-      "applicationUniqueId": "bf742146-7cc8-42c7-8bb4-f56a8b372bf1",
-      "deploymentArtifactKey": "CK:CT001:FNGK:AF:FNK:CDF-DPD:CATK:TGW01:AFGK:TGW004:AFK:tgw4_dpd:AFVK:v1",
-      "fusionAuthAppClientSecret": "QUl-w_71uzVZALrnLs30Ck3a4pkZUV62tRWlQ6MMD80"
+      "applicationUniqueId": "b273d406-451b-406e-b8b6-65b302a66d71",
+      "deploymentArtifactKey": "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:ECP:AFGK:HRM:AFK:hrmDPD:AFVK:v1",
+      "lastBuildVersion": "v1",
+      "lastBuildOn": "2026-07-24T08:13:18.271Z",
+      "accessUrl": "https://tgaprod910.toruslowcode.com/ct006/ecp/hrm/v1",
+      "needAutoDbPush": true,
+      "appLogo": "torus/9.1/CT006/resources/images/Frame 1000004022.png",
+      "logo": "torus/9.1/CT006/resources/images/Frame 1000004022.png",
+      "appGrpName": "Enterprise Compliance Portal",
+      "appGrpCode": "ECP",
+      "fusionAuthAppClientSecret": "NXRGuMfH4-FxN3SRBO7-Nwl3V2Eb0o7tk7FiGREm1W4"
     },
-    "selectedPresetKey": "default",
-    "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT001:AFK:PROFILE:AFVK:v1:appearance",
-    "name": "default",
-    "theme": "light",
+    "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT006:AFK:PROFILE:AFVK:v1:appearance",
+    "selectedPresetKey": "1783422155489",
+    "group-bg-color": "#ffffff",
     "fontSize": {
-      "maxPx": "22",
-      "minPx": "5",
-      "preferredVw": "0.8"
+      "minPx": "6",
+      "preferredVw": "0.85",
+      "maxPx": "12"
     },
-    "language": "English",
     "direction": "LTR",
-    "brandColor": "#4b74f1",
-    "hoverColor": "#0d8aa0",
-    "layoutMode": "detached",
+    "brandColor": "#108DDA",
+    "selectionColor": "#5DB8F0",
+    "hoverColor": "#D6EEFC",
+    "borderRadius": "xl",
     "topbarColor": "#ffffff",
-    "borderRadius": "m",
     "menubarColor": "#ffffff",
     "sidebarStyle": "compact",
-    "page-bg-color": "#ffffff",
-    "group-bg-color": "#ffffff",
-    "selectionColor": "#41599f",
+    "navigationStyles": "vertical",
+    "theme": "light",
+    "layoutMode": "fluid",
     "mobileAppearance": {
-      "theme": "light",
-      "fontSize": {
-        "bodyLarge": "16",
-        "bodySmall": "12",
-        "bodyMedium": "14",
-        "labelLarge": "16",
-        "labelSmall": "12",
-        "titleLarge": "20",
-        "titleSmall": "16",
-        "labelMedium": "14",
-        "titleMedium": "18",
-        "displayLarge": "64",
-        "displaySmall": "36",
-        "displayMedium": "44",
-        "headlineLarge": "32",
-        "headlineSmall": "24",
-        "headlineMedium": "28"
-      },
       "language": "English",
       "direction": "LTR",
-      "fontFamily": "Roboto",
+      "theme": "light",
       "brandColors": {
-        "primary": "#1b44e6",
-        "tertiary": "#f8f9fc",
-        "secondary": "#ffffff"
+        "primary": "#4b39ef",
+        "secondary": "#39d2c0",
+        "tertiary": "#ee8b60"
       },
-      "drawerStyle": "",
       "accentColors": {
-        "accentOne": "#000000",
-        "accentTwo": "#edeef1"
+        "accentOne": "#4c4b39",
+        "accentTwo": "#4d39d2"
       },
       "utilityColors": {
-        "darkMode": {
-          "primaryText": "#ffffff",
-          "secondaryText": "#95a1ac",
-          "primaryBackground": "#1d2428",
-          "secondaryBackground": "#14181b"
-        },
         "lightMode": {
           "primaryText": "#14181b",
           "secondaryText": "#57636c",
           "primaryBackground": "#f1f4f8",
           "secondaryBackground": "#ffffff"
+        },
+        "darkMode": {
+          "primaryText": "#ffffff",
+          "secondaryText": "#95a1ac",
+          "primaryBackground": "#1d2428",
+          "secondaryBackground": "#14181b"
         }
       },
-      "navigationStyle": "Bottom Navigation"
+      "fontSize": {
+        "displayLarge": "64",
+        "displayMedium": "44",
+        "displaySmall": "36",
+        "headlineLarge": "32",
+        "headlineMedium": "28",
+        "headlineSmall": "24",
+        "titleLarge": "20",
+        "titleMedium": "18",
+        "titleSmall": "16",
+        "labelLarge": "16",
+        "labelMedium": "14",
+        "labelSmall": "12",
+        "bodyLarge": "16",
+        "bodyMedium": "14",
+        "bodySmall": "12"
+      },
+      "fontFamily": "Roboto",
+      "navigationStyle": "Bottom Navigation",
+      "drawerStyle": ""
     },
-    "navigationStyles": "vertical",
-    "appBackgroundImage": "torus/9.1/CT001/resources/images/vivid-blurred-colorful-wallpaper-background_58702-3883.avif"
+    "page-bg-color": "#ffffff",
+    "language": "English",
+    "name": "HRM",
+    "appBackgroundImage": "",
+    "fontFamily": [
+      {
+        "label": "Inter",
+        "fontUrl": "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      }
+    ],
+    "text-body-font": "Inter",
+    "text-header-font": "Inter",
+    "text-display-font": "Inter"
   }
 } */
 import { NestFactory } from '@nestjs/core';
@@ -249,7 +260,7 @@ async function bootstrap() {
 
   let configData = null;
   try {
-    const redisResult = await redis.call('JSON.GET', "CK:CT001:FNGK:AF:FNK:CDF-DPD:CATK:TGW01:AFGK:TGW004:AFK:tgw4_dpd:AFVK:v1:NDP");
+    const redisResult = await redis.call('JSON.GET', "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:ECP:AFGK:HRM:AFK:hrmDPD:AFVK:v1:NDP");
     if (redisResult) {
       const parsed = JSON.parse(redisResult);
       const rootKey = Object.keys(parsed)[0];
@@ -337,7 +348,7 @@ async function bootstrap() {
     { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 
     'JWT-auth',
     )
-    .addServer('https://tgatest910.toruslowcode.com/&lt;tenantCode&gt;/&lt;AppGroupCode&gt;/&lt;AppCode&gt;/&lt;version&gt;/api','Production Server')
+    .addServer('https://tgaprod910.toruslowcode.com/ct006/ecp/hrm/v1/api','Production Server')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   fs.writeFileSync('./swagger.json', JSON.stringify(document, null, 2));

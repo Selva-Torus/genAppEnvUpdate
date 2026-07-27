@@ -3,10 +3,12 @@ import { AppService } from './app.service';
 import { CommonService } from 'src/common.Service';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PrcLogInputDto, LogOutputDto,ExpLogInputDto, ProcessLogResponseDto, RawProcessLogInputDto  } from './dto';
+import { UfService } from './Torus/v1/uf/uf.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService,private readonly apiService:CommonService) {}
+  constructor(private readonly appService: AppService,private readonly apiService:CommonService,
+  private readonly ufService:UfService) {}
 
   @Get()
   getHello(): string {
@@ -18,7 +20,7 @@ export class AppController {
     @Post('expLog')
     async getExceplogs(@Body() input): Promise<any> { 
       const { dpdKey,method } = input;
-      let result:any = await this.apiService.getseaWeedExpLogs(input,'-TSL')
+      let result:any = await this.ufService.getseaWeedProcessExpLogs(input,'-TSL')
       if(dpdKey && method){
         result["dpdKey"] = dpdKey
         result["method"] = method        
@@ -29,7 +31,7 @@ export class AppController {
     @Post('prcLog')
     async getProcessLog(@Body() input): Promise<any> {     
       const { dpdKey,method } = input;
-      let result:any = await this.apiService.getseaWeedProcessLogs(input,'-TPL');
+      let result:any = await this.ufService.getseaWeedProcessExpLogs(input,'-TPL');
       if(dpdKey && method){
         result["dpdKey"] = dpdKey
         result["method"] = method        

@@ -1,20 +1,20 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: ct001-tgw004-df-generator-httproute
-  namespace: ct001-tgw004-df-v1
+  name: ct006-hrm-df-generator-httproute
+  namespace: ct006-hrm-df-v1
 spec:
   parentRefs:
-    - name: tgatest-gw
+    - name: tgaprod-gw
       namespace: kgateway-system
       sectionName: https  
   hostnames:
-    - "tgatest910.toruslowcode.com"
+    - "tgaprod910.toruslowcode.com"
   rules:
     - matches:
         - path:
             type: PathPrefix
-            value: /ct001/tgw01/tgw004/v1/api/
+            value: /ct006/ecp/hrm/v1/api/
       filters:
         - type: URLRewrite
           urlRewrite:
@@ -22,12 +22,12 @@ spec:
               type: ReplacePrefixMatch
               replacePrefixMatch: /
       backendRefs:
-        - name: ct001-tgw004-df-generator
+        - name: ct006-hrm-df-generator
           port: 443   
     - matches:
         - path:
             type: Exact
-            value: /ct001/tgw01/tgw004/v1/api     
+            value: /ct006/ecp/hrm/v1/api     
       filters:
         - type: URLRewrite
           urlRewrite:
@@ -35,5 +35,5 @@ spec:
               type: ReplaceFullPath
               replaceFullPath: /
       backendRefs:
-        - name: ct001-tgw004-df-generator
+        - name: ct006-hrm-df-generator
           port: 443

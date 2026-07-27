@@ -1,5 +1,5 @@
 {
-  "name": "ct001_tgw01_tgw004_v1_df",
+  "name": "ct006_ecp_hrm_v1_df",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -37,7 +37,7 @@
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.1.6",
     "@nestjs/jwt": "^11.0.0",
-    "@nestjs/mapped-types": "*",
+    "@nestjs/mapped-types": "^2.1.1",
     "@nestjs/microservices": "^11.1.6",
     "@nestjs/platform-express": "^11.1.6",
     "@nestjs/platform-fastify": "^11.1.6",
@@ -55,6 +55,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "date-fns": "^4.1.0",
+    "dayjs": "^1.11.21",
     "dotenv": "^16.4.7",
     "express-session": "^1.18.1",
     "form-data": "^4.0.3",

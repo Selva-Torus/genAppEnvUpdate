@@ -98,20 +98,6 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   const { selectionColor } = branding
   const keyset = i18n.keyset('language')
 
-  function formatTableDate(dateString: string) {
-    const date = new Date(dateString)
-    const options = {
-      month: 'long', // Full month name
-      day: 'numeric',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false
-    }
-    return new Intl.DateTimeFormat('en-US', options as any).format(date)
-  }
-
   const displayNodeData = (data: any, type: 'node' | 'time' | 'status') => {
     switch (type) {
       case 'node':
@@ -129,7 +115,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
           <div className='flex h-full w-full flex-col items-center justify-center gap-1'>
             {(data?.time ?? []).map((item: any, indexOfTime: number) => (
               <Text key={indexOfTime} color='secondary'>
-                {formatTableDate(item)}
+                {item}
               </Text>
             ))}
           </div>
