@@ -680,7 +680,7 @@ const Tableperf_cycle_table = ({ headerButtonsRenders=()=>{return<></>},headerPo
       perf_cycle_table1d11f.filter((item:any,id:number)=>{
         if (ids[ids.length - 1] == id.toString()){
           selectedData?.push(allData[id])
-          postIds.push(item.)
+          // // postIds.push(item.)
           processIds.push(item?.trs_process_id)
         }
       })
@@ -694,7 +694,7 @@ const Tableperf_cycle_table = ({ headerButtonsRenders=()=>{return<></>},headerPo
       perf_cycle_table1d11f.filter((item:any,id:number)=>{
         if (ids.includes(id.toString())){
           selectedData?.push(allData[id])
-          postIds.push(item.) 
+          // // postIds.push(item.) 
           processIds.push(item?.trs_process_id)
         } 
       })

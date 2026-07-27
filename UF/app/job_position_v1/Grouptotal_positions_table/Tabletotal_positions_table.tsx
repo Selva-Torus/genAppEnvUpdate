@@ -578,7 +578,7 @@ const Tabletotal_positions_table = ({ headerButtonsRenders=()=>{return<></>},hea
       total_positions_table22a59.filter((item:any,id:number)=>{
         if (ids[ids.length - 1] == id.toString()){
           selectedData?.push(allData[id])
-          postIds.push(item.)
+          // postIds.push(item.)
           processIds.push(item?.trs_process_id)
         }
       })
@@ -592,7 +592,7 @@ const Tabletotal_positions_table = ({ headerButtonsRenders=()=>{return<></>},hea
       total_positions_table22a59.filter((item:any,id:number)=>{
         if (ids.includes(id.toString())){
           selectedData?.push(allData[id])
-          postIds.push(item.) 
+          // postIds.push(item.) 
           processIds.push(item?.trs_process_id)
         } 
       })

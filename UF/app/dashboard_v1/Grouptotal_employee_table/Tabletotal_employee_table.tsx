@@ -632,7 +632,7 @@ const Tabletotal_employee_table = ({ headerButtonsRenders=()=>{return<></>},head
       total_employee_tablee4e9d.filter((item:any,id:number)=>{
         if (ids[ids.length - 1] == id.toString()){
           selectedData?.push(allData[id])
-          postIds.push(item.)
+          postIds.push(item.trs_process_id)
           processIds.push(item?.trs_process_id)
         }
       })
@@ -646,7 +646,7 @@ const Tabletotal_employee_table = ({ headerButtonsRenders=()=>{return<></>},head
       total_employee_tablee4e9d.filter((item:any,id:number)=>{
         if (ids.includes(id.toString())){
           selectedData?.push(allData[id])
-          postIds.push(item.) 
+          postIds.push(item.trs_process_id) 
           processIds.push(item?.trs_process_id)
         } 
       })

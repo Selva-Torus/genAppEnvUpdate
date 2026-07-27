@@ -257,11 +257,11 @@ const TopNav = ({
       ) : (
         <Logo />
       )}
-      <Text className='text-nowrap text-start font-bold w-full truncate' contentAlign='left'>
-        <span title={appName}>
-        {appName}
-        </span>
-      </Text>
+       <Text className='text-nowrap text-start font-bold w-full truncate text-[var(--brand-color)]' contentAlign='left'>
+          <span title={appName}>
+          {appName}
+          </span>
+        </Text>
     </div>
   ) , [logo, appName])
 
@@ -549,14 +549,7 @@ const TopNav = ({
           }`
         )}
       >
-          {appLogo ? (
-          <div className='flex items-center gap-3 w-full'>
-            <LogoSection />
-            <AppLogoSection />
-          </div>
-        ) : (
         <LogoSection />
-        )}
         {listMenuItems && (
           <>
             <MenuItemsSection />
