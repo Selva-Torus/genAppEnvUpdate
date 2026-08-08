@@ -1161,8 +1161,8 @@ export class UfController {
   @UseGuards(ThrottlerGuard)
   @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   async resetPassword(@Body() body: any) {
-    const { email, password, app_tenant, tenantId } = body;
-    return this.appService.resetPassword(email, password, app_tenant, tenantId);
+    const { email, password, app_tenant, tenantId , resetToken } = body;
+    return this.appService.resetPassword(email, password, app_tenant, tenantId , resetToken);
   }
 
   @Post("getNavbarData")

@@ -5807,7 +5807,18 @@ getConfig(): FusionAuthConfig {
         JSON.stringify(otpJson),
         process.env.CLIENTCODE,
       );
-      return true;
+
+      // Issue a short-lived, single-use reset token bound to this email and
+      // hand it back instead of a bare `true`. resetPassword() below now
+      // requires this token -- previously it had no way to know verifyOtp
+      // had ever run, so knowing someone's email address was enough on its
+      // own to change their password.
+      const resetToken = randomBytes(32).toString('hex');
+      const resetTokenKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:pwdResetToken:${resetToken}`;
+      await this.redisService.set(resetTokenKey, JSON.stringify({ email }));
+      await this.redisService.expire(resetTokenKey, 600); // 10-minute window; also deleted on redemption below
+
+      return { verified: true, resetToken };
     } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
@@ -5826,11 +5837,31 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-  async resetPassword(email: string, password: string, app_tenant: string | undefined = undefined, tenantId: string | undefined = undefined) {
+  async resetPassword(email: string, password: string, app_tenant: string | undefined = undefined, tenantId: string | undefined = undefined, resetToken?: string) {
     try {
       if (!email || !password) {
       throw new BadRequestException('Please provide valid email and password');
       }
+
+      // resetToken must be the value verifyOtp() returned after a successful
+      // OTP check for this same email -- without this, resetPassword had no
+      // server-side proof that the OTP step ever happened.
+      if (!resetToken) {
+        throw new UnauthorizedException('A valid password reset token is required');
+      }
+      const resetTokenKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:pwdResetToken:${resetToken}`;
+      const storedTokenRaw = await this.redisService.get(resetTokenKey);
+      if (!storedTokenRaw) {
+        throw new UnauthorizedException('Reset token is invalid or has expired');
+      }
+      // Burn the token immediately so it can't be replayed, even if
+      // something below this point fails.
+      await this.redisService.del(resetTokenKey);
+      const storedToken = JSON.parse(storedTokenRaw);
+      if (String(storedToken.email).toLowerCase() !== String(email).toLowerCase()) {
+        throw new UnauthorizedException('Reset token does not match this email');
+      }
+
       let ApplicationTenantDetails : any
       const fusionAuthTenantANDAppDetails = await this.getTenantAndApplicationFusionAuthIdSecret();
 

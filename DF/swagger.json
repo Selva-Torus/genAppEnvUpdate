@@ -1383,6 +1383,16 @@
       "post": {
         "operationId": "TeController_getUpdate",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/teUpdateDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -1397,6 +1407,16 @@
       "post": {
         "operationId": "TeController_save",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/teSaveDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -9691,6 +9711,129 @@
       "pfDto": {
         "type": "object",
         "properties": {}
+      },
+      "LockDetailsDto": {
+        "type": "object",
+        "properties": {
+          "ttl": {
+            "type": "number",
+            "description": "ttl"
+          }
+        }
+      },
+      "teUpdateDto": {
+        "type": "object",
+        "properties": {
+          "primaryKey": {
+            "type": "object",
+            "description": "primaryKey"
+          },
+          "url": {
+            "type": "string",
+            "description": "url"
+          },
+          "tableName": {
+            "type": "string",
+            "description": "tableName"
+          },
+          "data": {
+            "type": "object",
+            "description": "data"
+          },
+          "key": {
+            "type": "string",
+            "description": "key"
+          },
+          "upId": {
+            "type": "object",
+            "description": "upId"
+          },
+          "lockDetails": {
+            "$ref": "#/components/schemas/LockDetailsDto"
+          },
+          "dpdKey": {
+            "type": "string",
+            "description": "dpdKey"
+          },
+          "method": {
+            "type": "string",
+            "description": "method"
+          }
+        },
+        "required": [
+          "primaryKey",
+          "url",
+          "tableName",
+          "data"
+        ]
+      },
+      "teSaveDto": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "key"
+          },
+          "data": {
+            "type": "object",
+            "description": "data"
+          },
+          "nodeId": {
+            "type": "string",
+            "description": "nodeId"
+          },
+          "nodeName": {
+            "type": "string",
+            "description": "nodeName"
+          },
+          "nodeType": {
+            "type": "string",
+            "description": "nodeType"
+          },
+          "event": {
+            "type": "string",
+            "description": "event"
+          },
+          "upId": {
+            "type": "object",
+            "description": "upId"
+          },
+          "sourceId": {
+            "type": "string",
+            "description": "sourceId"
+          },
+          "childTable": {
+            "type": "object",
+            "description": "childTable"
+          },
+          "ssKey": {
+            "type": "string",
+            "description": "ssKey"
+          },
+          "controlName": {
+            "type": "string",
+            "description": "controlName"
+          },
+          "lockDetails": {
+            "$ref": "#/components/schemas/LockDetailsDto"
+          },
+          "dpdKey": {
+            "type": "string",
+            "description": "dpdKey"
+          },
+          "method": {
+            "type": "string",
+            "description": "method"
+          }
+        },
+        "required": [
+          "key",
+          "data",
+          "nodeId",
+          "nodeName",
+          "nodeType",
+          "event"
+        ]
       },
       "start_all_scheduler": {
         "type": "object",
