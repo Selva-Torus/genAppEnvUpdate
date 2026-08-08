@@ -60,7 +60,7 @@ const OtpVerification = ({
       })
       if (res.status === 200) {
         setIsOtpVerified(true)
-        setResetToken(res.data.resetToken)
+        setResetToken(res.data?.resetToken)
       }
     } catch (error: any) {
       toast(error?.response?.data?.message, 'danger')

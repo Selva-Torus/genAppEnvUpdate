@@ -944,7 +944,7 @@ export class UfController {
       },
     },
   })
-  async getpagination(@Body(new ValidationPipe({ transform: true })) input: pageDto,@Req() req: any) {
+   async getpagination(@Body(new ValidationPipe({ transform: true, whitelist: true, forbidNonWhitelisted: true })) input: pageDto,@Req() req: any) {
     const token: string = req?.headers?.authorization?.split(' ')[1];
     if(!token) return 'Authorization token not found';
     // const {keys} = input;

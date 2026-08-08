@@ -5807,7 +5807,7 @@ getConfig(): FusionAuthConfig {
         JSON.stringify(otpJson),
         process.env.CLIENTCODE,
       );
-
+      
       // Issue a short-lived, single-use reset token bound to this email and
       // hand it back instead of a bare `true`. resetPassword() below now
       // requires this token -- previously it had no way to know verifyOtp
