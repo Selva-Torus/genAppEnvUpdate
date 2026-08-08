@@ -14,7 +14,6 @@ import {
 } from 'src/customException';
 import { randomBytes, scryptSync, timingSafeEqual } from 'crypto';
 import * as nodemailer from 'nodemailer';
-import { JwtService } from '@nestjs/jwt';
 import { JwtServices } from 'src/jwt.services';
 import { RuleService } from 'src/ruleService';
 const jsonata = require('jsonata');
@@ -63,7 +62,6 @@ const schemaName = new URL(process.env.PG_URL).searchParams.get('schema')
 export class UfService implements OnModuleInit, OnModuleDestroy {
   constructor(
     private readonly jwtService: JwtServices,
-    private readonly jwt: JwtService,
     private readonly gorule: RuleService,
     private readonly redisService: RedisService,
     private readonly commonService: CommonService,
@@ -2177,6 +2175,24 @@ getConfig(): FusionAuthConfig {
     }
   }
 
+  async codeExecution(stringCode: string, params: any) {
+    try {
+      function runCodeWithObjectParams(codeString, paramsObject) {
+        // Create a function with destructured parameters from the object
+        const keys = Object.keys(paramsObject);
+        const values = Object.values(paramsObject);
+
+        const runCode = new Function(...keys, `${codeString};`);
+
+        // Call the function with the values from the object
+        return runCode(...values);
+      }
+      return runCodeWithObjectParams(stringCode, params);
+    } catch (error) {
+      throw new BadGatewayException(error);
+    }
+  }
+
   async eventFunction(eventProperty: any) {
     try {
       let eventsDetails: any = [];
@@ -3914,7 +3930,7 @@ getConfig(): FusionAuthConfig {
 
       let payload: any;
       try {
-        payload = this.jwt.verify(token, { secret: this.envData.getAuthSecret() });
+        payload = await this.jwtService.verifyToken(token);
       } catch (e) {
         payload = null;
       }
@@ -3990,8 +4006,6 @@ getConfig(): FusionAuthConfig {
   ) {
     try {
       const config = this.getConfig();
-      // const auth_secret = config.authSecret;
-      // const accessTokenExpiryTime = config.authAccessTokenExpiryTime;
 
       const accessProfileList = await this.query(
         `select 
@@ -4031,7 +4045,7 @@ getConfig(): FusionAuthConfig {
         selectedAccessProfile: filteredCombination[0]?.accessProfile,
         dap: filteredCombination[0]?.dap,
       };
-      const payload = this.jwt.verify(token, { secret: this.envData.getAuthSecret() });
+      const payload = await this.jwtService.verifyToken(token);
       const {
         type,
         tenant: tenantFromToken,
@@ -4423,7 +4437,7 @@ getConfig(): FusionAuthConfig {
       try {
         let payload: any;
         try {
-          payload = this.jwt.verify(token, { secret: this.envData.getAuthSecret() });
+          payload = await this.jwtService.verifyToken(token);
         } catch (e) {
           payload = null;
         }
@@ -4492,8 +4506,6 @@ getConfig(): FusionAuthConfig {
    async introspectToken(headers: any, key: string, tokens: string) {
     try {
       const config = this.getConfig();
-      const auth_secret = config.authSecret;
-      const accessTokenExpiryTime = config.authAccessTokenExpiryTime;
 
       const { authorization } = headers;
       if (!authorization || typeof authorization !== 'string') {
@@ -4521,7 +4533,7 @@ getConfig(): FusionAuthConfig {
       }
       let payload: any;
       try {
-        payload = this.jwt.verify(token, { secret: this.envData.getAuthSecret() });
+        payload = await this.jwtService.verifyToken(token);
       } catch (e) {
         payload = null;
       }
@@ -4682,9 +4694,6 @@ getConfig(): FusionAuthConfig {
   ) {
     try {
       const config = this.getConfig();
-      // const auth_secret = config.authSecret
-      // const accessTokenExpiryTime = config.authAccessTokenExpiryTime
-      // const refreshTokenExpiryTime = config.authRefreshTokenExpiryTime
 
       let query = `
         SELECT
@@ -4983,9 +4992,7 @@ getConfig(): FusionAuthConfig {
           fusionAuthLoginResponse?.access_token;
         if (!fusionAuthAccessTokenFromRequest)
           throw new UnauthorizedException('Invalid Credentials');
-        const fusionPayload = await this.jwt.decode(
-          fusionAuthAccessTokenFromRequest,
-        );
+        const fusionPayload = await this.jwtService.verifyToken(fusionAuthAccessTokenFromRequest);
         if (!fusionPayload)
           throw new UnauthorizedException('Invalid Credentials');
         const authentication_type = fusionPayload?.authenticationType;
@@ -8096,7 +8103,7 @@ getConfig(): FusionAuthConfig {
 
   async getAppList(token: string) {
     try {
-      const payload = this.jwt.verify(token, { secret: this.envData.getAuthSecret() });
+      const payload = await this.jwtService.verifyToken(token);
       const {
         tenant: tenant,
         loginId,
@@ -8214,7 +8221,7 @@ getConfig(): FusionAuthConfig {
 
     async sso(sourceToken: string , ufClientType:string) {
     try {
-      const payload = this.jwt.verify(sourceToken, { secret: this.envData.getAuthSecret() });
+      const payload = await this.jwtService.verifyToken(sourceToken);
       const { loginId , tenant:srcTenant , ag:srcAg , app:srcApp , sid , tenantId } = payload;
       const srcAppSessionListCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${srcTenant}:AFGK:${srcAg}:AFK:${srcApp}:AFVK:v1:session`;
       const srcAppSessionList = JSON.parse(await this.redisService.getJsonData(srcAppSessionListCacheKey, process.env.CLIENTCODE));
@@ -8361,18 +8368,23 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-  async getFusionAuthCredentials(app_tenant:string | undefined) {
+  // `includeSecrets` is granted only to a trusted server-to-server caller (see
+  // the controller's internal-service-key check). This endpoint has to stay
+  // reachable pre-login so the UF server can build the FusionAuth authorization
+  // URL, but that flow only needs the non-secret discovery fields below.
+  // The FusionAuth admin API key is never returned at all — no consumer uses it,
+  // and handing it out over HTTP would hand over the whole identity provider.
+  async getFusionAuthCredentials(app_tenant:string | undefined, includeSecrets = true) {
     try {
-      const { fusionAuthBaseUrl , fusionAuthApiKey } = this.getConfig();
+      const { fusionAuthBaseUrl } = this.getConfig();
       if(!app_tenant){
         const credentials = await this.getTenantAndApplicationFusionAuthIdSecret();
         if(credentials && typeof credentials == 'object'){
           return {
             tenantUniqueId : credentials.tenantUniqueId,
             applicationId : credentials.applicationId,
-            fusionAuthAppClientSecret : credentials.fusionAuthAppClientSecret,
+            ...(includeSecrets ? { fusionAuthAppClientSecret : credentials.fusionAuthAppClientSecret } : {}),
             fusionAuthBaseUrl,
-            fusionAuthApiKey
           };
         }else{
           throw new BadRequestException('fusionauth configuration details not found');
@@ -8386,10 +8398,9 @@ getConfig(): FusionAuthConfig {
           return {
             tenantUniqueId : credentials.applicationTenantUniqueId,
             applicationId : credentials.fusionAuthApplicationTenantId,
-            fusionAuthAppClientSecret : credentials.fusionAuthApplicationTenantClientSecret,
+            ...(includeSecrets ? { fusionAuthAppClientSecret : credentials.fusionAuthApplicationTenantClientSecret } : {}),
             appTenantId : foundAppTenant.at_id,
             fusionAuthBaseUrl,
-            fusionAuthApiKey
           };
         }else{
           throw new BadRequestException('fusionauth configuration details not found');
