@@ -2,7 +2,7 @@ import { BadRequestException, Body, Controller, Headers,  Logger,Post,UseGuards,
 import { ApiTags } from '@nestjs/swagger';
 import { TeService } from './te.service';
 import { CommonService } from 'src/common.Service';
-import { pfDto } from 'src/dto';
+import { pfDto, teUpdateDto, teSaveDto } from 'src/dto';
 import { LockService } from 'src/lock.service';
 import { CustomException } from 'src/customException';
 import { RedisService } from 'src/redisService';
@@ -186,8 +186,8 @@ export class TeController {
     return finalres;
   }
 
-  @Post('update')
-  async getUpdate(@Body() input, @Headers('Authorization') auth: any,) {       
+   @Post('update')
+  async getUpdate(@Body() input: teUpdateDto, @Headers('Authorization') auth: any,) {
       try {
       this.logger.log('update handler started') 
       const { dpdKey,method } = input          
@@ -243,7 +243,7 @@ export class TeController {
   }  
       
   @Post('save')
-  async save(@Body() input, @Headers('Authorization') auth: any): Promise<any> {
+  async save(@Body() input: teSaveDto, @Headers('Authorization') auth: any): Promise<any> {
     var token = auth.split(' ')[1];   
     const { dpdKey,method } = input  
       

@@ -2175,24 +2175,6 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-  async codeExecution(stringCode: string, params: any) {
-    try {
-      function runCodeWithObjectParams(codeString, paramsObject) {
-        // Create a function with destructured parameters from the object
-        const keys = Object.keys(paramsObject);
-        const values = Object.values(paramsObject);
-
-        const runCode = new Function(...keys, `${codeString};`);
-
-        // Call the function with the values from the object
-        return runCode(...values);
-      }
-      return runCodeWithObjectParams(stringCode, params);
-    } catch (error) {
-      throw new BadGatewayException(error);
-    }
-  }
-
   async eventFunction(eventProperty: any) {
     try {
       let eventsDetails: any = [];
@@ -4505,7 +4487,6 @@ getConfig(): FusionAuthConfig {
 
    async introspectToken(headers: any, key: string, tokens: string) {
     try {
-      const config = this.getConfig();
 
       const { authorization } = headers;
       if (!authorization || typeof authorization !== 'string') {
@@ -8368,7 +8349,7 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-  // `includeSecrets` is granted only to a trusted server-to-server caller (see
+    // `includeSecrets` is granted only to a trusted server-to-server caller (see
   // the controller's internal-service-key check). This endpoint has to stay
   // reachable pre-login so the UF server can build the FusionAuth authorization
   // URL, but that flow only needs the non-secret discovery fields below.

@@ -3464,25 +3464,36 @@ export class DynamicFlowService {
                                 throw new CustomException('Table name not found', 404);
 
                             if (dbFlg == 'pg') {
+                                if (!this.CommonService.isSafeSqlIdentifier(tableName)) {
+                                    throw new CustomException('Invalid table name', 404);
+                                }
                                 if (Array.isArray(inputData)) {
                                     for (var i = 0; i < inputData.length; i++) {
                                         if (Object.keys(inputData[i]).length > 0) {
                                             const keys = Object.keys(inputData[i]);
+                                            if (keys.some((k) => !this.CommonService.isSafeSqlIdentifier(k))) {
+                                                throw new CustomException('Invalid column name', 404);
+                                            }
                                             const values = Object.values(inputData[i]);
-                                            const query = `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (${values.map((v) => `'${v}'`).join(', ')});`;
+                                            const placeholders = values.map((_, idx) => `$${idx + 1}`).join(', ');
+                                            const query = `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (${placeholders});`;
                                             await client.connect();
-                                            await client.query(query);
+                                            await client.query(query, values);
                                             await client.end();
                                         }
                                     }
                                 }
                                 if (Object.keys(inputData).length > 0) {
                                     const keys = Object.keys(inputData);
+                                    if (keys.some((k) => !this.CommonService.isSafeSqlIdentifier(k))) {
+                                        throw new CustomException('Invalid column name', 404);
+                                    }
                                     const values = Object.values(inputData);
-                                    const query = `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (${values.map((v) => `'${v}'`).join(', ')});`;
+                                    const placeholders = values.map((_, idx) => `$${idx + 1}`).join(', ');
+                                    const query = `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (${placeholders});`;
                                     logReq = query;
                                     await client.connect();
-                                    await client.query(query);
+                                    await client.query(query, values);
                                     await client.end();
                                 }
                             } else if ((dbFlg = 'mongo')) {
@@ -5496,11 +5507,12 @@ export class DynamicFlowService {
                                     } else {
                                         removedVal = key
                                     }
+                                    if (!this.CommonService.isSafeSqlIdentifier(removedVal)) return;
                                     const regex = new RegExp(`\\$\\$\\$${removedVal}`, 'g');
                                     if (typeof value == 'number')
                                         executecommand = executecommand.replace(regex, `${value}`);
                                     else if (typeof value == 'string')
-                                        executecommand = executecommand.replace(regex, `'${value}'`);
+                                        executecommand = executecommand.replace(regex, this.CommonService.sqlLiteral(value));
                                 });
                             }
                         });
@@ -5661,11 +5673,12 @@ export class DynamicFlowService {
                                     } else {
                                         removedVal = key
                                     }
+                                    if (!this.CommonService.isSafeSqlIdentifier(removedVal)) return;
                                     const regex = new RegExp(`\\$\\$\\$${removedVal}`, 'g');
                                     if (typeof value == 'number')
                                         executecommand = executecommand.replace(regex, `${value}`);
                                     else if (typeof value == 'string')
-                                        executecommand = executecommand.replace(regex, `'${value}'`);
+                                        executecommand = executecommand.replace(regex, this.CommonService.sqlLiteral(value));
                                 });
                             }
                         });
@@ -6045,6 +6058,10 @@ export class DynamicFlowService {
             return;
           }
 
+          if (!this.CommonService.isSafeSqlIdentifier(key)) {
+            return;
+          }
+
           // =, !=, <>, >, >=, <, <=
           if (
             ['=', '!=', '<>', '>=', '<=', '>', '<'].includes(operator)
@@ -6052,7 +6069,7 @@ export class DynamicFlowService {
             if (type === 'date') {
               manualQuery = manualQuery.replaceAll(
                 `\${${key}}`,
-                `DATE(${key}) ${operator} '${value}'`,
+                `DATE(${key}) ${operator} ${this.CommonService.sqlLiteral(value)}`,
               );
             } else if (typeof value === 'number') {
               manualQuery = manualQuery.replaceAll(
@@ -6062,7 +6079,7 @@ export class DynamicFlowService {
             } else {
               manualQuery = manualQuery.replaceAll(
                 `\${${key}}`,
-                `${key} ${operator} '${value}'`,
+                `${key} ${operator} ${this.CommonService.sqlLiteral(value)}`,
               );
             }
           }
@@ -6082,21 +6099,12 @@ export class DynamicFlowService {
 
             const likeVal = likeMap[operator];
 
-            if (typeof value === 'number') {
-              manualQuery = manualQuery.replaceAll(
-                `\${${key}}`,
-                `${key} ${
-                  operator === 'NOT LIKE' ? 'NOT LIKE' : 'LIKE'
-                } '${likeVal}'`,
-              );
-            } else {
-              manualQuery = manualQuery.replaceAll(
-                `\${${key}}`,
-                `${key} ${
-                  operator === 'NOT LIKE' ? 'NOT LIKE' : 'LIKE'
-                } '${likeVal}'`,
-              );
-            }
+            manualQuery = manualQuery.replaceAll(
+              `\${${key}}`,
+              `${key} ${
+                operator === 'NOT LIKE' ? 'NOT LIKE' : 'LIKE'
+              } ${this.CommonService.sqlLiteral(likeVal)}`,
+            );
           }
 
           // BETWEEN
@@ -6107,12 +6115,12 @@ export class DynamicFlowService {
               if (type === 'date') {
                 manualQuery = manualQuery.replaceAll(
                   `\${${key}}`,
-                  `DATE(${key}) ${operator} '${value}' AND '${value2}'`,
+                  `DATE(${key}) ${operator} ${this.CommonService.sqlLiteral(value)} AND ${this.CommonService.sqlLiteral(value2)}`,
                 );
               } else {
                 manualQuery = manualQuery.replaceAll(
                   `\${${key}}`,
-                  `${key} ${operator} '${value}' AND '${value2}'`,
+                  `${key} ${operator} ${this.CommonService.sqlLiteral(value)} AND ${this.CommonService.sqlLiteral(value2)}`,
                 );
               }
             }
@@ -6141,16 +6149,19 @@ export class DynamicFlowService {
           if (value === undefined) {
             return match;
           }
+          if (!this.CommonService.isSafeSqlIdentifier(alias) || !this.CommonService.isSafeSqlIdentifier(key)) {
+            return match;
+          }
 
           const isDate = this.isDateTimeField(schema, key);
 
           if (isDate) {
-            return `DATE(${alias}.${key}) = '${value}'`;
+            return `DATE(${alias}.${key}) = ${this.CommonService.sqlLiteral(value)}`;
           }
 
           return typeof value === 'number'
             ? `${alias}.${key} = ${value}`
-            : `${alias}.${key} = '${value}'`;
+            : `${alias}.${key} = ${this.CommonService.sqlLiteral(value)}`;
         },
       );
 
@@ -6163,16 +6174,19 @@ export class DynamicFlowService {
           if (value === undefined) {
             return match;
           }
+          if (!this.CommonService.isSafeSqlIdentifier(key)) {
+            return match;
+          }
 
           const isDate = this.isDateTimeField(schema, key);
 
           if (isDate) {
-            return `DATE(${key}) = '${value}'`;
+            return `DATE(${key}) = ${this.CommonService.sqlLiteral(value)}`;
           }
 
           return typeof value === 'number'
             ? `${key} = ${value}`
-            : `${key} = '${value}'`;
+            : `${key} = ${this.CommonService.sqlLiteral(value)}`;
         },
       );
     }

@@ -1011,6 +1011,128 @@ export class exportdata {
   bldcKey: string;
 }
 
+export class LockDetailsDto {
+  @ApiPropertyOptional({ description: 'ttl' })
+  @IsOptional()
+  @IsNumber()
+  ttl?: number;
+}
+
+export class teUpdateDto {
+  @ApiProperty({ description: 'primaryKey' })
+  @IsNotEmpty()
+  primaryKey: any;
+
+  @ApiProperty({ description: 'url' })
+  @IsNotEmpty()
+  @IsString()
+  url: string;
+
+  @ApiProperty({ description: 'tableName' })
+  @IsNotEmpty()
+  @IsString()
+  tableName: string;
+
+  @ApiProperty({ description: 'data' })
+  @IsNotEmpty()
+  data: any;
+
+  @ApiPropertyOptional({ description: 'key' })
+  @IsOptional()
+  @IsString()
+  key?: string;
+
+  @ApiPropertyOptional({ description: 'upId' })
+  @IsOptional()
+  upId?: any;
+
+  @ApiPropertyOptional({ type: LockDetailsDto })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => LockDetailsDto)
+  lockDetails?: LockDetailsDto;
+
+  @ApiPropertyOptional({ description: 'dpdKey' })
+  @IsOptional()
+  @IsString()
+  dpdKey?: string;
+
+  @ApiPropertyOptional({ description: 'method' })
+  @IsOptional()
+  @IsString()
+  method?: string;
+}
+
+export class teSaveDto {
+  @ApiProperty({ description: 'key' })
+  @IsNotEmpty()
+  @IsString()
+  key: string;
+
+  @ApiProperty({ description: 'data' })
+  @IsNotEmpty()
+  data: any;
+
+  @ApiProperty({ description: 'nodeId' })
+  @IsNotEmpty()
+  @IsString()
+  nodeId: string;
+
+  @ApiProperty({ description: 'nodeName' })  
+  @IsString()
+  @IsNotEmpty()
+  nodeName: string;
+
+  @ApiProperty({ description: 'nodeType' })
+  @IsNotEmpty()
+  @IsString()
+  nodeType: string;
+
+  @ApiProperty({ description: 'event' })
+  @IsNotEmpty()
+  @IsString()
+  event: string;
+
+  @ApiPropertyOptional({ description: 'upId' })
+  @IsOptional()
+  upId?: any;
+
+  @ApiPropertyOptional({ description: 'sourceId' })
+  @IsOptional()
+  @IsString()
+  sourceId?: string;
+
+  @ApiPropertyOptional({ description: 'childTable' })
+  @IsOptional()
+  childTable?: any;
+
+  @ApiPropertyOptional({ description: 'ssKey' })
+  @IsOptional()
+  @IsString()
+  ssKey?: string;
+
+  @ApiPropertyOptional({ description: 'controlName' })
+  @IsOptional()
+  @IsString()
+  controlName?: string;
+
+  @ApiPropertyOptional({ type: LockDetailsDto })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => LockDetailsDto)
+  lockDetails?: LockDetailsDto;
+
+  @ApiPropertyOptional({ description: 'dpdKey' })
+  @IsOptional()
+  @IsString()
+  dpdKey?: string;
+
+  @ApiPropertyOptional({ description: 'method' })
+  @IsOptional()
+  @IsString()
+  method?: string;
+}
+
 export class LockRecordDto {
   @IsString()
   @IsNotEmpty()
