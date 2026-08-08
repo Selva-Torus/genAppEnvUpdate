@@ -1,0 +1,30 @@
+
+import { Module } from '@nestjs/common';
+import { UfService } from './uf.service';
+import { UfController } from './uf.controller';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtServices } from 'src/jwt.services';
+import { RedisService } from 'src/redisService';
+import { CommonService } from 'src/common.Service';
+import { RuleService } from 'src/ruleService';
+import { CodeService } from 'src/codeService';
+import { ConfigService } from '@nestjs/config';
+import { EnvData } from 'src/envData/envData.service';
+import { ThrottlerModule } from '@nestjs/throttler';
+
+@Module({
+  imports: [JwtModule.register({
+    secret: process.env.JWT_SECRET,
+    signOptions: { expiresIn: '1d' },
+  }),
+  ThrottlerModule.forRoot({
+    throttlers: [
+      { name: 'auth', ttl: 60_000, limit: 50 },
+    ],
+  }),
+  ],
+  controllers: [UfController],
+  providers: [UfService, JwtModule,JwtServices,RedisService,CommonService,RuleService,CodeService,ConfigService,EnvData,],
+  exports: [UfService]
+})
+export class UfModule {}

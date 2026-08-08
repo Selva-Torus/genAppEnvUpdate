@@ -1,0 +1,2033 @@
+
+{
+  "Canvasroot": [],
+  "87445970bf724127b6f1c10f7b49e38a": {
+    "source": "text",
+    "target": "text",
+    "controlName": "text"
+  },
+  "header_groupb1913": [
+    "text"
+  ],
+  "asset_dashboard_group4bbfe": [],
+  "075b724912b869a97728defded828561": {
+    "source": "amr_queue_text",
+    "target": "amr_queue_text",
+    "controlName": "amr_queue_text"
+  },
+  "49d407d603c880a2e5cd1d4cf8d208f5": {
+    "source": "icon_total_assest",
+    "target": "icon_total_assest",
+    "controlName": "icon_total_assest"
+  },
+  "a09cd090df1de33a95e3613735d5b620": {
+    "source": "amr_queue",
+    "target": "amr_queue",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:cardsDashboard:AFVK:v1|47ece97d6bc84a0a820999640b347351|properties.amr_queue"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|31d0c407d67675a58107f5dad6dc92ca|a09cd090df1de33a95e3613735d5b620"
+      }
+    ],
+    "controlName": "amr_queue"
+  },
+  "5a25514c9952f3a92a9df5c8dcfafe0e": {
+    "source": "amr_queue_desc",
+    "target": "amr_queue_desc",
+    "controlName": "amr_queue_desc"
+  },
+  "amr_queue_groupc92ca": [
+    "amr_queue_text",
+    "icon_total_assest",
+    "amr_queue",
+    "amr_queue_desc"
+  ],
+  "1c2a39c1042515691c2e6512ffb86c2a": {
+    "source": "pending_file_text",
+    "target": "pending_file_text",
+    "controlName": "pending_file_text"
+  },
+  "e9c4e8e9434f3f7cf55c2ffe9bacab92": {
+    "source": "icon_maintenance_due",
+    "target": "icon_maintenance_due",
+    "controlName": "icon_maintenance_due"
+  },
+  "e4a49cb8b5b7d3b1f473122c7ce1721b": {
+    "source": "pending_filings",
+    "target": "pending_file",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:cardsDashboard:AFVK:v1|47ece97d6bc84a0a820999640b347351|properties.pending_filings"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|3884c0194bbdf12fcbeb80f07f6ffe32|e4a49cb8b5b7d3b1f473122c7ce1721b"
+      }
+    ],
+    "controlName": "pending_file"
+  },
+  "e389bb79ffacd19b79fb6810a6053378": {
+    "source": "pending_file_desc",
+    "target": "pending_file_desc",
+    "controlName": "pending_file_desc"
+  },
+  "pending_file_groupffe32": [
+    "pending_file_text",
+    "icon_maintenance_due",
+    "pending_filings",
+    "pending_file_desc"
+  ],
+  "76b6c12c77e2e4c6d58bfa129515cc58": {
+    "source": "service_pending_text",
+    "target": "service_pending_text",
+    "controlName": "service_pending_text"
+  },
+  "48a8f6bc11f4a2873e3a2dadf4a6d299": {
+    "source": "icon_warranty_expiring",
+    "target": "icon_warranty_expiring",
+    "controlName": "icon_warranty_expiring"
+  },
+  "544ebf67aeb1fecee3b8f3d4b7c918f0": {
+    "source": "service_pending",
+    "target": "service_pending",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:cardsDashboard:AFVK:v1|47ece97d6bc84a0a820999640b347351|properties.service_pending"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|cf68438e916308ff067822841917ba93|544ebf67aeb1fecee3b8f3d4b7c918f0"
+      }
+    ],
+    "controlName": "service_pending"
+  },
+  "573f49969828ef2f3750404adeaabf48": {
+    "source": "service_pending_desc",
+    "target": "service_pending_desc",
+    "controlName": "service_pending_desc"
+  },
+  "service_pending_group7ba93": [
+    "service_pending_text",
+    "icon_warranty_expiring",
+    "service_pending",
+    "service_pending_desc"
+  ],
+  "66c7fa3b7376e5c811e222450ae33ae5": {
+    "source": "slas_at_risk_text",
+    "target": "slas_at_risk_text",
+    "controlName": "slas_at_risk_text"
+  },
+  "41ec3e77b66dcc8e833339f4f152caf8": {
+    "source": "icon_",
+    "target": "icon_",
+    "controlName": "icon_"
+  },
+  "e61e745fbc01f20d4bbc297d6bff177b": {
+    "source": "slas_at_risk",
+    "target": "slas_at_risk",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:cardsDashboard:AFVK:v1|47ece97d6bc84a0a820999640b347351|properties.slas_at_risk"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|572d93fa0f885f603ee02636d9423eb4|e61e745fbc01f20d4bbc297d6bff177b"
+      }
+    ],
+    "controlName": "slas_at_risk"
+  },
+  "7d09cce98b480602c90e136f1985c075": {
+    "source": "slas_at_risk_desc",
+    "target": "slas_at_risk_desc",
+    "controlName": "slas_at_risk_desc"
+  },
+  "slas_at_risk_group23eb4": [
+    "slas_at_risk_text",
+    "icon_",
+    "slas_at_risk",
+    "slas_at_risk_desc"
+  ],
+  "9782f1d6f9d2ca59e09365c6c5a06a86": {
+    "source": "court_rejection_text",
+    "target": "court_rejection_text",
+    "controlName": "court_rejection_text"
+  },
+  "90c2e22653c7586b965128c783ea5abd": {
+    "source": "icon",
+    "target": "icon",
+    "controlName": "icon"
+  },
+  "edd13497bf729d02a4f0404e5352460a": {
+    "source": "court_rejections",
+    "target": "court_rejection",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:cardsDashboard:AFVK:v1|47ece97d6bc84a0a820999640b347351|properties.court_rejections"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|5d29dd48cc206fa8503de83efa9c9d54|edd13497bf729d02a4f0404e5352460a"
+      }
+    ],
+    "controlName": "court_rejection"
+  },
+  "da05603dfa91a32187482b5373d7c63b": {
+    "source": "court_rejection_desc",
+    "target": "court_rejection_desc",
+    "controlName": "court_rejection_desc"
+  },
+  "court_rejection_groupc9d54": [
+    "court_rejection_text",
+    "icon",
+    "court_rejections",
+    "court_rejection_desc"
+  ],
+  "ef9c273a48d74602a46b7fd0b0f4d825": {
+    "source": "collected_mtd_text",
+    "target": "collected_mtd_text",
+    "controlName": "collected_mtd_text"
+  },
+  "b36543eb7b7c472c803464d421eaff33": {
+    "source": "icon",
+    "target": "icon",
+    "controlName": "icon"
+  },
+  "c489c417fbdd4f78920e2f07ca8ab52b": {
+    "source": "collected_mtd",
+    "target": "collected_mtd",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:cardsDashboard:AFVK:v1|47ece97d6bc84a0a820999640b347351|properties.collected_mtd"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|f9abba33635f4806b6514e8ce5a7b7b5|c489c417fbdd4f78920e2f07ca8ab52b"
+      }
+    ],
+    "controlName": "collected_mtd"
+  },
+  "1e1d8844393c475e8e22408fa05fffed": {
+    "source": "collected_mtd_desc",
+    "target": "collected_mtd_desc",
+    "controlName": "collected_mtd_desc"
+  },
+  "collected_mtd_group7b7b5": [
+    "collected_mtd_text",
+    "icon",
+    "collected_mtd",
+    "collected_mtd_desc"
+  ],
+  "576e82efe1bb7979dc64ab024f377d60": {
+    "source": "status",
+    "target": "status",
+    "controlName": "status"
+  },
+  "table_group112bd": [
+    "status"
+  ],
+  "subscreene9ab5": [],
+  "CT006_AF_UF_UFWS_LAP_LAP_amrQueueTable_v18a797": [],
+  "895057ec78324006acab534d37d4c2ed": {
+    "source": "search_btn",
+    "target": "search_btn",
+    "controlName": "search_btn"
+  },
+  "faa851870cc0487e9d506abe6b02f9d0": {
+    "source": "add_btn",
+    "target": "add_btn",
+    "controlName": "add_btn"
+  },
+  "d4aab4f635a4420c99e79dbf0f7c2337": {
+    "source": "text",
+    "target": "text",
+    "controlName": "text"
+  },
+  "group28176": [
+    "search_btn",
+    "add_btn",
+    "text"
+  ],
+  "61c21aa63c9747b09f4188ac6948caab": {
+    "source": "case_display_id",
+    "target": "case_display_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.case_display_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|6638e195416b4642bda98e40af0852e3|61c21aa63c9747b09f4188ac6948caab"
+      }
+    ],
+    "controlName": "case_display_id"
+  },
+  "27d2d7994751408d8be56b183dbdb464": {
+    "source": "debtor_name",
+    "target": "debtor_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.debtor_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|6638e195416b4642bda98e40af0852e3|27d2d7994751408d8be56b183dbdb464"
+      }
+    ],
+    "controlName": "debtor_name"
+  },
+  "b4cf9a13cfc54f55ad05afa3e0629781": {
+    "source": "creditor_name",
+    "target": "creditor_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.creditor_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|6638e195416b4642bda98e40af0852e3|b4cf9a13cfc54f55ad05afa3e0629781"
+      }
+    ],
+    "controlName": "creditor_name"
+  },
+  "de2332050b224ee68b08531bdddda699": {
+    "source": "attorney_name",
+    "target": "full_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.attorney_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|6638e195416b4642bda98e40af0852e3|de2332050b224ee68b08531bdddda699"
+      }
+    ],
+    "controlName": "full_name"
+  },
+  "dda94df3a8d24d27a05f390c490a27e6": {
+    "source": "total_balance",
+    "target": "total_balance",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.total_balance"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|6638e195416b4642bda98e40af0852e3|dda94df3a8d24d27a05f390c490a27e6"
+      }
+    ],
+    "controlName": "total_balance"
+  },
+  "06358a459c004e6eb7b4b5884c903aea": {
+    "source": "court_name",
+    "target": "court_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.court_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|6638e195416b4642bda98e40af0852e3|06358a459c004e6eb7b4b5884c903aea"
+      }
+    ],
+    "controlName": "court_name"
+  },
+  "388a9a1ccfe7411ba75ceafbf7ec8266": {
+    "source": "priority_name",
+    "target": "priority_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.priority_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|6638e195416b4642bda98e40af0852e3|388a9a1ccfe7411ba75ceafbf7ec8266"
+      }
+    ],
+    "controlName": "priority_name"
+  },
+  "da564ab51a2f48c59e686c815e9d2368": {
+    "source": "status_name",
+    "target": "status_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.status_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|6638e195416b4642bda98e40af0852e3|da564ab51a2f48c59e686c815e9d2368"
+      }
+    ],
+    "controlName": "status_name"
+  },
+  "d67721b3988a4aaa8c28f142681c9e9d": {
+    "source": "trs_created_date",
+    "target": "trs_created_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.trs_created_date"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|6638e195416b4642bda98e40af0852e3|d67721b3988a4aaa8c28f142681c9e9d"
+      }
+    ],
+    "controlName": "trs_created_date"
+  },
+  "f18ab71842094663ba36b7922ff77c69": {
+    "source": "view_btns",
+    "target": "view_btns",
+    "controlName": "view_btns"
+  },
+  "f6ae18f0c5f04e8392d4eceab5248ea7": {
+    "source": "edit_btns",
+    "target": "edit_btns",
+    "controlName": "edit_btns"
+  },
+  "table852e3": [
+    "case_display_id",
+    "debtor_name",
+    "creditor_name",
+    "attorney_name",
+    "total_balance",
+    "court_name",
+    "priority_name",
+    "status_name",
+    "trs_created_date",
+    "view_btns",
+    "edit_btns"
+  ],
+  "CT006_AF_UF_UFWS_LAP_LAP_pendingFilingTable_v1ff8da": [],
+  "7cdeeb53811742ebb5ea86d1c4015268": {
+    "source": "search_btn",
+    "target": "search_btn",
+    "controlName": "search_btn"
+  },
+  "87c562c4b3054e33a41f634380d707cf": {
+    "source": "add_btn",
+    "target": "add_btn",
+    "controlName": "add_btn"
+  },
+  "af8593ed35a44aff9d4916e13d23ced2": {
+    "source": "text",
+    "target": "text",
+    "controlName": "text"
+  },
+  "pending_fillings_groupb1568": [
+    "search_btn",
+    "add_btn",
+    "text"
+  ],
+  "b595eb6955af40e2a530a63dab832ae4": {
+    "source": "case_display_id",
+    "target": "case_display_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.case_display_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|ff94621c3e014341b5c0038c37011279|b595eb6955af40e2a530a63dab832ae4"
+      }
+    ],
+    "controlName": "case_display_id"
+  },
+  "1f1d19199c3246a2bb3ce02e0f6cd77b": {
+    "source": "debtor_name",
+    "target": "debtor_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.debtor_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|ff94621c3e014341b5c0038c37011279|1f1d19199c3246a2bb3ce02e0f6cd77b"
+      }
+    ],
+    "controlName": "debtor_name"
+  },
+  "2c8909211e654a52ba489282ab5b14ce": {
+    "source": "creditor_name",
+    "target": "creditor_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.creditor_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|ff94621c3e014341b5c0038c37011279|2c8909211e654a52ba489282ab5b14ce"
+      }
+    ],
+    "controlName": "creditor_name"
+  },
+  "8b353b211f624b70bd444df8662592f3": {
+    "source": "attorney_name",
+    "target": "full_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.attorney_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|ff94621c3e014341b5c0038c37011279|8b353b211f624b70bd444df8662592f3"
+      }
+    ],
+    "controlName": "full_name"
+  },
+  "21498734d7694eed92706259dd898c00": {
+    "source": "total_balance",
+    "target": "total_balance",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.total_balance"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|ff94621c3e014341b5c0038c37011279|21498734d7694eed92706259dd898c00"
+      }
+    ],
+    "controlName": "total_balance"
+  },
+  "6f4f3dec38264ad0b97715d28084b97b": {
+    "source": "court_name",
+    "target": "court_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.court_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|ff94621c3e014341b5c0038c37011279|6f4f3dec38264ad0b97715d28084b97b"
+      }
+    ],
+    "controlName": "court_name"
+  },
+  "0b960ed1afbe4a53b4358044592c61c4": {
+    "source": "priority_name",
+    "target": "priority_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.priority_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|ff94621c3e014341b5c0038c37011279|0b960ed1afbe4a53b4358044592c61c4"
+      }
+    ],
+    "controlName": "priority_name"
+  },
+  "4fdf88ede74c4363830cfcc1daac590e": {
+    "source": "status_name",
+    "target": "status_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.status_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|ff94621c3e014341b5c0038c37011279|4fdf88ede74c4363830cfcc1daac590e"
+      }
+    ],
+    "controlName": "status_name"
+  },
+  "f21d87c794f34c04870c1f3543b4e909": {
+    "source": "trs_created_date",
+    "target": "trs_created_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.trs_created_date"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1|ff94621c3e014341b5c0038c37011279|f21d87c794f34c04870c1f3543b4e909"
+      }
+    ],
+    "controlName": "trs_created_date"
+  },
+  "51f53410bad3497aa31969832cc88178": {
+    "source": "view_btn",
+    "target": "view_btn",
+    "controlName": "view_btn"
+  },
+  "f6beb99449774434a4490c7a4284cc84": {
+    "source": "edit_btn",
+    "target": "edit_btn",
+    "controlName": "edit_btn"
+  },
+  "pending_fillings_table11279": [
+    "case_display_id",
+    "debtor_name",
+    "creditor_name",
+    "attorney_name",
+    "total_balance",
+    "court_name",
+    "priority_name",
+    "status_name",
+    "trs_created_date",
+    "view_btn",
+    "edit_btn"
+  ],
+  "06fa594fa868e6320eae04be0fa6059f": {
+    "source": "case_display_id",
+    "target": "advancesearch",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.case_display_id",
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.debtor_name",
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.creditor_name",
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.total_balance",
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.court_name",
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.status_name",
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.priority_name",
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.attorney_name",
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1|1639d2c2900c41c7a9c9c3a882cf0bac|properties.trs_created_date"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:amrQueueSearch:AFVK:v1|48494de4ad3c18b8fe7daca69e7defa1|06fa594fa868e6320eae04be0fa6059f"
+      }
+    ],
+    "controlName": "advancesearch"
+  },
+  "search_groupdefa1": [
+    "case_display_id"
+  ],
+  "c9d6cc648ef24e1e9b99e7178c90c4bb": {
+    "source": "venue_id",
+    "target": "venue_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.venue_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|cabf4518f6a147d3a0ffaa03a4ceb161|c9d6cc648ef24e1e9b99e7178c90c4bb"
+      }
+    ],
+    "controlName": "venue_id"
+  },
+  "a9c7c04cb9714e4691c1655e2c9f6f71": {
+    "source": "creditor_id",
+    "target": "creditor_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.creditor_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|cabf4518f6a147d3a0ffaa03a4ceb161|a9c7c04cb9714e4691c1655e2c9f6f71"
+      }
+    ],
+    "controlName": "creditor_id"
+  },
+  "ca30607ff3e744cda4bb0cc9a14d1a34": {
+    "source": "customwidget",
+    "target": "customwidget",
+    "controlName": "customwidget"
+  },
+  "70133e104bc9452090fff6bee8f7e64e": {
+    "source": "account_id",
+    "target": "account_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.account_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|cabf4518f6a147d3a0ffaa03a4ceb161|70133e104bc9452090fff6bee8f7e64e"
+      }
+    ],
+    "controlName": "account_id"
+  },
+  "4dc7cfa77e3c497f93e26fa1e06dc753": {
+    "source": "remarks_textarea",
+    "target": "remarks_textarea",
+    "controlName": "remarks_textarea"
+  },
+  "add_case_groupeb161": [
+    "venue_id",
+    "creditor_id",
+    "customwidget",
+    "account_id",
+    "remarks_textarea"
+  ],
+  "e2b38e5560344a3b99ca949a52dace67": {
+    "source": "craete_header_text",
+    "target": "craete_header_text",
+    "controlName": "craete_header_text"
+  },
+  "header_group4878f": [
+    "craete_header_text"
+  ],
+  "8f440f872c344a86a8a1633b2de70ef3": {
+    "source": "cancel_button",
+    "target": "cancel_button",
+    "controlName": "cancel_button"
+  },
+  "8d5bfb4b669e469399d7df36ac0294f0": {
+    "source": "update",
+    "target": "update",
+    "controlName": "update"
+  },
+  "270a2993d12946e4bac669e5d750112f": {
+    "source": "submit",
+    "target": "submit",
+    "controlName": "submit"
+  },
+  "dynamicactions094c3": [
+    "cancel_button",
+    "update",
+    "submit"
+  ],
+  "9cc6336da1504360ba5c5938ee81f2c8": {
+    "source": "case_info_text",
+    "target": "case_info_text",
+    "controlName": "case_info_text"
+  },
+  "d5fb97fc1bdc44c89aa19ea063ef8de4": {
+    "source": "creditor_name",
+    "target": "creditor_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.creditor_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|765fc890b6a2413b897557a765428f6f|d5fb97fc1bdc44c89aa19ea063ef8de4"
+      }
+    ],
+    "controlName": "creditor_name"
+  },
+  "392d0b02c1f94a8698dc2bb87ce073fd": {
+    "source": "attorney_name",
+    "target": "attorney_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.attorney_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|765fc890b6a2413b897557a765428f6f|392d0b02c1f94a8698dc2bb87ce073fd"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:attorneysCombo:AFVK:v1|76043290ccdaf6326cee61531633d10c|properties.attorney_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|765fc890b6a2413b897557a765428f6f|392d0b02c1f94a8698dc2bb87ce073fd|text"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:attorneysCombo:AFVK:v1|76043290ccdaf6326cee61531633d10c|properties.attorney_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|765fc890b6a2413b897557a765428f6f|392d0b02c1f94a8698dc2bb87ce073fd|value"
+      }
+    ],
+    "controlName": "attorney_name",
+    "392d0b02c1f94a8698dc2bb87ce073fd": "attorney_name",
+    "text": "attorney_name",
+    "value": "attorney_name"
+  },
+  "81a3b93088324324ada44f83129bcbd5": {
+    "source": "priority_name",
+    "target": "priority_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.priority_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|765fc890b6a2413b897557a765428f6f|81a3b93088324324ada44f83129bcbd5"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:priorityCombo:AFVK:v1|4567f6cae9141b83022bfa6cebac05b8|properties.priority_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|765fc890b6a2413b897557a765428f6f|81a3b93088324324ada44f83129bcbd5|text"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:priorityCombo:AFVK:v1|4567f6cae9141b83022bfa6cebac05b8|properties.priority_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|765fc890b6a2413b897557a765428f6f|81a3b93088324324ada44f83129bcbd5|value"
+      }
+    ],
+    "controlName": "priority_name"
+  },
+  "723cd3a5a7f14f539110798ecd0cbe6f": {
+    "source": "status_name",
+    "target": "status_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.status_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|765fc890b6a2413b897557a765428f6f|723cd3a5a7f14f539110798ecd0cbe6f"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:statusCombo:AFVK:v1|5738a6939a5d0de499e67c87705acc48|properties.status_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|765fc890b6a2413b897557a765428f6f|723cd3a5a7f14f539110798ecd0cbe6f|text"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:statusCombo:AFVK:v1|5738a6939a5d0de499e67c87705acc48|properties.status_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|765fc890b6a2413b897557a765428f6f|723cd3a5a7f14f539110798ecd0cbe6f|value"
+      }
+    ],
+    "controlName": "status_name"
+  },
+  "4b192990c368495f8bd9d1a9415049be": {
+    "source": "queue_position",
+    "target": "queue_position",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.queue_position"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|765fc890b6a2413b897557a765428f6f|4b192990c368495f8bd9d1a9415049be"
+      }
+    ],
+    "controlName": "queue_position"
+  },
+  "968c7f711d0747308a0db6a80822c29e": {
+    "source": "quality_score",
+    "target": "quality_score",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.quality_score"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|765fc890b6a2413b897557a765428f6f|968c7f711d0747308a0db6a80822c29e"
+      }
+    ],
+    "controlName": "quality_score"
+  },
+  "75895bc179494c448933a907df22fb95": {
+    "source": "sla_wait_start_time",
+    "target": "sla_wait_start_time",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.sla_wait_start_time"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|765fc890b6a2413b897557a765428f6f|75895bc179494c448933a907df22fb95"
+      }
+    ],
+    "controlName": "sla_wait_start_time"
+  },
+  "case_information_group28f6f": [
+    "case_info_text",
+    "creditor_name",
+    "attorney_name",
+    "priority_name",
+    "status_name",
+    "queue_position",
+    "quality_score",
+    "sla_wait_start_time"
+  ],
+  "2726459336754f8c99d2a40ecc5bdce0": {
+    "source": "rules_icon",
+    "target": "rules_icon",
+    "controlName": "rules_icon"
+  },
+  "b0be0dfb3478464e96e867c7e0c2cdf6": {
+    "source": "venue_special_rules_text",
+    "target": "venue_special_rules_text",
+    "controlName": "venue_special_rules_text"
+  },
+  "532936b72d994ae2a1241d55824bd9d8": {
+    "source": "special_rules",
+    "target": "special_rules",
+    "controlName": "special_rules"
+  },
+  "efd7d3a791d848fa974db8c5b32e4760": {
+    "source": "venue_special_rules_divider",
+    "target": "venue_special_rules_divider",
+    "controlName": "venue_special_rules_divider"
+  },
+  "99516ed8361848d3a6dd37865e1cd6e7": {
+    "source": "venue_special_rules_dividers",
+    "target": "venue_special_rules_dividers",
+    "controlName": "venue_special_rules_dividers"
+  },
+  "5341a6de59834c6696087ffb9020fa18": {
+    "source": "venue_special_rules_dividerss",
+    "target": "venue_special_rules_dividerss",
+    "controlName": "venue_special_rules_dividerss"
+  },
+  "0761dcf983934b16a8aa92273472b01f": {
+    "source": "venue_special_rules_dividerssss",
+    "target": "venue_special_rules_dividerssss",
+    "controlName": "venue_special_rules_dividerssss"
+  },
+  "068d1e6c6fe54f449f8ac1d45579b36c": {
+    "source": "venues_special_rules_dividerssss",
+    "target": "venues_special_rules_dividerssss",
+    "controlName": "venues_special_rules_dividerssss"
+  },
+  "venue_group6a36d": [
+    "rules_icon",
+    "venue_special_rules_text",
+    "special_rules",
+    "venue_special_rules_divider",
+    "venue_special_rules_dividers",
+    "venue_special_rules_dividerss",
+    "venue_special_rules_dividerssss",
+    "venues_special_rules_dividerssss"
+  ],
+  "0a483a064f2f489e8c6450ebcd4c4eea": {
+    "source": "warning_icon",
+    "target": "warning_icon",
+    "controlName": "warning_icon"
+  },
+  "dc67b7e40a45439e897d7384f146238e": {
+    "source": "georgia_sol_text",
+    "target": "georgia_sol_text",
+    "controlName": "georgia_sol_text"
+  },
+  "758061c38ffe49bfb9caf54845b031f4": {
+    "source": "special_rules",
+    "target": "special_rules",
+    "controlName": "special_rules"
+  },
+  "georgia_group0fa18": [
+    "warning_icon",
+    "georgia_sol_text",
+    "special_rules"
+  ],
+  "4657a0971aba4b50af1ed47f43063b3d": {
+    "source": "warnings_icon",
+    "target": "warnings_icon",
+    "controlName": "warnings_icon"
+  },
+  "0fa76d8af1c74c4694bd83a0f81ea2e1": {
+    "source": "georgias_sol_text",
+    "target": "georgias_sol_text",
+    "controlName": "georgias_sol_text"
+  },
+  "8b41e21cfe934345b4cc7a1ba3cb4b8b": {
+    "source": "specials_rules",
+    "target": "specials_rules",
+    "controlName": "specials_rules"
+  },
+  "georgias_group945fd": [
+    "warnings_icon",
+    "georgias_sol_text",
+    "specials_rules"
+  ],
+  "7c84b653892b401ca0d28dca66eb27c3": {
+    "source": "warningss_icons",
+    "target": "warningss_icons",
+    "controlName": "warningss_icons"
+  },
+  "7d3dd99ef48948d085792ab35cd1ccd5": {
+    "source": "georgias_sosl_texts",
+    "target": "georgias_sosl_texts",
+    "controlName": "georgias_sosl_texts"
+  },
+  "93f2584a8d734a859c34794ded3cabb6": {
+    "source": "specials_ruless",
+    "target": "specials_ruless",
+    "controlName": "specials_ruless"
+  },
+  "georgias_groups6f85f": [
+    "warningss_icons",
+    "georgias_sosl_texts",
+    "specials_ruless"
+  ],
+  "f09ece9d49bf4556ae1f603ea25e38db": {
+    "source": "warningsss_icons",
+    "target": "warningsss_icons",
+    "controlName": "warningsss_icons"
+  },
+  "57f478abb5744ef4a65edef1d2f52ad5": {
+    "source": "georgiass_sosl_texts",
+    "target": "georgiass_sosl_texts",
+    "controlName": "georgiass_sosl_texts"
+  },
+  "633ff3c9de0a4adebeb446a8f3dc3d56": {
+    "source": "speciasls_ruless",
+    "target": "speciasls_ruless",
+    "controlName": "speciasls_ruless"
+  },
+  "georgiass_groups86a87": [
+    "warningsss_icons",
+    "georgiass_sosl_texts",
+    "speciasls_ruless"
+  ],
+  "aef68e28d8c04a0ab7a801f7b5dbdae5": {
+    "source": "warningssss_icons",
+    "target": "warningssss_icons",
+    "controlName": "warningssss_icons"
+  },
+  "d339556cc7024e93a9a3b3ccac114d14": {
+    "source": "georsgiass_sosl_texts",
+    "target": "georsgiass_sosl_texts",
+    "controlName": "georsgiass_sosl_texts"
+  },
+  "04e0b8cbf3f349e08e40da536a122364": {
+    "source": "spesciasls_ruless",
+    "target": "spesciasls_ruless",
+    "controlName": "spesciasls_ruless"
+  },
+  "georgsiass_groupsb044a": [
+    "warningssss_icons",
+    "georsgiass_sosl_texts",
+    "spesciasls_ruless"
+  ],
+  "6a097c76b094496c8d8aff1b3459078e": {
+    "source": "debt_info_text",
+    "target": "debt_info_text",
+    "controlName": "debt_info_text"
+  },
+  "4eeabbf73e014a689d9d434a19ba5e3f": {
+    "source": "debtor_name",
+    "target": "debtor_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.debtor_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|bc50558abc744bbaae03288432278a70|4eeabbf73e014a689d9d434a19ba5e3f"
+      }
+    ],
+    "controlName": "debtor_name"
+  },
+  "0530e75123d74668b2a4b9f58c9273fe": {
+    "source": "ssn_masked",
+    "target": "ssn_masked",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.ssn_masked"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|bc50558abc744bbaae03288432278a70|0530e75123d74668b2a4b9f58c9273fe"
+      }
+    ],
+    "controlName": "ssn_masked"
+  },
+  "662d7d17cf1c47769d43b686ee2dba19": {
+    "source": "dob",
+    "target": "dob",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.dob"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|bc50558abc744bbaae03288432278a70|662d7d17cf1c47769d43b686ee2dba19"
+      }
+    ],
+    "controlName": "dob"
+  },
+  "f17cd2617eb84d658bf6c2efdd4a3e42": {
+    "source": "address",
+    "target": "address",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.address"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|bc50558abc744bbaae03288432278a70|f17cd2617eb84d658bf6c2efdd4a3e42"
+      }
+    ],
+    "controlName": "address"
+  },
+  "debtor_information_group78a70": [
+    "debt_info_text",
+    "debtor_name",
+    "ssn_masked",
+    "dob",
+    "address"
+  ],
+  "727cd64c11e74fcba104ad702213b122": {
+    "source": "financial_dtls_text",
+    "target": "financial_dtls_text",
+    "controlName": "financial_dtls_text"
+  },
+  "2957d03a8f3343f19600743205ff15ef": {
+    "source": "charge_off_date",
+    "target": "charge_off_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.charge_off_date"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|564f1b6503aa4531afd30f4a41852f47|2957d03a8f3343f19600743205ff15ef"
+      }
+    ],
+    "controlName": "charge_off_date"
+  },
+  "8be4bd31438e4f90bd2d5587bfb23905": {
+    "source": "last_payment_date",
+    "target": "last_payment_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.last_payment_date"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|564f1b6503aa4531afd30f4a41852f47|8be4bd31438e4f90bd2d5587bfb23905"
+      }
+    ],
+    "controlName": "last_payment_date"
+  },
+  "9050fb44d93e4c229baff2da932d15a0": {
+    "source": "total_balance",
+    "target": "total_balance",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.total_balance"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|564f1b6503aa4531afd30f4a41852f47|9050fb44d93e4c229baff2da932d15a0"
+      }
+    ],
+    "controlName": "total_balance"
+  },
+  "1072412c049f4d55bbbf8b8ffc0c3ba6": {
+    "source": "principal",
+    "target": "principal",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.principal"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|564f1b6503aa4531afd30f4a41852f47|1072412c049f4d55bbbf8b8ffc0c3ba6"
+      }
+    ],
+    "controlName": "principal"
+  },
+  "2d6414bf5cc640c7b940eb9306f81968": {
+    "source": "interest",
+    "target": "interest",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.interest"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|564f1b6503aa4531afd30f4a41852f47|2d6414bf5cc640c7b940eb9306f81968"
+      }
+    ],
+    "controlName": "interest"
+  },
+  "da70e32985ec478a83ca12fbe470f99a": {
+    "source": "fees",
+    "target": "fees",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.fees"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|564f1b6503aa4531afd30f4a41852f47|da70e32985ec478a83ca12fbe470f99a"
+      }
+    ],
+    "controlName": "fees"
+  },
+  "financial_details_group52f47": [
+    "financial_dtls_text",
+    "charge_off_date",
+    "last_payment_date",
+    "total_balance",
+    "principal",
+    "interest",
+    "fees"
+  ],
+  "34e9bee730c74210aac754f1381ef3ac": {
+    "source": "ven_name_text",
+    "target": "ven_name_text",
+    "controlName": "ven_name_text"
+  },
+  "f8de56cfd7924a51ac8f55b0d5f752e3": {
+    "source": "state",
+    "target": "state",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.state"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|98c070f07547402d854c337bbb817ac6|f8de56cfd7924a51ac8f55b0d5f752e3"
+      }
+    ],
+    "controlName": "state"
+  },
+  "78f2c49d24394dbcb42b9a49734f4404": {
+    "source": "county",
+    "target": "country",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.county"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|98c070f07547402d854c337bbb817ac6|78f2c49d24394dbcb42b9a49734f4404"
+      }
+    ],
+    "controlName": "country"
+  },
+  "1ec2394b65e841dc9a1243eb1a6f21b5": {
+    "source": "court_name",
+    "target": "court_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.court_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|98c070f07547402d854c337bbb817ac6|1ec2394b65e841dc9a1243eb1a6f21b5"
+      }
+    ],
+    "controlName": "court_name"
+  },
+  "a88306fc6c3048e6803394e503578f03": {
+    "source": "judge_name",
+    "target": "judge_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.judge_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|98c070f07547402d854c337bbb817ac6|a88306fc6c3048e6803394e503578f03"
+      }
+    ],
+    "controlName": "judge_name"
+  },
+  "99f6812f74e742a89369584d34d8639c": {
+    "source": "sol_expiry_date",
+    "target": "sol_expiry_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.sol_expiry_date"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|98c070f07547402d854c337bbb817ac6|99f6812f74e742a89369584d34d8639c"
+      }
+    ],
+    "controlName": "sol_expiry_date"
+  },
+  "49515d7b81c14ef58f7e981b34e389dd": {
+    "source": "filing_fee",
+    "target": "filing_fee",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.filing_fee"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|98c070f07547402d854c337bbb817ac6|49515d7b81c14ef58f7e981b34e389dd"
+      }
+    ],
+    "controlName": "filing_fee"
+  },
+  "8688ad9e831640539f05bd8a41adeae7": {
+    "source": "service_method",
+    "target": "service_method",
+    "controlName": "service_method"
+  },
+  "0047a202b6854eb2bf06cbf05cdc00e5": {
+    "source": "efiling_system",
+    "target": "efiling_system",
+    "controlName": "efiling_system"
+  },
+  "61db3c5f33304debbbf66a2976fb3e9d": {
+    "source": "efiling_required",
+    "target": "efiling_required",
+    "controlName": "efiling_required"
+  },
+  "venue_details_group17ac6": [
+    "ven_name_text",
+    "state",
+    "county",
+    "court_name",
+    "judge_name",
+    "sol_expiry_date",
+    "filing_fee",
+    "service_method",
+    "efiling_system",
+    "efiling_required"
+  ],
+  "627ea3edaf8845569beadacbeb79e8f8": {
+    "source": "reeq_doc_text",
+    "target": "reeq_doc_text",
+    "controlName": "reeq_doc_text"
+  },
+  "0617b7f33ff04eef9b5079d2f85b45ef": {
+    "source": "description_text",
+    "target": "description_text",
+    "controlName": "description_text"
+  },
+  "required_dociument_main_group04e92": [
+    "reeq_doc_text",
+    "description_text"
+  ],
+  "required_dociument_header_groupe39c8": [],
+  "4ad40d41d750407aa03ea7d320aaf61f": {
+    "source": "doc_type_id",
+    "target": "doc_type_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:docTypeNameCombo:AFVK:v1|94ed8e1f2df5d8f8e4c62630edcb4e86|properties.doc_type_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|2835a4a5d4754169ba15a5e8d16be9fa|4ad40d41d750407aa03ea7d320aaf61f"
+      }
+    ],
+    "controlName": "doc_type_id"
+  },
+  "ff4f23381c8a4b5fb2cdb784c3f949dd": {
+    "source": "doc_type_name",
+    "target": "doc_type_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:docTypeNameCombo:AFVK:v1|94ed8e1f2df5d8f8e4c62630edcb4e86|properties.doc_type_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|2835a4a5d4754169ba15a5e8d16be9fa|ff4f23381c8a4b5fb2cdb784c3f949dd"
+      }
+    ],
+    "controlName": "doc_type_name"
+  },
+  "fe13ae0852ab473f87e6d1b6ed7dff25": {
+    "source": "uploader",
+    "target": "uploader",
+    "controlName": "uploader"
+  },
+  "75493b6935364e7fb1edf06f8c4d9056": {
+    "source": "doc_reference_url",
+    "target": "doc_reference_url",
+    "controlName": "doc_reference_url"
+  },
+  "doc_type_tablebe9fa": [
+    "doc_type_id",
+    "doc_type_name",
+    "uploader",
+    "doc_reference_url"
+  ],
+  "9de9048ac2e6460d9f6a4a1a5bac0f22": {
+    "source": "valid_checklist_text",
+    "target": "valid_checklist_text",
+    "controlName": "valid_checklist_text"
+  },
+  "checklist_main_group0df6b": [
+    "valid_checklist_text"
+  ],
+  "checklist_group32b3d": [],
+  "afd688793a204abcb645a04da05255b0": {
+    "source": "checklist_item_id",
+    "target": "checklist_item_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrChecklistCombo:AFVK:v1|c6e52b37857940fd83c7dff3b2cfff76|properties.checklist_item_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|71f0e8dd493f4db6b887d87b4d0198e1|afd688793a204abcb645a04da05255b0"
+      }
+    ],
+    "controlName": "checklist_item_id"
+  },
+  "4584df795daf4a71a6b570825cceed39": {
+    "source": "item_name",
+    "target": "item_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrChecklistCombo:AFVK:v1|c6e52b37857940fd83c7dff3b2cfff76|properties.item_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|71f0e8dd493f4db6b887d87b4d0198e1|4584df795daf4a71a6b570825cceed39"
+      }
+    ],
+    "controlName": "item_name"
+  },
+  "022adba7e41c42a09ab706a95c0b8c69": {
+    "source": "is_complete",
+    "target": "is_complete",
+    "controlName": "is_complete"
+  },
+  "checklist_table198e1": [
+    "checklist_item_id",
+    "item_name",
+    "is_complete"
+  ],
+  "69826ac57cfb3a821a71e370ba0cb444": {
+    "source": "venue_id",
+    "target": "venue_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.venue_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|f9a0177882553386d93285e61911f6e4|69826ac57cfb3a821a71e370ba0cb444"
+      }
+    ],
+    "controlName": "venue_id"
+  },
+  "ceb94cbd35fcb181abc6d2c044fb1867": {
+    "source": "creditor_id",
+    "target": "creditor_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.creditor_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|f9a0177882553386d93285e61911f6e4|ceb94cbd35fcb181abc6d2c044fb1867"
+      }
+    ],
+    "controlName": "creditor_id"
+  },
+  "d4e6a9b304fb13d71a12c5c882b15a62": {
+    "source": "remarks_textarea",
+    "target": "remarks_textarea",
+    "controlName": "remarks_textarea"
+  },
+  "2282ed370c46ebab431f41a29064ecc7": {
+    "source": "account_id",
+    "target": "account_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.account_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|f9a0177882553386d93285e61911f6e4|2282ed370c46ebab431f41a29064ecc7"
+      }
+    ],
+    "controlName": "account_id"
+  },
+  "add_case_group1f6e4": [
+    "venue_id",
+    "creditor_id",
+    "remarks_textarea",
+    "account_id"
+  ],
+  "1d5f8659712d256229e3aad614593eaa": {
+    "source": "craete_header_text",
+    "target": "craete_header_text",
+    "controlName": "craete_header_text"
+  },
+  "header_group3749a": [
+    "craete_header_text"
+  ],
+  "cc0901dad72016445cd37092781df3f1": {
+    "source": "case_info_text",
+    "target": "case_info_text",
+    "controlName": "case_info_text"
+  },
+  "2f9cc118b46f24198329a710709257be": {
+    "source": "creditor_name",
+    "target": "creditor_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.creditor_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|19e9edfb1e7ccf7985bc9825117cec29|2f9cc118b46f24198329a710709257be"
+      }
+    ],
+    "controlName": "creditor_name"
+  },
+  "a1438af6d7ab4fc89b56bbfa4ef87be1": {
+    "source": "attorney_name",
+    "target": "attorney_name",
+    "controlName": "attorney_name"
+  },
+  "2867a613af0840efa9cc6d3117aa5f92": {
+    "source": "status_name",
+    "target": "status_name",
+    "controlName": "status_name"
+  },
+  "e0b54239fe76483389cc26c22dc449dd": {
+    "source": "priority_name",
+    "target": "priority_name",
+    "controlName": "priority_name"
+  },
+  "baef41145ab68936140422c91d0ceb8d": {
+    "source": "queue_position",
+    "target": "queue_position",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.queue_position"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|19e9edfb1e7ccf7985bc9825117cec29|baef41145ab68936140422c91d0ceb8d"
+      }
+    ],
+    "controlName": "queue_position"
+  },
+  "e5db34d6e0d4254536500f8a054dfaa9": {
+    "source": "quality_score",
+    "target": "quality_score",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.quality_score"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|19e9edfb1e7ccf7985bc9825117cec29|e5db34d6e0d4254536500f8a054dfaa9"
+      }
+    ],
+    "controlName": "quality_score"
+  },
+  "8e4203dfeadf83a81eda34016be20502": {
+    "source": "sla_wait_start_time",
+    "target": "sla_wait_start_time",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.sla_wait_start_time"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|19e9edfb1e7ccf7985bc9825117cec29|8e4203dfeadf83a81eda34016be20502"
+      }
+    ],
+    "controlName": "sla_wait_start_time"
+  },
+  "case_information_groupcec29": [
+    "case_info_text",
+    "creditor_name",
+    "attorney_name",
+    "status_name",
+    "priority_name",
+    "queue_position",
+    "quality_score",
+    "sla_wait_start_time"
+  ],
+  "0dd74c9fb7392409220af1e786efb03f": {
+    "source": "rules_icon",
+    "target": "rules_icon",
+    "controlName": "rules_icon"
+  },
+  "3398f8ad394c595e293d84a4b2cecd92": {
+    "source": "venue_special_rules_text",
+    "target": "venue_special_rules_text",
+    "controlName": "venue_special_rules_text"
+  },
+  "1bbe8d2a1efbbe65867feb79fa32001a": {
+    "source": "special_rules",
+    "target": "special_rules",
+    "controlName": "special_rules"
+  },
+  "3317697d41bb93c7704d7f489ee206ab": {
+    "source": "venue_special_rules_divider",
+    "target": "venue_special_rules_divider",
+    "controlName": "venue_special_rules_divider"
+  },
+  "8103c3d2a111c06ad8eef5a81e028a68": {
+    "source": "venue_special_rules_dividers",
+    "target": "venue_special_rules_dividers",
+    "controlName": "venue_special_rules_dividers"
+  },
+  "2b876bf7c8b9b47d848b1b5faa50c16e": {
+    "source": "venue_special_rules_dividerss",
+    "target": "venue_special_rules_dividerss",
+    "controlName": "venue_special_rules_dividerss"
+  },
+  "781f2fc7f5e64de8945f83d82f2dcaab": {
+    "source": "venue_special_rules_dividersss",
+    "target": "venue_special_rules_dividersss",
+    "controlName": "venue_special_rules_dividersss"
+  },
+  "4e5fcb038e6d4e2fa2228711c6244419": {
+    "source": "venues_special_rules_dividerssss",
+    "target": "venues_special_rules_dividerssss",
+    "controlName": "venues_special_rules_dividerssss"
+  },
+  "venue_groupa72d9": [
+    "rules_icon",
+    "venue_special_rules_text",
+    "special_rules",
+    "venue_special_rules_divider",
+    "venue_special_rules_dividers",
+    "venue_special_rules_dividerss",
+    "venue_special_rules_dividersss",
+    "venues_special_rules_dividerssss"
+  ],
+  "da582fdb91e12f6ce85d686b157d1cd0": {
+    "source": "warning_icon",
+    "target": "warning_icon",
+    "controlName": "warning_icon"
+  },
+  "cd92d6c52d1a18c62d39cce488a460ef": {
+    "source": "georgia_sol_text",
+    "target": "georgia_sol_text",
+    "controlName": "georgia_sol_text"
+  },
+  "ea953dd0c28e76135ddedc1e4cad6c6e": {
+    "source": "special_rules",
+    "target": "special_rules",
+    "controlName": "special_rules"
+  },
+  "georgia_groupa636c": [
+    "warning_icon",
+    "georgia_sol_text",
+    "special_rules"
+  ],
+  "bf8937bf0948cca187e72f896ce0adcc": {
+    "source": "warnings_icon",
+    "target": "warnings_icon",
+    "controlName": "warnings_icon"
+  },
+  "4b5a8d3629fa52697607df89f1524265": {
+    "source": "georgias_sol_text",
+    "target": "georgias_sol_text",
+    "controlName": "georgias_sol_text"
+  },
+  "24d3b768c877be48bd55fc5f64c14021": {
+    "source": "specials_rules",
+    "target": "specials_rules",
+    "controlName": "specials_rules"
+  },
+  "georgias_groupbac01": [
+    "warnings_icon",
+    "georgias_sol_text",
+    "specials_rules"
+  ],
+  "1865b8897fcfd5e14a024517165476c3": {
+    "source": "warningss_icons",
+    "target": "warningss_icons",
+    "controlName": "warningss_icons"
+  },
+  "c3626dc1f9530054bd62d953ed43f264": {
+    "source": "georgias_sosl_texts",
+    "target": "georgias_sosl_texts",
+    "controlName": "georgias_sosl_texts"
+  },
+  "b0ba6e4175fc8d51139e6d3d131cc30f": {
+    "source": "specials_ruless",
+    "target": "specials_ruless",
+    "controlName": "specials_ruless"
+  },
+  "georgias_groupsbf356": [
+    "warningss_icons",
+    "georgias_sosl_texts",
+    "specials_ruless"
+  ],
+  "fa5393454535416a850f23052143be9c": {
+    "source": "warningsss_icons",
+    "target": "warningsss_icons",
+    "controlName": "warningsss_icons"
+  },
+  "fd60d979652147318fab125fcf088097": {
+    "source": "georgiass_sosl_texts",
+    "target": "georgiass_sosl_texts",
+    "controlName": "georgiass_sosl_texts"
+  },
+  "3a00063985e2415394dd932f0b495686": {
+    "source": "specials_ruless",
+    "target": "specials_ruless",
+    "controlName": "specials_ruless"
+  },
+  "georgiass_groups9e4dd": [
+    "warningsss_icons",
+    "georgiass_sosl_texts",
+    "specials_ruless"
+  ],
+  "6a19347954494103817e9585e9855275": {
+    "source": "warningssss_icons",
+    "target": "warningssss_icons",
+    "controlName": "warningssss_icons"
+  },
+  "4060d5711f3848a0ae1f771bd3815f5e": {
+    "source": "georsgiass_sosl_texts",
+    "target": "georsgiass_sosl_texts",
+    "controlName": "georsgiass_sosl_texts"
+  },
+  "58b3626747424977ad32b3f9ebe910f1": {
+    "source": "spesciasls_ruless",
+    "target": "spesciasls_ruless",
+    "controlName": "spesciasls_ruless"
+  },
+  "georgsiass_groups6bf7a": [
+    "warningssss_icons",
+    "georsgiass_sosl_texts",
+    "spesciasls_ruless"
+  ],
+  "18751b90d9373afbf07d7a71e0db09b8": {
+    "source": "debt_info_text",
+    "target": "debt_info_text",
+    "controlName": "debt_info_text"
+  },
+  "a99ee037154cc5104e292026d8df7cac": {
+    "source": "debtor_name",
+    "target": "debtor_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.debtor_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|2945c3ed617347a7c830ad1f64edfa55|a99ee037154cc5104e292026d8df7cac"
+      }
+    ],
+    "controlName": "debtor_name"
+  },
+  "79caa3d6674e6fc9e34d0ecc7c126c46": {
+    "source": "ssn_masked",
+    "target": "ssn_masked",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.ssn_masked"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|2945c3ed617347a7c830ad1f64edfa55|79caa3d6674e6fc9e34d0ecc7c126c46"
+      }
+    ],
+    "controlName": "ssn_masked"
+  },
+  "cfdc38b06f60edbe5ffe0462f460f0bf": {
+    "source": "dob",
+    "target": "dob",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.dob"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|2945c3ed617347a7c830ad1f64edfa55|cfdc38b06f60edbe5ffe0462f460f0bf"
+      }
+    ],
+    "controlName": "dob"
+  },
+  "5dceed9625715675a749f6f623a22d72": {
+    "source": "address",
+    "target": "address",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.address"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|2945c3ed617347a7c830ad1f64edfa55|5dceed9625715675a749f6f623a22d72"
+      }
+    ],
+    "controlName": "address"
+  },
+  "debtor_information_groupdfa55": [
+    "debt_info_text",
+    "debtor_name",
+    "ssn_masked",
+    "dob",
+    "address"
+  ],
+  "262175566d7251f3496f307a1293451f": {
+    "source": "financial_dtls_text",
+    "target": "financial_dtls_text",
+    "controlName": "financial_dtls_text"
+  },
+  "63554701a6605ae042ec185840613a39": {
+    "source": "charge_off_date",
+    "target": "charge_off_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.charge_off_date"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|7371fc8250b615220e8d394f4c4ed0d9|63554701a6605ae042ec185840613a39"
+      }
+    ],
+    "controlName": "charge_off_date"
+  },
+  "50e6e57cb159946fa772a6a81c0eab2f": {
+    "source": "last_payment_date",
+    "target": "last_payment_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.last_payment_date"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|7371fc8250b615220e8d394f4c4ed0d9|50e6e57cb159946fa772a6a81c0eab2f"
+      }
+    ],
+    "controlName": "last_payment_date"
+  },
+  "3be313113fb781b7fd501c628a4ca1e1": {
+    "source": "total_balance",
+    "target": "total_balance",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.total_balance"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|7371fc8250b615220e8d394f4c4ed0d9|3be313113fb781b7fd501c628a4ca1e1"
+      }
+    ],
+    "controlName": "total_balance"
+  },
+  "ee422881cb0b6e97b2af43bedb06eb2a": {
+    "source": "principal",
+    "target": "principal",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.principal"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|7371fc8250b615220e8d394f4c4ed0d9|ee422881cb0b6e97b2af43bedb06eb2a"
+      }
+    ],
+    "controlName": "principal"
+  },
+  "4c1e36f427e92cda7167a9bdd29a6b7d": {
+    "source": "interest",
+    "target": "interest",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.interest"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|7371fc8250b615220e8d394f4c4ed0d9|4c1e36f427e92cda7167a9bdd29a6b7d"
+      }
+    ],
+    "controlName": "interest"
+  },
+  "87c4d7898c5ea3f8a8b642d2d2ab456c": {
+    "source": "fees",
+    "target": "fees",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.fees"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|7371fc8250b615220e8d394f4c4ed0d9|87c4d7898c5ea3f8a8b642d2d2ab456c"
+      }
+    ],
+    "controlName": "fees"
+  },
+  "financial_details_grouped0d9": [
+    "financial_dtls_text",
+    "charge_off_date",
+    "last_payment_date",
+    "total_balance",
+    "principal",
+    "interest",
+    "fees"
+  ],
+  "f9d7a8cd19668bf94d6fd56b34a0c8ba": {
+    "source": "ven_name_text",
+    "target": "ven_name_text",
+    "controlName": "ven_name_text"
+  },
+  "63fbf4c74fcf7f8614a6d5191d33010e": {
+    "source": "state",
+    "target": "state",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.state"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|c047eba261894ed1a6f57f313eb6a27a|63fbf4c74fcf7f8614a6d5191d33010e"
+      }
+    ],
+    "controlName": "state"
+  },
+  "abeed84434d4cc50a6d7a1f95d81983b": {
+    "source": "county",
+    "target": "country",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.county"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|c047eba261894ed1a6f57f313eb6a27a|abeed84434d4cc50a6d7a1f95d81983b"
+      }
+    ],
+    "controlName": "country"
+  },
+  "9d55e36afc6bd8f40158ac1000a41a77": {
+    "source": "court_name",
+    "target": "court_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.court_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|c047eba261894ed1a6f57f313eb6a27a|9d55e36afc6bd8f40158ac1000a41a77"
+      }
+    ],
+    "controlName": "court_name"
+  },
+  "1a201d0fc8e958a1f970c2bbe3d0a819": {
+    "source": "judge_name",
+    "target": "judge_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.judge_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|c047eba261894ed1a6f57f313eb6a27a|1a201d0fc8e958a1f970c2bbe3d0a819"
+      }
+    ],
+    "controlName": "judge_name"
+  },
+  "96309f080c89f4bd2efb7669fbdd5486": {
+    "source": "sol_expiry_date",
+    "target": "sol_expiry_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.sol_expiry_date"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|c047eba261894ed1a6f57f313eb6a27a|96309f080c89f4bd2efb7669fbdd5486"
+      }
+    ],
+    "controlName": "sol_expiry_date"
+  },
+  "e4368ffa4647c219258c936427089c7f": {
+    "source": "filing_fee",
+    "target": "filing_fee",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.filing_fee"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|c047eba261894ed1a6f57f313eb6a27a|e4368ffa4647c219258c936427089c7f"
+      }
+    ],
+    "controlName": "filing_fee"
+  },
+  "7fb3c7308ef94d7ea2ee3cf2ac11b411": {
+    "source": "service_method",
+    "target": "service_method",
+    "controlName": "service_method"
+  },
+  "2920dce1d6d24a7ea77ef030b197d508": {
+    "source": "efiling_system",
+    "target": "efiling_system",
+    "controlName": "efiling_system"
+  },
+  "7039bbac26a8092abc34c6b9f4a36d60": {
+    "source": "efiling_required",
+    "target": "efiling_required",
+    "controlName": "efiling_required"
+  },
+  "venue_details_group6a27a": [
+    "ven_name_text",
+    "state",
+    "county",
+    "court_name",
+    "judge_name",
+    "sol_expiry_date",
+    "filing_fee",
+    "service_method",
+    "efiling_system",
+    "efiling_required"
+  ],
+  "9cb0dabd54bafcf2e8fdc7d6ce9732f8": {
+    "source": "reeq_doc_text",
+    "target": "reeq_doc_text",
+    "controlName": "reeq_doc_text"
+  },
+  "required_dociument_main_group3eb5b": [
+    "reeq_doc_text"
+  ],
+  "2704256ce5014e2ab5fcb7db41354469": {
+    "source": "attachment_id",
+    "target": "attachment_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:DocTable:AFVK:v1|63f1fdf16ab179720c3d1503d94e26de|properties.attachment_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|6b6d3099fa6a45dea7e98d27d7fe79c7|2704256ce5014e2ab5fcb7db41354469"
+      }
+    ],
+    "controlName": "attachment_id"
+  },
+  "005c79990e964067978d6f0ac8c513db": {
+    "source": "doc_name",
+    "target": "doc_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:DocTable:AFVK:v1|63f1fdf16ab179720c3d1503d94e26de|properties.doc_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|6b6d3099fa6a45dea7e98d27d7fe79c7|005c79990e964067978d6f0ac8c513db"
+      }
+    ],
+    "controlName": "doc_name"
+  },
+  "d7d33f708d1f4958bbe4a490448736ad": {
+    "source": "trs_created_by",
+    "target": "trs_created_by",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:DocTable:AFVK:v1|63f1fdf16ab179720c3d1503d94e26de|properties.trs_created_by"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|6b6d3099fa6a45dea7e98d27d7fe79c7|d7d33f708d1f4958bbe4a490448736ad"
+      }
+    ],
+    "controlName": "trs_created_by"
+  },
+  "8f8722c4e3424cc88eaed135a5acfead": {
+    "source": "trs_created_date",
+    "target": "trs_created_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:DocTable:AFVK:v1|63f1fdf16ab179720c3d1503d94e26de|properties.trs_created_date"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|6b6d3099fa6a45dea7e98d27d7fe79c7|8f8722c4e3424cc88eaed135a5acfead"
+      }
+    ],
+    "controlName": "trs_created_date"
+  },
+  "doc_tablee79c7": [
+    "attachment_id",
+    "doc_name",
+    "trs_created_by",
+    "trs_created_date"
+  ],
+  "0e9b95a112ae10130926911f3d31428a": {
+    "source": "valid_checklist_text",
+    "target": "valid_checklist_text",
+    "controlName": "valid_checklist_text"
+  },
+  "checklist_main_group5b62e": [
+    "valid_checklist_text"
+  ],
+  "a2f072e261cf4946b4f26c12ef4611e6": {
+    "source": "checklist_item_id",
+    "target": "checklist_item_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrChecklistStatus:AFVK:v1|401380fb5b984554a4210c053168c928|properties.checklist_item_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|7fed27426c324e5f8ca49a40e0545abc|a2f072e261cf4946b4f26c12ef4611e6"
+      }
+    ],
+    "controlName": "checklist_item_id"
+  },
+  "61c0e898f45d4fe3a5533b3290bafc9a": {
+    "source": "item_name",
+    "target": "item_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrChecklistStatus:AFVK:v1|401380fb5b984554a4210c053168c928|properties.item_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|7fed27426c324e5f8ca49a40e0545abc|61c0e898f45d4fe3a5533b3290bafc9a"
+      }
+    ],
+    "controlName": "item_name"
+  },
+  "fa24eb4ef02144bf8d99a1879d66ef7a": {
+    "source": "is_complete",
+    "target": "is_completed",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrChecklistStatus:AFVK:v1|401380fb5b984554a4210c053168c928|properties.is_complete"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewCase:AFVK:v1|7fed27426c324e5f8ca49a40e0545abc|fa24eb4ef02144bf8d99a1879d66ef7a"
+      }
+    ],
+    "controlName": "is_completed"
+  },
+  "checklist_table45abc": [
+    "checklist_item_id",
+    "item_name",
+    "is_complete"
+  ],
+  "bb8313c8de4ec79f7e901c695ce64771": {
+    "source": "attachment_id",
+    "target": "documentviewer",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:DocTable:AFVK:v1|63f1fdf16ab179720c3d1503d94e26de|properties.attachment_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:documentViewer:AFVK:v1|0e8e7841dc25e413f98898bf0d9e4249|bb8313c8de4ec79f7e901c695ce64771"
+      }
+    ],
+    "controlName": "documentviewer"
+  },
+  "document_viewer_groupe4249": [
+    "attachment_id"
+  ],
+  "f1a27a1e58c037ae063f475d20d1e502": {
+    "source": "case_display_id",
+    "target": "advancesearch",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.case_display_id",
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.debtor_name",
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.creditor_name",
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.total_balance",
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.court_name",
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.status_name",
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.priority_name",
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.attorney_name",
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1|959ca53e2d07473a4303071fbd6a8201|properties.trs_created_date"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:pendingFillingSearch:AFVK:v1|c37fbb9ad0cec06ed1ec0e15e4b39b74|f1a27a1e58c037ae063f475d20d1e502"
+      }
+    ],
+    "controlName": "advancesearch"
+  },
+  "search_group39b74": [
+    "case_display_id"
+  ]
+}
