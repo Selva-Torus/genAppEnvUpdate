@@ -3989,25 +3989,13 @@ getConfig(): FusionAuthConfig {
     try {
       const config = this.getConfig();
 
-      const accessProfileList = await this.query(
-        `select 
-        opr_ap_id ,
-        access_profile as "accessProfile" ,
-        dap ,
-        org_grp as "orgGrp" ,
-        users_cnt as "no.ofusers" ,
-        trs_created_date::text as "createdOn" ,
-        role_unique_id as "roleUniqueId" ,
-        assigned_keys as "assignedKeys"
-        from 
-        ${schemaName}.tam_opr_access_profile 
-        where 
-        tenant_code=$1 and ag_code=$2 and app_code=$3 and trs_tenant_id=$1`,
-        [tenant, ag, app],
-      );
+      const accessProfileList = await this.getAccessTemplate(token , true)
       const filteredAccessprofile = accessProfileList.find(
         (t: any) => t?.accessProfile === selectedAccessProfile,
       );
+      if(!filteredAccessprofile){
+        throw new NotFoundException('Selected access profile not found')
+      }
       const filteredCombination: any = this.transformToCombinations([
         filteredAccessprofile,
       ]);
@@ -4246,7 +4234,7 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-  async getAccessTemplate(token: string) {
+  async getAccessTemplate(token: string , calledInternally: boolean = false) {
     try {
       const accountDetails = await this.MyAccountForClient(token, 's', true);
       const { accessProfile } = accountDetails;
@@ -4272,6 +4260,9 @@ getConfig(): FusionAuthConfig {
         const filteredAccessTemplate = accessProfileList.filter((template: any) =>
           accessProfile.includes(template?.accessProfile),
         );
+        if(calledInternally) {
+          return filteredAccessTemplate
+        }
         return this.transformToCombinations(filteredAccessTemplate);
       } else {
         throw new NotFoundException('Access Template not found');
