@@ -1159,51 +1159,6 @@ export class LockDetailsDto {
   ttl?: number;
 }
 
-export class teUpdateDto {
-  @ApiProperty({ description: 'primaryKey' })
-  @IsNotEmpty()
-  primaryKey: any;
-
-  @ApiProperty({ description: 'url' })
-  @IsNotEmpty()
-  @IsString()
-  url: string;
-
-  @ApiProperty({ description: 'tableName' })
-  @IsNotEmpty()
-  @IsString()
-  tableName: string;
-
-  @ApiProperty({ description: 'data' })
-  @IsNotEmpty()
-  data: any;
-
-  @ApiPropertyOptional({ description: 'key' })
-  @IsOptional()
-  @IsString()
-  key?: string;
-
-  @ApiPropertyOptional({ description: 'upId' })
-  @IsOptional()
-  upId?: any;
-
-  @ApiPropertyOptional({ type: LockDetailsDto })
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => LockDetailsDto)
-  lockDetails?: LockDetailsDto;
-
-  @ApiPropertyOptional({ description: 'dpdKey' })
-  @IsOptional()
-  @IsString()
-  dpdKey?: string;
-
-  @ApiPropertyOptional({ description: 'method' })
-  @IsOptional()
-  @IsString()
-  method?: string;
-}
-
 export class teSaveDto {
   @ApiProperty({ description: 'key' })
   @IsNotEmpty()

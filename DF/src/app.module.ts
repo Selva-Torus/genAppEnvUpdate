@@ -7,6 +7,7 @@ import { RuleService } from './ruleService';
 import { CodeService } from './codeService';
 import { RedisService } from './redisService';
 import { JwtService } from '@nestjs/jwt';
+import { JwtServices } from "src/jwt.services";
 import { UfModule } from './Torus/v1/uf/uf.module';
 import { TeModule } from './Torus/v1/te/te.module';
 import { ConfigService } from "@nestjs/config";
@@ -55,7 +56,7 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
   }),
   ScheduleModule.forRoot(),UfModule,TeModule,EnvDataModule,DFamrQueueDashboardModule,DFaddCaseModule,DFdocTypeNameComboModule,DFattorneysComboModule,DFpriorityComboModule,DFstatusComboModule,DFamrChecklistComboModule,DFDocTableModule,DFamrChecklistStatusModule,DFpendingFilingsDashboardModule,DFcardsDashboardModule,addCaseModifyModule,addCaseModule,ErdModule,], 
   controllers: [AppController],
-  providers: [AppService,CommonService,RuleService,CodeService,JwtService,RedisService,ConfigService,EnvData,PersistenceService,SwaggerGuard,{
+  providers: [AppService,CommonService,RuleService,CodeService,JwtService,JwtServices,JwtServices,RedisService,ConfigService,EnvData,PersistenceService,SwaggerGuard,{
       provide: APP_INTERCEPTOR,
       useClass: EncryptInterceptor,
     },

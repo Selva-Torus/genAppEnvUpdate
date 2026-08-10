@@ -2,7 +2,7 @@ import { BadRequestException, Body, Controller, Headers,  Logger,Post,UseGuards,
 import { ApiTags } from '@nestjs/swagger';
 import { TeService } from './te.service';
 import { CommonService } from 'src/common.Service';
-import { pfDto, teUpdateDto, teSaveDto } from 'src/dto';
+import { pfDto, teSaveDto } from 'src/dto';
 import { LockService } from 'src/lock.service';
 import { CustomException } from 'src/customException';
 import { RedisService } from 'src/redisService';
@@ -186,61 +186,7 @@ export class TeController {
     return finalres;
   }
 
-   @Post('update')
-  async getUpdate(@Body() input: teUpdateDto, @Headers('Authorization') auth: any,) {
-      try {
-      this.logger.log('update handler started') 
-      const { dpdKey,method } = input          
-          if (input.primaryKey && input.url && input.tableName && input.data && auth) {
-              var token = auth.split(' ')[1];  
-              var lock:any         
-          
-          if (input.lockDetails && input.lockDetails.ttl) {   
-            this.logger.log('lock verified')    
-              const resource = [`locks:${input.tableName}:${input.primaryKey}`];
-              const ttl = input.lockDetails.ttl
-              lock = await this.lockservice.acquireLock(resource, ttl);               
-              this.logger.log(`Lock acquired for ${input.primaryKey}`);
-          }
-
-          var result = await this.teService.updateHandler(input.data, input.key, input.upId, input.url,input.tableName, input.primaryKey, token)
-          if(dpdKey && method){
-            result["dpdKey"] = dpdKey
-            result["method"] = method
-          }
-          this.logger.log('updated result',result)
-          
-          if(result != undefined || result != null){     
-            if(result.statusCode){   
-            if(result.statusCode == 201) {
-              if(input.lockDetails && input.lockDetails.ttl){
-                // await new Promise((resolve) => setTimeout(resolve, 10000));  
-                await this.lockservice.releaseLock(lock);        
-                this.logger.log(`Lock released for ${input.primaryKey}`);          
-              }
-              return result
-            }
-          }
-          }
-        } else {
-          throw 'primarykey/tablename/data/token not found'
-      }
-      }
-      catch (error) {     
-        console.log(error)     
-        if(input.lockDetails){         
-          if(input.lockDetails.ttl && JSON.stringify(error).includes('quorum')){
-            throw new BadRequestException('Resource locked by other user');
-          }
-          if(lock){
-            await this.lockservice.releaseLock(lock);
-            this.logger.log(`Lock released for ${input.primaryKey}`);
-          }
-          
-        }      
-        throw new BadRequestException(error);
-      }  
-  }  
+   
       
   @Post('save')
   async save(@Body() input: teSaveDto, @Headers('Authorization') auth: any): Promise<any> {

@@ -4,6 +4,7 @@ import { addCaseController } from "./addCase.controller";
 import { RedisService } from "src/redisService";
 import { CommonService } from "src/common.Service";
 import { JwtService } from "@nestjs/jwt";
+import { JwtServices } from "src/jwt.services";
 import { RuleService } from "src/ruleService";
 import { CodeService } from "src/codeService";
 import { ConfigService } from '@nestjs/config';
@@ -15,7 +16,7 @@ import { EnvData } from 'src/envData/envData.service';
 @Module({
     imports: [TeModule],
     controllers: [addCaseController],
-    providers: [RedisService,CommonService,RuleService,CodeService,JwtService,ConfigService, LockService,EnvData,],
+    providers: [RedisService,CommonService,RuleService,CodeService,JwtService,JwtServices,ConfigService, LockService,EnvData,],
 })
 
 

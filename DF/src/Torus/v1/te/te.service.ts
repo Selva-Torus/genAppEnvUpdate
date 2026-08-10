@@ -7,6 +7,7 @@ import { SecurityService } from "src/securityService";
 import { CommonService } from "src/common.Service";
 import { CustomException } from "src/customException";
 import { JwtService } from "@nestjs/jwt";
+import { JwtServices } from "src/jwt.services";
 import { AxiosRequestConfig } from "axios";
 import { EnvData } from "src/envData/envData.service";
 const  Xid = require('xid-js');
@@ -17,7 +18,7 @@ export class TeService{
     constructor(@Inject('PO') private readonly poClient: ClientProxy,
     private readonly redisService:RedisService,
     private readonly securityService:SecurityService,
-    private readonly jwtService:JwtService,
+    private readonly jwtService:JwtServices,
     private readonly CommonService: CommonService,
     private readonly envData: EnvData,
     // @Inject(forwardRef(() => EventEmitterProcessor)) private readonly processor: EventEmitterProcessor
@@ -66,7 +67,7 @@ export class TeService{
          throw new CustomException('Data not found', 404);
        let tokenDecode: any;
        try {
-         tokenDecode = this.jwtService.verify(pfdto.token, { secret: this.envData.getAuthSecret() });
+         tokenDecode = await this.jwtService.verifyToken(pfdto.token);
        } catch (e) {
          tokenDecode = null;
        }
@@ -1176,60 +1177,6 @@ export class TeService{
   }
   } 
 
-  async updateHandler(data,dfkey,upid,url,tablename,id,token){   
-    try {  
-      const requestConfig: AxiosRequestConfig = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}` 
-        }
-       }; 
-        if(Array.isArray(data) && Array.isArray(id)){
-       if(id.length > 0 && data.length>0){
-        if( id.length == 1 && data.length == 1){
-          if(Object.keys(data).length > 0){
-            var apipath =url+tablename+'/'+id             
-            var apires = await this.CommonService.patchCall(apipath,data[0],requestConfig)
-           
-          }else{
-            throw 'Data was empty'
-          }
-          
-        }else{
-          for(var i=0;i< id.length;i++){
-            if(id.length == data.length){
-              var apipath =url+tablename+'/'+id[i]
-              var apires = await this.CommonService.patchCall(apipath,data[i],requestConfig)  
-                       
-            }else{
-              throw 'Missing data/id'
-            }             
-          }          
-        }
-       } else{
-        throw 'data/primarykey is empty'
-       }        
-      }else{
-        throw 'data/primarykey should be an array'
-      }
-      if(dfkey && upid){
-        if(apires?.statusCode){
-          if(apires.statusCode == 200){
-            var pfdto:any = new pfDto()
-            pfdto.key = dfkey
-            pfdto.upId = upid
-            pfdto.token = token 
-            pfdto.refreshFlag = 'Y'
-           var result = await this.EventEmitter(pfdto)  
-           return result         
-          } 
-         } 
-      }
-      return await this.CommonService.responseData(201,apires.result)
-        
-    } catch (error) {
-      throw error
-    }        
-  }
+ 
 
 }

@@ -4,6 +4,7 @@ import { RedisService } from "src/redisService";
 import { CommonService } from "src/common.Service";
 import { CustomException } from "src/customException";
 import { JwtService } from "@nestjs/jwt";
+import { JwtServices } from "src/jwt.services";
 import { LockService } from "src/lock.service";
 import axios,{ AxiosRequestConfig } from "axios";
 import * as FormData from 'form-data';
@@ -48,7 +49,7 @@ export class DynamicFlowService {
     constructor(
     private readonly redisService:RedisService,
     private readonly listenerService:ListenerService,
-    private readonly jwtService:JwtService,  
+    private readonly jwtService:JwtServices,  
     private readonly CommonService: CommonService,
     private readonly lockservice: LockService,
     private readonly envData:EnvData,
@@ -123,7 +124,7 @@ export class DynamicFlowService {
         try {
           // Verified — this drives trs_created_by/trs_org_code/etc. audit
           // stamping below, so a forged token must not be trusted here.
-          SessionToken = this.jwtService.verify(token, { secret: this.envData.getAuthSecret() });
+           SessionToken = await this.jwtService.verifyToken(token);;
         } catch (e) {
           SessionToken = null;
         }
@@ -1528,9 +1529,9 @@ export class DynamicFlowService {
                                 });
                             }   
                         //trs_version_no (lock update) 
-                        if(pfdto?.tableName && pfdto?.trs_version && qry.toLowerCase().includes('update') && qry.toLowerCase().includes(pfdto?.tableName)){                            
-                            qry =  await this.CommonService.appendWhereClause(qry,`trs_version == ${pfdto?.trs_version}`)//qry + ` where trs_version_no == ${pfdto?.trs_version_no}`
-                        }                   
+                        if(pfdto?.tableName && pfdto?.trs_version && qry.toLowerCase().includes('update') && qry.toLowerCase().includes(pfdto?.tableName)){
+                            qry =  await this.CommonService.appendWhereClause(qry,`trs_version = ${this.CommonService.sqlLiteral(pfdto?.trs_version)}`)//qry + ` where trs_version_no = ${pfdto?.trs_version_no}`
+                        }                  
                         logqry = qry
                         }  else {
                             oprname = 'select'
@@ -5492,31 +5493,7 @@ export class DynamicFlowService {
                             procedurequery = await this.replaceQuery(procedurequery,mapobj)   
                         }
                     }
-                    if (filterData && Array.isArray(filterData) && filterData.length > 0) {
-                        filterData.forEach((filterObj) => {
-                            if (filterObj.nodeId == poNode[j]?.nodeId) {
-                                const entries = Object.entries(filterObj).filter(([key]) => key !== 'nodeId',);
-                                entries.forEach(([key, value]) => {
-                                    let removedVal;
-                                    if (key.includes('.')) {
-                                        let s_item = key.split('.');
-                                        removedVal = s_item.filter((item) => !this.statickeyword.includes(item)).join('.');
-                                        if (removedVal.includes('.') && removedVal.startsWith('items.')) {
-                                            removedVal = removedVal.replace('items.', '');
-                                        }
-                                    } else {
-                                        removedVal = key
-                                    }
-                                    if (!this.CommonService.isSafeSqlIdentifier(removedVal)) return;
-                                    const regex = new RegExp(`\\$\\$\\$${removedVal}`, 'g');
-                                    if (typeof value == 'number')
-                                        executecommand = executecommand.replace(regex, `${value}`);
-                                    else if (typeof value == 'string')
-                                        executecommand = executecommand.replace(regex, this.CommonService.sqlLiteral(value));
-                                });
-                            }
-                        });
-                    }
+                    executecommand = this.CommonService.applyDollarDollarDollarFilters(executecommand, filterData, poNode[j]?.nodeId, this.statickeyword);
                     let obj ={},result;
                     if (executecommand.includes('$$$') || executecommand.includes('$$'))
                         executecommand = executecommand.replace(/\${2,3}[a-zA-Z0-9_]+/g, 'NULL');
@@ -5658,31 +5635,7 @@ export class DynamicFlowService {
                             });
                         }
                     }
-                    if (filterData && Array.isArray(filterData) && filterData.length > 0) {
-                        filterData.forEach((filterObj) => {
-                            if (filterObj.nodeId == poNode[j].nodeId) {
-                                const entries = Object.entries(filterObj).filter(([key]) => key !== 'nodeId',);
-                                entries.forEach(([key, value]) => {
-                                    let removedVal;
-                                    if (key.includes('.')) {
-                                        let s_item = key.split('.');
-                                        removedVal = s_item.filter((item) => !this.statickeyword.includes(item)).join('.');
-                                        if (removedVal.includes('.') && removedVal.startsWith('items.')) {
-                                            removedVal = removedVal.replace('items.', '');
-                                        }
-                                    } else {
-                                        removedVal = key
-                                    }
-                                    if (!this.CommonService.isSafeSqlIdentifier(removedVal)) return;
-                                    const regex = new RegExp(`\\$\\$\\$${removedVal}`, 'g');
-                                    if (typeof value == 'number')
-                                        executecommand = executecommand.replace(regex, `${value}`);
-                                    else if (typeof value == 'string')
-                                        executecommand = executecommand.replace(regex, this.CommonService.sqlLiteral(value));
-                                });
-                            }
-                        });
-                    }
+                    executecommand = this.CommonService.applyDollarDollarDollarFilters(executecommand, filterData, poNode[j].nodeId, this.statickeyword);
                     if (executecommand.includes('$$$') || executecommand.includes('$$'))
                         executecommand = executecommand.replace(/\${2,3}[a-zA-Z0-9_]+/g, 'NULL');
                     await client.connect();

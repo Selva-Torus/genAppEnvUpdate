@@ -4260,7 +4260,7 @@ getConfig(): FusionAuthConfig {
         const filteredAccessTemplate = accessProfileList.filter((template: any) =>
           accessProfile.includes(template?.accessProfile),
         );
-        if(calledInternally) {
+         if(calledInternally) {
           return filteredAccessTemplate
         }
         return this.transformToCombinations(filteredAccessTemplate);

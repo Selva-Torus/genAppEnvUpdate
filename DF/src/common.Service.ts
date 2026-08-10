@@ -30,6 +30,7 @@ import { decrypt } from "src/decrypt";
 import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc';
 import * as timezone from 'dayjs/plugin/timezone';
+import { JwtServices } from "src/jwt.services";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -66,7 +67,7 @@ export class CommonService{
   private bucket: GridFSBucket;
   constructor(private readonly ruleEngine:RuleService,
     private readonly codeService:CodeService,
-    private readonly jwtService: JwtService,
+    private readonly jwtService: JwtServices,
     private readonly redisService: RedisService,
     private readonly configService: ConfigService,
     private readonly envData:EnvData
@@ -812,7 +813,7 @@ export class CommonService{
         if (token && clientCode && clientCode !== deploymentTenant && clientCode !== 'redis') {
           let verifiedPayload: any;
           try {
-            verifiedPayload = this.jwtService.verify(token, { secret: this.envData.getAuthSecret() });
+            verifiedPayload = await this.jwtService.verifyToken(token);;
           } catch (e) {
             throw new CustomException('Invalid or expired token', 401);
           }
@@ -1120,6 +1121,49 @@ export class CommonService{
       return typeof name === 'string' && /^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)*$/.test(name);
     }
 
+    // Single shared implementation of the procedureexecutionnode `$$$field`
+    // placeholder substitution used by dynamicFlow.service.ts and
+    // listener.service.ts. Column names come from client-supplied filterData
+    // and are only ever used to locate a `$$$name` placeholder already present
+    // in the developer-authored executecommand template (not spliced in as an
+    // identifier), but are still run through isSafeSqlIdentifier as a guard;
+    // values are escaped through sqlLiteral before being spliced into the SQL
+    // text. Kept as one copy so this fix can't drift out of sync between the
+    // two call sites again.
+
+    applyDollarDollarDollarFilters(
+      executecommand: string,
+      filterData: any,
+      nodeId: string,
+      statickeyword: string[],
+      ): string {
+      if (!(filterData && Array.isArray(filterData) && filterData.length > 0)) {
+        return executecommand;
+      }
+      filterData.forEach((filterObj) => {
+        if (filterObj?.nodeId != nodeId) return;
+        const entries = Object.entries(filterObj).filter(([key]) => key !== 'nodeId');
+        entries.forEach(([key, value]) => {
+          let removedVal: string;
+          if (key.includes('.')) {
+            const s_item = key.split('.');
+            removedVal = s_item.filter((item) => !statickeyword.includes(item)).join('.');
+            if (removedVal.includes('.') && removedVal.startsWith('items.')) {
+              removedVal = removedVal.replace('items.', '');
+            }
+          } else {
+            removedVal = key;
+          }
+          if (!this.isSafeSqlIdentifier(removedVal)) return;
+          const regex = new RegExp(`\\$\\$\\$${removedVal}`, 'g');
+          if (typeof value == 'number') executecommand = executecommand.replace(regex, `${value}`);
+          else if (typeof value == 'string') executecommand = executecommand.replace(regex, this.sqlLiteral(value));
+        });
+      });
+      return executecommand;
+    }
+
+
     // Runtime guard for the pagination params that get spliced straight into
     // `LIMIT ${count} OFFSET ${offset}` on raw pg queries (dynamicFlow/listener
     // services). DTO-level @IsInt()/@Type(() => Number) only covers the HTTP
@@ -1420,7 +1464,7 @@ export class CommonService{
       var app = await this.splitcommonkey(key,'AFGK')
       var token:any
       try {
-        token = this.jwtService.verify(stoken, { secret: this.envData.getAuthSecret() });
+        token = await this.jwtService.verifyToken(token);;
       } catch (e) {
         token = null;
       }
@@ -1606,7 +1650,7 @@ export class CommonService{
        if(stoken){
         let token:any
         try {
-          token = this.jwtService.verify(stoken, { secret: this.envData.getAuthSecret() });
+          token = await this.jwtService.verifyToken(token);;
         } catch (e) {
           token = null;
         }
@@ -1646,7 +1690,7 @@ export class CommonService{
       try {
          let payload: any;
         try {
-          payload = this.jwtService.verify(token, { secret: this.envData.getAuthSecret() });
+          payload = await this.jwtService.verifyToken(token);;
         } catch (e) {
           throw new BadRequestException('Invalid or expired token');
         }
@@ -2444,7 +2488,7 @@ export class CommonService{
         let sobj = {},SessionInfo = {}
         let SessionToken: any;
         try {
-          SessionToken = this.jwtService.verify(token, { secret: this.envData.getAuthSecret() });
+          SessionToken = await this.jwtService.verifyToken(token);;
         } catch (e) {
           throw new BadRequestException('Invalid or expired token');
         }

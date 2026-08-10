@@ -3,11 +3,12 @@ import { RedisService } from "./redisService";
 import { CommonService } from "./common.Service";
 import { CustomException } from "./customException";
 import { JwtService } from "@nestjs/jwt";
+import { JwtServices } from "src/jwt.services";
 import { EnvData } from "./envData/envData.service";
 
 @Injectable()
 export class SecurityService {
-    constructor(private redisService: RedisService, private commonService: CommonService,private readonly jwtService:JwtService,private readonly envData:EnvData){}
+    constructor(private redisService: RedisService, private commonService: CommonService,private readonly jwtService:JwtServices,private readonly envData:EnvData){}
     private readonly logger = new Logger(SecurityService.name);
     
     async getSecurityTemplate(key,token){ 
@@ -26,7 +27,7 @@ export class SecurityService {
                 // let tokenDecode = await this.commonService.MyAccountForClient(token)
                 let tokenDecode: any;
                 try {
-                  tokenDecode = this.jwtService.verify(token, { secret: this.envData.getAuthSecret() });
+                  tokenDecode = await this.jwtService.verifyToken(token);;
                 } catch (e) {
                   tokenDecode = null;
                 }

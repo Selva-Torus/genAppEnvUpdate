@@ -5,6 +5,7 @@ const  Xid = require('xid-js');
 import { CommonService } from "src/common.Service";
 import { CustomException } from "src/customException";
 import { JwtService } from "@nestjs/jwt";
+import { JwtServices } from "src/jwt.services";
 import { CronJob } from 'cron';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { Queue, JobsOptions, QueueOptions } from 'bullmq';
@@ -32,7 +33,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
 
     constructor(
         private readonly redisService:RedisService,    
-        private readonly jwtService:JwtService,
+        private readonly jwtService:JwtServices,
         private schedulerRegistry: SchedulerRegistry,
         private readonly CommonService: CommonService,
         private readonly teService: TeService,
@@ -221,7 +222,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
     const job:any = new CronJob(interval, async () => {
       let tokenDecode: any;
       try {
-        tokenDecode = this.jwtService.verify(pfdto.token, { secret: this.envData.getAuthSecret() });
+        tokenDecode = await this.jwtService.verifyToken(pfdto.token);
       } catch (e) {
         tokenDecode = null;
       }
@@ -361,7 +362,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
     const intervalId = setInterval(async () => {
       let tokenDecode: any;
       try {
-        tokenDecode = this.jwtService.verify(pfdto.token, { secret: this.envData.getAuthSecret() });
+        tokenDecode = await this.jwtService.verifyToken(pfdto.token); 
       } catch (e) {
         tokenDecode = null;
       }
@@ -2015,7 +2016,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
           }
 
           //Procedure Execution node
-          if (nodeType == 'procedureexecutionnode' && poNode[j].nodeId == nodeId) {
+           if (nodeType == 'procedureexecutionnode' && poNode[j].nodeId == nodeId) {
             try {
               this.logger.log(`first ${poNode[j].nodeName} procedureexecutionnode Started`)
               let mapobj = {}, status, params, customConfig, procedurequery, nodeVersion, dbType, connectorType, storageType, dpdkey, conncectorName, dbConfig, executecommand, inMemory
@@ -2102,37 +2103,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                     executecommand = executecommand.replace(regex, value);
                   });
                 }
-                if (filterData && Array.isArray(filterData) && filterData.length > 0) {
-                  filterData.forEach((filterObj) => {
-                    if (filterObj.nodeId == poNode[j].nodeId) {
-                      const entries = Object.entries(filterObj).filter(([key]) => key !== 'nodeId',);
-                      // console.log('entries', entries);
-
-                      entries.forEach(([key, value]) => {
-                        let removedVal;
-                        if (key.includes('.')) {
-                          let s_item = key.split('.');
-
-                          removedVal = s_item.filter((item) => !statickeyword.includes(item)).join('.');
-                          // console.log("removedVal",removedVal);
-
-                          if (removedVal.includes('.') && removedVal.startsWith('items.')) {
-                            removedVal = removedVal.replace('items.', '');
-                          }
-                        } else {
-                          removedVal = key
-                        }
-
-                        const regex = new RegExp(`\\$\\$\\$${removedVal}`, 'g');
-                        if (typeof value == 'number')
-                          executecommand = executecommand.replace(regex, `${value}`);
-                        else if (typeof value == 'string')
-                          executecommand = executecommand.replace(regex, `'${value}'`);
-
-                      });
-                    }
-                  });
-                }
+                executecommand = this.CommonService.applyDollarDollarDollarFilters(executecommand, filterData, poNode[j].nodeId, statickeyword);
                 if (executecommand.includes('$$$') || executecommand.includes('$$'))
                   executecommand = executecommand.replace(/\${2,3}[a-zA-Z0-9_]+/g, 'NULL');
                 if (dbType == 'postgres') {

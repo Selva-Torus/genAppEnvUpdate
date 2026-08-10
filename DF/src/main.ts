@@ -14,6 +14,7 @@ import { EnvData } from './envData/envData.service';
 import { decrypt } from './decrypt';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { JwtServices } from "src/jwt.services";
 const Redis = require('ioredis');
 
 async function bootstrap() {
@@ -141,7 +142,7 @@ async function bootstrap() {
   fs.writeFileSync('./swagger.json', JSON.stringify(document, null, 2));
     // Swagger UI/JSON was previously mounted with no guard in front of it —
   // require the same bearer token AuthGuard checks before serving /docs.
-  const swaggerJwtService = app.get(JwtService);
+  const swaggerJwtService = app.get(JwtServices);
   const swaggerEnvData = app.get(EnvData);
   fastifyInstance.addHook('onRequest', async (request, reply) => {
     if (!request.url.includes('/docs')) return;
@@ -152,7 +153,7 @@ async function bootstrap() {
       return;
     }
     try {
-      swaggerJwtService.verify(token, { secret: swaggerEnvData.getAuthSecret() });
+      swaggerJwtService.verifyToken(token);
     } catch (e) {
       reply.code(401).send({ message: 'Invalid or expired token' });
     }
