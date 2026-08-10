@@ -1074,20 +1074,6 @@
         ]
       }
     },
-    "/UF/getAPPSecurityTemplateData": {
-      "get": {
-        "operationId": "UfController_getAPPSecurityTemplateData",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "TG"
-        ]
-      }
-    },
     "/UF/setJson": {
       "post": {
         "operationId": "UfController_setJson",
@@ -1365,30 +1351,6 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/pfDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "Torus API"
-        ]
-      }
-    },
-    "/te/update": {
-      "post": {
-        "operationId": "TeController_getUpdate",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/teUpdateDto"
               }
             }
           }
@@ -9720,52 +9682,6 @@
             "description": "ttl"
           }
         }
-      },
-      "teUpdateDto": {
-        "type": "object",
-        "properties": {
-          "primaryKey": {
-            "type": "object",
-            "description": "primaryKey"
-          },
-          "url": {
-            "type": "string",
-            "description": "url"
-          },
-          "tableName": {
-            "type": "string",
-            "description": "tableName"
-          },
-          "data": {
-            "type": "object",
-            "description": "data"
-          },
-          "key": {
-            "type": "string",
-            "description": "key"
-          },
-          "upId": {
-            "type": "object",
-            "description": "upId"
-          },
-          "lockDetails": {
-            "$ref": "#/components/schemas/LockDetailsDto"
-          },
-          "dpdKey": {
-            "type": "string",
-            "description": "dpdKey"
-          },
-          "method": {
-            "type": "string",
-            "description": "method"
-          }
-        },
-        "required": [
-          "primaryKey",
-          "url",
-          "tableName",
-          "data"
-        ]
       },
       "teSaveDto": {
         "type": "object",

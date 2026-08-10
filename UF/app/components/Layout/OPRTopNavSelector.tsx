@@ -774,7 +774,7 @@ const OPRTopNavSelector = ({
 
   const getSecurityTemplate = async () => {
     try {
-      const res = await AxiosService.get(`UF/getAPPSecurityTemplateData`, {
+      const res = await AxiosService.get(`UF/getAccessTemplates`, {
         headers: {
           Authorization: `Bearer ${getCookie('token')}`
         }

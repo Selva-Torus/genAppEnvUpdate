@@ -4445,7 +4445,7 @@ getConfig(): FusionAuthConfig {
           WHERE au.tenant_code = $1
             AND au.ag_code     = $2
             and au.trs_tenant_id=$1
-            AND au.app_code    = $3 AND login_id=$4 or email=$4` , [tenant , ag , app ,payload.loginId])
+            AND au.app_code    = $3 AND (login_id=$4 or email=$4)` , [tenant , ag , app ,payload.loginId])
       
           const reqiredUser = userList.find(
             (user) => user.loginId === payload.loginId,
@@ -5271,65 +5271,6 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-  async getAppUserList(
-    tenant: string,
-    ag: string,
-    app: string,
-    client: string,
-  ) {
-    try {
-      if (!tenant || !ag || !app || !client) {
-        return [];
-      }
-      const tenantUserList = await this.query(`SELECT
-            au.org_au_id,
-            tu.user_unique_id AS "userUniqueId",
-            tu.email,
-            tu.password,
-            tu.first_name AS "firstName",
-            tu.last_name AS "lastName",
-            tu.login_id AS "loginId",
-            tu.user_code AS "userCode",
-            tu.trs_created_date::text AS "dateAdded",
-            tu.status,
-            au.is_app_admin as "isAppAdmin",
-            au.no_of_products_service AS "noOfProductsService",
-            au.access_profile AS "accessProfile",
-            au.last_active AS "lastActive"
-          FROM ${schemaName}.tam_tenant_user tu
-          JOIN ${schemaName}.tam_app_user au
-            ON au.org_tu_id = tu.org_tu_id
-          WHERE au.tenant_code = $1
-            AND au.ag_code     = $2
-            AND au.app_code    = $3 and trs_tenant_id=$1` , [tenant , ag , app])
-      return tenantUserList || [];
-    } catch (error) {
-      throw new UnauthorizedException('Please check credentials');
-    }
-  }
-
-  async getTenantAppUser(tenant, client, ag, app){
-    try {
-      let setAssignUsers = []
-
-      const tenantUser: any[] = await this.getTenantUser();
-      const tenantAppUser: any[] = await this.getAppUserList(tenant, ag, app, client);
-      tenantAppUser.filter((appUser: any) =>
-        tenantUser.some(
-          (tenantUser: any) => {
-            if(appUser.userUniqueId === tenantUser.userUniqueId){
-              setAssignUsers.push({...appUser,...tenantUser})
-          }
-          }
-        ),
-      );
-      // return {data:setAssignUsers}
-       return setAssignUsers
-    }catch (error) {
-      throw new UnauthorizedException('Please check credentials');
-    }
-  }
-
   async getAppSecurityData() {
     try {
       const actions = [
@@ -5372,7 +5313,6 @@ getConfig(): FusionAuthConfig {
             tu.org_tu_id,
             tu.user_unique_id as "userUniqueId",
             tu.email,
-            tu.password,
             tu.first_name as "firstName",
             tu.last_name as "lastName",
             tu.login_id as "loginId",
@@ -5397,7 +5337,7 @@ getConfig(): FusionAuthConfig {
             and au.ag_code = $2
             and au.app_code = $3
           where
-            tu.tenant_code = $1 and trs_tenant_id=$1`,
+            tu.tenant_code = $1 and tu.trs_tenant_id=$1`,
           params : [tenant , ag , app]  
         }
       ]
@@ -5442,80 +5382,6 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-  async getAPPSecurityTemplateData() {
-    try {
-      let securityTemplateData = await this.query(`select 
-        opr_ap_id ,
-        access_profile as "accessProfile" ,
-        dap ,
-        org_grp as "orgGrp" ,
-        users_cnt as "no.ofusers" ,
-        trs_created_date::text as "createdOn" ,
-        role_unique_id as "roleUniqueId" ,
-        assigned_keys as "assignedKeys"
-        from 
-        ${schemaName}.tam_opr_access_profile 
-        where 
-        tenant_code=$1 and ag_code=$2 and app_code=$3 and trs_tenant_id=$1`
-          , [tenant , ag , app]);
-        securityTemplateData = securityTemplateData.map((data) => ({
-          ...data,
-          'no.ofusers': 0,
-        }));
-          const userlist = await this.query(`SELECT
-            au.org_au_id,
-            tu.user_unique_id AS "userUniqueId",
-            tu.email,
-            tu.password,
-            tu.first_name AS "firstName",
-            tu.last_name AS "lastName",
-            tu.login_id AS "loginId",
-            tu.user_code AS "userCode",
-            tu.trs_created_date::text AS "dateAdded",
-            tu.status,
-            au.is_app_admin as "isAppAdmin",
-            au.no_of_products_service AS "noOfProductsService",
-            au.access_profile AS "accessProfile",
-            au.last_active AS "lastActive"
-          FROM ${schemaName}.tam_tenant_user tu
-          JOIN ${schemaName}.tam_app_user au
-            ON au.org_tu_id = tu.org_tu_id
-          WHERE au.tenant_code = $1
-            AND au.ag_code     = $2
-            AND au.app_code    = $3 and au.trs_tenant_id=$1` , [tenant , ag , app]);
-
-          securityTemplateData = securityTemplateData.map((data) => {
-            var noOfUsers = 0;
-            userlist.forEach((user) => {
-              if (
-                user?.accessProfile &&
-                user.accessProfile.includes(data.accessProfile)
-              ) {
-                noOfUsers += 1;
-              }
-            });
-
-            return { ...data, 'no.ofusers': noOfUsers };
-          });
-      return securityTemplateData;
-    } catch (error: any) {
-      await this.commonService.errorLog(
-        'Technical',
-        'AK',
-        'Fatal',
-        'AUTH009',
-        error,
-        'UserScreen',
-        '',
-        {
-          artifact: 'UserScreen',
-          users: 'anonymous user',
-        },
-      );
-      await this.throwCustomException(error);
-    }
-  }
-
   async setJson(key: string, data: any) {
     try {
       return await this.redisService.setJsonData(
@@ -5537,103 +5403,6 @@ getConfig(): FusionAuthConfig {
           users: 'anonymous user',
         },
       );
-      await this.throwCustomException(error);
-    }
-  }
-
-  async appUserAddition(data: any,isFusionAuth:boolean=false) {
-    try {
-      if (!tenant || !ag || !app || !data) {
-        throw new BadRequestException('Invalid input parameters');
-      }
-      const userCachekey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:users`;
-      const clientProfileResourceKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:${tenant}:AFK:PROFILE:AFVK:v1:tpc`;
-
-      const userResponse = await this.redisService.getJsonData(
-        userCachekey,
-        process.env.CLIENTCODE,
-      );
-
-      const userList: any[] = userResponse ? JSON.parse(userResponse) : [];
-
-      const clientProfile = JSON.parse(
-        await this.redisService.getJsonData(
-          clientProfileResourceKey,
-          process.env.CLIENTCODE,
-        ),
-      );
-
-      const { email, firstName, lastName, password, loginId } = data;
-      const resForClientUserAddition = await this.redisService.getJsonData(
-        `CK:TRL:FNGK:AFR:FNK:PORTAL:CATK:EMAILTEMPLATE:AFGK:TORUS:AFK:CLIENTUSERADDITION:AFVK:v1:TPI`,
-        process.env.CLIENTCODE,
-      );
-
-      const clientUserAddition = JSON.parse(resForClientUserAddition);
-
-      const updatedSubject = (clientUserAddition.subject as string).replaceAll(
-        '${clientProfile.clientName}',
-        `${clientProfile.Name}`,
-      );
-      const updateclientUserAdditionHtml = (clientUserAddition.html as string)
-        .replaceAll('${clientProfile.clientName}', `${clientProfile.Name}`)
-        .replace('${firstName}', `${firstName}`)
-        .replace('${lastName}', `${lastName}`)
-        .replace('${clientCode}', `${tenant}`)
-        .replace('${username}', `${loginId}`)
-        .replace('${password}', `${password}`);
-
-      const mailOptions = {
-        from: 'support@torus.tech',
-        to: email,
-        subject: updatedSubject,
-        // text: updateclientUserAddition,
-        html: updateclientUserAdditionHtml,
-      };
-
-      transporter.sendMail(mailOptions, async (error, info) => {
-        if (error) {
-          throw new ForbiddenException('There is an issue with sending otp');
-        } else {
-          console.log('Email sent: ' + info.response);
-          // return `Email sent`;
-        }
-      });
-
-      userList.push({
-        ...data,
-        isRestricted: true,
-      });
-      await this.redisService.setJsonData(
-        userCachekey,
-        JSON.stringify(userList),
-        process.env.CLIENTCODE,
-      );
-      const newUserList = structuredClone(userList);
-
-      let result = [];
-
-      for (const user of newUserList) {
-        delete user.password;
-        result.push(user);
-      }
-
-      return result;
-    } catch (error: any) {
-      await this.commonService.errorLog(
-        'Technical',
-        'AK',
-        'Fatal',
-        'AUTH013',
-        error,
-        'UserScreen',
-        '',
-        {
-          artifact: 'UserScreen',
-          users: 'anonymous user',
-        },
-      );
-      console.log(error, 'error');
       await this.throwCustomException(error);
     }
   }
@@ -5669,7 +5438,6 @@ getConfig(): FusionAuthConfig {
             au.org_au_id,
             tu.user_unique_id AS "userUniqueId",
             tu.email,
-            tu.password,
             tu.first_name AS "firstName",
             tu.last_name AS "lastName",
             tu.login_id AS "loginId",
@@ -8061,47 +7829,6 @@ getConfig(): FusionAuthConfig {
       token,
     );
     return navbarData;
-  }
-  
-  async postTenantUser(userDetail: any) {
-    let tenantUser: any = await this.getTenantUser();
-      const isExists: any = (tenantUser ?? []).find(
-        (allUser: any) => allUser?.email == userDetail?.email,
-      );
-    
-      let temp: string = userDetail?.email?.split('@').at(0) || '';
-
-       const tam_tenant_user_payload = {
-        user_unique_id : userDetail?.providerAccountId || userDetail?.userUniqueId,
-        email : userDetail?.email,
-        password : '',
-        first_name : userDetail?.name || temp,
-        last_name : userDetail?.name || temp,
-        login_id : userDetail?.loginId,
-        user_code : userDetail?.userCode,
-        status : '',
-        tenant_code : tenant,
-        trs_created_by: userDetail?.loginId,
-        trs_modified_date: new Date().toISOString(),
-        trs_modified_by: '',
-        // "trs_status": "string",
-        // "trs_next_status": "string",
-        // "trs_process_id": "string",
-        trs_access_profile: "",
-        trs_org_grp_code: "",
-        trs_org_code: "",
-        trs_role_grp_code: "",
-        trs_role_code: "",
-        trs_ps_grp_code: "",
-        trs_ps_code: "",
-        trs_sub_org_grp_code: "",
-        trs_sub_org_code: "",
-        trs_tenant_id: tenant
-      }
-
-      if (!isExists) {
-        return await this.insertIntoTable('tam_tenant_user' ,tam_tenant_user_payload)
-      }
   }
 
   async getAppList(token: string) {

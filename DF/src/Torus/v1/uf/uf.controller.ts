@@ -1031,11 +1031,6 @@ export class UfController {
     return this.appService.getAppSecurityData();
   }
 
-  @Get('getAPPSecurityTemplateData')
-  async getAPPSecurityTemplateData() {
-    return this.appService.getAPPSecurityTemplateData();
-  }
-
   @Post('setJson')
   async setJson(
     @Query(new ValidationPipe({ transform: true })) query: any,
