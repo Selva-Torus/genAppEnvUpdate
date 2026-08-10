@@ -36,11 +36,13 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<FastifyRequest & { authContext?: any }>();
     const authHeader = request.headers.authorization;
     if (!authHeader) {
+      this.logAuthFailure(request, 'Authorization header is missing');
       throw new UnauthorizedException('Authorization header is missing');
     }
 
     const [type, token] = authHeader.split(' ');
     if (type !== 'Bearer' || !token) {
+      this.logAuthFailure(request, 'Invalid authorization format');
       throw new UnauthorizedException('Invalid authorization format. Expected "Bearer <token>"');
     }
 
@@ -49,6 +51,7 @@ export class AuthGuard implements CanActivate {
       // downstream tenant/org scoping — unlike a bare jwt.decode().
       request.authContext = await this.jwtService.verifyToken(token);
     } catch (e) {
+       this.logAuthFailure(request, 'Invalid or expired token');
       throw new UnauthorizedException('Invalid or expired token');
     }
 
@@ -59,7 +62,11 @@ export class AuthGuard implements CanActivate {
   // @EventPattern handler runs. The service layer already verified this token
   // for audit-field stamping, but fell through to SessionToken = null and kept
   // processing — so verification existed without enforcement.
-  //
+
+   private logAuthFailure(request: FastifyRequest, reason: string): void {
+    this.logger.warn(`Auth rejected: ${reason} — ip=${request.ip} path=${request.method} ${request.url}`);
+  }
+  
   // Break-glass: FLOW_TRANSPORT_AUTH=disabled restores the previous
   // unauthenticated behaviour. It exists only because the TCP client for this
   // transport lives outside this repository and cannot be verified here; it

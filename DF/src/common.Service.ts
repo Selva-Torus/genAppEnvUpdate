@@ -1456,6 +1456,27 @@ export class CommonService{
       }
     }
 
+    private static readonly SENSITIVE_LOG_KEY_PATTERN = /^(authorization|cookie|set-cookie|token|accesstoken|access_token|refreshtoken|refresh_token|password|secret|apikey|api_key|x-api-key)$/i;
+
+    redactSensitiveFields(value: any, seen: WeakSet<object> = new WeakSet()): any {
+      if (value === null || value === undefined) return value;
+      if (Array.isArray(value)) {
+        return value.map((item) => this.redactSensitiveFields(item, seen));
+      }
+      if (typeof value === 'object') {
+        if (seen.has(value)) return '[Circular]';
+        seen.add(value);
+        const result: any = {};
+        for (const [k, v] of Object.entries(value)) {
+          result[k] = CommonService.SENSITIVE_LOG_KEY_PATTERN.test(k)
+            ? '[REDACTED]'
+            : this.redactSensitiveFields(v, seen);
+        }
+        return result;
+      }
+      return value;
+    }
+
     async getTPL(key: any, upId: any,pfjson:any,status:string, targetQueue:string ,stoken:any,fabric:string,sourceStatus?:string,request?:any,response?:any){
       // this.logger.log("TPL Log Started")     
       var sessionInfo = {} 
@@ -1464,7 +1485,7 @@ export class CommonService{
       var app = await this.splitcommonkey(key,'AFGK')
       var token:any
       try {
-        token = await this.jwtService.verifyToken(token);;
+          token = await this.jwtService.verifyToken(token);
       } catch (e) {
         token = null;
       }
@@ -1492,26 +1513,26 @@ export class CommonService{
 
         if(status == 'Success'){
           if(request)
-            processInfo['request'] = request;                     
-                 
+            processInfo['request'] = this.redactSensitiveFields(request);
+
           if(response){
             let childObj = {}
-            
+            const redactedResponse = this.redactSensitiveFields(response);
             if(response.upId){
               childObj['subFlowKey'] = response.key
               childObj['subFlowUpId'] = response.upId
               if(response.eventError)
                 childObj['subFlowError'] = response.eventError
               if(response.data)
-                childObj['subFlowResponse'] = response.data
+                childObj['subFlowResponse'] = redactedResponse.data
               processInfo['subFlowInfo'] = childObj;
             }
-            processInfo['response'] = response;
+            processInfo['response'] = redactedResponse;
           }
         }else{
-          var errdata = {}  
+          var errdata = {}
           errdata['tname'] = 'TE'
-           processInfo['request'] = request; 
+           processInfo['request'] = this.redactSensitiveFields(request);
           if(response.status == 403){
             errdata['errGrp'] = 'Security'
           }else
@@ -1520,8 +1541,8 @@ export class CommonService{
           errdata['fabric'] = fabric
           errdata['errType'] = 'Fatal'
           errdata['errCode'] = '001'
-          var errorDetails = await this.errorobj(errdata,response,status)
-        }   
+          var errorDetails = await this.errorobj(errdata,this.redactSensitiveFields(response),status)
+        }
        var prclogdata:any
         if(status == 'Success'){
           prclogdata = {
@@ -1539,7 +1560,7 @@ export class CommonService{
         await this.redisService.setStreamData(tenant+'-'+app+'-TPL', key + upId, JSON.stringify(prclogdata));  
         // this.logger.log("TPL Log completed")     
         return prclogdata 
-    } 
+    }  
 
     async errorobj(errdata:any,error: any,status:any): Promise<any> {    
       if(error.code){
@@ -1650,7 +1671,7 @@ export class CommonService{
        if(stoken){
         let token:any
         try {
-          token = await this.jwtService.verifyToken(token);;
+            token = await this.jwtService.verifyToken(token);
         } catch (e) {
           token = null;
         }
@@ -1663,18 +1684,18 @@ export class CommonService{
         }  
         } 
 
-        let errorDetails = await this.errorobj(errdata,error,status)
+        let errorDetails = await this.errorobj(errdata,this.redactSensitiveFields(error),status)
         let logs = {}
         logs['sessionInfo'] = sessionInfo
         if(key){
           if(fabric == 'PF-PFD' || fabric == 'DF-DFD' || fabric == 'PF-SFD' || fabric == 'PF-SCDL')
-            logs['processInfo'] = prcdet
+            logs['processInfo'] = this.redactSensitiveFields(prcdet)
           }
-        logs['errorDetails'] = errorDetails   
+        logs['errorDetails'] = errorDetails
         
         if(typeof key != 'string')
         key = 'commonError'
-        tenant=tenant || "CT006"
+         tenant=tenant || "CT006"
         app=app ||  "LAP"
         await this.redisService.setStreamData(tenant+'-'+app+'-TSL',key,JSON.stringify(logs))    
         return logs

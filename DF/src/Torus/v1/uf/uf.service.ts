@@ -5382,6 +5382,7 @@ getConfig(): FusionAuthConfig {
     }
   }
 
+
   async setJson(key: string, data: any) {
     try {
       return await this.redisService.setJsonData(
@@ -5406,6 +5407,8 @@ getConfig(): FusionAuthConfig {
       await this.throwCustomException(error);
     }
   }
+
+  
 
   async readAMDKey(key: string, token: string) {
     const valueObj: any = await this.commonService.readAPI(
@@ -7830,6 +7833,7 @@ getConfig(): FusionAuthConfig {
     );
     return navbarData;
   }
+  
 
   async getAppList(token: string) {
     try {

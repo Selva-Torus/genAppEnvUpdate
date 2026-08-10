@@ -27,8 +27,8 @@ import { DFpendingFilingsDashboardModule } from './dfd/DFpendingFilingsDashboard
 import { DFcardsDashboardModule } from './dfd/DFcardsDashboard/v1/DFcardsDashboard.module';    
 import { addCaseModifyModule } from './pfd/addCaseModify/v1/addCaseModify.module';    
 import { addCaseModule } from './pfd/addCase/v1/addCase.module';    
-//import { DecryptPayloadMiddleware } from './decryptPayloadMiddleware';
 import { EncryptInterceptor } from './encryptInterceptor';
+import { DecryptInterceptor } from './decryptInterceptor';
 import { APP_INTERCEPTOR, APP_GUARD } from '@nestjs/core';
 import { CacheModule } from '@nestjs/cache-manager';
 import { BullModule } from '@nestjs/bullmq';
@@ -56,10 +56,11 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
   }),
   ScheduleModule.forRoot(),UfModule,TeModule,EnvDataModule,DFamrQueueDashboardModule,DFaddCaseModule,DFdocTypeNameComboModule,DFattorneysComboModule,DFpriorityComboModule,DFstatusComboModule,DFamrChecklistComboModule,DFDocTableModule,DFamrChecklistStatusModule,DFpendingFilingsDashboardModule,DFcardsDashboardModule,addCaseModifyModule,addCaseModule,ErdModule,], 
   controllers: [AppController],
-  providers: [AppService,CommonService,RuleService,CodeService,JwtService,JwtServices,JwtServices,RedisService,ConfigService,EnvData,PersistenceService,SwaggerGuard,{
+  providers: [AppService,CommonService,RuleService,CodeService,JwtService,JwtServices,RedisService,ConfigService,EnvData,PersistenceService,SwaggerGuard,{
       provide: APP_INTERCEPTOR,
       useClass: EncryptInterceptor,
     },
+    { provide: APP_INTERCEPTOR, useClass: DecryptInterceptor },
     { provide: APP_GUARD, useClass: AuthGuard },
     { provide: APP_GUARD, useClass: ThrottlerGuard
     },CdcPrismaService ],

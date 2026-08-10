@@ -4,9 +4,7 @@ import { Transport } from '@nestjs/microservices';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import helmet from '@fastify/helmet';
-import { CommonService } from './common.Service';
 import * as fs from 'fs';
-import DecryptPayloadMiddleware from './decryptPayloadMiddleware';
 import multipart from '@fastify/multipart';
 import { BigIntInterceptor } from './bigint.interceptor';
 import { EnvData } from './envData/envData.service';
@@ -96,10 +94,6 @@ async function bootstrap() {
   
   //Middleware applied
   const fastifyInstance = fastifyAdapter.getInstance();
-  const commonService = app.get(CommonService);
-  // Authentication is now enforced globally via APP_GUARD (auth.guard.ts,
-  // see app.module.ts) instead of a Fastify plugin registered here.
-  await fastifyInstance.register(DecryptPayloadMiddleware(commonService));
    // Register the core Fastify multipart plugin
    fastifyInstance.register(multipart as any);
   // CORS — restricted to an operator-configured allowlist instead of the

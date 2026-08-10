@@ -20,15 +20,21 @@ export async function clientEncrypt(dpdKey: string, method: string, value: any, 
 
         if (encryptCredentials) {
           if (method == 'AESCTR') {
-            const key =  Uint8Array.from(Buffer.from(encryptCredentials.Key, 'base64'));
-            const iv = Uint8Array.from(Buffer.from(encryptCredentials.IVlength, 'base64'));
+            const key = Buffer.from(encryptCredentials.Key, 'base64');
+            // Fresh random IV per call (not the static per-tenant config
+            // value) — CTR mode with a reused IV/key pair leaks plaintext
+            // via ciphertext XOR (two-time pad).
+            const iv = crypto.randomBytes(16);
             const cipher = crypto.createCipheriv(encryptCredentials.mode,key,iv);
             let ciphertext = cipher.update(JSON.stringify(value), 'utf8', 'base64');
+            ciphertext += cipher.final('base64');
 
-            return ciphertext += cipher.final('base64');
+            return { ciphertext, iv: iv.toString('base64') };
           }else if(method == 'AESGCM'){
-            const key =  Uint8Array.from(Buffer.from(encryptCredentials.Key, 'base64'));
-            const iv = Uint8Array.from(Buffer.from(encryptCredentials.IVlength, 'base64'));
+            const key = Buffer.from(encryptCredentials.Key, 'base64');
+            // Fresh random IV per call — see AESCTR branch above. For GCM,
+            // nonce reuse is worse: it can recover the authentication key.
+            const iv = crypto.randomBytes(16);
 
             const cipher = crypto.createCipheriv(encryptCredentials.mode, key, iv);
             let ciphertext = cipher.update(JSON.stringify(value), 'utf8', 'base64');
@@ -36,7 +42,7 @@ export async function clientEncrypt(dpdKey: string, method: string, value: any, 
 
             const authTag = cipher.getAuthTag().toString('base64');
 
-            return {ciphertext,authTag};
+            return {ciphertext,authTag,iv: iv.toString('base64')};
           }else if (method == 'RSA') {
           try {
             const publicKey = encryptCredentials.publicKey

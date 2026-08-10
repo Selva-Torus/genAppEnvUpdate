@@ -20,8 +20,13 @@ export async function clientDecrypt(dpdKey: string, method: string, value: any, 
 
         if (encryptCredentials) {
             if (method == 'AESCTR') {
-              const key = Uint8Array.from(Buffer.from(encryptCredentials.Key, 'base64'))
-              const iv = Uint8Array.from(Buffer.from(encryptCredentials.IVlength, 'base64'))
+              const key = Buffer.from(encryptCredentials.Key, 'base64')
+              // value.iv is only present for ciphertexts produced after the
+              // per-call random IV fix; fall back to the legacy static
+              // config IV for anything encrypted before it.
+              const iv = value?.iv
+                ? Buffer.from(value.iv, 'base64')
+                : Buffer.from(encryptCredentials.IVlength, 'base64')
 
               const encryptedBase64 = value.ciphertext
               const decipher = crypto.createDecipheriv(
@@ -35,8 +40,11 @@ export async function clientDecrypt(dpdKey: string, method: string, value: any, 
 
               return   JSON.parse(JSON.parse(decrypted))
             } else if (method == 'AESGCM') {
-              const key = Uint8Array.from(Buffer.from(encryptCredentials.Key, 'base64'))
-              const iv = Uint8Array.from(Buffer.from(encryptCredentials.IVlength, 'base64'))
+              const key = Buffer.from(encryptCredentials.Key, 'base64')
+              // See AESCTR branch above — legacy fallback for pre-fix data.
+              const iv = value?.iv
+                ? Buffer.from(value.iv, 'base64')
+                : Buffer.from(encryptCredentials.IVlength, 'base64')
               const encryptedBase64 = value.ciphertext
               const authTag = value?.authTag
 

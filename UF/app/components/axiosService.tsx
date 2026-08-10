@@ -25,6 +25,7 @@ AxiosService.interceptors.request.use(
       let dpdKey = config.data.dpdKey
       let method = config.data.method
       let authTag: any
+      let iv: any
       delete config.data.dpdKey
       delete config.data.method
       let ciphertext : any;
@@ -34,11 +35,15 @@ AxiosService.interceptors.request.use(
       }else{
         ciphertext = await clientEncrypt(dpdKey, method, config.data, "ct006_lap_lap_v1")
       }
-      if(method == "AESGCM"){
+      if(method == "AESGCM" || method == "AESCTR"){
+        // clientEncrypt now generates a fresh random IV per call instead of
+        // reusing the static per-tenant config IV, so it must travel with
+        // the ciphertext for clientDecrypt to reverse it.
         authTag = ciphertext?.authTag
-        ciphertext = ciphertext.ciphertext
+        iv = ciphertext?.iv
+        ciphertext = ciphertext?.ciphertext
       }
-      config.data = JSON.stringify({ ciphertext, dpdKey , method, authTag}) // send { encrypted: <value> }
+      config.data = JSON.stringify({ ciphertext, dpdKey , method, authTag, iv}) // send { encrypted: <value> }
     }
     return config
   },
