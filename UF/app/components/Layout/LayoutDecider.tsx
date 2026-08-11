@@ -39,7 +39,7 @@ const LayoutDecider = ({
     sidebarStyle == 'default' || sidebarStyle == 'condensed' ? true : false
   )
   const {userDetails, setUserDetails } = useContext(TotalContext) as TotalContextProps
-  const { branding } : { branding: Branding } = useGlobal();
+  const { branding , token }= useGlobal();
   const { borderColor, bgColor } : { borderColor: string; bgColor: string } = useTheme()
   const { brandColor, hoverColor, selectionColor } : { brandColor: string; hoverColor: string; selectionColor: string } = branding;
   const encryptionFlagApp: boolean = false;    
@@ -91,7 +91,6 @@ const LayoutDecider = ({
     "items": []
   }
 ]
-  const token:string = getCookie('token'); 
   const decodedTokenObj: DecodedToken = decodeToken(token)
   const user: string | undefined = decodedTokenObj?.selectedAccessProfile
   const getSideNavClassName = useMemo(() => {
@@ -270,8 +269,7 @@ const LayoutDecider = ({
 
   useEffect(() => {
     if (typeof window !== undefined) {
-      const currentToken: string = getCookie('token')
-      if (currentToken) {
+      if (token) {
         // 4a. Initial fetch of raw navigation data
         getNavData()
       } else {
@@ -284,9 +282,8 @@ const LayoutDecider = ({
 
   useEffect(() => {
     if (rawNavData) {
-      const currentToken: string = getCookie('token')
-      if (currentToken) {
-        checkAccessProfile(currentToken, rawNavData)
+      if (token) {
+        checkAccessProfile(token, rawNavData)
       }
     }
   }, [rawNavData])
@@ -340,7 +337,6 @@ const LayoutDecider = ({
 
   useEffect(() => {
     if (typeof window !== undefined) {
-      const token = getCookie('token')
       if (token) {
         checkAccessProfile(token)
       }

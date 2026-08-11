@@ -1,13 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerCookie, deleteServerCookie } from '@/app/components/cookieMgment'
 import { buildAuthorizationUrl } from './lib/fusionauth'
-
-const FULL_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
-
-export const COOKIE_PREFIX = FULL_BASE_PATH.replace(/^\/|\/$/g, '').replace(
-  /\//g,
-  '_'
-)
+import { COOKIE_PREFIX, FULL_BASE_PATH } from './lib/cookies'
 
 function generateRandomString(length: number): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -29,11 +22,11 @@ function decodeTokenPayload(token: string): any {
 }
 
 export async function middleware(request: NextRequest) {
-  const token = getServerCookie(request, 'token')
+  const token = request.cookies.get(`${COOKIE_PREFIX}_token`)?.value || "";
   const path = request.nextUrl.pathname
   const isAuthRoute = ["/" , "/forgot-password"].includes(path);
   const isForgotPasswordRoute = ["/forgot-password"].includes(path);
-   let screenName:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1';
+   let screenName:string = 'User Screen';
     let screenDetails: any = {
         keys:[
   {
@@ -133,37 +126,6 @@ export async function middleware(request: NextRequest) {
   }
 
   return NextResponse.next()
-
-//  if (token && isAuthRoute) {
-//    try {
-//      const decodedToken = Buffer.from(token!.split('.')[1], 'base64').toString(
-//        'utf8'
-//      )
-//      const parsedToken = decodedToken ? JSON.parse(decodedToken) : {}
-//      if (parsedToken?.psCode) {
-//        return NextResponse.redirect(
-//          new URL(
-//            `${process.env.NEXT_PUBLIC_BASE_PATH}${landingScreen}`,
-//            request.url
-//          )
-//        )
-//      } else {
-//        return NextResponse.redirect(
-//          new URL(
-//            `${process.env.NEXT_PUBLIC_BASE_PATH}/select-context`,
-//            request.url
-//          )
-//        )
-//      }
-//    } catch (error) {
-//      deleteServerCookie(request, 'token')
-//      return NextResponse.redirect(
-//        new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}`, request.url)
-//      )
-//    }
-//  }
-//
-//  return NextResponse.next()
 }
 
 export const config = {

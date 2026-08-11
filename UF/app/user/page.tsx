@@ -11,9 +11,10 @@ import {
 } from '../components/cookieMgment'
 import { useRouter } from 'next/navigation'
 import decodeToken from '../components/decodeToken'
+import { useGlobal } from '@/context/GlobalContext'
 
 function page() {
-  const token = getCookie('token')
+  const { token } = useGlobal()
   const decodedToken = decodeToken(token)
   const router = useRouter()
   let landingScreen: string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1'

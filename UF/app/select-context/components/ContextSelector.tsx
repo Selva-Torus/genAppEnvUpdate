@@ -36,7 +36,6 @@ const ContextSelector = () => {
   const { userDetails, setUserDetails , setMatchedAccessProfileData } = useContext(
     TotalContext
   ) as TotalContextProps
-  const token: string = getCookie('token')
   const tp_ps: any = getCookie('tp_ps')
   const toast = useInfoMsg()
   const baseUrl: any = process.env.NEXT_PUBLIC_API_BASE_URL
@@ -44,7 +43,7 @@ const ContextSelector = () => {
   const [accessProfiles, setAccessProfiles] = useState<any[]>([])
   const router = useRouter()
   const [loading, setLoading] = useState(false)
-  const { branding } = useGlobal()
+  const { branding , token } = useGlobal()
   const { brandColor } = branding
   const [selectedCombination, setSelectedCombination] = useState<
     Record<string, string>
@@ -56,7 +55,7 @@ const ContextSelector = () => {
   const [selectedRole, setSelectedRole] = useState<Record<string, string>>({})
   const [orgGrpData, setOrgGrpData] = useState<any>([])
   const [isPending, startTransition] = useTransition();  
-  let landingScreen:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1';
+  let landingScreen:string = 'User Screen';
   let screenDetails: any = {
            keys:[
   {
@@ -83,30 +82,14 @@ const ContextSelector = () => {
   }
 
   const introspect = async () => {
-    if (!token) {
-      logout();
-      return;
-    }
-
-    try {
-      const response = await AxiosService.get("/UF/introspect", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          key: "context-selector",
-        },
-      });
-
-      if (response?.data?.authenticated === false) {
-        logout();
-        return;
-      }
-    } catch (err) {
-      toast("The token is no longer active.", "danger");
-      logout();
-    }
-  };
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const res = await fetch(`${basePath}/next-api/auth/introspect?key=context-selector`)
+  if (!res.ok) {
+    logout()
+    return
+  }
+  router.refresh()
+}
 
   const logout = () => {
     localStorage.clear();
@@ -260,25 +243,17 @@ const ContextSelector = () => {
     }
     setLoading(true)
     try {
-      const res = await axios.post(
-        `${baseUrl}/UF/getAccessToken`,
-        {
-          selectedCombination: selectedCombo,
-          selectedAccessProfile: selectedAccessProfile[0],
-          dap:
-            accessProfiles.find(
-              item => item.accessProfile === selectedAccessProfile[0]
-            )?.dap ?? undefined,
-          ufClientType: 'UFW'
-        },
-        {
-          headers: {
-            authorization: `Bearer ${token}`
-          }
-        }
-      )
-      if (res.status == 201) {
-        setCookie('token', res.data.token)
+   const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''; 
+   const res = await axios.post(`${basePath}/next-api/auth/get-access-token`, {
+        selectedCombination: selectedCombo,
+        selectedAccessProfile: selectedAccessProfile[0],
+        dap:
+          accessProfiles.find(
+            item => item.accessProfile === selectedAccessProfile[0]
+          )?.dap ?? undefined,
+        ufClientType: 'UFW'
+      })
+      if (res.status == 200) {
         setCookie(
           'tp_ps',
           btoa(
@@ -288,22 +263,11 @@ const ContextSelector = () => {
             })
           )
         )
-        const ORM: any = decodeToken(res.data.token)
-        sessionStorage.setItem(
-          'organizationDetails',
-          JSON.stringify({
-            orgGrpCode: ORM.orgGrpCode,
-            orgCode: ORM.orgCode,
-            roleGrpCode: ORM.roleGrpCode,
-            roleCode: ORM.roleCode,
-            psGrpCode: ORM.psGrpCode,
-            psCode: ORM.psCode
-          })
-        )
         setMatchedAccessProfileData({})
         startTransition(() => {
           router.push(landingScreen)
         })
+        router.refresh()
         // here we have to set the default authentication route
         setLoading(false)
       }

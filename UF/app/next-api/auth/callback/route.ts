@@ -1,13 +1,8 @@
 // app/next-api/auth/callback/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { exchangeCodeForTokens } from '@/lib/fusionauth'
+import { COOKIE_PREFIX, FULL_BASE_PATH } from '@/lib/cookies'
 
-const FULL_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
-
-export const COOKIE_PREFIX = FULL_BASE_PATH.replace(/^\/|\/$/g, '').replace(
-  /\//g,
-  '_'
-)
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL!
 
@@ -133,12 +128,13 @@ export async function GET(request: NextRequest) {
 
     const response = NextResponse.redirect(destination)
     response.cookies.set(`${COOKIE_PREFIX}_token`, token, {
-      // httpOnly: true,
+      httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
       path: FULL_BASE_PATH,
       maxAge: 60 * 60 * 8
     })
+
     response.cookies.set(`${COOKIE_PREFIX}_oauth_state`, '', {
       // httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

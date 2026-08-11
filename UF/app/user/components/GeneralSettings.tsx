@@ -24,8 +24,7 @@ const GeneralSettings = ({ currentLang, setCurrentLang }: {
   const [selectedLanguage, setSelectedLanguage] = useState([
     getCookie('cfg_lang')
   ])
-  const token = getCookie('token')
-  const { branding } = useGlobal()
+  const { branding , token } = useGlobal()
   const { borderColor, theme, setTheme } = useTheme()
   const { brandColor } = branding
   // const [currentLang, setCurrentLang] = useState(getCookie('cfg_lang')) // 'en'

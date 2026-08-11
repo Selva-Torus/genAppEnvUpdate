@@ -61,7 +61,7 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
   }
 
   const [data, setData] = useState<SetupKeyData | null>(null);
-  const token:string = getCookie('token'); 
+  const { token } = useGlobal();
   const encryptionFlagApp: boolean = true;
   const encryptionDpd: string = "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:LAP:AFGK:LAP:AFK:lapDPD:AFVK:v1";
   const encryptionMethod: string = "";

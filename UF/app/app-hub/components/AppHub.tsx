@@ -6,7 +6,6 @@ import { useGlobal } from '@/context/GlobalContext'
 import { twMerge } from 'tailwind-merge'
 import { useTheme } from '@/hooks/useTheme'
 import { getCdnImage } from '@/app/utils/getAssets'
-import { getCookie } from '@/app/components/cookieMgment'
 import { AxiosService } from '@/app/components/axiosService'
 import { useInfoMsg } from '@/app/components/infoMsgHandler'
 import { Button } from '@/components/Button'
@@ -31,12 +30,12 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
   const { userDetails, setUserDetails } = useContext(
     TotalContext
   ) as TotalContextProps
-  const { branding } = useGlobal()
+  const { branding , token} = useGlobal()
   const { brandColor } = branding
   const { borderColor, isDark } = useTheme()
   const bgColor = isDark ? "bg-gray-800" : "bg-white"
   const bgCardColor = isDark ? "bg-gray-700" : "bg-gray-100"
-  const token = getCookie('token')
+  
   const toast: Function = useInfoMsg()
 
   const [searchTerm, setSearchTerm] = useState('')

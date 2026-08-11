@@ -9,10 +9,11 @@ import decodeToken from './components/decodeToken';
 import { useInfoMsg } from './components/infoMsgHandler';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { DecodedToken,ScreenDetail } from '@/types/global';
+import { useGlobal } from '@/context/GlobalContext';
 
 export default function HomePage() {
   const router : AppRouterInstance = useRouter();
-  const token :string | undefined = getCookie('token');
+  const { token } = useGlobal()
   const decodedToken : DecodedToken = decodeToken(token);
   const encryptionFlagApp: boolean = false;    
   let landingScreen:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1';

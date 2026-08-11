@@ -21,6 +21,7 @@ import { OrgStructure, ProdStructure, RoleStructure } from '../svgApplication'
 import { isLightColor } from '../utils'
 import Image from "next/image";
 import { AxiosService } from '@/app/components/axiosService'
+import { useGlobal } from '@/context/GlobalContext'
 
 const TopNav = ({
   navData,
@@ -50,7 +51,7 @@ const TopNav = ({
   }[]
 }) => {
   const router = useRouter()
-  const token: string = getCookie('token')
+  const { token } = useGlobal()
   const decodedTokenObj: any = decodeToken(token)
   const user = decodedTokenObj?.loginId
   const selectedAccessProfile = decodedTokenObj?.selectedAccessProfile
@@ -146,7 +147,6 @@ const TopNav = ({
 
   async function logout() {
     try {
-      const token = getCookie('token')
       if (token) {
         await AxiosService.post('/UF/release-all-locks', null, {
           headers: { Authorization: `Bearer ${token}` },

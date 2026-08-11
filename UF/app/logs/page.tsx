@@ -9,6 +9,7 @@ import decodeToken from '@/app/components/decodeToken'
 import Artifactdetails from './components/ArtifactDetails'
 import { TotalContext, TotalContextProps } from '../globalContext'
 import { useRouter } from 'next/navigation'
+import { useGlobal } from '@/context/GlobalContext'
 
 const ParentComponent = () => {
   console.log("🚀 ~ TgService ~ codeGeneration ~ setupData:")
@@ -24,7 +25,7 @@ const ParentComponent = () => {
     code: 'LAP',
     name: 'Legal Automation Platform'
   })
-  const token: string = getCookie('token')
+  const { token } = useGlobal();
   const decodedToken: any = decodeToken(token)
   const [user, setUser] = useState<string[]>([decodedToken?.loginId])
   const { encAppFalg,setEncAppFalg}= useContext(TotalContext) as TotalContextProps
@@ -105,6 +106,9 @@ const ParentComponent = () => {
         `/${activeTab === 'torus' ? 'expLog' : 'prcLog'}`,
         payload,
         {
+          headers : {
+            Authorization : `Bearer ${token}`
+          },
           signal: signal
         }
       )

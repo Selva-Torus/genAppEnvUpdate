@@ -13,6 +13,8 @@ import { TotalContext, TotalContextProps } from '@/app/globalContext'
 import { getCdnImage } from '@/app/utils/getAssets'
 import { isLightColor } from '../utils'
 import Image from "next/image";
+import axios from 'axios'
+import { useGlobal } from '@/context/GlobalContext'
 
 interface Role {
   roleCode: string
@@ -724,16 +726,16 @@ const OPRTopNavSelector = ({
   const orgPopupRef = React.useRef<HTMLButtonElement>(null)
   const prodPopupRef = React.useRef<HTMLButtonElement>(null)
   const rolePopupRef = React.useRef<HTMLButtonElement>(null)
-  const { currentToken, setCurrentToken, matchedAccessProfileData, setMatchedAccessProfileData } = useContext(
+  const { matchedAccessProfileData, setMatchedAccessProfileData } = useContext(
     TotalContext
   ) as TotalContextProps
   const tp_ps = getCookie('tp_ps')
-  const token = getCookie('token')
   const [selectedOrg, setSelectedOrg] = React.useState<null | any>(null)
   const [selectedSubOrg, setSelectedSubOrg] = React.useState<null | any>(null)
   const [selectedProd, setSelectedProd] = React.useState<null | any>(null)
   const [selectedRole, setSelectedRole] = React.useState<null | any>(null)
   const { branding } = useTheme()
+  const { token } = useGlobal()
   const { brandColor } = branding
   const brandTextColor = useMemo(() => {
     if(brandColor){
@@ -776,7 +778,7 @@ const OPRTopNavSelector = ({
     try {
       const res = await AxiosService.get(`UF/getAccessTemplates`, {
         headers: {
-          Authorization: `Bearer ${getCookie('token')}`
+          Authorization: `Bearer ${token}`
         }
       })
       if (res.status === 200 && Array.isArray(res['data'])) {
@@ -995,23 +997,15 @@ const OPRTopNavSelector = ({
         id: currentSubOrg ? currentSubOrg?.id : currentOrg?.id
       }
 
-      const res = await AxiosService.post(
-        `/UF/getAccessToken`,
-        {
+     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''; 
+     const res = await axios.post(`${basePath}/next-api/auth/get-access-token`, {
           selectedCombination: selectedCombo,
           selectedAccessProfile: matchedAccessProfileData?.accessProfile,
           dap: matchedAccessProfileData?.dap,
           ufClientType: 'UFW'
         },
-        {
-          headers: {
-            authorization: `Bearer ${token}`
-          }
-        }
       )
-      if (res.status == 201) {
-        setCookie('token', res.data.token)
-        setCurrentToken(res.data.token)
+      if (res.status == 200) {
         setCookie(
           'tp_ps',
           btoa(

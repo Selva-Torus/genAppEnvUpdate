@@ -24,6 +24,7 @@ import OPRTopNavSelector from './OPRTopNavSelector'
 import { OrgStructure, ProdStructure, RoleStructure } from '../svgApplication'
 import { Logo } from '../Logo'
 import { AxiosService } from '@/app/components/axiosService'
+import { useGlobal } from '@/context/GlobalContext'
 
 const SideNav = ({
   navData,
@@ -64,7 +65,7 @@ const SideNav = ({
 }) => {
   const router = useRouter()
   const tp_ps = getCookie('tp_ps')
-  const token: string = getCookie('token')
+  const { token } = useGlobal()
   const decodedTokenObj: any = decodeToken(token)
   const user = decodedTokenObj?.loginId
   const selectedAccessProfile = decodedTokenObj?.selectedAccessProfile
@@ -173,7 +174,6 @@ const SideNav = ({
 
   async function logout() {
     try {
-      const token = getCookie('token')
       if (token) {
         await AxiosService.post('/UF/release-all-locks', null, {
           headers: { Authorization: `Bearer ${token}` },
@@ -717,12 +717,11 @@ const FullViewAvatar = ({
   selectedAccessProfile: string
 }) => {
   const router = useRouter()
-  const tp_ps = getCookie('tp_ps')
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
   const popoverButtonElement = useRef(null)
   const { borderColor, isDark } = useTheme()
   const pathname = usePathname()
-  const token: string = getCookie('token')
+  const { token } = useGlobal();
   const decodedTokenObj: any = decodeToken(token)
   return (
     <>
@@ -902,7 +901,7 @@ const PartialViewAvatar = ({
   const popoverButtonElement = useRef(null)
   const { borderColor, isDark } = useTheme()
   const pathname = usePathname()
-  const token: string = getCookie('token')
+  const { token } = useGlobal();
   const decodedTokenObj: any = decodeToken(token)
 
   return (
