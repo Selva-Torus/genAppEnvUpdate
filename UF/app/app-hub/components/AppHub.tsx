@@ -126,21 +126,19 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
           <Button
             className='rounded-md px-4 py-3 disabled:opacity-50'
             disabled={!selectedVersion}
-            onClick={() => {
-              if (selectedVersion?.accessUrl) {
-                const origin = window.location.href
-
-                const url = new URL(
-                  `${selectedVersion.accessUrl}/next-api/auth-redirect`
-                )
-                url.searchParams.set('origin', origin)
-                url.searchParams.set('token', token)
-
-                window.open(url.toString(), '_self')
-              } else {
-                toast('Access URL not found for the selected version', 'danger')
-              }
-            }}
+           onClick={() => {
+          if (selectedVersion?.accessUrl) {
+            const origin = window.location.href
+            const url = new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}/next-api/sso-init`, window.location.origin)
+            url.searchParams.set('accessUrl', selectedVersion.accessUrl)
+            url.searchParams.set('origin', origin)
+            url.searchParams.set('token', token)
+            
+            window.open(url.toString(), '_self') // full navigation, not fetch
+          } else {
+            toast('Access URL not found for the selected version', 'danger')
+          }
+        }}
           >
             Next →
           </Button>
