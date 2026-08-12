@@ -273,7 +273,7 @@ const ParentComponent = () => {
       limit: newPageSize
     }))
   }
-
+ 
   const logout = () => {
     localStorage.clear();
     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -284,7 +284,7 @@ const ParentComponent = () => {
    const securityCheck = async () => {
      try {
      const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-     const res = await fetch(`${basePath}/next-api/auth/introspect?key=Logs screen`)
+     const res = await fetch(`${basePath}/next-api/auth/introspect?key=Logs Screen`)
      if (!res.ok) {
        logout()
        return

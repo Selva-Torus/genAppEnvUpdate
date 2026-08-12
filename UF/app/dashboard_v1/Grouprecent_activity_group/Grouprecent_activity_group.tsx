@@ -718,7 +718,7 @@ const Grouprecent_activity_group = ({lockedData={},setLockedData,primaryTableDat
         backgroundClip: '',
         backgroundBlendMode: ''
       }}
-      className={`flex flex-col overflow-auto rounded-md p-1 ${isDark ? 'text-white' : 'text-black'}`}
+      className={`flex flex-col overflow-auto rounded-md p-2 ${isDark ? 'text-white' : 'text-black'}`}
        onClick={(e:any)=>{e.stopPropagation()
         handleOnClick({}, 0);
           setnewdashboard_v1((pre:any)=>({...pre,_selectedGroup_:"recent_activity_group"}))

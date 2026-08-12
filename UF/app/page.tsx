@@ -7,14 +7,11 @@ import { useEffect, useState } from 'react';
 import { useInfoMsg } from './components/infoMsgHandler';
 
 export default function HomePage() {
-
   const toast : Function = useInfoMsg();
-
   const isSaasApp = process.env.NEXT_PUBLIC_IS_SAAS_APPLICATION;
   const [appTenantList , setAppTenantList] = useState([]);
 
-
-    const handleGetAppSubTenants = async () => {
+  const handleGetAppSubTenants = async () => {
     const appTenants = await AxiosService.get('UF/app-tenant-app' , {
       validateStatus: () => true
     })

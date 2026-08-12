@@ -402,7 +402,7 @@
     "users": "HarithaHaritha Rk",
     "noOfProductsService": 0,
     "edit": "",
-    "lastActive": "2026-08-11T11:27:47.814Z",
+    "lastActive": "2026-08-12T06:43:33.729Z",
     "client": "CT006"
   },
   "webOnBoarding": {

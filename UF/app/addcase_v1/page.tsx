@@ -1026,6 +1026,7 @@ export default function PageAddcaseV1({ onReady }: { onReady?: () => void } = {}
     setaddcase_v1({...result,_artfactPFRule_:rule})
   }
 
+  
   const logout = () => {
     localStorage.clear();
     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -1078,13 +1079,14 @@ export default function PageAddcaseV1({ onReady }: { onReady?: () => void } = {}
       await handleArtfactRule(orchestrationData?.artfactPFRule,{...decodedTokenObj},allRuleData)  
     }
     if (token) {
-     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-     const res = await fetch(`${basePath}/next-api/auth/introspect?key=Logs screen`)
-     if (!res.ok) {
-       logout()
-       return
-     }
-     routes.refresh()
+      const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+      const res = await fetch(`${basePath}/next-api/auth/introspect?key=CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1`)
+      if (!res.ok) {
+        logout()
+        return
+      }
+      routes.refresh()
+
       try {
         if (myAccountRes?.__error) throw myAccountRes.__error;
         if( user != "" && user != null){

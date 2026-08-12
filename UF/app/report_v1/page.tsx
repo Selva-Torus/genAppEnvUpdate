@@ -14,9 +14,9 @@ import { useTheme } from '@/hooks/useTheme';
 import clsx from "clsx";
 import { fetchBatchData } from '../utils/Orchestration';
 import { DecodedToken,PrimaryTableData,EncryptionFlagPageData,PaginationData,AllowedGroupNode,ActionDetails } from "@/types/global";
-import { useGlobal } from '@/context/GlobalContext'
-import Groupgroup_report  from "./Groupgroup_report/Groupgroup_report";
+import { useGlobal } from '@/context/GlobalContext';
 import { useRouter } from 'next/navigation';
+import Groupgroup_report  from "./Groupgroup_report/Groupgroup_report";
 
 
 type ReportItem = {
@@ -90,7 +90,7 @@ const PageReportV1 = () => {
     "referencePath": "properties.case_display_id",
     "nodeId": "4a33e365d6e64576a23ff761aa19bdab",
     "key": "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1:",
-    "type": "string"
+    "type": "integer"
   },
   {
     "displayName": "",
@@ -344,16 +344,16 @@ const PageReportV1 = () => {
     })
     let encryptionData:Record<string, any> = {};
     if (token) {
-      try {
-     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-     const res = await fetch(`${basePath}/next-api/auth/introspect?key=Logs screen`)
-     if (!res.ok) {
-       logout()
-       return
-     }
-     router.refresh()
-     } catch (err: any) {
-       logout()
+       try {
+        const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+        const res = await fetch(`${basePath}/next-api/auth/introspect?key=CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1`)
+        if (!res.ok) {
+          logout()
+          return
+        }
+        router.refresh()
+        } catch (err: any) {
+          logout()
      }
       try {
         let myAccount:any;

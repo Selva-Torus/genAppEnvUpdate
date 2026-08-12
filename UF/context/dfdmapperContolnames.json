@@ -460,23 +460,16 @@
     "target": "amr_text",
     "controlName": "amr_text"
   },
-  "amr_group17ac4": [
-    "amr_text"
-  ],
-  "f6394d08b20a4718af6800c17a09a546": {
-    "source": "account_id",
-    "target": "account_id",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.account_id"
-        ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1|6908a1f13f2c6c3a9936cc860b009598|f6394d08b20a4718af6800c17a09a546"
-      }
-    ],
-    "controlName": "account_id"
+  "842569d00e4343878ac0ddceb3c43bc9": {
+    "source": "amrs_text",
+    "target": "amrs_text",
+    "controlName": "amrs_text"
   },
-  "4e36b7a36c73349304a6e3fe9ca734ed": {
+  "amr_group17ac4": [
+    "amr_text",
+    "amrs_text"
+  ],
+  "df6901bbed1946869bb968e67b2ea43b": {
     "source": "case_display_id",
     "target": "case_id",
     "mapper": [
@@ -484,10 +477,36 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.case_display_id"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1|6908a1f13f2c6c3a9936cc860b009598|4e36b7a36c73349304a6e3fe9ca734ed"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1|6908a1f13f2c6c3a9936cc860b009598|df6901bbed1946869bb968e67b2ea43b"
       }
     ],
     "controlName": "case_id"
+  },
+  "401517e8d16b459388dad2a497a37c04": {
+    "source": "venue_id",
+    "target": "venue_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.venue_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1|6908a1f13f2c6c3a9936cc860b009598|401517e8d16b459388dad2a497a37c04"
+      }
+    ],
+    "controlName": "venue_id"
+  },
+  "a77bb1cbcfac46c59cf0979384f4eec9": {
+    "source": "account_id",
+    "target": "account_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.account_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1|6908a1f13f2c6c3a9936cc860b009598|a77bb1cbcfac46c59cf0979384f4eec9"
+      }
+    ],
+    "controlName": "account_id"
   },
   "4b62a5d3948501358bcace91ba5b1ea9": {
     "source": "debtor_name",
@@ -502,31 +521,18 @@
     ],
     "controlName": "debtor_name"
   },
-  "038b847ed6c3922d45699fe5153e48d1": {
-    "source": "creditor_name",
-    "target": "creditor_name",
+  "3368d72c112b7d3aee3c6d3368c5ae4f": {
+    "source": "court_name",
+    "target": "court_name",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.creditor_name"
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.court_name"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1|6908a1f13f2c6c3a9936cc860b009598|038b847ed6c3922d45699fe5153e48d1"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1|6908a1f13f2c6c3a9936cc860b009598|3368d72c112b7d3aee3c6d3368c5ae4f"
       }
     ],
-    "controlName": "creditor_name"
-  },
-  "8000751c3cae52e89c14ed9751a7a369": {
-    "source": "attorney_name",
-    "target": "full_name",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.attorney_name"
-        ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1|6908a1f13f2c6c3a9936cc860b009598|8000751c3cae52e89c14ed9751a7a369"
-      }
-    ],
-    "controlName": "full_name"
+    "controlName": "court_name"
   },
   "03fff0ac42a443d6ba449921fb86a331": {
     "source": "total_balance",
@@ -540,19 +546,6 @@
       }
     ],
     "controlName": "total_balance"
-  },
-  "3368d72c112b7d3aee3c6d3368c5ae4f": {
-    "source": "court_name",
-    "target": "court_name",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.court_name"
-        ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1|6908a1f13f2c6c3a9936cc860b009598|3368d72c112b7d3aee3c6d3368c5ae4f"
-      }
-    ],
-    "controlName": "court_name"
   },
   "a07e1a83dcf594aef3c6efff1da6740a": {
     "source": "priority_name",
@@ -580,32 +573,6 @@
     ],
     "controlName": "status_name"
   },
-  "2f90df1b4164a692db308b42d0692fe2": {
-    "source": "trs_created_date",
-    "target": "trs_created_date",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.trs_created_date"
-        ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1|6908a1f13f2c6c3a9936cc860b009598|2f90df1b4164a692db308b42d0692fe2"
-      }
-    ],
-    "controlName": "trs_created_date"
-  },
-  "7c629e12dd084e44b6595c014a2b51d8": {
-    "source": "venue_id",
-    "target": "venue_id",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.venue_id"
-        ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1|6908a1f13f2c6c3a9936cc860b009598|7c629e12dd084e44b6595c014a2b51d8"
-      }
-    ],
-    "controlName": "venue_id"
-  },
   "328b329d4e36a47844b55c931d5bd9a5": {
     "source": "view_btn",
     "target": "view_btn",
@@ -626,22 +593,33 @@
     "target": "bt_approve",
     "controlName": "bt_approve"
   },
+  "f7010d0e5a5e4e659579df16d2652ae8": {
+    "source": "sla_wait_start_time",
+    "target": "sla_wait_start_time",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.sla_wait_start_time"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1|6908a1f13f2c6c3a9936cc860b009598|f7010d0e5a5e4e659579df16d2652ae8"
+      }
+    ],
+    "controlName": "sla_wait_start_time"
+  },
   "amr_queue_table09598": [
-    "account_id",
     "case_display_id",
+    "venue_id",
+    "account_id",
     "debtor_name",
-    "creditor_name",
-    "attorney_name",
-    "total_balance",
     "court_name",
+    "total_balance",
     "priority_name",
     "status_name",
-    "trs_created_date",
-    "venue_id",
     "view_btn",
     "edit_btn",
     "view_btn_pg_graph",
-    "bt_approve"
+    "bt_approve",
+    "sla_wait_start_time"
   ],
   "06fa594fa868e6320eae04be0fa6059f": {
     "source": "case_display_id",
@@ -1971,7 +1949,7 @@
   "document_viewer_groupe4249": [
     "attachment_id"
   ],
-  "649624596882a3dfe41906bb334cc45c": {
+  "196602b6f1ab58bbb593eb3248edb411": {
     "source": "account_id",
     "target": "account_id",
     "mapper": [
@@ -1979,37 +1957,51 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.account_id"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|c58a7bc033dc6192e018b5b5350ed126|649624596882a3dfe41906bb334cc45c"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|eab16a1dfae32bbcbb962bfc5f54945a|196602b6f1ab58bbb593eb3248edb411"
       }
     ],
     "controlName": "account_id"
   },
-  "add_case_grouped126": [
-    "account_id"
-  ],
-  "d565e2e9dda44f8bb501107176a22897": {
-    "source": "back_bt",
-    "target": "back_bt",
-    "controlName": "back_bt"
+  "75e3e9c9d1faf2a683af793847b85b23": {
+    "source": "venue_id",
+    "target": "venue_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.venue_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|eab16a1dfae32bbcbb962bfc5f54945a|75e3e9c9d1faf2a683af793847b85b23"
+      }
+    ],
+    "controlName": "venue_id"
   },
-  "e648eb2102af769400f6fefb618ae5d6": {
+  "add_case_group4945a": [
+    "account_id",
+    "venue_id"
+  ],
+  "f5a6e55995408cca4f15bc3b466811f3": {
+    "source": "button_back",
+    "target": "button_back",
+    "controlName": "button_back"
+  },
+  "44db8ff22f6e3d9bc068507ed2bc6061": {
     "source": "craete_header_text",
     "target": "craete_header_text",
     "controlName": "craete_header_text"
   },
-  "header_groupbd8a8": [
-    "back_bt",
+  "header_groupf55cb": [
+    "button_back",
     "craete_header_text"
   ],
-  "743eac014a4034bb13353816bc864f93": {
+  "8d86074d41fc5f81262374a01c607963": {
     "source": "reeq_doc_text",
     "target": "reeq_doc_text",
     "controlName": "reeq_doc_text"
   },
-  "required_dociument_main_group255d1": [
+  "required_dociument_main_groupdfaaf": [
     "reeq_doc_text"
   ],
-  "4fcac96943872980c63009da3afcc3f4": {
+  "f63794a7c089c9808499472f026017ae": {
     "source": "attachment_id",
     "target": "attachment_id",
     "mapper": [
@@ -2017,12 +2009,12 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:DocTable:AFVK:v1|63f1fdf16ab179720c3d1503d94e26de|properties.attachment_id"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|040ce6f6cfa9a14028814480bdf9c4f7|4fcac96943872980c63009da3afcc3f4"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|c0780ffe5460182dfaa3c069aec8af83|f63794a7c089c9808499472f026017ae"
       }
     ],
     "controlName": "attachment_id"
   },
-  "73589a4405b6bc6c4b55d8018da909a3": {
+  "c7866890532bbad6738b4477bb0277c1": {
     "source": "doc_name",
     "target": "doc_name",
     "mapper": [
@@ -2030,27 +2022,27 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:DocTable:AFVK:v1|63f1fdf16ab179720c3d1503d94e26de|properties.doc_name"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|040ce6f6cfa9a14028814480bdf9c4f7|73589a4405b6bc6c4b55d8018da909a3"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|c0780ffe5460182dfaa3c069aec8af83|c7866890532bbad6738b4477bb0277c1"
       }
     ],
     "controlName": "doc_name"
   },
-  "7ecbb5a0d018027fbcbbfd391e622ede": {
+  "8afff9d6ad2a52ad2c4a8c50430dd26e": {
     "source": "view_button",
     "target": "view_button",
     "controlName": "view_button"
   },
-  "doc_table9c4f7": [
+  "doc_table8af83": [
     "attachment_id",
     "doc_name",
     "view_button"
   ],
-  "2222d12355e2789ee0b0f502c381e3db": {
+  "f9ee178df901fdfcc790f939566ee1f0": {
     "source": "case_info_text",
     "target": "case_info_text",
     "controlName": "case_info_text"
   },
-  "1bb9a0687c36a356da097a283422af58": {
+  "9ae314ef60cb8a713b8a327a65c12f82": {
     "source": "debtor_name",
     "target": "debtor_name",
     "mapper": [
@@ -2058,12 +2050,12 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.debtor_name"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|2723b3f0ae705c0f66d6e06787248f3c|1bb9a0687c36a356da097a283422af58"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|29949970b12d2ab7344e422611d40df6|9ae314ef60cb8a713b8a327a65c12f82"
       }
     ],
     "controlName": "debtor_name"
   },
-  "734b8ceaa2aaa5d2e95384b48abd1272": {
+  "47dd2c6791d54c83a7a6d1131b9da9aa": {
     "source": "case_display_id",
     "target": "case_display_id",
     "mapper": [
@@ -2071,12 +2063,12 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.case_display_id"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|2723b3f0ae705c0f66d6e06787248f3c|734b8ceaa2aaa5d2e95384b48abd1272"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|29949970b12d2ab7344e422611d40df6|47dd2c6791d54c83a7a6d1131b9da9aa"
       }
     ],
     "controlName": "case_display_id"
   },
-  "6b5dc77a613a14839b7fa2b2218c4424": {
+  "1e3794b89182c4e07583413b2c26441e": {
     "source": "ssn_masked",
     "target": "ssn_masked",
     "mapper": [
@@ -2084,12 +2076,12 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.ssn_masked"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|2723b3f0ae705c0f66d6e06787248f3c|6b5dc77a613a14839b7fa2b2218c4424"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|29949970b12d2ab7344e422611d40df6|1e3794b89182c4e07583413b2c26441e"
       }
     ],
     "controlName": "ssn_masked"
   },
-  "6af4f231e44e0d710a4c056c2a229785": {
+  "0ffc9157980bffbc6ebbae1d202b26e1": {
     "source": "dob",
     "target": "dob",
     "mapper": [
@@ -2097,12 +2089,12 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.dob"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|2723b3f0ae705c0f66d6e06787248f3c|6af4f231e44e0d710a4c056c2a229785"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|29949970b12d2ab7344e422611d40df6|0ffc9157980bffbc6ebbae1d202b26e1"
       }
     ],
     "controlName": "dob"
   },
-  "0feba0da079f0a631fd748e3d8170906": {
+  "71796fe791589c3c8f0a647c1486196d": {
     "source": "address",
     "target": "address",
     "mapper": [
@@ -2110,12 +2102,12 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.address"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|2723b3f0ae705c0f66d6e06787248f3c|0feba0da079f0a631fd748e3d8170906"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|29949970b12d2ab7344e422611d40df6|71796fe791589c3c8f0a647c1486196d"
       }
     ],
     "controlName": "address"
   },
-  "9437db52d6231cc9f6c390752e5a9b98": {
+  "b02c29ffa36712cf2636674b99fb337f": {
     "source": "creditor_name",
     "target": "creditor_name",
     "mapper": [
@@ -2123,12 +2115,12 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.creditor_name"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|2723b3f0ae705c0f66d6e06787248f3c|9437db52d6231cc9f6c390752e5a9b98"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|29949970b12d2ab7344e422611d40df6|b02c29ffa36712cf2636674b99fb337f"
       }
     ],
     "controlName": "creditor_name"
   },
-  "e4da207d9d6989e443cdcf3eafb763d0": {
+  "17b2c8ec35a994a8e24cd082e2e4e80f": {
     "source": "charge_off_date",
     "target": "charge_off_date",
     "mapper": [
@@ -2136,12 +2128,12 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.charge_off_date"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|2723b3f0ae705c0f66d6e06787248f3c|e4da207d9d6989e443cdcf3eafb763d0"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|29949970b12d2ab7344e422611d40df6|17b2c8ec35a994a8e24cd082e2e4e80f"
       }
     ],
     "controlName": "charge_off_date"
   },
-  "2ecf458ff9cbf33794f6ab40ded43bdb": {
+  "1f4ce553795910e5f71ac986298f6b2b": {
     "source": "last_payment_date",
     "target": "last_payment_date",
     "mapper": [
@@ -2149,17 +2141,17 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.last_payment_date"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|2723b3f0ae705c0f66d6e06787248f3c|2ecf458ff9cbf33794f6ab40ded43bdb"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|29949970b12d2ab7344e422611d40df6|1f4ce553795910e5f71ac986298f6b2b"
       }
     ],
     "controlName": "last_payment_date"
   },
-  "b1cd1a8e5915fc67c9e2c2ff125e3c67": {
+  "f085106800080b7ac1c4616226709dfa": {
     "source": "divider",
     "target": "divider",
     "controlName": "divider"
   },
-  "41508ef4f879bd6db1f90e86acc4dfe3": {
+  "7ed5a00247126f350e457ce589c3d70d": {
     "source": "sol_expiry_date",
     "target": "sol_expiry_date",
     "mapper": [
@@ -2167,12 +2159,12 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.sol_expiry_date"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|2723b3f0ae705c0f66d6e06787248f3c|41508ef4f879bd6db1f90e86acc4dfe3"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|29949970b12d2ab7344e422611d40df6|7ed5a00247126f350e457ce589c3d70d"
       }
     ],
     "controlName": "sol_expiry_date"
   },
-  "case_information_group48f3c": [
+  "case_information_group40df6": [
     "case_info_text",
     "debtor_name",
     "case_display_id",
@@ -2185,13 +2177,13 @@
     "divider",
     "sol_expiry_date"
   ],
-  "card_group4c709": [],
-  "3dd85983a17755f2c06882bda7a6883f": {
+  "card_group00ce3": [],
+  "09e8c07dc7c4314263219efe7469bbf4": {
     "source": "principal_text",
     "target": "principal_text",
     "controlName": "principal_text"
   },
-  "84ead406c0f2813191bd0e697b365ef3": {
+  "246c247e7c741b3eaa9a97cf586a34bd": {
     "source": "principal",
     "target": "principal",
     "mapper": [
@@ -2199,21 +2191,21 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.principal"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|226b227eebc7cf76b4b768fba7b42235|84ead406c0f2813191bd0e697b365ef3"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|9bf2264c5895b740778e6c16c8c510ca|246c247e7c741b3eaa9a97cf586a34bd"
       }
     ],
     "controlName": "principal"
   },
-  "principal_group42235": [
+  "principal_group510ca": [
     "principal_text",
     "principal"
   ],
-  "da9163e1480e574aa625ecca6283a919": {
+  "18b872424d3efaccc59468d4a43e0e7e": {
     "source": "intrest_text",
     "target": "intrest_text",
     "controlName": "intrest_text"
   },
-  "e90a799324d8d66b43a37e938a1783c4": {
+  "e813c92efa9c1c401615db755385fac3": {
     "source": "interest",
     "target": "interest",
     "mapper": [
@@ -2221,21 +2213,21 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.interest"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|5c7aebe727c98f2da84fdc84a5165c3b|e90a799324d8d66b43a37e938a1783c4"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|d74110d0594a68a1c13d3d0b22e1ba85|e813c92efa9c1c401615db755385fac3"
       }
     ],
     "controlName": "interest"
   },
-  "intrest_group65c3b": [
+  "intrest_group1ba85": [
     "intrest_text",
     "interest"
   ],
-  "2af97a1e305cd470cf07ab873984a6b6": {
+  "5318320e9fef5ce295428817d546cb5e": {
     "source": "fees_text",
     "target": "fees_text",
     "controlName": "fees_text"
   },
-  "d43781c7b96a7abfe978e8c76a4ab1fe": {
+  "0e2957a4a5d22e763eea3db93faad465": {
     "source": "fees",
     "target": "fees",
     "mapper": [
@@ -2243,21 +2235,21 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.fees"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|a847e489607d2f2310e70a332338c4a6|d43781c7b96a7abfe978e8c76a4ab1fe"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|a345cc474f937141267ae2a7600bee4a|0e2957a4a5d22e763eea3db93faad465"
       }
     ],
     "controlName": "fees"
   },
-  "fees_group8c4a6": [
+  "fees_groupbee4a": [
     "fees_text",
     "fees"
   ],
-  "75d67dbc3dbd54f48880b78c4600b418": {
+  "06c57812490b054ed49dffac10fc34b6": {
     "source": "total_balance_text",
     "target": "total_balance_text",
     "controlName": "total_balance_text"
   },
-  "901dda552b264f5f69cd2ef163ae7e5f": {
+  "87fd17d9aabaabad5177ca941cd8ece0": {
     "source": "total_balance",
     "target": "total_balance",
     "mapper": [
@@ -2265,21 +2257,21 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.total_balance"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|4eccf92ecee29b2dcd47ce40be3c52d3|901dda552b264f5f69cd2ef163ae7e5f"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|aa110d72a53449ccd32229b5543197f6|87fd17d9aabaabad5177ca941cd8ece0"
       }
     ],
     "controlName": "total_balance"
   },
-  "total_groupc52d3": [
+  "total_group197f6": [
     "total_balance_text",
     "total_balance"
   ],
-  "80db60890de4a7a927e895aca8af01f8": {
+  "03dadcb6cb4dd0b3b0a423aa08cb2d6a": {
     "source": "ven_name_text",
     "target": "ven_name_text",
     "controlName": "ven_name_text"
   },
-  "983a9b1951051a092c93ab26d34a7e09": {
+  "eb00161701ae9f6e4a8ddc52fb30a6f5": {
     "source": "state",
     "target": "state",
     "mapper": [
@@ -2287,17 +2279,17 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.state"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|57c10704bc2bf3a621d11bfa47051614|983a9b1951051a092c93ab26d34a7e09"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|eb00161701ae9f6e4a8ddc52fb30a6f5"
       }
     ],
     "controlName": "state"
   },
-  "208cb95b7508a3843e48d719415a774c": {
+  "5ba92502c6bf13fdcb0e238e89323b80": {
     "source": "dividers",
     "target": "dividers",
     "controlName": "dividers"
   },
-  "cd5a7d1c2204bd515ee3a82a104db772": {
+  "fb15175c3e9e875e90d1357e1aac9b2f": {
     "source": "county",
     "target": "county",
     "mapper": [
@@ -2305,17 +2297,17 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.county"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|57c10704bc2bf3a621d11bfa47051614|cd5a7d1c2204bd515ee3a82a104db772"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|fb15175c3e9e875e90d1357e1aac9b2f"
       }
     ],
     "controlName": "county"
   },
-  "7d9327e24340582905d0946b519af051": {
+  "59bbfca968f64f2ea682f68f92c87146": {
     "source": "dividerss",
     "target": "dividerss",
     "controlName": "dividerss"
   },
-  "78b47fe7cdd7b224a23fef93d3f7a5a6": {
+  "a6136b22b75d8afd178b24c51dd411e1": {
     "source": "court",
     "target": "court",
     "mapper": [
@@ -2323,17 +2315,17 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.court"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|57c10704bc2bf3a621d11bfa47051614|78b47fe7cdd7b224a23fef93d3f7a5a6"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|a6136b22b75d8afd178b24c51dd411e1"
       }
     ],
     "controlName": "court"
   },
-  "c93b9b42d934d6c0d64af9047ccbef5f": {
+  "a20d79eb93d4337b19c5665b0c51271b": {
     "source": "dividersss",
     "target": "dividersss",
     "controlName": "dividersss"
   },
-  "d2672bfb1955a7c384f5f69abeb71e3e": {
+  "bfcb95c26aa481595b9ec4e847f12cde": {
     "source": "judge",
     "target": "judge",
     "mapper": [
@@ -2341,17 +2333,17 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.judge"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|57c10704bc2bf3a621d11bfa47051614|d2672bfb1955a7c384f5f69abeb71e3e"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|bfcb95c26aa481595b9ec4e847f12cde"
       }
     ],
     "controlName": "judge"
   },
-  "60d1d0388a39e3e59452dd3d77b61d06": {
+  "3ee458d29f0beaa2d2924c94effedbaf": {
     "source": "dividerssss",
     "target": "dividerssss",
     "controlName": "dividerssss"
   },
-  "870a661283bf5fac1c49f9d1a8c144cd": {
+  "2a8afabac6917b0b0a7ac28a6358b376": {
     "source": "filing_fee",
     "target": "filing_fee",
     "mapper": [
@@ -2359,17 +2351,17 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.filing_fee"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|57c10704bc2bf3a621d11bfa47051614|870a661283bf5fac1c49f9d1a8c144cd"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|2a8afabac6917b0b0a7ac28a6358b376"
       }
     ],
     "controlName": "filing_fee"
   },
-  "ebaac20be8c723859a4deeddad7d333b": {
+  "72014efcf8ffe2705db7e1d34f1c1504": {
     "source": "dividersssss",
     "target": "dividersssss",
     "controlName": "dividersssss"
   },
-  "ea370f7a065821127ddb0437b2648ac6": {
+  "2b48b2d5181765084191141f046d8f34": {
     "source": "service_method",
     "target": "service_method",
     "mapper": [
@@ -2377,17 +2369,17 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.service_method"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|57c10704bc2bf3a621d11bfa47051614|ea370f7a065821127ddb0437b2648ac6"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|2b48b2d5181765084191141f046d8f34"
       }
     ],
     "controlName": "service_method"
   },
-  "fd4662b37478d6387380deadb5f06ce3": {
+  "50a4a18ca4568f2890bb2bf2fe16b575": {
     "source": "dividerssssss",
     "target": "dividerssssss",
     "controlName": "dividerssssss"
   },
-  "fe69861b829803b0a976c8f593f964db": {
+  "33c6840d31848202f6c1aebfa4e4d3ab": {
     "source": "efile_system",
     "target": "efile_system",
     "mapper": [
@@ -2395,12 +2387,12 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.efile_system"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|57c10704bc2bf3a621d11bfa47051614|fe69861b829803b0a976c8f593f964db"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|33c6840d31848202f6c1aebfa4e4d3ab"
       }
     ],
     "controlName": "efile_system"
   },
-  "venue_details_group51614": [
+  "venue_details_group5f664": [
     "ven_name_text",
     "state",
     "dividers",
@@ -2416,15 +2408,15 @@
     "dividerssssss",
     "efile_system"
   ],
-  "41109e1473f1cafd84f9f445bc7a0e64": {
+  "5d8baca75d2e6d22b07d18121e51abcc": {
     "source": "valid_checklist_text",
     "target": "valid_checklist_text",
     "controlName": "valid_checklist_text"
   },
-  "checklist_main_group2b466": [
+  "checklist_main_group2d71b": [
     "valid_checklist_text"
   ],
-  "90b51e3ff38fe23a63836a425765bd1d": {
+  "c93bb73dd0a6735d3aab93b230ef168d": {
     "source": "checklist_item_id",
     "target": "checklist_item_id",
     "mapper": [
@@ -2432,12 +2424,12 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrChecklistStatus:AFVK:v1|401380fb5b984554a4210c053168c928|properties.checklist_item_id"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|c0c9f65a5621c6ddd4700bc6190cafb0|90b51e3ff38fe23a63836a425765bd1d"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|85d1235d04a77af1f06ec21a9fec0934|c93bb73dd0a6735d3aab93b230ef168d"
       }
     ],
     "controlName": "checklist_item_id"
   },
-  "1efb0b5a5645ec3d315e477a4a624046": {
+  "24f91ed14e4e435b1ac55afb2d3dd097": {
     "source": "item_name",
     "target": "item_name",
     "mapper": [
@@ -2445,12 +2437,12 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrChecklistStatus:AFVK:v1|401380fb5b984554a4210c053168c928|properties.item_name"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|c0c9f65a5621c6ddd4700bc6190cafb0|1efb0b5a5645ec3d315e477a4a624046"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|85d1235d04a77af1f06ec21a9fec0934|24f91ed14e4e435b1ac55afb2d3dd097"
       }
     ],
     "controlName": "item_name"
   },
-  "344aa17e7c46b093d1a20a572851fd36": {
+  "90f3951f590cd9c2025f303e1fdd3b5a": {
     "source": "is_complete",
     "target": "is_completed",
     "mapper": [
@@ -2458,30 +2450,30 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrChecklistStatus:AFVK:v1|401380fb5b984554a4210c053168c928|properties.is_complete"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|c0c9f65a5621c6ddd4700bc6190cafb0|344aa17e7c46b093d1a20a572851fd36"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|85d1235d04a77af1f06ec21a9fec0934|90f3951f590cd9c2025f303e1fdd3b5a"
       }
     ],
     "controlName": "is_completed"
   },
-  "checklist_tablecafb0": [
+  "checklist_tablec0934": [
     "checklist_item_id",
     "item_name",
     "is_complete"
   ],
-  "87a87656d6dbba7f6820fbc77e624a29": {
+  "9d5ef09cd1200380c6b64a08e1da6d06": {
     "source": "special_rules_text",
     "target": "special_rules_text",
     "controlName": "special_rules_text"
   },
-  "special_rules_group7ce9f": [
+  "special_rules_group47bec": [
     "special_rules_text"
   ],
-  "0cc589581fc87972ea2624d8f07c7b56": {
+  "d0c96a4eb419006e3ea885c65dca2832": {
     "source": "dynamic_icon",
     "target": "dynamic_icon",
     "controlName": "dynamic_icon"
   },
-  "ff6be91335c8425eaf5b8cc330bdb2d4": {
+  "238f3298c5621248b7e7d981609c6918": {
     "source": "text",
     "target": "text",
     "mapper": [
@@ -2489,12 +2481,12 @@
         "sourceKey": [
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.special_rules.items.properties.text"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|185e829724c63ba22f1107a22e37f109|ff6be91335c8425eaf5b8cc330bdb2d4"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|7b373f1cd501a63195aa046989f3c582|238f3298c5621248b7e7d981609c6918"
       }
     ],
     "controlName": "text"
   },
-  "special_rules7f109": [
+  "special_rules3c582": [
     "dynamic_icon",
     "text"
   ],
@@ -3354,6 +3346,162 @@
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.trs_event_process_status"
         ],
         "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.trs_event_process_status"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.venue_special_rules.items.properties.rule_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.venue_special_rules.items.properties.rule_id"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.venue_special_rules.items.properties.rule_text"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.venue_special_rules.items.properties.rule_text"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.venue_special_rules.items.properties.rule_type"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.venue_special_rules.items.properties.rule_type"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.venue_special_rules.items.properties.venue_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.venue_special_rules.items.properties.venue_id"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.review_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.review_id"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.review_status"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.review_status"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.reviewed_by"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.reviewed_by"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.reviewed_by_name"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.reviewed_by_name"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.reviewed_by_title"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.reviewed_by_title"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.reviewed_by_email"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.reviewed_by_email"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.review_start"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.review_start"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.review_end"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.review_end"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.review_duration_sec"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.review_duration_sec"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.review_duration"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.review_duration"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.decision"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.decision"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.rejection_reason_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.rejection_reason_id"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.rejection_comment"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.rejection_comment"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.signature_timestamp"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.signature_timestamp"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.activity_history.items.properties.activity_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.activity_history.items.properties.activity_id"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.activity_history.items.properties.activity_type"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.activity_history.items.properties.activity_type"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.activity_history.items.properties.description"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.activity_history.items.properties.description"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.activity_history.items.properties.activity_timestamp"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.activity_history.items.properties.activity_timestamp"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.activity_history.items.properties.attorney_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.activity_history.items.properties.attorney_id"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.activity_history.items.properties.account_id"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.activity_history.items.properties.account_id"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.current_status"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.current_status"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.priority"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.priority"
       }
     ],
     "controlName": "report_editor"

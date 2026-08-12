@@ -96,7 +96,6 @@ const LoginForm = ({ logo, appName = "LAP", loginType = "standard", image, appTe
             setLoading(false)
             return
           }
- 
           setCookie('language', 'en')
           let screenDetails: any = {
             keys:[

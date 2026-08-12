@@ -610,7 +610,7 @@ const Groupkey_performance_indicator_group = ({lockedData={},setLockedData,prima
         backgroundClip: '',
         backgroundBlendMode: ''
       }}
-      className={`flex flex-col overflow-auto rounded-md p-1 ${isDark ? 'text-white' : 'text-black'}`}
+      className={`flex flex-col overflow-auto rounded-md p-2 ${isDark ? 'text-white' : 'text-black'}`}
        onClick={(e:any)=>{e.stopPropagation()
         handleOnClick({}, 0);
           setnewdashboard_v1((pre:any)=>({...pre,_selectedGroup_:"key_performance_indicator_group"}))

@@ -113,46 +113,44 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
   const {amr_group17ac4Props, setamr_group17ac4Props}= useContext(TotalContext) as TotalContextProps;
   const {amr_queue_table09598, setamr_queue_table09598}= useContext(TotalContext) as TotalContextProps;
   const {amr_queue_table09598Props, setamr_queue_table09598Props}= useContext(TotalContext) as TotalContextProps;
-  const {account_id9a546, setaccount_id9a546}= useContext(TotalContext) as TotalContextProps;
-  const {case_id734ed, setcase_id734ed}= useContext(TotalContext) as TotalContextProps;
+  const {case_idea43b, setcase_idea43b}= useContext(TotalContext) as TotalContextProps;
+  const {venue_id37c04, setvenue_id37c04}= useContext(TotalContext) as TotalContextProps;
+  const {account_id4eec9, setaccount_id4eec9}= useContext(TotalContext) as TotalContextProps;
   const {debtor_nameb1ea9, setdebtor_nameb1ea9}= useContext(TotalContext) as TotalContextProps;
-  const {creditor_namee48d1, setcreditor_namee48d1}= useContext(TotalContext) as TotalContextProps;
-  const {full_name7a369, setfull_name7a369}= useContext(TotalContext) as TotalContextProps;
-  const {total_balance6a331, settotal_balance6a331}= useContext(TotalContext) as TotalContextProps;
   const {court_name5ae4f, setcourt_name5ae4f}= useContext(TotalContext) as TotalContextProps;
+  const {total_balance6a331, settotal_balance6a331}= useContext(TotalContext) as TotalContextProps;
   const {priority_name6740a, setpriority_name6740a}= useContext(TotalContext) as TotalContextProps;
   const {status_name86d6c, setstatus_name86d6c}= useContext(TotalContext) as TotalContextProps;
-  const {trs_created_date92fe2, settrs_created_date92fe2}= useContext(TotalContext) as TotalContextProps;
-  const {venue_idb51d8, setvenue_idb51d8}= useContext(TotalContext) as TotalContextProps;
   const {view_btnbd9a5, setview_btnbd9a5}= useContext(TotalContext) as TotalContextProps;
   const {edit_btn10d01, setedit_btn10d01}= useContext(TotalContext) as TotalContextProps;
   const {view_btn_pg_graph1baad, setview_btn_pg_graph1baad}= useContext(TotalContext) as TotalContextProps;
   const {bt_approveec5db, setbt_approveec5db}= useContext(TotalContext) as TotalContextProps;
-  const {add_case_grouped126, setadd_case_grouped126}= useContext(TotalContext) as TotalContextProps;
-  const {add_case_grouped126Props, setadd_case_grouped126Props}= useContext(TotalContext) as TotalContextProps;
-  const {header_groupbd8a8, setheader_groupbd8a8}= useContext(TotalContext) as TotalContextProps;
-  const {header_groupbd8a8Props, setheader_groupbd8a8Props}= useContext(TotalContext) as TotalContextProps;
-  const {required_dociument_main_group255d1, setrequired_dociument_main_group255d1}= useContext(TotalContext) as TotalContextProps;
-  const {required_dociument_main_group255d1Props, setrequired_dociument_main_group255d1Props}= useContext(TotalContext) as TotalContextProps;
-  const {doc_table9c4f7, setdoc_table9c4f7}= useContext(TotalContext) as TotalContextProps;
-  const {doc_table9c4f7Props, setdoc_table9c4f7Props}= useContext(TotalContext) as TotalContextProps;
-  const {case_information_group48f3c, setcase_information_group48f3c}= useContext(TotalContext) as TotalContextProps;
-  const {case_information_group48f3cProps, setcase_information_group48f3cProps}= useContext(TotalContext) as TotalContextProps;
-  const {card_group4c709, setcard_group4c709}= useContext(TotalContext) as TotalContextProps;
-  const {card_group4c709Props, setcard_group4c709Props}= useContext(TotalContext) as TotalContextProps;
-  const {principal_group42235, setprincipal_group42235}= useContext(TotalContext) as TotalContextProps;
-  const {principal_group42235Props, setprincipal_group42235Props}= useContext(TotalContext) as TotalContextProps;
-  const {intrest_group65c3b, setintrest_group65c3b}= useContext(TotalContext) as TotalContextProps;
-  const {intrest_group65c3bProps, setintrest_group65c3bProps}= useContext(TotalContext) as TotalContextProps;
-  const {fees_group8c4a6, setfees_group8c4a6}= useContext(TotalContext) as TotalContextProps;
-  const {fees_group8c4a6Props, setfees_group8c4a6Props}= useContext(TotalContext) as TotalContextProps;
-  const {total_groupc52d3, settotal_groupc52d3}= useContext(TotalContext) as TotalContextProps;
-  const {total_groupc52d3Props, settotal_groupc52d3Props}= useContext(TotalContext) as TotalContextProps;
-  const {checklist_main_group2b466, setchecklist_main_group2b466}= useContext(TotalContext) as TotalContextProps;
-  const {checklist_main_group2b466Props, setchecklist_main_group2b466Props}= useContext(TotalContext) as TotalContextProps;
-  const {checklist_tablecafb0, setchecklist_tablecafb0}= useContext(TotalContext) as TotalContextProps;
-  const {checklist_tablecafb0Props, setchecklist_tablecafb0Props}= useContext(TotalContext) as TotalContextProps;
-  const {viewamrcasepggraph_v1Props, setviewamrcasepggraph_v1Props}= useContext(TotalContext) as TotalContextProps;
+  const {sla_wait_start_time52ae8, setsla_wait_start_time52ae8}= useContext(TotalContext) as TotalContextProps;
+  const {add_case_group4945a, setadd_case_group4945a}= useContext(TotalContext) as TotalContextProps;
+  const {add_case_group4945aProps, setadd_case_group4945aProps}= useContext(TotalContext) as TotalContextProps;
+  const {header_groupf55cb, setheader_groupf55cb}= useContext(TotalContext) as TotalContextProps;
+  const {header_groupf55cbProps, setheader_groupf55cbProps}= useContext(TotalContext) as TotalContextProps;
+  const {required_dociument_main_groupdfaaf, setrequired_dociument_main_groupdfaaf}= useContext(TotalContext) as TotalContextProps;
+  const {required_dociument_main_groupdfaafProps, setrequired_dociument_main_groupdfaafProps}= useContext(TotalContext) as TotalContextProps;
+  const {doc_table8af83, setdoc_table8af83}= useContext(TotalContext) as TotalContextProps;
+  const {doc_table8af83Props, setdoc_table8af83Props}= useContext(TotalContext) as TotalContextProps;
+  const {case_information_group40df6, setcase_information_group40df6}= useContext(TotalContext) as TotalContextProps;
+  const {case_information_group40df6Props, setcase_information_group40df6Props}= useContext(TotalContext) as TotalContextProps;
+  const {card_group00ce3, setcard_group00ce3}= useContext(TotalContext) as TotalContextProps;
+  const {card_group00ce3Props, setcard_group00ce3Props}= useContext(TotalContext) as TotalContextProps;
+  const {principal_group510ca, setprincipal_group510ca}= useContext(TotalContext) as TotalContextProps;
+  const {principal_group510caProps, setprincipal_group510caProps}= useContext(TotalContext) as TotalContextProps;
+  const {intrest_group1ba85, setintrest_group1ba85}= useContext(TotalContext) as TotalContextProps;
+  const {intrest_group1ba85Props, setintrest_group1ba85Props}= useContext(TotalContext) as TotalContextProps;
+  const {fees_groupbee4a, setfees_groupbee4a}= useContext(TotalContext) as TotalContextProps;
+  const {fees_groupbee4aProps, setfees_groupbee4aProps}= useContext(TotalContext) as TotalContextProps;
+  const {total_group197f6, settotal_group197f6}= useContext(TotalContext) as TotalContextProps;
+  const {total_group197f6Props, settotal_group197f6Props}= useContext(TotalContext) as TotalContextProps;
+  const {checklist_main_group2d71b, setchecklist_main_group2d71b}= useContext(TotalContext) as TotalContextProps;
+  const {checklist_main_group2d71bProps, setchecklist_main_group2d71bProps}= useContext(TotalContext) as TotalContextProps;
+  const {checklist_tablec0934, setchecklist_tablec0934}= useContext(TotalContext) as TotalContextProps;
+  const {checklist_tablec0934Props, setchecklist_tablec0934Props}= useContext(TotalContext) as TotalContextProps;
+  const {viewamrpggraph_v1Props, setviewamrpggraph_v1Props}= useContext(TotalContext) as TotalContextProps;
   //////////////
 
 
@@ -174,28 +172,22 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
       codeStates['setamr_queue_table'] = setamr_queue_table09598,
       codeStates['amr_queue_table09598'] = amr_queue_table09598Props,
       codeStates['setamr_queue_table09598'] = setamr_queue_table09598Props,
-      codeStates['account_id'] = account_id9a546,
-      codeStates['setaccount_id'] = setaccount_id9a546,
-      codeStates['case_id'] = case_id734ed,
-      codeStates['setcase_id'] = setcase_id734ed,
+      codeStates['case_id'] = case_idea43b,
+      codeStates['setcase_id'] = setcase_idea43b,
+      codeStates['venue_id'] = venue_id37c04,
+      codeStates['setvenue_id'] = setvenue_id37c04,
+      codeStates['account_id'] = account_id4eec9,
+      codeStates['setaccount_id'] = setaccount_id4eec9,
       codeStates['debtor_name'] = debtor_nameb1ea9,
       codeStates['setdebtor_name'] = setdebtor_nameb1ea9,
-      codeStates['creditor_name'] = creditor_namee48d1,
-      codeStates['setcreditor_name'] = setcreditor_namee48d1,
-      codeStates['full_name'] = full_name7a369,
-      codeStates['setfull_name'] = setfull_name7a369,
-      codeStates['total_balance'] = total_balance6a331,
-      codeStates['settotal_balance'] = settotal_balance6a331,
       codeStates['court_name'] = court_name5ae4f,
       codeStates['setcourt_name'] = setcourt_name5ae4f,
+      codeStates['total_balance'] = total_balance6a331,
+      codeStates['settotal_balance'] = settotal_balance6a331,
       codeStates['priority_name'] = priority_name6740a,
       codeStates['setpriority_name'] = setpriority_name6740a,
       codeStates['status_name'] = status_name86d6c,
       codeStates['setstatus_name'] = setstatus_name86d6c,
-      codeStates['trs_created_date'] = trs_created_date92fe2,
-      codeStates['settrs_created_date'] = settrs_created_date92fe2,
-      codeStates['venue_id'] = venue_idb51d8,
-      codeStates['setvenue_id'] = setvenue_idb51d8,
       codeStates['view_btn'] = view_btnbd9a5,
       codeStates['setview_btn'] = setview_btnbd9a5,
       codeStates['edit_btn'] = edit_btn10d01,
@@ -204,56 +196,58 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
       codeStates['setview_btn_pg_graph'] = setview_btn_pg_graph1baad,
       codeStates['bt_approve'] = bt_approveec5db,
       codeStates['setbt_approve'] = setbt_approveec5db,
-      codeStates['add_case_group'] = add_case_grouped126,
-      codeStates['setadd_case_group'] = setadd_case_grouped126,
-      codeStates['add_case_grouped126'] = add_case_grouped126Props,
-      codeStates['setadd_case_grouped126'] = setadd_case_grouped126Props,
-      codeStates['header_group'] = header_groupbd8a8,
-      codeStates['setheader_group'] = setheader_groupbd8a8,
-      codeStates['header_groupbd8a8'] = header_groupbd8a8Props,
-      codeStates['setheader_groupbd8a8'] = setheader_groupbd8a8Props,
-      codeStates['required_dociument_main_group'] = required_dociument_main_group255d1,
-      codeStates['setrequired_dociument_main_group'] = setrequired_dociument_main_group255d1,
-      codeStates['required_dociument_main_group255d1'] = required_dociument_main_group255d1Props,
-      codeStates['setrequired_dociument_main_group255d1'] = setrequired_dociument_main_group255d1Props,
-      codeStates['doc_table'] = doc_table9c4f7,
-      codeStates['setdoc_table'] = setdoc_table9c4f7,
-      codeStates['doc_table9c4f7'] = doc_table9c4f7Props,
-      codeStates['setdoc_table9c4f7'] = setdoc_table9c4f7Props,
-      codeStates['case_information_group'] = case_information_group48f3c,
-      codeStates['setcase_information_group'] = setcase_information_group48f3c,
-      codeStates['case_information_group48f3c'] = case_information_group48f3cProps,
-      codeStates['setcase_information_group48f3c'] = setcase_information_group48f3cProps,
-      codeStates['card_group'] = card_group4c709,
-      codeStates['setcard_group'] = setcard_group4c709,
-      codeStates['card_group4c709'] = card_group4c709Props,
-      codeStates['setcard_group4c709'] = setcard_group4c709Props,
-      codeStates['principal_group'] = principal_group42235,
-      codeStates['setprincipal_group'] = setprincipal_group42235,
-      codeStates['principal_group42235'] = principal_group42235Props,
-      codeStates['setprincipal_group42235'] = setprincipal_group42235Props,
-      codeStates['intrest_group'] = intrest_group65c3b,
-      codeStates['setintrest_group'] = setintrest_group65c3b,
-      codeStates['intrest_group65c3b'] = intrest_group65c3bProps,
-      codeStates['setintrest_group65c3b'] = setintrest_group65c3bProps,
-      codeStates['fees_group'] = fees_group8c4a6,
-      codeStates['setfees_group'] = setfees_group8c4a6,
-      codeStates['fees_group8c4a6'] = fees_group8c4a6Props,
-      codeStates['setfees_group8c4a6'] = setfees_group8c4a6Props,
-      codeStates['total_group'] = total_groupc52d3,
-      codeStates['settotal_group'] = settotal_groupc52d3,
-      codeStates['total_groupc52d3'] = total_groupc52d3Props,
-      codeStates['settotal_groupc52d3'] = settotal_groupc52d3Props,
-      codeStates['checklist_main_group'] = checklist_main_group2b466,
-      codeStates['setchecklist_main_group'] = setchecklist_main_group2b466,
-      codeStates['checklist_main_group2b466'] = checklist_main_group2b466Props,
-      codeStates['setchecklist_main_group2b466'] = setchecklist_main_group2b466Props,
-      codeStates['checklist_table'] = checklist_tablecafb0,
-      codeStates['setchecklist_table'] = setchecklist_tablecafb0,
-      codeStates['checklist_tablecafb0'] = checklist_tablecafb0Props,
-      codeStates['setchecklist_tablecafb0'] = setchecklist_tablecafb0Props,
-      codeStates['viewamrcasepggraph_v1'] = viewamrcasepggraph_v1Props,
-      codeStates['setviewamrcasepggraph_v1'] = setviewamrcasepggraph_v1Props,
+      codeStates['sla_wait_start_time'] = sla_wait_start_time52ae8,
+      codeStates['setsla_wait_start_time'] = setsla_wait_start_time52ae8,
+      codeStates['add_case_group'] = add_case_group4945a,
+      codeStates['setadd_case_group'] = setadd_case_group4945a,
+      codeStates['add_case_group4945a'] = add_case_group4945aProps,
+      codeStates['setadd_case_group4945a'] = setadd_case_group4945aProps,
+      codeStates['header_group'] = header_groupf55cb,
+      codeStates['setheader_group'] = setheader_groupf55cb,
+      codeStates['header_groupf55cb'] = header_groupf55cbProps,
+      codeStates['setheader_groupf55cb'] = setheader_groupf55cbProps,
+      codeStates['required_dociument_main_group'] = required_dociument_main_groupdfaaf,
+      codeStates['setrequired_dociument_main_group'] = setrequired_dociument_main_groupdfaaf,
+      codeStates['required_dociument_main_groupdfaaf'] = required_dociument_main_groupdfaafProps,
+      codeStates['setrequired_dociument_main_groupdfaaf'] = setrequired_dociument_main_groupdfaafProps,
+      codeStates['doc_table'] = doc_table8af83,
+      codeStates['setdoc_table'] = setdoc_table8af83,
+      codeStates['doc_table8af83'] = doc_table8af83Props,
+      codeStates['setdoc_table8af83'] = setdoc_table8af83Props,
+      codeStates['case_information_group'] = case_information_group40df6,
+      codeStates['setcase_information_group'] = setcase_information_group40df6,
+      codeStates['case_information_group40df6'] = case_information_group40df6Props,
+      codeStates['setcase_information_group40df6'] = setcase_information_group40df6Props,
+      codeStates['card_group'] = card_group00ce3,
+      codeStates['setcard_group'] = setcard_group00ce3,
+      codeStates['card_group00ce3'] = card_group00ce3Props,
+      codeStates['setcard_group00ce3'] = setcard_group00ce3Props,
+      codeStates['principal_group'] = principal_group510ca,
+      codeStates['setprincipal_group'] = setprincipal_group510ca,
+      codeStates['principal_group510ca'] = principal_group510caProps,
+      codeStates['setprincipal_group510ca'] = setprincipal_group510caProps,
+      codeStates['intrest_group'] = intrest_group1ba85,
+      codeStates['setintrest_group'] = setintrest_group1ba85,
+      codeStates['intrest_group1ba85'] = intrest_group1ba85Props,
+      codeStates['setintrest_group1ba85'] = setintrest_group1ba85Props,
+      codeStates['fees_group'] = fees_groupbee4a,
+      codeStates['setfees_group'] = setfees_groupbee4a,
+      codeStates['fees_groupbee4a'] = fees_groupbee4aProps,
+      codeStates['setfees_groupbee4a'] = setfees_groupbee4aProps,
+      codeStates['total_group'] = total_group197f6,
+      codeStates['settotal_group'] = settotal_group197f6,
+      codeStates['total_group197f6'] = total_group197f6Props,
+      codeStates['settotal_group197f6'] = settotal_group197f6Props,
+      codeStates['checklist_main_group'] = checklist_main_group2d71b,
+      codeStates['setchecklist_main_group'] = setchecklist_main_group2d71b,
+      codeStates['checklist_main_group2d71b'] = checklist_main_group2d71bProps,
+      codeStates['setchecklist_main_group2d71b'] = setchecklist_main_group2d71bProps,
+      codeStates['checklist_table'] = checklist_tablec0934,
+      codeStates['setchecklist_table'] = setchecklist_tablec0934,
+      codeStates['checklist_tablec0934'] = checklist_tablec0934Props,
+      codeStates['setchecklist_tablec0934'] = setchecklist_tablec0934Props,
+      codeStates['viewamrpggraph_v1'] = viewamrpggraph_v1Props,
+      codeStates['setviewamrpggraph_v1'] = setviewamrpggraph_v1Props,
       codeStates['response']  = savedData.current;
       codeStates['mainData'] = mainData,
       customCode = codeExecution(code,codeStates);
@@ -334,44 +328,44 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
 
     //bindTran
     // For group or table
-    let bindData2 = filterByKeys(mainData,add_case_grouped126Props?.controls);
-    setadd_case_grouped126(bindData2||{})
-    setadd_case_grouped126Props({...add_case_grouped126Props,presetValues:{...(mainData||{})}})
+    let bindData2 = filterByKeys(mainData,add_case_group4945aProps?.controls);
+    setadd_case_group4945a(bindData2||{})
+    setadd_case_group4945aProps({...add_case_group4945aProps,presetValues:{...(mainData||{})}})
     //bindTran
     // For group or table
-    let bindData12 = filterByKeys(mainData,card_group4c709Props?.controls);
-    setcard_group4c709(bindData12||{})
-    setcard_group4c709Props({...card_group4c709Props,presetValues:{...(mainData||{})}})
+    let bindData12 = filterByKeys(mainData,card_group00ce3Props?.controls);
+    setcard_group00ce3(bindData12||{})
+    setcard_group00ce3Props({...card_group00ce3Props,presetValues:{...(mainData||{})}})
     //bindTran
     // For group or table
-    let bindData14 = filterByKeys(mainData,principal_group42235Props?.controls);
-    setprincipal_group42235(bindData14||{})
-    setprincipal_group42235Props({...principal_group42235Props,presetValues:{...(mainData||{})}})
+    let bindData14 = filterByKeys(mainData,principal_group510caProps?.controls);
+    setprincipal_group510ca(bindData14||{})
+    setprincipal_group510caProps({...principal_group510caProps,presetValues:{...(mainData||{})}})
     //bindTran
     // For group or table
-    let bindData16 = filterByKeys(mainData,intrest_group65c3bProps?.controls);
-    setintrest_group65c3b(bindData16||{})
-    setintrest_group65c3bProps({...intrest_group65c3bProps,presetValues:{...(mainData||{})}})
+    let bindData16 = filterByKeys(mainData,intrest_group1ba85Props?.controls);
+    setintrest_group1ba85(bindData16||{})
+    setintrest_group1ba85Props({...intrest_group1ba85Props,presetValues:{...(mainData||{})}})
     //bindTran
     // For group or table
-    let bindData18 = filterByKeys(mainData,fees_group8c4a6Props?.controls);
-    setfees_group8c4a6(bindData18||{})
-    setfees_group8c4a6Props({...fees_group8c4a6Props,presetValues:{...(mainData||{})}})
+    let bindData18 = filterByKeys(mainData,fees_groupbee4aProps?.controls);
+    setfees_groupbee4a(bindData18||{})
+    setfees_groupbee4aProps({...fees_groupbee4aProps,presetValues:{...(mainData||{})}})
     //bindTran
     // For group or table
-    let bindData20 = filterByKeys(mainData,total_groupc52d3Props?.controls);
-    settotal_groupc52d3(bindData20||{})
-    settotal_groupc52d3Props({...total_groupc52d3Props,presetValues:{...(mainData||{})}})
+    let bindData20 = filterByKeys(mainData,total_group197f6Props?.controls);
+    settotal_group197f6(bindData20||{})
+    settotal_group197f6Props({...total_group197f6Props,presetValues:{...(mainData||{})}})
     //bindTran
     // For group or table
-    let bindData22 = filterByKeys(mainData,checklist_main_group2b466Props?.controls);
-    setchecklist_main_group2b466(bindData22||{})
-    setchecklist_main_group2b466Props({...checklist_main_group2b466Props,presetValues:{...(mainData||{})}})
+    let bindData22 = filterByKeys(mainData,checklist_main_group2d71bProps?.controls);
+    setchecklist_main_group2d71b(bindData22||{})
+    setchecklist_main_group2d71bProps({...checklist_main_group2d71bProps,presetValues:{...(mainData||{})}})
     //bindTran
     // For group or table
-    let bindData24 = filterByKeys(mainData,checklist_tablecafb0Props?.controls);
-    setchecklist_tablecafb0(bindData24||{})
-    setchecklist_tablecafb0Props({...checklist_tablecafb0Props,presetValues:{...(mainData||{})}})
+    let bindData24 = filterByKeys(mainData,checklist_tablec0934Props?.controls);
+    setchecklist_tablec0934(bindData24||{})
+    setchecklist_tablec0934Props({...checklist_tablec0934Props,presetValues:{...(mainData||{})}})
     // showArtifact
     let filterProps26: any =  [
   {
@@ -380,7 +374,7 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
       {
         "nodeId": "0b84a99163eb8dd425338976559dd501",
         "object": {
-          "properties.account_id": "f6394d08b20a4718af6800c17a09a546"
+          "properties.account_id": "a77bb1cbcfac46c59cf0979384f4eec9"
         }
       }
     ]
@@ -391,16 +385,16 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
       {
         "nodeId": "63f1fdf16ab179720c3d1503d94e26de",
         "object": {
-          "properties.account_id": "f6394d08b20a4718af6800c17a09a546"
+          "properties.account_id": "a77bb1cbcfac46c59cf0979384f4eec9"
         }
       }
     ]
   }
 ];
     let filterData26 = await getFilterProps(filterProps26,mainData);
-    setviewamrcasepggraph_v1Props([...filterData26 ]);
+    setviewamrpggraph_v1Props([...filterData26 ]);
     if (skipUnlockRef) skipUnlockRef.current = true
-    routes.push(getRouteScreenDetails('CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1', 'viewamrcasepggraph_v1'));
+    routes.push(getRouteScreenDetails('CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1', 'viewamrpggraph_v1'));
       await handleCustomCode();
     }catch (err: any) {
       setIsProcessing(false);

@@ -19,6 +19,7 @@ import evaluateDecisionTable,{ evaluateDecisionForDynamicActions,eventDecisionTa
 import decodeToken from '@/app/components/decodeToken';
 import uoMapperData from '@/context/dfdmapperContolnames.json';
 import Textamr_text  from "./Textamr_text";
+import Textamrs_text  from "./Textamrs_text";
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
 import { useGlobal } from '@/context/GlobalContext'
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
@@ -56,7 +57,8 @@ const Groupamr_group = ({lockedData={},setLockedData,primaryTableData={},tableDa
   const securityData:any={
   "Branch Manager": {
     "allowedControls": [
-      "amr_text"
+      "amr_text",
+      "amrs_text"
     ],
     "allowedGroups": [
       "canvas",
@@ -69,7 +71,8 @@ const Groupamr_group = ({lockedData={},setLockedData,primaryTableData={},tableDa
   },
   "Branch Officer": {
     "allowedControls": [
-      "amr_text"
+      "amr_text",
+      "amrs_text"
     ],
     "allowedGroups": [
       "canvas",
@@ -99,6 +102,7 @@ const Groupamr_group = ({lockedData={},setLockedData,primaryTableData={},tableDa
   const {amr_group17ac4, setamr_group17ac4}= useContext(TotalContext) as TotalContextProps;
   const {amr_group17ac4Props, setamr_group17ac4Props}= useContext(TotalContext) as TotalContextProps;
   const {amr_textcc6d3, setamr_textcc6d3}= useContext(TotalContext) as TotalContextProps;
+  const {amrs_text43bc9, setamrs_text43bc9}= useContext(TotalContext) as TotalContextProps;
   const {amr_queue_table09598, setamr_queue_table09598}= useContext(TotalContext) as TotalContextProps;
   const {amr_queue_table09598Props, setamr_queue_table09598Props}= useContext(TotalContext) as TotalContextProps;
   //////////////
@@ -155,6 +159,16 @@ const Groupamr_group = ({lockedData={},setLockedData,primaryTableData={},tableDa
         setamr_textcc6d3((pre:any)=>({...pre,isDisabled:false}));
       }
     }
+    if(orchestrationData?.data?.readableControls.includes("amrs_text")){
+        setamrs_text43bc9((pre:any)=>({...pre,isDisabled:true}));
+
+    }else
+    {
+      if(amrs_text43bc9?.isDisabled==null)
+      {
+        setamrs_text43bc9((pre:any)=>({...pre,isDisabled:false}));
+      }
+    }
   //////////////
     if (code != '') {
       let codeStates: any = {};
@@ -168,6 +182,8 @@ const Groupamr_group = ({lockedData={},setLockedData,primaryTableData={},tableDa
         codeStates['setamr_group17ac4'] = setamr_group17ac4Props,
         codeStates['amr_text'] = amr_textcc6d3,
         codeStates['setamr_text'] = setamr_textcc6d3,
+        codeStates['amrs_text'] = amrs_text43bc9,
+        codeStates['setamrs_text'] = setamrs_text43bc9,
         codeStates['amr_queue_table'] = amr_queue_table09598,
         codeStates['setamr_queue_table'] = setamr_queue_table09598,
         codeStates['amr_queue_table09598'] = amr_queue_table09598Props,
@@ -202,6 +218,8 @@ const Groupamr_group = ({lockedData={},setLockedData,primaryTableData={},tableDa
         codeStates['setamr_group17ac4'] = setamr_group17ac4Props,
         codeStates['amr_text'] = amr_textcc6d3,
         codeStates['setamr_text'] = setamr_textcc6d3,
+        codeStates['amrs_text'] = amrs_text43bc9,
+        codeStates['setamrs_text'] = setamrs_text43bc9,
         codeStates['amr_queue_table'] = amr_queue_table09598,
         codeStates['setamr_queue_table'] = setamr_queue_table09598,
         codeStates['amr_queue_table09598'] = amr_queue_table09598Props,
@@ -240,8 +258,8 @@ const Groupamr_group = ({lockedData={},setLockedData,primaryTableData={},tableDa
   return (
     <div 
       style={{          
-        gridColumn: '2 / 12',
-        gridRow: '1 / 9',
+        gridColumn: '2 / 19',
+        gridRow: '1 / 14',
       
         //rowGap: '0px',
         display: 'grid',
@@ -267,6 +285,7 @@ const Groupamr_group = ({lockedData={},setLockedData,primaryTableData={},tableDa
         }}
     >
           {allowedControls.includes("amr_text") ?<Textamr_text   /* cc6d3 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("amrs_text") ?<Textamrs_text   /* 43bc9 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
     </div>
  )
 }

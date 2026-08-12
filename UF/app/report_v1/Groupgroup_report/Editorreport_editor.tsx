@@ -136,10 +136,13 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         --border: #d5dde7;
         --text: #243142;
         --muted: #667085;
+
         --green: #15803d;
         --green-light: #dcfce7;
+
         --yellow: #b45309;
         --yellow-light: #fef3c7;
+
         --red: #b91c1c;
         --red-light: #fee2e2;
     }
@@ -150,12 +153,17 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         box-sizing: border-box;
     }
 
+    html {
+        background: #eef1f5;
+    }
+
     body {
         background: #eef1f5;
-        font-family: Inter, 'Segoe UI', Arial, Helvetica, sans-serif;
+        font-family: Inter, "Segoe UI", Arial, Helvetica, sans-serif;
         padding: 40px 20px;
         color: var(--text);
         font-size: 13px;
+        line-height: 1.45;
     }
 
     .container {
@@ -165,38 +173,56 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         box-shadow: 0 18px 50px rgba(15, 23, 42, 0.10);
         overflow: hidden;
         border-top: 4px solid var(--blue);
+        border-radius: 10px;
     }
 
-    /* HEADER */
+    /* =========================
+       HEADER
+    ========================= */
 
     .header {
-        background: linear-gradient(135deg, #1f4e79 0%, #163a5c 100%);
-        padding: 26px 40px;
+        background: linear-gradient(
+            135deg,
+            #1f4e79 0%,
+            #163a5c 100%
+        );
+
+        padding: 28px 40px;
+
         display: flex;
         justify-content: space-between;
         align-items: center;
+
         position: relative;
         overflow: hidden;
     }
 
     .header::before {
-        content: '';
+        content: "";
         position: absolute;
+
         width: 220px;
         height: 220px;
-        background: rgba(255,255,255,0.05);
+
+        background: rgba(255, 255, 255, 0.05);
+
         border-radius: 50%;
+
         top: -100px;
         right: -50px;
     }
 
     .header::after {
-        content: '';
+        content: "";
         position: absolute;
+
         width: 160px;
         height: 160px;
-        background: rgba(255,255,255,0.04);
+
+        background: rgba(255, 255, 255, 0.04);
+
         border-radius: 50%;
+
         bottom: -70px;
         right: 80px;
     }
@@ -211,101 +237,152 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
     .company-icon {
         width: 56px;
         height: 56px;
-        border: 3px solid #fff;
+
+        border: 3px solid #ffffff;
         border-radius: 50%;
+
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #fff;
+
+        color: #ffffff;
         font-size: 18px;
         font-weight: 800;
     }
 
     .company-name .main {
-        font-size: 25px;
+        font-size: 24px;
         font-weight: 800;
-        color: #fff;
+        color: #ffffff;
         letter-spacing: 1px;
     }
 
     .company-name .sub {
-        color: rgba(255,255,255,0.85);
+        color: rgba(255, 255, 255, 0.85);
         font-size: 11px;
         letter-spacing: 2px;
         text-transform: uppercase;
-        margin-top: 3px;
+        margin-top: 4px;
     }
 
     .header-right {
         text-align: right;
-        color: rgba(255,255,255,0.92);
+        color: rgba(255, 255, 255, 0.92);
         z-index: 1;
         font-size: 11px;
         line-height: 1.7;
     }
 
     .confidential {
-        border: 1px solid rgba(255,255,255,0.7);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+
         padding: 4px 10px;
+
         display: inline-block;
+
         border-radius: 6px;
+
         margin-bottom: 7px;
+
         font-size: 10px;
         font-weight: 700;
+
         letter-spacing: 2px;
-        color: #fff;
+
+        color: #ffffff;
     }
 
-    /* SUB HEADER */
+    /* =========================
+       SUB HEADER
+    ========================= */
 
     .sub-header {
         background: var(--blue-light);
+
         padding: 12px 40px;
+
         display: flex;
         justify-content: space-between;
+        align-items: center;
+
         font-size: 11px;
+
         color: var(--blue-dark);
+
         border-bottom: 2px solid var(--border);
+
         font-weight: 600;
     }
 
-    /* TITLE */
+    /* =========================
+       TITLE
+    ========================= */
 
     .title {
         text-align: center;
+
         padding: 30px 20px 14px;
+
         font-size: 24px;
+
         font-weight: 800;
+
         letter-spacing: 2px;
+
         text-transform: uppercase;
+
         color: var(--blue-dark);
     }
 
     .title::after {
-        content: '';
+        content: "";
+
         width: 70px;
         height: 4px;
+
         background: var(--blue);
+
         display: block;
+
         margin: 12px auto 0;
+
         border-radius: 6px;
     }
 
-    /* META */
+    /* =========================
+       META BAR
+    ========================= */
 
     .meta-bar {
         display: flex;
+
         margin: 18px 40px;
+
         border: 1px solid var(--border);
+
         border-radius: 10px;
+
         overflow: hidden;
+
+        background: #ffffff;
     }
 
     .meta-item {
         flex: 1;
+
+        min-height: 68px;
+
         padding: 13px 16px;
+
         border-right: 1px solid var(--border);
+
         background: var(--off-white);
+
+        display: flex;
+
+        flex-direction: column;
+
+        justify-content: center;
     }
 
     .meta-item:last-child {
@@ -314,136 +391,224 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
 
     .meta-label {
         font-size: 9px;
+
         color: var(--muted);
+
         text-transform: uppercase;
+
         margin-bottom: 5px;
+
         font-weight: 600;
-        letter-spacing: .5px;
+
+        letter-spacing: 0.5px;
     }
 
     .meta-value {
         font-size: 13px;
+
         font-weight: 700;
+
         color: var(--blue-dark);
+
+        word-break: break-word;
     }
 
-    /* CASE BANNER */
+    /* =========================
+       CASE BANNER
+    ========================= */
 
     .case-banner {
         margin: 18px 40px;
+
         border: 1px solid var(--border);
+
         border-left: 5px solid var(--blue);
+
         background: var(--blue-light);
+
         padding: 14px 18px;
+
         display: flex;
+
         justify-content: space-between;
+
         align-items: center;
+
         border-radius: 6px;
+
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
     }
 
     .case-label {
         font-size: 9px;
+
         color: var(--muted);
+
         text-transform: uppercase;
+
         margin-bottom: 4px;
-        letter-spacing: .6px;
+
+        letter-spacing: 0.6px;
     }
 
     .case-number {
         font-size: 18px;
+
         font-weight: 800;
+
         color: var(--blue-dark);
     }
 
     .status-area {
         display: flex;
+
         gap: 7px;
+
         align-items: center;
+
+        flex-wrap: wrap;
+
+        justify-content: flex-end;
     }
 
-    /* BADGES */
+    /* =========================
+       BADGES
+    ========================= */
 
     .badge {
         padding: 5px 10px;
+
         border-radius: 12px;
+
         font-size: 10px;
+
         font-weight: 700;
+
         display: inline-block;
+
         white-space: nowrap;
+
+        text-transform: capitalize;
     }
 
     .badge-green {
         background: var(--green-light);
+
         color: #166534;
     }
 
     .badge-yellow {
         background: var(--yellow-light);
+
         color: #92400e;
     }
 
     .badge-red {
         background: var(--red-light);
+
         color: #991b1b;
     }
 
     .badge-blue {
         background: #dbeafe;
+
         color: #1e40af;
     }
 
     .badge-gray {
         background: #e5e7eb;
+
         color: #374151;
     }
 
-    /* SECTION */
+    /* =========================
+       SECTION
+    ========================= */
 
     .section {
         padding: 18px 40px 8px;
+
         page-break-inside: avoid;
+
+        margin-bottom: 2px;
     }
 
     .section-title {
         background: var(--blue-light);
+
         border-left: 4px solid var(--blue);
+
         padding: 10px 14px;
+
         margin-bottom: 12px;
+
         color: var(--blue-dark);
+
         font-size: 12px;
+
         font-weight: 700;
+
         text-transform: uppercase;
+
         border-radius: 0 4px 4px 0;
+
         display: flex;
+
         align-items: center;
+
         gap: 9px;
+
+        letter-spacing: 0.4px;
     }
 
     .section-number {
         width: 21px;
+
         height: 21px;
+
+        min-width: 21px;
+
         border-radius: 50%;
+
         background: var(--blue);
-        color: #fff;
+
+        color: #ffffff;
+
         display: flex;
+
         align-items: center;
+
         justify-content: center;
+
         font-size: 10px;
+
         font-weight: 700;
     }
 
-    /* INFO GRID */
+    /* =========================
+       INFO GRID
+    ========================= */
 
     .info-grid {
         display: grid;
+
         grid-template-columns: repeat(2, 1fr);
+
         border: 1px solid var(--border);
+
+        border-radius: 6px;
+
+        overflow: hidden;
     }
 
     .info-item {
         padding: 11px 14px;
+
         border-bottom: 1px solid var(--border);
+
         border-right: 1px solid var(--border);
+
+        min-height: 58px;
     }
 
     .info-item:nth-child(even) {
@@ -452,73 +617,128 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
 
     .info-label {
         font-size: 9px;
+
         color: var(--muted);
+
         text-transform: uppercase;
+
         margin-bottom: 4px;
-        letter-spacing: .4px;
+
+        letter-spacing: 0.4px;
+
+        font-weight: 600;
     }
 
     .info-value {
         font-size: 12px;
+
         font-weight: 600;
+
         color: #111827;
+
+        word-break: break-word;
     }
 
-    /* FINANCIAL */
+    /* =========================
+       FINANCIAL
+    ========================= */
 
     .financial-grid {
         display: grid;
+
         grid-template-columns: repeat(4, 1fr);
+
         gap: 9px;
     }
 
     .financial-card {
         border: 1px solid var(--border);
+
         padding: 14px;
+
         background: #fafbfc;
+
         border-radius: 6px;
+
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
     }
 
     .financial-label {
         font-size: 9px;
+
         color: var(--muted);
+
         text-transform: uppercase;
+
+        font-weight: 600;
     }
 
     .financial-value {
         font-size: 15px;
+
         font-weight: 700;
+
         margin-top: 5px;
+
         color: var(--blue-dark);
+
+        word-break: break-word;
     }
 
     .financial-card.total {
         background: var(--blue-light);
+
         border-color: var(--border);
+
+        box-shadow: 0 2px 8px rgba(31, 78, 121, 0.08);
     }
 
-    /* TABLE */
+    /* =========================
+       TABLE
+    ========================= */
+
+    .table-wrapper {
+        width: 100%;
+
+        overflow-x: auto;
+
+        border-radius: 6px;
+    }
 
     table {
         width: 100%;
+
         border-collapse: collapse;
+
+        border-radius: 6px;
+
+        overflow: hidden;
     }
 
     td,
     th {
         border: 1px solid var(--border);
+
         padding: 10px 11px;
+
         font-size: 11px;
+
         vertical-align: top;
     }
 
     th {
         background: var(--blue);
-        color: #fff;
+
+        color: #ffffff;
+
         text-transform: uppercase;
+
         font-size: 9px;
-        letter-spacing: .7px;
+
+        letter-spacing: 0.7px;
+
         font-weight: 700;
+
         text-align: left;
     }
 
@@ -526,134 +746,248 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         background: #f7f9fc;
     }
 
+    tbody tr:hover td {
+        background: #eef4fa;
+    }
+
     .strong {
         font-weight: 700;
+
         color: var(--blue-dark);
     }
 
-    /* CHECKLIST */
-
-    .check {
-        color: var(--green);
-        font-weight: 700;
-    }
-
-    .pending {
-        color: var(--yellow);
-        font-weight: 700;
-    }
-
-    .failed {
-        color: var(--red);
-        font-weight: 700;
-    }
-
-    /* DECISION */
+    /* =========================
+       DECISION
+    ========================= */
 
     .decision-box {
         border: 1px solid var(--border);
+
         padding: 16px;
+
         background: #fafbfc;
+
         border-radius: 6px;
+
+        box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
     }
 
     .decision-row {
         display: grid;
-        grid-template-columns: 150px 1fr;
-        margin-bottom: 9px;
+
+        grid-template-columns: 160px 1fr;
+
+        margin-bottom: 10px;
+
         line-height: 1.5;
+
+        padding-bottom: 9px;
+
+        border-bottom: 1px solid #e8edf3;
     }
 
     .decision-row:last-child {
         margin-bottom: 0;
+
+        padding-bottom: 0;
+
+        border-bottom: none;
     }
 
     .decision-label {
         font-weight: 600;
+
         color: var(--muted);
+
+        font-size: 11px;
     }
 
-    /* CERTIFICATION */
+    .decision-value {
+        font-size: 12px;
+
+        color: #111827;
+
+        font-weight: 600;
+
+        word-break: break-word;
+    }
+
+    /* =========================
+       CERTIFICATION
+    ========================= */
 
     .certification {
         line-height: 1.7;
+
         font-size: 11px;
+
         color: #374151;
+
         background: #fafbfc;
+
         border: 1px solid var(--border);
+
         padding: 14px;
+
+        border-radius: 6px;
+
+        box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
     }
 
-    /* SIGNATURE */
+    /* =========================
+       SIGNATURE
+    ========================= */
 
     .signature-section {
         padding: 30px 40px 36px;
+
         display: flex;
+
         justify-content: flex-end;
+
         border-top: 1px dashed var(--border);
+
         margin-top: 20px;
     }
 
     .signature-box {
         width: 280px;
+
         text-align: center;
     }
 
     .signature-area {
         height: 60px;
+
         border: 2px dashed var(--border);
+
         background: var(--blue-light);
+
         border-radius: 6px;
+
         margin-bottom: 9px;
+
         display: flex;
+
         align-items: center;
+
         justify-content: center;
+
         color: var(--muted);
+
         font-size: 12px;
     }
 
     .signature-line {
         border-top: 2px solid var(--blue);
+
         margin-bottom: 8px;
     }
 
     .signature-name {
         font-weight: 700;
+
         color: var(--blue-dark);
+
         font-size: 13px;
+    }
+
+    .signature-title {
+        margin-top: 6px;
+
+        font-size: 11px;
+
+        color: #374151;
+    }
+
+    .signature-date {
+        margin-top: 6px;
+
+        font-size: 11px;
+
+        color: #374151;
     }
 
     .signature-note {
         margin-top: 7px;
+
         font-size: 10px;
+
         color: var(--muted);
+
         font-style: italic;
     }
 
-    /* FOOTER */
+    /* =========================
+       FOOTER
+    ========================= */
 
     .footer {
-        background: linear-gradient(135deg, #163a5c 0%, #1f4e79 100%);
-        color: rgba(255,255,255,0.92);
+        background: linear-gradient(
+            135deg,
+            #163a5c 0%,
+            #1f4e79 100%
+        );
+
+        color: rgba(255, 255, 255, 0.92);
+
         text-align: center;
+
         padding: 16px;
+
         font-size: 10px;
+
+        line-height: 1.6;
     }
 
     .footer strong {
-        color: #fff;
+        color: #ffffff;
     }
+
+    /* =========================
+       EMPTY VALUE
+    ========================= */
+
+    .empty-value {
+        color: #98a2b3;
+
+        font-style: italic;
+
+        font-weight: 400;
+    }
+
+    /* =========================
+       PRINT
+    ========================= */
 
     @media print {
 
+        html {
+            background: #ffffff;
+        }
+
         body {
-            background: #fff;
+            background: #ffffff;
+
             padding: 0;
         }
 
         .container {
             box-shadow: none;
+
             max-width: 100%;
+
+            border-radius: 0;
+        }
+
+        .header,
+        .footer,
+        .section-title,
+        .financial-card.total,
+        .badge {
+            -webkit-print-color-adjust: exact;
+
+            print-color-adjust: exact;
         }
 
         .section {
@@ -666,78 +1000,47 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
 
         tr {
             page-break-inside: avoid;
+
+            page-break-after: auto;
         }
 
         .financial-card {
             page-break-inside: avoid;
         }
+
+        .decision-box,
+        .certification {
+            page-break-inside: avoid;
+        }
+
+        .table-wrapper {
+            overflow: visible;
+        }
+
+        a {
+            color: inherit;
+
+            text-decoration: none;
+        }
     }
 
-    /* PROFESSIONAL REFINEMENTS */
-    html {
-        background: #eef1f5;
-    }
-
-    .container {
-        border-radius: 10px;
-    }
-
-    .meta-bar {
-        background: #fff;
-    }
-
-    .meta-item {
-        min-height: 68px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .case-banner {
-        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
-    }
-
-    .section {
-        margin-bottom: 2px;
-    }
-
-    .section-title {
-        letter-spacing: .4px;
-    }
-
-    .info-grid,
-    table {
-        border-radius: 6px;
-        overflow: hidden;
-    }
-
-    .financial-card {
-        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
-    }
-
-    .financial-card.total {
-        box-shadow: 0 2px 8px rgba(31, 78, 121, 0.08);
-    }
-
-    .decision-box,
-    .certification {
-        box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
-    }
+    /* =========================
+       RESPONSIVE
+    ========================= */
 
     @media (max-width: 760px) {
+
         body {
             padding: 15px 8px;
         }
 
-        .header,
-        .sub-header {
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-
         .header {
+            padding: 22px 20px;
+
             flex-direction: column;
+
             align-items: flex-start;
+
             gap: 18px;
         }
 
@@ -745,30 +1048,75 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
             text-align: left;
         }
 
+        .sub-header {
+            padding-left: 20px;
+
+            padding-right: 20px;
+
+            flex-direction: column;
+
+            align-items: flex-start;
+
+            gap: 5px;
+        }
+
+        .company-name .main {
+            font-size: 20px;
+        }
+
+        .company-name .sub {
+            font-size: 9px;
+
+            letter-spacing: 1.5px;
+        }
+
+        .title {
+            font-size: 20px;
+
+            padding-top: 24px;
+        }
+
         .meta-bar {
             margin-left: 20px;
+
             margin-right: 20px;
+
             flex-wrap: wrap;
         }
 
         .meta-item {
             flex: 1 1 50%;
+
             border-bottom: 1px solid var(--border);
+        }
+
+        .meta-item:nth-child(2) {
+            border-right: none;
         }
 
         .case-banner {
             margin-left: 20px;
+
             margin-right: 20px;
+
             gap: 12px;
+
+            flex-direction: column;
+
+            align-items: flex-start;
+        }
+
+        .status-area {
+            justify-content: flex-start;
         }
 
         .section {
             padding-left: 20px;
+
             padding-right: 20px;
         }
 
-        .info-grid,
-        .financial-grid {
+        .info-grid {
             grid-template-columns: 1fr;
         }
 
@@ -777,46 +1125,70 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         }
 
         .financial-grid {
+            grid-template-columns: 1fr 1fr;
+
             gap: 8px;
         }
 
-        table {
-            display: block;
+        .decision-row {
+            grid-template-columns: 1fr;
+
+            gap: 4px;
+        }
+
+        .table-wrapper {
             overflow-x: auto;
-            white-space: nowrap;
+        }
+
+        table {
+            min-width: 650px;
         }
 
         .signature-section {
             padding-left: 20px;
+
             padding-right: 20px;
+
+            justify-content: center;
         }
     }
 
-    @media print {
-        html {
-            background: #fff;
+    @media (max-width: 480px) {
+
+        .financial-grid {
+            grid-template-columns: 1fr;
         }
 
-        .container {
-            border-radius: 0;
+        .meta-item {
+            flex: 1 1 100%;
+
+            border-right: none;
         }
 
-        .header,
-        .footer {
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
+        .company-icon {
+            width: 48px;
+
+            height: 48px;
         }
     }
-
 </style>
 </head>
 
 <body>
 
 <div class="container">
+
+
     <div class="header">
+
         <div class="company-logo">
+
+            <div class="company-icon">
+                AMR
+            </div>
+
             <div class="company-name">
+
                 <div class="main">
                     LEGAL AUTOMATION PLATFORM
                 </div>
@@ -824,6 +1196,7 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
                 <div class="sub">
                     Automated Matter Review
                 </div>
+
             </div>
 
         </div>
@@ -846,6 +1219,7 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
 
     </div>
 
+
     <div class="sub-header">
 
         <span>
@@ -857,7 +1231,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         </span>
 
     </div>
-
 
     <div class="title">
         AMR Case Report
@@ -915,6 +1288,7 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
 
     </div>
 
+
     <div class="case-banner">
 
         <div>
@@ -942,7 +1316,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         </div>
 
     </div>
-
     <div class="section">
 
         <div class="section-title">
@@ -1057,6 +1430,7 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
 
     </div>
 
+
     <div class="section">
 
         <div class="section-title">
@@ -1083,7 +1457,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
 
             </div>
 
-
             <div class="financial-card">
 
                 <div class="financial-label">
@@ -1096,7 +1469,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
 
             </div>
 
-
             <div class="financial-card">
 
                 <div class="financial-label">
@@ -1108,7 +1480,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
                 </div>
 
             </div>
-
 
             <div class="financial-card total">
 
@@ -1125,44 +1496,61 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         </div>
 
 
-        <table style="margin-top:10px;">
+        <div class="table-wrapper">
 
-            <thead>
+            <table style="margin-top:10px;">
 
-                <tr>
-                    <th>Charge-Off Date</th>
-                    <th>Last Payment Date</th>
-                    <th>SOL Expiry Date</th>
-                    <th>Quality Score</th>
-                </tr>
+                <thead>
 
-            </thead>
+                    <tr>
 
-            <tbody>
+                        <th>
+                            Charge-Off Date
+                        </th>
 
-                <tr>
+                        <th>
+                            Last Payment Date
+                        </th>
 
-                    <td>
-                        {{charge_off_date}}
-                    </td>
+                        <th>
+                            SOL Expiry Date
+                        </th>
 
-                    <td>
-                        {{last_payment_date}}
-                    </td>
+                        <th>
+                            Quality Score
+                        </th>
 
-                    <td>
-                        {{sol_expiry_date}}
-                    </td>
+                    </tr>
 
-                    <td>
-                        {{quality_score}} / 100
-                    </td>
+                </thead>
 
-                </tr>
+                <tbody>
 
-            </tbody>
+                    <tr>
 
-        </table>
+                        <td>
+                            {{charge_off_date}}
+                        </td>
+
+                        <td>
+                            {{last_payment_date}}
+                        </td>
+
+                        <td>
+                            {{sol_expiry_date}}
+                        </td>
+
+                        <td>
+                            {{quality_score}} / 100
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 
@@ -1333,11 +1721,11 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
             <div class="info-item">
 
                 <div class="info-label">
-                    Persona Role
+                    Attorney Role
                 </div>
 
                 <div class="info-value">
-                    {{persona_role}}
+                    {{attorney_role}}
                 </div>
 
             </div>
@@ -1345,6 +1733,7 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         </div>
 
     </div>
+
 
     <div class="section">
 
@@ -1358,52 +1747,73 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
 
         </div>
 
-        <table>
+        <div class="table-wrapper">
 
-            <thead>
+            <table>
 
-                <tr>
-                    <th>Document Type</th>
-                    <th>Status</th>
-                    <th>Reference</th>
-                </tr>
+                <thead>
 
-            </thead>
+                    <tr>
 
-            <tbody>
+                        <th>
+                            Document Type
+                        </th>
 
-                {{#each documents}}
+                        <th>
+                            Status
+                        </th>
 
-                <tr>
+                        <th>
+                            Document Reference
+                        </th>
 
-                    <td>
-                        {{doc_type_name}}
-                    </td>
+                    </tr>
 
-                    <td>
+                </thead>
 
-                        {{#if doc_status}}
-                            {{doc_status}}
-                        {{else}}
-                            Pending
-                        {{/if}}
+                <tbody>
 
-                    </td>
+                    {{#each doc_type_table}}
 
-                    <td>
-                        {{doc_reference_url}}
-                    </td>
+                    <tr>
 
-                </tr>
+                        <td>
+                            {{doc_type_name}}
+                        </td>
 
-                {{/each}}
+                        <td>
 
-            </tbody>
+                            {{#if doc_status}}
 
-        </table>
+                                <span class="badge badge-green">
+                                    {{doc_status}}
+                                </span>
+
+                            {{else}}
+
+                                <span class="badge badge-yellow">
+                                    Pending
+                                </span>
+
+                            {{/if}}
+
+                        </td>
+
+                        <td>
+                            {{doc_reference_url}}
+                        </td>
+
+                    </tr>
+
+                    {{/each}}
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
-
 
     <div class="section">
 
@@ -1417,84 +1827,95 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
 
         </div>
 
-        <table>
+        <div class="table-wrapper">
 
-            <thead>
+            <table>
 
-                <tr>
+                <thead>
 
-                    <th width="6%">
-                        #
-                    </th>
+                    <tr>
 
-                    <th>
-                        Checklist Item
-                    </th>
+                        <th width="6%">
+                            #
+                        </th>
 
-                    <th>
-                        Category
-                    </th>
+                        <th>
+                            Checklist Item
+                        </th>
 
-                    <th>
-                        Verification
-                    </th>
+                        <th>
+                            Category
+                        </th>
 
-                    <th>
-                        Status
-                    </th>
+                        <th>
+                            Verification
+                        </th>
 
+                        <th>
+                            Verified By
+                        </th>
 
-                </tr>
+                        <th>
+                            Status
+                        </th>
 
-            </thead>
+                    </tr>
 
-            <tbody>
+                </thead>
 
-                {{#each checklist}}
+                <tbody>
 
-                <tr>
+                    {{#each checklist_table}}
 
-                    <td>
-                        {{checklist_item_id}}
-                    </td>
+                    <tr>
 
-                    <td>
-                        {{item_name}}
-                    </td>
+                        <td>
+                            {{checklist_item_id}}
+                        </td>
 
-                    <td>
-                        {{category_label}}
-                    </td>
+                        <td>
+                            {{item_name}}
+                        </td>
 
-                    <td>
-                        {{default_verification_type}}
-                    </td>
+                        <td>
+                            {{category_label}}
+                        </td>
 
-                    <td>
+                        <td>
+                            {{verification_type}}
+                        </td>
 
-                        {{#if is_complete}}
+                        <td>
+                            {{verified_by}}
+                        </td>
 
-                            <span class="badge badge-green">
-                                ✓ Complete
-                            </span>
+                        <td>
 
-                        {{else}}
+                            {{#if is_complete}}
 
-                            <span class="badge badge-yellow">
-                                ⚠ Pending
-                            </span>
+                                <span class="badge badge-green">
+                                    ✓ Complete
+                                </span>
 
-                        {{/if}}
+                            {{else}}
 
-                    </td>
+                                <span class="badge badge-yellow">
+                                    Pending
+                                </span>
 
-                </tr>
+                            {{/if}}
 
-                {{/each}}
+                        </td>
 
-            </tbody>
+                    </tr>
 
-        </table>
+                    {{/each}}
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 
@@ -1510,43 +1931,63 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
 
         </div>
 
-        <table>
+        <div class="table-wrapper">
 
-            <thead>
+            <table>
 
-                <tr>
-                    <th>
-                        Rule Type
-                    </th>
+                <thead>
 
-                    <th>
-                        Rule / Requirement
-                    </th>
-                </tr>
+                    <tr>
 
-            </thead>
+                        <th>
+                            Rule Type
+                        </th>
 
-            <tbody>
+                        <th>
+                            Rule / Requirement
+                        </th>
 
-                {{#each venue_rules}}
+                    </tr>
 
-                <tr>
+                </thead>
 
-                    <td>
-                        {{rule_type}}
-                    </td>
+                <tbody>
 
-                    <td>
-                        {{rule_text}}
-                    </td>
+                    {{#each venue_special_rules}}
 
-                </tr>
+                    <tr>
 
-                {{/each}}
+                        <td>
 
-            </tbody>
+                            {{#if rule_type}}
 
-        </table>
+                                <span class="badge badge-yellow">
+                                    {{rule_type}}
+                                </span>
+
+                            {{else}}
+
+                                <span class="badge badge-gray">
+                                    General
+                                </span>
+
+                            {{/if}}
+
+                        </td>
+
+                        <td>
+                            {{rule_text}}
+                        </td>
+
+                    </tr>
+
+                    {{/each}}
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 
@@ -1570,8 +2011,12 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
                     Review Status
                 </div>
 
-                <div>
-                    {{status_name}}
+                <div class="decision-value">
+
+                    <span class="badge badge-green">
+                        {{review_status}}
+                    </span>
+
                 </div>
 
             </div>
@@ -1583,8 +2028,34 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
                     Reviewed By
                 </div>
 
-                <div>
-                    {{reviewed_attorney_name}}
+                <div class="decision-value">
+                    {{reviewed_by_name}}
+                </div>
+
+            </div>
+
+
+            <div class="decision-row">
+
+                <div class="decision-label">
+                    Reviewer Title
+                </div>
+
+                <div class="decision-value">
+                    {{reviewed_by_title}}
+                </div>
+
+            </div>
+
+
+            <div class="decision-row">
+
+                <div class="decision-label">
+                    Reviewer Email
+                </div>
+
+                <div class="decision-value">
+                    {{reviewed_by_email}}
                 </div>
 
             </div>
@@ -1596,8 +2067,8 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
                     Review Start
                 </div>
 
-                <div>
-                    {{review_start_timestamp}}
+                <div class="decision-value">
+                    {{review_start}}
                 </div>
 
             </div>
@@ -1609,8 +2080,8 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
                     Review End
                 </div>
 
-                <div>
-                    {{review_end_timestamp}}
+                <div class="decision-value">
+                    {{review_end}}
                 </div>
 
             </div>
@@ -1622,8 +2093,8 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
                     Review Duration
                 </div>
 
-                <div>
-                    {{review_duration_sec}} seconds
+                <div class="decision-value">
+                    {{review_duration}}
                 </div>
 
             </div>
@@ -1635,8 +2106,12 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
                     Decision
                 </div>
 
-                <div>
-                    {{decision}}
+                <div class="decision-value">
+
+                    <span class="badge badge-green">
+                        {{decision}}
+                    </span>
+
                 </div>
 
             </div>
@@ -1648,8 +2123,8 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
                     Rejection Reason
                 </div>
 
-                <div>
-                    {{rejection_reason}}
+                <div class="decision-value">
+                    {{rejection_reason_id}}
                 </div>
 
             </div>
@@ -1661,16 +2136,16 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
                     Rejection Comment
                 </div>
 
-                <div>
+                <div class="decision-value">
                     {{rejection_comment}}
                 </div>
 
             </div>
 
-
         </div>
 
     </div>
+
 
     <div class="section">
 
@@ -1684,61 +2159,67 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
 
         </div>
 
-        <table>
+        <div class="table-wrapper">
 
-            <thead>
+            <table>
 
-                <tr>
+                <thead>
 
-                    <th>
-                        Date / Time
-                    </th>
+                    <tr>
 
-                    <th>
-                        Activity
-                    </th>
+                        <th>
+                            Date / Time
+                        </th>
 
-                    <th>
-                        Performed By
-                    </th>
+                        <th>
+                            Activity
+                        </th>
 
-                    <th>
-                        Description
-                    </th>
+                        <th>
+                            Performed By
+                        </th>
 
-                </tr>
+                        <th>
+                            Description
+                        </th>
 
-            </thead>
+                    </tr>
 
-            <tbody>
+                </thead>
 
-                {{#each activities}}
+                <tbody>
 
-                <tr>
+                    {{#each activity_history}}
 
-                    <td>
-                        {{activity_timestamp}}
-                    </td>
+                    <tr>
 
-                    <td>
-                        {{activity_type}}
-                    </td>
+                        <td>
+                            {{activity_timestamp}}
+                        </td>
 
-                    <td>
-                        {{activity_by}}
-                    </td>
+                        <td>
+                            <span class="strong">
+                                {{activity_type}}
+                            </span>
+                        </td>
 
-                    <td>
-                        {{description}}
-                    </td>
+                        <td>
+                            {{../reviewed_by_name}}
+                        </td>
 
-                </tr>
+                        <td>
+                            {{description}}
+                        </td>
 
-                {{/each}}
+                    </tr>
 
-            </tbody>
+                    {{/each}}
 
-        </table>
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 
@@ -1787,7 +2268,7 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
                 </div>
 
                 <div class="info-value">
-                    {{status_name}}
+                    {{current_status}}
                 </div>
 
             </div>
@@ -1799,7 +2280,7 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
                 </div>
 
                 <div class="info-value">
-                    {{priority_name}}
+                    {{priority}}
                 </div>
 
             </div>
@@ -1807,6 +2288,7 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         </div>
 
     </div>
+
 
     <div class="section">
 
@@ -1845,11 +2327,11 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
                 {{attorney_name}}
             </div>
 
-            <div style="margin-top:6px;font-size:11px;">
+            <div class="signature-title">
                 {{attorney_title}}
             </div>
 
-            <div style="margin-top:6px;font-size:11px;">
+            <div class="signature-date">
                 Date: {{signature_timestamp}}
             </div>
 
@@ -1861,12 +2343,22 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
 
     </div>
 
+
     <div class="footer">
 
         <strong>LEGAL AUTOMATION PLATFORM</strong>
-        • AMR Review Department •
+
+        &nbsp;•&nbsp;
+
+        AMR Review Department
+
+        &nbsp;•&nbsp;
+
         Case: {{case_display_id}}
-        • This is a system-generated document.
+
+        &nbsp;•&nbsp;
+
+        This is a system-generated document.
 
     </div>
 

@@ -299,7 +299,7 @@ const Groupamr_queue_group = ({lockedData={},setLockedData,primaryTableData={},t
     <div 
       style={{          
         gridColumn: '1 / 25',
-        gridRow: '1 / 159',
+        gridRow: '1 / 166',
       
         //rowGap: '0px',
         display: 'grid',

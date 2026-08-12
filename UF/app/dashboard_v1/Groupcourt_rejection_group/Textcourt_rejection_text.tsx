@@ -67,7 +67,7 @@ return (
 <Text
   contentAlign={"left"}
   className="!text-gray-500 !font-bold"
-  variant="subheader-1"
+  variant="caption-2"
   color="primary"
 >
       {keyset("COURT REJECTIONS")}

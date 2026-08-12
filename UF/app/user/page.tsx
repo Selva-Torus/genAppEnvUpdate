@@ -3,6 +3,11 @@
 'use client'
 import React, { useEffect } from 'react'
 import SetupScreen from './components'
+import { AxiosService } from '../components/axiosService'
+import {
+  deleteAllCookies,
+  setCookie
+} from '../components/cookieMgment'
 import { useRouter } from 'next/navigation'
 import decodeToken from '../components/decodeToken'
 import { useGlobal } from '@/context/GlobalContext'
@@ -12,7 +17,7 @@ function page() {
   const { token } = useGlobal();
   const decodedToken = decodeToken(token)
   const router = useRouter()
-
+  
   const logout = () => {
     localStorage.clear();
     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -23,7 +28,7 @@ function page() {
   const securityCheck = async () => {
     try {
     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-    const res = await fetch(`${basePath}/next-api/auth/introspect?key=User screen`)
+    const res = await fetch(`${basePath}/next-api/auth/introspect?key=Logs Screen`)
     if (!res.ok) {
       logout()
       return

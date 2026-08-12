@@ -630,6 +630,7 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
     setnewdashboard_v1({...result,_artfactPFRule_:rule})
   }
 
+  
   const logout = () => {
     localStorage.clear();
     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -683,12 +684,13 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
     }
     if (token) {
       const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-      const res = await fetch(`${basePath}/next-api/auth/introspect?key=Logs screen`)
+      const res = await fetch(`${basePath}/next-api/auth/introspect?key=CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1`)
       if (!res.ok) {
         logout()
         return
       }
       routes.refresh()
+
       try {
         if (myAccountRes?.__error) throw myAccountRes.__error;
         if( user != "" && user != null){
