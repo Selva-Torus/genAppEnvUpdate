@@ -810,7 +810,8 @@ export class introspectDto{
 export class signinToTorusDto{
   @ApiProperty({description: 'client'})
   @IsString()
-  client:string
+  @IsOptional()
+  client?:string
 
   @ApiProperty({description: 'username'})
   @IsString()
@@ -818,7 +819,8 @@ export class signinToTorusDto{
 
   @ApiProperty({description: 'password'})
   @IsString()
-  password:string
+  @IsOptional()
+  password?:string
 
   @ApiProperty({description: 'type'})
   @IsOptional()

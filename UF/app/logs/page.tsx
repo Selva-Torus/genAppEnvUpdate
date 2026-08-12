@@ -4,7 +4,6 @@
 import React, { useState, useEffect, useMemo, useDeferredValue, useContext } from 'react'
 import { AxiosService } from '@/app/components/axiosService'
 import TableHeader from './components/LogTable'
-import { deleteAllCookies, setCookie } from '@/app/components/cookieMgment'
 import decodeToken from '@/app/components/decodeToken'
 import Artifactdetails from './components/ArtifactDetails'
 import { TotalContext, TotalContextProps } from '../globalContext'
@@ -274,54 +273,39 @@ const ParentComponent = () => {
       limit: newPageSize
     }))
   }
-  const securityCheck = async () => {
-  try {
-    const encryptionDpd: string =
-      'CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:LAP:AFGK:LAP:AFK:lapDPD:AFVK:v1'
-    const encryptionMethod: string = ''
-    let introspect: any
-    if (encryptionFlagApp) {
-      introspect = await AxiosService.get('/UF/introspect', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-        params: {
-          dpdKey: encryptionDpd,
-          method: encryptionMethod,
-          key:"Logs Screen"
-        }
-      })
-    } else {
-      introspect = await AxiosService.get('/UF/introspect', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-        params: {
-          key:"Logs Screen"
-        }
-      })
-    }
 
-    if (introspect?.data?.authenticated) {
-      if (!decodedToken.selectedAccessProfile) {
-        router.push('/select-context')
-      }
-      if (introspect?.data?.updatedToken) {
-        setCookie('token', introspect?.data.updatedToken)
-      }
-    } else {
-      await deleteAllCookies()
-    }
-  } catch (err: any) {
-    await deleteAllCookies()
-  }
-}
+  const logout = () => {
+    localStorage.clear();
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+    const from = encodeURIComponent(`${basePath}/`);
+    window.location.href = `${basePath}/next-api/auth/logout?from=${from}`;
+  };
 
-  useEffect(() => {
-    if (token) {
-      securityCheck()
-    }
-  }, [token])
+   const securityCheck = async () => {
+     try {
+     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+     const res = await fetch(`${basePath}/next-api/auth/introspect?key=Logs screen`)
+     if (!res.ok) {
+       logout()
+       return
+     }
+     router.refresh()
+ 
+     if (!decodedToken.selectedAccessProfile) {
+       router.push('/select-context')
+     }
+       
+     } catch (err: any) {
+       logout()
+     }
+   }
+ 
+   useEffect(() => {
+     if (token) {
+       securityCheck()
+     }
+   }, [])
+
   return (
     <>
       {nodeData ? (

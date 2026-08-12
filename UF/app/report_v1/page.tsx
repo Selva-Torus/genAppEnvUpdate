@@ -3,7 +3,6 @@ import React, { useContext,useEffect, useState } from 'react';
 import { codeExecution } from "../utils/codeExecution";
 import { Multiply, ThreeLineIcon } from '../components/svgApplication';
 import { AxiosService } from '../components/axiosService';
-import { deleteAllCookies } from '@/app/components/cookieMgment';
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
 import decodeToken from "../components/decodeToken";
 import { te_refreshDto } from '../interfaces/interfaces';
@@ -16,8 +15,8 @@ import clsx from "clsx";
 import { fetchBatchData } from '../utils/Orchestration';
 import { DecodedToken,PrimaryTableData,EncryptionFlagPageData,PaginationData,AllowedGroupNode,ActionDetails } from "@/types/global";
 import { useGlobal } from '@/context/GlobalContext'
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import Groupgroup_report  from "./Groupgroup_report/Groupgroup_report";
+import { useRouter } from 'next/navigation';
 
 
 type ReportItem = {
@@ -82,6 +81,7 @@ const PageReportV1 = () => {
   const [pdfUrl, setPdfUrl] = useState<string | null>(
     'https://www.orimi.com/pdf-test.pdf'
   )
+  const router = useRouter();
 
   const reportData:ReportItem[] = [
   {
@@ -316,6 +316,13 @@ const PageReportV1 = () => {
     }
   }
 
+  const logout = () => {
+    localStorage.clear();
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+    const from = encodeURIComponent(`${basePath}/`);
+    window.location.href = `${basePath}/next-api/auth/logout?from=${from}`;
+  };
+
   async function securityCheck(): Promise<void> {
     const data: any = await fetchBatchData(
       "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1",
@@ -338,39 +345,16 @@ const PageReportV1 = () => {
     let encryptionData:Record<string, any> = {};
     if (token) {
       try {
-        let introspect:any;
-        if(encryptionFlagPage){
-           introspect = await AxiosService.get("/UF/introspect",{
-            headers: {
-              Authorization: `Bearer ${token}`
-            },
-            params: {
-              dpdKey: encryptionDpd,
-              method: encryptionMethod,
-              key:"CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1"
-            }
-          }) 
-        }else{
-          introspect = await AxiosService.get("/UF/introspect",{
-            headers: {
-              Authorization: `Bearer ${token}`
-             },
-            params: {
-              key:"CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1"  
-            }
-          })          
-        }
-        if(introspect?.data?.authenticated === false){
-        localStorage.clear();
-        deleteAllCookies();
-        window.location.href = '/ct006/lap/lap/v1';
-        }
-      }catch (err: any) {
-        toast("The token is no longer active.", 'danger');
-        localStorage.clear();
-        deleteAllCookies();
-        window.location.href = '/ct006/lap/lap/v1';
-      }
+     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+     const res = await fetch(`${basePath}/next-api/auth/introspect?key=Logs screen`)
+     if (!res.ok) {
+       logout()
+       return
+     }
+     router.refresh()
+     } catch (err: any) {
+       logout()
+     }
       try {
         let myAccount:any;
         if(encryptionFlagPage){
