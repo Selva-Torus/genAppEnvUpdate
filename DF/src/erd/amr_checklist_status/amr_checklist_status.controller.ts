@@ -355,7 +355,7 @@ export class amr_checklist_statusController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.amr_checklist_statusService.updateMaster(+checklist_status_id,updateamr_checklist_statusDto,makerInfo,token);
+      const result = await this.amr_checklist_statusService.updateMaster(+checklist_status_id,updateamr_checklist_statusDto,makerInfo,token,req.authContext);
       return result;
     }
 
@@ -435,7 +435,7 @@ export class amr_checklist_statusController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.amr_checklist_statusService.deleteMaster(+checklist_status_id,makerInfo,token);
+      const result = await this.amr_checklist_statusService.deleteMaster(+checklist_status_id,makerInfo,token,req.authContext);
       return result;
     }
 

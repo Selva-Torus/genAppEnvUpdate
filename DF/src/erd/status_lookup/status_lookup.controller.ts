@@ -347,7 +347,7 @@ export class status_lookupController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.status_lookupService.updateMaster(+status_id,updatestatus_lookupDto,makerInfo,token);
+      const result = await this.status_lookupService.updateMaster(+status_id,updatestatus_lookupDto,makerInfo,token,req.authContext);
       return result;
     }
 
@@ -425,7 +425,7 @@ export class status_lookupController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.status_lookupService.deleteMaster(+status_id,makerInfo,token);
+      const result = await this.status_lookupService.deleteMaster(+status_id,makerInfo,token,req.authContext);
       return result;
     }
 

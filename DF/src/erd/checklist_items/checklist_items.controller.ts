@@ -355,7 +355,7 @@ export class checklist_itemsController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.checklist_itemsService.updateMaster(+checklist_item_id,updatechecklist_itemsDto,makerInfo,token);
+      const result = await this.checklist_itemsService.updateMaster(+checklist_item_id,updatechecklist_itemsDto,makerInfo,token,req.authContext);
       return result;
     }
 
@@ -435,7 +435,7 @@ export class checklist_itemsController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.checklist_itemsService.deleteMaster(+checklist_item_id,makerInfo,token);
+      const result = await this.checklist_itemsService.deleteMaster(+checklist_item_id,makerInfo,token,req.authContext);
       return result;
     }
 

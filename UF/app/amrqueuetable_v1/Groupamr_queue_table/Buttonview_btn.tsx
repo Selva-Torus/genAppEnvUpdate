@@ -449,17 +449,6 @@ const Buttonview_btn = ({ mainData,lockedData,setLockedData,primaryTableData, se
       {
         "nodeId": "eed1b90543e747829ff96af5df90bdcd",
         "object": {
-          "properties.venue_id": "7c629e12dd084e44b6595c014a2b51d8"
-        }
-      }
-    ]
-  },
-  {
-    "key": "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSpecialRules:AFVK:v1",
-    "nodeBasedData": [
-      {
-        "nodeId": "eed1b90543e747829ff96af5df90bdcd",
-        "object": {
           "properties.venue_id": "401517e8d16b459388dad2a497a37c04"
         }
       }

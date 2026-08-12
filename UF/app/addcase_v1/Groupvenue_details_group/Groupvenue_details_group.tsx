@@ -20,7 +20,7 @@ import decodeToken from '@/app/components/decodeToken';
 import uoMapperData from '@/context/dfdmapperContolnames.json';
 import Textven_name_text  from "./Textven_name_text";
 import TextInputstate  from "./TextInputstate";
-import TextInputcountry  from "./TextInputcountry";
+import TextInputcounty  from "./TextInputcounty";
 import TextInputcourt_name  from "./TextInputcourt_name";
 import TextInputjudge_name  from "./TextInputjudge_name";
 import DatePickersol_expiry_date  from "./DatePickersol_expiry_date";
@@ -72,7 +72,7 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
     "allowedControls": [
       "ven_name_text",
       "state",
-      "country",
+      "county",
       "court_name",
       "judge_name",
       "sol_expiry_date",
@@ -110,7 +110,7 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
     "allowedControls": [
       "ven_name_text",
       "state",
-      "country",
+      "county",
       "court_name",
       "judge_name",
       "sol_expiry_date",
@@ -186,7 +186,7 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
   const {venue_details_group17ac6Props, setvenue_details_group17ac6Props}= useContext(TotalContext) as TotalContextProps;
   const {ven_name_textef3ac, setven_name_textef3ac}= useContext(TotalContext) as TotalContextProps;
   const {state752e3, setstate752e3}= useContext(TotalContext) as TotalContextProps;
-  const {countryf4404, setcountryf4404}= useContext(TotalContext) as TotalContextProps;
+  const {countyf4404, setcountyf4404}= useContext(TotalContext) as TotalContextProps;
   const {court_namef21b5, setcourt_namef21b5}= useContext(TotalContext) as TotalContextProps;
   const {judge_name78f03, setjudge_name78f03}= useContext(TotalContext) as TotalContextProps;
   const {sol_expiry_date8639c, setsol_expiry_date8639c}= useContext(TotalContext) as TotalContextProps;
@@ -270,14 +270,14 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         setstate752e3((pre:any)=>({...pre,isDisabled:false}));
       }
     }
-    if(orchestrationData?.data?.readableControls.includes("country")){
-        setcountryf4404((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("county")){
+        setcountyf4404((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(countryf4404?.isDisabled==null)
+      if(countyf4404?.isDisabled==null)
       {
-        setcountryf4404((pre:any)=>({...pre,isDisabled:false}));
+        setcountyf4404((pre:any)=>({...pre,isDisabled:false}));
       }
     }
     if(orchestrationData?.data?.readableControls.includes("court_name")){
@@ -409,8 +409,8 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         codeStates['setven_name_text'] = setven_name_textef3ac,
         codeStates['state'] = state752e3,
         codeStates['setstate'] = setstate752e3,
-        codeStates['country'] = countryf4404,
-        codeStates['setcountry'] = setcountryf4404,
+        codeStates['county'] = countyf4404,
+        codeStates['setcounty'] = setcountyf4404,
         codeStates['court_name'] = court_namef21b5,
         codeStates['setcourt_name'] = setcourt_namef21b5,
         codeStates['judge_name'] = judge_name78f03,
@@ -525,8 +525,8 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         codeStates['setven_name_text'] = setven_name_textef3ac,
         codeStates['state'] = state752e3,
         codeStates['setstate'] = setstate752e3,
-        codeStates['country'] = countryf4404,
-        codeStates['setcountry'] = setcountryf4404,
+        codeStates['county'] = countyf4404,
+        codeStates['setcounty'] = setcountyf4404,
         codeStates['court_name'] = court_namef21b5,
         codeStates['setcourt_name'] = setcourt_namef21b5,
         codeStates['judge_name'] = judge_name78f03,
@@ -627,7 +627,7 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
     >
           {allowedControls.includes("ven_name_text") ?<Textven_name_text   /* ef3ac */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("state") ?<TextInputstate   /* 752e3 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
-        {allowedControls.includes("country") ?<TextInputcountry   /* f4404 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+        {allowedControls.includes("county") ?<TextInputcounty   /* f4404 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("court_name") ?<TextInputcourt_name   /* f21b5 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("judge_name") ?<TextInputjudge_name   /* 78f03 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("sol_expiry_date") ?<DatePickersol_expiry_date   /* 8639c */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}

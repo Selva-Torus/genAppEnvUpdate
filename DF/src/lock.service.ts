@@ -6,8 +6,15 @@ import Redis from "ioredis";
  let redis 
  if (!redis) {
     redis = new Redis({
-      host: process.env.HOST,
-      port: parseInt(process.env.PORT),      
+      sentinels: [
+        {
+          host: process.env.REDIS_SENTINEL_HOST,
+          port: Number(process.env.REDIS_SENTINEL_PORT),
+        },      
+      ],    
+       name: process.env.REDIS_MASTER_NAME,
+      username: process.env.REDIS_USERNAME,
+      password: process.env.REDIS_PASSWORD,      
     }).on('error', (err) => {
       console.log('Redis Client Error', err);
       throw err;

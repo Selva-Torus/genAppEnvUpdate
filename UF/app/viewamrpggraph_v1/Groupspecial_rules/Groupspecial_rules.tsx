@@ -48,6 +48,7 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
   const {dfd_doctable_v1Props, setdfd_doctable_v1Props} = useContext(TotalContext) as TotalContextProps;
   const {dfd_amrcheckliststatus_v1Props, setdfd_amrcheckliststatus_v1Props} = useContext(TotalContext) as TotalContextProps;
   const {dfd_specialrulessurerealdb_v1Props, setdfd_specialrulessurerealdb_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_venuesurerealdb_v1Props, setdfd_venuesurerealdb_v1Props} = useContext(TotalContext) as TotalContextProps;
   const encryptionFlagComp: boolean = encryptionFlagPageData?.flag || false;
   let encryptionDpd: string = "";
   encryptionDpd = encryptionDpd !=='' ? encryptionDpd: encryptionFlagPageData?.dpd;
@@ -292,10 +293,10 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
 
     codeExecution(code,codeStates);
     } 
-    if(dfd_specialrulessurerealdb_v1Props?.hasLogicCenter==false  && dfd_specialrulessurerealdb_v1Props?.dstKey!="")
+    if(dfd_venuesurerealdb_v1Props?.hasLogicCenter==false  && dfd_venuesurerealdb_v1Props?.dstKey!="")
     {
       const api_paginationBody: api_paginationDto = {
-        key: dfd_specialrulessurerealdb_v1Props?.dstKey,
+        key: dfd_venuesurerealdb_v1Props?.dstKey,
         count:10,
         page: 1
       }
@@ -313,7 +314,7 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
         toast(api_paginationData?.data?.errorDetails?.message, 'danger')
         return
       }
-      setdfd_specialrulessurerealdb_v1Props(api_paginationData?.data?.records || []);
+      setdfd_venuesurerealdb_v1Props(api_paginationData?.data?.records || []);
     }
   }
 
@@ -430,7 +431,7 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
   }
 return (
 <>
-  {Array.isArray(dfd_specialrulessurerealdb_v1Props) && dfd_specialrulessurerealdb_v1Props.map((item: any, idx: number) => {
+  {Array.isArray(dfd_venuesurerealdb_v1Props) && dfd_venuesurerealdb_v1Props.map((item: any, idx: number) => {
   return (
     <div key={idx}
       style={{          

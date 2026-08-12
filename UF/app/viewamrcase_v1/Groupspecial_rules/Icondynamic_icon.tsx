@@ -50,7 +50,7 @@ const Icondynamic_icon = ({encryptionFlagCompData,setIsProcessing,controlData}:a
   const {special_rules96aec, setspecial_rules96aec}= useContext(TotalContext) as TotalContextProps
   const {special_rules96aecProps, setspecial_rules96aecProps}= useContext(TotalContext) as TotalContextProps
   const {dynamic_icon8f352, setdynamic_icon8f352}= useContext(TotalContext) as TotalContextProps
-  const {rules_text55ce9, setrules_text55ce9}= useContext(TotalContext) as TotalContextProps
+  const {rule_text55ce9, setrule_text55ce9}= useContext(TotalContext) as TotalContextProps
   //////////////
   const handleCode=async () => {
     let code:any;

@@ -347,7 +347,7 @@ export class creditorsController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.creditorsService.updateMaster(+creditor_id,updatecreditorsDto,makerInfo,token);
+      const result = await this.creditorsService.updateMaster(+creditor_id,updatecreditorsDto,makerInfo,token,req.authContext);
       return result;
     }
 
@@ -425,7 +425,7 @@ export class creditorsController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.creditorsService.deleteMaster(+creditor_id,makerInfo,token);
+      const result = await this.creditorsService.deleteMaster(+creditor_id,makerInfo,token,req.authContext);
       return result;
     }
 

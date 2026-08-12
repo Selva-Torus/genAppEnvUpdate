@@ -847,7 +847,7 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
 
         border-top: 1px dashed var(--border);
 
-        margin-top: 20px;
+        margin-top: 55px;
     }
 
     .signature-box {

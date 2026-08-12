@@ -221,7 +221,7 @@ export default function PageAddcaseV1({ onReady }: { onReady?: () => void } = {}
     "state": {
       "show": false
     },
-    "country": {
+    "county": {
       "show": false
     },
     "court_name": {

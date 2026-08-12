@@ -21,10 +21,10 @@ export default function PageAmrqueuetableV1({ onReady }: { onReady?: () => void 
   const [initialLoad, setInitialLoad] = useState<boolean>(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const securityData : SecurityData = {
-  "Branch Manager": {
+  "Junior Attorney": {
     "blockedGroups": []
   },
-  "Branch Officer": {
+  "Senior Attorney": {
     "blockedGroups": []
   }
 };

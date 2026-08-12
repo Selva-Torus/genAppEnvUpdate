@@ -4234,10 +4234,11 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-  async getAccessTemplate(token: string , calledInternally: boolean = false) {
+   async getAccessTemplate(token: string , calledInternally: boolean = false, tenantOverride?: string) {
     try {
       const accountDetails = await this.MyAccountForClient(token, 's', true);
       const { accessProfile } = accountDetails;
+      const effectiveTenant = tenantOverride || tenant;
       const accessProfileList = await this.query(`select 
         opr_ap_id ,
         access_profile as "accessProfile" ,
@@ -4251,7 +4252,7 @@ getConfig(): FusionAuthConfig {
         ${schemaName}.tam_opr_access_profile 
         where 
         tenant_code=$1 and ag_code=$2 and app_code=$3 and trs_tenant_id=$1`
-          , [tenant , ag , app])
+          , [effectiveTenant , ag , app])
       if (
         accessProfileList && 
         Array.isArray(accessProfileList) && 
@@ -4281,6 +4282,40 @@ getConfig(): FusionAuthConfig {
         },
       );
       throw new BadGatewayException(error);
+    }
+  }
+
+  // Maker-checker entitlement check (R2 remediation): the ERD services'
+  // approve/reject branches previously trusted the client-supplied
+  // xCdcaRole header on its own. This resolves the caller's own
+  // access-profile templates (by verified token, not by header) and checks
+  // for a capability key of the form "<module>:AUTHORIZE" in
+  // tam_opr_access_profile.assigned_keys. Fails closed: any lookup error,
+  // missing template, or unrecognized assignedKeys shape returns false.
+  async hasCapability(token: string, capabilityKey: string, tenantOverride?: string): Promise<boolean> {
+    try {
+      const templates: any[] = await this.getAccessTemplate(token, true, tenantOverride);
+      if (!Array.isArray(templates)) return false;
+      return templates.some((template: any) => {
+        const raw = template?.assignedKeys;
+        if (!raw) return false;
+        let keys: any[];
+        if (Array.isArray(raw)) {
+          keys = raw;
+        } else if (typeof raw === 'string') {
+          try {
+            const parsed = JSON.parse(raw);
+            keys = Array.isArray(parsed) ? parsed : raw.split(',');
+          } catch {
+            keys = raw.split(',');
+          }
+        } else {
+          return false;
+        }
+        return keys.some((k: any) => typeof k === 'string' && k.trim() === capabilityKey);
+      });
+    } catch {
+      return false;
     }
   }
 
@@ -5435,7 +5470,8 @@ getConfig(): FusionAuthConfig {
   async getResetPasswordOtp(email: string, tenantId: string | undefined = undefined) {
     try {
       if (!email) throw new BadRequestException('email is required');
-      const otpCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:otp`;
+      const otpResetToken = randomBytes(32).toString('hex');
+      const otpCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:otp:${otpResetToken}`;
       let query = 
         `SELECT
             au.org_au_id,
@@ -5486,28 +5522,14 @@ getConfig(): FusionAuthConfig {
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
       };
       const otp = Math.floor(100000 + Math.random() * 900000);
-      const otpJsonFromRedis = await this.redisService.getJsonData(
-        otpCacheKey,
-        process.env.CLIENTCODE,
-      );
-      var otpJson = [];
-
-      if (otpJsonFromRedis) {
-        otpJson = JSON.parse(otpJsonFromRedis);
-        const existingIndex = otpJson.findIndex((ele) => ele.email == email);
-        if (existingIndex != -1) {
-          otpJson.splice(existingIndex, 1, { email, otp });
-        } else {
-          otpJson.push({ email, otp });
-        }
-      } else {
-        otpJson.push({ email, otp });
-      }
+      var otpJson = { email, otp }
+     
       await this.redisService.setJsonData(
         otpCacheKey,
         JSON.stringify(otpJson),
         process.env.CLIENTCODE,
       );
+      await this.redisService.expire(otpCacheKey, 60);
 
       const updatedTemplateHtml = (resetOtpTemplate.html as string)
         .replace(
@@ -5529,7 +5551,7 @@ getConfig(): FusionAuthConfig {
           console.log('Email sent: ' + info.response);
         }
       });
-      return 'Email sent to the registered email address';
+      return {message: 'Email sent to the registered email address', id: otpResetToken};
     } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
@@ -5548,27 +5570,20 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-  async verifyOtp(email: string, otp: string) {
+  async verifyOtp(email: string, otp: string, otpResetToken: string) {
     try {
       if (!email || !otp)
         throw new BadRequestException('email or otp is required');
-      const otpCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:otp`;
+      const otpCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:otp:${otpResetToken}`;
       const otpJsonFromRedis = await this.redisService.getJsonData(
         otpCacheKey,
         process.env.CLIENTCODE,
       );
       if (!otpJsonFromRedis) throw new NotFoundException('otp not found');
       const otpJson = JSON.parse(otpJsonFromRedis);
-      const existingIndex = otpJson.findIndex(
-        (ele) => ele.email == email && ele.otp == otp,
-      );
-      if (existingIndex == -1) throw new NotFoundException('invalid otp');
-      otpJson.splice(existingIndex, 1);
-      await this.redisService.setJsonData(
-        otpCacheKey,
-        JSON.stringify(otpJson),
-        process.env.CLIENTCODE,
-      );
+      const isCorrectOtp = otpJson.email == email && otpJson.otp == otp;
+      if (!isCorrectOtp) throw new NotFoundException('invalid otp');
+      await this.redisService.deleteKey(otpCacheKey, process.env.CLIENTCODE);
       
       // Issue a short-lived, single-use reset token bound to this email and
       // hand it back instead of a bare `true`. resetPassword() below now
@@ -5577,7 +5592,11 @@ getConfig(): FusionAuthConfig {
       // own to change their password.
       const resetToken = randomBytes(32).toString('hex');
       const resetTokenKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:pwdResetToken:${resetToken}`;
-      await this.redisService.set(resetTokenKey, JSON.stringify({ email }));
+      await this.redisService.setJsonData(
+        resetTokenKey,
+        JSON.stringify({ email }),
+        process.env.CLIENTCODE,
+      );
       await this.redisService.expire(resetTokenKey, 600); // 10-minute window; also deleted on redemption below
 
       return { verified: true, resetToken };
@@ -5612,7 +5631,7 @@ getConfig(): FusionAuthConfig {
         throw new UnauthorizedException('A valid password reset token is required');
       }
       const resetTokenKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:pwdResetToken:${resetToken}`;
-      const storedTokenRaw = await this.redisService.get(resetTokenKey);
+      const storedTokenRaw = await this.redisService.getJsonData(resetTokenKey, process.env.CLIENTCODE);
       if (!storedTokenRaw) {
         throw new UnauthorizedException('Reset token is invalid or has expired');
       }
@@ -7993,9 +8012,9 @@ getConfig(): FusionAuthConfig {
         },
       );
       await this.throwCustomException(error);
-    }
-  }
-
+      }
+}
+  
   async getAppTenantsLinkedWithApp() {
     try {
       const result = await this.query(`select

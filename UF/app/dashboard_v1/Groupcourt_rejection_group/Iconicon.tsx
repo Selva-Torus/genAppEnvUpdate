@@ -74,7 +74,7 @@ const Iconicon = ({encryptionFlagCompData,setIsProcessing,controlData}:any) => {
 
 return (
   <div 
-    style={{gridColumn: `20 / 24`,gridRow: `3 / 11`, gap:``, height: `100%`, overflow: 'auto'
+    style={{gridColumn: `20 / 23`,gridRow: `3 / 11`, gap:``, height: `100%`, overflow: 'auto'
  }} >
     <Icon 
       className="!text-red-600 !rounded-xl"

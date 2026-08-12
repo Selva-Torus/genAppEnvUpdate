@@ -54,33 +54,7 @@ const Groupamr_queue_table = ({lockedData={},setLockedData,primaryTableData={},t
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
   const securityData:any={
-  "Branch Manager": {
-    "allowedControls": [
-      "case_id",
-      "venue_id",
-      "account_id",
-      "debtor_name",
-      "court_name",
-      "total_balance",
-      "priority_name",
-      "status_name",
-      "view_btn",
-      "view_btn_pg_graph",
-      "bt_approve",
-      "sla_wait_start_time"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "amr_queue_group",
-      "amr_group",
-      "amr_queue_table"
-    ],
-    "blockedControls": [
-      "edit_btn"
-    ],
-    "readOnlyControls": []
-  },
-  "Branch Officer": {
+  "Junior Attorney": {
     "allowedControls": [
       "case_id",
       "venue_id",
@@ -103,6 +77,32 @@ const Groupamr_queue_table = ({lockedData={},setLockedData,primaryTableData={},t
     "blockedControls": [
       "edit_btn",
       "bt_approve"
+    ],
+    "readOnlyControls": []
+  },
+  "Senior Attorney": {
+    "allowedControls": [
+      "case_id",
+      "venue_id",
+      "account_id",
+      "debtor_name",
+      "court_name",
+      "total_balance",
+      "priority_name",
+      "status_name",
+      "view_btn",
+      "view_btn_pg_graph",
+      "bt_approve",
+      "sla_wait_start_time"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "amr_queue_group",
+      "amr_group",
+      "amr_queue_table"
+    ],
+    "blockedControls": [
+      "edit_btn"
     ],
     "readOnlyControls": []
   }

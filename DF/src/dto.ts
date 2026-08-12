@@ -1,6 +1,5 @@
 import { ApiProperty , ApiPropertyOptional} from "@nestjs/swagger";
 import { IsEnum, IsOptional, IsNotEmpty, IsString, ValidateNested, IsBoolean, IsArray, IsNumber, IsInt, Min, Max, registerDecorator, ValidationOptions } from 'class-validator';
-import { Request } from 'express';
 import { join } from 'path';
 import { Type } from 'class-transformer';
 
@@ -62,31 +61,36 @@ export function IsSafeFilterShape(validationOptions?: ValidationOptions) {
   };
 }
 
-export const fileNameEditor = (
-  req: Request,
-  file: any,
-  callback: (error: any, filename) => void,
-) => {
-  var ext = req?.headers?.filename ? req?.headers?.filename + '.' + file.originalname.split('.').pop() : file.originalname.split('.').pop();
-  callback(null, ext);
-};
+// Content types safe to render inline in a browser tab on the app's own
+// origin. Uploads themselves stay unrestricted (this system stores arbitrary
+// case documents by design — see DocumentUploader's file-type list), so the
+// control point is here: anything not on this list is downgraded to
+// application/octet-stream + Content-Disposition: attachment before being
+// sent back, regardless of what was uploaded or what the storage-key
+// extension implies. This stops stored XSS via an uploaded/renamed
+// text/html, image/svg+xml, or application/javascript file being executed
+// in-browser when served back inline.
+const INLINE_SAFE_CONTENT_TYPES = new Set([
+  'image/jpeg',
+  'image/png',
+  'image/gif',
+  'image/webp',
+  'image/bmp',
+  'image/x-icon',
+  'image/vnd.microsoft.icon',
+  'application/pdf',
+]);
 
-export const imageFileFilter = (
-  req: Request,
-  file: any,
-  callback: (error: any, valid: boolean) => void,
-) => {
-  // if (
-  //   !file.originalname ||
-  //   !file.originalname.match(/\.(jpg|jpeg|png|gif|svg|webp|ico)$/)
-  // ) {
-  //   return callback(
-  //     new BadRequestException('File must be of type jpg|jpeg|png|gif|svg|webp'),
-  //     false,
-  //   );
-  // }
-  callback(null, true);
-};
+export function sanitizeForFileResponse(contentType: string | undefined | null): {
+  contentType: string;
+  disposition: 'inline' | 'attachment';
+} {
+  const normalized = (contentType || '').toLowerCase().split(';')[0].trim();
+  if (INLINE_SAFE_CONTENT_TYPES.has(normalized)) {
+    return { contentType: normalized, disposition: 'inline' };
+  }
+  return { contentType: 'application/octet-stream', disposition: 'attachment' };
+}
 
 export class ReadMDdto{
   SOURCE:string
@@ -808,19 +812,19 @@ export class introspectDto{
 }
 
 export class signinToTorusDto{
-  @ApiProperty({description: 'client'})
+  @ApiPropertyOptional({description: 'client'})
   @IsString()
   @IsOptional()
-  client?:string
+  client:string
 
   @ApiProperty({description: 'username'})
   @IsString()
   username:string
 
-  @ApiProperty({description: 'password'})
+  @ApiPropertyOptional({description: 'password'})
   @IsString()
   @IsOptional()
-  password?:string
+  password:string
 
   @ApiProperty({description: 'type'})
   @IsOptional()

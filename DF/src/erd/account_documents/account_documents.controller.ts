@@ -351,7 +351,7 @@ export class account_documentsController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.account_documentsService.updateMaster(+doc_instance_id,updateaccount_documentsDto,makerInfo,token);
+      const result = await this.account_documentsService.updateMaster(+doc_instance_id,updateaccount_documentsDto,makerInfo,token,req.authContext);
       return result;
     }
 
@@ -430,7 +430,7 @@ export class account_documentsController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.account_documentsService.deleteMaster(+doc_instance_id,makerInfo,token);
+      const result = await this.account_documentsService.deleteMaster(+doc_instance_id,makerInfo,token,req.authContext);
       return result;
     }
 

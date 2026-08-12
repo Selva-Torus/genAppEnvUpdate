@@ -375,7 +375,7 @@ export class venuesController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.venuesService.updateMaster(+venue_id,updatevenuesDto,makerInfo,token);
+      const result = await this.venuesService.updateMaster(+venue_id,updatevenuesDto,makerInfo,token,req.authContext);
       return result;
     }
 
@@ -460,7 +460,7 @@ export class venuesController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.venuesService.deleteMaster(+venue_id,makerInfo,token);
+      const result = await this.venuesService.deleteMaster(+venue_id,makerInfo,token,req.authContext);
       return result;
     }
 

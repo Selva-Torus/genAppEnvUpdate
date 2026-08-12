@@ -1200,7 +1200,7 @@
   },
   "78f2c49d24394dbcb42b9a49734f4404": {
     "source": "county",
-    "target": "country",
+    "target": "county",
     "mapper": [
       {
         "sourceKey": [
@@ -1209,7 +1209,7 @@
         "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|98c070f07547402d854c337bbb817ac6|78f2c49d24394dbcb42b9a49734f4404"
       }
     ],
-    "controlName": "country"
+    "controlName": "county"
   },
   "1ec2394b65e841dc9a1243eb1a6f21b5": {
     "source": "court_name",
@@ -1734,7 +1734,7 @@
   },
   "0f6b210a59e32420a52ac81fdd240b75": {
     "source": "county",
-    "target": "country",
+    "target": "county",
     "mapper": [
       {
         "sourceKey": [
@@ -1743,7 +1743,7 @@
         "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCase:AFVK:v1|7d99e3f90c038210537a6cdcd341d734|0f6b210a59e32420a52ac81fdd240b75"
       }
     ],
-    "controlName": "country"
+    "controlName": "county"
   },
   "198234c075ca49eeb43c0a94c176e19f": {
     "source": "dividerss",
@@ -1918,7 +1918,7 @@
   },
   "ce30b74c2daf4ce880ce057f89f55ce9": {
     "source": "rule_text",
-    "target": "rules_text",
+    "target": "rule_text",
     "mapper": [
       {
         "sourceKey": [
@@ -1927,7 +1927,7 @@
         "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCase:AFVK:v1|6c6f64ede0d44ab186cc0171c6c96aec|ce30b74c2daf4ce880ce057f89f55ce9"
       }
     ],
-    "controlName": "rules_text"
+    "controlName": "rule_text"
   },
   "special_rules96aec": [
     "dynamic_icon",
@@ -2271,15 +2271,20 @@
     "target": "ven_name_text",
     "controlName": "ven_name_text"
   },
-  "eb00161701ae9f6e4a8ddc52fb30a6f5": {
+  "1d74879a047441808f3d0936173b7b09": {
+    "source": "text_state",
+    "target": "text_state",
+    "controlName": "text_state"
+  },
+  "e9cd0e67eb77419ab220af209a27419e": {
     "source": "state",
     "target": "state",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.state"
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSurerealDB:AFVK:v1|cfc5fdc80b5b46dc9bf5a74352f92d52|items.properties.venue.items.properties.state"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|eb00161701ae9f6e4a8ddc52fb30a6f5"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|e9cd0e67eb77419ab220af209a27419e"
       }
     ],
     "controlName": "state"
@@ -2289,15 +2294,20 @@
     "target": "dividers",
     "controlName": "dividers"
   },
-  "fb15175c3e9e875e90d1357e1aac9b2f": {
+  "e75b5cdffbea44ef918162394871eec9": {
+    "source": "text",
+    "target": "text",
+    "controlName": "text"
+  },
+  "83741f9ad2594e9895f3f1a0a33b406d": {
     "source": "county",
     "target": "county",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.county"
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSurerealDB:AFVK:v1|cfc5fdc80b5b46dc9bf5a74352f92d52|items.properties.venue.items.properties.county"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|fb15175c3e9e875e90d1357e1aac9b2f"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|83741f9ad2594e9895f3f1a0a33b406d"
       }
     ],
     "controlName": "county"
@@ -2307,15 +2317,20 @@
     "target": "dividerss",
     "controlName": "dividerss"
   },
-  "a6136b22b75d8afd178b24c51dd411e1": {
+  "1e9d663c531749f997298652aebc793b": {
+    "source": "text_court",
+    "target": "text_court",
+    "controlName": "text_court"
+  },
+  "db545ed9d10b400db687618fb9a02ff6": {
     "source": "court",
     "target": "court",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.court"
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSurerealDB:AFVK:v1|cfc5fdc80b5b46dc9bf5a74352f92d52|items.properties.venue.items.properties.court"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|a6136b22b75d8afd178b24c51dd411e1"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|db545ed9d10b400db687618fb9a02ff6"
       }
     ],
     "controlName": "court"
@@ -2325,15 +2340,20 @@
     "target": "dividersss",
     "controlName": "dividersss"
   },
-  "bfcb95c26aa481595b9ec4e847f12cde": {
+  "c947aaa6f2d547c589942a2c1ccba2cd": {
+    "source": "text_judge",
+    "target": "text_judge",
+    "controlName": "text_judge"
+  },
+  "ac70ff3feb304b64825f922e0aa65dff": {
     "source": "judge",
     "target": "judge",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.judge"
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSurerealDB:AFVK:v1|cfc5fdc80b5b46dc9bf5a74352f92d52|items.properties.venue.items.properties.judge"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|bfcb95c26aa481595b9ec4e847f12cde"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|ac70ff3feb304b64825f922e0aa65dff"
       }
     ],
     "controlName": "judge"
@@ -2343,15 +2363,20 @@
     "target": "dividerssss",
     "controlName": "dividerssss"
   },
-  "2a8afabac6917b0b0a7ac28a6358b376": {
+  "1a2ebac96e514a3fbe7f514509d56d8d": {
+    "source": "text_filing_fee",
+    "target": "text_filing_fee",
+    "controlName": "text_filing_fee"
+  },
+  "5244160181e04930bf401bf13aa3e689": {
     "source": "filing_fee",
     "target": "filing_fee",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.filing_fee"
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSurerealDB:AFVK:v1|cfc5fdc80b5b46dc9bf5a74352f92d52|items.properties.venue.items.properties.filing_fee"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|2a8afabac6917b0b0a7ac28a6358b376"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|5244160181e04930bf401bf13aa3e689"
       }
     ],
     "controlName": "filing_fee"
@@ -2361,15 +2386,20 @@
     "target": "dividersssss",
     "controlName": "dividersssss"
   },
-  "2b48b2d5181765084191141f046d8f34": {
+  "027a792e1e1441bba68f59a7d34abd13": {
+    "source": "text_service_method",
+    "target": "text_service_method",
+    "controlName": "text_service_method"
+  },
+  "33422cb55f9945be8e58d3c7f02624d8": {
     "source": "service_method",
     "target": "service_method",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.service_method"
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSurerealDB:AFVK:v1|cfc5fdc80b5b46dc9bf5a74352f92d52|items.properties.venue.items.properties.service_method"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|2b48b2d5181765084191141f046d8f34"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|33422cb55f9945be8e58d3c7f02624d8"
       }
     ],
     "controlName": "service_method"
@@ -2379,33 +2409,45 @@
     "target": "dividerssssss",
     "controlName": "dividerssssss"
   },
-  "33c6840d31848202f6c1aebfa4e4d3ab": {
+  "1c2b3338cc3441138b622193f917e43b": {
+    "source": "text_efile_system",
+    "target": "text_efile_system",
+    "controlName": "text_efile_system"
+  },
+  "84887bfe00704d3ab8b3714c524553b3": {
     "source": "efile_system",
     "target": "efile_system",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.efile_system"
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSurerealDB:AFVK:v1|cfc5fdc80b5b46dc9bf5a74352f92d52|items.properties.venue.items.properties.efile_system"
         ],
-        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|33c6840d31848202f6c1aebfa4e4d3ab"
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1|bb2fc560566e3bb613de9b434655f664|84887bfe00704d3ab8b3714c524553b3"
       }
     ],
     "controlName": "efile_system"
   },
   "venue_details_group5f664": [
     "ven_name_text",
+    "text_state",
     "state",
     "dividers",
+    "text",
     "county",
     "dividerss",
+    "text_court",
     "court",
     "dividersss",
+    "text_judge",
     "judge",
     "dividerssss",
+    "text_filing_fee",
     "filing_fee",
     "dividersssss",
+    "text_service_method",
     "service_method",
     "dividerssssss",
+    "text_efile_system",
     "efile_system"
   ],
   "5d8baca75d2e6d22b07d18121e51abcc": {
@@ -2812,7 +2854,7 @@
   },
   "33d6ed1f957dfbdcfa1f90cf120c8824": {
     "source": "county",
-    "target": "country",
+    "target": "county",
     "mapper": [
       {
         "sourceKey": [
@@ -2821,7 +2863,7 @@
         "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRCaseApproval:AFVK:v1|aff28ef16afdc1c856480a953726904e|33d6ed1f957dfbdcfa1f90cf120c8824"
       }
     ],
-    "controlName": "country"
+    "controlName": "county"
   },
   "0e646877d862ee8ff504ece44be8b343": {
     "source": "dividerss",
@@ -3502,6 +3544,30 @@
           "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.priority"
         ],
         "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.priority"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.checklist_table"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.checklist_table"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.doc_type_table"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.doc_type_table"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.venue_special_rules"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.venue_special_rules"
+      },
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:reportCase:AFVK:v1|4a33e365d6e64576a23ff761aa19bdab|properties.activity_history"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1|6ddb7773ee7a432d85663c490498ef47|354dad335082429daf49a3947071140e|properties.activity_history"
       }
     ],
     "controlName": "report_editor"

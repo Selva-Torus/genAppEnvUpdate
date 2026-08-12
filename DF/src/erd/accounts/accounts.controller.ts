@@ -407,7 +407,7 @@ export class accountsController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.accountsService.updateMaster(+account_id,updateaccountsDto,makerInfo,token);
+      const result = await this.accountsService.updateMaster(+account_id,updateaccountsDto,makerInfo,token,req.authContext);
       return result;
     }
 
@@ -500,7 +500,7 @@ export class accountsController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.accountsService.deleteMaster(+account_id,makerInfo,token);
+      const result = await this.accountsService.deleteMaster(+account_id,makerInfo,token,req.authContext);
       return result;
     }
 

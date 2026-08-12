@@ -35,6 +35,7 @@ const ForgotPassword = ({ logo, appName, appTenantList }: Props) => {
   const isSaasApp = process.env.NEXT_PUBLIC_IS_SAAS_APPLICATION
   const [selectedAppTenant , setSelectedAppTenant] = useState('')
   const keyset: any = i18n.keyset('language')
+  const [otpResetToken, setOtpResetToken] = useState('')
 
   const handleGetOtp = async () => {
     try {
@@ -45,6 +46,7 @@ const ForgotPassword = ({ logo, appName, appTenantList }: Props) => {
         }
       })
       if (res.status === 200) {
+        setOtpResetToken(res.data.id)
         setIsOtpReceive(true)
       }
     } catch (error: any) {
@@ -81,6 +83,8 @@ const ForgotPassword = ({ logo, appName, appTenantList }: Props) => {
               setIsOtpReceive={setIsOtpReceive}
               selectedAppTenant={selectedAppTenant}
               appTenantList={appTenantList}
+              otpResetToken={otpResetToken}
+              setOtpResetToken={setOtpResetToken}
             />
           </div>
         ) : (

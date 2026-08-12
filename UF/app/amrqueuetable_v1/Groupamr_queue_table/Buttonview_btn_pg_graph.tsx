@@ -126,16 +126,12 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
   const {view_btn_pg_graph1baad, setview_btn_pg_graph1baad}= useContext(TotalContext) as TotalContextProps;
   const {bt_approveec5db, setbt_approveec5db}= useContext(TotalContext) as TotalContextProps;
   const {sla_wait_start_time52ae8, setsla_wait_start_time52ae8}= useContext(TotalContext) as TotalContextProps;
-  const {add_case_group4945a, setadd_case_group4945a}= useContext(TotalContext) as TotalContextProps;
-  const {add_case_group4945aProps, setadd_case_group4945aProps}= useContext(TotalContext) as TotalContextProps;
-  const {header_groupf55cb, setheader_groupf55cb}= useContext(TotalContext) as TotalContextProps;
-  const {header_groupf55cbProps, setheader_groupf55cbProps}= useContext(TotalContext) as TotalContextProps;
-  const {required_dociument_main_groupdfaaf, setrequired_dociument_main_groupdfaaf}= useContext(TotalContext) as TotalContextProps;
-  const {required_dociument_main_groupdfaafProps, setrequired_dociument_main_groupdfaafProps}= useContext(TotalContext) as TotalContextProps;
-  const {doc_table8af83, setdoc_table8af83}= useContext(TotalContext) as TotalContextProps;
-  const {doc_table8af83Props, setdoc_table8af83Props}= useContext(TotalContext) as TotalContextProps;
   const {case_information_group40df6, setcase_information_group40df6}= useContext(TotalContext) as TotalContextProps;
   const {case_information_group40df6Props, setcase_information_group40df6Props}= useContext(TotalContext) as TotalContextProps;
+  const {header_groupf55cb, setheader_groupf55cb}= useContext(TotalContext) as TotalContextProps;
+  const {header_groupf55cbProps, setheader_groupf55cbProps}= useContext(TotalContext) as TotalContextProps;
+  const {doc_table8af83, setdoc_table8af83}= useContext(TotalContext) as TotalContextProps;
+  const {doc_table8af83Props, setdoc_table8af83Props}= useContext(TotalContext) as TotalContextProps;
   const {card_group00ce3, setcard_group00ce3}= useContext(TotalContext) as TotalContextProps;
   const {card_group00ce3Props, setcard_group00ce3Props}= useContext(TotalContext) as TotalContextProps;
   const {principal_group510ca, setprincipal_group510ca}= useContext(TotalContext) as TotalContextProps;
@@ -198,26 +194,18 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
       codeStates['setbt_approve'] = setbt_approveec5db,
       codeStates['sla_wait_start_time'] = sla_wait_start_time52ae8,
       codeStates['setsla_wait_start_time'] = setsla_wait_start_time52ae8,
-      codeStates['add_case_group'] = add_case_group4945a,
-      codeStates['setadd_case_group'] = setadd_case_group4945a,
-      codeStates['add_case_group4945a'] = add_case_group4945aProps,
-      codeStates['setadd_case_group4945a'] = setadd_case_group4945aProps,
-      codeStates['header_group'] = header_groupf55cb,
-      codeStates['setheader_group'] = setheader_groupf55cb,
-      codeStates['header_groupf55cb'] = header_groupf55cbProps,
-      codeStates['setheader_groupf55cb'] = setheader_groupf55cbProps,
-      codeStates['required_dociument_main_group'] = required_dociument_main_groupdfaaf,
-      codeStates['setrequired_dociument_main_group'] = setrequired_dociument_main_groupdfaaf,
-      codeStates['required_dociument_main_groupdfaaf'] = required_dociument_main_groupdfaafProps,
-      codeStates['setrequired_dociument_main_groupdfaaf'] = setrequired_dociument_main_groupdfaafProps,
-      codeStates['doc_table'] = doc_table8af83,
-      codeStates['setdoc_table'] = setdoc_table8af83,
-      codeStates['doc_table8af83'] = doc_table8af83Props,
-      codeStates['setdoc_table8af83'] = setdoc_table8af83Props,
       codeStates['case_information_group'] = case_information_group40df6,
       codeStates['setcase_information_group'] = setcase_information_group40df6,
       codeStates['case_information_group40df6'] = case_information_group40df6Props,
       codeStates['setcase_information_group40df6'] = setcase_information_group40df6Props,
+      codeStates['header_group'] = header_groupf55cb,
+      codeStates['setheader_group'] = setheader_groupf55cb,
+      codeStates['header_groupf55cb'] = header_groupf55cbProps,
+      codeStates['setheader_groupf55cb'] = setheader_groupf55cbProps,
+      codeStates['doc_table'] = doc_table8af83,
+      codeStates['setdoc_table'] = setdoc_table8af83,
+      codeStates['doc_table8af83'] = doc_table8af83Props,
+      codeStates['setdoc_table8af83'] = setdoc_table8af83Props,
       codeStates['card_group'] = card_group00ce3,
       codeStates['setcard_group'] = setcard_group00ce3,
       codeStates['card_group00ce3'] = card_group00ce3Props,
@@ -328,46 +316,31 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
 
     //bindTran
     // For group or table
-    let bindData2 = filterByKeys(mainData,add_case_group4945aProps?.controls);
-    setadd_case_group4945a(bindData2||{})
-    setadd_case_group4945aProps({...add_case_group4945aProps,presetValues:{...(mainData||{})}})
+    let bindData2 = filterByKeys(mainData,case_information_group40df6Props?.controls);
+    setcase_information_group40df6(bindData2||{})
+    setcase_information_group40df6Props({...case_information_group40df6Props,presetValues:{...(mainData||{})}})
     //bindTran
     // For group or table
-    let bindData12 = filterByKeys(mainData,card_group00ce3Props?.controls);
-    setcard_group00ce3(bindData12||{})
-    setcard_group00ce3Props({...card_group00ce3Props,presetValues:{...(mainData||{})}})
-    //bindTran
-    // For group or table
-    let bindData14 = filterByKeys(mainData,principal_group510caProps?.controls);
-    setprincipal_group510ca(bindData14||{})
-    setprincipal_group510caProps({...principal_group510caProps,presetValues:{...(mainData||{})}})
-    //bindTran
-    // For group or table
-    let bindData16 = filterByKeys(mainData,intrest_group1ba85Props?.controls);
-    setintrest_group1ba85(bindData16||{})
-    setintrest_group1ba85Props({...intrest_group1ba85Props,presetValues:{...(mainData||{})}})
-    //bindTran
-    // For group or table
-    let bindData18 = filterByKeys(mainData,fees_groupbee4aProps?.controls);
-    setfees_groupbee4a(bindData18||{})
+    let bindData14 = filterByKeys(mainData,fees_groupbee4aProps?.controls);
+    setfees_groupbee4a(bindData14||{})
     setfees_groupbee4aProps({...fees_groupbee4aProps,presetValues:{...(mainData||{})}})
     //bindTran
     // For group or table
-    let bindData20 = filterByKeys(mainData,total_group197f6Props?.controls);
-    settotal_group197f6(bindData20||{})
+    let bindData16 = filterByKeys(mainData,total_group197f6Props?.controls);
+    settotal_group197f6(bindData16||{})
     settotal_group197f6Props({...total_group197f6Props,presetValues:{...(mainData||{})}})
     //bindTran
     // For group or table
-    let bindData22 = filterByKeys(mainData,checklist_main_group2d71bProps?.controls);
-    setchecklist_main_group2d71b(bindData22||{})
+    let bindData18 = filterByKeys(mainData,checklist_main_group2d71bProps?.controls);
+    setchecklist_main_group2d71b(bindData18||{})
     setchecklist_main_group2d71bProps({...checklist_main_group2d71bProps,presetValues:{...(mainData||{})}})
     //bindTran
     // For group or table
-    let bindData24 = filterByKeys(mainData,checklist_tablec0934Props?.controls);
-    setchecklist_tablec0934(bindData24||{})
+    let bindData20 = filterByKeys(mainData,checklist_tablec0934Props?.controls);
+    setchecklist_tablec0934(bindData20||{})
     setchecklist_tablec0934Props({...checklist_tablec0934Props,presetValues:{...(mainData||{})}})
     // showArtifact
-    let filterProps26: any =  [
+    let filterProps22: any =  [
   {
     "key": "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1",
     "nodeBasedData": [
@@ -391,10 +364,15 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
     ]
   }
 ];
-    let filterData26 = await getFilterProps(filterProps26,mainData);
-    setviewamrpggraph_v1Props([...filterData26 ]);
+    let filterData22 = await getFilterProps(filterProps22,mainData);
+    setviewamrpggraph_v1Props([...filterData22 ]);
     if (skipUnlockRef) skipUnlockRef.current = true
     routes.push(getRouteScreenDetails('CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRPgGraph:AFVK:v1', 'viewamrpggraph_v1'));
+    //bindTran
+    // For group or table
+    let bindData24 = filterByKeys(mainData,doc_table8af83Props?.controls);
+    setdoc_table8af83(bindData24||{})
+    setdoc_table8af83Props({...doc_table8af83Props,presetValues:{...(mainData||{})}})
       await handleCustomCode();
     }catch (err: any) {
       setIsProcessing(false);

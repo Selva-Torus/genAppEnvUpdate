@@ -772,7 +772,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
             }
           } 
 
-          //Stream Node
+           //Stream Node
             if (nodeType == 'streamnode' && poNode[j].nodeId == nodeId) {
               try {
                 this.logger.log('Stream first node Started');
@@ -824,9 +824,11 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                 //}
                 if (customConfig) {
                   let streamhost
-                  let streamport  
+                  let streamport
+                  let streamusername
+                  let streampassword
                   if(!oprname)
-                  throw new CustomException('Operation name not found', 404); 
+                  throw new CustomException('Operation name not found', 404);
                   if(currentFabric == 'PF-SCDL' && !semarc){
                     if (storageType?.toLowerCase() == 'external') {
                     if (!dpdkey) throw new CustomException('DPD key not found', 404);
@@ -838,16 +840,20 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                         if (configConnectors[i].connectorName == conncectorName) {
                           streamhost = configConnectors[i]?.credentials.host;
                           streamport = parseInt(configConnectors[i]?.credentials.port);
+                          streamusername = configConnectors[i]?.credentials.username;
+                          streampassword = configConnectors[i]?.credentials.password;
                         }
                       }
                     }
                     if (!streamhost || !streamport) {
                     throw new CustomException('Invalid stream credentials', 422);
                   }
-                  
+
                   const ext_redis = new Redis({
                     host: streamhost,
                     port: streamport,
+                    username: streamusername,
+                    password: streampassword,
                   });
 
                     if (oprname == 'read') {                  

@@ -866,10 +866,10 @@ export interface TotalContextProps {
   setstate752e3:React.Dispatch<React.SetStateAction<any>>
   state752e3Props: any 
   setstate752e3Props: React.Dispatch<React.SetStateAction<any>>
-  countryf4404: any,
-  setcountryf4404:React.Dispatch<React.SetStateAction<any>>
-  countryf4404Props: any 
-  setcountryf4404Props: React.Dispatch<React.SetStateAction<any>>
+  countyf4404: any,
+  setcountyf4404:React.Dispatch<React.SetStateAction<any>>
+  countyf4404Props: any 
+  setcountyf4404Props: React.Dispatch<React.SetStateAction<any>>
   court_namef21b5: any,
   setcourt_namef21b5:React.Dispatch<React.SetStateAction<any>>
   court_namef21b5Props: any 
@@ -1062,10 +1062,10 @@ export interface TotalContextProps {
   setdividers29243:React.Dispatch<React.SetStateAction<any>>
   dividers29243Props: any 
   setdividers29243Props: React.Dispatch<React.SetStateAction<any>>
-  country40b75: any,
-  setcountry40b75:React.Dispatch<React.SetStateAction<any>>
-  country40b75Props: any 
-  setcountry40b75Props: React.Dispatch<React.SetStateAction<any>>
+  county40b75: any,
+  setcounty40b75:React.Dispatch<React.SetStateAction<any>>
+  county40b75Props: any 
+  setcounty40b75Props: React.Dispatch<React.SetStateAction<any>>
   dividerss6e19f: any,
   setdividerss6e19f:React.Dispatch<React.SetStateAction<any>>
   dividerss6e19fProps: any 
@@ -1130,10 +1130,10 @@ export interface TotalContextProps {
   setdynamic_icon8f352:React.Dispatch<React.SetStateAction<any>>
   dynamic_icon8f352Props: any 
   setdynamic_icon8f352Props: React.Dispatch<React.SetStateAction<any>>
-  rules_text55ce9: any,
-  setrules_text55ce9:React.Dispatch<React.SetStateAction<any>>
-  rules_text55ce9Props: any 
-  setrules_text55ce9Props: React.Dispatch<React.SetStateAction<any>>
+  rule_text55ce9: any,
+  setrule_text55ce9:React.Dispatch<React.SetStateAction<any>>
+  rule_text55ce9Props: any 
+  setrule_text55ce9Props: React.Dispatch<React.SetStateAction<any>>
   account_idc92b6: any,
   setaccount_idc92b6:React.Dispatch<React.SetStateAction<any>>
   account_idc92b6Props: any 
@@ -1250,58 +1250,86 @@ export interface TotalContextProps {
   setven_name_textb2d6a:React.Dispatch<React.SetStateAction<any>>
   ven_name_textb2d6aProps: any 
   setven_name_textb2d6aProps: React.Dispatch<React.SetStateAction<any>>
-  state0a6f5: any,
-  setstate0a6f5:React.Dispatch<React.SetStateAction<any>>
-  state0a6f5Props: any 
-  setstate0a6f5Props: React.Dispatch<React.SetStateAction<any>>
+  text_stateb7b09: any,
+  settext_stateb7b09:React.Dispatch<React.SetStateAction<any>>
+  text_stateb7b09Props: any 
+  settext_stateb7b09Props: React.Dispatch<React.SetStateAction<any>>
+  state7419e: any,
+  setstate7419e:React.Dispatch<React.SetStateAction<any>>
+  state7419eProps: any 
+  setstate7419eProps: React.Dispatch<React.SetStateAction<any>>
   dividers23b80: any,
   setdividers23b80:React.Dispatch<React.SetStateAction<any>>
   dividers23b80Props: any 
   setdividers23b80Props: React.Dispatch<React.SetStateAction<any>>
-  countyc9b2f: any,
-  setcountyc9b2f:React.Dispatch<React.SetStateAction<any>>
-  countyc9b2fProps: any 
-  setcountyc9b2fProps: React.Dispatch<React.SetStateAction<any>>
+  text1eec9: any,
+  settext1eec9:React.Dispatch<React.SetStateAction<any>>
+  text1eec9Props: any 
+  settext1eec9Props: React.Dispatch<React.SetStateAction<any>>
+  countyb406d: any,
+  setcountyb406d:React.Dispatch<React.SetStateAction<any>>
+  countyb406dProps: any 
+  setcountyb406dProps: React.Dispatch<React.SetStateAction<any>>
   dividerss87146: any,
   setdividerss87146:React.Dispatch<React.SetStateAction<any>>
   dividerss87146Props: any 
   setdividerss87146Props: React.Dispatch<React.SetStateAction<any>>
-  court411e1: any,
-  setcourt411e1:React.Dispatch<React.SetStateAction<any>>
-  court411e1Props: any 
-  setcourt411e1Props: React.Dispatch<React.SetStateAction<any>>
+  text_courtc793b: any,
+  settext_courtc793b:React.Dispatch<React.SetStateAction<any>>
+  text_courtc793bProps: any 
+  settext_courtc793bProps: React.Dispatch<React.SetStateAction<any>>
+  court02ff6: any,
+  setcourt02ff6:React.Dispatch<React.SetStateAction<any>>
+  court02ff6Props: any 
+  setcourt02ff6Props: React.Dispatch<React.SetStateAction<any>>
   dividersss1271b: any,
   setdividersss1271b:React.Dispatch<React.SetStateAction<any>>
   dividersss1271bProps: any 
   setdividersss1271bProps: React.Dispatch<React.SetStateAction<any>>
-  judge12cde: any,
-  setjudge12cde:React.Dispatch<React.SetStateAction<any>>
-  judge12cdeProps: any 
-  setjudge12cdeProps: React.Dispatch<React.SetStateAction<any>>
+  text_judgeba2cd: any,
+  settext_judgeba2cd:React.Dispatch<React.SetStateAction<any>>
+  text_judgeba2cdProps: any 
+  settext_judgeba2cdProps: React.Dispatch<React.SetStateAction<any>>
+  judge65dff: any,
+  setjudge65dff:React.Dispatch<React.SetStateAction<any>>
+  judge65dffProps: any 
+  setjudge65dffProps: React.Dispatch<React.SetStateAction<any>>
   dividerssssedbaf: any,
   setdividerssssedbaf:React.Dispatch<React.SetStateAction<any>>
   dividerssssedbafProps: any 
   setdividerssssedbafProps: React.Dispatch<React.SetStateAction<any>>
-  filing_fee8b376: any,
-  setfiling_fee8b376:React.Dispatch<React.SetStateAction<any>>
-  filing_fee8b376Props: any 
-  setfiling_fee8b376Props: React.Dispatch<React.SetStateAction<any>>
+  text_filing_fee56d8d: any,
+  settext_filing_fee56d8d:React.Dispatch<React.SetStateAction<any>>
+  text_filing_fee56d8dProps: any 
+  settext_filing_fee56d8dProps: React.Dispatch<React.SetStateAction<any>>
+  filing_fee3e689: any,
+  setfiling_fee3e689:React.Dispatch<React.SetStateAction<any>>
+  filing_fee3e689Props: any 
+  setfiling_fee3e689Props: React.Dispatch<React.SetStateAction<any>>
   dividersssssc1504: any,
   setdividersssssc1504:React.Dispatch<React.SetStateAction<any>>
   dividersssssc1504Props: any 
   setdividersssssc1504Props: React.Dispatch<React.SetStateAction<any>>
-  service_methodd8f34: any,
-  setservice_methodd8f34:React.Dispatch<React.SetStateAction<any>>
-  service_methodd8f34Props: any 
-  setservice_methodd8f34Props: React.Dispatch<React.SetStateAction<any>>
+  text_service_methodabd13: any,
+  settext_service_methodabd13:React.Dispatch<React.SetStateAction<any>>
+  text_service_methodabd13Props: any 
+  settext_service_methodabd13Props: React.Dispatch<React.SetStateAction<any>>
+  service_method624d8: any,
+  setservice_method624d8:React.Dispatch<React.SetStateAction<any>>
+  service_method624d8Props: any 
+  setservice_method624d8Props: React.Dispatch<React.SetStateAction<any>>
   dividerssssss6b575: any,
   setdividerssssss6b575:React.Dispatch<React.SetStateAction<any>>
   dividerssssss6b575Props: any 
   setdividerssssss6b575Props: React.Dispatch<React.SetStateAction<any>>
-  efile_system4d3ab: any,
-  setefile_system4d3ab:React.Dispatch<React.SetStateAction<any>>
-  efile_system4d3abProps: any 
-  setefile_system4d3abProps: React.Dispatch<React.SetStateAction<any>>
+  text_efile_system7e43b: any,
+  settext_efile_system7e43b:React.Dispatch<React.SetStateAction<any>>
+  text_efile_system7e43bProps: any 
+  settext_efile_system7e43bProps: React.Dispatch<React.SetStateAction<any>>
+  efile_system553b3: any,
+  setefile_system553b3:React.Dispatch<React.SetStateAction<any>>
+  efile_system553b3Props: any 
+  setefile_system553b3Props: React.Dispatch<React.SetStateAction<any>>
   valid_checklist_text1abcc: any,
   setvalid_checklist_text1abcc:React.Dispatch<React.SetStateAction<any>>
   valid_checklist_text1abccProps: any 
@@ -1446,10 +1474,10 @@ export interface TotalContextProps {
   setdividers6822a:React.Dispatch<React.SetStateAction<any>>
   dividers6822aProps: any 
   setdividers6822aProps: React.Dispatch<React.SetStateAction<any>>
-  countryc8824: any,
-  setcountryc8824:React.Dispatch<React.SetStateAction<any>>
-  countryc8824Props: any 
-  setcountryc8824Props: React.Dispatch<React.SetStateAction<any>>
+  countyc8824: any,
+  setcountyc8824:React.Dispatch<React.SetStateAction<any>>
+  countyc8824Props: any 
+  setcountyc8824Props: React.Dispatch<React.SetStateAction<any>>
   dividerss8b343: any,
   setdividerss8b343:React.Dispatch<React.SetStateAction<any>>
   dividerss8b343Props: any 
@@ -1608,6 +1636,8 @@ export interface TotalContextProps {
   setdfd_venuespecialrules_v1Props: React.Dispatch<React.SetStateAction<any>>
   dfd_specialrulessurerealdb_v1Props: any 
   setdfd_specialrulessurerealdb_v1Props: React.Dispatch<React.SetStateAction<any>>
+  dfd_venuesurerealdb_v1Props: any 
+  setdfd_venuesurerealdb_v1Props: React.Dispatch<React.SetStateAction<any>>
   dfd_pendingfilingsdashboard_v1Props: any 
   setdfd_pendingfilingsdashboard_v1Props: React.Dispatch<React.SetStateAction<any>>
   dfd_cardsdashboard_v1Props: any 
@@ -2650,18 +2680,25 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       selectedIds:[],
       controls:[
             "ven_name_text",
+            "text_state",
             "state",
             "dividers",
+            "text",
             "county",
             "dividerss",
+            "text_court",
             "court",
             "dividersss",
+            "text_judge",
             "judge",
             "dividerssss",
+            "text_filing_fee",
             "filing_fee",
             "dividersssss",
+            "text_service_method",
             "service_method",
             "dividerssssss",
+            "text_efile_system",
             "efile_system",
       ]
       }) 
@@ -4179,7 +4216,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: null
     }) 
    const [state752e3Props,setstate752e3Props] = React.useState<any>({}) 
-   const [countryf4404,setcountryf4404] = React.useState<any>({
+   const [countyf4404,setcountyf4404] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -4187,7 +4224,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [countryf4404Props,setcountryf4404Props] = React.useState<any>({}) 
+   const [countyf4404Props,setcountyf4404Props] = React.useState<any>({}) 
    const [court_namef21b5,setcourt_namef21b5] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
@@ -4620,7 +4657,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: null
     }) 
    const [dividers29243Props,setdividers29243Props] = React.useState<any>({}) 
-   const [country40b75,setcountry40b75] = React.useState<any>({
+   const [county40b75,setcounty40b75] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -4628,7 +4665,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [country40b75Props,setcountry40b75Props] = React.useState<any>({}) 
+   const [county40b75Props,setcounty40b75Props] = React.useState<any>({}) 
    const [dividerss6e19f,setdividerss6e19f] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
@@ -4773,7 +4810,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: null
     }) 
    const [dynamic_icon8f352Props,setdynamic_icon8f352Props] = React.useState<any>({}) 
-   const [rules_text55ce9,setrules_text55ce9] = React.useState<any>({
+   const [rule_text55ce9,setrule_text55ce9] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -4781,7 +4818,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [rules_text55ce9Props,setrules_text55ce9Props] = React.useState<any>({}) 
+   const [rule_text55ce9Props,setrule_text55ce9Props] = React.useState<any>({}) 
    const [account_idc92b6,setaccount_idc92b6] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
@@ -5043,7 +5080,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: null
     }) 
    const [ven_name_textb2d6aProps,setven_name_textb2d6aProps] = React.useState<any>({}) 
-   const [state0a6f5,setstate0a6f5] = React.useState<any>({
+   const [text_stateb7b09,settext_stateb7b09] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -5051,7 +5088,16 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [state0a6f5Props,setstate0a6f5Props] = React.useState<any>({}) 
+   const [text_stateb7b09Props,settext_stateb7b09Props] = React.useState<any>({}) 
+   const [state7419e,setstate7419e] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [state7419eProps,setstate7419eProps] = React.useState<any>({}) 
    const [dividers23b80,setdividers23b80] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
@@ -5061,7 +5107,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: null
     }) 
    const [dividers23b80Props,setdividers23b80Props] = React.useState<any>({}) 
-   const [countyc9b2f,setcountyc9b2f] = React.useState<any>({
+   const [text1eec9,settext1eec9] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -5069,7 +5115,16 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [countyc9b2fProps,setcountyc9b2fProps] = React.useState<any>({}) 
+   const [text1eec9Props,settext1eec9Props] = React.useState<any>({}) 
+   const [countyb406d,setcountyb406d] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [countyb406dProps,setcountyb406dProps] = React.useState<any>({}) 
    const [dividerss87146,setdividerss87146] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
@@ -5079,7 +5134,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: null
     }) 
    const [dividerss87146Props,setdividerss87146Props] = React.useState<any>({}) 
-   const [court411e1,setcourt411e1] = React.useState<any>({
+   const [text_courtc793b,settext_courtc793b] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -5087,7 +5142,16 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [court411e1Props,setcourt411e1Props] = React.useState<any>({}) 
+   const [text_courtc793bProps,settext_courtc793bProps] = React.useState<any>({}) 
+   const [court02ff6,setcourt02ff6] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [court02ff6Props,setcourt02ff6Props] = React.useState<any>({}) 
    const [dividersss1271b,setdividersss1271b] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
@@ -5097,7 +5161,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: null
     }) 
    const [dividersss1271bProps,setdividersss1271bProps] = React.useState<any>({}) 
-   const [judge12cde,setjudge12cde] = React.useState<any>({
+   const [text_judgeba2cd,settext_judgeba2cd] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -5105,7 +5169,16 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [judge12cdeProps,setjudge12cdeProps] = React.useState<any>({}) 
+   const [text_judgeba2cdProps,settext_judgeba2cdProps] = React.useState<any>({}) 
+   const [judge65dff,setjudge65dff] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [judge65dffProps,setjudge65dffProps] = React.useState<any>({}) 
    const [dividerssssedbaf,setdividerssssedbaf] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
@@ -5115,7 +5188,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: null
     }) 
    const [dividerssssedbafProps,setdividerssssedbafProps] = React.useState<any>({}) 
-   const [filing_fee8b376,setfiling_fee8b376] = React.useState<any>({
+   const [text_filing_fee56d8d,settext_filing_fee56d8d] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -5123,7 +5196,16 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [filing_fee8b376Props,setfiling_fee8b376Props] = React.useState<any>({}) 
+   const [text_filing_fee56d8dProps,settext_filing_fee56d8dProps] = React.useState<any>({}) 
+   const [filing_fee3e689,setfiling_fee3e689] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [filing_fee3e689Props,setfiling_fee3e689Props] = React.useState<any>({}) 
    const [dividersssssc1504,setdividersssssc1504] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
@@ -5133,7 +5215,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: null
     }) 
    const [dividersssssc1504Props,setdividersssssc1504Props] = React.useState<any>({}) 
-   const [service_methodd8f34,setservice_methodd8f34] = React.useState<any>({
+   const [text_service_methodabd13,settext_service_methodabd13] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -5141,7 +5223,16 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [service_methodd8f34Props,setservice_methodd8f34Props] = React.useState<any>({}) 
+   const [text_service_methodabd13Props,settext_service_methodabd13Props] = React.useState<any>({}) 
+   const [service_method624d8,setservice_method624d8] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [service_method624d8Props,setservice_method624d8Props] = React.useState<any>({}) 
    const [dividerssssss6b575,setdividerssssss6b575] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
@@ -5151,7 +5242,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: null
     }) 
    const [dividerssssss6b575Props,setdividerssssss6b575Props] = React.useState<any>({}) 
-   const [efile_system4d3ab,setefile_system4d3ab] = React.useState<any>({
+   const [text_efile_system7e43b,settext_efile_system7e43b] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -5159,7 +5250,16 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [efile_system4d3abProps,setefile_system4d3abProps] = React.useState<any>({}) 
+   const [text_efile_system7e43bProps,settext_efile_system7e43bProps] = React.useState<any>({}) 
+   const [efile_system553b3,setefile_system553b3] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [efile_system553b3Props,setefile_system553b3Props] = React.useState<any>({}) 
    const [valid_checklist_text1abcc,setvalid_checklist_text1abcc] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
@@ -5484,7 +5584,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: null
     }) 
    const [dividers6822aProps,setdividers6822aProps] = React.useState<any>({}) 
-   const [countryc8824,setcountryc8824] = React.useState<any>({
+   const [countyc8824,setcountyc8824] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -5492,7 +5592,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [countryc8824Props,setcountryc8824Props] = React.useState<any>({}) 
+   const [countyc8824Props,setcountyc8824Props] = React.useState<any>({}) 
    const [dividerss8b343,setdividerss8b343] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
@@ -5832,7 +5932,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
        textinputfees0f99a:false,
        textven_name_textef3ac:false,
        textinputstate752e3:false,
-       textinputcountryf4404:false,
+       textinputcountyf4404:false,
        textinputcourt_namef21b5:false,
        textinputjudge_name78f03:false,
        datepickersol_expiry_date8639c:false,
@@ -5881,7 +5981,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
        textven_name_textdfed0:false,
        textinputstate8a16f:false,
        dividerdividers29243:false,
-       textinputcountry40b75:false,
+       textinputcounty40b75:false,
        dividerdividerss6e19f:false,
        textinputcourt_name27e21:false,
        dividerdividersss5d68a:false,
@@ -5898,7 +5998,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
        columnis_completed2fafb:false,
        textspecial_rules_textda90e:false,
        icondynamic_icon8f352:false,
-       textrules_text55ce9:false,
+       textrule_text55ce9:false,
        textaccount_idc92b6:false,
        textvenue_id063aa:false,
        documentviewerdocumentviewer64771:false,
@@ -5928,19 +6028,26 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
        texttotal_balance8ece0:false,
        datepickersol_expiry_date3d70d:false,
        textven_name_textb2d6a:false,
-       textinputstate0a6f5:false,
+       texttext_stateb7b09:false,
+       textstate7419e:false,
        dividerdividers23b80:false,
-       textinputcountyc9b2f:false,
+       texttext1eec9:false,
+       textcountyb406d:false,
        dividerdividerss87146:false,
-       textinputcourt411e1:false,
+       texttext_courtc793b:false,
+       textcourt02ff6:false,
        dividerdividersss1271b:false,
-       textinputjudge12cde:false,
+       texttext_judgeba2cd:false,
+       textjudge65dff:false,
        dividerdividerssssedbaf:false,
-       textinputfiling_fee8b376:false,
+       texttext_filing_fee56d8d:false,
+       textfiling_fee3e689:false,
        dividerdividersssssc1504:false,
-       textinputservice_methodd8f34:false,
+       texttext_service_methodabd13:false,
+       textservice_method624d8:false,
        dividerdividerssssss6b575:false,
-       textinputefile_system4d3ab:false,
+       texttext_efile_system7e43b:false,
+       textefile_system553b3:false,
        textvalid_checklist_text1abcc:false,
        columnchecklist_item_idf168d:false,
        columnitem_namedd097:false,
@@ -5977,7 +6084,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
        textven_name_text4470c:false,
        textinputstate10d95:false,
        dividerdividers6822a:false,
-       textinputcountryc8824:false,
+       textinputcountyc8824:false,
        dividerdividerss8b343:false,
        textinputcourt_name70da0:false,
        dividerdividersssd0216:false,
@@ -6150,6 +6257,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
   const [dfd_amrcheckliststatus_v1Props,setdfd_amrcheckliststatus_v1Props] = React.useState<any>([])
   const [dfd_venuespecialrules_v1Props,setdfd_venuespecialrules_v1Props] = React.useState<any>([])
   const [dfd_specialrulessurerealdb_v1Props,setdfd_specialrulessurerealdb_v1Props] = React.useState<any>([])
+  const [dfd_venuesurerealdb_v1Props,setdfd_venuesurerealdb_v1Props] = React.useState<any>([])
   const [dfd_pendingfilingsdashboard_v1Props,setdfd_pendingfilingsdashboard_v1Props] = React.useState<any>([])
   const [dfd_cardsdashboard_v1Props,setdfd_cardsdashboard_v1Props] = React.useState<any>([])
   const [dfd_reportcase_v1Props,setdfd_reportcase_v1Props] = React.useState<any>([])
@@ -7355,7 +7463,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcountryf4404(
+    setcountyf4404(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -7796,7 +7904,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcountry40b75(
+    setcounty40b75(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -7949,7 +8057,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setrules_text55ce9(
+    setrule_text55ce9(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -8219,7 +8327,16 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setstate0a6f5(
+    settext_stateb7b09(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setstate7419e(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -8237,7 +8354,16 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcountyc9b2f(
+    settext1eec9(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcountyb406d(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -8255,7 +8381,16 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcourt411e1(
+    settext_courtc793b(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcourt02ff6(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -8273,7 +8408,16 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setjudge12cde(
+    settext_judgeba2cd(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setjudge65dff(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -8291,7 +8435,16 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setfiling_fee8b376(
+    settext_filing_fee56d8d(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setfiling_fee3e689(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -8309,7 +8462,16 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setservice_methodd8f34(
+    settext_service_methodabd13(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setservice_method624d8(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -8327,7 +8489,16 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setefile_system4d3ab(
+    settext_efile_system7e43b(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setefile_system553b3(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -8660,7 +8831,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcountryc8824(
+    setcountyc8824(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -9868,18 +10039,25 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       selectedIds:[],
       controls:[
             "ven_name_text",
+            "text_state",
             "state",
             "dividers",
+            "text",
             "county",
             "dividerss",
+            "text_court",
             "court",
             "dividersss",
+            "text_judge",
             "judge",
             "dividerssss",
+            "text_filing_fee",
             "filing_fee",
             "dividersssss",
+            "text_service_method",
             "service_method",
             "dividerssssss",
+            "text_efile_system",
             "efile_system",
       ]
       }) 
@@ -11090,10 +11268,10 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setstate752e3, 
         state752e3Props,
         setstate752e3Props,
-        countryf4404,
-        setcountryf4404, 
-        countryf4404Props,
-        setcountryf4404Props,
+        countyf4404,
+        setcountyf4404, 
+        countyf4404Props,
+        setcountyf4404Props,
         court_namef21b5,
         setcourt_namef21b5, 
         court_namef21b5Props,
@@ -11286,10 +11464,10 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setdividers29243, 
         dividers29243Props,
         setdividers29243Props,
-        country40b75,
-        setcountry40b75, 
-        country40b75Props,
-        setcountry40b75Props,
+        county40b75,
+        setcounty40b75, 
+        county40b75Props,
+        setcounty40b75Props,
         dividerss6e19f,
         setdividerss6e19f, 
         dividerss6e19fProps,
@@ -11354,10 +11532,10 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setdynamic_icon8f352, 
         dynamic_icon8f352Props,
         setdynamic_icon8f352Props,
-        rules_text55ce9,
-        setrules_text55ce9, 
-        rules_text55ce9Props,
-        setrules_text55ce9Props,
+        rule_text55ce9,
+        setrule_text55ce9, 
+        rule_text55ce9Props,
+        setrule_text55ce9Props,
         account_idc92b6,
         setaccount_idc92b6, 
         account_idc92b6Props,
@@ -11474,58 +11652,86 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setven_name_textb2d6a, 
         ven_name_textb2d6aProps,
         setven_name_textb2d6aProps,
-        state0a6f5,
-        setstate0a6f5, 
-        state0a6f5Props,
-        setstate0a6f5Props,
+        text_stateb7b09,
+        settext_stateb7b09, 
+        text_stateb7b09Props,
+        settext_stateb7b09Props,
+        state7419e,
+        setstate7419e, 
+        state7419eProps,
+        setstate7419eProps,
         dividers23b80,
         setdividers23b80, 
         dividers23b80Props,
         setdividers23b80Props,
-        countyc9b2f,
-        setcountyc9b2f, 
-        countyc9b2fProps,
-        setcountyc9b2fProps,
+        text1eec9,
+        settext1eec9, 
+        text1eec9Props,
+        settext1eec9Props,
+        countyb406d,
+        setcountyb406d, 
+        countyb406dProps,
+        setcountyb406dProps,
         dividerss87146,
         setdividerss87146, 
         dividerss87146Props,
         setdividerss87146Props,
-        court411e1,
-        setcourt411e1, 
-        court411e1Props,
-        setcourt411e1Props,
+        text_courtc793b,
+        settext_courtc793b, 
+        text_courtc793bProps,
+        settext_courtc793bProps,
+        court02ff6,
+        setcourt02ff6, 
+        court02ff6Props,
+        setcourt02ff6Props,
         dividersss1271b,
         setdividersss1271b, 
         dividersss1271bProps,
         setdividersss1271bProps,
-        judge12cde,
-        setjudge12cde, 
-        judge12cdeProps,
-        setjudge12cdeProps,
+        text_judgeba2cd,
+        settext_judgeba2cd, 
+        text_judgeba2cdProps,
+        settext_judgeba2cdProps,
+        judge65dff,
+        setjudge65dff, 
+        judge65dffProps,
+        setjudge65dffProps,
         dividerssssedbaf,
         setdividerssssedbaf, 
         dividerssssedbafProps,
         setdividerssssedbafProps,
-        filing_fee8b376,
-        setfiling_fee8b376, 
-        filing_fee8b376Props,
-        setfiling_fee8b376Props,
+        text_filing_fee56d8d,
+        settext_filing_fee56d8d, 
+        text_filing_fee56d8dProps,
+        settext_filing_fee56d8dProps,
+        filing_fee3e689,
+        setfiling_fee3e689, 
+        filing_fee3e689Props,
+        setfiling_fee3e689Props,
         dividersssssc1504,
         setdividersssssc1504, 
         dividersssssc1504Props,
         setdividersssssc1504Props,
-        service_methodd8f34,
-        setservice_methodd8f34, 
-        service_methodd8f34Props,
-        setservice_methodd8f34Props,
+        text_service_methodabd13,
+        settext_service_methodabd13, 
+        text_service_methodabd13Props,
+        settext_service_methodabd13Props,
+        service_method624d8,
+        setservice_method624d8, 
+        service_method624d8Props,
+        setservice_method624d8Props,
         dividerssssss6b575,
         setdividerssssss6b575, 
         dividerssssss6b575Props,
         setdividerssssss6b575Props,
-        efile_system4d3ab,
-        setefile_system4d3ab, 
-        efile_system4d3abProps,
-        setefile_system4d3abProps,
+        text_efile_system7e43b,
+        settext_efile_system7e43b, 
+        text_efile_system7e43bProps,
+        settext_efile_system7e43bProps,
+        efile_system553b3,
+        setefile_system553b3, 
+        efile_system553b3Props,
+        setefile_system553b3Props,
         valid_checklist_text1abcc,
         setvalid_checklist_text1abcc, 
         valid_checklist_text1abccProps,
@@ -11670,10 +11876,10 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setdividers6822a, 
         dividers6822aProps,
         setdividers6822aProps,
-        countryc8824,
-        setcountryc8824, 
-        countryc8824Props,
-        setcountryc8824Props,
+        countyc8824,
+        setcountyc8824, 
+        countyc8824Props,
+        setcountyc8824Props,
         dividerss8b343,
         setdividerss8b343, 
         dividerss8b343Props,
@@ -11832,6 +12038,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setdfd_venuespecialrules_v1Props,
         dfd_specialrulessurerealdb_v1Props,
         setdfd_specialrulessurerealdb_v1Props,
+        dfd_venuesurerealdb_v1Props,
+        setdfd_venuesurerealdb_v1Props,
         dfd_pendingfilingsdashboard_v1Props,
         setdfd_pendingfilingsdashboard_v1Props,
         dfd_cardsdashboard_v1Props,

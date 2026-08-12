@@ -134,6 +134,7 @@ export function useHandleDfdRefresh(){
     const {dfd_doctable_v1Props,setdfd_doctable_v1Props} = useContext(TotalContext) as TotalContextProps;
     const {dfd_amrcheckliststatus_v1Props,setdfd_amrcheckliststatus_v1Props} = useContext(TotalContext) as TotalContextProps;
     const {dfd_venuespecialrules_v1Props,setdfd_venuespecialrules_v1Props} = useContext(TotalContext) as TotalContextProps;
+    const {dfd_venuesurerealdb_v1Props,setdfd_venuesurerealdb_v1Props} = useContext(TotalContext) as TotalContextProps;
     const {dfd_specialrulessurerealdb_v1Props,setdfd_specialrulessurerealdb_v1Props} = useContext(TotalContext) as TotalContextProps;
     const {dfd_reportcase_v1Props,setdfd_reportcase_v1Props} = useContext(TotalContext) as TotalContextProps;
     const toast=useInfoMsg();
@@ -251,7 +252,7 @@ export function useHandleDfdRefresh(){
             if("state752e3"==nodename){
                 dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1",setdfd_addcase_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("countryf4404"==nodename){
+            if("countyf4404"==nodename){
                 dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1",setdfd_addcase_v1Props,page,count,dpdEncryption,toast,token);
             }
             if("court_namef21b5"==nodename){
@@ -332,7 +333,7 @@ export function useHandleDfdRefresh(){
             if("state8a16f"==nodename){
                 dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1",setdfd_addcase_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("country40b75"==nodename){
+            if("county40b75"==nodename){
                 dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1",setdfd_addcase_v1Props,page,count,dpdEncryption,toast,token);
             }
             if("court_name27e21"==nodename){
@@ -359,7 +360,7 @@ export function useHandleDfdRefresh(){
             if("is_completed2fafb"==nodename){
                 dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrChecklistStatus:AFVK:v1",setdfd_amrcheckliststatus_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("rules_text55ce9"==nodename){
+            if("rule_text55ce9"==nodename){
                 dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSpecialRules:AFVK:v1",setdfd_venuespecialrules_v1Props,page,count,dpdEncryption,toast,token);
             }
             if("documentviewer64771"==nodename){
@@ -416,26 +417,26 @@ export function useHandleDfdRefresh(){
             if("total_balance8ece0"==nodename){
                 dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1",setdfd_addcase_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("state0a6f5"==nodename){
-                dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1",setdfd_specialrulessurerealdb_v1Props,page,count,dpdEncryption,toast,token);
+            if("state7419e"==nodename){
+                dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSurerealDB:AFVK:v1",setdfd_venuesurerealdb_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("countyc9b2f"==nodename){
-                dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1",setdfd_specialrulessurerealdb_v1Props,page,count,dpdEncryption,toast,token);
+            if("countyb406d"==nodename){
+                dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSurerealDB:AFVK:v1",setdfd_venuesurerealdb_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("court411e1"==nodename){
-                dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1",setdfd_specialrulessurerealdb_v1Props,page,count,dpdEncryption,toast,token);
+            if("court02ff6"==nodename){
+                dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSurerealDB:AFVK:v1",setdfd_venuesurerealdb_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("judge12cde"==nodename){
-                dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1",setdfd_specialrulessurerealdb_v1Props,page,count,dpdEncryption,toast,token);
+            if("judge65dff"==nodename){
+                dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSurerealDB:AFVK:v1",setdfd_venuesurerealdb_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("filing_fee8b376"==nodename){
-                dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1",setdfd_specialrulessurerealdb_v1Props,page,count,dpdEncryption,toast,token);
+            if("filing_fee3e689"==nodename){
+                dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSurerealDB:AFVK:v1",setdfd_venuesurerealdb_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("service_methodd8f34"==nodename){
-                dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1",setdfd_specialrulessurerealdb_v1Props,page,count,dpdEncryption,toast,token);
+            if("service_method624d8"==nodename){
+                dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSurerealDB:AFVK:v1",setdfd_venuesurerealdb_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("efile_system4d3ab"==nodename){
-                dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1",setdfd_specialrulessurerealdb_v1Props,page,count,dpdEncryption,toast,token);
+            if("efile_system553b3"==nodename){
+                dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSurerealDB:AFVK:v1",setdfd_venuesurerealdb_v1Props,page,count,dpdEncryption,toast,token);
             }
             if("checklist_item_idf168d"==nodename){
                 dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrChecklistStatus:AFVK:v1",setdfd_amrcheckliststatus_v1Props,page,count,dpdEncryption,toast,token);
@@ -500,7 +501,7 @@ export function useHandleDfdRefresh(){
             if("state10d95"==nodename){
                 dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1",setdfd_addcase_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("countryc8824"==nodename){
+            if("countyc8824"==nodename){
                 dfdRefreshContext("CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1",setdfd_addcase_v1Props,page,count,dpdEncryption,toast,token);
             }
             if("court_name70da0"==nodename){

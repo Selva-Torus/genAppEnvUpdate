@@ -36,8 +36,15 @@ export class JobProcessor{
 
         const workerOptions: WorkerOptions = {
             connection: {
-                host: process.env.HOST,
-                port: parseInt(process.env.PORT),
+               sentinels: [
+        {
+          host: process.env.REDIS_SENTINEL_HOST,
+          port: Number(process.env.REDIS_SENTINEL_PORT),
+        },      
+      ],    
+       name: process.env.REDIS_MASTER_NAME,
+      username: process.env.REDIS_USERNAME,
+      password: process.env.REDIS_PASSWORD, 
                 maxRetriesPerRequest: 3,
             },
             concurrency: 10, //50,
@@ -199,6 +206,20 @@ export class JobProcessor{
         this.logger.log(`Created new worker for queue: ${queueName}`);
 
         return worker;
+    }
+
+    // Counterpart to SchedulerService's queue-cap eviction (P6) — a queue
+    // evicted there is useless if its worker (and the worker's own Redis
+    // connection) is left running, so both must be torn down together.
+    async closeWorker(queueName: string): Promise<void> {
+        const worker = this.workers.get(queueName);
+        if (!worker) return;
+        this.workers.delete(queueName);
+        try {
+            await worker.close();
+        } catch (error: any) {
+            this.logger.error(`Error closing worker for queue ${queueName}: ${error.message}`);
+        }
     }
 
     getNextRun(expression: string, timezone = 'UTC'): Date { 

@@ -138,7 +138,7 @@ export default function PageAmrcaseapprovalV1({ onReady }: { onReady?: () => voi
     "dividers": {
       "show": false
     },
-    "country": {
+    "county": {
       "show": false
     },
     "dividerss": {

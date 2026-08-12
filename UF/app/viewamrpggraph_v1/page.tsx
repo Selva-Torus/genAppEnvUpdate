@@ -138,10 +138,16 @@ export default function PageViewamrpggraphV1({ onReady }: { onReady?: () => void
     "ven_name_text": {
       "show": false
     },
+    "text_state": {
+      "show": false
+    },
     "state": {
       "show": false
     },
     "dividers": {
+      "show": false
+    },
+    "text": {
       "show": false
     },
     "county": {
@@ -150,10 +156,16 @@ export default function PageViewamrpggraphV1({ onReady }: { onReady?: () => void
     "dividerss": {
       "show": false
     },
+    "text_court": {
+      "show": false
+    },
     "court": {
       "show": false
     },
     "dividersss": {
+      "show": false
+    },
+    "text_judge": {
       "show": false
     },
     "judge": {
@@ -162,16 +174,25 @@ export default function PageViewamrpggraphV1({ onReady }: { onReady?: () => void
     "dividerssss": {
       "show": false
     },
+    "text_filing_fee": {
+      "show": false
+    },
     "filing_fee": {
       "show": false
     },
     "dividersssss": {
       "show": false
     },
+    "text_service_method": {
+      "show": false
+    },
     "service_method": {
       "show": false
     },
     "dividerssssss": {
+      "show": false
+    },
+    "text_efile_system": {
       "show": false
     },
     "efile_system": {
@@ -257,6 +278,7 @@ export default function PageViewamrpggraphV1({ onReady }: { onReady?: () => void
   const {dfd_doctable_v1Props, setdfd_doctable_v1Props} = useContext(TotalContext) as TotalContextProps;
   const {dfd_amrcheckliststatus_v1Props, setdfd_amrcheckliststatus_v1Props} = useContext(TotalContext) as TotalContextProps;
   const {dfd_specialrulessurerealdb_v1Props, setdfd_specialrulessurerealdb_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_venuesurerealdb_v1Props, setdfd_venuesurerealdb_v1Props} = useContext(TotalContext) as TotalContextProps;
   const [controlData, setControlData] = useState<any>({});
   const [groupData, setGroupData] = useState<any>({});
   const encryptionFlagPage: boolean = false|| encAppFalg.flag;
@@ -278,6 +300,7 @@ export default function PageViewamrpggraphV1({ onReady }: { onReady?: () => void
       doctable_v1:false,
       amrcheckliststatus_v1:false,
       specialrulessurerealdb_v1:false,
+      venuesurerealdb_v1:false,
     });
     async function addcase_v1DFD(pagination:any): Promise<void>{
         let filterData :any[] =[];
@@ -933,6 +956,115 @@ export default function PageViewamrpggraphV1({ onReady }: { onReady?: () => void
     }else 
       prevRefreshRef.current.specialrulessurerealdb_v1= true
   },[refetch?.specialrulessurerealdb_v1])
+    async function venuesurerealdb_v1DFD(pagination:any): Promise<void>{
+        let filterData :any[] =[];
+        let venuesurerealdb_v1Body:te_refreshDto={
+          key: "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSurerealDB:AFVK:v1"+":",
+          refreshFlag: "Y",
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1
+        }
+        if (encryptionFlagPage) {          
+          venuesurerealdb_v1Body["dpdKey"] = encryptionDpd;
+          venuesurerealdb_v1Body["method"] = encryptionMethod;
+        }
+        if(viewamrpggraph_v1Props.length > 0){
+          for(let i=0;i< viewamrpggraph_v1Props.length;i++){
+            if(viewamrpggraph_v1Props[i].DFDkey == "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSurerealDB:AFVK:v1"){
+              // delete viewamrpggraph_v1Props[i].DFDkey;
+              let temp=structuredClone(viewamrpggraph_v1Props[i])
+              delete temp?.DFDkey
+              filterData.push(temp)
+            }           
+          }
+          venuesurerealdb_v1Body['filterData'] = filterData;
+        }
+        const venuesurerealdb_v1Data:any=await AxiosService.post("/te/eventEmitter",venuesurerealdb_v1Body,{
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        let dstKey:string=venuesurerealdb_v1Body?.key || ""
+        dstKey=dstKey.replace(":AFC:",":AFCP:").replace(":AF:",":AFP:").replace(":DF-DFD:",":DF-DST:");
+        if(venuesurerealdb_v1Data?.data?.dataset === 'Bulk Data Processing'){
+          if(filterData.length>0){
+            const api_paginationBody: api_paginationDto = {
+          key: dstKey,
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1,
+          filterData:filterData
+        }
+        // if(encryptionFlagCont) {
+        // api_paginationBody["dpdKey"] = encryptionDpd
+        // api_paginationBody["method"] = encryptionMethod
+        // }
+        const api_paginationData:any = await AxiosService.post(
+          '/UF/pagination',
+          api_paginationBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        if (api_paginationData?.data?.error == true) {
+          toast(api_paginationData?.data?.errorDetails?.message, 'danger')
+          return
+        }
+        setdfd_venuesurerealdb_v1Props(api_paginationData?.data?.records || []);
+      }else{
+          setdfd_venuesurerealdb_v1Props({ hasLogicCenter: false, dstKey: dstKey })
+      }
+      }else if (venuesurerealdb_v1Data?.data?.dataset) {
+           setdfd_venuesurerealdb_v1Props(
+              Array.isArray(venuesurerealdb_v1Data?.data?.dataset?.data)
+                 ? venuesurerealdb_v1Data?.data.dataset.data.map((obj: any) =>
+                  Object.fromEntries(
+                    Object.entries(obj || {}).map(([key, value]) => [
+                      key.toLowerCase(),
+                      value
+                    ])
+                  )
+                )
+              : []
+          );   
+        }else{
+         //////////////
+        
+
+        const api_paginationBody: api_paginationDto = {
+          key: dstKey,
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1
+        }
+        // if(encryptionFlagCont) {
+        // api_paginationBody["dpdKey"] = encryptionDpd
+        // api_paginationBody["method"] = encryptionMethod
+        // }
+        const api_paginationData:any = await AxiosService.post(
+          '/UF/pagination',
+          api_paginationBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        if (api_paginationData?.data?.error == true) {
+          toast(api_paginationData?.data?.errorDetails?.message, 'danger')
+          return
+        }
+        setdfd_venuesurerealdb_v1Props(api_paginationData?.data?.records || []);
+        }
+      }
+  useEffect(()=>{
+    if (prevRefreshRef?.current?.venuesurerealdb_v1) {
+      venuesurerealdb_v1DFD(paginationData)
+    }else 
+      prevRefreshRef.current.venuesurerealdb_v1= true
+  },[refetch?.venuesurerealdb_v1])
   const handleArtfactRule=async(rule:any,data:any={},allRuleData:any)=>{
     const { getAftfactLevelRule } = await import("../utils/evaluateDecisionTable");
     let result :any =await getAftfactLevelRule(rule,data,allRuleData)
@@ -1012,6 +1144,7 @@ export default function PageViewamrpggraphV1({ onReady }: { onReady?: () => void
     await doctable_v1DFD(pagination)
     await amrcheckliststatus_v1DFD(pagination)
     await specialrulessurerealdb_v1DFD(pagination)
+    await venuesurerealdb_v1DFD(pagination)
           if (security == 'AA' || security == 'RA') {
           allowedGroup.map((nodes:AllowedGroupNode)=>{
             if(nodes?.groupName == 'add_case_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))

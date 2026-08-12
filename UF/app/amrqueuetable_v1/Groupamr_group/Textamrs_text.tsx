@@ -52,7 +52,7 @@ return (
   variant="body-short"
   color="primary"
 >
-      {keyset("AMR reviews, pending filings , and court submissions requiring attention")}
+      {keyset("AMR reviews, pending filings, and court submissions requiring attention")}
 </Text>
   </div>
   )

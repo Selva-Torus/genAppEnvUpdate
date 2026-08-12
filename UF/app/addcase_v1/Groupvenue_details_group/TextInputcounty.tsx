@@ -30,7 +30,7 @@ import * as v from 'valibot';
 ///////////////
 ////////////
 
-const TextInputcountry = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFlagCompData,setIsProcessing,controlData}:any) => {  
+const TextInputcounty = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFlagCompData,setIsProcessing,controlData}:any) => {  
   const { token } = useGlobal();
   const {globalState , setGlobalState} = useContext(TotalContext) as TotalContextProps;
   const {validateRefetch , setValidateRefetch} = useContext(TotalContext) as TotalContextProps;
@@ -126,7 +126,7 @@ const TextInputcountry = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptio
   const {venue_details_group17ac6Props, setvenue_details_group17ac6Props}= useContext(TotalContext) as TotalContextProps;
   const {ven_name_textef3ac, setven_name_textef3ac}= useContext(TotalContext) as TotalContextProps;
   const {state752e3, setstate752e3}= useContext(TotalContext) as TotalContextProps;
-  const {countryf4404, setcountryf4404}= useContext(TotalContext) as TotalContextProps;
+  const {countyf4404, setcountyf4404}= useContext(TotalContext) as TotalContextProps;
   const {court_namef21b5, setcourt_namef21b5}= useContext(TotalContext) as TotalContextProps;
   const {judge_name78f03, setjudge_name78f03}= useContext(TotalContext) as TotalContextProps;
   const {sol_expiry_date8639c, setsol_expiry_date8639c}= useContext(TotalContext) as TotalContextProps;
@@ -244,8 +244,8 @@ const TextInputcountry = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptio
         codeStates['setven_name_text'] = setven_name_textef3ac,
         codeStates['state'] = state752e3,
         codeStates['setstate'] = setstate752e3,
-        codeStates['country'] = countryf4404,
-        codeStates['setcountry'] = setcountryf4404,
+        codeStates['county'] = countyf4404,
+        codeStates['setcounty'] = setcountyf4404,
         codeStates['court_name'] = court_namef21b5,
         codeStates['setcourt_name'] = setcourt_namef21b5,
         codeStates['judge_name'] = judge_name78f03,
@@ -335,7 +335,7 @@ const TextInputcountry = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptio
       //     componentId: "98c070f07547402d854c337bbb817ac6",
       //     controlId: "78f2c49d24394dbcb42b9a49734f4404",
       //     isTable: false,
-      //     from:"TextInputcountry",
+      //     from:"TextInputcounty",
       //     accessProfile:accessProfile
       //   },
       //   {
@@ -408,7 +408,7 @@ const TextInputcountry = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptio
     }
   }
   },[dfd_addcase_v1Props?.setSearchFilters])
-  if (countryf4404?.isHidden) {
+  if (countyf4404?.isHidden) {
     return <></>
   }
   return (   
@@ -424,13 +424,13 @@ const TextInputcountry = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptio
         itsHaveCurrency={false}
         type={dynamicStateandType.type}
         value={venue_details_group17ac6?.county||""}
-         disabled= {countryf4404?.isDisabled ? true : false}
+         disabled= {countyf4404?.isDisabled ? true : false}
         pin='brick-brick'     
-        placeholder='Enter Country'      
+        placeholder='Enter County'      
         view='normal'
         contentAlign={"left"}
         headerPosition='top'
-        headerText="Country"
+        headerText="County"
       errorMessage={error}
         validationState={validate?.addCase_v1?.county ? "invalid" : undefined}
       />
@@ -439,4 +439,4 @@ const TextInputcountry = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptio
   )
 }
 
-export default TextInputcountry
+export default TextInputcounty

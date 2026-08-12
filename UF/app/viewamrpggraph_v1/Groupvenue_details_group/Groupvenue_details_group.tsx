@@ -19,19 +19,26 @@ import evaluateDecisionTable,{ evaluateDecisionForDynamicActions,eventDecisionTa
 import decodeToken from '@/app/components/decodeToken';
 import uoMapperData from '@/context/dfdmapperContolnames.json';
 import Textven_name_text  from "./Textven_name_text";
-import TextInputstate  from "./TextInputstate";
+import Texttext_state  from "./Texttext_state";
+import Textstate  from "./Textstate";
 import Dividerdividers  from "./Dividerdividers";
-import TextInputcounty  from "./TextInputcounty";
+import Texttext  from "./Texttext";
+import Textcounty  from "./Textcounty";
 import Dividerdividerss  from "./Dividerdividerss";
-import TextInputcourt  from "./TextInputcourt";
+import Texttext_court  from "./Texttext_court";
+import Textcourt  from "./Textcourt";
 import Dividerdividersss  from "./Dividerdividersss";
-import TextInputjudge  from "./TextInputjudge";
+import Texttext_judge  from "./Texttext_judge";
+import Textjudge  from "./Textjudge";
 import Dividerdividerssss  from "./Dividerdividerssss";
-import TextInputfiling_fee  from "./TextInputfiling_fee";
+import Texttext_filing_fee  from "./Texttext_filing_fee";
+import Textfiling_fee  from "./Textfiling_fee";
 import Dividerdividersssss  from "./Dividerdividersssss";
-import TextInputservice_method  from "./TextInputservice_method";
+import Texttext_service_method  from "./Texttext_service_method";
+import Textservice_method  from "./Textservice_method";
 import Dividerdividerssssss  from "./Dividerdividerssssss";
-import TextInputefile_system  from "./TextInputefile_system";
+import Texttext_efile_system  from "./Texttext_efile_system";
+import Textefile_system  from "./Textefile_system";
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
 import { useGlobal } from '@/context/GlobalContext'
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
@@ -60,6 +67,7 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
   const {dfd_doctable_v1Props, setdfd_doctable_v1Props} = useContext(TotalContext) as TotalContextProps;
   const {dfd_amrcheckliststatus_v1Props, setdfd_amrcheckliststatus_v1Props} = useContext(TotalContext) as TotalContextProps;
   const {dfd_specialrulessurerealdb_v1Props, setdfd_specialrulessurerealdb_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_venuesurerealdb_v1Props, setdfd_venuesurerealdb_v1Props} = useContext(TotalContext) as TotalContextProps;
   const encryptionFlagComp: boolean = encryptionFlagPageData?.flag || false;
   let encryptionDpd: string = "";
   encryptionDpd = encryptionDpd !=='' ? encryptionDpd: encryptionFlagPageData?.dpd;
@@ -75,18 +83,25 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
   "Branch Manager": {
     "allowedControls": [
       "ven_name_text",
+      "text_state",
       "state",
       "dividers",
+      "text",
       "county",
       "dividerss",
+      "text_court",
       "court",
       "dividersss",
+      "text_judge",
       "judge",
       "dividerssss",
+      "text_filing_fee",
       "filing_fee",
       "dividersssss",
+      "text_service_method",
       "service_method",
       "dividerssssss",
+      "text_efile_system",
       "efile_system"
     ],
     "allowedGroups": [
@@ -113,18 +128,25 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
   "Branch Officer": {
     "allowedControls": [
       "ven_name_text",
+      "text_state",
       "state",
       "dividers",
+      "text",
       "county",
       "dividerss",
+      "text_court",
       "court",
       "dividersss",
+      "text_judge",
       "judge",
       "dividerssss",
+      "text_filing_fee",
       "filing_fee",
       "dividersssss",
+      "text_service_method",
       "service_method",
       "dividerssssss",
+      "text_efile_system",
       "efile_system"
     ],
     "allowedGroups": [
@@ -185,19 +207,26 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
   const {venue_details_group5f664, setvenue_details_group5f664}= useContext(TotalContext) as TotalContextProps;
   const {venue_details_group5f664Props, setvenue_details_group5f664Props}= useContext(TotalContext) as TotalContextProps;
   const {ven_name_textb2d6a, setven_name_textb2d6a}= useContext(TotalContext) as TotalContextProps;
-  const {state0a6f5, setstate0a6f5}= useContext(TotalContext) as TotalContextProps;
+  const {text_stateb7b09, settext_stateb7b09}= useContext(TotalContext) as TotalContextProps;
+  const {state7419e, setstate7419e}= useContext(TotalContext) as TotalContextProps;
   const {dividers23b80, setdividers23b80}= useContext(TotalContext) as TotalContextProps;
-  const {countyc9b2f, setcountyc9b2f}= useContext(TotalContext) as TotalContextProps;
+  const {text1eec9, settext1eec9}= useContext(TotalContext) as TotalContextProps;
+  const {countyb406d, setcountyb406d}= useContext(TotalContext) as TotalContextProps;
   const {dividerss87146, setdividerss87146}= useContext(TotalContext) as TotalContextProps;
-  const {court411e1, setcourt411e1}= useContext(TotalContext) as TotalContextProps;
+  const {text_courtc793b, settext_courtc793b}= useContext(TotalContext) as TotalContextProps;
+  const {court02ff6, setcourt02ff6}= useContext(TotalContext) as TotalContextProps;
   const {dividersss1271b, setdividersss1271b}= useContext(TotalContext) as TotalContextProps;
-  const {judge12cde, setjudge12cde}= useContext(TotalContext) as TotalContextProps;
+  const {text_judgeba2cd, settext_judgeba2cd}= useContext(TotalContext) as TotalContextProps;
+  const {judge65dff, setjudge65dff}= useContext(TotalContext) as TotalContextProps;
   const {dividerssssedbaf, setdividerssssedbaf}= useContext(TotalContext) as TotalContextProps;
-  const {filing_fee8b376, setfiling_fee8b376}= useContext(TotalContext) as TotalContextProps;
+  const {text_filing_fee56d8d, settext_filing_fee56d8d}= useContext(TotalContext) as TotalContextProps;
+  const {filing_fee3e689, setfiling_fee3e689}= useContext(TotalContext) as TotalContextProps;
   const {dividersssssc1504, setdividersssssc1504}= useContext(TotalContext) as TotalContextProps;
-  const {service_methodd8f34, setservice_methodd8f34}= useContext(TotalContext) as TotalContextProps;
+  const {text_service_methodabd13, settext_service_methodabd13}= useContext(TotalContext) as TotalContextProps;
+  const {service_method624d8, setservice_method624d8}= useContext(TotalContext) as TotalContextProps;
   const {dividerssssss6b575, setdividerssssss6b575}= useContext(TotalContext) as TotalContextProps;
-  const {efile_system4d3ab, setefile_system4d3ab}= useContext(TotalContext) as TotalContextProps;
+  const {text_efile_system7e43b, settext_efile_system7e43b}= useContext(TotalContext) as TotalContextProps;
+  const {efile_system553b3, setefile_system553b3}= useContext(TotalContext) as TotalContextProps;
   const {checklist_main_group2d71b, setchecklist_main_group2d71b}= useContext(TotalContext) as TotalContextProps;
   const {checklist_main_group2d71bProps, setchecklist_main_group2d71bProps}= useContext(TotalContext) as TotalContextProps;
   const {checklist_tablec0934, setchecklist_tablec0934}= useContext(TotalContext) as TotalContextProps;
@@ -260,14 +289,24 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         setven_name_textb2d6a((pre:any)=>({...pre,isDisabled:false}));
       }
     }
-    if(orchestrationData?.data?.readableControls.includes("state")){
-        setstate0a6f5((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("text_state")){
+        settext_stateb7b09((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(state0a6f5?.isDisabled==null)
+      if(text_stateb7b09?.isDisabled==null)
       {
-        setstate0a6f5((pre:any)=>({...pre,isDisabled:false}));
+        settext_stateb7b09((pre:any)=>({...pre,isDisabled:false}));
+      }
+    }
+    if(orchestrationData?.data?.readableControls.includes("state")){
+        setstate7419e((pre:any)=>({...pre,isDisabled:true}));
+
+    }else
+    {
+      if(state7419e?.isDisabled==null)
+      {
+        setstate7419e((pre:any)=>({...pre,isDisabled:false}));
       }
     }
     if(orchestrationData?.data?.readableControls.includes("dividers")){
@@ -280,14 +319,24 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         setdividers23b80((pre:any)=>({...pre,isDisabled:false}));
       }
     }
-    if(orchestrationData?.data?.readableControls.includes("county")){
-        setcountyc9b2f((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("text")){
+        settext1eec9((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(countyc9b2f?.isDisabled==null)
+      if(text1eec9?.isDisabled==null)
       {
-        setcountyc9b2f((pre:any)=>({...pre,isDisabled:false}));
+        settext1eec9((pre:any)=>({...pre,isDisabled:false}));
+      }
+    }
+    if(orchestrationData?.data?.readableControls.includes("county")){
+        setcountyb406d((pre:any)=>({...pre,isDisabled:true}));
+
+    }else
+    {
+      if(countyb406d?.isDisabled==null)
+      {
+        setcountyb406d((pre:any)=>({...pre,isDisabled:false}));
       }
     }
     if(orchestrationData?.data?.readableControls.includes("dividerss")){
@@ -300,14 +349,24 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         setdividerss87146((pre:any)=>({...pre,isDisabled:false}));
       }
     }
-    if(orchestrationData?.data?.readableControls.includes("court")){
-        setcourt411e1((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("text_court")){
+        settext_courtc793b((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(court411e1?.isDisabled==null)
+      if(text_courtc793b?.isDisabled==null)
       {
-        setcourt411e1((pre:any)=>({...pre,isDisabled:false}));
+        settext_courtc793b((pre:any)=>({...pre,isDisabled:false}));
+      }
+    }
+    if(orchestrationData?.data?.readableControls.includes("court")){
+        setcourt02ff6((pre:any)=>({...pre,isDisabled:true}));
+
+    }else
+    {
+      if(court02ff6?.isDisabled==null)
+      {
+        setcourt02ff6((pre:any)=>({...pre,isDisabled:false}));
       }
     }
     if(orchestrationData?.data?.readableControls.includes("dividersss")){
@@ -320,14 +379,24 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         setdividersss1271b((pre:any)=>({...pre,isDisabled:false}));
       }
     }
-    if(orchestrationData?.data?.readableControls.includes("judge")){
-        setjudge12cde((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("text_judge")){
+        settext_judgeba2cd((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(judge12cde?.isDisabled==null)
+      if(text_judgeba2cd?.isDisabled==null)
       {
-        setjudge12cde((pre:any)=>({...pre,isDisabled:false}));
+        settext_judgeba2cd((pre:any)=>({...pre,isDisabled:false}));
+      }
+    }
+    if(orchestrationData?.data?.readableControls.includes("judge")){
+        setjudge65dff((pre:any)=>({...pre,isDisabled:true}));
+
+    }else
+    {
+      if(judge65dff?.isDisabled==null)
+      {
+        setjudge65dff((pre:any)=>({...pre,isDisabled:false}));
       }
     }
     if(orchestrationData?.data?.readableControls.includes("dividerssss")){
@@ -340,14 +409,24 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         setdividerssssedbaf((pre:any)=>({...pre,isDisabled:false}));
       }
     }
-    if(orchestrationData?.data?.readableControls.includes("filing_fee")){
-        setfiling_fee8b376((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("text_filing_fee")){
+        settext_filing_fee56d8d((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(filing_fee8b376?.isDisabled==null)
+      if(text_filing_fee56d8d?.isDisabled==null)
       {
-        setfiling_fee8b376((pre:any)=>({...pre,isDisabled:false}));
+        settext_filing_fee56d8d((pre:any)=>({...pre,isDisabled:false}));
+      }
+    }
+    if(orchestrationData?.data?.readableControls.includes("filing_fee")){
+        setfiling_fee3e689((pre:any)=>({...pre,isDisabled:true}));
+
+    }else
+    {
+      if(filing_fee3e689?.isDisabled==null)
+      {
+        setfiling_fee3e689((pre:any)=>({...pre,isDisabled:false}));
       }
     }
     if(orchestrationData?.data?.readableControls.includes("dividersssss")){
@@ -360,14 +439,24 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         setdividersssssc1504((pre:any)=>({...pre,isDisabled:false}));
       }
     }
-    if(orchestrationData?.data?.readableControls.includes("service_method")){
-        setservice_methodd8f34((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("text_service_method")){
+        settext_service_methodabd13((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(service_methodd8f34?.isDisabled==null)
+      if(text_service_methodabd13?.isDisabled==null)
       {
-        setservice_methodd8f34((pre:any)=>({...pre,isDisabled:false}));
+        settext_service_methodabd13((pre:any)=>({...pre,isDisabled:false}));
+      }
+    }
+    if(orchestrationData?.data?.readableControls.includes("service_method")){
+        setservice_method624d8((pre:any)=>({...pre,isDisabled:true}));
+
+    }else
+    {
+      if(service_method624d8?.isDisabled==null)
+      {
+        setservice_method624d8((pre:any)=>({...pre,isDisabled:false}));
       }
     }
     if(orchestrationData?.data?.readableControls.includes("dividerssssss")){
@@ -380,14 +469,24 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         setdividerssssss6b575((pre:any)=>({...pre,isDisabled:false}));
       }
     }
-    if(orchestrationData?.data?.readableControls.includes("efile_system")){
-        setefile_system4d3ab((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("text_efile_system")){
+        settext_efile_system7e43b((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(efile_system4d3ab?.isDisabled==null)
+      if(text_efile_system7e43b?.isDisabled==null)
       {
-        setefile_system4d3ab((pre:any)=>({...pre,isDisabled:false}));
+        settext_efile_system7e43b((pre:any)=>({...pre,isDisabled:false}));
+      }
+    }
+    if(orchestrationData?.data?.readableControls.includes("efile_system")){
+        setefile_system553b3((pre:any)=>({...pre,isDisabled:true}));
+
+    }else
+    {
+      if(efile_system553b3?.isDisabled==null)
+      {
+        setefile_system553b3((pre:any)=>({...pre,isDisabled:false}));
       }
     }
   //////////////
@@ -439,32 +538,46 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         codeStates['setvenue_details_group5f664'] = setvenue_details_group5f664Props,
         codeStates['ven_name_text'] = ven_name_textb2d6a,
         codeStates['setven_name_text'] = setven_name_textb2d6a,
-        codeStates['state'] = state0a6f5,
-        codeStates['setstate'] = setstate0a6f5,
+        codeStates['text_state'] = text_stateb7b09,
+        codeStates['settext_state'] = settext_stateb7b09,
+        codeStates['state'] = state7419e,
+        codeStates['setstate'] = setstate7419e,
         codeStates['dividers'] = dividers23b80,
         codeStates['setdividers'] = setdividers23b80,
-        codeStates['county'] = countyc9b2f,
-        codeStates['setcounty'] = setcountyc9b2f,
+        codeStates['text'] = text1eec9,
+        codeStates['settext'] = settext1eec9,
+        codeStates['county'] = countyb406d,
+        codeStates['setcounty'] = setcountyb406d,
         codeStates['dividerss'] = dividerss87146,
         codeStates['setdividerss'] = setdividerss87146,
-        codeStates['court'] = court411e1,
-        codeStates['setcourt'] = setcourt411e1,
+        codeStates['text_court'] = text_courtc793b,
+        codeStates['settext_court'] = settext_courtc793b,
+        codeStates['court'] = court02ff6,
+        codeStates['setcourt'] = setcourt02ff6,
         codeStates['dividersss'] = dividersss1271b,
         codeStates['setdividersss'] = setdividersss1271b,
-        codeStates['judge'] = judge12cde,
-        codeStates['setjudge'] = setjudge12cde,
+        codeStates['text_judge'] = text_judgeba2cd,
+        codeStates['settext_judge'] = settext_judgeba2cd,
+        codeStates['judge'] = judge65dff,
+        codeStates['setjudge'] = setjudge65dff,
         codeStates['dividerssss'] = dividerssssedbaf,
         codeStates['setdividerssss'] = setdividerssssedbaf,
-        codeStates['filing_fee'] = filing_fee8b376,
-        codeStates['setfiling_fee'] = setfiling_fee8b376,
+        codeStates['text_filing_fee'] = text_filing_fee56d8d,
+        codeStates['settext_filing_fee'] = settext_filing_fee56d8d,
+        codeStates['filing_fee'] = filing_fee3e689,
+        codeStates['setfiling_fee'] = setfiling_fee3e689,
         codeStates['dividersssss'] = dividersssssc1504,
         codeStates['setdividersssss'] = setdividersssssc1504,
-        codeStates['service_method'] = service_methodd8f34,
-        codeStates['setservice_method'] = setservice_methodd8f34,
+        codeStates['text_service_method'] = text_service_methodabd13,
+        codeStates['settext_service_method'] = settext_service_methodabd13,
+        codeStates['service_method'] = service_method624d8,
+        codeStates['setservice_method'] = setservice_method624d8,
         codeStates['dividerssssss'] = dividerssssss6b575,
         codeStates['setdividerssssss'] = setdividerssssss6b575,
-        codeStates['efile_system'] = efile_system4d3ab,
-        codeStates['setefile_system'] = setefile_system4d3ab,
+        codeStates['text_efile_system'] = text_efile_system7e43b,
+        codeStates['settext_efile_system'] = settext_efile_system7e43b,
+        codeStates['efile_system'] = efile_system553b3,
+        codeStates['setefile_system'] = setefile_system553b3,
         codeStates['checklist_main_group'] = checklist_main_group2d71b,
         codeStates['setchecklist_main_group'] = setchecklist_main_group2d71b,
         codeStates['checklist_main_group2d71b'] = checklist_main_group2d71bProps,
@@ -547,32 +660,46 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         codeStates['setvenue_details_group5f664'] = setvenue_details_group5f664Props,
         codeStates['ven_name_text'] = ven_name_textb2d6a,
         codeStates['setven_name_text'] = setven_name_textb2d6a,
-        codeStates['state'] = state0a6f5,
-        codeStates['setstate'] = setstate0a6f5,
+        codeStates['text_state'] = text_stateb7b09,
+        codeStates['settext_state'] = settext_stateb7b09,
+        codeStates['state'] = state7419e,
+        codeStates['setstate'] = setstate7419e,
         codeStates['dividers'] = dividers23b80,
         codeStates['setdividers'] = setdividers23b80,
-        codeStates['county'] = countyc9b2f,
-        codeStates['setcounty'] = setcountyc9b2f,
+        codeStates['text'] = text1eec9,
+        codeStates['settext'] = settext1eec9,
+        codeStates['county'] = countyb406d,
+        codeStates['setcounty'] = setcountyb406d,
         codeStates['dividerss'] = dividerss87146,
         codeStates['setdividerss'] = setdividerss87146,
-        codeStates['court'] = court411e1,
-        codeStates['setcourt'] = setcourt411e1,
+        codeStates['text_court'] = text_courtc793b,
+        codeStates['settext_court'] = settext_courtc793b,
+        codeStates['court'] = court02ff6,
+        codeStates['setcourt'] = setcourt02ff6,
         codeStates['dividersss'] = dividersss1271b,
         codeStates['setdividersss'] = setdividersss1271b,
-        codeStates['judge'] = judge12cde,
-        codeStates['setjudge'] = setjudge12cde,
+        codeStates['text_judge'] = text_judgeba2cd,
+        codeStates['settext_judge'] = settext_judgeba2cd,
+        codeStates['judge'] = judge65dff,
+        codeStates['setjudge'] = setjudge65dff,
         codeStates['dividerssss'] = dividerssssedbaf,
         codeStates['setdividerssss'] = setdividerssssedbaf,
-        codeStates['filing_fee'] = filing_fee8b376,
-        codeStates['setfiling_fee'] = setfiling_fee8b376,
+        codeStates['text_filing_fee'] = text_filing_fee56d8d,
+        codeStates['settext_filing_fee'] = settext_filing_fee56d8d,
+        codeStates['filing_fee'] = filing_fee3e689,
+        codeStates['setfiling_fee'] = setfiling_fee3e689,
         codeStates['dividersssss'] = dividersssssc1504,
         codeStates['setdividersssss'] = setdividersssssc1504,
-        codeStates['service_method'] = service_methodd8f34,
-        codeStates['setservice_method'] = setservice_methodd8f34,
+        codeStates['text_service_method'] = text_service_methodabd13,
+        codeStates['settext_service_method'] = settext_service_methodabd13,
+        codeStates['service_method'] = service_method624d8,
+        codeStates['setservice_method'] = setservice_method624d8,
         codeStates['dividerssssss'] = dividerssssss6b575,
         codeStates['setdividerssssss'] = setdividerssssss6b575,
-        codeStates['efile_system'] = efile_system4d3ab,
-        codeStates['setefile_system'] = setefile_system4d3ab,
+        codeStates['text_efile_system'] = text_efile_system7e43b,
+        codeStates['settext_efile_system'] = settext_efile_system7e43b,
+        codeStates['efile_system'] = efile_system553b3,
+        codeStates['setefile_system'] = setefile_system553b3,
         codeStates['checklist_main_group'] = checklist_main_group2d71b,
         codeStates['setchecklist_main_group'] = setchecklist_main_group2d71b,
         codeStates['checklist_main_group2d71b'] = checklist_main_group2d71bProps,
@@ -650,19 +777,26 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         }}
     >
           {allowedControls.includes("ven_name_text") ?<Textven_name_text   /* b2d6a */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
-        {allowedControls.includes("state") ?<TextInputstate   /* 0a6f5 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("text_state") ?<Texttext_state   /* b7b09 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("state") ?<Textstate   /* 7419e */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("dividers") ?<Dividerdividers   /* 23b80 */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
-        {allowedControls.includes("county") ?<TextInputcounty   /* c9b2f */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("text") ?<Texttext   /* 1eec9 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("county") ?<Textcounty   /* b406d */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("dividerss") ?<Dividerdividerss   /* 87146 */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
-        {allowedControls.includes("court") ?<TextInputcourt   /* 411e1 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("text_court") ?<Texttext_court   /* c793b */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("court") ?<Textcourt   /* 02ff6 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("dividersss") ?<Dividerdividersss   /* 1271b */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
-        {allowedControls.includes("judge") ?<TextInputjudge   /* 12cde */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("text_judge") ?<Texttext_judge   /* ba2cd */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("judge") ?<Textjudge   /* 65dff */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("dividerssss") ?<Dividerdividerssss   /* edbaf */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
-        {allowedControls.includes("filing_fee") ?<TextInputfiling_fee   /* 8b376 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("text_filing_fee") ?<Texttext_filing_fee   /* 56d8d */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("filing_fee") ?<Textfiling_fee   /* 3e689 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("dividersssss") ?<Dividerdividersssss   /* c1504 */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
-        {allowedControls.includes("service_method") ?<TextInputservice_method   /* d8f34 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("text_service_method") ?<Texttext_service_method   /* abd13 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("service_method") ?<Textservice_method   /* 624d8 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("dividerssssss") ?<Dividerdividerssssss   /* 6b575 */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
-        {allowedControls.includes("efile_system") ?<TextInputefile_system   /* 4d3ab */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("text_efile_system") ?<Texttext_efile_system   /* 7e43b */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("efile_system") ?<Textefile_system   /* 553b3 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
     </div>
  )
 }

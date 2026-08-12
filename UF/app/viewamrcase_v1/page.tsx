@@ -144,7 +144,7 @@ export default function PageViewamrcaseV1({ onReady }: { onReady?: () => void } 
     "dividers": {
       "show": false
     },
-    "country": {
+    "county": {
       "show": false
     },
     "dividerss": {
@@ -203,7 +203,7 @@ export default function PageViewamrcaseV1({ onReady }: { onReady?: () => void } 
     "dynamic_icon": {
       "show": false
     },
-    "rules_text": {
+    "rule_text": {
       "show": false
     }
   }

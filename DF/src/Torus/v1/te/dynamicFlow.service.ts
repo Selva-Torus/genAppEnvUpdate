@@ -3223,8 +3223,15 @@ export class DynamicFlowService {
                                 // Create a QueueEvents instance to listen for job completion
                                 const queueEvents = new QueueEvents(childJobName, {
                                     connection: {
-                                        host: process.env.HOST,
-                                        port: parseInt(process.env.PORT),
+                                        sentinels: [
+                                        {
+                                        host: process.env.REDIS_SENTINEL_HOST,
+                                        port: Number(process.env.REDIS_SENTINEL_PORT),
+                                        },      
+                                    ],    
+                                    name: process.env.REDIS_MASTER_NAME,
+                                    username: process.env.REDIS_USERNAME,
+                                    password: process.env.REDIS_PASSWORD, 
                                     },
                                 });
 
@@ -3556,6 +3563,8 @@ export class DynamicFlowService {
                                 redis = new Redis({
                                     host: redisConfig.REDIS_HOST,
                                     port: parseInt(redisConfig.REDIS_PORT),
+                                    username: redisConfig.REDIS_USERNAME,
+                                    password: redisConfig.REDIS_PASSWORD,
                                 });
                             } else if (storageType == 'external') {
                                 let nodedata = Object.keys(extdata)[0];
@@ -3574,6 +3583,8 @@ export class DynamicFlowService {
                                 redis = new Redis({
                                     host: streamConfig?.host,
                                     port: streamConfig?.port,
+                                    username: streamConfig?.username,
+                                    password: streamConfig?.password,
                                 });
                             }
                             logReq = inputData;

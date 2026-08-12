@@ -11,7 +11,7 @@ import { useGlobal } from '@/context/GlobalContext'
 import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,PaginationData,AllowedGroupNode,ActionDetails } from "@/types/global";
 import i18n from '@/app/components/i18n';
 
-const Textrules_text = ({encryptionFlagCompData,isDynamic,item,index,setIsProcessing}:any) => {
+const Textrule_text = ({encryptionFlagCompData,isDynamic,item,index,setIsProcessing}:any) => {
   const { token } = useGlobal();
   const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
   const {dfd_venuespecialrules_v1Props, setdfd_venuespecialrules_v1Props} = useContext(TotalContext) as TotalContextProps; 
@@ -54,8 +54,8 @@ const Textrules_text = ({encryptionFlagCompData,isDynamic,item,index,setIsProces
   const {special_rules96aec, setspecial_rules96aec}= useContext(TotalContext) as TotalContextProps;
   const {special_rules96aecProps, setspecial_rules96aecProps}= useContext(TotalContext) as TotalContextProps;
   const {dynamic_icon8f352, setdynamic_icon8f352}= useContext(TotalContext) as TotalContextProps;
-  const {rules_text55ce9, setrules_text55ce9}= useContext(TotalContext) as TotalContextProps;
-  const {rules_text55ce9Props, setrules_text55ce9Props} = useContext(TotalContext) as TotalContextProps;
+  const {rule_text55ce9, setrule_text55ce9}= useContext(TotalContext) as TotalContextProps;
+  const {rule_text55ce9Props, setrule_text55ce9Props} = useContext(TotalContext) as TotalContextProps;
   //////////////
 
   const handleMapperValue=async(filterProps?:any,filterFlag?:boolean)=>{
@@ -90,8 +90,8 @@ const Textrules_text = ({encryptionFlagCompData,isDynamic,item,index,setIsProces
       if(filterFlag){
         setspecial_rules96aec((pre: any) => ({
           ...pre,
-          rule_text: rules_text55ce9Props?.filteredData?.length > 0
-            ? rules_text55ce9Props?.filteredData[0]?.rule_text
+          rule_text: rule_text55ce9Props?.filteredData?.length > 0
+            ? rule_text55ce9Props?.filteredData[0]?.rule_text
             : "0"
         }))
       }else if(Array.isArray(dfd_venuespecialrules_v1Props) && dfd_venuespecialrules_v1Props && !special_rules96aec.rule_text){
@@ -105,7 +105,7 @@ const Textrules_text = ({encryptionFlagCompData,isDynamic,item,index,setIsProces
 
   useEffect(()=>{
     handleMapperValue()
-  },[rules_text55ce9?.refresh])
+  },[rule_text55ce9?.refresh])
 
   useEffect(() => {
   if(Array.isArray(dfd_venuespecialrules_v1Props) && !special_rules96aec.rule_text){
@@ -115,11 +115,11 @@ const Textrules_text = ({encryptionFlagCompData,isDynamic,item,index,setIsProces
 
   // setSearchFilters
   useEffect(() => {
-    if (!rules_text55ce9Props?.filterProps) return;
-    handleMapperValue(rules_text55ce9Props?.filterProps,rules_text55ce9Props?.filterFlag);
-  },[rules_text55ce9Props?.filterProps])
+    if (!rule_text55ce9Props?.filterProps) return;
+    handleMapperValue(rule_text55ce9Props?.filterProps,rule_text55ce9Props?.filterFlag);
+  },[rule_text55ce9Props?.filterProps])
 
-  if (rules_text55ce9?.isHidden) {
+  if (rule_text55ce9?.isHidden) {
     return <></>
   }
 
@@ -137,4 +137,4 @@ return (
   )
 }
 
-export default Textrules_text
+export default Textrule_text

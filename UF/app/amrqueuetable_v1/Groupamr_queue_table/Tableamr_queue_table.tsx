@@ -151,7 +151,7 @@ let defaultColumns:any = [
     "meta": {
       "sort": true
     },
-    "className": "",
+    "className": "!text-right",
     "align": "left",
     "hide": false,
     "isSearch": false,
@@ -326,27 +326,7 @@ const Tableamr_queue_table = ({ headerButtonsRenders=()=>{return<></>},headerPos
   const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps
   const [translatedColumns,setTranslatedColumns]= useState<any>([])
   const securityData:any={
-  "Branch Manager": {
-    "allowedControls": [
-      "case_id",
-      "venue_id",
-      "account_id",
-      "debtor_name",
-      "court_name",
-      "total_balance",
-      "priority_name",
-      "status_name",
-      "view_btn",
-      "view_btn_pg_graph",
-      "bt_approve",
-      "sla_wait_start_time"
-    ],
-    "blockedControls": [
-      "edit_btn"
-    ],
-    "readOnlyControls": []
-  },
-  "Branch Officer": {
+  "Junior Attorney": {
     "allowedControls": [
       "case_id",
       "venue_id",
@@ -363,6 +343,26 @@ const Tableamr_queue_table = ({ headerButtonsRenders=()=>{return<></>},headerPos
     "blockedControls": [
       "edit_btn",
       "bt_approve"
+    ],
+    "readOnlyControls": []
+  },
+  "Senior Attorney": {
+    "allowedControls": [
+      "case_id",
+      "venue_id",
+      "account_id",
+      "debtor_name",
+      "court_name",
+      "total_balance",
+      "priority_name",
+      "status_name",
+      "view_btn",
+      "view_btn_pg_graph",
+      "bt_approve",
+      "sla_wait_start_time"
+    ],
+    "blockedControls": [
+      "edit_btn"
     ],
     "readOnlyControls": []
   }

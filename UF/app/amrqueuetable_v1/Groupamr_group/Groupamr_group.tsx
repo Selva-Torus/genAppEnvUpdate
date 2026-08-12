@@ -55,7 +55,7 @@ const Groupamr_group = ({lockedData={},setLockedData,primaryTableData={},tableDa
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
   const securityData:any={
-  "Branch Manager": {
+  "Junior Attorney": {
     "allowedControls": [
       "amr_text",
       "amrs_text"
@@ -69,7 +69,7 @@ const Groupamr_group = ({lockedData={},setLockedData,primaryTableData={},tableDa
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "Branch Officer": {
+  "Senior Attorney": {
     "allowedControls": [
       "amr_text",
       "amrs_text"

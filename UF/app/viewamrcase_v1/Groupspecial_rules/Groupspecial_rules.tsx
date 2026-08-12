@@ -19,7 +19,7 @@ import evaluateDecisionTable,{ evaluateDecisionForDynamicActions,eventDecisionTa
 import decodeToken from '@/app/components/decodeToken';
 import uoMapperData from '@/context/dfdmapperContolnames.json';
 import Icondynamic_icon  from "./Icondynamic_icon";
-import Textrules_text  from "./Textrules_text";
+import Textrule_text  from "./Textrule_text";
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
 import { useGlobal } from '@/context/GlobalContext'
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
@@ -63,7 +63,7 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
   "Branch Manager": {
     "allowedControls": [
       "dynamic_icon",
-      "rules_text"
+      "rule_text"
     ],
     "allowedGroups": [
       "canvas",
@@ -89,7 +89,7 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
   "Branch Officer": {
     "allowedControls": [
       "dynamic_icon",
-      "rules_text"
+      "rule_text"
     ],
     "allowedGroups": [
       "canvas",
@@ -157,7 +157,7 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
   const {special_rules96aec, setspecial_rules96aec}= useContext(TotalContext) as TotalContextProps;
   const {special_rules96aecProps, setspecial_rules96aecProps}= useContext(TotalContext) as TotalContextProps;
   const {dynamic_icon8f352, setdynamic_icon8f352}= useContext(TotalContext) as TotalContextProps;
-  const {rules_text55ce9, setrules_text55ce9}= useContext(TotalContext) as TotalContextProps;
+  const {rule_text55ce9, setrule_text55ce9}= useContext(TotalContext) as TotalContextProps;
   //////////////
   const [ruleData,setRuleData]=useState<any>([])
   const [open, setOpen] = React.useState(false);
@@ -212,14 +212,14 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
         setdynamic_icon8f352((pre:any)=>({...pre,isDisabled:false}));
       }
     }
-    if(orchestrationData?.data?.readableControls.includes("rules_text")){
-        setrules_text55ce9((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("rule_text")){
+        setrule_text55ce9((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(rules_text55ce9?.isDisabled==null)
+      if(rule_text55ce9?.isDisabled==null)
       {
-        setrules_text55ce9((pre:any)=>({...pre,isDisabled:false}));
+        setrule_text55ce9((pre:any)=>({...pre,isDisabled:false}));
       }
     }
   //////////////
@@ -287,8 +287,8 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
         codeStates['setspecial_rules96aec'] = setspecial_rules96aecProps,
         codeStates['dynamic_icon'] = dynamic_icon8f352,
         codeStates['setdynamic_icon'] = setdynamic_icon8f352,
-        codeStates['rules_text'] = rules_text55ce9,
-        codeStates['setrules_text'] = setrules_text55ce9,
+        codeStates['rule_text'] = rule_text55ce9,
+        codeStates['setrule_text'] = setrule_text55ce9,
 
     codeExecution(code,codeStates);
     } 
@@ -395,8 +395,8 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
         codeStates['setspecial_rules96aec'] = setspecial_rules96aecProps,
         codeStates['dynamic_icon'] = dynamic_icon8f352,
         codeStates['setdynamic_icon'] = setdynamic_icon8f352,
-        codeStates['rules_text'] = rules_text55ce9,
-        codeStates['setrules_text'] = setrules_text55ce9,
+        codeStates['rule_text'] = rule_text55ce9,
+        codeStates['setrule_text'] = setrule_text55ce9,
       customCode = codeExecution(allCode,codeStates);
       return customCode;
     }
@@ -465,7 +465,7 @@ return (
       }}
     >
         {allowedControls.includes("dynamic_icon")?<Icondynamic_icon /* 8f352 */ encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData}  />: <div></div>}
-          {allowedControls.includes("rules_text") ?<Textrules_text   /* 55ce9 */ isDynamic={true } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("rule_text") ?<Textrule_text   /* 55ce9 */ isDynamic={true } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
     </div>
   )
   })}
