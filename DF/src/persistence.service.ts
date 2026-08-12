@@ -126,15 +126,8 @@ export class PersistenceService implements OnModuleInit{
       },
       {
       connection: {
-           sentinels: [
-        {
-          host: process.env.REDIS_SENTINEL_HOST,
-          port: Number(process.env.REDIS_SENTINEL_PORT),
-        },      
-      ],    
-       name: process.env.REDIS_MASTER_NAME,
-      username: process.env.REDIS_USERNAME,
-      password: process.env.REDIS_PASSWORD, 
+             host: process.env.HOST,
+                port: parseInt(process.env.PORT),
           maxRetriesPerRequest:null,
       },
       // Process several jobs in parallel; the pool (max above) caps real

@@ -36,15 +36,8 @@ export class JobProcessor{
 
         const workerOptions: WorkerOptions = {
             connection: {
-               sentinels: [
-        {
-          host: process.env.REDIS_SENTINEL_HOST,
-          port: Number(process.env.REDIS_SENTINEL_PORT),
-        },      
-      ],    
-       name: process.env.REDIS_MASTER_NAME,
-      username: process.env.REDIS_USERNAME,
-      password: process.env.REDIS_PASSWORD, 
+                host: process.env.HOST,
+                port: parseInt(process.env.PORT),
                 maxRetriesPerRequest: 3,
             },
             concurrency: 10, //50,
