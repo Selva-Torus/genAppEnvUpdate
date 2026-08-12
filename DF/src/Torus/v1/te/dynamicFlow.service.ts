@@ -6203,7 +6203,7 @@ export class DynamicFlowService {
        
     }
 
-    async replaceQuery(replaceQry,mapObj){
+   async replaceQuery(replaceQry,mapObj){
         try {           
            const matches = [...replaceQry.matchAll(/\$\$([a-zA-Z0-9_.]+)/g)];
             const variables = matches.map(match => match[1]);           
@@ -6243,16 +6243,16 @@ export class DynamicFlowService {
                         if (isNumberArray) {
                             value = `ARRAY[${value.join(',')}]`;
                         } else if(isStringArray){
-                            value = `ARRAY[${value.map(v => `'${String(v).replace(/'/g, "''")}'`).join(',')}]`;
+                            value = `ARRAY[${value.map(v => this.CommonService.sqlLiteral(v)).join(',')}]`;
                         }
                     }
                     else if (typeof value === 'object') {
-                        value = `'${JSON.stringify(value)}'`;
+                        value = this.CommonService.sqlLiteral(JSON.stringify(value));
                     }
                     else if (typeof value === 'string') {
-                        value = `'${value.replace(/'/g, "''")}'`;
-                    }                   
-                    replaceQry = replaceQry.replace(regex, value);                                    
+                        value = this.CommonService.sqlLiteral(value);
+                    }
+                    replaceQry = replaceQry.replace(regex, value);
                 }
             }
             return replaceQry
@@ -6260,6 +6260,7 @@ export class DynamicFlowService {
             throw error
         }
     }
+
 
 
     async sendEmail(to: string | string[],subject: string, html: string, emailConfig:any,cc?: string | string[],bcc?:string | string[]) {

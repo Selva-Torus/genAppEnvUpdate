@@ -50,7 +50,7 @@ const Icondynamic_icon = ({encryptionFlagCompData,setIsProcessing,controlData}:a
   const {special_rules7f109, setspecial_rules7f109}= useContext(TotalContext) as TotalContextProps
   const {special_rules7f109Props, setspecial_rules7f109Props}= useContext(TotalContext) as TotalContextProps
   const {dynamic_iconc7b56, setdynamic_iconc7b56}= useContext(TotalContext) as TotalContextProps
-  const {rule_textdb2d4, setrule_textdb2d4}= useContext(TotalContext) as TotalContextProps
+  const {textdb2d4, settextdb2d4}= useContext(TotalContext) as TotalContextProps
   //////////////
   const handleCode=async () => {
     let code:any;
@@ -80,11 +80,11 @@ const Icondynamic_icon = ({encryptionFlagCompData,setIsProcessing,controlData}:a
 
 return (
   <div 
-    style={{gridColumn: `2 / 5`,gridRow: `2 / 11`, gap:``, height: `100%`, overflow: 'auto'
+    style={{gridColumn: `2 / 5`,gridRow: `2 / 9`, gap:``, height: `100%`, overflow: 'auto'
  }} >
     <Icon 
-      className="!text-[#f1bf09]"
-      data="MdWarning"
+      className="!text-[#8A7A55]"
+      data="MdWarningAmber"
       contentAlign={"center"}
     />
   </div>

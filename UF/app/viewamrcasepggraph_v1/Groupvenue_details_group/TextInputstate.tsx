@@ -70,19 +70,16 @@ const TextInputstate = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionF
   "mapper": [
     {
       "sourceKey": [
-        "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.state"
+        "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.state"
       ],
       "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|57c10704bc2bf3a621d11bfa47051614|983a9b1951051a092c93ab26d34a7e09"
     }
   ],
-  "dfdKey": "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1:",
-  "schemaData": {
-    "type": "string"
-  },
+  "dfdKey": "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1:",
   "dataType": "string"
 }
   const decodedTokenObj:any = decodeToken(token);
-  const {dfd_addcase_v1Props, setdfd_addcase_v1Props} = useContext(TotalContext) as TotalContextProps; 
+  const {dfd_specialrulessurerealdb_v1Props, setdfd_specialrulessurerealdb_v1Props} = useContext(TotalContext) as TotalContextProps; 
   const [isRequredData,setIsRequredData]=useState<boolean>(false)
   const toast : Function = useInfoMsg()
   const keyset : Function = i18n.keyset("language");
@@ -123,17 +120,17 @@ const TextInputstate = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionF
   const {ven_name_textf01f8, setven_name_textf01f8}= useContext(TotalContext) as TotalContextProps;
   const {statea7e09, setstatea7e09}= useContext(TotalContext) as TotalContextProps;
   const {dividersa774c, setdividersa774c}= useContext(TotalContext) as TotalContextProps;
-  const {countrydb772, setcountrydb772}= useContext(TotalContext) as TotalContextProps;
+  const {countydb772, setcountydb772}= useContext(TotalContext) as TotalContextProps;
   const {dividerssaf051, setdividerssaf051}= useContext(TotalContext) as TotalContextProps;
-  const {court_name7a5a6, setcourt_name7a5a6}= useContext(TotalContext) as TotalContextProps;
+  const {court7a5a6, setcourt7a5a6}= useContext(TotalContext) as TotalContextProps;
   const {dividersssbef5f, setdividersssbef5f}= useContext(TotalContext) as TotalContextProps;
-  const {judge_name71e3e, setjudge_name71e3e}= useContext(TotalContext) as TotalContextProps;
+  const {judge71e3e, setjudge71e3e}= useContext(TotalContext) as TotalContextProps;
   const {dividerssss61d06, setdividerssss61d06}= useContext(TotalContext) as TotalContextProps;
   const {filing_fee144cd, setfiling_fee144cd}= useContext(TotalContext) as TotalContextProps;
   const {dividersssssd333b, setdividersssssd333b}= useContext(TotalContext) as TotalContextProps;
   const {service_method48ac6, setservice_method48ac6}= useContext(TotalContext) as TotalContextProps;
   const {dividerssssss06ce3, setdividerssssss06ce3}= useContext(TotalContext) as TotalContextProps;
-  const {efiling_system964db, setefiling_system964db}= useContext(TotalContext) as TotalContextProps;
+  const {efile_system964db, setefile_system964db}= useContext(TotalContext) as TotalContextProps;
   const {checklist_main_group2b466, setchecklist_main_group2b466}= useContext(TotalContext) as TotalContextProps;
   const {checklist_main_group2b466Props, setchecklist_main_group2b466Props}= useContext(TotalContext) as TotalContextProps;
   const {checklist_tablecafb0, setchecklist_tablecafb0}= useContext(TotalContext) as TotalContextProps;
@@ -234,16 +231,16 @@ const TextInputstate = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionF
         codeStates['setstate'] = setstatea7e09,
         codeStates['dividers'] = dividersa774c,
         codeStates['setdividers'] = setdividersa774c,
-        codeStates['country'] = countrydb772,
-        codeStates['setcountry'] = setcountrydb772,
+        codeStates['county'] = countydb772,
+        codeStates['setcounty'] = setcountydb772,
         codeStates['dividerss'] = dividerssaf051,
         codeStates['setdividerss'] = setdividerssaf051,
-        codeStates['court_name'] = court_name7a5a6,
-        codeStates['setcourt_name'] = setcourt_name7a5a6,
+        codeStates['court'] = court7a5a6,
+        codeStates['setcourt'] = setcourt7a5a6,
         codeStates['dividersss'] = dividersssbef5f,
         codeStates['setdividersss'] = setdividersssbef5f,
-        codeStates['judge_name'] = judge_name71e3e,
-        codeStates['setjudge_name'] = setjudge_name71e3e,
+        codeStates['judge'] = judge71e3e,
+        codeStates['setjudge'] = setjudge71e3e,
         codeStates['dividerssss'] = dividerssss61d06,
         codeStates['setdividerssss'] = setdividerssss61d06,
         codeStates['filing_fee'] = filing_fee144cd,
@@ -254,8 +251,8 @@ const TextInputstate = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionF
         codeStates['setservice_method'] = setservice_method48ac6,
         codeStates['dividerssssss'] = dividerssssss06ce3,
         codeStates['setdividerssssss'] = setdividerssssss06ce3,
-        codeStates['efiling_system'] = efiling_system964db,
-        codeStates['setefiling_system'] = setefiling_system964db,
+        codeStates['efile_system'] = efile_system964db,
+        codeStates['setefile_system'] = setefile_system964db,
         codeStates['checklist_main_group'] = checklist_main_group2b466,
         codeStates['setchecklist_main_group'] = setchecklist_main_group2b466,
         codeStates['checklist_main_group2b466'] = checklist_main_group2b466Props,
@@ -389,13 +386,13 @@ const TextInputstate = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionF
     };
   },[validateRefetch.value])
   useEffect(() => {
-  if(dfd_addcase_v1Props?.setSearchFilters && dfd_addcase_v1Props?.data)
+  if(dfd_specialrulessurerealdb_v1Props?.setSearchFilters && dfd_specialrulessurerealdb_v1Props?.data)
   {
-    if(Array.isArray(dfd_addcase_v1Props.data) && dfd_addcase_v1Props.data.length > 0){
-      setvenue_details_group51614((pre:any)=>({...pre,state:dfd_addcase_v1Props.data[0]?.state}));
+    if(Array.isArray(dfd_specialrulessurerealdb_v1Props.data) && dfd_specialrulessurerealdb_v1Props.data.length > 0){
+      setvenue_details_group51614((pre:any)=>({...pre,state:dfd_specialrulessurerealdb_v1Props.data[0]?.state}));
     }
   }
-  },[dfd_addcase_v1Props?.setSearchFilters])
+  },[dfd_specialrulessurerealdb_v1Props?.setSearchFilters])
   if (statea7e09?.isHidden) {
     return <></>
   }

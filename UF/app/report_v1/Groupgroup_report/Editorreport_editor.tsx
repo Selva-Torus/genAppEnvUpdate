@@ -1880,7 +1880,7 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
       data:templadteData,
     };
     let reportData: any = await axios.post(
-      '',
+      'https://jsreport9x.toruslowcode.com/api/report',
       postData,
       {
         responseType: 'arraybuffer',

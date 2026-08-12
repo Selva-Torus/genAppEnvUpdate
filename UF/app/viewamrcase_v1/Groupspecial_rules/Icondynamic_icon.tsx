@@ -80,11 +80,11 @@ const Icondynamic_icon = ({encryptionFlagCompData,setIsProcessing,controlData}:a
 
 return (
   <div 
-    style={{gridColumn: `1 / 4`,gridRow: `3 / 11`, gap:``, height: `100%`, overflow: 'auto'
+    style={{gridColumn: `2 / 5`,gridRow: `2 / 9`, gap:``, height: `100%`, overflow: 'auto'
  }} >
     <Icon 
-      className="!text-[#f1bf09]"
-      data="MdWarning"
+      className="!text-[#8A7A55]"
+      data="MdWarningAmber"
       contentAlign={"center"}
     />
   </div>

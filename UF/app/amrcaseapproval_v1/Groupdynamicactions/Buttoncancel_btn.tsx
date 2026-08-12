@@ -140,6 +140,9 @@ const Buttoncancel_btn = ({ lockedData, setLockedData, tableData, setTableData, 
   const {cancel_btnc64a4, setcancel_btnc64a4}= useContext(TotalContext) as TotalContextProps;
   const {reject_btn27005, setreject_btn27005}= useContext(TotalContext) as TotalContextProps;
   const {pass_sign_btn916fa, setpass_sign_btn916fa}= useContext(TotalContext) as TotalContextProps;
+  const {amrqueuetable_v1Props, setamrqueuetable_v1Props}= useContext(TotalContext) as TotalContextProps;
+  const {amr_queue_table09598, setamr_queue_table09598}= useContext(TotalContext) as TotalContextProps;
+  const {amr_queue_table09598Props, setamr_queue_table09598Props}= useContext(TotalContext) as TotalContextProps;
   //////////////
   const pendingAutoSearch = useRef(false);
   // keep update group state in ref to access latest state value
@@ -232,6 +235,12 @@ const Buttoncancel_btn = ({ lockedData, setLockedData, tableData, setTableData, 
         codeStates['setreject_btn'] = setreject_btn27005,
         codeStates['pass_sign_btn'] = pass_sign_btn916fa,
         codeStates['setpass_sign_btn'] = setpass_sign_btn916fa,
+        codeStates['amrqueuetable_v1'] = amrqueuetable_v1Props,
+        codeStates['setamrqueuetable_v1'] = setamrqueuetable_v1Props,
+        codeStates['amr_queue_table'] = amr_queue_table09598,
+        codeStates['setamr_queue_table'] = setamr_queue_table09598,
+        codeStates['amr_queue_table09598'] = amr_queue_table09598Props,
+        codeStates['setamr_queue_table09598'] = setamr_queue_table09598Props,
       codeStates['response']  = savedData.current;
       customCode = codeExecution(code,codeStates);
       return customCode;
@@ -389,8 +398,22 @@ const Buttoncancel_btn = ({ lockedData, setLockedData, tableData, setTableData, 
         setdynamicactions37e34((prev: any) => ({ ...prev, cancel_btn: true }));
         //onClick
 
-    // closeHandler   
-    eventBus.emit('closeModal', 'amrcaseapproval');
+    // showArtifact
+    let filterProps2: any =  [];
+      let filterData2 = await getFilterProps(filterProps2,{...add_case_group77747,...header_groupbae8a,...required_dociument_main_group999a8,...case_information_group35ed3,...card_groupe78fa,...principal_group9ae9f,...intrest_group8df75,...fees_groupac23b,...total_groupe6175,...venue_details_group6904e,...checklist_main_groupda0ff,...special_rules_groupc1585,...special_rules1fc30,...dynamicactions37e34});
+    setamrqueuetable_v1Props([...filterData2 ]);
+    routes.push(getRouteScreenDetails('CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1', 'amrqueuetable_v1'));
+    // refreshElement
+    //riseListen
+    // for group
+    setamr_queue_table09598Props((pre:any)=>({...pre,refresh:!pre?.refresh}));
+    setLockedData({}) //Clears lockedData and resets it in subsequent screens.
+    lockedData={} //Clears lockedData; clicking the button again without a selection returns no value.
+    setValidate({}); 
+    setValidateRefetch({
+      value:false,
+      init:0
+    });
       await handleCustomCode();
     }catch (err: any) {
       setIsProcessing(false);

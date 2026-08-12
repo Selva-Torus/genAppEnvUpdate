@@ -95,8 +95,7 @@ const Groupamr_queue_table = ({lockedData={},setLockedData,primaryTableData={},t
       "status_name",
       "trs_created_date",
       "view_btn",
-      "view_btn_pg_graph",
-      "bt_approve"
+      "view_btn_pg_graph"
     ],
     "allowedGroups": [
       "canvas",
@@ -106,7 +105,8 @@ const Groupamr_queue_table = ({lockedData={},setLockedData,primaryTableData={},t
     ],
     "blockedControls": [
       "venue_id",
-      "edit_btn"
+      "edit_btn",
+      "bt_approve"
     ],
     "readOnlyControls": []
   }

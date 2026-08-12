@@ -2285,7 +2285,7 @@
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.state"
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.state"
         ],
         "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|57c10704bc2bf3a621d11bfa47051614|983a9b1951051a092c93ab26d34a7e09"
       }
@@ -2299,16 +2299,16 @@
   },
   "cd5a7d1c2204bd515ee3a82a104db772": {
     "source": "county",
-    "target": "country",
+    "target": "county",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.county"
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.county"
         ],
         "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|57c10704bc2bf3a621d11bfa47051614|cd5a7d1c2204bd515ee3a82a104db772"
       }
     ],
-    "controlName": "country"
+    "controlName": "county"
   },
   "7d9327e24340582905d0946b519af051": {
     "source": "dividerss",
@@ -2316,17 +2316,17 @@
     "controlName": "dividerss"
   },
   "78b47fe7cdd7b224a23fef93d3f7a5a6": {
-    "source": "court_name",
-    "target": "court_name",
+    "source": "court",
+    "target": "court",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.court_name"
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.court"
         ],
         "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|57c10704bc2bf3a621d11bfa47051614|78b47fe7cdd7b224a23fef93d3f7a5a6"
       }
     ],
-    "controlName": "court_name"
+    "controlName": "court"
   },
   "c93b9b42d934d6c0d64af9047ccbef5f": {
     "source": "dividersss",
@@ -2334,17 +2334,17 @@
     "controlName": "dividersss"
   },
   "d2672bfb1955a7c384f5f69abeb71e3e": {
-    "source": "judge_name",
-    "target": "judge_name",
+    "source": "judge",
+    "target": "judge",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.judge_name"
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.judge"
         ],
         "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|57c10704bc2bf3a621d11bfa47051614|d2672bfb1955a7c384f5f69abeb71e3e"
       }
     ],
-    "controlName": "judge_name"
+    "controlName": "judge"
   },
   "60d1d0388a39e3e59452dd3d77b61d06": {
     "source": "dividerssss",
@@ -2357,7 +2357,7 @@
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.filing_fee"
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.filing_fee"
         ],
         "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|57c10704bc2bf3a621d11bfa47051614|870a661283bf5fac1c49f9d1a8c144cd"
       }
@@ -2375,7 +2375,7 @@
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.service_method"
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.service_method"
         ],
         "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|57c10704bc2bf3a621d11bfa47051614|ea370f7a065821127ddb0437b2648ac6"
       }
@@ -2388,17 +2388,17 @@
     "controlName": "dividerssssss"
   },
   "fe69861b829803b0a976c8f593f964db": {
-    "source": "efiling_system",
-    "target": "efiling_system",
+    "source": "efile_system",
+    "target": "efile_system",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.efiling_system"
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.efile_system"
         ],
         "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|57c10704bc2bf3a621d11bfa47051614|fe69861b829803b0a976c8f593f964db"
       }
     ],
-    "controlName": "efiling_system"
+    "controlName": "efile_system"
   },
   "venue_details_group51614": [
     "ven_name_text",
@@ -2406,15 +2406,15 @@
     "dividers",
     "county",
     "dividerss",
-    "court_name",
+    "court",
     "dividersss",
-    "judge_name",
+    "judge",
     "dividerssss",
     "filing_fee",
     "dividersssss",
     "service_method",
     "dividerssssss",
-    "efiling_system"
+    "efile_system"
   ],
   "41109e1473f1cafd84f9f445bc7a0e64": {
     "source": "valid_checklist_text",
@@ -2482,13 +2482,21 @@
     "controlName": "dynamic_icon"
   },
   "ff6be91335c8425eaf5b8cc330bdb2d4": {
-    "source": "rule_text",
-    "target": "rule_text",
-    "controlName": "rule_text"
+    "source": "text",
+    "target": "text",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.special_rules.items.properties.text"
+        ],
+        "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|185e829724c63ba22f1107a22e37f109|ff6be91335c8425eaf5b8cc330bdb2d4"
+      }
+    ],
+    "controlName": "text"
   },
   "special_rules7f109": [
     "dynamic_icon",
-    "rule_text"
+    "text"
   ],
   "efda3477fd4db411b1e820793ba8944a": {
     "source": "account_id",

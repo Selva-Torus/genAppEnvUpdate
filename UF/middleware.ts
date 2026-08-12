@@ -26,7 +26,7 @@ export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname
   const isAuthRoute = ["/" , "/forgot-password"].includes(path);
   const isForgotPasswordRoute = ["/forgot-password"].includes(path);
-   let screenName:string = 'User Screen';
+   let screenName:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1';
     let screenDetails: any = {
         keys:[
   {

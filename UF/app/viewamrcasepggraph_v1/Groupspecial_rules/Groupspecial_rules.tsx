@@ -19,7 +19,7 @@ import evaluateDecisionTable,{ evaluateDecisionForDynamicActions,eventDecisionTa
 import decodeToken from '@/app/components/decodeToken';
 import uoMapperData from '@/context/dfdmapperContolnames.json';
 import Icondynamic_icon  from "./Icondynamic_icon";
-import Textrule_text  from "./Textrule_text";
+import Texttext  from "./Texttext";
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
 import { useGlobal } from '@/context/GlobalContext'
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
@@ -47,6 +47,7 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
   const {dfd_amrchecklistcombo_v1Props, setdfd_amrchecklistcombo_v1Props} = useContext(TotalContext) as TotalContextProps;
   const {dfd_doctable_v1Props, setdfd_doctable_v1Props} = useContext(TotalContext) as TotalContextProps;
   const {dfd_amrcheckliststatus_v1Props, setdfd_amrcheckliststatus_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_specialrulessurerealdb_v1Props, setdfd_specialrulessurerealdb_v1Props} = useContext(TotalContext) as TotalContextProps;
   const encryptionFlagComp: boolean = encryptionFlagPageData?.flag || false;
   let encryptionDpd: string = "";
   encryptionDpd = encryptionDpd !=='' ? encryptionDpd: encryptionFlagPageData?.dpd;
@@ -62,7 +63,7 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
   "Branch Manager": {
     "allowedControls": [
       "dynamic_icon",
-      "rule_text"
+      "text"
     ],
     "allowedGroups": [
       "canvas",
@@ -88,7 +89,7 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
   "Branch Officer": {
     "allowedControls": [
       "dynamic_icon",
-      "rule_text"
+      "text"
     ],
     "allowedGroups": [
       "canvas",
@@ -156,7 +157,7 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
   const {special_rules7f109, setspecial_rules7f109}= useContext(TotalContext) as TotalContextProps;
   const {special_rules7f109Props, setspecial_rules7f109Props}= useContext(TotalContext) as TotalContextProps;
   const {dynamic_iconc7b56, setdynamic_iconc7b56}= useContext(TotalContext) as TotalContextProps;
-  const {rule_textdb2d4, setrule_textdb2d4}= useContext(TotalContext) as TotalContextProps;
+  const {textdb2d4, settextdb2d4}= useContext(TotalContext) as TotalContextProps;
   //////////////
   const [ruleData,setRuleData]=useState<any>([])
   const [open, setOpen] = React.useState(false);
@@ -211,14 +212,14 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
         setdynamic_iconc7b56((pre:any)=>({...pre,isDisabled:false}));
       }
     }
-    if(orchestrationData?.data?.readableControls.includes("rule_text")){
-        setrule_textdb2d4((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("text")){
+        settextdb2d4((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(rule_textdb2d4?.isDisabled==null)
+      if(textdb2d4?.isDisabled==null)
       {
-        setrule_textdb2d4((pre:any)=>({...pre,isDisabled:false}));
+        settextdb2d4((pre:any)=>({...pre,isDisabled:false}));
       }
     }
   //////////////
@@ -286,15 +287,15 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
         codeStates['setspecial_rules7f109'] = setspecial_rules7f109Props,
         codeStates['dynamic_icon'] = dynamic_iconc7b56,
         codeStates['setdynamic_icon'] = setdynamic_iconc7b56,
-        codeStates['rule_text'] = rule_textdb2d4,
-        codeStates['setrule_text'] = setrule_textdb2d4,
+        codeStates['text'] = textdb2d4,
+        codeStates['settext'] = settextdb2d4,
 
     codeExecution(code,codeStates);
     } 
-    if(dfd_amrcheckliststatus_v1Props?.hasLogicCenter==false  && dfd_amrcheckliststatus_v1Props?.dstKey!="")
+    if(dfd_specialrulessurerealdb_v1Props?.hasLogicCenter==false  && dfd_specialrulessurerealdb_v1Props?.dstKey!="")
     {
       const api_paginationBody: api_paginationDto = {
-        key: dfd_amrcheckliststatus_v1Props?.dstKey,
+        key: dfd_specialrulessurerealdb_v1Props?.dstKey,
         count:10,
         page: 1
       }
@@ -312,7 +313,7 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
         toast(api_paginationData?.data?.errorDetails?.message, 'danger')
         return
       }
-      setdfd_amrcheckliststatus_v1Props(api_paginationData?.data?.records || []);
+      setdfd_specialrulessurerealdb_v1Props(api_paginationData?.data?.records || []);
     }
   }
 
@@ -394,8 +395,8 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
         codeStates['setspecial_rules7f109'] = setspecial_rules7f109Props,
         codeStates['dynamic_icon'] = dynamic_iconc7b56,
         codeStates['setdynamic_icon'] = setdynamic_iconc7b56,
-        codeStates['rule_text'] = rule_textdb2d4,
-        codeStates['setrule_text'] = setrule_textdb2d4,
+        codeStates['text'] = textdb2d4,
+        codeStates['settext'] = settextdb2d4,
       customCode = codeExecution(allCode,codeStates);
       return customCode;
     }
@@ -429,11 +430,11 @@ const Groupspecial_rules = ({lockedData={},setLockedData,primaryTableData={},tab
   }
 return (
 <>
-  {Array.isArray(dfd_amrcheckliststatus_v1Props) && dfd_amrcheckliststatus_v1Props.map((item: any, idx: number) => {
+  {Array.isArray(dfd_specialrulessurerealdb_v1Props) && dfd_specialrulessurerealdb_v1Props.map((item: any, idx: number) => {
   return (
     <div key={idx}
       style={{          
-        gridRow: 'span 24', 
+        gridRow: 'span 22', 
         gridColumn: 'span 24',  
       
         //rowGap: '0px',
@@ -447,7 +448,7 @@ return (
         overflow: 'auto',
         gridAutoRows: '4px',
         columnGap: '4px',
-        backgroundColor:'#fdf3dd',
+        backgroundColor:'#F7F3E8',
         backgroundImage:"url('')",
         backgroundPosition: '',
         backgroundSize: '',
@@ -456,7 +457,7 @@ return (
         backgroundClip: '',
         backgroundBlendMode: ''
       }}
-      className={`flex flex-col rounded-md !overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-lg hover:scale-[1.02] hover:bg-[var(--hover-color)]  ${isDark ? 'text-white' : 'text-black'} ${selectedIdx === idx ? 'shadow-lg scale-[1.02] bg-[var(--hover-color)] outline outline-2 outline-blue-500' : ''}`}
+      className={`flex flex-col rounded-md !overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-lg hover:scale-[1.02] hover:bg-[var(--hover-color)] !rounded-2xl !border border-[#D6C9AD] ${isDark ? 'text-white' : 'text-black'} ${selectedIdx === idx ? 'shadow-lg scale-[1.02] bg-[var(--hover-color)] outline outline-2 outline-blue-500' : ''}`}
       onClick={(e:any)=>{
         e.stopPropagation();
         handleOnClick(item, idx);
@@ -464,7 +465,7 @@ return (
       }}
     >
         {allowedControls.includes("dynamic_icon")?<Icondynamic_icon /* c7b56 */ encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData}  />: <div></div>}
-          {allowedControls.includes("rule_text") ?<Textrule_text   /* db2d4 */ isDynamic={true } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("text") ?<Texttext   /* db2d4 */ isDynamic={true } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
     </div>
   )
   })}

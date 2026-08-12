@@ -30,7 +30,7 @@ import * as v from 'valibot';
 ///////////////
 ////////////
 
-const TextInputjudge_name = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFlagCompData,setIsProcessing,controlData}:any) => {  
+const TextInputjudge = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFlagCompData,setIsProcessing,controlData}:any) => {  
   const { token } = useGlobal();
   const {globalState , setGlobalState} = useContext(TotalContext) as TotalContextProps;
   const {validateRefetch , setValidateRefetch} = useContext(TotalContext) as TotalContextProps;
@@ -70,25 +70,22 @@ const TextInputjudge_name = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryp
   "mapper": [
     {
       "sourceKey": [
-        "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1|0b84a99163eb8dd425338976559dd501|properties.judge_name"
+        "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1|5c1ed2d414f740ab820856297865df26|items.properties.venue.items.properties.judge"
       ],
       "targetKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1|57c10704bc2bf3a621d11bfa47051614|d2672bfb1955a7c384f5f69abeb71e3e"
     }
   ],
-  "dfdKey": "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1:",
-  "schemaData": {
-    "type": "string"
-  },
+  "dfdKey": "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1:",
   "dataType": "string"
 }
   const decodedTokenObj:any = decodeToken(token);
-  const {dfd_addcase_v1Props, setdfd_addcase_v1Props} = useContext(TotalContext) as TotalContextProps; 
+  const {dfd_specialrulessurerealdb_v1Props, setdfd_specialrulessurerealdb_v1Props} = useContext(TotalContext) as TotalContextProps; 
   const [isRequredData,setIsRequredData]=useState<boolean>(false)
   const toast : Function = useInfoMsg()
   const keyset : Function = i18n.keyset("language");
   const [allCode,setAllCode]=useState<string>("");
   let schemaArray :string[] =[];
-  const [dynamicStateandType,setDynamicStateandType]=useState<Record<string, any>>({name:'judge_name',type:"text"})
+  const [dynamicStateandType,setDynamicStateandType]=useState<Record<string, any>>({name:'judge',type:"text"})
   const routes: AppRouterInstance = useRouter()
   const [showProfileAsModalOpen, setShowProfileAsModalOpen] = React.useState<boolean>(false);
   const [showElementAsPopupOpen, setShowElementAsPopupOpen] = React.useState<boolean>(false);
@@ -123,17 +120,17 @@ const TextInputjudge_name = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryp
   const {ven_name_textf01f8, setven_name_textf01f8}= useContext(TotalContext) as TotalContextProps;
   const {statea7e09, setstatea7e09}= useContext(TotalContext) as TotalContextProps;
   const {dividersa774c, setdividersa774c}= useContext(TotalContext) as TotalContextProps;
-  const {countrydb772, setcountrydb772}= useContext(TotalContext) as TotalContextProps;
+  const {countydb772, setcountydb772}= useContext(TotalContext) as TotalContextProps;
   const {dividerssaf051, setdividerssaf051}= useContext(TotalContext) as TotalContextProps;
-  const {court_name7a5a6, setcourt_name7a5a6}= useContext(TotalContext) as TotalContextProps;
+  const {court7a5a6, setcourt7a5a6}= useContext(TotalContext) as TotalContextProps;
   const {dividersssbef5f, setdividersssbef5f}= useContext(TotalContext) as TotalContextProps;
-  const {judge_name71e3e, setjudge_name71e3e}= useContext(TotalContext) as TotalContextProps;
+  const {judge71e3e, setjudge71e3e}= useContext(TotalContext) as TotalContextProps;
   const {dividerssss61d06, setdividerssss61d06}= useContext(TotalContext) as TotalContextProps;
   const {filing_fee144cd, setfiling_fee144cd}= useContext(TotalContext) as TotalContextProps;
   const {dividersssssd333b, setdividersssssd333b}= useContext(TotalContext) as TotalContextProps;
   const {service_method48ac6, setservice_method48ac6}= useContext(TotalContext) as TotalContextProps;
   const {dividerssssss06ce3, setdividerssssss06ce3}= useContext(TotalContext) as TotalContextProps;
-  const {efiling_system964db, setefiling_system964db}= useContext(TotalContext) as TotalContextProps;
+  const {efile_system964db, setefile_system964db}= useContext(TotalContext) as TotalContextProps;
   const {checklist_main_group2b466, setchecklist_main_group2b466}= useContext(TotalContext) as TotalContextProps;
   const {checklist_main_group2b466Props, setchecklist_main_group2b466Props}= useContext(TotalContext) as TotalContextProps;
   const {checklist_tablecafb0, setchecklist_tablecafb0}= useContext(TotalContext) as TotalContextProps;
@@ -173,12 +170,12 @@ const TextInputjudge_name = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryp
   const handleChange = async(e: any) => {
       let validate:any;    
       setError('');
-      setValidate((pre:any)=>({...pre,viewAMRCasePgGraph_v1:{...pre?.viewAMRCasePgGraph_v1,judge_name:undefined}}));
+      setValidate((pre:any)=>({...pre,viewAMRCasePgGraph_v1:{...pre?.viewAMRCasePgGraph_v1,judge:undefined}}));
     if(dynamicStateandType.type=="number"){
-    setvenue_details_group51614((prev: any) => ({ ...prev, judge_name: +e.target.value }));
+    setvenue_details_group51614((prev: any) => ({ ...prev, judge: +e.target.value }));
     }
     else{
-    setvenue_details_group51614((prev: any) => ({ ...prev, judge_name: e.target.value }));
+    setvenue_details_group51614((prev: any) => ({ ...prev, judge: e.target.value }));
     }
     const newInputValue = dynamicStateandType.type=="number" ? +e.target.value : e.target.value;
     let code:string=allCode;
@@ -234,16 +231,16 @@ const TextInputjudge_name = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryp
         codeStates['setstate'] = setstatea7e09,
         codeStates['dividers'] = dividersa774c,
         codeStates['setdividers'] = setdividersa774c,
-        codeStates['country'] = countrydb772,
-        codeStates['setcountry'] = setcountrydb772,
+        codeStates['county'] = countydb772,
+        codeStates['setcounty'] = setcountydb772,
         codeStates['dividerss'] = dividerssaf051,
         codeStates['setdividerss'] = setdividerssaf051,
-        codeStates['court_name'] = court_name7a5a6,
-        codeStates['setcourt_name'] = setcourt_name7a5a6,
+        codeStates['court'] = court7a5a6,
+        codeStates['setcourt'] = setcourt7a5a6,
         codeStates['dividersss'] = dividersssbef5f,
         codeStates['setdividersss'] = setdividersssbef5f,
-        codeStates['judge_name'] = judge_name71e3e,
-        codeStates['setjudge_name'] = setjudge_name71e3e,
+        codeStates['judge'] = judge71e3e,
+        codeStates['setjudge'] = setjudge71e3e,
         codeStates['dividerssss'] = dividerssss61d06,
         codeStates['setdividerssss'] = setdividerssss61d06,
         codeStates['filing_fee'] = filing_fee144cd,
@@ -254,8 +251,8 @@ const TextInputjudge_name = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryp
         codeStates['setservice_method'] = setservice_method48ac6,
         codeStates['dividerssssss'] = dividerssssss06ce3,
         codeStates['setdividerssssss'] = setdividerssssss06ce3,
-        codeStates['efiling_system'] = efiling_system964db,
-        codeStates['setefiling_system'] = setefiling_system964db,
+        codeStates['efile_system'] = efile_system964db,
+        codeStates['setefile_system'] = setefile_system964db,
         codeStates['checklist_main_group'] = checklist_main_group2b466,
         codeStates['setchecklist_main_group'] = setchecklist_main_group2b466,
         codeStates['checklist_main_group2b466'] = checklist_main_group2b466Props,
@@ -323,7 +320,7 @@ const TextInputjudge_name = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryp
       //     componentId: "57c10704bc2bf3a621d11bfa47051614",
       //     controlId: "d2672bfb1955a7c384f5f69abeb71e3e",
       //     isTable: false,
-      //     from:"TextInputjudge_name",
+      //     from:"TextInputjudge",
       //     accessProfile:accessProfile
       //   },
       //   {
@@ -338,23 +335,23 @@ const TextInputjudge_name = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryp
       // }
       setAllCode(orchestrationData?.data?.code);
       if (orchestrationData?.data?.dataType ==='integer' || orchestrationData?.data?.dataType ==='number') {
-        setDynamicStateandType({name:'judge_name', type: 'number'});
+        setDynamicStateandType({name:'judge', type: 'number'});
       }
       // if(orchestrationData?.data?.schemaData?.at(0)?.nodeType=='apinode'){
       // if(orchestrationData?.data?.schemaData?.at(0)?.schema.responses["200"].content["application/json"].schema.items.properties){
-      //   let type:any={name:'judge_name',type:'text'};
+      //   let type:any={name:'judge',type:'text'};
       //   type={
-      //     name:'judge_name',
-      //     type: orchestrationData?.data?.schemaData?.at(0)?.schema.responses["200"].content["application/json"].schema.items.properties.judge_name.type == 'string' ? 'text' : orchestrationData?.data?.schemaData?.at(0)?.schema.responses["200"].content["application/json"].schema.items.properties.judge_name.type =='integer' ? 'number' : orchestrationData?.data?.schemaData?.at(0)?.schema.responses["200"].content["application/json"].schema.items.properties.judge_name.type
+      //     name:'judge',
+      //     type: orchestrationData?.data?.schemaData?.at(0)?.schema.responses["200"].content["application/json"].schema.items.properties.judge.type == 'string' ? 'text' : orchestrationData?.data?.schemaData?.at(0)?.schema.responses["200"].content["application/json"].schema.items.properties.judge.type =='integer' ? 'number' : orchestrationData?.data?.schemaData?.at(0)?.schema.responses["200"].content["application/json"].schema.items.properties.judge.type
       //   }
       //   setDynamicStateandType(type);
       // }
       // }else if(orchestrationData?.data?.schemaData?.at(0)?.nodeType=='dbnode'){
       //   if(orchestrationData?.data?.schemaData?.at(0)?.schema.properties){
-      //   let type:any={name:'judge_name',type:'text'};
+      //   let type:any={name:'judge',type:'text'};
       //   type={
-      //     name:'judge_name',
-      //     type: orchestrationData?.data?.schemaData?.at(0)?.schema.properties.judge_name.type == 'string' ? 'text' : orchestrationData?.data?.schemaData?.at(0)?.schema.properties.judge_name.type =='integer' ? 'number' : orchestrationData?.data?.schemaData?.at(0)?.schema.properties.judge_name.type
+      //     name:'judge',
+      //     type: orchestrationData?.data?.schemaData?.at(0)?.schema.properties.judge.type == 'string' ? 'text' : orchestrationData?.data?.schemaData?.at(0)?.schema.properties.judge.type =='integer' ? 'number' : orchestrationData?.data?.schemaData?.at(0)?.schema.properties.judge.type
       //   }
       //   setDynamicStateandType(type);
       // }
@@ -373,12 +370,12 @@ const TextInputjudge_name = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryp
         handleValidate();
     const handlerChange = (id:any) => {
       if (id === "d2672bfb1955a7c384f5f69abeb71e3e") {
-        handleChange({target:{value:venue_details_group51614Ref?.current?.judge_name||""}});
+        handleChange({target:{value:venue_details_group51614Ref?.current?.judge||""}});
       }
     };
     const handlerBlur = (id:any) => {
       if (id === "d2672bfb1955a7c384f5f69abeb71e3e") {
-        handleBlur({target:{value:venue_details_group51614Ref?.current?.judge_name||""}});
+        handleBlur({target:{value:venue_details_group51614Ref?.current?.judge||""}});
       }
     };
     eventBus.on("triggerElement|onChange", handlerChange);
@@ -389,14 +386,14 @@ const TextInputjudge_name = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryp
     };
   },[validateRefetch.value])
   useEffect(() => {
-  if(dfd_addcase_v1Props?.setSearchFilters && dfd_addcase_v1Props?.data)
+  if(dfd_specialrulessurerealdb_v1Props?.setSearchFilters && dfd_specialrulessurerealdb_v1Props?.data)
   {
-    if(Array.isArray(dfd_addcase_v1Props.data) && dfd_addcase_v1Props.data.length > 0){
-      setvenue_details_group51614((pre:any)=>({...pre,judge_name:dfd_addcase_v1Props.data[0]?.judge_name}));
+    if(Array.isArray(dfd_specialrulessurerealdb_v1Props.data) && dfd_specialrulessurerealdb_v1Props.data.length > 0){
+      setvenue_details_group51614((pre:any)=>({...pre,judge:dfd_specialrulessurerealdb_v1Props.data[0]?.judge}));
     }
   }
-  },[dfd_addcase_v1Props?.setSearchFilters])
-  if (judge_name71e3e?.isHidden) {
+  },[dfd_specialrulessurerealdb_v1Props?.setSearchFilters])
+  if (judge71e3e?.isHidden) {
     return <></>
   }
   return (   
@@ -411,8 +408,8 @@ const TextInputjudge_name = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryp
         onBlur={handleBlur}
         itsHaveCurrency={false}
         type={dynamicStateandType.type}
-        value={venue_details_group51614?.judge_name||""}
-         disabled= {judge_name71e3e?.isDisabled ? true : false}
+        value={venue_details_group51614?.judge||""}
+         disabled= {judge71e3e?.isDisabled ? true : false}
         pin='brick-brick'     
         placeholder='Enter Judge Name'      
         readOnly={true}
@@ -421,11 +418,11 @@ const TextInputjudge_name = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryp
         headerPosition='top'
         headerText="Judge"
       errorMessage={error}
-        validationState={validate?.viewAMRCasePgGraph_v1?.judge_name ? "invalid" : undefined}
+        validationState={validate?.viewAMRCasePgGraph_v1?.judge ? "invalid" : undefined}
       />
       </div>
     </div> 
   )
 }
 
-export default TextInputjudge_name
+export default TextInputjudge

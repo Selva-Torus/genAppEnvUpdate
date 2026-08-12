@@ -11,9 +11,10 @@ import { useGlobal } from '@/context/GlobalContext'
 import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,PaginationData,AllowedGroupNode,ActionDetails } from "@/types/global";
 import i18n from '@/app/components/i18n';
 
-const Textrule_text = ({encryptionFlagCompData,isDynamic,item,index,setIsProcessing}:any) => {
+const Texttext = ({encryptionFlagCompData,isDynamic,item,index,setIsProcessing}:any) => {
   const { token } = useGlobal();
   const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_specialrulessurerealdb_v1Props, setdfd_specialrulessurerealdb_v1Props} = useContext(TotalContext) as TotalContextProps; 
   const keyset:any=i18n.keyset("language");
   const encryptionFlagCont: boolean = encryptionFlagCompData.flag || false ;
   let encryptionDpd: string = "";
@@ -53,33 +54,87 @@ const Textrule_text = ({encryptionFlagCompData,isDynamic,item,index,setIsProcess
   const {special_rules7f109, setspecial_rules7f109}= useContext(TotalContext) as TotalContextProps;
   const {special_rules7f109Props, setspecial_rules7f109Props}= useContext(TotalContext) as TotalContextProps;
   const {dynamic_iconc7b56, setdynamic_iconc7b56}= useContext(TotalContext) as TotalContextProps;
-  const {rule_textdb2d4, setrule_textdb2d4}= useContext(TotalContext) as TotalContextProps;
-  const {rule_textdb2d4Props, setrule_textdb2d4Props} = useContext(TotalContext) as TotalContextProps;
+  const {textdb2d4, settextdb2d4}= useContext(TotalContext) as TotalContextProps;
+  const {textdb2d4Props, settextdb2d4Props} = useContext(TotalContext) as TotalContextProps;
   //////////////
 
   const handleMapperValue=async(filterProps?:any,filterFlag?:boolean)=>{
+    try{
+      if ("hasLogicCenter" in dfd_specialrulessurerealdb_v1Props && !dfd_specialrulessurerealdb_v1Props.hasLogicCenter) {
+        let searchFilter: any = {};
+        if (filterProps?.length) {
+          searchFilter = filterProps;
+        }
+        const api_paginationData: any = await AxiosService.post('/UF/pagination',
+          {
+            key: dfd_specialrulessurerealdb_v1Props.dstKey,
+            page: 1,
+            count: 1,
+            filterData: searchFilter
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        setspecial_rules7f109((pre: any) => ({
+          ...pre,
+          text: api_paginationData.data.records?.length > 0
+            ? api_paginationData.data.records[0]?.text
+            : "0"
+        }))
+      }
+      else{
+      if(filterFlag){
+        setspecial_rules7f109((pre: any) => ({
+          ...pre,
+          text: textdb2d4Props?.filteredData?.length > 0
+            ? textdb2d4Props?.filteredData[0]?.text
+            : "0"
+        }))
+      }else if(Array.isArray(dfd_specialrulessurerealdb_v1Props) && dfd_specialrulessurerealdb_v1Props && !special_rules7f109.text){
+        setspecial_rules7f109((pre:any)=>({...pre,text:dfd_specialrulessurerealdb_v1Props[0]?.text}));
+      }
+      }
+    }catch(err){
+      console.log(err)
+    }
   }
 
   useEffect(()=>{
     handleMapperValue()
-  },[rule_textdb2d4?.refresh])
+  },[textdb2d4?.refresh])
 
-  if (rule_textdb2d4?.isHidden) {
+  useEffect(() => {
+  if(Array.isArray(dfd_specialrulessurerealdb_v1Props) && !special_rules7f109.text){
+    setspecial_rules7f109((pre:any)=>({...pre,text:dfd_specialrulessurerealdb_v1Props[0]?.text}));
+  }
+  },[dfd_specialrulessurerealdb_v1Props])
+
+  // setSearchFilters
+  useEffect(() => {
+    if (!textdb2d4Props?.filterProps) return;
+    handleMapperValue(textdb2d4Props?.filterProps,textdb2d4Props?.filterFlag);
+  },[textdb2d4Props?.filterProps])
+
+  if (textdb2d4?.isHidden) {
     return <></>
   }
 
 return (
-  <div className="" style={{gridColumn: `5 / 25`,gridRow: `2 / 23`, gap:``, height: `100%`}} >
+  <div className="" style={{gridColumn: `5 / 25`,gridRow: `2 / 20`, gap:``, height: `100%`}} >
 <Text
   contentAlign={"left"}
-  className="!text-[#f1bf09]"
+  className="!text-[#8A7A55]"
   variant="subheader-3"
   color="primary"
 >
-      {keyset(isDynamic ? item?.rule_text : (special_rules7f109?.rule_text || ""))}
+      {keyset("")}
 </Text>
   </div>
   )
 }
 
-export default Textrule_text
+export default Texttext

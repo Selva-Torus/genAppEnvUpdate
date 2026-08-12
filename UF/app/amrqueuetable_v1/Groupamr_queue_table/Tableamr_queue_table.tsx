@@ -389,12 +389,12 @@ const Tableamr_queue_table = ({ headerButtonsRenders=()=>{return<></>},headerPos
       "status_name",
       "trs_created_date",
       "view_btn",
-      "view_btn_pg_graph",
-      "bt_approve"
+      "view_btn_pg_graph"
     ],
     "blockedControls": [
       "venue_id",
-      "edit_btn"
+      "edit_btn",
+      "bt_approve"
     ],
     "readOnlyControls": []
   }

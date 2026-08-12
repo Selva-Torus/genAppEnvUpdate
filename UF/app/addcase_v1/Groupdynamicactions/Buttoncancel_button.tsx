@@ -146,6 +146,7 @@ const Buttoncancel_button = ({ lockedData, setLockedData, tableData, setTableDat
   const {checklist_group32b3dProps, setchecklist_group32b3dProps}= useContext(TotalContext) as TotalContextProps;
   const {checklist_table198e1, setchecklist_table198e1}= useContext(TotalContext) as TotalContextProps;
   const {checklist_table198e1Props, setchecklist_table198e1Props}= useContext(TotalContext) as TotalContextProps;
+  const {amrqueuetable_v1Props, setamrqueuetable_v1Props}= useContext(TotalContext) as TotalContextProps;
   //////////////
   const pendingAutoSearch = useRef(false);
   // keep update group state in ref to access latest state value
@@ -250,6 +251,8 @@ const Buttoncancel_button = ({ lockedData, setLockedData, tableData, setTableDat
         codeStates['setchecklist_table'] = setchecklist_table198e1,
         codeStates['checklist_table198e1'] = checklist_table198e1Props,
         codeStates['setchecklist_table198e1'] = setchecklist_table198e1Props,
+        codeStates['amrqueuetable_v1'] = amrqueuetable_v1Props,
+        codeStates['setamrqueuetable_v1'] = setamrqueuetable_v1Props,
       codeStates['response']  = savedData.current;
       customCode = codeExecution(code,codeStates);
       return customCode;
@@ -407,8 +410,11 @@ const Buttoncancel_button = ({ lockedData, setLockedData, tableData, setTableDat
         setdynamicactions094c3((prev: any) => ({ ...prev, cancel_button: true }));
         //onClick
 
-    // closeHandler   
-    eventBus.emit('closeModal', 'addcase');
+    // showArtifact
+    let filterProps2: any =  [];
+      let filterData2 = await getFilterProps(filterProps2,{...add_case_groupeb161,...header_group4878f,...case_information_group28f6f,...venue_group6a36d,...georgia_group0fa18,...georgias_group945fd,...georgias_groups6f85f,...georgiass_groups86a87,...georgsiass_groupsb044a,...debtor_information_group78a70,...financial_details_group52f47,...venue_details_group17ac6,...required_dociument_main_group04e92,...required_dociument_header_groupe39c8,...checklist_main_group0df6b,...checklist_group32b3d,...dynamicactions094c3});
+    setamrqueuetable_v1Props([...filterData2 ]);
+    routes.push(getRouteScreenDetails('CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1', 'amrqueuetable_v1'));
       await handleCustomCode();
     }catch (err: any) {
       setIsProcessing(false);

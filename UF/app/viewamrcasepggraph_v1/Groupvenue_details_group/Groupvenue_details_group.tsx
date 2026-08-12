@@ -21,17 +21,17 @@ import uoMapperData from '@/context/dfdmapperContolnames.json';
 import Textven_name_text  from "./Textven_name_text";
 import TextInputstate  from "./TextInputstate";
 import Dividerdividers  from "./Dividerdividers";
-import TextInputcountry  from "./TextInputcountry";
+import TextInputcounty  from "./TextInputcounty";
 import Dividerdividerss  from "./Dividerdividerss";
-import TextInputcourt_name  from "./TextInputcourt_name";
+import TextInputcourt  from "./TextInputcourt";
 import Dividerdividersss  from "./Dividerdividersss";
-import TextInputjudge_name  from "./TextInputjudge_name";
+import TextInputjudge  from "./TextInputjudge";
 import Dividerdividerssss  from "./Dividerdividerssss";
 import TextInputfiling_fee  from "./TextInputfiling_fee";
 import Dividerdividersssss  from "./Dividerdividersssss";
 import TextInputservice_method  from "./TextInputservice_method";
 import Dividerdividerssssss  from "./Dividerdividerssssss";
-import TextInputefiling_system  from "./TextInputefiling_system";
+import TextInputefile_system  from "./TextInputefile_system";
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
 import { useGlobal } from '@/context/GlobalContext'
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
@@ -59,6 +59,7 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
   const {dfd_amrchecklistcombo_v1Props, setdfd_amrchecklistcombo_v1Props} = useContext(TotalContext) as TotalContextProps;
   const {dfd_doctable_v1Props, setdfd_doctable_v1Props} = useContext(TotalContext) as TotalContextProps;
   const {dfd_amrcheckliststatus_v1Props, setdfd_amrcheckliststatus_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_specialrulessurerealdb_v1Props, setdfd_specialrulessurerealdb_v1Props} = useContext(TotalContext) as TotalContextProps;
   const encryptionFlagComp: boolean = encryptionFlagPageData?.flag || false;
   let encryptionDpd: string = "";
   encryptionDpd = encryptionDpd !=='' ? encryptionDpd: encryptionFlagPageData?.dpd;
@@ -76,17 +77,17 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
       "ven_name_text",
       "state",
       "dividers",
-      "country",
+      "county",
       "dividerss",
-      "court_name",
+      "court",
       "dividersss",
-      "judge_name",
+      "judge",
       "dividerssss",
       "filing_fee",
       "dividersssss",
       "service_method",
       "dividerssssss",
-      "efiling_system"
+      "efile_system"
     ],
     "allowedGroups": [
       "canvas",
@@ -114,17 +115,17 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
       "ven_name_text",
       "state",
       "dividers",
-      "country",
+      "county",
       "dividerss",
-      "court_name",
+      "court",
       "dividersss",
-      "judge_name",
+      "judge",
       "dividerssss",
       "filing_fee",
       "dividersssss",
       "service_method",
       "dividerssssss",
-      "efiling_system"
+      "efile_system"
     ],
     "allowedGroups": [
       "canvas",
@@ -186,17 +187,17 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
   const {ven_name_textf01f8, setven_name_textf01f8}= useContext(TotalContext) as TotalContextProps;
   const {statea7e09, setstatea7e09}= useContext(TotalContext) as TotalContextProps;
   const {dividersa774c, setdividersa774c}= useContext(TotalContext) as TotalContextProps;
-  const {countrydb772, setcountrydb772}= useContext(TotalContext) as TotalContextProps;
+  const {countydb772, setcountydb772}= useContext(TotalContext) as TotalContextProps;
   const {dividerssaf051, setdividerssaf051}= useContext(TotalContext) as TotalContextProps;
-  const {court_name7a5a6, setcourt_name7a5a6}= useContext(TotalContext) as TotalContextProps;
+  const {court7a5a6, setcourt7a5a6}= useContext(TotalContext) as TotalContextProps;
   const {dividersssbef5f, setdividersssbef5f}= useContext(TotalContext) as TotalContextProps;
-  const {judge_name71e3e, setjudge_name71e3e}= useContext(TotalContext) as TotalContextProps;
+  const {judge71e3e, setjudge71e3e}= useContext(TotalContext) as TotalContextProps;
   const {dividerssss61d06, setdividerssss61d06}= useContext(TotalContext) as TotalContextProps;
   const {filing_fee144cd, setfiling_fee144cd}= useContext(TotalContext) as TotalContextProps;
   const {dividersssssd333b, setdividersssssd333b}= useContext(TotalContext) as TotalContextProps;
   const {service_method48ac6, setservice_method48ac6}= useContext(TotalContext) as TotalContextProps;
   const {dividerssssss06ce3, setdividerssssss06ce3}= useContext(TotalContext) as TotalContextProps;
-  const {efiling_system964db, setefiling_system964db}= useContext(TotalContext) as TotalContextProps;
+  const {efile_system964db, setefile_system964db}= useContext(TotalContext) as TotalContextProps;
   const {checklist_main_group2b466, setchecklist_main_group2b466}= useContext(TotalContext) as TotalContextProps;
   const {checklist_main_group2b466Props, setchecklist_main_group2b466Props}= useContext(TotalContext) as TotalContextProps;
   const {checklist_tablecafb0, setchecklist_tablecafb0}= useContext(TotalContext) as TotalContextProps;
@@ -279,14 +280,14 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         setdividersa774c((pre:any)=>({...pre,isDisabled:false}));
       }
     }
-    if(orchestrationData?.data?.readableControls.includes("country")){
-        setcountrydb772((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("county")){
+        setcountydb772((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(countrydb772?.isDisabled==null)
+      if(countydb772?.isDisabled==null)
       {
-        setcountrydb772((pre:any)=>({...pre,isDisabled:false}));
+        setcountydb772((pre:any)=>({...pre,isDisabled:false}));
       }
     }
     if(orchestrationData?.data?.readableControls.includes("dividerss")){
@@ -299,14 +300,14 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         setdividerssaf051((pre:any)=>({...pre,isDisabled:false}));
       }
     }
-    if(orchestrationData?.data?.readableControls.includes("court_name")){
-        setcourt_name7a5a6((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("court")){
+        setcourt7a5a6((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(court_name7a5a6?.isDisabled==null)
+      if(court7a5a6?.isDisabled==null)
       {
-        setcourt_name7a5a6((pre:any)=>({...pre,isDisabled:false}));
+        setcourt7a5a6((pre:any)=>({...pre,isDisabled:false}));
       }
     }
     if(orchestrationData?.data?.readableControls.includes("dividersss")){
@@ -319,14 +320,14 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         setdividersssbef5f((pre:any)=>({...pre,isDisabled:false}));
       }
     }
-    if(orchestrationData?.data?.readableControls.includes("judge_name")){
-        setjudge_name71e3e((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("judge")){
+        setjudge71e3e((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(judge_name71e3e?.isDisabled==null)
+      if(judge71e3e?.isDisabled==null)
       {
-        setjudge_name71e3e((pre:any)=>({...pre,isDisabled:false}));
+        setjudge71e3e((pre:any)=>({...pre,isDisabled:false}));
       }
     }
     if(orchestrationData?.data?.readableControls.includes("dividerssss")){
@@ -379,14 +380,14 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         setdividerssssss06ce3((pre:any)=>({...pre,isDisabled:false}));
       }
     }
-    if(orchestrationData?.data?.readableControls.includes("efiling_system")){
-        setefiling_system964db((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("efile_system")){
+        setefile_system964db((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(efiling_system964db?.isDisabled==null)
+      if(efile_system964db?.isDisabled==null)
       {
-        setefiling_system964db((pre:any)=>({...pre,isDisabled:false}));
+        setefile_system964db((pre:any)=>({...pre,isDisabled:false}));
       }
     }
   //////////////
@@ -442,16 +443,16 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         codeStates['setstate'] = setstatea7e09,
         codeStates['dividers'] = dividersa774c,
         codeStates['setdividers'] = setdividersa774c,
-        codeStates['country'] = countrydb772,
-        codeStates['setcountry'] = setcountrydb772,
+        codeStates['county'] = countydb772,
+        codeStates['setcounty'] = setcountydb772,
         codeStates['dividerss'] = dividerssaf051,
         codeStates['setdividerss'] = setdividerssaf051,
-        codeStates['court_name'] = court_name7a5a6,
-        codeStates['setcourt_name'] = setcourt_name7a5a6,
+        codeStates['court'] = court7a5a6,
+        codeStates['setcourt'] = setcourt7a5a6,
         codeStates['dividersss'] = dividersssbef5f,
         codeStates['setdividersss'] = setdividersssbef5f,
-        codeStates['judge_name'] = judge_name71e3e,
-        codeStates['setjudge_name'] = setjudge_name71e3e,
+        codeStates['judge'] = judge71e3e,
+        codeStates['setjudge'] = setjudge71e3e,
         codeStates['dividerssss'] = dividerssss61d06,
         codeStates['setdividerssss'] = setdividerssss61d06,
         codeStates['filing_fee'] = filing_fee144cd,
@@ -462,8 +463,8 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         codeStates['setservice_method'] = setservice_method48ac6,
         codeStates['dividerssssss'] = dividerssssss06ce3,
         codeStates['setdividerssssss'] = setdividerssssss06ce3,
-        codeStates['efiling_system'] = efiling_system964db,
-        codeStates['setefiling_system'] = setefiling_system964db,
+        codeStates['efile_system'] = efile_system964db,
+        codeStates['setefile_system'] = setefile_system964db,
         codeStates['checklist_main_group'] = checklist_main_group2b466,
         codeStates['setchecklist_main_group'] = setchecklist_main_group2b466,
         codeStates['checklist_main_group2b466'] = checklist_main_group2b466Props,
@@ -550,16 +551,16 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         codeStates['setstate'] = setstatea7e09,
         codeStates['dividers'] = dividersa774c,
         codeStates['setdividers'] = setdividersa774c,
-        codeStates['country'] = countrydb772,
-        codeStates['setcountry'] = setcountrydb772,
+        codeStates['county'] = countydb772,
+        codeStates['setcounty'] = setcountydb772,
         codeStates['dividerss'] = dividerssaf051,
         codeStates['setdividerss'] = setdividerssaf051,
-        codeStates['court_name'] = court_name7a5a6,
-        codeStates['setcourt_name'] = setcourt_name7a5a6,
+        codeStates['court'] = court7a5a6,
+        codeStates['setcourt'] = setcourt7a5a6,
         codeStates['dividersss'] = dividersssbef5f,
         codeStates['setdividersss'] = setdividersssbef5f,
-        codeStates['judge_name'] = judge_name71e3e,
-        codeStates['setjudge_name'] = setjudge_name71e3e,
+        codeStates['judge'] = judge71e3e,
+        codeStates['setjudge'] = setjudge71e3e,
         codeStates['dividerssss'] = dividerssss61d06,
         codeStates['setdividerssss'] = setdividerssss61d06,
         codeStates['filing_fee'] = filing_fee144cd,
@@ -570,8 +571,8 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
         codeStates['setservice_method'] = setservice_method48ac6,
         codeStates['dividerssssss'] = dividerssssss06ce3,
         codeStates['setdividerssssss'] = setdividerssssss06ce3,
-        codeStates['efiling_system'] = efiling_system964db,
-        codeStates['setefiling_system'] = setefiling_system964db,
+        codeStates['efile_system'] = efile_system964db,
+        codeStates['setefile_system'] = setefile_system964db,
         codeStates['checklist_main_group'] = checklist_main_group2b466,
         codeStates['setchecklist_main_group'] = setchecklist_main_group2b466,
         codeStates['checklist_main_group2b466'] = checklist_main_group2b466Props,
@@ -651,17 +652,17 @@ const Groupvenue_details_group = ({lockedData={},setLockedData,primaryTableData=
           {allowedControls.includes("ven_name_text") ?<Textven_name_text   /* f01f8 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("state") ?<TextInputstate   /* a7e09 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("dividers") ?<Dividerdividers   /* a774c */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
-        {allowedControls.includes("country") ?<TextInputcountry   /* db772 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+        {allowedControls.includes("county") ?<TextInputcounty   /* db772 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("dividerss") ?<Dividerdividerss   /* af051 */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
-        {allowedControls.includes("court_name") ?<TextInputcourt_name   /* 7a5a6 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+        {allowedControls.includes("court") ?<TextInputcourt   /* 7a5a6 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("dividersss") ?<Dividerdividersss   /* bef5f */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
-        {allowedControls.includes("judge_name") ?<TextInputjudge_name   /* 71e3e */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+        {allowedControls.includes("judge") ?<TextInputjudge   /* 71e3e */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("dividerssss") ?<Dividerdividerssss   /* 61d06 */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("filing_fee") ?<TextInputfiling_fee   /* 144cd */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("dividersssss") ?<Dividerdividersssss   /* d333b */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("service_method") ?<TextInputservice_method   /* 48ac6 */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
         {allowedControls.includes("dividerssssss") ?<Dividerdividerssssss   /* 06ce3 */checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
-        {allowedControls.includes("efiling_system") ?<TextInputefiling_system   /* 964db */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+        {allowedControls.includes("efile_system") ?<TextInputefile_system   /* 964db */ checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
     </div>
  )
 }

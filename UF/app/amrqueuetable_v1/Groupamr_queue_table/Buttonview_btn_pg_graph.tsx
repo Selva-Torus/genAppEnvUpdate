@@ -148,16 +148,10 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
   const {fees_group8c4a6Props, setfees_group8c4a6Props}= useContext(TotalContext) as TotalContextProps;
   const {total_groupc52d3, settotal_groupc52d3}= useContext(TotalContext) as TotalContextProps;
   const {total_groupc52d3Props, settotal_groupc52d3Props}= useContext(TotalContext) as TotalContextProps;
-  const {venue_details_group51614, setvenue_details_group51614}= useContext(TotalContext) as TotalContextProps;
-  const {venue_details_group51614Props, setvenue_details_group51614Props}= useContext(TotalContext) as TotalContextProps;
   const {checklist_main_group2b466, setchecklist_main_group2b466}= useContext(TotalContext) as TotalContextProps;
   const {checklist_main_group2b466Props, setchecklist_main_group2b466Props}= useContext(TotalContext) as TotalContextProps;
   const {checklist_tablecafb0, setchecklist_tablecafb0}= useContext(TotalContext) as TotalContextProps;
   const {checklist_tablecafb0Props, setchecklist_tablecafb0Props}= useContext(TotalContext) as TotalContextProps;
-  const {special_rules_group7ce9f, setspecial_rules_group7ce9f}= useContext(TotalContext) as TotalContextProps;
-  const {special_rules_group7ce9fProps, setspecial_rules_group7ce9fProps}= useContext(TotalContext) as TotalContextProps;
-  const {special_rules7f109, setspecial_rules7f109}= useContext(TotalContext) as TotalContextProps;
-  const {special_rules7f109Props, setspecial_rules7f109Props}= useContext(TotalContext) as TotalContextProps;
   const {viewamrcasepggraph_v1Props, setviewamrcasepggraph_v1Props}= useContext(TotalContext) as TotalContextProps;
   //////////////
 
@@ -250,10 +244,6 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
       codeStates['settotal_group'] = settotal_groupc52d3,
       codeStates['total_groupc52d3'] = total_groupc52d3Props,
       codeStates['settotal_groupc52d3'] = settotal_groupc52d3Props,
-      codeStates['venue_details_group'] = venue_details_group51614,
-      codeStates['setvenue_details_group'] = setvenue_details_group51614,
-      codeStates['venue_details_group51614'] = venue_details_group51614Props,
-      codeStates['setvenue_details_group51614'] = setvenue_details_group51614Props,
       codeStates['checklist_main_group'] = checklist_main_group2b466,
       codeStates['setchecklist_main_group'] = setchecklist_main_group2b466,
       codeStates['checklist_main_group2b466'] = checklist_main_group2b466Props,
@@ -262,14 +252,6 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
       codeStates['setchecklist_table'] = setchecklist_tablecafb0,
       codeStates['checklist_tablecafb0'] = checklist_tablecafb0Props,
       codeStates['setchecklist_tablecafb0'] = setchecklist_tablecafb0Props,
-      codeStates['special_rules_group'] = special_rules_group7ce9f,
-      codeStates['setspecial_rules_group'] = setspecial_rules_group7ce9f,
-      codeStates['special_rules_group7ce9f'] = special_rules_group7ce9fProps,
-      codeStates['setspecial_rules_group7ce9f'] = setspecial_rules_group7ce9fProps,
-      codeStates['special_rules'] = special_rules7f109,
-      codeStates['setspecial_rules'] = setspecial_rules7f109,
-      codeStates['special_rules7f109'] = special_rules7f109Props,
-      codeStates['setspecial_rules7f109'] = setspecial_rules7f109Props,
       codeStates['viewamrcasepggraph_v1'] = viewamrcasepggraph_v1Props,
       codeStates['setviewamrcasepggraph_v1'] = setviewamrcasepggraph_v1Props,
       codeStates['response']  = savedData.current;
@@ -357,6 +339,21 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
     setadd_case_grouped126Props({...add_case_grouped126Props,presetValues:{...(mainData||{})}})
     //bindTran
     // For group or table
+    let bindData12 = filterByKeys(mainData,card_group4c709Props?.controls);
+    setcard_group4c709(bindData12||{})
+    setcard_group4c709Props({...card_group4c709Props,presetValues:{...(mainData||{})}})
+    //bindTran
+    // For group or table
+    let bindData14 = filterByKeys(mainData,principal_group42235Props?.controls);
+    setprincipal_group42235(bindData14||{})
+    setprincipal_group42235Props({...principal_group42235Props,presetValues:{...(mainData||{})}})
+    //bindTran
+    // For group or table
+    let bindData16 = filterByKeys(mainData,intrest_group65c3bProps?.controls);
+    setintrest_group65c3b(bindData16||{})
+    setintrest_group65c3bProps({...intrest_group65c3bProps,presetValues:{...(mainData||{})}})
+    //bindTran
+    // For group or table
     let bindData18 = filterByKeys(mainData,fees_group8c4a6Props?.controls);
     setfees_group8c4a6(bindData18||{})
     setfees_group8c4a6Props({...fees_group8c4a6Props,presetValues:{...(mainData||{})}})
@@ -367,31 +364,16 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
     settotal_groupc52d3Props({...total_groupc52d3Props,presetValues:{...(mainData||{})}})
     //bindTran
     // For group or table
-    let bindData22 = filterByKeys(mainData,venue_details_group51614Props?.controls);
-    setvenue_details_group51614(bindData22||{})
-    setvenue_details_group51614Props({...venue_details_group51614Props,presetValues:{...(mainData||{})}})
-    //bindTran
-    // For group or table
-    let bindData24 = filterByKeys(mainData,checklist_main_group2b466Props?.controls);
-    setchecklist_main_group2b466(bindData24||{})
+    let bindData22 = filterByKeys(mainData,checklist_main_group2b466Props?.controls);
+    setchecklist_main_group2b466(bindData22||{})
     setchecklist_main_group2b466Props({...checklist_main_group2b466Props,presetValues:{...(mainData||{})}})
     //bindTran
     // For group or table
-    let bindData26 = filterByKeys(mainData,checklist_tablecafb0Props?.controls);
-    setchecklist_tablecafb0(bindData26||{})
+    let bindData24 = filterByKeys(mainData,checklist_tablecafb0Props?.controls);
+    setchecklist_tablecafb0(bindData24||{})
     setchecklist_tablecafb0Props({...checklist_tablecafb0Props,presetValues:{...(mainData||{})}})
-    //bindTran
-    // For group or table
-    let bindData28 = filterByKeys(mainData,special_rules_group7ce9fProps?.controls);
-    setspecial_rules_group7ce9f(bindData28||{})
-    setspecial_rules_group7ce9fProps({...special_rules_group7ce9fProps,presetValues:{...(mainData||{})}})
-    //bindTran
-    // For group or table
-    let bindData30 = filterByKeys(mainData,special_rules7f109Props?.controls);
-    setspecial_rules7f109(bindData30||{})
-    setspecial_rules7f109Props({...special_rules7f109Props,presetValues:{...(mainData||{})}})
     // showArtifact
-    let filterProps32: any =  [
+    let filterProps26: any =  [
   {
     "key": "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:addCase:AFVK:v1",
     "nodeBasedData": [
@@ -415,8 +397,8 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
     ]
   }
 ];
-    let filterData32 = await getFilterProps(filterProps32,mainData);
-    setviewamrcasepggraph_v1Props([...filterData32 ]);
+    let filterData26 = await getFilterProps(filterProps26,mainData);
+    setviewamrcasepggraph_v1Props([...filterData26 ]);
     if (skipUnlockRef) skipUnlockRef.current = true
     routes.push(getRouteScreenDetails('CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:viewAMRCasePgGraph:AFVK:v1', 'viewamrcasepggraph_v1'));
       await handleCustomCode();

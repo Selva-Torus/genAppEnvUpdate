@@ -115,7 +115,7 @@ let schemaDataDFO:any;
 let filterPropsData:any;
 const Tabledoc_table = ({ headerButtonsRenders=()=>{return<></>},headerPosition="",headerText="",lockedData,setLockedData,tableData, setTableData,primaryTableData, setPrimaryTableData,checkToAdd,setCheckToAdd,refetch, setRefetch,setData,encryptionFlagCompData,paginationDetails,open, setOpen, ref, ButtonGoRuleData, setButtonGoRuleData,setIsProcessing,groupData,controlData}: any)=>{
   const { token } = useGlobal();
-  const tableName = "account_documents"
+  const tableName = "ct006_lap.account_documents"
   const decodedTokenObj: any = decodeToken(token);
   const {globalState , setGlobalState} = useContext(TotalContext) as TotalContextProps
   const {refresh, setRefresh} = useContext(TotalContext) as TotalContextProps;
@@ -405,7 +405,7 @@ const Tabledoc_table = ({ headerButtonsRenders=()=>{return<></>},headerPosition=
     try {
       const res = await AxiosService.post(
         '/UF/lock',
-        { tableName: 'account_documents', key:"doc_instance_id",value:id},
+        { tableName: 'ct006_lap.account_documents', key:"doc_instance_id",value:id},
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -422,7 +422,7 @@ const Tabledoc_table = ({ headerButtonsRenders=()=>{return<></>},headerPosition=
     try {
       await AxiosService.post(
         '/UF/unlock',
-        { tableName: 'account_documents', key:"doc_instance_id",value:id},
+        { tableName: 'ct006_lap.account_documents', key:"doc_instance_id",value:id},
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -1304,7 +1304,7 @@ const colurIndicator = (keyValue:any=[], comingValue:any,ColourIndicatorType:any
         myLockedIdsRef.current.forEach((id: number) => {
           AxiosService.post(
             '/UF/unlock',
-            { tableName: 'account_documents', key:"doc_instance_id",value:id},
+            { tableName: 'ct006_lap.account_documents', key:"doc_instance_id",value:id},
             {
               headers: {
                 Authorization: `Bearer ${token}`

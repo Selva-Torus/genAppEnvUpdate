@@ -2212,16 +2212,16 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                         if (isNumberArray) {
                             value = `ARRAY[${value.join(',')}]`;
                         } else if(isStringArray){
-                            value = `ARRAY[${value.map(v => `'${String(v).replace(/'/g, "''")}'`).join(',')}]`;
+                            value = `ARRAY[${value.map(v => this.CommonService.sqlLiteral(v)).join(',')}]`;
                         }
                     }
                     else if (typeof value === 'object') {
-                        value = `'${JSON.stringify(value)}'`;
+                        value = this.CommonService.sqlLiteral(JSON.stringify(value));
                     }
                     else if (typeof value === 'string') {
-                        value = `'${value.replace(/'/g, "''")}'`;
-                    }                   
-                    replaceQry = replaceQry.replace(regex, value);                                    
+                        value = this.CommonService.sqlLiteral(value);
+                    }
+                    replaceQry = replaceQry.replace(regex, value);
                 }
             }
             return replaceQry
@@ -2229,6 +2229,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
             throw error
         }
     }
+
 
 
    codeAssign(data: any) {

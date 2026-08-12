@@ -124,10 +124,10 @@ const Textrules_text = ({encryptionFlagCompData,isDynamic,item,index,setIsProces
   }
 
 return (
-  <div className="" style={{gridColumn: `4 / 25`,gridRow: `3 / 24`, gap:``, height: `100%`}} >
+  <div className="" style={{gridColumn: `5 / 25`,gridRow: `2 / 20`, gap:``, height: `100%`}} >
 <Text
   contentAlign={"center"}
-  className="!text-[#f1bf09] "
+  className="!text-[#8A7A55]"
   variant="subheader-2"
   color="primary"
 >

@@ -140,6 +140,7 @@ const Buttonpass_sign_btn = ({ lockedData, setLockedData, tableData, setTableDat
   const {cancel_btnc64a4, setcancel_btnc64a4}= useContext(TotalContext) as TotalContextProps;
   const {reject_btn27005, setreject_btn27005}= useContext(TotalContext) as TotalContextProps;
   const {pass_sign_btn916fa, setpass_sign_btn916fa}= useContext(TotalContext) as TotalContextProps;
+  const {amrqueuetable_v1Props, setamrqueuetable_v1Props}= useContext(TotalContext) as TotalContextProps;
   const {amr_queue_table09598, setamr_queue_table09598}= useContext(TotalContext) as TotalContextProps;
   const {amr_queue_table09598Props, setamr_queue_table09598Props}= useContext(TotalContext) as TotalContextProps;
   //////////////
@@ -234,6 +235,8 @@ const Buttonpass_sign_btn = ({ lockedData, setLockedData, tableData, setTableDat
         codeStates['setreject_btn'] = setreject_btn27005,
         codeStates['pass_sign_btn'] = pass_sign_btn916fa,
         codeStates['setpass_sign_btn'] = setpass_sign_btn916fa,
+        codeStates['amrqueuetable_v1'] = amrqueuetable_v1Props,
+        codeStates['setamrqueuetable_v1'] = setamrqueuetable_v1Props,
         codeStates['amr_queue_table'] = amr_queue_table09598,
         codeStates['setamr_queue_table'] = setamr_queue_table09598,
         codeStates['amr_queue_table09598'] = amr_queue_table09598Props,
@@ -465,26 +468,187 @@ const Buttonpass_sign_btn = ({ lockedData, setLockedData, tableData, setTableDat
           "children": [
             {
               "id": "a381acb207c24d618bcee925293916fa.1.1.1.1",
-              "eventContext": "riseListen",
+              "eventContext": "rise",
               "value": "",
               "type": "handlerNode",
-              "name": "refreshElement",
-              "label": "refreshElement",
+              "name": "infoMsg",
+              "label": "infoMsg",
               "sequence": "1.1.1.1",
               "children": [
                 {
-                  "id": "6908a1f13f2c6c3a9936cc860b009598.1.1.1.1.1",
+                  "id": "a381acb207c24d618bcee925293916fa.1.1.1.1.1",
+                  "eventContext": "riseListen",
                   "value": "",
-                  "type": "screen",
-                  "name": "AMRQueueTable.v1|amr_queue_table",
-                  "label": "AMRQueueTable.v1|amr_queue_table",
-                  "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1|amr_queue_table",
-                  "elementType": "group",
-                  "groupType": "table",
+                  "type": "handlerNode",
+                  "name": "showArtifact",
+                  "label": "showArtifact",
                   "sequence": "1.1.1.1.1",
-                  "children": []
+                  "children": [
+                    {
+                      "id": "67a65e282e654f27b3a8ee0e50ef1d15.1.1.1.1.1.1",
+                      "value": "",
+                      "type": "screen",
+                      "name": "AMRQueueTable.v1",
+                      "label": "AMRQueueTable.v1|Root",
+                      "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1",
+                      "elementType": "",
+                      "groupType": "",
+                      "sequence": "1.1.1.1.1.1",
+                      "children": []
+                    },
+                    {
+                      "id": "a381acb207c24d618bcee925293916fa.1.1.1.1.1.2",
+                      "eventContext": "riseListen",
+                      "value": "",
+                      "type": "handlerNode",
+                      "name": "refreshElement",
+                      "label": "refreshElement",
+                      "sequence": "1.1.1.1.1.2",
+                      "children": [
+                        {
+                          "id": "6908a1f13f2c6c3a9936cc860b009598.1.1.1.1.1.2.1",
+                          "value": "",
+                          "type": "screen",
+                          "name": "AMRQueueTable.v1|amr_queue_table",
+                          "label": "AMRQueueTable.v1|amr_queue_table",
+                          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1|amr_queue_table",
+                          "elementType": "group",
+                          "groupType": "table",
+                          "sequence": "1.1.1.1.1.2.1",
+                          "children": []
+                        }
+                      ]
+                    }
+                  ],
+                  "hlr": {
+                    "params": [
+                      {
+                        "name": "Filter Conditions",
+                        "_type": "array",
+                        "_empty": true,
+                        "items": [
+                          {
+                            "name": "DFD Key",
+                            "_type": "asyncSelection",
+                            "selectionList": [],
+                            "value": "",
+                            "enabled": true,
+                            "_payload": {
+                              "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1:",
+                              "nodeType": "searchParams"
+                            },
+                            "subSelection": {
+                              "name": "Select node Name",
+                              "_type": "array",
+                              "items": [
+                                {
+                                  "name": "nodeName",
+                                  "_type": "apiSelection",
+                                  "_payload": {
+                                    "key": "",
+                                    "nodeType": "searchParams"
+                                  },
+                                  "selectionList": [],
+                                  "value": "",
+                                  "enabled": true,
+                                  "subSelection": {
+                                    "name": "filter",
+                                    "_type": "array",
+                                    "items": [
+                                      {
+                                        "filterParam": {
+                                          "name": "filterParam",
+                                          "_type": "objectSelection",
+                                          "selectionList": [],
+                                          "value": {},
+                                          "enabled": true
+                                        },
+                                        "filterValue": {
+                                          "name": "filterValue",
+                                          "_type": "comboBox",
+                                          "selectionList": [],
+                                          "value": "",
+                                          "enabled": true
+                                        }
+                                      }
+                                    ],
+                                    "selectionList": [],
+                                    "value": {},
+                                    "enabled": true
+                                  }
+                                }
+                              ],
+                              "enabled": true
+                            }
+                          }
+                        ],
+                        "selectionList": [],
+                        "value": ""
+                      }
+                    ]
+                  }
                 }
-              ]
+              ],
+              "hlr": {
+                "params": [
+                  {
+                    "name": "message",
+                    "_type": "text",
+                    "value": "AMR Case Approved Successfully",
+                    "enabled": true
+                  },
+                  {
+                    "name": "type",
+                    "_type": "select",
+                    "selectionList": [
+                      "none",
+                      "info",
+                      "success",
+                      "warning",
+                      "danger",
+                      "utility"
+                    ],
+                    "value": "success",
+                    "enabled": true
+                  },
+                  {
+                    "name": "autoClose",
+                    "_label": "Auto close toast",
+                    "_type": "boolean",
+                    "value": true,
+                    "enabled": true
+                  },
+                  {
+                    "name": "variant",
+                    "_type": "select",
+                    "selectionList": [
+                      "display-4",
+                      "display-3",
+                      "display-2",
+                      "display-1",
+                      "header-2",
+                      "header-1",
+                      "subheader-3",
+                      "subheader-2",
+                      "subheader-1",
+                      "body-3",
+                      "body-2",
+                      "body-1",
+                      "body-short",
+                      "caption-2",
+                      "caption-1",
+                      "code-3",
+                      "code-inline-3",
+                      "code-2",
+                      "code-inline-2",
+                      "code-1",
+                      "code-inline-1"
+                    ],
+                    "value": "subheader-1",
+                    "enabled": true
+                  }
+                ]
+              }
             }
           ],
           "hlr": {
@@ -536,16 +700,6 @@ const Buttonpass_sign_btn = ({ lockedData, setLockedData, tableData, setTableDat
           "targetKey": [
             "CK:CT006:FNGK:AF:FNK:PF-PFD:CATK:LAP:AFGK:LAP:AFK:addCaseApproval:AFVK:v1|b305ab48e9ac4689b5e0947685352aba"
           ]
-        },
-        {
-          "id": "a381acb207c24d618bcee925293916fa.1.1.2",
-          "eventContext": "rise",
-          "value": "",
-          "type": "handlerNode",
-          "name": "closeHandler",
-          "label": "closeHandler",
-          "sequence": "1.1.2",
-          "children": []
         }
       ]
     }
@@ -1129,6 +1283,13 @@ const Buttonpass_sign_btn = ({ lockedData, setLockedData, tableData, setTableDat
     lockedKeysLength = lockedData?.primaryKeys?.length;
     ///////////////////////
 
+    //infoMsg
+    toast('AMR Case Approved Successfully', 'success',true);
+    // showArtifact
+    let filterProps1: any =  [];
+      let filterData1 = await getFilterProps(filterProps1,{...add_case_group77747,...header_groupbae8a,...required_dociument_main_group999a8,...case_information_group35ed3,...card_groupe78fa,...principal_group9ae9f,...intrest_group8df75,...fees_groupac23b,...total_groupe6175,...venue_details_group6904e,...checklist_main_groupda0ff,...special_rules_groupc1585,...special_rules1fc30,...dynamicactions37e34});
+    setamrqueuetable_v1Props([...filterData1 ]);
+    routes.push(getRouteScreenDetails('CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1', 'amrqueuetable_v1'));
     // refreshElement
     //riseListen
     // for group
@@ -1140,8 +1301,6 @@ const Buttonpass_sign_btn = ({ lockedData, setLockedData, tableData, setTableDat
       value:false,
       init:0
     });
-    // closeHandler   
-    eventBus.emit('closeModal', 'amrcaseapproval');
     }catch(err:any){
       savedData.current = {};
       if( typeof err =='string')
@@ -1162,8 +1321,6 @@ const Buttonpass_sign_btn = ({ lockedData, setLockedData, tableData, setTableDat
 
     //eventEmitter
     await handleSave16fa_1_1_1();
-    // closeHandler   
-    eventBus.emit('closeModal', 'amrcaseapproval');
       await handleCustomCode();
     }catch (err: any) {
       setIsProcessing(false);
