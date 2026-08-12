@@ -7,7 +7,7 @@ import { errorObj } from 'src/dto';
 import { CommonService } from 'src/common.Service';
 import { parsePrismaCreateError } from 'src/prisma-error-handler';
 import { venue_special_rulesEntity } from './entity/venue_special_rules.entity';
-import { CustomException } from 'src/customException';
+import { CustomException, ForbiddenException } from 'src/customException';
 import { JwtServices } from 'src/jwt.services';
 import { UfService } from 'src/Torus/v1/uf/uf.service';
 import { LockRecordDto } from 'src/dto';
@@ -681,8 +681,8 @@ export class venue_special_rulesService {
   }
   }
 
-  async findAll(token : string,detokenize?: string,detokenizeData?: any
-,authContext?: any) {
+  async findAll(token : string,authContext?: any,detokenize?: string,detokenizeData?: any
+) {
     try{
       // Scope by the verified caller's own tenant (when available) — this
       // previously returned every tenant's rows unconditionally.
@@ -815,7 +815,7 @@ export class venue_special_rulesService {
             token
           );
         }
-        //throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
+        throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
       }
       let encryptedData = await this.normalizeDatesToUTC(await this.encryptData(createvenue_special_rulesDto, 'venue_special_rules', 'create'), token);
       if (this.tokenizationRules?.rules?.fields?.length > 0) {
@@ -919,13 +919,13 @@ export class venue_special_rulesService {
       if (authContext?.tenant) {
         (createvenue_special_rulesDto as any).trs_tenant_id = authContext.tenant;
       }
-      const role = userInfo.role?.toUpperCase();
+      const workflowRole = userInfo.role?.toUpperCase();
       const approvalStatus = userInfo.approvalStatus?.toUpperCase();
 
       // =====================================================
       // CHECKER ROLE: Approve pending INSERT request
       // =====================================================
-      if (role === 'CHECKER') {
+      if (workflowRole === 'AUTHORIZER') {
         const approvalId = userInfo.approvalId;
 
         if (!approvalId) {
@@ -1056,7 +1056,7 @@ export class venue_special_rulesService {
             token
           );
         }
-        //throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
+        throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
       }
       
       // Encrypt data if needed
@@ -1090,7 +1090,7 @@ export class venue_special_rulesService {
       //    changes[key] = String(value);
       //  }
       //}
-      if(role === 'MAKER')
+      if(workflowRole === 'SUBMITTER')
       {
         
         const result = await this.cdcPrismaService.withConnection(() =>
@@ -1220,7 +1220,7 @@ export class venue_special_rulesService {
             token
           );
         }
-        //throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
+        throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
       }
       let encryptedData = await this.normalizeDatesToUTC(await this.encryptData(updatevenue_special_rulesDto,'venue_special_rules','update'), token);
       if (this.tokenizationRules?.rules?.fields?.length > 0) {
@@ -1340,13 +1340,13 @@ rule_id:number,
     token:string
   ) {
     try {
-      const role = userInfo.role?.toUpperCase();
+      const workflowRole = userInfo.role?.toUpperCase();
       const updateMaster_id =rule_id;
 
       // =====================================================
       // CHECKER ROLE: Approve pending UPDATE request
       // =====================================================
-      if (role === 'CHECKER') {
+      if (workflowRole === 'AUTHORIZER') {
 
         if (!updateMaster_id) {
           throw new HttpException('id is required for CHECKER role', HttpStatus.BAD_REQUEST);
@@ -1481,7 +1481,7 @@ rule_id:number,
             token
           );
         }
-        //throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
+        throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
       }
 
       // Verify record exists
@@ -1651,13 +1651,13 @@ rule_id:number,
     token: string
   ) {
     try {
-      const role = userInfo.role?.toUpperCase();
+      const workflowRole = userInfo.role?.toUpperCase();
       const deleteMaster_id =rule_id;
 
       // =====================================================
       // CHECKER ROLE: Approve pending DELETE request
       // =====================================================
-      if (role === 'CHECKER') {
+      if (workflowRole === 'AUTHORIZER') {
 
         if (!deleteMaster_id) {
           throw new HttpException('id is required for CHECKER role', HttpStatus.BAD_REQUEST);
@@ -1795,10 +1795,15 @@ rule_id:number,
       throw new CustomException(errorMessage, error);
     }
   }
-  async findFirst(token : string, detokenize: string, detokenizeData?: any) {
+  async findFirst(token : string, detokenize: string, detokenizeData?: any, authContext?: any) {
+    if (!authContext?.tenant) {
+      throw new ForbiddenException('Tenant claim is missing from the token');
+    }
+
     try{
       let res = await this.prismaService.withConnection(() =>
       this.prismaService.venue_special_rules.findFirst({ 
+        where: { trs_tenant_id: authContext.tenant },
         orderBy: { trs_created_date: 'asc' },
       }));
       if (this.tokenizationRules?.rules?.fields?.length > 0 && res?.trs_token_id && detokenize == 'true') {
@@ -1838,10 +1843,15 @@ rule_id:number,
         throw new CustomException(errorMessage, error);
       }
   }
-  async findLast(token : string, detokenize: string ,detokenizeData?: any) {
+  async findLast(token : string, detokenize: string ,detokenizeData?: any, authContext?: any) {
+    if (!authContext?.tenant) {
+      throw new ForbiddenException('Tenant claim is missing from the token');
+    }
+
     try{
       let res = await this.prismaService.withConnection(() =>
       this.prismaService.venue_special_rules.findFirst({ 
+        where: { trs_tenant_id: authContext.tenant },
         orderBy: { trs_created_date: 'desc' },
       }));
       if (this.tokenizationRules?.rules?.fields?.length > 0 && res?.trs_token_id && detokenize == 'true') {

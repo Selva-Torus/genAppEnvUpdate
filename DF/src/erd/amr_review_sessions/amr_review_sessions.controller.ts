@@ -194,7 +194,7 @@ export class amr_review_sessionsController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = await this.amr_review_sessionsService.findAll(token,detokenize,detokenizeData,);
+    const result = await this.amr_review_sessionsService.findAll(token,req.authContext,detokenize,detokenizeData,);
     return plainToInstance(amr_review_sessionsEntity, result);
   } 
 
@@ -507,7 +507,7 @@ export class amr_review_sessionsController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.amr_review_sessionsService.findFirst(token, detokenize,detokenizeData);
+    const result = await this.amr_review_sessionsService.findFirst(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(amr_review_sessionsEntity, result);
   }
 
@@ -560,7 +560,7 @@ export class amr_review_sessionsController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.amr_review_sessionsService.findLast(token, detokenize,detokenizeData);
+    const result = await this.amr_review_sessionsService.findLast(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(amr_review_sessionsEntity, result);
   }
 

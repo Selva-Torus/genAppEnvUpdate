@@ -9,7 +9,7 @@ import { useInfoMsg } from '@/app/components/infoMsgHandler';
 import { useRouter } from 'next/navigation';
 import UOmapperData from '@/context/dfdmapperContolnames.json'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import { getCookie } from '@/app/components/cookieMgment';
+import { useGlobal } from '@/context/GlobalContext'
 import { getDropdownDetailsNew } from '@/app/utils/getMapperDetails';
 import { codeExecution } from '@/app/utils/codeExecution';
 import { eventBus } from '@/app/eventBus';
@@ -54,7 +54,7 @@ let dfData:any;
 let dfdFlag:boolean = false;
 let getMapperDetailsBindValues:Record<string, any> ={} ;
 const Dropdownpriority_name = ({lockedData,setLockedData,checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFlagCompData,setIsProcessing,controlData}: any) => {
-  const token: string = getCookie('token');
+  const { token } = useGlobal();
   const decodedTokenObj: any = decodeToken(token);
   const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
   const {memoryVariables, setMemoryVariables} = useContext(TotalContext) as TotalContextProps;

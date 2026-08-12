@@ -6,18 +6,18 @@ import SetupScreen from './components'
 import { AxiosService } from '../components/axiosService'
 import {
   deleteAllCookies,
-  getCookie,
   setCookie
 } from '../components/cookieMgment'
 import { useRouter } from 'next/navigation'
 import decodeToken from '../components/decodeToken'
 import { useGlobal } from '@/context/GlobalContext'
 
+
 function page() {
-  const { token } = useGlobal()
+  const { token } = useGlobal();
   const decodedToken = decodeToken(token)
   const router = useRouter()
-  let landingScreen: string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1'
+  let landingScreen: string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1'
   const encryptionFlagApp: boolean = false;    
   const securityCheck = async () => {
     try {

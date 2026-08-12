@@ -198,7 +198,7 @@ export class venuesController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = await this.venuesService.findAll(token,detokenize,detokenizeData,);
+    const result = await this.venuesService.findAll(token,req.authContext,detokenize,detokenizeData,);
     return plainToInstance(venuesEntity, result);
   } 
 
@@ -519,7 +519,7 @@ export class venuesController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.venuesService.findFirst(token, detokenize,detokenizeData);
+    const result = await this.venuesService.findFirst(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(venuesEntity, result);
   }
 
@@ -574,7 +574,7 @@ export class venuesController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.venuesService.findLast(token, detokenize,detokenizeData);
+    const result = await this.venuesService.findLast(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(venuesEntity, result);
   }
 

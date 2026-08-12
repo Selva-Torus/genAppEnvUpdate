@@ -22,13 +22,13 @@ import Buttoncancel_button  from "./Buttoncancel_button";
 import Buttonupdate  from "./Buttonupdate";
 import Buttonsubmit  from "./Buttonsubmit";
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
-import { getCookie } from "@/app/components/cookieMgment";
+import { useGlobal } from '@/context/GlobalContext'
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import { useTheme } from '@/hooks/useTheme';
 
 
 const Groupdynamicactions = ({lockedData={},setLockedData,primaryTableData={},tableData=[],setTableData, setPrimaryTableData,checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFlagPageData, nodeData, setNodeData,paginationDetails,isFormOpen=false,setIsProcessing, groupData: groupDataProp={}, controlData: controlDataProp={}}:any)=> {
-  const token:string = getCookie('token'); 
+  const { token } = useGlobal();
   const decodedTokenObj:any = decodeToken(token);
   const user : string | undefined = decodedTokenObj?.selectedAccessProfile;
   const {refresh, setRefresh} = useContext(TotalContext) as TotalContextProps;

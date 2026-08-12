@@ -186,7 +186,7 @@ export class venue_special_rulesController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = await this.venue_special_rulesService.findAll(token,detokenize,detokenizeData,);
+    const result = await this.venue_special_rulesService.findAll(token,req.authContext,detokenize,detokenizeData,);
     return plainToInstance(venue_special_rulesEntity, result);
   } 
 
@@ -483,7 +483,7 @@ export class venue_special_rulesController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.venue_special_rulesService.findFirst(token, detokenize,detokenizeData);
+    const result = await this.venue_special_rulesService.findFirst(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(venue_special_rulesEntity, result);
   }
 
@@ -532,7 +532,7 @@ export class venue_special_rulesController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.venue_special_rulesService.findLast(token, detokenize,detokenizeData);
+    const result = await this.venue_special_rulesService.findLast(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(venue_special_rulesEntity, result);
   }
 

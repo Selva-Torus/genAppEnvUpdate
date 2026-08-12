@@ -66,6 +66,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { Response } from 'express';
 import { lookup } from 'mime-types';
 import { JwtServices } from 'src/jwt.services';
+import { CommonService } from 'src/common.Service';
 import { getAllowedModelNames, getModelFieldTypes } from 'src/utils/prisma-dmmf.util';
 
 @ApiTags('TG')
@@ -73,7 +74,8 @@ import { getAllowedModelNames, getModelFieldTypes } from 'src/utils/prisma-dmmf.
 export class UfController {
   constructor(
     private readonly appService: UfService,
-    private readonly jwtService: JwtServices
+    private readonly jwtService: JwtServices,
+    private readonly commonService: CommonService
   ) {}
 
   @Post('screenRoute')
@@ -231,7 +233,8 @@ export class UfController {
     description: 'Download file from the specified path',
   })                                                                                                                                                                                     
   async download(@Body() body: any, @Res() res: FastifyReply) {                                                                                                                                            
-    const { id } = body                                                                                                                                                                                      
+    const { id } = body
+    this.assertSafeDownloadTarget(id);                                                                                                                                                                                        
                                                                                                                                                                                                             
     const response = await fetch(id)                                                                                                                                                                         
     const buffer = await response.arrayBuffer()                                                                                                                                                              
@@ -1181,18 +1184,6 @@ export class UfController {
     return this.appService.sso(token , ufClientType);
   }
 
-  @Post('uploadFromLocalPath')
-   async post_uploadFromLocalPath(@Req() req: FastifyRequest,@Body() body: any) {
-     const { bucketFolderame, folderPath , localPaths,enableEncryption} =body; 
-    const imageUrl = await this.appService.uploadFromLocalPath(
-      localPaths,
-      bucketFolderame,
-      folderPath,
-      enableEncryption
-    );
-    return { imageUrl };
-  }
-
   @Get('app-tenant-app')
   @Public()
   async getAppTenantsLinkedWithApp(@Req() req: any) {
@@ -1221,6 +1212,39 @@ export class UfController {
     // constant-time compare so the key can't be recovered byte-by-byte via timing
     return crypto.timingSafeEqual(Buffer.from(provided), Buffer.from(expected));
   }
+  private assertSafeDownloadTarget(id: string): void {
+    // Match every other outbound-call site: allow-list the host when
+    // OUTBOUND_HOST_ALLOWLIST is configured (no-op otherwise).
+    this.commonService.assertAllowedOutboundHost(id);
+    // Defense-in-depth that works even without the allowlist: never proxy
+    // downloads from loopback / link-local / 0.0.0.0 literals — the classic
+    // cloud-metadata SSRF target (169.254.169.254) lives in 169.254.0.0/16.
+    let hostname: string;
+    try {
+      hostname = new URL(id).hostname.toLowerCase();
+    } catch (e) {
+      throw new BadRequestException(`Invalid download URL: ${id}`);
+    }
+    if (this.isBlockedDownloadHost(hostname)) {
+      throw new BadRequestException(`Download target not allowed: ${hostname}`);
+    }
+  }
+
+  private isBlockedDownloadHost(hostname: string): boolean {
+    if (hostname === 'localhost' || hostname === '::1' || hostname === '[::1]') {
+      return true;
+    }
+    if (hostname.includes(':')) {
+      return false; // non-literal IPv6 name; allow (still gated by the allowlist above)
+    }
+    const parts = hostname.split('.').map(Number);
+    if (parts.length !== 4 || parts.some((p) => Number.isNaN(p) || p < 0 || p > 255)) {
+      return false; // DNS name, not an IPv4 literal
+    }
+    const [a, b] = parts;
+    return a === 127 || a === 0 || (a === 169 && b === 254);
+  }
+
 
     // Allow-list dto.tableName against real Prisma models and dto.key against
   // that model's real columns — this endpoint previously passed both

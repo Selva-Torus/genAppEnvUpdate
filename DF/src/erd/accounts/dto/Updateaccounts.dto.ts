@@ -92,6 +92,9 @@ export class  UpdateaccountsDto {
         })
         @IsOptional()
         queue_position?: number;
+        @ApiPropertyOptional()
+        @IsOptional()
+        account_case_id?: string;
         @ApiPropertyOptional({
             type: `string`,
             format: `date-time`,

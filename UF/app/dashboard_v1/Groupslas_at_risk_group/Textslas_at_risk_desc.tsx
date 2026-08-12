@@ -6,12 +6,13 @@ import { Text } from '@/components/Text';
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import { AxiosService } from "@/app/components/axiosService";
 import { codeExecution } from '@/app/utils/codeExecution';
-import { deleteAllCookies,getCookie } from '@/app/components/cookieMgment';
+import { deleteAllCookies } from '@/app/components/cookieMgment';
+import { useGlobal } from '@/context/GlobalContext'
 import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,PaginationData,AllowedGroupNode,ActionDetails } from "@/types/global";
 import i18n from '@/app/components/i18n';
 
 const Textslas_at_risk_desc = ({encryptionFlagCompData,isDynamic,item,index,setIsProcessing}:any) => {
-  const token: string = getCookie('token')
+  const { token } = useGlobal();
   const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
   const keyset:any=i18n.keyset("language");
   const encryptionFlagCont: boolean = encryptionFlagCompData.flag || false ;
@@ -21,43 +22,33 @@ const Textslas_at_risk_desc = ({encryptionFlagCompData,isDynamic,item,index,setI
   encryptionMethod  = encryptionMethod !=='' ? encryptionMethod: encryptionFlagCompData.method;
   /////////////
    //another screen
-  const {header_groupb1913, setheader_groupb1913}= useContext(TotalContext) as TotalContextProps;
-  const {header_groupb1913Props, setheader_groupb1913Props}= useContext(TotalContext) as TotalContextProps;
-  const {asset_dashboard_group4bbfe, setasset_dashboard_group4bbfe}= useContext(TotalContext) as TotalContextProps;
-  const {asset_dashboard_group4bbfeProps, setasset_dashboard_group4bbfeProps}= useContext(TotalContext) as TotalContextProps;
-  const {amr_queue_groupc92ca, setamr_queue_groupc92ca}= useContext(TotalContext) as TotalContextProps;
-  const {amr_queue_groupc92caProps, setamr_queue_groupc92caProps}= useContext(TotalContext) as TotalContextProps;
-  const {pending_file_groupffe32, setpending_file_groupffe32}= useContext(TotalContext) as TotalContextProps;
-  const {pending_file_groupffe32Props, setpending_file_groupffe32Props}= useContext(TotalContext) as TotalContextProps;
-  const {service_pending_group7ba93, setservice_pending_group7ba93}= useContext(TotalContext) as TotalContextProps;
-  const {service_pending_group7ba93Props, setservice_pending_group7ba93Props}= useContext(TotalContext) as TotalContextProps;
-  const {slas_at_risk_group23eb4, setslas_at_risk_group23eb4}= useContext(TotalContext) as TotalContextProps;
-  const {slas_at_risk_group23eb4Props, setslas_at_risk_group23eb4Props}= useContext(TotalContext) as TotalContextProps;
-  const {slas_at_risk_text33ae5, setslas_at_risk_text33ae5}= useContext(TotalContext) as TotalContextProps;
-  const {icon_2caf8, seticon_2caf8}= useContext(TotalContext) as TotalContextProps;
-  const {slas_at_riskf177b, setslas_at_riskf177b}= useContext(TotalContext) as TotalContextProps;
-  const {slas_at_risk_desc5c075, setslas_at_risk_desc5c075}= useContext(TotalContext) as TotalContextProps;
-  const {court_rejection_groupc9d54, setcourt_rejection_groupc9d54}= useContext(TotalContext) as TotalContextProps;
-  const {court_rejection_groupc9d54Props, setcourt_rejection_groupc9d54Props}= useContext(TotalContext) as TotalContextProps;
-  const {collected_mtd_group7b7b5, setcollected_mtd_group7b7b5}= useContext(TotalContext) as TotalContextProps;
-  const {collected_mtd_group7b7b5Props, setcollected_mtd_group7b7b5Props}= useContext(TotalContext) as TotalContextProps;
-  const {table_group112bd, settable_group112bd}= useContext(TotalContext) as TotalContextProps;
-  const {table_group112bdProps, settable_group112bdProps}= useContext(TotalContext) as TotalContextProps;
-  const {subscreene9ab5, setsubscreene9ab5}= useContext(TotalContext) as TotalContextProps;
-  const {subscreene9ab5Props, setsubscreene9ab5Props}= useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797, setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797}= useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797Props, setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797Props}= useContext(TotalContext) as TotalContextProps;
-  const {group28176, setgroup28176}= useContext(TotalContext) as TotalContextProps;
-  const {group28176Props, setgroup28176Props}= useContext(TotalContext) as TotalContextProps;
-  const {table852e3, settable852e3}= useContext(TotalContext) as TotalContextProps;
-  const {table852e3Props, settable852e3Props}= useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da, setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da}= useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8daProps, setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8daProps}= useContext(TotalContext) as TotalContextProps;
-  const {pending_fillings_groupb1568, setpending_fillings_groupb1568}= useContext(TotalContext) as TotalContextProps;
-  const {pending_fillings_groupb1568Props, setpending_fillings_groupb1568Props}= useContext(TotalContext) as TotalContextProps;
-  const {pending_fillings_table11279, setpending_fillings_table11279}= useContext(TotalContext) as TotalContextProps;
-  const {pending_fillings_table11279Props, setpending_fillings_table11279Props}= useContext(TotalContext) as TotalContextProps;
-  const {slas_at_risk_desc5c075Props, setslas_at_risk_desc5c075Props} = useContext(TotalContext) as TotalContextProps;
+  const {header_groupd8ba9, setheader_groupd8ba9}= useContext(TotalContext) as TotalContextProps;
+  const {header_groupd8ba9Props, setheader_groupd8ba9Props}= useContext(TotalContext) as TotalContextProps;
+  const {asset_dashboard_group1aa03, setasset_dashboard_group1aa03}= useContext(TotalContext) as TotalContextProps;
+  const {asset_dashboard_group1aa03Props, setasset_dashboard_group1aa03Props}= useContext(TotalContext) as TotalContextProps;
+  const {amr_queue_group3c082, setamr_queue_group3c082}= useContext(TotalContext) as TotalContextProps;
+  const {amr_queue_group3c082Props, setamr_queue_group3c082Props}= useContext(TotalContext) as TotalContextProps;
+  const {pending_file_group2128c, setpending_file_group2128c}= useContext(TotalContext) as TotalContextProps;
+  const {pending_file_group2128cProps, setpending_file_group2128cProps}= useContext(TotalContext) as TotalContextProps;
+  const {service_pending_group8c0ca, setservice_pending_group8c0ca}= useContext(TotalContext) as TotalContextProps;
+  const {service_pending_group8c0caProps, setservice_pending_group8c0caProps}= useContext(TotalContext) as TotalContextProps;
+  const {slas_at_risk_group1f8c0, setslas_at_risk_group1f8c0}= useContext(TotalContext) as TotalContextProps;
+  const {slas_at_risk_group1f8c0Props, setslas_at_risk_group1f8c0Props}= useContext(TotalContext) as TotalContextProps;
+  const {slas_at_risk_text42bdc, setslas_at_risk_text42bdc}= useContext(TotalContext) as TotalContextProps;
+  const {icon_eaa1e, seticon_eaa1e}= useContext(TotalContext) as TotalContextProps;
+  const {slas_at_riska3022, setslas_at_riska3022}= useContext(TotalContext) as TotalContextProps;
+  const {slas_at_risk_desc57375, setslas_at_risk_desc57375}= useContext(TotalContext) as TotalContextProps;
+  const {court_rejection_groupdf57a, setcourt_rejection_groupdf57a}= useContext(TotalContext) as TotalContextProps;
+  const {court_rejection_groupdf57aProps, setcourt_rejection_groupdf57aProps}= useContext(TotalContext) as TotalContextProps;
+  const {collected_mtd_group0f074, setcollected_mtd_group0f074}= useContext(TotalContext) as TotalContextProps;
+  const {collected_mtd_group0f074Props, setcollected_mtd_group0f074Props}= useContext(TotalContext) as TotalContextProps;
+  const {overall_key_performance_indicatorsc2711, setoverall_key_performance_indicatorsc2711}= useContext(TotalContext) as TotalContextProps;
+  const {overall_key_performance_indicatorsc2711Props, setoverall_key_performance_indicatorsc2711Props}= useContext(TotalContext) as TotalContextProps;
+  const {key_performance_indicator_groupf9eaf, setkey_performance_indicator_groupf9eaf}= useContext(TotalContext) as TotalContextProps;
+  const {key_performance_indicator_groupf9eafProps, setkey_performance_indicator_groupf9eafProps}= useContext(TotalContext) as TotalContextProps;
+  const {recent_activity_group91db6, setrecent_activity_group91db6}= useContext(TotalContext) as TotalContextProps;
+  const {recent_activity_group91db6Props, setrecent_activity_group91db6Props}= useContext(TotalContext) as TotalContextProps;
+  const {slas_at_risk_desc57375Props, setslas_at_risk_desc57375Props} = useContext(TotalContext) as TotalContextProps;
   //////////////
 
   const handleMapperValue=async(filterProps?:any,filterFlag?:boolean)=>{
@@ -65,9 +56,9 @@ const Textslas_at_risk_desc = ({encryptionFlagCompData,isDynamic,item,index,setI
 
   useEffect(()=>{
     handleMapperValue()
-  },[slas_at_risk_desc5c075?.refresh])
+  },[slas_at_risk_desc57375?.refresh])
 
-  if (slas_at_risk_desc5c075?.isHidden) {
+  if (slas_at_risk_desc57375?.isHidden) {
     return <></>
   }
 

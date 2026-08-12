@@ -188,7 +188,7 @@ export class checklist_itemsController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = await this.checklist_itemsService.findAll(token,detokenize,detokenizeData,);
+    const result = await this.checklist_itemsService.findAll(token,req.authContext,detokenize,detokenizeData,);
     return plainToInstance(checklist_itemsEntity, result);
   } 
 
@@ -489,7 +489,7 @@ export class checklist_itemsController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.checklist_itemsService.findFirst(token, detokenize,detokenizeData);
+    const result = await this.checklist_itemsService.findFirst(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(checklist_itemsEntity, result);
   }
 
@@ -539,7 +539,7 @@ export class checklist_itemsController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.checklist_itemsService.findLast(token, detokenize,detokenizeData);
+    const result = await this.checklist_itemsService.findLast(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(checklist_itemsEntity, result);
   }
 

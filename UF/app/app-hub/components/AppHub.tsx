@@ -30,12 +30,11 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
   const { userDetails, setUserDetails } = useContext(
     TotalContext
   ) as TotalContextProps
-  const { branding , token} = useGlobal()
+  const { branding , token } = useGlobal()
   const { brandColor } = branding
   const { borderColor, isDark } = useTheme()
   const bgColor = isDark ? "bg-gray-800" : "bg-white"
   const bgCardColor = isDark ? "bg-gray-700" : "bg-gray-100"
-  
   const toast: Function = useInfoMsg()
 
   const [searchTerm, setSearchTerm] = useState('')

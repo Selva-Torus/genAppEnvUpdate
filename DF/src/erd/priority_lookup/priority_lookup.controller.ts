@@ -184,7 +184,7 @@ export class priority_lookupController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = await this.priority_lookupService.findAll(token,detokenize,detokenizeData,);
+    const result = await this.priority_lookupService.findAll(token,req.authContext,detokenize,detokenizeData,);
     return plainToInstance(priority_lookupEntity, result);
   } 
 
@@ -477,7 +477,7 @@ export class priority_lookupController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.priority_lookupService.findFirst(token, detokenize,detokenizeData);
+    const result = await this.priority_lookupService.findFirst(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(priority_lookupEntity, result);
   }
 
@@ -525,7 +525,7 @@ export class priority_lookupController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.priority_lookupService.findLast(token, detokenize,detokenizeData);
+    const result = await this.priority_lookupService.findLast(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(priority_lookupEntity, result);
   }
 

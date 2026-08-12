@@ -26,6 +26,7 @@ export class AppService implements OnModuleInit{
       return;
     }
     let preParedData:any=await this.dataPrep(JSON.parse(fs.readFileSync('./swagger.json', 'utf-8')))
+    await this.triggerFuntionExecute()
     if(Object.keys(preParedData).includes('erdWithData'))
       {
       let endPointData : any = {};

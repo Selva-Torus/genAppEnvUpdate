@@ -26,13 +26,13 @@ import TextInputprincipal  from "./TextInputprincipal";
 import TextInputinterest  from "./TextInputinterest";
 import TextInputfees  from "./TextInputfees";
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
-import { getCookie } from "@/app/components/cookieMgment";
+import { useGlobal } from '@/context/GlobalContext'
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import { useTheme } from '@/hooks/useTheme';
 
 
 const Groupfinancial_details_group = ({lockedData={},setLockedData,primaryTableData={},tableData=[],setTableData, setPrimaryTableData,checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFlagPageData, nodeData, setNodeData,paginationDetails,isFormOpen=false,setIsProcessing, groupData: groupDataProp={}, controlData: controlDataProp={}}:any)=> {
-  const token:string = getCookie('token'); 
+  const { token } = useGlobal();
   const decodedTokenObj:any = decodeToken(token);
   const user : string | undefined = decodedTokenObj?.selectedAccessProfile;
   const {refresh, setRefresh} = useContext(TotalContext) as TotalContextProps;

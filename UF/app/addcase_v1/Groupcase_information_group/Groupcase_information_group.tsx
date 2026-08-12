@@ -27,13 +27,13 @@ import TextInputqueue_position  from "./TextInputqueue_position";
 import TextInputquality_score  from "./TextInputquality_score";
 import DatePickersla_wait_start_time  from "./DatePickersla_wait_start_time";
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
-import { getCookie } from "@/app/components/cookieMgment";
+import { useGlobal } from '@/context/GlobalContext'
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import { useTheme } from '@/hooks/useTheme';
 
 
 const Groupcase_information_group = ({lockedData={},setLockedData,primaryTableData={},tableData=[],setTableData, setPrimaryTableData,checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFlagPageData, nodeData, setNodeData,paginationDetails,isFormOpen=false,setIsProcessing, groupData: groupDataProp={}, controlData: controlDataProp={}}:any)=> {
-  const token:string = getCookie('token'); 
+  const { token } = useGlobal();
   const decodedTokenObj:any = decodeToken(token);
   const user : string | undefined = decodedTokenObj?.selectedAccessProfile;
   const {refresh, setRefresh} = useContext(TotalContext) as TotalContextProps;

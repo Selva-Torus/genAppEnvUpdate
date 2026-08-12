@@ -100,6 +100,7 @@ export class accountsController {
       detokenizeData["quality_score"] = req.headers.quality_score || "";
       detokenizeData["sla_wait_start_time"] = req.headers.sla_wait_start_time || "";
       detokenizeData["queue_position"] = req.headers.queue_position || "";
+      detokenizeData["account_case_id"] = req.headers.account_case_id || "";
       detokenizeData["trs_created_date"] = req.headers.trs_created_date || "";
       detokenizeData["trs_created_by"] = req.headers.trs_created_by || "";
       detokenizeData["trs_modified_date"] = req.headers.trs_modified_date || "";
@@ -161,6 +162,7 @@ export class accountsController {
       detokenizeData["quality_score"] = req.headers.quality_score || "";
       detokenizeData["sla_wait_start_time"] = req.headers.sla_wait_start_time || "";
       detokenizeData["queue_position"] = req.headers.queue_position || "";
+      detokenizeData["account_case_id"] = req.headers.account_case_id || "";
       detokenizeData["trs_created_date"] = req.headers.trs_created_date || "";
       detokenizeData["trs_created_by"] = req.headers.trs_created_by || "";
       detokenizeData["trs_modified_date"] = req.headers.trs_modified_date || "";
@@ -212,7 +214,7 @@ export class accountsController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = await this.accountsService.findAll(token,detokenize,detokenizeData,);
+    const result = await this.accountsService.findAll(token,req.authContext,detokenize,detokenizeData,);
     return plainToInstance(accountsEntity, result);
   } 
 
@@ -260,6 +262,7 @@ export class accountsController {
       detokenizeData["quality_score"] = req.headers.quality_score || "";
       detokenizeData["sla_wait_start_time"] = req.headers.sla_wait_start_time || "";
       detokenizeData["queue_position"] = req.headers.queue_position || "";
+      detokenizeData["account_case_id"] = req.headers.account_case_id || "";
       detokenizeData["trs_created_date"] = req.headers.trs_created_date || "";
       detokenizeData["trs_created_by"] = req.headers.trs_created_by || "";
       detokenizeData["trs_modified_date"] = req.headers.trs_modified_date || "";
@@ -360,6 +363,7 @@ export class accountsController {
       detokenizeData["quality_score"] = req.headers.quality_score || "";
       detokenizeData["sla_wait_start_time"] = req.headers.sla_wait_start_time || "";
       detokenizeData["queue_position"] = req.headers.queue_position || "";
+      detokenizeData["account_case_id"] = req.headers.account_case_id || "";
       detokenizeData["trs_created_date"] = req.headers.trs_created_date || "";
       detokenizeData["trs_created_by"] = req.headers.trs_created_by || "";
       detokenizeData["trs_modified_date"] = req.headers.trs_modified_date || "";
@@ -452,6 +456,7 @@ export class accountsController {
       detokenizeData["quality_score"] = req.headers.quality_score || "";
       detokenizeData["sla_wait_start_time"] = req.headers.sla_wait_start_time || "";
       detokenizeData["queue_position"] = req.headers.queue_position || "";
+      detokenizeData["account_case_id"] = req.headers.account_case_id || "";
       detokenizeData["trs_created_date"] = req.headers.trs_created_date || "";
       detokenizeData["trs_created_by"] = req.headers.trs_created_by || "";
       detokenizeData["trs_modified_date"] = req.headers.trs_modified_date || "";
@@ -532,6 +537,7 @@ export class accountsController {
       detokenizeData["quality_score"] = req.headers.quality_score || "";
       detokenizeData["sla_wait_start_time"] = req.headers.sla_wait_start_time || "";
       detokenizeData["queue_position"] = req.headers.queue_position || "";
+      detokenizeData["account_case_id"] = req.headers.account_case_id || "";
       detokenizeData["trs_created_date"] = req.headers.trs_created_date || "";
       detokenizeData["trs_created_by"] = req.headers.trs_created_by || "";
       detokenizeData["trs_modified_date"] = req.headers.trs_modified_date || "";
@@ -561,7 +567,7 @@ export class accountsController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.accountsService.findFirst(token, detokenize,detokenizeData);
+    const result = await this.accountsService.findFirst(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(accountsEntity, result);
   }
 
@@ -594,6 +600,7 @@ export class accountsController {
       detokenizeData["quality_score"] = req.headers.quality_score || "";
       detokenizeData["sla_wait_start_time"] = req.headers.sla_wait_start_time || "";
       detokenizeData["queue_position"] = req.headers.queue_position || "";
+      detokenizeData["account_case_id"] = req.headers.account_case_id || "";
       detokenizeData["trs_created_date"] = req.headers.trs_created_date || "";
       detokenizeData["trs_created_by"] = req.headers.trs_created_by || "";
       detokenizeData["trs_modified_date"] = req.headers.trs_modified_date || "";
@@ -623,7 +630,7 @@ export class accountsController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.accountsService.findLast(token, detokenize,detokenizeData);
+    const result = await this.accountsService.findLast(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(accountsEntity, result);
   }
 

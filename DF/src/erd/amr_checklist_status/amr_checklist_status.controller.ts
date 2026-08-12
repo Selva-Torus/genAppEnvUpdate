@@ -188,7 +188,7 @@ export class amr_checklist_statusController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = await this.amr_checklist_statusService.findAll(token,detokenize,detokenizeData,);
+    const result = await this.amr_checklist_statusService.findAll(token,req.authContext,detokenize,detokenizeData,);
     return plainToInstance(amr_checklist_statusEntity, result);
   } 
 
@@ -489,7 +489,7 @@ export class amr_checklist_statusController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.amr_checklist_statusService.findFirst(token, detokenize,detokenizeData);
+    const result = await this.amr_checklist_statusService.findFirst(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(amr_checklist_statusEntity, result);
   }
 
@@ -539,7 +539,7 @@ export class amr_checklist_statusController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.amr_checklist_statusService.findLast(token, detokenize,detokenizeData);
+    const result = await this.amr_checklist_statusService.findLast(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(amr_checklist_statusEntity, result);
   }
 

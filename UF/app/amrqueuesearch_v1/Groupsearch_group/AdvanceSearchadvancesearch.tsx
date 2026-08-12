@@ -16,7 +16,6 @@ import {commonSepareteDataFromTheObject, eventFunction } from '@/app/utils/event
 import { eventDecisionTable } from '@/app/utils/evaluateDecisionTable';
 import { codeExecution } from '@/app/utils/codeExecution';
 import { AxiosService } from '@/app/components/axiosService';
-import { getCookie } from '@/app/components/cookieMgment';
 import { useRouter } from 'next/navigation';
 import UOmapperData from '@/context/dfdmapperContolnames.json'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
@@ -25,13 +24,14 @@ import { getFilterProps,getRouteScreenDetails } from '@/app/utils/assemblerKeys'
 import { getGroupOrchestrationData, getControlOrchestrationData } from '@/app/utils/Orchestration';
 import { useHandleDfdRefresh } from '@/context/dfdRefreshContext';
 import { nullFilter } from '@/app/utils/nullDataFilter';
+import { useGlobal } from '@/context/GlobalContext'
 import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,PaginationData,AllowedGroupNode,ActionDetails } from "@/types/global";
 import * as v from 'valibot';
 ///////////////
 ////////////
 
 const AdvancedSearchadvancesearch = ({lockedData,setLockedData,checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFlagCompData,setIsProcessing,controlData}:any) => {  
-  const token: string = getCookie('token');
+  const { token } = useGlobal();
   const {globalState , setGlobalState} = useContext(TotalContext) as TotalContextProps;
   const {validateRefetch , setValidateRefetch} = useContext(TotalContext) as TotalContextProps;
   const {validate , setValidate} = useContext(TotalContext) as TotalContextProps;

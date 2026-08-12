@@ -59,6 +59,9 @@ export class  accountsEntity implements Omit<accounts,"principal"|"interest"|"fe
     @ApiPropertyOptional({example:"number"})
     @IsOptional()
     queue_position:number;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    account_case_id:string;
     @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiProperty({example:"datetime"})
     trs_created_date:Date;
@@ -192,6 +195,9 @@ export class  accounts_OnlyParentEntity {
     @ApiPropertyOptional({example:"number"})
     @IsOptional()
     queue_position:number;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    account_case_id:string;
     @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
     @ApiProperty({example:"datetime"})
     trs_created_date:Date;

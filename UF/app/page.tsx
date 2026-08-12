@@ -16,13 +16,58 @@ export default function HomePage() {
   const { token } = useGlobal()
   const decodedToken : DecodedToken = decodeToken(token);
   const encryptionFlagApp: boolean = false;    
-  let landingScreen:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1';
+  let landingScreen:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1';
   const toast : Function = useInfoMsg();
   let screenDetails : ScreenDetail[] = [
   {
     "screenName": "dashboard",
     "screensName": "dashboard-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1"
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
+  },
+  {
+    "screenName": "report",
+    "screensName": "report-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1"
+  },
+  {
+    "screenName": "filing packages",
+    "screensName": "filing_packages-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+  },
+  {
+    "screenName": "submissions hub",
+    "screensName": "submissions_hub-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+  },
+  {
+    "screenName": "service tracking",
+    "screensName": "service_tracking-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+  },
+  {
+    "screenName": "judgments",
+    "screensName": "judgments-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+  },
+  {
+    "screenName": "enforcement",
+    "screensName": "enforcement-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+  },
+  {
+    "screenName": "kill-switch control",
+    "screensName": "kill-switch_control-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+  },
+  {
+    "screenName": "compliance",
+    "screensName": "compliance-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+  },
+  {
+    "screenName": "analytics",
+    "screensName": "analytics-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   }
 ]
   const isSaasApp = process.env.NEXT_PUBLIC_IS_SAAS_APPLICATION;

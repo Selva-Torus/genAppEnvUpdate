@@ -192,7 +192,7 @@ export class attorneysController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = await this.attorneysService.findAll(token,detokenize,detokenizeData,);
+    const result = await this.attorneysService.findAll(token,req.authContext,detokenize,detokenizeData,);
     return plainToInstance(attorneysEntity, result);
   } 
 
@@ -501,7 +501,7 @@ export class attorneysController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.attorneysService.findFirst(token, detokenize,detokenizeData);
+    const result = await this.attorneysService.findFirst(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(attorneysEntity, result);
   }
 
@@ -553,7 +553,7 @@ export class attorneysController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.attorneysService.findLast(token, detokenize,detokenizeData);
+    const result = await this.attorneysService.findLast(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(attorneysEntity, result);
   }
 

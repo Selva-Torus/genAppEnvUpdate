@@ -1237,20 +1237,6 @@
         ]
       }
     },
-    "/UF/uploadFromLocalPath": {
-      "post": {
-        "operationId": "UfController_post_uploadFromLocalPath",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "TG"
-        ]
-      }
-    },
     "/UF/app-tenant-app": {
       "get": {
         "operationId": "UfController_getAppTenantsLinkedWithApp",
@@ -12634,6 +12620,10 @@
             "type": "number",
             "example": "number"
           },
+          "account_case_id": {
+            "type": "string",
+            "example": "string"
+          },
           "trs_created_date": {
             "format": "date-time",
             "type": "string",
@@ -12832,6 +12822,9 @@
             "type": "integer",
             "format": "int32"
           },
+          "account_case_id": {
+            "type": "string"
+          },
           "trs_created_date": {
             "type": "string",
             "format": "date-time"
@@ -13001,6 +12994,9 @@
           "queue_position": {
             "type": "integer",
             "format": "int32"
+          },
+          "account_case_id": {
+            "type": "string"
           },
           "trs_created_date": {
             "type": "string",

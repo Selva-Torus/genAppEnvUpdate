@@ -2,7 +2,6 @@
 import { COOKIE_PREFIX, FULL_BASE_PATH } from '@/lib/cookies';
 import { NextRequest, NextResponse } from 'next/server'
 
-
 export async function GET(request: NextRequest) {
   // Fire and forget FA server-side logout
   try {

@@ -7,7 +7,7 @@ import { Divider } from '@/components/Divider';
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import { AxiosService } from "@/app/components/axiosService";
 import { codeExecution } from '@/app/utils/codeExecution';
-import { deleteAllCookies,getCookie } from '@/app/components/cookieMgment'
+import { deleteAllCookies } from '@/app/components/cookieMgment'
 import { getGroupOrchestrationData, getControlOrchestrationData } from '@/app/utils/Orchestration';
 
 const Dividervenue_special_rules_dividerss = ({encryptionFlagCompData,isDynamic,item,index,setIsProcessing,controlData}:any) => {

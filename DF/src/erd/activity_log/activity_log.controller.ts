@@ -188,7 +188,7 @@ export class activity_logController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = await this.activity_logService.findAll(token,detokenize,detokenizeData,);
+    const result = await this.activity_logService.findAll(token,req.authContext,detokenize,detokenizeData,);
     return plainToInstance(activity_logEntity, result);
   } 
 
@@ -489,7 +489,7 @@ export class activity_logController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.activity_logService.findFirst(token, detokenize,detokenizeData);
+    const result = await this.activity_logService.findFirst(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(activity_logEntity, result);
   }
 
@@ -539,7 +539,7 @@ export class activity_logController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.activity_logService.findLast(token, detokenize,detokenizeData);
+    const result = await this.activity_logService.findLast(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(activity_logEntity, result);
   }
 

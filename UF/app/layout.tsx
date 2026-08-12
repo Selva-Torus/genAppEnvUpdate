@@ -33,18 +33,146 @@
       "screenDetails": [
         {
           "name": "dashboard",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1",
           "restrictedAccessProfile": [],
-          "static": false
+          "static": false,
+          "icon": "/torus/9.1/CT006/resources/images/Frame.svg"
         }
       ],
-      "items": []
+      "items": [],
+      "icon": "/torus/9.1/CT006/resources/images/Frame.svg"
+    },
+    {
+      "menuGroupLabel": "Report",
+      "screenDetails": [
+        {
+          "name": "report",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false,
+          "icon": "/torus/9.1/CT006/resources/images/report.png"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/CT006/resources/images/report.png"
+    },
+    {
+      "menuGroupLabel": "Filing Packages",
+      "screenDetails": [
+        {
+          "name": "filing packages",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false,
+          "icon": "/torus/9.1/CT006/resources/images/file.png"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/CT006/resources/images/file.png"
+    },
+    {
+      "menuGroupLabel": "Submissions Hub",
+      "screenDetails": [
+        {
+          "name": "submissions hub",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false,
+          "icon": "/torus/9.1/CT006/resources/images/telegram.png"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/CT006/resources/images/telegram.png"
+    },
+    {
+      "menuGroupLabel": "Service Tracking",
+      "screenDetails": [
+        {
+          "name": "service tracking",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false,
+          "icon": "/torus/9.1/CT006/resources/images/delivery-truck.png"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/CT006/resources/images/delivery-truck.png"
+    },
+    {
+      "menuGroupLabel": "Judgments",
+      "screenDetails": [
+        {
+          "name": "judgments",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false,
+          "icon": "/torus/9.1/CT006/resources/images/hammer.png"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/CT006/resources/images/hammer.png"
+    },
+    {
+      "menuGroupLabel": "Enforcement",
+      "screenDetails": [
+        {
+          "name": "enforcement",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false,
+          "icon": "/torus/9.1/CT006/resources/images/shield-badge.png"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/CT006/resources/images/shield-badge.png"
+    },
+    {
+      "menuGroupLabel": "Kill-Switch Control",
+      "screenDetails": [
+        {
+          "name": "kill-switch control",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false,
+          "icon": "/torus/9.1/CT006/resources/images/warning.png"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/CT006/resources/images/warning.png"
+    },
+    {
+      "menuGroupLabel": "Compliance",
+      "screenDetails": [
+        {
+          "name": "compliance",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false,
+          "icon": "/torus/9.1/CT006/resources/images/open-book.png"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/CT006/resources/images/open-book.png"
+    },
+    {
+      "menuGroupLabel": "Analytics",
+      "screenDetails": [
+        {
+          "name": "analytics",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false,
+          "icon": "/torus/9.1/CT006/resources/images/stacked-bar.png"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/CT006/resources/images/stacked-bar.png"
     }
   ],
   "setupData": {
     "appInfo": {
       "name": "LAP",
-      "needAutoDbPush": false,
+      "needAutoDbPush": true,
       "code": "LAP",
       "encryption": {
         "type": ""
@@ -52,7 +180,7 @@
       "applicationUniqueId": "b273d406-451b-406e-b8b6-65b302a66d71",
       "deploymentArtifactKey": "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:LAP:AFGK:LAP:AFK:lapDPD:AFVK:v1",
       "lastBuildVersion": "v1",
-      "lastBuildOn": "2026-08-06T14:40:45.629Z",
+      "lastBuildOn": "2026-08-11T11:22:02.589Z",
       "accessUrl": "https://tgaprod910.toruslowcode.com/ct006/lap/lap/v1",
       "appGrpName": "Legal Automation Platform",
       "appGrpCode": "LAP",
@@ -73,7 +201,7 @@
     "borderRadius": "xl",
     "topbarColor": "#ffffff",
     "menubarColor": "#ffffff",
-    "sidebarStyle": "compact",
+    "sidebarStyle": "default",
     "navigationStyles": "vertical",
     "theme": "light",
     "layoutMode": "fluid",
@@ -145,7 +273,16 @@
   },
   "setupKey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT006:AFGK:LAP:AFK:LAP:AFVK:v1:appearance",
   "allKeys": [
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1"
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   ],
   "loginDetails": {
     "firstName": "Haritha",
@@ -265,7 +402,7 @@
     "users": "HarithaHaritha Rk",
     "noOfProductsService": 0,
     "edit": "",
-    "lastActive": "2026-08-08T10:43:53.883Z",
+    "lastActive": "2026-08-11T11:27:47.814Z",
     "client": "CT006"
   },
   "webOnBoarding": {
@@ -297,13 +434,58 @@
         }
       ]
     },
-    "landingScreen": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1"
+    "landingScreen": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
   },
   "allKeyswithScreenNames": [
     {
       "screenName": "dashboard",
       "screensName": "dashboard-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1"
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
+    },
+    {
+      "screenName": "report",
+      "screensName": "report-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1"
+    },
+    {
+      "screenName": "filing packages",
+      "screensName": "filing_packages-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+    },
+    {
+      "screenName": "submissions hub",
+      "screensName": "submissions_hub-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+    },
+    {
+      "screenName": "service tracking",
+      "screensName": "service_tracking-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+    },
+    {
+      "screenName": "judgments",
+      "screensName": "judgments-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+    },
+    {
+      "screenName": "enforcement",
+      "screensName": "enforcement-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+    },
+    {
+      "screenName": "kill-switch control",
+      "screensName": "kill-switch_control-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+    },
+    {
+      "screenName": "compliance",
+      "screensName": "compliance-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+    },
+    {
+      "screenName": "analytics",
+      "screensName": "analytics-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
     }
   ],
   "deploymentArtifactKey": "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:LAP:AFGK:LAP:AFK:lapDPD:AFVK:v1",
@@ -324,6 +506,7 @@ import { EventBusProvider } from '@/context/EventBusContext';
 import { ThemeWrapper } from '@/components/ThemeWrapper';
 import { cookies } from 'next/headers';
 import { COOKIE_PREFIX } from '@/lib/cookies';
+
 export const metadata: Metadata = {
   title: 'LAP',
   description: 'LAP Generated by Torus'
@@ -334,10 +517,10 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const cookieStore = await cookies()
-  const tokenParam = cookieStore.get(`${COOKIE_PREFIX}_token`)?.value
+  const cookieStore = await cookies();
+  const tokenParam = cookieStore.get(`${COOKIE_PREFIX}_token`)?.value;
   console.log(tokenParam , "token param from layout");
-  
+
   return (
     <html lang='en'>
       <body>

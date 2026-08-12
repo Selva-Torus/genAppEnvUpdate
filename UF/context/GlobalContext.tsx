@@ -30,7 +30,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode , tokenParam:string 
   });
 
   const [language, setLanguage] = useState<Language>("English");
-  const [token , setToken] = useState(tokenParam) 
+  const [token , setToken] = useState(tokenParam);
 
   // Initialize direction from cookie or default to "LTR"
   const [direction, setDirectionState] = useState<Direction>(() => {

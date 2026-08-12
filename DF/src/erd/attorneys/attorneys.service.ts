@@ -7,7 +7,7 @@ import { errorObj } from 'src/dto';
 import { CommonService } from 'src/common.Service';
 import { parsePrismaCreateError } from 'src/prisma-error-handler';
 import { attorneysEntity } from './entity/attorneys.entity';
-import { CustomException } from 'src/customException';
+import { CustomException, ForbiddenException } from 'src/customException';
 import { JwtServices } from 'src/jwt.services';
 import { UfService } from 'src/Torus/v1/uf/uf.service';
 import { LockRecordDto } from 'src/dto';
@@ -649,7 +649,7 @@ export class attorneysService {
       where: {attorney_id, ...tenantFilter },
       select: {attorney_id:true,full_name:true,title:true,email:true,persona_role:true,is_active:true,trs_created_date:true,trs_created_by:true,trs_modified_date:true,trs_modified_by:true,trs_process_id:true,trs_access_profile:true,trs_org_grp_code:true,trs_org_code:true,trs_role_grp_code:true,trs_role_code:true,trs_ps_grp_code:true,trs_ps_code:true,trs_sub_org_grp_code:true,trs_sub_org_code:true,trs_locked_by:true,trs_locked_time:true,trs_tenant_id:true,trs_app_code:true,trs_product_code:true,trs_event_process_status:true,trs_event_status:true,trs_token_id:true,trs_version:true,            accounts:{
               select:{
-              account_id:true,              case_display_id:true,              debtor_name:true,              ssn_masked:true,              dob:true,              address:true,              charge_off_date:true,              last_payment_date:true,              principal:true,              interest:true,              fees:true,              total_balance:true,              sol_expiry_date:true,              quality_score:true,              sla_wait_start_time:true,              queue_position:true,              trs_created_date:true,              trs_created_by:true,              trs_modified_date:true,              trs_modified_by:true,              trs_process_id:true,              trs_access_profile:true,              trs_org_grp_code:true,              trs_org_code:true,              trs_role_grp_code:true,              trs_role_code:true,              trs_ps_grp_code:true,              trs_ps_code:true,              trs_sub_org_grp_code:true,              trs_sub_org_code:true,              trs_locked_by:true,              trs_locked_time:true,              trs_tenant_id:true,              trs_app_code:true,              trs_product_code:true,              trs_event_process_status:true,              trs_event_status:true,              trs_token_id:true,              trs_version:true            ,
+              account_id:true,              case_display_id:true,              debtor_name:true,              ssn_masked:true,              dob:true,              address:true,              charge_off_date:true,              last_payment_date:true,              principal:true,              interest:true,              fees:true,              total_balance:true,              sol_expiry_date:true,              quality_score:true,              sla_wait_start_time:true,              queue_position:true,              account_case_id:true,              trs_created_date:true,              trs_created_by:true,              trs_modified_date:true,              trs_modified_by:true,              trs_process_id:true,              trs_access_profile:true,              trs_org_grp_code:true,              trs_org_code:true,              trs_role_grp_code:true,              trs_role_code:true,              trs_ps_grp_code:true,              trs_ps_code:true,              trs_sub_org_grp_code:true,              trs_sub_org_code:true,              trs_locked_by:true,              trs_locked_time:true,              trs_tenant_id:true,              trs_app_code:true,              trs_product_code:true,              trs_event_process_status:true,              trs_event_status:true,              trs_token_id:true,              trs_version:true            ,
               }
             },
             amr_review_sessions:{
@@ -711,8 +711,8 @@ export class attorneysService {
   }
   }
 
-  async findAll(token : string,detokenize?: string,detokenizeData?: any
-,authContext?: any) {
+  async findAll(token : string,authContext?: any,detokenize?: string,detokenizeData?: any
+) {
     try{
       // Scope by the verified caller's own tenant (when available) — this
       // previously returned every tenant's rows unconditionally.
@@ -725,7 +725,7 @@ export class attorneysService {
       take: MAX_PAGE_SIZE,
       select: {attorney_id:true,full_name:true,title:true,email:true,persona_role:true,is_active:true,trs_created_date:true,trs_created_by:true,trs_modified_date:true,trs_modified_by:true,trs_process_id:true,trs_access_profile:true,trs_org_grp_code:true,trs_org_code:true,trs_role_grp_code:true,trs_role_code:true,trs_ps_grp_code:true,trs_ps_code:true,trs_sub_org_grp_code:true,trs_sub_org_code:true,trs_locked_by:true,trs_locked_time:true,trs_tenant_id:true,trs_app_code:true,trs_product_code:true,trs_event_process_status:true,trs_event_status:true,trs_token_id:true,trs_version:true,          accounts:{
               select:{
-              account_id:true,              case_display_id:true,              debtor_name:true,              ssn_masked:true,              dob:true,              address:true,              charge_off_date:true,              last_payment_date:true,              principal:true,              interest:true,              fees:true,              total_balance:true,              sol_expiry_date:true,              quality_score:true,              sla_wait_start_time:true,              queue_position:true,              trs_created_date:true,              trs_created_by:true,              trs_modified_date:true,              trs_modified_by:true,              trs_process_id:true,              trs_access_profile:true,              trs_org_grp_code:true,              trs_org_code:true,              trs_role_grp_code:true,              trs_role_code:true,              trs_ps_grp_code:true,              trs_ps_code:true,              trs_sub_org_grp_code:true,              trs_sub_org_code:true,              trs_locked_by:true,              trs_locked_time:true,              trs_tenant_id:true,              trs_app_code:true,              trs_product_code:true,              trs_event_process_status:true,              trs_event_status:true,              trs_token_id:true,              trs_version:true            ,
+              account_id:true,              case_display_id:true,              debtor_name:true,              ssn_masked:true,              dob:true,              address:true,              charge_off_date:true,              last_payment_date:true,              principal:true,              interest:true,              fees:true,              total_balance:true,              sol_expiry_date:true,              quality_score:true,              sla_wait_start_time:true,              queue_position:true,              account_case_id:true,              trs_created_date:true,              trs_created_by:true,              trs_modified_date:true,              trs_modified_by:true,              trs_process_id:true,              trs_access_profile:true,              trs_org_grp_code:true,              trs_org_code:true,              trs_role_grp_code:true,              trs_role_code:true,              trs_ps_grp_code:true,              trs_ps_code:true,              trs_sub_org_grp_code:true,              trs_sub_org_code:true,              trs_locked_by:true,              trs_locked_time:true,              trs_tenant_id:true,              trs_app_code:true,              trs_product_code:true,              trs_event_process_status:true,              trs_event_status:true,              trs_token_id:true,              trs_version:true            ,
               }
             },
           amr_review_sessions:{
@@ -862,7 +862,7 @@ export class attorneysService {
             token
           );
         }
-        //throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
+        throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
       }
       let encryptedData = await this.normalizeDatesToUTC(await this.encryptData(createattorneysDto, 'attorneys', 'create'), token);
       if (this.tokenizationRules?.rules?.fields?.length > 0) {
@@ -966,13 +966,13 @@ export class attorneysService {
       if (authContext?.tenant) {
         (createattorneysDto as any).trs_tenant_id = authContext.tenant;
       }
-      const role = userInfo.role?.toUpperCase();
+      const workflowRole = userInfo.role?.toUpperCase();
       const approvalStatus = userInfo.approvalStatus?.toUpperCase();
 
       // =====================================================
       // CHECKER ROLE: Approve pending INSERT request
       // =====================================================
-      if (role === 'CHECKER') {
+      if (workflowRole === 'AUTHORIZER') {
         const approvalId = userInfo.approvalId;
 
         if (!approvalId) {
@@ -1106,7 +1106,7 @@ export class attorneysService {
             token
           );
         }
-        //throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
+        throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
       }
       
       // Encrypt data if needed
@@ -1140,7 +1140,7 @@ export class attorneysService {
       //    changes[key] = String(value);
       //  }
       //}
-      if(role === 'MAKER')
+      if(workflowRole === 'SUBMITTER')
       {
         
         const result = await this.cdcPrismaService.withConnection(() =>
@@ -1273,7 +1273,7 @@ export class attorneysService {
             token
           );
         }
-        //throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
+        throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
       }
       let encryptedData = await this.normalizeDatesToUTC(await this.encryptData(updateattorneysDto,'attorneys','update'), token);
       if (this.tokenizationRules?.rules?.fields?.length > 0) {
@@ -1393,13 +1393,13 @@ attorney_id:number,
     token:string
   ) {
     try {
-      const role = userInfo.role?.toUpperCase();
+      const workflowRole = userInfo.role?.toUpperCase();
       const updateMaster_id =attorney_id;
 
       // =====================================================
       // CHECKER ROLE: Approve pending UPDATE request
       // =====================================================
-      if (role === 'CHECKER') {
+      if (workflowRole === 'AUTHORIZER') {
 
         if (!updateMaster_id) {
           throw new HttpException('id is required for CHECKER role', HttpStatus.BAD_REQUEST);
@@ -1537,7 +1537,7 @@ attorney_id:number,
             token
           );
         }
-        //throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
+        throw new CustomException(allErrors, HttpStatus.BAD_REQUEST);
       }
 
       // Verify record exists
@@ -1707,13 +1707,13 @@ attorney_id:number,
     token: string
   ) {
     try {
-      const role = userInfo.role?.toUpperCase();
+      const workflowRole = userInfo.role?.toUpperCase();
       const deleteMaster_id =attorney_id;
 
       // =====================================================
       // CHECKER ROLE: Approve pending DELETE request
       // =====================================================
-      if (role === 'CHECKER') {
+      if (workflowRole === 'AUTHORIZER') {
 
         if (!deleteMaster_id) {
           throw new HttpException('id is required for CHECKER role', HttpStatus.BAD_REQUEST);
@@ -1851,10 +1851,15 @@ attorney_id:number,
       throw new CustomException(errorMessage, error);
     }
   }
-  async findFirst(token : string, detokenize: string, detokenizeData?: any) {
+  async findFirst(token : string, detokenize: string, detokenizeData?: any, authContext?: any) {
+    if (!authContext?.tenant) {
+      throw new ForbiddenException('Tenant claim is missing from the token');
+    }
+
     try{
       let res = await this.prismaService.withConnection(() =>
       this.prismaService.attorneys.findFirst({ 
+        where: { trs_tenant_id: authContext.tenant },
         orderBy: { trs_created_date: 'asc' },
       }));
       if (this.tokenizationRules?.rules?.fields?.length > 0 && res?.trs_token_id && detokenize == 'true') {
@@ -1894,10 +1899,15 @@ attorney_id:number,
         throw new CustomException(errorMessage, error);
       }
   }
-  async findLast(token : string, detokenize: string ,detokenizeData?: any) {
+  async findLast(token : string, detokenize: string ,detokenizeData?: any, authContext?: any) {
+    if (!authContext?.tenant) {
+      throw new ForbiddenException('Tenant claim is missing from the token');
+    }
+
     try{
       let res = await this.prismaService.withConnection(() =>
       this.prismaService.attorneys.findFirst({ 
+        where: { trs_tenant_id: authContext.tenant },
         orderBy: { trs_created_date: 'desc' },
       }));
       if (this.tokenizationRules?.rules?.fields?.length > 0 && res?.trs_token_id && detokenize == 'true') {

@@ -1,4 +1,17 @@
 /** @type {import('next').NextConfig} */
+
+// All remote images are served from a single CDN host (see getCdnImage in
+// app/utils/getAssets.ts). remotePatterns is scoped to that host rather than
+// wildcarded to any HTTPS host, so this stays safe even if `unoptimized`
+// below is ever turned off (unoptimized:true is what currently disables the
+// server-side image-optimization proxy that remotePatterns gates).
+let cdnHostname
+try {
+  cdnHostname = new URL(process.env.NEXT_PUBLIC_FTP_OUTPUT_HOST).hostname
+} catch {
+  cdnHostname = undefined
+}
+
 const nextConfig = {
   basePath: '/ct006/lap/lap/v1',
   reactStrictMode: false,
@@ -11,13 +24,15 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-        pathname: "**",
-      },
-    ],
+    remotePatterns: cdnHostname
+      ? [
+          {
+            protocol: "https",
+            hostname: cdnHostname,
+            pathname: "**",
+          },
+        ]
+      : [],
   },
   // Baseline security response headers — none were set previously, so the app
   // shipped with no clickjacking, MIME-sniffing, or referrer protection.

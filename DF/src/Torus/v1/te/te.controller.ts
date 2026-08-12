@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Headers,  Logger,Post,UseGuards,UsePipes,ValidationPipe,} from '@nestjs/common';
+import { BadRequestException, Body, Controller, Headers,  Logger,Post,UsePipes,ValidationPipe,} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { TeService } from './te.service';
 import { CommonService } from 'src/common.Service';
@@ -7,10 +7,9 @@ import { LockService } from 'src/lock.service';
 import { CustomException } from 'src/customException';
 import { RedisService } from 'src/redisService';
 import { ListenerService } from './listener.service';
-import { AuthGuard } from 'src/auth.guard';
 
 
-@UseGuards(AuthGuard)
+
 @UsePipes(new ValidationPipe({ transform: true }))
 @ApiTags('Torus API')
 @Controller('te')

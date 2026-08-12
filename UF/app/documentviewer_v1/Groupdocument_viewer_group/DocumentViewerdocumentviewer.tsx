@@ -9,12 +9,13 @@ import { useInfoMsg } from "@/app/components/infoMsgHandler";
 import { TotalContext, TotalContextProps } from "@/app/globalContext";
 import DocViewer, { FileItem } from "@/components/DocumentViewer";
 import { AxiosService } from "@/app/components/axiosService";
-import { deleteAllCookies,getCookie } from '@/app/components/cookieMgment';
+import { deleteAllCookies } from '@/app/components/cookieMgment';
+import { useGlobal } from '@/context/GlobalContext'
 import { codeExecution } from "@/app/utils/codeExecution";
 import imageNotFound from '@/app/assets/imageNotFound.png';
 
 const DocumentViewerdocumentviewer = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFlagCompData,setIsProcessing}:any) => {
-  const token:string = getCookie('token'); 
+  const { token } = useGlobal();
   const {disableParam, setDisableParam} = useContext(TotalContext) as TotalContextProps;
   const {globalState , setGlobalState} = useContext(TotalContext) as TotalContextProps;
   const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;

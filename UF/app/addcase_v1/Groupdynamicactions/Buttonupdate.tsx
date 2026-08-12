@@ -11,7 +11,7 @@ import { useInfoMsg } from "@/app/components/infoMsgHandler";
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import { uf_getPFDetailsDto,uf_initiatePfDto,te_eventEmitterDto,uf_ifoDto,te_updateDto, te_refreshDto } from '@/app/interfaces/interfaces';
 import { AxiosService } from '@/app/components/axiosService';
-import { getCookie } from '@/app/components/cookieMgment';
+import { useGlobal } from '@/context/GlobalContext'
 import { nullFilter } from '@/app/utils/nullDataFilter';
 import {commonSepareteDataFromTheObject, eventFunction } from '@/app/utils/eventFunction';
 import { useRouter } from 'next/navigation';
@@ -57,7 +57,7 @@ function objectToQueryString(obj: any) {
  
 
 const Buttonupdate = ({ lockedData, setLockedData, tableData, setTableData, primaryTableData, setPrimaryTableData,checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFlagCompData,setIsProcessing,controlData}: { lockedData:any,setLockedData:any,tableData:any,setTableData:any,checkToAdd:any,setCheckToAdd:any,refetch:any,setRefetch:any,primaryTableData:any,setPrimaryTableData:any,encryptionFlagCompData:any,setIsProcessing:any,controlData:any}) => {
-  const token:string = getCookie('token');
+  const { token } = useGlobal();
   const {currentToken, setCurrentToken} = useContext(TotalContext) as TotalContextProps;
   const decodedTokenObj:any = decodeToken(token);
   const createdBy : string = decodedTokenObj.users;

@@ -6,12 +6,13 @@ import { Text } from '@/components/Text';
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import { AxiosService } from "@/app/components/axiosService";
 import { codeExecution } from '@/app/utils/codeExecution';
-import { deleteAllCookies,getCookie } from '@/app/components/cookieMgment';
+import { deleteAllCookies } from '@/app/components/cookieMgment';
+import { useGlobal } from '@/context/GlobalContext'
 import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,PaginationData,AllowedGroupNode,ActionDetails } from "@/types/global";
 import i18n from '@/app/components/i18n';
 
 const Textgeorgiass_sosl_texts = ({encryptionFlagCompData,isDynamic,item,index,setIsProcessing}:any) => {
-  const token: string = getCookie('token')
+  const { token } = useGlobal();
   const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
   const keyset:any=i18n.keyset("language");
   const encryptionFlagCont: boolean = encryptionFlagCompData.flag || false ;

@@ -3,7 +3,8 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import { codeExecution } from '@/app/utils/codeExecution';
-import { deleteAllCookies,getCookie } from '@/app/components/cookieMgment'
+import { deleteAllCookies } from '@/app/components/cookieMgment'
+import { useGlobal } from '@/context/GlobalContext'
 import { Switch } from '@/components/Switch'
 import { Text } from '@/components/Text'
 import { AxiosService } from "@/app/components/axiosService";
@@ -22,7 +23,7 @@ import { useHandleDfdRefresh } from '@/context/dfdRefreshContext';
 import { getGroupOrchestrationData, getControlOrchestrationData } from '@/app/utils/Orchestration';
 
 const Switchefiling_required = ({checkToAdd,setCheckToAdd,encryptionFlagCompData,setIsProcessing,controlData}:any) => {
-  const token:string = getCookie('token');
+  const { token } = useGlobal();
   const decodedTokenObj: any = decodeToken(token);
   const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
   const {refresh, setRefresh} = useContext(TotalContext) as TotalContextProps;

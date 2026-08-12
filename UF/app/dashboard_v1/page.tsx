@@ -3,7 +3,7 @@ import React,{ useContext,useEffect,useState,useRef } from "react";
 import { AxiosService } from '@/app/components/axiosService';
 import { te_refreshDto,api_paginationDto } from '@/app/interfaces/interfaces';
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
-import { deleteAllCookies,getCookie } from '@/app/components/cookieMgment';
+import { deleteAllCookies } from '@/app/components/cookieMgment';
 import { TotalContext, TotalContextProps } from "../globalContext";
 import decodeToken from "../components/decodeToken";
 import { useRouter } from 'next/navigation';
@@ -12,9 +12,11 @@ import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,Pagin
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import clsx from "clsx";
 import dynamic from 'next/dynamic';
+import { useGlobal } from '@/context/GlobalContext'
+
 const Groupheader_group = dynamic(() => import("./Groupheader_group/Groupheader_group"), { ssr: false });
 const Groupasset_dashboard_group = dynamic(() => import("./Groupasset_dashboard_group/Groupasset_dashboard_group"), { ssr: false });
-const Grouptable_group = dynamic(() => import("./Grouptable_group/Grouptable_group"), { ssr: false });
+const Groupoverall_key_performance_indicators = dynamic(() => import("./Groupoverall_key_performance_indicators/Groupoverall_key_performance_indicators"), { ssr: false });
 
 export default function PageDashboardV1({ onReady }: { onReady?: () => void } = {}) {
   const { isDark, isHighContrast, bgStyle, textStyle } : { isDark: boolean; isHighContrast: boolean; bgStyle: string; textStyle: string } = useTheme();
@@ -124,108 +126,121 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
       "show": false
     }
   },
-  "table_group": {
-    "status": {
+  "overall_key_performance_indicators": {},
+  "key_performance_indicator_group": {
+    "key_performance_indicators_text": {
+      "show": false
+    },
+    "total_active_accounts_text": {
+      "show": false
+    },
+    "total_active_accounts_text1": {
+      "show": false
+    },
+    "divider1": {
+      "show": false
+    },
+    "avg_days_to_judgment_text": {
+      "show": false
+    },
+    "avg_days_to_judgment_text1": {
+      "show": false
+    },
+    "divider2": {
+      "show": false
+    },
+    "court_rejection_rate_text": {
+      "show": false
+    },
+    "court_rejection_rate_text1": {
+      "show": false
+    },
+    "divider3": {
+      "show": false
+    },
+    "compliance_score_text": {
+      "show": false
+    },
+    "compliance_score_text1": {
+      "show": false
+    },
+    "divider4": {
+      "show": false
+    },
+    "collection_rate_mtd_text": {
+      "show": false
+    },
+    "collection_rate_mtd_text1": {
       "show": false
     }
   },
-  "subscreen": {},
-  "ct006_af_uf_ufws_lap_lap_amrqueuetable_v1": {},
-  "group": {
-    "search_btn": {
+  "recent_activity_group": {
+    "recent_activity_text": {
       "show": false
     },
-    "add_btn": {
+    "amr_queued_text": {
       "show": false
     },
-    "text": {
-      "show": false
-    }
-  },
-  "table": {
-    "case_display_id": {
+    "amr_queued_text_1": {
       "show": false
     },
-    "debtor_name": {
+    "divider1": {
       "show": false
     },
-    "creditor_name": {
+    "judgment_entered_text": {
       "show": false
     },
-    "full_name": {
+    "judgment_entered_text_1": {
       "show": false
     },
-    "total_balance": {
+    "divider2": {
       "show": false
     },
-    "court_name": {
+    "service_completed_text": {
       "show": false
     },
-    "priority_name": {
+    "service_completed_text_1": {
       "show": false
     },
-    "status_name": {
+    "divider3": {
       "show": false
     },
-    "trs_created_date": {
+    "amr_passed_text": {
       "show": false
     },
-    "view_btns": {
+    "amr_passed_text1": {
       "show": false
     },
-    "edit_btns": {
-      "show": false
-    }
-  },
-  "ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1": {},
-  "pending_fillings_group": {
-    "search_btn": {
+    "divider4": {
       "show": false
     },
-    "add_btn": {
+    "court_rejection_text": {
       "show": false
     },
-    "text": {
-      "show": false
-    }
-  },
-  "pending_fillings_table": {
-    "case_display_id": {
+    "court_rejection_text1": {
       "show": false
     },
-    "debtor_name": {
+    "divider5": {
       "show": false
     },
-    "creditor_name": {
+    "service_assigned_text": {
       "show": false
     },
-    "full_name": {
+    "service_assigned_text1": {
       "show": false
     },
-    "total_balance": {
+    "divider6": {
       "show": false
     },
-    "court_name": {
+    "amr_rejected_text": {
       "show": false
     },
-    "priority_name": {
-      "show": false
-    },
-    "status_name": {
-      "show": false
-    },
-    "trs_created_date": {
-      "show": false
-    },
-    "view_btn": {
-      "show": false
-    },
-    "edit_btn": {
+    "amr_rejected_text1": {
       "show": false
     }
   }
 }
-  const token:string = getCookie('token'); 
+  const { token } = useGlobal();
   const decodedTokenObj: DecodedToken = decodeToken(token);
   const screenName:string = "dashboard";
   const user : string | undefined = decodedTokenObj?.selectedAccessProfile;
@@ -236,8 +251,8 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
   const [tableData, setTableData] = useState<any[]>([]);  
   const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
   const { eventEmitterData,setEventEmitterData}= useContext(TotalContext) as TotalContextProps;
-  const {dashboard_v1, setdashboard_v1} = useContext(TotalContext) as TotalContextProps;
-  const {dashboard_v1Props, setdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {newdashboard_v1, setnewdashboard_v1} = useContext(TotalContext) as TotalContextProps;
+  const {newdashboard_v1Props, setnewdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
   const [checkheader_group,setCheckheader_group,]=useState<boolean>(false);
   const [checkasset_dashboard_group,setCheckasset_dashboard_group,]=useState<boolean>(false);
   const [checkamr_queue_group,setCheckamr_queue_group,]=useState<boolean>(false);
@@ -246,30 +261,20 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
   const [checkslas_at_risk_group,setCheckslas_at_risk_group,]=useState<boolean>(false);
   const [checkcourt_rejection_group,setCheckcourt_rejection_group,]=useState<boolean>(false);
   const [checkcollected_mtd_group,setCheckcollected_mtd_group,]=useState<boolean>(false);
-  const [checktable_group,setChecktable_group,]=useState<boolean>(false);
-  const [checksubscreen,setChecksubscreen,]=useState<boolean>(false);
-  const [checkct006_af_uf_ufws_lap_lap_amrqueuetable_v1,setCheckct006_af_uf_ufws_lap_lap_amrqueuetable_v1,]=useState<boolean>(false);
-  const [checkgroup,setCheckgroup,]=useState<boolean>(false);
-  const [checktable,setChecktable,]=useState<boolean>(false);
-  const [checkct006_af_uf_ufws_lap_lap_pendingfilingtable_v1,setCheckct006_af_uf_ufws_lap_lap_pendingfilingtable_v1,]=useState<boolean>(false);
-  const [checkpending_fillings_group,setCheckpending_fillings_group,]=useState<boolean>(false);
-  const [checkpending_fillings_table,setCheckpending_fillings_table,]=useState<boolean>(false);
-  const {header_groupb1913, setheader_groupb1913} = useContext(TotalContext) as TotalContextProps;
-  const {asset_dashboard_group4bbfe, setasset_dashboard_group4bbfe} = useContext(TotalContext) as TotalContextProps;
-  const {amr_queue_groupc92ca, setamr_queue_groupc92ca} = useContext(TotalContext) as TotalContextProps;
-  const {pending_file_groupffe32, setpending_file_groupffe32} = useContext(TotalContext) as TotalContextProps;
-  const {service_pending_group7ba93, setservice_pending_group7ba93} = useContext(TotalContext) as TotalContextProps;
-  const {slas_at_risk_group23eb4, setslas_at_risk_group23eb4} = useContext(TotalContext) as TotalContextProps;
-  const {court_rejection_groupc9d54, setcourt_rejection_groupc9d54} = useContext(TotalContext) as TotalContextProps;
-  const {collected_mtd_group7b7b5, setcollected_mtd_group7b7b5} = useContext(TotalContext) as TotalContextProps;
-  const {table_group112bd, settable_group112bd} = useContext(TotalContext) as TotalContextProps;
-  const {subscreene9ab5, setsubscreene9ab5} = useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797, setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797} = useContext(TotalContext) as TotalContextProps;
-  const {group28176, setgroup28176} = useContext(TotalContext) as TotalContextProps;
-  const {table852e3, settable852e3} = useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da, setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da} = useContext(TotalContext) as TotalContextProps;
-  const {pending_fillings_groupb1568, setpending_fillings_groupb1568} = useContext(TotalContext) as TotalContextProps;
-  const {pending_fillings_table11279, setpending_fillings_table11279} = useContext(TotalContext) as TotalContextProps;
+  const [checkoverall_key_performance_indicators,setCheckoverall_key_performance_indicators,]=useState<boolean>(false);
+  const [checkkey_performance_indicator_group,setCheckkey_performance_indicator_group,]=useState<boolean>(false);
+  const [checkrecent_activity_group,setCheckrecent_activity_group,]=useState<boolean>(false);
+  const {header_groupd8ba9, setheader_groupd8ba9} = useContext(TotalContext) as TotalContextProps;
+  const {asset_dashboard_group1aa03, setasset_dashboard_group1aa03} = useContext(TotalContext) as TotalContextProps;
+  const {amr_queue_group3c082, setamr_queue_group3c082} = useContext(TotalContext) as TotalContextProps;
+  const {pending_file_group2128c, setpending_file_group2128c} = useContext(TotalContext) as TotalContextProps;
+  const {service_pending_group8c0ca, setservice_pending_group8c0ca} = useContext(TotalContext) as TotalContextProps;
+  const {slas_at_risk_group1f8c0, setslas_at_risk_group1f8c0} = useContext(TotalContext) as TotalContextProps;
+  const {court_rejection_groupdf57a, setcourt_rejection_groupdf57a} = useContext(TotalContext) as TotalContextProps;
+  const {collected_mtd_group0f074, setcollected_mtd_group0f074} = useContext(TotalContext) as TotalContextProps;
+  const {overall_key_performance_indicatorsc2711, setoverall_key_performance_indicatorsc2711} = useContext(TotalContext) as TotalContextProps;
+  const {key_performance_indicator_groupf9eaf, setkey_performance_indicator_groupf9eaf} = useContext(TotalContext) as TotalContextProps;
+  const {recent_activity_group91db6, setrecent_activity_group91db6} = useContext(TotalContext) as TotalContextProps;
   const {dfd_amrqueuedashboard_v1Props, setdfd_amrqueuedashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
   const {dfd_pendingfilingsdashboard_v1Props, setdfd_pendingfilingsdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
   const {dfd_cardsdashboard_v1Props, setdfd_cardsdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
@@ -304,11 +309,11 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
           amrqueuedashboard_v1Body["dpdKey"] = encryptionDpd;
           amrqueuedashboard_v1Body["method"] = encryptionMethod;
         }
-        if(dashboard_v1Props.length > 0){
-          for(let i=0;i< dashboard_v1Props.length;i++){
-            if(dashboard_v1Props[i].DFDkey == "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1"){
-              // delete dashboard_v1Props[i].DFDkey;
-              let temp=structuredClone(dashboard_v1Props[i])
+        if(newdashboard_v1Props.length > 0){
+          for(let i=0;i< newdashboard_v1Props.length;i++){
+            if(newdashboard_v1Props[i].DFDkey == "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1"){
+              // delete newdashboard_v1Props[i].DFDkey;
+              let temp=structuredClone(newdashboard_v1Props[i])
               delete temp?.DFDkey
               filterData.push(temp)
             }           
@@ -413,11 +418,11 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
           pendingfilingsdashboard_v1Body["dpdKey"] = encryptionDpd;
           pendingfilingsdashboard_v1Body["method"] = encryptionMethod;
         }
-        if(dashboard_v1Props.length > 0){
-          for(let i=0;i< dashboard_v1Props.length;i++){
-            if(dashboard_v1Props[i].DFDkey == "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1"){
-              // delete dashboard_v1Props[i].DFDkey;
-              let temp=structuredClone(dashboard_v1Props[i])
+        if(newdashboard_v1Props.length > 0){
+          for(let i=0;i< newdashboard_v1Props.length;i++){
+            if(newdashboard_v1Props[i].DFDkey == "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1"){
+              // delete newdashboard_v1Props[i].DFDkey;
+              let temp=structuredClone(newdashboard_v1Props[i])
               delete temp?.DFDkey
               filterData.push(temp)
             }           
@@ -522,11 +527,11 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
           cardsdashboard_v1Body["dpdKey"] = encryptionDpd;
           cardsdashboard_v1Body["method"] = encryptionMethod;
         }
-        if(dashboard_v1Props.length > 0){
-          for(let i=0;i< dashboard_v1Props.length;i++){
-            if(dashboard_v1Props[i].DFDkey == "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:cardsDashboard:AFVK:v1"){
-              // delete dashboard_v1Props[i].DFDkey;
-              let temp=structuredClone(dashboard_v1Props[i])
+        if(newdashboard_v1Props.length > 0){
+          for(let i=0;i< newdashboard_v1Props.length;i++){
+            if(newdashboard_v1Props[i].DFDkey == "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:cardsDashboard:AFVK:v1"){
+              // delete newdashboard_v1Props[i].DFDkey;
+              let temp=structuredClone(newdashboard_v1Props[i])
               delete temp?.DFDkey
               filterData.push(temp)
             }           
@@ -622,7 +627,7 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
   const handleArtfactRule=async(rule:any,data:any={},allRuleData:any)=>{
     const { getAftfactLevelRule } = await import("../utils/evaluateDecisionTable");
     let result :any =await getAftfactLevelRule(rule,data,allRuleData)
-    setdashboard_v1({...result,_artfactPFRule_:rule})
+    setnewdashboard_v1({...result,_artfactPFRule_:rule})
   }
 
   async function securityCheck(): Promise<void> {
@@ -631,9 +636,9 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
       ? {
           dpdKey: encryptionDpd,
           method: encryptionMethod,
-          key: "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1"
+          key: "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
         }
-      : { key: "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1" }
+      : { key: "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1" }
 
     // fetchBatchData, introspect and myAccount-for-client don't depend on one
     // another's results — only programmain_v1DFD (below) needs the pagination
@@ -643,7 +648,7 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
     // on the first rejection otherwise).
     const [data, introspect, myAccountRes]: [any, any, any] = await Promise.all([
       fetchBatchData(
-        'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1',
+        'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1',
         [user],
         'pageDashboardV1',
         token
@@ -729,37 +734,17 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
             {
               setCheckcollected_mtd_group(true)
             }
-            if(nodes?.groupName == 'table_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'overall_key_performance_indicators' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setChecktable_group(true)
+              setCheckoverall_key_performance_indicators(true)
             }
-            if(nodes?.groupName == 'subscreen' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'key_performance_indicator_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setChecksubscreen(true)
+              setCheckkey_performance_indicator_group(true)
             }
-            if(nodes?.groupName == 'CT006_AF_UF_UFWS_LAP_LAP_amrQueueTable_v1' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'recent_activity_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setCheckct006_af_uf_ufws_lap_lap_amrqueuetable_v1(true)
-            }
-            if(nodes?.groupName == 'group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
-            {
-              setCheckgroup(true)
-            }
-            if(nodes?.groupName == 'table' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
-            {
-              setChecktable(true)
-            }
-            if(nodes?.groupName == 'CT006_AF_UF_UFWS_LAP_LAP_pendingFilingTable_v1' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
-            {
-              setCheckct006_af_uf_ufws_lap_lap_pendingfilingtable_v1(true)
-            }
-            if(nodes?.groupName == 'pending_fillings_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
-            {
-              setCheckpending_fillings_group(true)
-            }
-            if(nodes?.groupName == 'pending_fillings_table' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
-            {
-              setCheckpending_fillings_table(true)
+              setCheckrecent_activity_group(true)
             }
           })
           }
@@ -774,38 +759,28 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
         //Code Execution
         if (code !="" ) {
           let codeStates: Record<string, any> = {}
-          codeStates['header_group'] = header_groupb1913;
-          codeStates['setheader_group'] = setheader_groupb1913;
-          codeStates['asset_dashboard_group'] = asset_dashboard_group4bbfe;
-          codeStates['setasset_dashboard_group'] = setasset_dashboard_group4bbfe;
-          codeStates['amr_queue_group'] = amr_queue_groupc92ca;
-          codeStates['setamr_queue_group'] = setamr_queue_groupc92ca;
-          codeStates['pending_file_group'] = pending_file_groupffe32;
-          codeStates['setpending_file_group'] = setpending_file_groupffe32;
-          codeStates['service_pending_group'] = service_pending_group7ba93;
-          codeStates['setservice_pending_group'] = setservice_pending_group7ba93;
-          codeStates['slas_at_risk_group'] = slas_at_risk_group23eb4;
-          codeStates['setslas_at_risk_group'] = setslas_at_risk_group23eb4;
-          codeStates['court_rejection_group'] = court_rejection_groupc9d54;
-          codeStates['setcourt_rejection_group'] = setcourt_rejection_groupc9d54;
-          codeStates['collected_mtd_group'] = collected_mtd_group7b7b5;
-          codeStates['setcollected_mtd_group'] = setcollected_mtd_group7b7b5;
-          codeStates['table_group'] = table_group112bd;
-          codeStates['settable_group'] = settable_group112bd;
-          codeStates['subscreen'] = subscreene9ab5;
-          codeStates['setsubscreen'] = setsubscreene9ab5;
-          codeStates['ct006_af_uf_ufws_lap_lap_amrqueuetable_v1'] = ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797;
-          codeStates['setct006_af_uf_ufws_lap_lap_amrqueuetable_v1'] = setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797;
-          codeStates['group'] = group28176;
-          codeStates['setgroup'] = setgroup28176;
-          codeStates['table'] = table852e3;
-          codeStates['settable'] = settable852e3;
-          codeStates['ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1'] = ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da;
-          codeStates['setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1'] = setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da;
-          codeStates['pending_fillings_group'] = pending_fillings_groupb1568;
-          codeStates['setpending_fillings_group'] = setpending_fillings_groupb1568;
-          codeStates['pending_fillings_table'] = pending_fillings_table11279;
-          codeStates['setpending_fillings_table'] = setpending_fillings_table11279;
+          codeStates['header_group'] = header_groupd8ba9;
+          codeStates['setheader_group'] = setheader_groupd8ba9;
+          codeStates['asset_dashboard_group'] = asset_dashboard_group1aa03;
+          codeStates['setasset_dashboard_group'] = setasset_dashboard_group1aa03;
+          codeStates['amr_queue_group'] = amr_queue_group3c082;
+          codeStates['setamr_queue_group'] = setamr_queue_group3c082;
+          codeStates['pending_file_group'] = pending_file_group2128c;
+          codeStates['setpending_file_group'] = setpending_file_group2128c;
+          codeStates['service_pending_group'] = service_pending_group8c0ca;
+          codeStates['setservice_pending_group'] = setservice_pending_group8c0ca;
+          codeStates['slas_at_risk_group'] = slas_at_risk_group1f8c0;
+          codeStates['setslas_at_risk_group'] = setslas_at_risk_group1f8c0;
+          codeStates['court_rejection_group'] = court_rejection_groupdf57a;
+          codeStates['setcourt_rejection_group'] = setcourt_rejection_groupdf57a;
+          codeStates['collected_mtd_group'] = collected_mtd_group0f074;
+          codeStates['setcollected_mtd_group'] = setcollected_mtd_group0f074;
+          codeStates['overall_key_performance_indicators'] = overall_key_performance_indicatorsc2711;
+          codeStates['setoverall_key_performance_indicators'] = setoverall_key_performance_indicatorsc2711;
+          codeStates['key_performance_indicator_group'] = key_performance_indicator_groupf9eaf;
+          codeStates['setkey_performance_indicator_group'] = setkey_performance_indicator_groupf9eaf;
+          codeStates['recent_activity_group'] = recent_activity_group91db6;
+          codeStates['setrecent_activity_group'] = setrecent_activity_group91db6;
           const { codeExecution } = await import("../utils/codeExecution");
           codeExecution(code,codeStates);
         }   
@@ -831,17 +806,17 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
     }))
     securityCheck().finally(() => onReady?.());
     handleOnload();
-    setdashboard_v1((pre:any)=>({...pre,...allRuleData||{}}))
+    setnewdashboard_v1((pre:any)=>({...pre,...allRuleData||{}}))
   }, [])
 
   useEffect(()=>{
-    if(dashboard_v1?._artfactPFRule_)
+    if(newdashboard_v1?._artfactPFRule_)
     {
       let data:any ={
         ...decodedTokenObj,
         session:decodedTokenObj,
       }
-      handleArtfactRule(dashboard_v1?._artfactPFRule_,data,allRuleData)
+      handleArtfactRule(newdashboard_v1?._artfactPFRule_,data,allRuleData)
     }
   },[])
 
@@ -849,7 +824,7 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
   useEffect(() => {
     const handleClickOutside = (event:any) => {
       if (parentRef.current && !parentRef.current.contains(event.target)) {
-        setdashboard_v1((pre:any)=>({...pre,_selectedGroup_:""}))
+        setnewdashboard_v1((pre:any)=>({...pre,_selectedGroup_:""}))
       }
     };
       document.addEventListener("mousedown", handleClickOutside);
@@ -940,7 +915,7 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
           controlData={controlData} 
           groupData={groupData}        />}
         
-        {checktable_group && initialLoad &&<Grouptable_group
+        {checkoverall_key_performance_indicators && initialLoad &&<Groupoverall_key_performance_indicators
           lockedData={lockedData} 
           setLockedData={setLockedData} 
           primaryTableData={primaryTableData}

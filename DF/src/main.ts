@@ -52,7 +52,7 @@ async function bootstrap() {
  // }
 
   const fastifyAdapter = new FastifyAdapter({
-    bodyLimit: 500 * 1024 * 1024, // 500MB limit
+    bodyLimit: 10 * 1024 * 1024, // 10MB limit
     logger: true,
   });
   if (configData) {
@@ -83,7 +83,7 @@ async function bootstrap() {
   // dto.ts (OrchestrationDto, setUpKeyDto, etc.) have undecorated fields (dpdKey, method,
   // componentId...) that whitelist mode would silently strip. Add those once DTOs are
   // fully decorated.
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   //app.use(
     //session({
       //secret: 'Torus9x',
@@ -95,7 +95,12 @@ async function bootstrap() {
   //Middleware applied
   const fastifyInstance = fastifyAdapter.getInstance();
    // Register the core Fastify multipart plugin
-   fastifyInstance.register(multipart as any);
+  fastifyInstance.register(multipart as any, {
+     limits: {
+       fileSize: 10 * 1024 * 1024,
+       files: 10,
+     },
+   });    
   // CORS — restricted to an operator-configured allowlist instead of the
   // previous unrestricted default. Set CORS_ALLOWED_ORIGINS (comma-separated)
   // to the real front-end origin(s) before deploying; with it unset, all
@@ -108,7 +113,7 @@ async function bootstrap() {
     origin: corsAllowedOrigins.length > 0 ? corsAllowedOrigins : false,
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
   });
-
+    
   // Microservice setup (TCP transport)
   app.connectMicroservice({
     transport: Transport.TCP,
@@ -168,7 +173,7 @@ async function bootstrap() {
       imgSrc: [`'self'`, 'data:'],
     },
   },
-  global: true,
+  global: true, 
   });
 
   // Start Fastify app

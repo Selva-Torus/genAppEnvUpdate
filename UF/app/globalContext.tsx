@@ -10,70 +10,62 @@ export interface TotalContextProps {
   setCurrentToken: React.Dispatch<React.SetStateAction<any>>
   matchedAccessProfileData: any;
   setMatchedAccessProfileData: React.Dispatch<React.SetStateAction<any>>
-  header_groupb1913: any 
-  setheader_groupb1913: React.Dispatch<React.SetStateAction<any>>
-  header_groupb1913Props: any 
-  setheader_groupb1913Props: React.Dispatch<React.SetStateAction<any>>
-  asset_dashboard_group4bbfe: any 
-  setasset_dashboard_group4bbfe: React.Dispatch<React.SetStateAction<any>>
-  asset_dashboard_group4bbfeProps: any 
-  setasset_dashboard_group4bbfeProps: React.Dispatch<React.SetStateAction<any>>
-  amr_queue_groupc92ca: any 
-  setamr_queue_groupc92ca: React.Dispatch<React.SetStateAction<any>>
-  amr_queue_groupc92caProps: any 
-  setamr_queue_groupc92caProps: React.Dispatch<React.SetStateAction<any>>
-  pending_file_groupffe32: any 
-  setpending_file_groupffe32: React.Dispatch<React.SetStateAction<any>>
-  pending_file_groupffe32Props: any 
-  setpending_file_groupffe32Props: React.Dispatch<React.SetStateAction<any>>
-  service_pending_group7ba93: any 
-  setservice_pending_group7ba93: React.Dispatch<React.SetStateAction<any>>
-  service_pending_group7ba93Props: any 
-  setservice_pending_group7ba93Props: React.Dispatch<React.SetStateAction<any>>
-  slas_at_risk_group23eb4: any 
-  setslas_at_risk_group23eb4: React.Dispatch<React.SetStateAction<any>>
-  slas_at_risk_group23eb4Props: any 
-  setslas_at_risk_group23eb4Props: React.Dispatch<React.SetStateAction<any>>
-  court_rejection_groupc9d54: any 
-  setcourt_rejection_groupc9d54: React.Dispatch<React.SetStateAction<any>>
-  court_rejection_groupc9d54Props: any 
-  setcourt_rejection_groupc9d54Props: React.Dispatch<React.SetStateAction<any>>
-  collected_mtd_group7b7b5: any 
-  setcollected_mtd_group7b7b5: React.Dispatch<React.SetStateAction<any>>
-  collected_mtd_group7b7b5Props: any 
-  setcollected_mtd_group7b7b5Props: React.Dispatch<React.SetStateAction<any>>
-  table_group112bd: any 
-  settable_group112bd: React.Dispatch<React.SetStateAction<any>>
-  table_group112bdProps: any 
-  settable_group112bdProps: React.Dispatch<React.SetStateAction<any>>
-  subscreene9ab5: any 
-  setsubscreene9ab5: React.Dispatch<React.SetStateAction<any>>
-  subscreene9ab5Props: any 
-  setsubscreene9ab5Props: React.Dispatch<React.SetStateAction<any>>
-  ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797: any 
-  setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797: React.Dispatch<React.SetStateAction<any>>
-  ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797Props: any 
-  setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797Props: React.Dispatch<React.SetStateAction<any>>
-  group28176: any 
-  setgroup28176: React.Dispatch<React.SetStateAction<any>>
-  group28176Props: any 
-  setgroup28176Props: React.Dispatch<React.SetStateAction<any>>
-  table852e3: any 
-  settable852e3: React.Dispatch<React.SetStateAction<any>>
-  table852e3Props: any 
-  settable852e3Props: React.Dispatch<React.SetStateAction<any>>
-  ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da: any 
-  setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da: React.Dispatch<React.SetStateAction<any>>
-  ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8daProps: any 
-  setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8daProps: React.Dispatch<React.SetStateAction<any>>
-  pending_fillings_groupb1568: any 
-  setpending_fillings_groupb1568: React.Dispatch<React.SetStateAction<any>>
-  pending_fillings_groupb1568Props: any 
-  setpending_fillings_groupb1568Props: React.Dispatch<React.SetStateAction<any>>
-  pending_fillings_table11279: any 
-  setpending_fillings_table11279: React.Dispatch<React.SetStateAction<any>>
-  pending_fillings_table11279Props: any 
-  setpending_fillings_table11279Props: React.Dispatch<React.SetStateAction<any>>
+  header_groupd8ba9: any 
+  setheader_groupd8ba9: React.Dispatch<React.SetStateAction<any>>
+  header_groupd8ba9Props: any 
+  setheader_groupd8ba9Props: React.Dispatch<React.SetStateAction<any>>
+  asset_dashboard_group1aa03: any 
+  setasset_dashboard_group1aa03: React.Dispatch<React.SetStateAction<any>>
+  asset_dashboard_group1aa03Props: any 
+  setasset_dashboard_group1aa03Props: React.Dispatch<React.SetStateAction<any>>
+  amr_queue_group3c082: any 
+  setamr_queue_group3c082: React.Dispatch<React.SetStateAction<any>>
+  amr_queue_group3c082Props: any 
+  setamr_queue_group3c082Props: React.Dispatch<React.SetStateAction<any>>
+  pending_file_group2128c: any 
+  setpending_file_group2128c: React.Dispatch<React.SetStateAction<any>>
+  pending_file_group2128cProps: any 
+  setpending_file_group2128cProps: React.Dispatch<React.SetStateAction<any>>
+  service_pending_group8c0ca: any 
+  setservice_pending_group8c0ca: React.Dispatch<React.SetStateAction<any>>
+  service_pending_group8c0caProps: any 
+  setservice_pending_group8c0caProps: React.Dispatch<React.SetStateAction<any>>
+  slas_at_risk_group1f8c0: any 
+  setslas_at_risk_group1f8c0: React.Dispatch<React.SetStateAction<any>>
+  slas_at_risk_group1f8c0Props: any 
+  setslas_at_risk_group1f8c0Props: React.Dispatch<React.SetStateAction<any>>
+  court_rejection_groupdf57a: any 
+  setcourt_rejection_groupdf57a: React.Dispatch<React.SetStateAction<any>>
+  court_rejection_groupdf57aProps: any 
+  setcourt_rejection_groupdf57aProps: React.Dispatch<React.SetStateAction<any>>
+  collected_mtd_group0f074: any 
+  setcollected_mtd_group0f074: React.Dispatch<React.SetStateAction<any>>
+  collected_mtd_group0f074Props: any 
+  setcollected_mtd_group0f074Props: React.Dispatch<React.SetStateAction<any>>
+  overall_key_performance_indicatorsc2711: any 
+  setoverall_key_performance_indicatorsc2711: React.Dispatch<React.SetStateAction<any>>
+  overall_key_performance_indicatorsc2711Props: any 
+  setoverall_key_performance_indicatorsc2711Props: React.Dispatch<React.SetStateAction<any>>
+  key_performance_indicator_groupf9eaf: any 
+  setkey_performance_indicator_groupf9eaf: React.Dispatch<React.SetStateAction<any>>
+  key_performance_indicator_groupf9eafProps: any 
+  setkey_performance_indicator_groupf9eafProps: React.Dispatch<React.SetStateAction<any>>
+  recent_activity_group91db6: any 
+  setrecent_activity_group91db6: React.Dispatch<React.SetStateAction<any>>
+  recent_activity_group91db6Props: any 
+  setrecent_activity_group91db6Props: React.Dispatch<React.SetStateAction<any>>
+  amr_queue_group79589: any 
+  setamr_queue_group79589: React.Dispatch<React.SetStateAction<any>>
+  amr_queue_group79589Props: any 
+  setamr_queue_group79589Props: React.Dispatch<React.SetStateAction<any>>
+  amr_group17ac4: any 
+  setamr_group17ac4: React.Dispatch<React.SetStateAction<any>>
+  amr_group17ac4Props: any 
+  setamr_group17ac4Props: React.Dispatch<React.SetStateAction<any>>
+  amr_queue_table09598: any 
+  setamr_queue_table09598: React.Dispatch<React.SetStateAction<any>>
+  amr_queue_table09598Props: any 
+  setamr_queue_table09598Props: React.Dispatch<React.SetStateAction<any>>
   search_groupdefa1: any 
   setsearch_groupdefa1: React.Dispatch<React.SetStateAction<any>>
   search_groupdefa1Props: any 
@@ -154,294 +146,522 @@ export interface TotalContextProps {
   setchecklist_table198e1: React.Dispatch<React.SetStateAction<any>>
   checklist_table198e1Props: any 
   setchecklist_table198e1Props: React.Dispatch<React.SetStateAction<any>>
-  add_case_group1f6e4: any 
-  setadd_case_group1f6e4: React.Dispatch<React.SetStateAction<any>>
-  add_case_group1f6e4Props: any 
-  setadd_case_group1f6e4Props: React.Dispatch<React.SetStateAction<any>>
-  header_group3749a: any 
-  setheader_group3749a: React.Dispatch<React.SetStateAction<any>>
-  header_group3749aProps: any 
-  setheader_group3749aProps: React.Dispatch<React.SetStateAction<any>>
-  case_information_groupcec29: any 
-  setcase_information_groupcec29: React.Dispatch<React.SetStateAction<any>>
-  case_information_groupcec29Props: any 
-  setcase_information_groupcec29Props: React.Dispatch<React.SetStateAction<any>>
-  venue_groupa72d9: any 
-  setvenue_groupa72d9: React.Dispatch<React.SetStateAction<any>>
-  venue_groupa72d9Props: any 
-  setvenue_groupa72d9Props: React.Dispatch<React.SetStateAction<any>>
-  georgia_groupa636c: any 
-  setgeorgia_groupa636c: React.Dispatch<React.SetStateAction<any>>
-  georgia_groupa636cProps: any 
-  setgeorgia_groupa636cProps: React.Dispatch<React.SetStateAction<any>>
-  georgias_groupbac01: any 
-  setgeorgias_groupbac01: React.Dispatch<React.SetStateAction<any>>
-  georgias_groupbac01Props: any 
-  setgeorgias_groupbac01Props: React.Dispatch<React.SetStateAction<any>>
-  georgias_groupsbf356: any 
-  setgeorgias_groupsbf356: React.Dispatch<React.SetStateAction<any>>
-  georgias_groupsbf356Props: any 
-  setgeorgias_groupsbf356Props: React.Dispatch<React.SetStateAction<any>>
-  georgiass_groups9e4dd: any 
-  setgeorgiass_groups9e4dd: React.Dispatch<React.SetStateAction<any>>
-  georgiass_groups9e4ddProps: any 
-  setgeorgiass_groups9e4ddProps: React.Dispatch<React.SetStateAction<any>>
-  georgsiass_groups6bf7a: any 
-  setgeorgsiass_groups6bf7a: React.Dispatch<React.SetStateAction<any>>
-  georgsiass_groups6bf7aProps: any 
-  setgeorgsiass_groups6bf7aProps: React.Dispatch<React.SetStateAction<any>>
-  debtor_information_groupdfa55: any 
-  setdebtor_information_groupdfa55: React.Dispatch<React.SetStateAction<any>>
-  debtor_information_groupdfa55Props: any 
-  setdebtor_information_groupdfa55Props: React.Dispatch<React.SetStateAction<any>>
-  financial_details_grouped0d9: any 
-  setfinancial_details_grouped0d9: React.Dispatch<React.SetStateAction<any>>
-  financial_details_grouped0d9Props: any 
-  setfinancial_details_grouped0d9Props: React.Dispatch<React.SetStateAction<any>>
-  venue_details_group6a27a: any 
-  setvenue_details_group6a27a: React.Dispatch<React.SetStateAction<any>>
-  venue_details_group6a27aProps: any 
-  setvenue_details_group6a27aProps: React.Dispatch<React.SetStateAction<any>>
-  required_dociument_main_group3eb5b: any 
-  setrequired_dociument_main_group3eb5b: React.Dispatch<React.SetStateAction<any>>
-  required_dociument_main_group3eb5bProps: any 
-  setrequired_dociument_main_group3eb5bProps: React.Dispatch<React.SetStateAction<any>>
-  doc_tablee79c7: any 
-  setdoc_tablee79c7: React.Dispatch<React.SetStateAction<any>>
-  doc_tablee79c7Props: any 
-  setdoc_tablee79c7Props: React.Dispatch<React.SetStateAction<any>>
-  checklist_main_group5b62e: any 
-  setchecklist_main_group5b62e: React.Dispatch<React.SetStateAction<any>>
-  checklist_main_group5b62eProps: any 
-  setchecklist_main_group5b62eProps: React.Dispatch<React.SetStateAction<any>>
-  checklist_table45abc: any 
-  setchecklist_table45abc: React.Dispatch<React.SetStateAction<any>>
-  checklist_table45abcProps: any 
-  setchecklist_table45abcProps: React.Dispatch<React.SetStateAction<any>>
+  add_case_groupbe1de: any 
+  setadd_case_groupbe1de: React.Dispatch<React.SetStateAction<any>>
+  add_case_groupbe1deProps: any 
+  setadd_case_groupbe1deProps: React.Dispatch<React.SetStateAction<any>>
+  header_groupc587e: any 
+  setheader_groupc587e: React.Dispatch<React.SetStateAction<any>>
+  header_groupc587eProps: any 
+  setheader_groupc587eProps: React.Dispatch<React.SetStateAction<any>>
+  required_dociument_main_group6f022: any 
+  setrequired_dociument_main_group6f022: React.Dispatch<React.SetStateAction<any>>
+  required_dociument_main_group6f022Props: any 
+  setrequired_dociument_main_group6f022Props: React.Dispatch<React.SetStateAction<any>>
+  doc_table8bfa1: any 
+  setdoc_table8bfa1: React.Dispatch<React.SetStateAction<any>>
+  doc_table8bfa1Props: any 
+  setdoc_table8bfa1Props: React.Dispatch<React.SetStateAction<any>>
+  case_information_groupe3c1b: any 
+  setcase_information_groupe3c1b: React.Dispatch<React.SetStateAction<any>>
+  case_information_groupe3c1bProps: any 
+  setcase_information_groupe3c1bProps: React.Dispatch<React.SetStateAction<any>>
+  card_group7fa83: any 
+  setcard_group7fa83: React.Dispatch<React.SetStateAction<any>>
+  card_group7fa83Props: any 
+  setcard_group7fa83Props: React.Dispatch<React.SetStateAction<any>>
+  principal_groupde6dd: any 
+  setprincipal_groupde6dd: React.Dispatch<React.SetStateAction<any>>
+  principal_groupde6ddProps: any 
+  setprincipal_groupde6ddProps: React.Dispatch<React.SetStateAction<any>>
+  intrest_group44b4d: any 
+  setintrest_group44b4d: React.Dispatch<React.SetStateAction<any>>
+  intrest_group44b4dProps: any 
+  setintrest_group44b4dProps: React.Dispatch<React.SetStateAction<any>>
+  fees_groupee523: any 
+  setfees_groupee523: React.Dispatch<React.SetStateAction<any>>
+  fees_groupee523Props: any 
+  setfees_groupee523Props: React.Dispatch<React.SetStateAction<any>>
+  total_groupd3e06: any 
+  settotal_groupd3e06: React.Dispatch<React.SetStateAction<any>>
+  total_groupd3e06Props: any 
+  settotal_groupd3e06Props: React.Dispatch<React.SetStateAction<any>>
+  venue_details_group1d734: any 
+  setvenue_details_group1d734: React.Dispatch<React.SetStateAction<any>>
+  venue_details_group1d734Props: any 
+  setvenue_details_group1d734Props: React.Dispatch<React.SetStateAction<any>>
+  checklist_main_group32240: any 
+  setchecklist_main_group32240: React.Dispatch<React.SetStateAction<any>>
+  checklist_main_group32240Props: any 
+  setchecklist_main_group32240Props: React.Dispatch<React.SetStateAction<any>>
+  checklist_tablee7dea: any 
+  setchecklist_tablee7dea: React.Dispatch<React.SetStateAction<any>>
+  checklist_tablee7deaProps: any 
+  setchecklist_tablee7deaProps: React.Dispatch<React.SetStateAction<any>>
+  special_rules_groupf22ab: any 
+  setspecial_rules_groupf22ab: React.Dispatch<React.SetStateAction<any>>
+  special_rules_groupf22abProps: any 
+  setspecial_rules_groupf22abProps: React.Dispatch<React.SetStateAction<any>>
+  special_rules96aec: any 
+  setspecial_rules96aec: React.Dispatch<React.SetStateAction<any>>
+  special_rules96aecProps: any 
+  setspecial_rules96aecProps: React.Dispatch<React.SetStateAction<any>>
   document_viewer_groupe4249: any 
   setdocument_viewer_groupe4249: React.Dispatch<React.SetStateAction<any>>
   document_viewer_groupe4249Props: any 
   setdocument_viewer_groupe4249Props: React.Dispatch<React.SetStateAction<any>>
-  search_group39b74: any 
-  setsearch_group39b74: React.Dispatch<React.SetStateAction<any>>
-  search_group39b74Props: any 
-  setsearch_group39b74Props: React.Dispatch<React.SetStateAction<any>>
-  text9e38a: any,
-  settext9e38a:React.Dispatch<React.SetStateAction<any>>
-  text9e38aProps: any 
-  settext9e38aProps: React.Dispatch<React.SetStateAction<any>>
-  amr_queue_text28561: any,
-  setamr_queue_text28561:React.Dispatch<React.SetStateAction<any>>
-  amr_queue_text28561Props: any 
-  setamr_queue_text28561Props: React.Dispatch<React.SetStateAction<any>>
-  icon_total_assest208f5: any,
-  seticon_total_assest208f5:React.Dispatch<React.SetStateAction<any>>
-  icon_total_assest208f5Props: any 
-  seticon_total_assest208f5Props: React.Dispatch<React.SetStateAction<any>>
-  amr_queue5b620: any,
-  setamr_queue5b620:React.Dispatch<React.SetStateAction<any>>
-  amr_queue5b620Props: any 
-  setamr_queue5b620Props: React.Dispatch<React.SetStateAction<any>>
-  amr_queue_descafe0e: any,
-  setamr_queue_descafe0e:React.Dispatch<React.SetStateAction<any>>
-  amr_queue_descafe0eProps: any 
-  setamr_queue_descafe0eProps: React.Dispatch<React.SetStateAction<any>>
-  pending_file_text86c2a: any,
-  setpending_file_text86c2a:React.Dispatch<React.SetStateAction<any>>
-  pending_file_text86c2aProps: any 
-  setpending_file_text86c2aProps: React.Dispatch<React.SetStateAction<any>>
-  icon_maintenance_duecab92: any,
-  seticon_maintenance_duecab92:React.Dispatch<React.SetStateAction<any>>
-  icon_maintenance_duecab92Props: any 
-  seticon_maintenance_duecab92Props: React.Dispatch<React.SetStateAction<any>>
-  pending_file1721b: any,
-  setpending_file1721b:React.Dispatch<React.SetStateAction<any>>
-  pending_file1721bProps: any 
-  setpending_file1721bProps: React.Dispatch<React.SetStateAction<any>>
-  pending_file_desc53378: any,
-  setpending_file_desc53378:React.Dispatch<React.SetStateAction<any>>
-  pending_file_desc53378Props: any 
-  setpending_file_desc53378Props: React.Dispatch<React.SetStateAction<any>>
-  service_pending_text5cc58: any,
-  setservice_pending_text5cc58:React.Dispatch<React.SetStateAction<any>>
-  service_pending_text5cc58Props: any 
-  setservice_pending_text5cc58Props: React.Dispatch<React.SetStateAction<any>>
-  icon_warranty_expiring6d299: any,
-  seticon_warranty_expiring6d299:React.Dispatch<React.SetStateAction<any>>
-  icon_warranty_expiring6d299Props: any 
-  seticon_warranty_expiring6d299Props: React.Dispatch<React.SetStateAction<any>>
-  service_pending918f0: any,
-  setservice_pending918f0:React.Dispatch<React.SetStateAction<any>>
-  service_pending918f0Props: any 
-  setservice_pending918f0Props: React.Dispatch<React.SetStateAction<any>>
-  service_pending_descabf48: any,
-  setservice_pending_descabf48:React.Dispatch<React.SetStateAction<any>>
-  service_pending_descabf48Props: any 
-  setservice_pending_descabf48Props: React.Dispatch<React.SetStateAction<any>>
-  slas_at_risk_text33ae5: any,
-  setslas_at_risk_text33ae5:React.Dispatch<React.SetStateAction<any>>
-  slas_at_risk_text33ae5Props: any 
-  setslas_at_risk_text33ae5Props: React.Dispatch<React.SetStateAction<any>>
-  icon_2caf8: any,
-  seticon_2caf8:React.Dispatch<React.SetStateAction<any>>
-  icon_2caf8Props: any 
-  seticon_2caf8Props: React.Dispatch<React.SetStateAction<any>>
-  slas_at_riskf177b: any,
-  setslas_at_riskf177b:React.Dispatch<React.SetStateAction<any>>
-  slas_at_riskf177bProps: any 
-  setslas_at_riskf177bProps: React.Dispatch<React.SetStateAction<any>>
-  slas_at_risk_desc5c075: any,
-  setslas_at_risk_desc5c075:React.Dispatch<React.SetStateAction<any>>
-  slas_at_risk_desc5c075Props: any 
-  setslas_at_risk_desc5c075Props: React.Dispatch<React.SetStateAction<any>>
-  court_rejection_text06a86: any,
-  setcourt_rejection_text06a86:React.Dispatch<React.SetStateAction<any>>
-  court_rejection_text06a86Props: any 
-  setcourt_rejection_text06a86Props: React.Dispatch<React.SetStateAction<any>>
-  icona5abd: any,
-  seticona5abd:React.Dispatch<React.SetStateAction<any>>
-  icona5abdProps: any 
-  seticona5abdProps: React.Dispatch<React.SetStateAction<any>>
-  court_rejection2460a: any,
-  setcourt_rejection2460a:React.Dispatch<React.SetStateAction<any>>
-  court_rejection2460aProps: any 
-  setcourt_rejection2460aProps: React.Dispatch<React.SetStateAction<any>>
-  court_rejection_desc7c63b: any,
-  setcourt_rejection_desc7c63b:React.Dispatch<React.SetStateAction<any>>
-  court_rejection_desc7c63bProps: any 
-  setcourt_rejection_desc7c63bProps: React.Dispatch<React.SetStateAction<any>>
-  collected_mtd_text4d825: any,
-  setcollected_mtd_text4d825:React.Dispatch<React.SetStateAction<any>>
-  collected_mtd_text4d825Props: any 
-  setcollected_mtd_text4d825Props: React.Dispatch<React.SetStateAction<any>>
-  iconaff33: any,
-  seticonaff33:React.Dispatch<React.SetStateAction<any>>
-  iconaff33Props: any 
-  seticonaff33Props: React.Dispatch<React.SetStateAction<any>>
-  collected_mtdab52b: any,
-  setcollected_mtdab52b:React.Dispatch<React.SetStateAction<any>>
-  collected_mtdab52bProps: any 
-  setcollected_mtdab52bProps: React.Dispatch<React.SetStateAction<any>>
-  collected_mtd_descfffed: any,
-  setcollected_mtd_descfffed:React.Dispatch<React.SetStateAction<any>>
-  collected_mtd_descfffedProps: any 
-  setcollected_mtd_descfffedProps: React.Dispatch<React.SetStateAction<any>>
-  search_btn4c2ed: any,
-  setsearch_btn4c2ed:React.Dispatch<React.SetStateAction<any>>
-  search_btn4c2edProps: any 
-  setsearch_btn4c2edProps: React.Dispatch<React.SetStateAction<any>>
-  add_btn2f9d0: any,
-  setadd_btn2f9d0:React.Dispatch<React.SetStateAction<any>>
-  add_btn2f9d0Props: any 
-  setadd_btn2f9d0Props: React.Dispatch<React.SetStateAction<any>>
-  textc2337: any,
-  settextc2337:React.Dispatch<React.SetStateAction<any>>
-  textc2337Props: any 
-  settextc2337Props: React.Dispatch<React.SetStateAction<any>>
-  case_display_id8caab: any,
-  setcase_display_id8caab:React.Dispatch<React.SetStateAction<any>>
-  case_display_id8caabProps: any 
-  setcase_display_id8caabProps: React.Dispatch<React.SetStateAction<any>>
-  debtor_namedb464: any,
-  setdebtor_namedb464:React.Dispatch<React.SetStateAction<any>>
-  debtor_namedb464Props: any 
-  setdebtor_namedb464Props: React.Dispatch<React.SetStateAction<any>>
-  creditor_name29781: any,
-  setcreditor_name29781:React.Dispatch<React.SetStateAction<any>>
-  creditor_name29781Props: any 
-  setcreditor_name29781Props: React.Dispatch<React.SetStateAction<any>>
-  full_nameda699: any,
-  setfull_nameda699:React.Dispatch<React.SetStateAction<any>>
-  full_nameda699Props: any 
-  setfull_nameda699Props: React.Dispatch<React.SetStateAction<any>>
-  total_balancea27e6: any,
-  settotal_balancea27e6:React.Dispatch<React.SetStateAction<any>>
-  total_balancea27e6Props: any 
-  settotal_balancea27e6Props: React.Dispatch<React.SetStateAction<any>>
-  court_name03aea: any,
-  setcourt_name03aea:React.Dispatch<React.SetStateAction<any>>
-  court_name03aeaProps: any 
-  setcourt_name03aeaProps: React.Dispatch<React.SetStateAction<any>>
-  priority_namec8266: any,
-  setpriority_namec8266:React.Dispatch<React.SetStateAction<any>>
-  priority_namec8266Props: any 
-  setpriority_namec8266Props: React.Dispatch<React.SetStateAction<any>>
-  status_named2368: any,
-  setstatus_named2368:React.Dispatch<React.SetStateAction<any>>
-  status_named2368Props: any 
-  setstatus_named2368Props: React.Dispatch<React.SetStateAction<any>>
-  trs_created_datec9e9d: any,
-  settrs_created_datec9e9d:React.Dispatch<React.SetStateAction<any>>
-  trs_created_datec9e9dProps: any 
-  settrs_created_datec9e9dProps: React.Dispatch<React.SetStateAction<any>>
-  view_btns77c69: any,
-  setview_btns77c69:React.Dispatch<React.SetStateAction<any>>
-  view_btns77c69Props: any 
-  setview_btns77c69Props: React.Dispatch<React.SetStateAction<any>>
-  edit_btns48ea7: any,
-  setedit_btns48ea7:React.Dispatch<React.SetStateAction<any>>
-  edit_btns48ea7Props: any 
-  setedit_btns48ea7Props: React.Dispatch<React.SetStateAction<any>>
-  search_btn15268: any,
-  setsearch_btn15268:React.Dispatch<React.SetStateAction<any>>
-  search_btn15268Props: any 
-  setsearch_btn15268Props: React.Dispatch<React.SetStateAction<any>>
-  add_btn707cf: any,
-  setadd_btn707cf:React.Dispatch<React.SetStateAction<any>>
-  add_btn707cfProps: any 
-  setadd_btn707cfProps: React.Dispatch<React.SetStateAction<any>>
-  text3ced2: any,
-  settext3ced2:React.Dispatch<React.SetStateAction<any>>
-  text3ced2Props: any 
-  settext3ced2Props: React.Dispatch<React.SetStateAction<any>>
-  case_display_id32ae4: any,
-  setcase_display_id32ae4:React.Dispatch<React.SetStateAction<any>>
-  case_display_id32ae4Props: any 
-  setcase_display_id32ae4Props: React.Dispatch<React.SetStateAction<any>>
-  debtor_namecd77b: any,
-  setdebtor_namecd77b:React.Dispatch<React.SetStateAction<any>>
-  debtor_namecd77bProps: any 
-  setdebtor_namecd77bProps: React.Dispatch<React.SetStateAction<any>>
-  creditor_nameb14ce: any,
-  setcreditor_nameb14ce:React.Dispatch<React.SetStateAction<any>>
-  creditor_nameb14ceProps: any 
-  setcreditor_nameb14ceProps: React.Dispatch<React.SetStateAction<any>>
-  full_name592f3: any,
-  setfull_name592f3:React.Dispatch<React.SetStateAction<any>>
-  full_name592f3Props: any 
-  setfull_name592f3Props: React.Dispatch<React.SetStateAction<any>>
-  total_balance98c00: any,
-  settotal_balance98c00:React.Dispatch<React.SetStateAction<any>>
-  total_balance98c00Props: any 
-  settotal_balance98c00Props: React.Dispatch<React.SetStateAction<any>>
-  court_name4b97b: any,
-  setcourt_name4b97b:React.Dispatch<React.SetStateAction<any>>
-  court_name4b97bProps: any 
-  setcourt_name4b97bProps: React.Dispatch<React.SetStateAction<any>>
-  priority_namec61c4: any,
-  setpriority_namec61c4:React.Dispatch<React.SetStateAction<any>>
-  priority_namec61c4Props: any 
-  setpriority_namec61c4Props: React.Dispatch<React.SetStateAction<any>>
-  status_namec590e: any,
-  setstatus_namec590e:React.Dispatch<React.SetStateAction<any>>
-  status_namec590eProps: any 
-  setstatus_namec590eProps: React.Dispatch<React.SetStateAction<any>>
-  trs_created_date4e909: any,
-  settrs_created_date4e909:React.Dispatch<React.SetStateAction<any>>
-  trs_created_date4e909Props: any 
-  settrs_created_date4e909Props: React.Dispatch<React.SetStateAction<any>>
-  view_btn88178: any,
-  setview_btn88178:React.Dispatch<React.SetStateAction<any>>
-  view_btn88178Props: any 
-  setview_btn88178Props: React.Dispatch<React.SetStateAction<any>>
-  edit_btn4cc84: any,
-  setedit_btn4cc84:React.Dispatch<React.SetStateAction<any>>
-  edit_btn4cc84Props: any 
-  setedit_btn4cc84Props: React.Dispatch<React.SetStateAction<any>>
-  status77d60: any,
-  setstatus77d60:React.Dispatch<React.SetStateAction<any>>
-  status77d60Props: any 
-  setstatus77d60Props: React.Dispatch<React.SetStateAction<any>>
+  add_case_grouped126: any 
+  setadd_case_grouped126: React.Dispatch<React.SetStateAction<any>>
+  add_case_grouped126Props: any 
+  setadd_case_grouped126Props: React.Dispatch<React.SetStateAction<any>>
+  header_groupbd8a8: any 
+  setheader_groupbd8a8: React.Dispatch<React.SetStateAction<any>>
+  header_groupbd8a8Props: any 
+  setheader_groupbd8a8Props: React.Dispatch<React.SetStateAction<any>>
+  required_dociument_main_group255d1: any 
+  setrequired_dociument_main_group255d1: React.Dispatch<React.SetStateAction<any>>
+  required_dociument_main_group255d1Props: any 
+  setrequired_dociument_main_group255d1Props: React.Dispatch<React.SetStateAction<any>>
+  doc_table9c4f7: any 
+  setdoc_table9c4f7: React.Dispatch<React.SetStateAction<any>>
+  doc_table9c4f7Props: any 
+  setdoc_table9c4f7Props: React.Dispatch<React.SetStateAction<any>>
+  case_information_group48f3c: any 
+  setcase_information_group48f3c: React.Dispatch<React.SetStateAction<any>>
+  case_information_group48f3cProps: any 
+  setcase_information_group48f3cProps: React.Dispatch<React.SetStateAction<any>>
+  card_group4c709: any 
+  setcard_group4c709: React.Dispatch<React.SetStateAction<any>>
+  card_group4c709Props: any 
+  setcard_group4c709Props: React.Dispatch<React.SetStateAction<any>>
+  principal_group42235: any 
+  setprincipal_group42235: React.Dispatch<React.SetStateAction<any>>
+  principal_group42235Props: any 
+  setprincipal_group42235Props: React.Dispatch<React.SetStateAction<any>>
+  intrest_group65c3b: any 
+  setintrest_group65c3b: React.Dispatch<React.SetStateAction<any>>
+  intrest_group65c3bProps: any 
+  setintrest_group65c3bProps: React.Dispatch<React.SetStateAction<any>>
+  fees_group8c4a6: any 
+  setfees_group8c4a6: React.Dispatch<React.SetStateAction<any>>
+  fees_group8c4a6Props: any 
+  setfees_group8c4a6Props: React.Dispatch<React.SetStateAction<any>>
+  total_groupc52d3: any 
+  settotal_groupc52d3: React.Dispatch<React.SetStateAction<any>>
+  total_groupc52d3Props: any 
+  settotal_groupc52d3Props: React.Dispatch<React.SetStateAction<any>>
+  venue_details_group51614: any 
+  setvenue_details_group51614: React.Dispatch<React.SetStateAction<any>>
+  venue_details_group51614Props: any 
+  setvenue_details_group51614Props: React.Dispatch<React.SetStateAction<any>>
+  checklist_main_group2b466: any 
+  setchecklist_main_group2b466: React.Dispatch<React.SetStateAction<any>>
+  checklist_main_group2b466Props: any 
+  setchecklist_main_group2b466Props: React.Dispatch<React.SetStateAction<any>>
+  checklist_tablecafb0: any 
+  setchecklist_tablecafb0: React.Dispatch<React.SetStateAction<any>>
+  checklist_tablecafb0Props: any 
+  setchecklist_tablecafb0Props: React.Dispatch<React.SetStateAction<any>>
+  special_rules_group7ce9f: any 
+  setspecial_rules_group7ce9f: React.Dispatch<React.SetStateAction<any>>
+  special_rules_group7ce9fProps: any 
+  setspecial_rules_group7ce9fProps: React.Dispatch<React.SetStateAction<any>>
+  special_rules7f109: any 
+  setspecial_rules7f109: React.Dispatch<React.SetStateAction<any>>
+  special_rules7f109Props: any 
+  setspecial_rules7f109Props: React.Dispatch<React.SetStateAction<any>>
+  add_case_group77747: any 
+  setadd_case_group77747: React.Dispatch<React.SetStateAction<any>>
+  add_case_group77747Props: any 
+  setadd_case_group77747Props: React.Dispatch<React.SetStateAction<any>>
+  header_groupbae8a: any 
+  setheader_groupbae8a: React.Dispatch<React.SetStateAction<any>>
+  header_groupbae8aProps: any 
+  setheader_groupbae8aProps: React.Dispatch<React.SetStateAction<any>>
+  required_dociument_main_group999a8: any 
+  setrequired_dociument_main_group999a8: React.Dispatch<React.SetStateAction<any>>
+  required_dociument_main_group999a8Props: any 
+  setrequired_dociument_main_group999a8Props: React.Dispatch<React.SetStateAction<any>>
+  doc_table45b8d: any 
+  setdoc_table45b8d: React.Dispatch<React.SetStateAction<any>>
+  doc_table45b8dProps: any 
+  setdoc_table45b8dProps: React.Dispatch<React.SetStateAction<any>>
+  case_information_group35ed3: any 
+  setcase_information_group35ed3: React.Dispatch<React.SetStateAction<any>>
+  case_information_group35ed3Props: any 
+  setcase_information_group35ed3Props: React.Dispatch<React.SetStateAction<any>>
+  card_groupe78fa: any 
+  setcard_groupe78fa: React.Dispatch<React.SetStateAction<any>>
+  card_groupe78faProps: any 
+  setcard_groupe78faProps: React.Dispatch<React.SetStateAction<any>>
+  principal_group9ae9f: any 
+  setprincipal_group9ae9f: React.Dispatch<React.SetStateAction<any>>
+  principal_group9ae9fProps: any 
+  setprincipal_group9ae9fProps: React.Dispatch<React.SetStateAction<any>>
+  intrest_group8df75: any 
+  setintrest_group8df75: React.Dispatch<React.SetStateAction<any>>
+  intrest_group8df75Props: any 
+  setintrest_group8df75Props: React.Dispatch<React.SetStateAction<any>>
+  fees_groupac23b: any 
+  setfees_groupac23b: React.Dispatch<React.SetStateAction<any>>
+  fees_groupac23bProps: any 
+  setfees_groupac23bProps: React.Dispatch<React.SetStateAction<any>>
+  total_groupe6175: any 
+  settotal_groupe6175: React.Dispatch<React.SetStateAction<any>>
+  total_groupe6175Props: any 
+  settotal_groupe6175Props: React.Dispatch<React.SetStateAction<any>>
+  venue_details_group6904e: any 
+  setvenue_details_group6904e: React.Dispatch<React.SetStateAction<any>>
+  venue_details_group6904eProps: any 
+  setvenue_details_group6904eProps: React.Dispatch<React.SetStateAction<any>>
+  checklist_main_groupda0ff: any 
+  setchecklist_main_groupda0ff: React.Dispatch<React.SetStateAction<any>>
+  checklist_main_groupda0ffProps: any 
+  setchecklist_main_groupda0ffProps: React.Dispatch<React.SetStateAction<any>>
+  checklist_table0e25b: any 
+  setchecklist_table0e25b: React.Dispatch<React.SetStateAction<any>>
+  checklist_table0e25bProps: any 
+  setchecklist_table0e25bProps: React.Dispatch<React.SetStateAction<any>>
+  special_rules_groupc1585: any 
+  setspecial_rules_groupc1585: React.Dispatch<React.SetStateAction<any>>
+  special_rules_groupc1585Props: any 
+  setspecial_rules_groupc1585Props: React.Dispatch<React.SetStateAction<any>>
+  special_rules1fc30: any 
+  setspecial_rules1fc30: React.Dispatch<React.SetStateAction<any>>
+  special_rules1fc30Props: any 
+  setspecial_rules1fc30Props: React.Dispatch<React.SetStateAction<any>>
+  dynamicactions37e34: any 
+  setdynamicactions37e34: React.Dispatch<React.SetStateAction<any>>
+  dynamicactions37e34Props: any 
+  setdynamicactions37e34Props: React.Dispatch<React.SetStateAction<any>>
+  group_report8ef47: any 
+  setgroup_report8ef47: React.Dispatch<React.SetStateAction<any>>
+  group_report8ef47Props: any 
+  setgroup_report8ef47Props: React.Dispatch<React.SetStateAction<any>>
+  lap_test_screen_group38f1e: any 
+  setlap_test_screen_group38f1e: React.Dispatch<React.SetStateAction<any>>
+  lap_test_screen_group38f1eProps: any 
+  setlap_test_screen_group38f1eProps: React.Dispatch<React.SetStateAction<any>>
+  text5e6b2: any,
+  settext5e6b2:React.Dispatch<React.SetStateAction<any>>
+  text5e6b2Props: any 
+  settext5e6b2Props: React.Dispatch<React.SetStateAction<any>>
+  amr_queue_text17149: any,
+  setamr_queue_text17149:React.Dispatch<React.SetStateAction<any>>
+  amr_queue_text17149Props: any 
+  setamr_queue_text17149Props: React.Dispatch<React.SetStateAction<any>>
+  icon_total_assest42cc7: any,
+  seticon_total_assest42cc7:React.Dispatch<React.SetStateAction<any>>
+  icon_total_assest42cc7Props: any 
+  seticon_total_assest42cc7Props: React.Dispatch<React.SetStateAction<any>>
+  amr_queue0e5a7: any,
+  setamr_queue0e5a7:React.Dispatch<React.SetStateAction<any>>
+  amr_queue0e5a7Props: any 
+  setamr_queue0e5a7Props: React.Dispatch<React.SetStateAction<any>>
+  amr_queue_desc10020: any,
+  setamr_queue_desc10020:React.Dispatch<React.SetStateAction<any>>
+  amr_queue_desc10020Props: any 
+  setamr_queue_desc10020Props: React.Dispatch<React.SetStateAction<any>>
+  pending_file_text61240: any,
+  setpending_file_text61240:React.Dispatch<React.SetStateAction<any>>
+  pending_file_text61240Props: any 
+  setpending_file_text61240Props: React.Dispatch<React.SetStateAction<any>>
+  icon_maintenance_dueb2661: any,
+  seticon_maintenance_dueb2661:React.Dispatch<React.SetStateAction<any>>
+  icon_maintenance_dueb2661Props: any 
+  seticon_maintenance_dueb2661Props: React.Dispatch<React.SetStateAction<any>>
+  pending_filea7d91: any,
+  setpending_filea7d91:React.Dispatch<React.SetStateAction<any>>
+  pending_filea7d91Props: any 
+  setpending_filea7d91Props: React.Dispatch<React.SetStateAction<any>>
+  pending_file_desca182c: any,
+  setpending_file_desca182c:React.Dispatch<React.SetStateAction<any>>
+  pending_file_desca182cProps: any 
+  setpending_file_desca182cProps: React.Dispatch<React.SetStateAction<any>>
+  service_pending_textb9d5c: any,
+  setservice_pending_textb9d5c:React.Dispatch<React.SetStateAction<any>>
+  service_pending_textb9d5cProps: any 
+  setservice_pending_textb9d5cProps: React.Dispatch<React.SetStateAction<any>>
+  icon_warranty_expiringa065e: any,
+  seticon_warranty_expiringa065e:React.Dispatch<React.SetStateAction<any>>
+  icon_warranty_expiringa065eProps: any 
+  seticon_warranty_expiringa065eProps: React.Dispatch<React.SetStateAction<any>>
+  service_pending0898e: any,
+  setservice_pending0898e:React.Dispatch<React.SetStateAction<any>>
+  service_pending0898eProps: any 
+  setservice_pending0898eProps: React.Dispatch<React.SetStateAction<any>>
+  service_pending_desc91c8a: any,
+  setservice_pending_desc91c8a:React.Dispatch<React.SetStateAction<any>>
+  service_pending_desc91c8aProps: any 
+  setservice_pending_desc91c8aProps: React.Dispatch<React.SetStateAction<any>>
+  slas_at_risk_text42bdc: any,
+  setslas_at_risk_text42bdc:React.Dispatch<React.SetStateAction<any>>
+  slas_at_risk_text42bdcProps: any 
+  setslas_at_risk_text42bdcProps: React.Dispatch<React.SetStateAction<any>>
+  icon_eaa1e: any,
+  seticon_eaa1e:React.Dispatch<React.SetStateAction<any>>
+  icon_eaa1eProps: any 
+  seticon_eaa1eProps: React.Dispatch<React.SetStateAction<any>>
+  slas_at_riska3022: any,
+  setslas_at_riska3022:React.Dispatch<React.SetStateAction<any>>
+  slas_at_riska3022Props: any 
+  setslas_at_riska3022Props: React.Dispatch<React.SetStateAction<any>>
+  slas_at_risk_desc57375: any,
+  setslas_at_risk_desc57375:React.Dispatch<React.SetStateAction<any>>
+  slas_at_risk_desc57375Props: any 
+  setslas_at_risk_desc57375Props: React.Dispatch<React.SetStateAction<any>>
+  court_rejection_textc9a86: any,
+  setcourt_rejection_textc9a86:React.Dispatch<React.SetStateAction<any>>
+  court_rejection_textc9a86Props: any 
+  setcourt_rejection_textc9a86Props: React.Dispatch<React.SetStateAction<any>>
+  icon87359: any,
+  seticon87359:React.Dispatch<React.SetStateAction<any>>
+  icon87359Props: any 
+  seticon87359Props: React.Dispatch<React.SetStateAction<any>>
+  court_rejectionff779: any,
+  setcourt_rejectionff779:React.Dispatch<React.SetStateAction<any>>
+  court_rejectionff779Props: any 
+  setcourt_rejectionff779Props: React.Dispatch<React.SetStateAction<any>>
+  court_rejection_desc6f72f: any,
+  setcourt_rejection_desc6f72f:React.Dispatch<React.SetStateAction<any>>
+  court_rejection_desc6f72fProps: any 
+  setcourt_rejection_desc6f72fProps: React.Dispatch<React.SetStateAction<any>>
+  collected_mtd_textf5ff3: any,
+  setcollected_mtd_textf5ff3:React.Dispatch<React.SetStateAction<any>>
+  collected_mtd_textf5ff3Props: any 
+  setcollected_mtd_textf5ff3Props: React.Dispatch<React.SetStateAction<any>>
+  iconb9347: any,
+  seticonb9347:React.Dispatch<React.SetStateAction<any>>
+  iconb9347Props: any 
+  seticonb9347Props: React.Dispatch<React.SetStateAction<any>>
+  collected_mtd65ae0: any,
+  setcollected_mtd65ae0:React.Dispatch<React.SetStateAction<any>>
+  collected_mtd65ae0Props: any 
+  setcollected_mtd65ae0Props: React.Dispatch<React.SetStateAction<any>>
+  collected_mtd_desc21bcb: any,
+  setcollected_mtd_desc21bcb:React.Dispatch<React.SetStateAction<any>>
+  collected_mtd_desc21bcbProps: any 
+  setcollected_mtd_desc21bcbProps: React.Dispatch<React.SetStateAction<any>>
+  key_performance_indicators_text4f6db: any,
+  setkey_performance_indicators_text4f6db:React.Dispatch<React.SetStateAction<any>>
+  key_performance_indicators_text4f6dbProps: any 
+  setkey_performance_indicators_text4f6dbProps: React.Dispatch<React.SetStateAction<any>>
+  total_active_accounts_texted4d7: any,
+  settotal_active_accounts_texted4d7:React.Dispatch<React.SetStateAction<any>>
+  total_active_accounts_texted4d7Props: any 
+  settotal_active_accounts_texted4d7Props: React.Dispatch<React.SetStateAction<any>>
+  total_active_accounts_text1b45d0: any,
+  settotal_active_accounts_text1b45d0:React.Dispatch<React.SetStateAction<any>>
+  total_active_accounts_text1b45d0Props: any 
+  settotal_active_accounts_text1b45d0Props: React.Dispatch<React.SetStateAction<any>>
+  divider13ca73: any,
+  setdivider13ca73:React.Dispatch<React.SetStateAction<any>>
+  divider13ca73Props: any 
+  setdivider13ca73Props: React.Dispatch<React.SetStateAction<any>>
+  avg_days_to_judgment_text82b69: any,
+  setavg_days_to_judgment_text82b69:React.Dispatch<React.SetStateAction<any>>
+  avg_days_to_judgment_text82b69Props: any 
+  setavg_days_to_judgment_text82b69Props: React.Dispatch<React.SetStateAction<any>>
+  avg_days_to_judgment_text14ed01: any,
+  setavg_days_to_judgment_text14ed01:React.Dispatch<React.SetStateAction<any>>
+  avg_days_to_judgment_text14ed01Props: any 
+  setavg_days_to_judgment_text14ed01Props: React.Dispatch<React.SetStateAction<any>>
+  divider214543: any,
+  setdivider214543:React.Dispatch<React.SetStateAction<any>>
+  divider214543Props: any 
+  setdivider214543Props: React.Dispatch<React.SetStateAction<any>>
+  court_rejection_rate_text86ac0: any,
+  setcourt_rejection_rate_text86ac0:React.Dispatch<React.SetStateAction<any>>
+  court_rejection_rate_text86ac0Props: any 
+  setcourt_rejection_rate_text86ac0Props: React.Dispatch<React.SetStateAction<any>>
+  court_rejection_rate_text10b69f: any,
+  setcourt_rejection_rate_text10b69f:React.Dispatch<React.SetStateAction<any>>
+  court_rejection_rate_text10b69fProps: any 
+  setcourt_rejection_rate_text10b69fProps: React.Dispatch<React.SetStateAction<any>>
+  divider39db36: any,
+  setdivider39db36:React.Dispatch<React.SetStateAction<any>>
+  divider39db36Props: any 
+  setdivider39db36Props: React.Dispatch<React.SetStateAction<any>>
+  compliance_score_textbf682: any,
+  setcompliance_score_textbf682:React.Dispatch<React.SetStateAction<any>>
+  compliance_score_textbf682Props: any 
+  setcompliance_score_textbf682Props: React.Dispatch<React.SetStateAction<any>>
+  compliance_score_text1f41e4: any,
+  setcompliance_score_text1f41e4:React.Dispatch<React.SetStateAction<any>>
+  compliance_score_text1f41e4Props: any 
+  setcompliance_score_text1f41e4Props: React.Dispatch<React.SetStateAction<any>>
+  divider432793: any,
+  setdivider432793:React.Dispatch<React.SetStateAction<any>>
+  divider432793Props: any 
+  setdivider432793Props: React.Dispatch<React.SetStateAction<any>>
+  collection_rate_mtd_text335f5: any,
+  setcollection_rate_mtd_text335f5:React.Dispatch<React.SetStateAction<any>>
+  collection_rate_mtd_text335f5Props: any 
+  setcollection_rate_mtd_text335f5Props: React.Dispatch<React.SetStateAction<any>>
+  collection_rate_mtd_text16258d: any,
+  setcollection_rate_mtd_text16258d:React.Dispatch<React.SetStateAction<any>>
+  collection_rate_mtd_text16258dProps: any 
+  setcollection_rate_mtd_text16258dProps: React.Dispatch<React.SetStateAction<any>>
+  recent_activity_text25b7b: any,
+  setrecent_activity_text25b7b:React.Dispatch<React.SetStateAction<any>>
+  recent_activity_text25b7bProps: any 
+  setrecent_activity_text25b7bProps: React.Dispatch<React.SetStateAction<any>>
+  amr_queued_textb4f27: any,
+  setamr_queued_textb4f27:React.Dispatch<React.SetStateAction<any>>
+  amr_queued_textb4f27Props: any 
+  setamr_queued_textb4f27Props: React.Dispatch<React.SetStateAction<any>>
+  amr_queued_text_1dc178: any,
+  setamr_queued_text_1dc178:React.Dispatch<React.SetStateAction<any>>
+  amr_queued_text_1dc178Props: any 
+  setamr_queued_text_1dc178Props: React.Dispatch<React.SetStateAction<any>>
+  divider1cb266: any,
+  setdivider1cb266:React.Dispatch<React.SetStateAction<any>>
+  divider1cb266Props: any 
+  setdivider1cb266Props: React.Dispatch<React.SetStateAction<any>>
+  judgment_entered_text2f3e7: any,
+  setjudgment_entered_text2f3e7:React.Dispatch<React.SetStateAction<any>>
+  judgment_entered_text2f3e7Props: any 
+  setjudgment_entered_text2f3e7Props: React.Dispatch<React.SetStateAction<any>>
+  judgment_entered_text_1d4af4: any,
+  setjudgment_entered_text_1d4af4:React.Dispatch<React.SetStateAction<any>>
+  judgment_entered_text_1d4af4Props: any 
+  setjudgment_entered_text_1d4af4Props: React.Dispatch<React.SetStateAction<any>>
+  divider2269d0: any,
+  setdivider2269d0:React.Dispatch<React.SetStateAction<any>>
+  divider2269d0Props: any 
+  setdivider2269d0Props: React.Dispatch<React.SetStateAction<any>>
+  service_completed_text835e5: any,
+  setservice_completed_text835e5:React.Dispatch<React.SetStateAction<any>>
+  service_completed_text835e5Props: any 
+  setservice_completed_text835e5Props: React.Dispatch<React.SetStateAction<any>>
+  service_completed_text_197211: any,
+  setservice_completed_text_197211:React.Dispatch<React.SetStateAction<any>>
+  service_completed_text_197211Props: any 
+  setservice_completed_text_197211Props: React.Dispatch<React.SetStateAction<any>>
+  divider3acb72: any,
+  setdivider3acb72:React.Dispatch<React.SetStateAction<any>>
+  divider3acb72Props: any 
+  setdivider3acb72Props: React.Dispatch<React.SetStateAction<any>>
+  amr_passed_text144d2: any,
+  setamr_passed_text144d2:React.Dispatch<React.SetStateAction<any>>
+  amr_passed_text144d2Props: any 
+  setamr_passed_text144d2Props: React.Dispatch<React.SetStateAction<any>>
+  amr_passed_text188d24: any,
+  setamr_passed_text188d24:React.Dispatch<React.SetStateAction<any>>
+  amr_passed_text188d24Props: any 
+  setamr_passed_text188d24Props: React.Dispatch<React.SetStateAction<any>>
+  divider4ffc0d: any,
+  setdivider4ffc0d:React.Dispatch<React.SetStateAction<any>>
+  divider4ffc0dProps: any 
+  setdivider4ffc0dProps: React.Dispatch<React.SetStateAction<any>>
+  court_rejection_texte1e9c: any,
+  setcourt_rejection_texte1e9c:React.Dispatch<React.SetStateAction<any>>
+  court_rejection_texte1e9cProps: any 
+  setcourt_rejection_texte1e9cProps: React.Dispatch<React.SetStateAction<any>>
+  court_rejection_text16e38f: any,
+  setcourt_rejection_text16e38f:React.Dispatch<React.SetStateAction<any>>
+  court_rejection_text16e38fProps: any 
+  setcourt_rejection_text16e38fProps: React.Dispatch<React.SetStateAction<any>>
+  divider52864b: any,
+  setdivider52864b:React.Dispatch<React.SetStateAction<any>>
+  divider52864bProps: any 
+  setdivider52864bProps: React.Dispatch<React.SetStateAction<any>>
+  service_assigned_textb2d7d: any,
+  setservice_assigned_textb2d7d:React.Dispatch<React.SetStateAction<any>>
+  service_assigned_textb2d7dProps: any 
+  setservice_assigned_textb2d7dProps: React.Dispatch<React.SetStateAction<any>>
+  service_assigned_text15a8e1: any,
+  setservice_assigned_text15a8e1:React.Dispatch<React.SetStateAction<any>>
+  service_assigned_text15a8e1Props: any 
+  setservice_assigned_text15a8e1Props: React.Dispatch<React.SetStateAction<any>>
+  divider6aaa01: any,
+  setdivider6aaa01:React.Dispatch<React.SetStateAction<any>>
+  divider6aaa01Props: any 
+  setdivider6aaa01Props: React.Dispatch<React.SetStateAction<any>>
+  amr_rejected_text92e50: any,
+  setamr_rejected_text92e50:React.Dispatch<React.SetStateAction<any>>
+  amr_rejected_text92e50Props: any 
+  setamr_rejected_text92e50Props: React.Dispatch<React.SetStateAction<any>>
+  amr_rejected_text11a51a: any,
+  setamr_rejected_text11a51a:React.Dispatch<React.SetStateAction<any>>
+  amr_rejected_text11a51aProps: any 
+  setamr_rejected_text11a51aProps: React.Dispatch<React.SetStateAction<any>>
+  back_btn83b00: any,
+  setback_btn83b00:React.Dispatch<React.SetStateAction<any>>
+  back_btn83b00Props: any 
+  setback_btn83b00Props: React.Dispatch<React.SetStateAction<any>>
+  amr_textcc6d3: any,
+  setamr_textcc6d3:React.Dispatch<React.SetStateAction<any>>
+  amr_textcc6d3Props: any 
+  setamr_textcc6d3Props: React.Dispatch<React.SetStateAction<any>>
+  bt_searchc8991: any,
+  setbt_searchc8991:React.Dispatch<React.SetStateAction<any>>
+  bt_searchc8991Props: any 
+  setbt_searchc8991Props: React.Dispatch<React.SetStateAction<any>>
+  new_case_button34af2: any,
+  setnew_case_button34af2:React.Dispatch<React.SetStateAction<any>>
+  new_case_button34af2Props: any 
+  setnew_case_button34af2Props: React.Dispatch<React.SetStateAction<any>>
+  account_id9a546: any,
+  setaccount_id9a546:React.Dispatch<React.SetStateAction<any>>
+  account_id9a546Props: any 
+  setaccount_id9a546Props: React.Dispatch<React.SetStateAction<any>>
+  case_id734ed: any,
+  setcase_id734ed:React.Dispatch<React.SetStateAction<any>>
+  case_id734edProps: any 
+  setcase_id734edProps: React.Dispatch<React.SetStateAction<any>>
+  debtor_nameb1ea9: any,
+  setdebtor_nameb1ea9:React.Dispatch<React.SetStateAction<any>>
+  debtor_nameb1ea9Props: any 
+  setdebtor_nameb1ea9Props: React.Dispatch<React.SetStateAction<any>>
+  creditor_namee48d1: any,
+  setcreditor_namee48d1:React.Dispatch<React.SetStateAction<any>>
+  creditor_namee48d1Props: any 
+  setcreditor_namee48d1Props: React.Dispatch<React.SetStateAction<any>>
+  full_name7a369: any,
+  setfull_name7a369:React.Dispatch<React.SetStateAction<any>>
+  full_name7a369Props: any 
+  setfull_name7a369Props: React.Dispatch<React.SetStateAction<any>>
+  total_balance6a331: any,
+  settotal_balance6a331:React.Dispatch<React.SetStateAction<any>>
+  total_balance6a331Props: any 
+  settotal_balance6a331Props: React.Dispatch<React.SetStateAction<any>>
+  court_name5ae4f: any,
+  setcourt_name5ae4f:React.Dispatch<React.SetStateAction<any>>
+  court_name5ae4fProps: any 
+  setcourt_name5ae4fProps: React.Dispatch<React.SetStateAction<any>>
+  priority_name6740a: any,
+  setpriority_name6740a:React.Dispatch<React.SetStateAction<any>>
+  priority_name6740aProps: any 
+  setpriority_name6740aProps: React.Dispatch<React.SetStateAction<any>>
+  status_name86d6c: any,
+  setstatus_name86d6c:React.Dispatch<React.SetStateAction<any>>
+  status_name86d6cProps: any 
+  setstatus_name86d6cProps: React.Dispatch<React.SetStateAction<any>>
+  trs_created_date92fe2: any,
+  settrs_created_date92fe2:React.Dispatch<React.SetStateAction<any>>
+  trs_created_date92fe2Props: any 
+  settrs_created_date92fe2Props: React.Dispatch<React.SetStateAction<any>>
+  venue_idb51d8: any,
+  setvenue_idb51d8:React.Dispatch<React.SetStateAction<any>>
+  venue_idb51d8Props: any 
+  setvenue_idb51d8Props: React.Dispatch<React.SetStateAction<any>>
+  view_btnbd9a5: any,
+  setview_btnbd9a5:React.Dispatch<React.SetStateAction<any>>
+  view_btnbd9a5Props: any 
+  setview_btnbd9a5Props: React.Dispatch<React.SetStateAction<any>>
+  edit_btn10d01: any,
+  setedit_btn10d01:React.Dispatch<React.SetStateAction<any>>
+  edit_btn10d01Props: any 
+  setedit_btn10d01Props: React.Dispatch<React.SetStateAction<any>>
+  view_btn_pg_graph1baad: any,
+  setview_btn_pg_graph1baad:React.Dispatch<React.SetStateAction<any>>
+  view_btn_pg_graph1baadProps: any 
+  setview_btn_pg_graph1baadProps: React.Dispatch<React.SetStateAction<any>>
+  bt_approveec5db: any,
+  setbt_approveec5db:React.Dispatch<React.SetStateAction<any>>
+  bt_approveec5dbProps: any 
+  setbt_approveec5dbProps: React.Dispatch<React.SetStateAction<any>>
   advancesearch6059f: any,
   setadvancesearch6059f:React.Dispatch<React.SetStateAction<any>>
   advancesearch6059fProps: any 
@@ -734,288 +954,604 @@ export interface TotalContextProps {
   setremarks_textareadc753:React.Dispatch<React.SetStateAction<any>>
   remarks_textareadc753Props: any 
   setremarks_textareadc753Props: React.Dispatch<React.SetStateAction<any>>
-  craete_header_text93eaa: any,
-  setcraete_header_text93eaa:React.Dispatch<React.SetStateAction<any>>
-  craete_header_text93eaaProps: any 
-  setcraete_header_text93eaaProps: React.Dispatch<React.SetStateAction<any>>
-  venue_idcb444: any,
-  setvenue_idcb444:React.Dispatch<React.SetStateAction<any>>
-  venue_idcb444Props: any 
-  setvenue_idcb444Props: React.Dispatch<React.SetStateAction<any>>
-  creditor_idb1867: any,
-  setcreditor_idb1867:React.Dispatch<React.SetStateAction<any>>
-  creditor_idb1867Props: any 
-  setcreditor_idb1867Props: React.Dispatch<React.SetStateAction<any>>
-  case_info_textdf3f1: any,
-  setcase_info_textdf3f1:React.Dispatch<React.SetStateAction<any>>
-  case_info_textdf3f1Props: any 
-  setcase_info_textdf3f1Props: React.Dispatch<React.SetStateAction<any>>
-  creditor_name257be: any,
-  setcreditor_name257be:React.Dispatch<React.SetStateAction<any>>
-  creditor_name257beProps: any 
-  setcreditor_name257beProps: React.Dispatch<React.SetStateAction<any>>
-  attorney_name87be1: any,
-  setattorney_name87be1:React.Dispatch<React.SetStateAction<any>>
-  attorney_name87be1Props: any 
-  setattorney_name87be1Props: React.Dispatch<React.SetStateAction<any>>
-  status_namea5f92: any,
-  setstatus_namea5f92:React.Dispatch<React.SetStateAction<any>>
-  status_namea5f92Props: any 
-  setstatus_namea5f92Props: React.Dispatch<React.SetStateAction<any>>
-  priority_name449dd: any,
-  setpriority_name449dd:React.Dispatch<React.SetStateAction<any>>
-  priority_name449ddProps: any 
-  setpriority_name449ddProps: React.Dispatch<React.SetStateAction<any>>
-  queue_positionceb8d: any,
-  setqueue_positionceb8d:React.Dispatch<React.SetStateAction<any>>
-  queue_positionceb8dProps: any 
-  setqueue_positionceb8dProps: React.Dispatch<React.SetStateAction<any>>
-  quality_scoredfaa9: any,
-  setquality_scoredfaa9:React.Dispatch<React.SetStateAction<any>>
-  quality_scoredfaa9Props: any 
-  setquality_scoredfaa9Props: React.Dispatch<React.SetStateAction<any>>
-  sla_wait_start_time20502: any,
-  setsla_wait_start_time20502:React.Dispatch<React.SetStateAction<any>>
-  sla_wait_start_time20502Props: any 
-  setsla_wait_start_time20502Props: React.Dispatch<React.SetStateAction<any>>
-  rules_iconfb03f: any,
-  setrules_iconfb03f:React.Dispatch<React.SetStateAction<any>>
-  rules_iconfb03fProps: any 
-  setrules_iconfb03fProps: React.Dispatch<React.SetStateAction<any>>
-  venue_special_rules_textecd92: any,
-  setvenue_special_rules_textecd92:React.Dispatch<React.SetStateAction<any>>
-  venue_special_rules_textecd92Props: any 
-  setvenue_special_rules_textecd92Props: React.Dispatch<React.SetStateAction<any>>
-  special_rules2001a: any,
-  setspecial_rules2001a:React.Dispatch<React.SetStateAction<any>>
-  special_rules2001aProps: any 
-  setspecial_rules2001aProps: React.Dispatch<React.SetStateAction<any>>
-  venue_special_rules_divider206ab: any,
-  setvenue_special_rules_divider206ab:React.Dispatch<React.SetStateAction<any>>
-  venue_special_rules_divider206abProps: any 
-  setvenue_special_rules_divider206abProps: React.Dispatch<React.SetStateAction<any>>
-  warning_icond1cd0: any,
-  setwarning_icond1cd0:React.Dispatch<React.SetStateAction<any>>
-  warning_icond1cd0Props: any 
-  setwarning_icond1cd0Props: React.Dispatch<React.SetStateAction<any>>
-  georgia_sol_text460ef: any,
-  setgeorgia_sol_text460ef:React.Dispatch<React.SetStateAction<any>>
-  georgia_sol_text460efProps: any 
-  setgeorgia_sol_text460efProps: React.Dispatch<React.SetStateAction<any>>
-  special_rulesd6c6e: any,
-  setspecial_rulesd6c6e:React.Dispatch<React.SetStateAction<any>>
-  special_rulesd6c6eProps: any 
-  setspecial_rulesd6c6eProps: React.Dispatch<React.SetStateAction<any>>
-  venue_special_rules_dividers28a68: any,
-  setvenue_special_rules_dividers28a68:React.Dispatch<React.SetStateAction<any>>
-  venue_special_rules_dividers28a68Props: any 
-  setvenue_special_rules_dividers28a68Props: React.Dispatch<React.SetStateAction<any>>
-  warnings_icon0adcc: any,
-  setwarnings_icon0adcc:React.Dispatch<React.SetStateAction<any>>
-  warnings_icon0adccProps: any 
-  setwarnings_icon0adccProps: React.Dispatch<React.SetStateAction<any>>
-  georgias_sol_text24265: any,
-  setgeorgias_sol_text24265:React.Dispatch<React.SetStateAction<any>>
-  georgias_sol_text24265Props: any 
-  setgeorgias_sol_text24265Props: React.Dispatch<React.SetStateAction<any>>
-  specials_rules14021: any,
-  setspecials_rules14021:React.Dispatch<React.SetStateAction<any>>
-  specials_rules14021Props: any 
-  setspecials_rules14021Props: React.Dispatch<React.SetStateAction<any>>
-  venue_special_rules_dividerss0c16e: any,
-  setvenue_special_rules_dividerss0c16e:React.Dispatch<React.SetStateAction<any>>
-  venue_special_rules_dividerss0c16eProps: any 
-  setvenue_special_rules_dividerss0c16eProps: React.Dispatch<React.SetStateAction<any>>
-  warningss_icons476c3: any,
-  setwarningss_icons476c3:React.Dispatch<React.SetStateAction<any>>
-  warningss_icons476c3Props: any 
-  setwarningss_icons476c3Props: React.Dispatch<React.SetStateAction<any>>
-  georgias_sosl_texts3f264: any,
-  setgeorgias_sosl_texts3f264:React.Dispatch<React.SetStateAction<any>>
-  georgias_sosl_texts3f264Props: any 
-  setgeorgias_sosl_texts3f264Props: React.Dispatch<React.SetStateAction<any>>
-  specials_rulesscc30f: any,
-  setspecials_rulesscc30f:React.Dispatch<React.SetStateAction<any>>
-  specials_rulesscc30fProps: any 
-  setspecials_rulesscc30fProps: React.Dispatch<React.SetStateAction<any>>
-  venue_special_rules_dividersssdcaab: any,
-  setvenue_special_rules_dividersssdcaab:React.Dispatch<React.SetStateAction<any>>
-  venue_special_rules_dividersssdcaabProps: any 
-  setvenue_special_rules_dividersssdcaabProps: React.Dispatch<React.SetStateAction<any>>
-  warningsss_icons3be9c: any,
-  setwarningsss_icons3be9c:React.Dispatch<React.SetStateAction<any>>
-  warningsss_icons3be9cProps: any 
-  setwarningsss_icons3be9cProps: React.Dispatch<React.SetStateAction<any>>
-  georgiass_sosl_texts88097: any,
-  setgeorgiass_sosl_texts88097:React.Dispatch<React.SetStateAction<any>>
-  georgiass_sosl_texts88097Props: any 
-  setgeorgiass_sosl_texts88097Props: React.Dispatch<React.SetStateAction<any>>
-  specials_ruless95686: any,
-  setspecials_ruless95686:React.Dispatch<React.SetStateAction<any>>
-  specials_ruless95686Props: any 
-  setspecials_ruless95686Props: React.Dispatch<React.SetStateAction<any>>
-  venues_special_rules_dividerssss44419: any,
-  setvenues_special_rules_dividerssss44419:React.Dispatch<React.SetStateAction<any>>
-  venues_special_rules_dividerssss44419Props: any 
-  setvenues_special_rules_dividerssss44419Props: React.Dispatch<React.SetStateAction<any>>
-  warningssss_icons55275: any,
-  setwarningssss_icons55275:React.Dispatch<React.SetStateAction<any>>
-  warningssss_icons55275Props: any 
-  setwarningssss_icons55275Props: React.Dispatch<React.SetStateAction<any>>
-  georsgiass_sosl_texts15f5e: any,
-  setgeorsgiass_sosl_texts15f5e:React.Dispatch<React.SetStateAction<any>>
-  georsgiass_sosl_texts15f5eProps: any 
-  setgeorsgiass_sosl_texts15f5eProps: React.Dispatch<React.SetStateAction<any>>
-  spesciasls_ruless910f1: any,
-  setspesciasls_ruless910f1:React.Dispatch<React.SetStateAction<any>>
-  spesciasls_ruless910f1Props: any 
-  setspesciasls_ruless910f1Props: React.Dispatch<React.SetStateAction<any>>
-  debt_info_textb09b8: any,
-  setdebt_info_textb09b8:React.Dispatch<React.SetStateAction<any>>
-  debt_info_textb09b8Props: any 
-  setdebt_info_textb09b8Props: React.Dispatch<React.SetStateAction<any>>
-  debtor_namef7cac: any,
-  setdebtor_namef7cac:React.Dispatch<React.SetStateAction<any>>
-  debtor_namef7cacProps: any 
-  setdebtor_namef7cacProps: React.Dispatch<React.SetStateAction<any>>
-  ssn_masked26c46: any,
-  setssn_masked26c46:React.Dispatch<React.SetStateAction<any>>
-  ssn_masked26c46Props: any 
-  setssn_masked26c46Props: React.Dispatch<React.SetStateAction<any>>
-  dob0f0bf: any,
-  setdob0f0bf:React.Dispatch<React.SetStateAction<any>>
-  dob0f0bfProps: any 
-  setdob0f0bfProps: React.Dispatch<React.SetStateAction<any>>
-  address22d72: any,
-  setaddress22d72:React.Dispatch<React.SetStateAction<any>>
-  address22d72Props: any 
-  setaddress22d72Props: React.Dispatch<React.SetStateAction<any>>
-  financial_dtls_text3451f: any,
-  setfinancial_dtls_text3451f:React.Dispatch<React.SetStateAction<any>>
-  financial_dtls_text3451fProps: any 
-  setfinancial_dtls_text3451fProps: React.Dispatch<React.SetStateAction<any>>
-  charge_off_date13a39: any,
-  setcharge_off_date13a39:React.Dispatch<React.SetStateAction<any>>
-  charge_off_date13a39Props: any 
-  setcharge_off_date13a39Props: React.Dispatch<React.SetStateAction<any>>
-  last_payment_dateeab2f: any,
-  setlast_payment_dateeab2f:React.Dispatch<React.SetStateAction<any>>
-  last_payment_dateeab2fProps: any 
-  setlast_payment_dateeab2fProps: React.Dispatch<React.SetStateAction<any>>
-  total_balanceca1e1: any,
-  settotal_balanceca1e1:React.Dispatch<React.SetStateAction<any>>
-  total_balanceca1e1Props: any 
-  settotal_balanceca1e1Props: React.Dispatch<React.SetStateAction<any>>
-  principal6eb2a: any,
-  setprincipal6eb2a:React.Dispatch<React.SetStateAction<any>>
-  principal6eb2aProps: any 
-  setprincipal6eb2aProps: React.Dispatch<React.SetStateAction<any>>
-  interesta6b7d: any,
-  setinteresta6b7d:React.Dispatch<React.SetStateAction<any>>
-  interesta6b7dProps: any 
-  setinteresta6b7dProps: React.Dispatch<React.SetStateAction<any>>
-  feesb456c: any,
-  setfeesb456c:React.Dispatch<React.SetStateAction<any>>
-  feesb456cProps: any 
-  setfeesb456cProps: React.Dispatch<React.SetStateAction<any>>
-  ven_name_text0c8ba: any,
-  setven_name_text0c8ba:React.Dispatch<React.SetStateAction<any>>
-  ven_name_text0c8baProps: any 
-  setven_name_text0c8baProps: React.Dispatch<React.SetStateAction<any>>
-  state3010e: any,
-  setstate3010e:React.Dispatch<React.SetStateAction<any>>
-  state3010eProps: any 
-  setstate3010eProps: React.Dispatch<React.SetStateAction<any>>
-  country1983b: any,
-  setcountry1983b:React.Dispatch<React.SetStateAction<any>>
-  country1983bProps: any 
-  setcountry1983bProps: React.Dispatch<React.SetStateAction<any>>
-  court_name41a77: any,
-  setcourt_name41a77:React.Dispatch<React.SetStateAction<any>>
-  court_name41a77Props: any 
-  setcourt_name41a77Props: React.Dispatch<React.SetStateAction<any>>
-  judge_name0a819: any,
-  setjudge_name0a819:React.Dispatch<React.SetStateAction<any>>
-  judge_name0a819Props: any 
-  setjudge_name0a819Props: React.Dispatch<React.SetStateAction<any>>
-  sol_expiry_dated5486: any,
-  setsol_expiry_dated5486:React.Dispatch<React.SetStateAction<any>>
-  sol_expiry_dated5486Props: any 
-  setsol_expiry_dated5486Props: React.Dispatch<React.SetStateAction<any>>
-  filing_fee89c7f: any,
-  setfiling_fee89c7f:React.Dispatch<React.SetStateAction<any>>
-  filing_fee89c7fProps: any 
-  setfiling_fee89c7fProps: React.Dispatch<React.SetStateAction<any>>
-  service_method1b411: any,
-  setservice_method1b411:React.Dispatch<React.SetStateAction<any>>
-  service_method1b411Props: any 
-  setservice_method1b411Props: React.Dispatch<React.SetStateAction<any>>
-  efiling_system7d508: any,
-  setefiling_system7d508:React.Dispatch<React.SetStateAction<any>>
-  efiling_system7d508Props: any 
-  setefiling_system7d508Props: React.Dispatch<React.SetStateAction<any>>
-  efiling_required36d60: any,
-  setefiling_required36d60:React.Dispatch<React.SetStateAction<any>>
-  efiling_required36d60Props: any 
-  setefiling_required36d60Props: React.Dispatch<React.SetStateAction<any>>
-  reeq_doc_text732f8: any,
-  setreeq_doc_text732f8:React.Dispatch<React.SetStateAction<any>>
-  reeq_doc_text732f8Props: any 
-  setreeq_doc_text732f8Props: React.Dispatch<React.SetStateAction<any>>
-  attachment_id54469: any,
-  setattachment_id54469:React.Dispatch<React.SetStateAction<any>>
-  attachment_id54469Props: any 
-  setattachment_id54469Props: React.Dispatch<React.SetStateAction<any>>
-  doc_name513db: any,
-  setdoc_name513db:React.Dispatch<React.SetStateAction<any>>
-  doc_name513dbProps: any 
-  setdoc_name513dbProps: React.Dispatch<React.SetStateAction<any>>
-  trs_created_by736ad: any,
-  settrs_created_by736ad:React.Dispatch<React.SetStateAction<any>>
-  trs_created_by736adProps: any 
-  settrs_created_by736adProps: React.Dispatch<React.SetStateAction<any>>
-  trs_created_datecfead: any,
-  settrs_created_datecfead:React.Dispatch<React.SetStateAction<any>>
-  trs_created_datecfeadProps: any 
-  settrs_created_datecfeadProps: React.Dispatch<React.SetStateAction<any>>
-  valid_checklist_text1428a: any,
-  setvalid_checklist_text1428a:React.Dispatch<React.SetStateAction<any>>
-  valid_checklist_text1428aProps: any 
-  setvalid_checklist_text1428aProps: React.Dispatch<React.SetStateAction<any>>
-  checklist_item_id611e6: any,
-  setchecklist_item_id611e6:React.Dispatch<React.SetStateAction<any>>
-  checklist_item_id611e6Props: any 
-  setchecklist_item_id611e6Props: React.Dispatch<React.SetStateAction<any>>
-  item_nameafc9a: any,
-  setitem_nameafc9a:React.Dispatch<React.SetStateAction<any>>
-  item_nameafc9aProps: any 
-  setitem_nameafc9aProps: React.Dispatch<React.SetStateAction<any>>
-  is_completed6ef7a: any,
-  setis_completed6ef7a:React.Dispatch<React.SetStateAction<any>>
-  is_completed6ef7aProps: any 
-  setis_completed6ef7aProps: React.Dispatch<React.SetStateAction<any>>
-  remarks_textarea15a62: any,
-  setremarks_textarea15a62:React.Dispatch<React.SetStateAction<any>>
-  remarks_textarea15a62Props: any 
-  setremarks_textarea15a62Props: React.Dispatch<React.SetStateAction<any>>
-  account_id4ecc7: any,
-  setaccount_id4ecc7:React.Dispatch<React.SetStateAction<any>>
-  account_id4ecc7Props: any 
-  setaccount_id4ecc7Props: React.Dispatch<React.SetStateAction<any>>
+  button_back1a912: any,
+  setbutton_back1a912:React.Dispatch<React.SetStateAction<any>>
+  button_back1a912Props: any 
+  setbutton_back1a912Props: React.Dispatch<React.SetStateAction<any>>
+  craete_header_texte958c: any,
+  setcraete_header_texte958c:React.Dispatch<React.SetStateAction<any>>
+  craete_header_texte958cProps: any 
+  setcraete_header_texte958cProps: React.Dispatch<React.SetStateAction<any>>
+  reeq_doc_text78b91: any,
+  setreeq_doc_text78b91:React.Dispatch<React.SetStateAction<any>>
+  reeq_doc_text78b91Props: any 
+  setreeq_doc_text78b91Props: React.Dispatch<React.SetStateAction<any>>
+  attachment_id394f7: any,
+  setattachment_id394f7:React.Dispatch<React.SetStateAction<any>>
+  attachment_id394f7Props: any 
+  setattachment_id394f7Props: React.Dispatch<React.SetStateAction<any>>
+  doc_namef31ac: any,
+  setdoc_namef31ac:React.Dispatch<React.SetStateAction<any>>
+  doc_namef31acProps: any 
+  setdoc_namef31acProps: React.Dispatch<React.SetStateAction<any>>
+  view_button04be7: any,
+  setview_button04be7:React.Dispatch<React.SetStateAction<any>>
+  view_button04be7Props: any 
+  setview_button04be7Props: React.Dispatch<React.SetStateAction<any>>
+  case_info_textd4267: any,
+  setcase_info_textd4267:React.Dispatch<React.SetStateAction<any>>
+  case_info_textd4267Props: any 
+  setcase_info_textd4267Props: React.Dispatch<React.SetStateAction<any>>
+  debtor_name83b58: any,
+  setdebtor_name83b58:React.Dispatch<React.SetStateAction<any>>
+  debtor_name83b58Props: any 
+  setdebtor_name83b58Props: React.Dispatch<React.SetStateAction<any>>
+  case_display_idb53b9: any,
+  setcase_display_idb53b9:React.Dispatch<React.SetStateAction<any>>
+  case_display_idb53b9Props: any 
+  setcase_display_idb53b9Props: React.Dispatch<React.SetStateAction<any>>
+  ssn_masked24ce0: any,
+  setssn_masked24ce0:React.Dispatch<React.SetStateAction<any>>
+  ssn_masked24ce0Props: any 
+  setssn_masked24ce0Props: React.Dispatch<React.SetStateAction<any>>
+  dobea900: any,
+  setdobea900:React.Dispatch<React.SetStateAction<any>>
+  dobea900Props: any 
+  setdobea900Props: React.Dispatch<React.SetStateAction<any>>
+  address4e81d: any,
+  setaddress4e81d:React.Dispatch<React.SetStateAction<any>>
+  address4e81dProps: any 
+  setaddress4e81dProps: React.Dispatch<React.SetStateAction<any>>
+  creditor_name62479: any,
+  setcreditor_name62479:React.Dispatch<React.SetStateAction<any>>
+  creditor_name62479Props: any 
+  setcreditor_name62479Props: React.Dispatch<React.SetStateAction<any>>
+  charge_off_dated3231: any,
+  setcharge_off_dated3231:React.Dispatch<React.SetStateAction<any>>
+  charge_off_dated3231Props: any 
+  setcharge_off_dated3231Props: React.Dispatch<React.SetStateAction<any>>
+  last_payment_date500eb: any,
+  setlast_payment_date500eb:React.Dispatch<React.SetStateAction<any>>
+  last_payment_date500ebProps: any 
+  setlast_payment_date500ebProps: React.Dispatch<React.SetStateAction<any>>
+  divider772d9: any,
+  setdivider772d9:React.Dispatch<React.SetStateAction<any>>
+  divider772d9Props: any 
+  setdivider772d9Props: React.Dispatch<React.SetStateAction<any>>
+  principal_text73a3d: any,
+  setprincipal_text73a3d:React.Dispatch<React.SetStateAction<any>>
+  principal_text73a3dProps: any 
+  setprincipal_text73a3dProps: React.Dispatch<React.SetStateAction<any>>
+  principald89b4: any,
+  setprincipald89b4:React.Dispatch<React.SetStateAction<any>>
+  principald89b4Props: any 
+  setprincipald89b4Props: React.Dispatch<React.SetStateAction<any>>
+  intrest_text58114: any,
+  setintrest_text58114:React.Dispatch<React.SetStateAction<any>>
+  intrest_text58114Props: any 
+  setintrest_text58114Props: React.Dispatch<React.SetStateAction<any>>
+  interest42832: any,
+  setinterest42832:React.Dispatch<React.SetStateAction<any>>
+  interest42832Props: any 
+  setinterest42832Props: React.Dispatch<React.SetStateAction<any>>
+  fees_text67815: any,
+  setfees_text67815:React.Dispatch<React.SetStateAction<any>>
+  fees_text67815Props: any 
+  setfees_text67815Props: React.Dispatch<React.SetStateAction<any>>
+  fees9a14f: any,
+  setfees9a14f:React.Dispatch<React.SetStateAction<any>>
+  fees9a14fProps: any 
+  setfees9a14fProps: React.Dispatch<React.SetStateAction<any>>
+  total_balance_texted1be: any,
+  settotal_balance_texted1be:React.Dispatch<React.SetStateAction<any>>
+  total_balance_texted1beProps: any 
+  settotal_balance_texted1beProps: React.Dispatch<React.SetStateAction<any>>
+  total_balancee5904: any,
+  settotal_balancee5904:React.Dispatch<React.SetStateAction<any>>
+  total_balancee5904Props: any 
+  settotal_balancee5904Props: React.Dispatch<React.SetStateAction<any>>
+  sol_expiry_date69782: any,
+  setsol_expiry_date69782:React.Dispatch<React.SetStateAction<any>>
+  sol_expiry_date69782Props: any 
+  setsol_expiry_date69782Props: React.Dispatch<React.SetStateAction<any>>
+  ven_name_textdfed0: any,
+  setven_name_textdfed0:React.Dispatch<React.SetStateAction<any>>
+  ven_name_textdfed0Props: any 
+  setven_name_textdfed0Props: React.Dispatch<React.SetStateAction<any>>
+  state8a16f: any,
+  setstate8a16f:React.Dispatch<React.SetStateAction<any>>
+  state8a16fProps: any 
+  setstate8a16fProps: React.Dispatch<React.SetStateAction<any>>
+  dividers29243: any,
+  setdividers29243:React.Dispatch<React.SetStateAction<any>>
+  dividers29243Props: any 
+  setdividers29243Props: React.Dispatch<React.SetStateAction<any>>
+  country40b75: any,
+  setcountry40b75:React.Dispatch<React.SetStateAction<any>>
+  country40b75Props: any 
+  setcountry40b75Props: React.Dispatch<React.SetStateAction<any>>
+  dividerss6e19f: any,
+  setdividerss6e19f:React.Dispatch<React.SetStateAction<any>>
+  dividerss6e19fProps: any 
+  setdividerss6e19fProps: React.Dispatch<React.SetStateAction<any>>
+  court_name27e21: any,
+  setcourt_name27e21:React.Dispatch<React.SetStateAction<any>>
+  court_name27e21Props: any 
+  setcourt_name27e21Props: React.Dispatch<React.SetStateAction<any>>
+  dividersss5d68a: any,
+  setdividersss5d68a:React.Dispatch<React.SetStateAction<any>>
+  dividersss5d68aProps: any 
+  setdividersss5d68aProps: React.Dispatch<React.SetStateAction<any>>
+  judge_name5abc6: any,
+  setjudge_name5abc6:React.Dispatch<React.SetStateAction<any>>
+  judge_name5abc6Props: any 
+  setjudge_name5abc6Props: React.Dispatch<React.SetStateAction<any>>
+  dividerssss4ac29: any,
+  setdividerssss4ac29:React.Dispatch<React.SetStateAction<any>>
+  dividerssss4ac29Props: any 
+  setdividerssss4ac29Props: React.Dispatch<React.SetStateAction<any>>
+  filing_fee7fab8: any,
+  setfiling_fee7fab8:React.Dispatch<React.SetStateAction<any>>
+  filing_fee7fab8Props: any 
+  setfiling_fee7fab8Props: React.Dispatch<React.SetStateAction<any>>
+  dividersssssec43b: any,
+  setdividersssssec43b:React.Dispatch<React.SetStateAction<any>>
+  dividersssssec43bProps: any 
+  setdividersssssec43bProps: React.Dispatch<React.SetStateAction<any>>
+  service_method80ec2: any,
+  setservice_method80ec2:React.Dispatch<React.SetStateAction<any>>
+  service_method80ec2Props: any 
+  setservice_method80ec2Props: React.Dispatch<React.SetStateAction<any>>
+  dividerssssssbc99f: any,
+  setdividerssssssbc99f:React.Dispatch<React.SetStateAction<any>>
+  dividerssssssbc99fProps: any 
+  setdividerssssssbc99fProps: React.Dispatch<React.SetStateAction<any>>
+  efiling_system9b6bc: any,
+  setefiling_system9b6bc:React.Dispatch<React.SetStateAction<any>>
+  efiling_system9b6bcProps: any 
+  setefiling_system9b6bcProps: React.Dispatch<React.SetStateAction<any>>
+  valid_checklist_text6c6d2: any,
+  setvalid_checklist_text6c6d2:React.Dispatch<React.SetStateAction<any>>
+  valid_checklist_text6c6d2Props: any 
+  setvalid_checklist_text6c6d2Props: React.Dispatch<React.SetStateAction<any>>
+  checklist_item_ida8a87: any,
+  setchecklist_item_ida8a87:React.Dispatch<React.SetStateAction<any>>
+  checklist_item_ida8a87Props: any 
+  setchecklist_item_ida8a87Props: React.Dispatch<React.SetStateAction<any>>
+  item_name8baf4: any,
+  setitem_name8baf4:React.Dispatch<React.SetStateAction<any>>
+  item_name8baf4Props: any 
+  setitem_name8baf4Props: React.Dispatch<React.SetStateAction<any>>
+  is_completed2fafb: any,
+  setis_completed2fafb:React.Dispatch<React.SetStateAction<any>>
+  is_completed2fafbProps: any 
+  setis_completed2fafbProps: React.Dispatch<React.SetStateAction<any>>
+  special_rules_textda90e: any,
+  setspecial_rules_textda90e:React.Dispatch<React.SetStateAction<any>>
+  special_rules_textda90eProps: any 
+  setspecial_rules_textda90eProps: React.Dispatch<React.SetStateAction<any>>
+  dynamic_icon8f352: any,
+  setdynamic_icon8f352:React.Dispatch<React.SetStateAction<any>>
+  dynamic_icon8f352Props: any 
+  setdynamic_icon8f352Props: React.Dispatch<React.SetStateAction<any>>
+  rules_text55ce9: any,
+  setrules_text55ce9:React.Dispatch<React.SetStateAction<any>>
+  rules_text55ce9Props: any 
+  setrules_text55ce9Props: React.Dispatch<React.SetStateAction<any>>
+  account_idc92b6: any,
+  setaccount_idc92b6:React.Dispatch<React.SetStateAction<any>>
+  account_idc92b6Props: any 
+  setaccount_idc92b6Props: React.Dispatch<React.SetStateAction<any>>
+  venue_id063aa: any,
+  setvenue_id063aa:React.Dispatch<React.SetStateAction<any>>
+  venue_id063aaProps: any 
+  setvenue_id063aaProps: React.Dispatch<React.SetStateAction<any>>
   documentviewer64771: any,
   setdocumentviewer64771:React.Dispatch<React.SetStateAction<any>>
   documentviewer64771Props: any 
   setdocumentviewer64771Props: React.Dispatch<React.SetStateAction<any>>
-  advancesearch1e502: any,
-  setadvancesearch1e502:React.Dispatch<React.SetStateAction<any>>
-  advancesearch1e502Props: any 
-  setadvancesearch1e502Props: React.Dispatch<React.SetStateAction<any>>
+  back_bt22897: any,
+  setback_bt22897:React.Dispatch<React.SetStateAction<any>>
+  back_bt22897Props: any 
+  setback_bt22897Props: React.Dispatch<React.SetStateAction<any>>
+  craete_header_textae5d6: any,
+  setcraete_header_textae5d6:React.Dispatch<React.SetStateAction<any>>
+  craete_header_textae5d6Props: any 
+  setcraete_header_textae5d6Props: React.Dispatch<React.SetStateAction<any>>
+  reeq_doc_text64f93: any,
+  setreeq_doc_text64f93:React.Dispatch<React.SetStateAction<any>>
+  reeq_doc_text64f93Props: any 
+  setreeq_doc_text64f93Props: React.Dispatch<React.SetStateAction<any>>
+  attachment_idcc3f4: any,
+  setattachment_idcc3f4:React.Dispatch<React.SetStateAction<any>>
+  attachment_idcc3f4Props: any 
+  setattachment_idcc3f4Props: React.Dispatch<React.SetStateAction<any>>
+  doc_name909a3: any,
+  setdoc_name909a3:React.Dispatch<React.SetStateAction<any>>
+  doc_name909a3Props: any 
+  setdoc_name909a3Props: React.Dispatch<React.SetStateAction<any>>
+  view_button22ede: any,
+  setview_button22ede:React.Dispatch<React.SetStateAction<any>>
+  view_button22edeProps: any 
+  setview_button22edeProps: React.Dispatch<React.SetStateAction<any>>
+  case_info_text1e3db: any,
+  setcase_info_text1e3db:React.Dispatch<React.SetStateAction<any>>
+  case_info_text1e3dbProps: any 
+  setcase_info_text1e3dbProps: React.Dispatch<React.SetStateAction<any>>
+  debtor_name2af58: any,
+  setdebtor_name2af58:React.Dispatch<React.SetStateAction<any>>
+  debtor_name2af58Props: any 
+  setdebtor_name2af58Props: React.Dispatch<React.SetStateAction<any>>
+  case_display_idd1272: any,
+  setcase_display_idd1272:React.Dispatch<React.SetStateAction<any>>
+  case_display_idd1272Props: any 
+  setcase_display_idd1272Props: React.Dispatch<React.SetStateAction<any>>
+  ssn_maskedc4424: any,
+  setssn_maskedc4424:React.Dispatch<React.SetStateAction<any>>
+  ssn_maskedc4424Props: any 
+  setssn_maskedc4424Props: React.Dispatch<React.SetStateAction<any>>
+  dob29785: any,
+  setdob29785:React.Dispatch<React.SetStateAction<any>>
+  dob29785Props: any 
+  setdob29785Props: React.Dispatch<React.SetStateAction<any>>
+  address70906: any,
+  setaddress70906:React.Dispatch<React.SetStateAction<any>>
+  address70906Props: any 
+  setaddress70906Props: React.Dispatch<React.SetStateAction<any>>
+  creditor_namea9b98: any,
+  setcreditor_namea9b98:React.Dispatch<React.SetStateAction<any>>
+  creditor_namea9b98Props: any 
+  setcreditor_namea9b98Props: React.Dispatch<React.SetStateAction<any>>
+  charge_off_date763d0: any,
+  setcharge_off_date763d0:React.Dispatch<React.SetStateAction<any>>
+  charge_off_date763d0Props: any 
+  setcharge_off_date763d0Props: React.Dispatch<React.SetStateAction<any>>
+  last_payment_date43bdb: any,
+  setlast_payment_date43bdb:React.Dispatch<React.SetStateAction<any>>
+  last_payment_date43bdbProps: any 
+  setlast_payment_date43bdbProps: React.Dispatch<React.SetStateAction<any>>
+  dividere3c67: any,
+  setdividere3c67:React.Dispatch<React.SetStateAction<any>>
+  dividere3c67Props: any 
+  setdividere3c67Props: React.Dispatch<React.SetStateAction<any>>
+  principal_text6883f: any,
+  setprincipal_text6883f:React.Dispatch<React.SetStateAction<any>>
+  principal_text6883fProps: any 
+  setprincipal_text6883fProps: React.Dispatch<React.SetStateAction<any>>
+  principal65ef3: any,
+  setprincipal65ef3:React.Dispatch<React.SetStateAction<any>>
+  principal65ef3Props: any 
+  setprincipal65ef3Props: React.Dispatch<React.SetStateAction<any>>
+  intrest_text3a919: any,
+  setintrest_text3a919:React.Dispatch<React.SetStateAction<any>>
+  intrest_text3a919Props: any 
+  setintrest_text3a919Props: React.Dispatch<React.SetStateAction<any>>
+  interest783c4: any,
+  setinterest783c4:React.Dispatch<React.SetStateAction<any>>
+  interest783c4Props: any 
+  setinterest783c4Props: React.Dispatch<React.SetStateAction<any>>
+  fees_text4a6b6: any,
+  setfees_text4a6b6:React.Dispatch<React.SetStateAction<any>>
+  fees_text4a6b6Props: any 
+  setfees_text4a6b6Props: React.Dispatch<React.SetStateAction<any>>
+  feesab1fe: any,
+  setfeesab1fe:React.Dispatch<React.SetStateAction<any>>
+  feesab1feProps: any 
+  setfeesab1feProps: React.Dispatch<React.SetStateAction<any>>
+  total_balance_text0b418: any,
+  settotal_balance_text0b418:React.Dispatch<React.SetStateAction<any>>
+  total_balance_text0b418Props: any 
+  settotal_balance_text0b418Props: React.Dispatch<React.SetStateAction<any>>
+  total_balancee7e5f: any,
+  settotal_balancee7e5f:React.Dispatch<React.SetStateAction<any>>
+  total_balancee7e5fProps: any 
+  settotal_balancee7e5fProps: React.Dispatch<React.SetStateAction<any>>
+  sol_expiry_date4dfe3: any,
+  setsol_expiry_date4dfe3:React.Dispatch<React.SetStateAction<any>>
+  sol_expiry_date4dfe3Props: any 
+  setsol_expiry_date4dfe3Props: React.Dispatch<React.SetStateAction<any>>
+  ven_name_textf01f8: any,
+  setven_name_textf01f8:React.Dispatch<React.SetStateAction<any>>
+  ven_name_textf01f8Props: any 
+  setven_name_textf01f8Props: React.Dispatch<React.SetStateAction<any>>
+  statea7e09: any,
+  setstatea7e09:React.Dispatch<React.SetStateAction<any>>
+  statea7e09Props: any 
+  setstatea7e09Props: React.Dispatch<React.SetStateAction<any>>
+  dividersa774c: any,
+  setdividersa774c:React.Dispatch<React.SetStateAction<any>>
+  dividersa774cProps: any 
+  setdividersa774cProps: React.Dispatch<React.SetStateAction<any>>
+  countrydb772: any,
+  setcountrydb772:React.Dispatch<React.SetStateAction<any>>
+  countrydb772Props: any 
+  setcountrydb772Props: React.Dispatch<React.SetStateAction<any>>
+  dividerssaf051: any,
+  setdividerssaf051:React.Dispatch<React.SetStateAction<any>>
+  dividerssaf051Props: any 
+  setdividerssaf051Props: React.Dispatch<React.SetStateAction<any>>
+  court_name7a5a6: any,
+  setcourt_name7a5a6:React.Dispatch<React.SetStateAction<any>>
+  court_name7a5a6Props: any 
+  setcourt_name7a5a6Props: React.Dispatch<React.SetStateAction<any>>
+  dividersssbef5f: any,
+  setdividersssbef5f:React.Dispatch<React.SetStateAction<any>>
+  dividersssbef5fProps: any 
+  setdividersssbef5fProps: React.Dispatch<React.SetStateAction<any>>
+  judge_name71e3e: any,
+  setjudge_name71e3e:React.Dispatch<React.SetStateAction<any>>
+  judge_name71e3eProps: any 
+  setjudge_name71e3eProps: React.Dispatch<React.SetStateAction<any>>
+  dividerssss61d06: any,
+  setdividerssss61d06:React.Dispatch<React.SetStateAction<any>>
+  dividerssss61d06Props: any 
+  setdividerssss61d06Props: React.Dispatch<React.SetStateAction<any>>
+  filing_fee144cd: any,
+  setfiling_fee144cd:React.Dispatch<React.SetStateAction<any>>
+  filing_fee144cdProps: any 
+  setfiling_fee144cdProps: React.Dispatch<React.SetStateAction<any>>
+  dividersssssd333b: any,
+  setdividersssssd333b:React.Dispatch<React.SetStateAction<any>>
+  dividersssssd333bProps: any 
+  setdividersssssd333bProps: React.Dispatch<React.SetStateAction<any>>
+  service_method48ac6: any,
+  setservice_method48ac6:React.Dispatch<React.SetStateAction<any>>
+  service_method48ac6Props: any 
+  setservice_method48ac6Props: React.Dispatch<React.SetStateAction<any>>
+  dividerssssss06ce3: any,
+  setdividerssssss06ce3:React.Dispatch<React.SetStateAction<any>>
+  dividerssssss06ce3Props: any 
+  setdividerssssss06ce3Props: React.Dispatch<React.SetStateAction<any>>
+  efiling_system964db: any,
+  setefiling_system964db:React.Dispatch<React.SetStateAction<any>>
+  efiling_system964dbProps: any 
+  setefiling_system964dbProps: React.Dispatch<React.SetStateAction<any>>
+  valid_checklist_texta0e64: any,
+  setvalid_checklist_texta0e64:React.Dispatch<React.SetStateAction<any>>
+  valid_checklist_texta0e64Props: any 
+  setvalid_checklist_texta0e64Props: React.Dispatch<React.SetStateAction<any>>
+  checklist_item_id5bd1d: any,
+  setchecklist_item_id5bd1d:React.Dispatch<React.SetStateAction<any>>
+  checklist_item_id5bd1dProps: any 
+  setchecklist_item_id5bd1dProps: React.Dispatch<React.SetStateAction<any>>
+  item_name24046: any,
+  setitem_name24046:React.Dispatch<React.SetStateAction<any>>
+  item_name24046Props: any 
+  setitem_name24046Props: React.Dispatch<React.SetStateAction<any>>
+  is_completed1fd36: any,
+  setis_completed1fd36:React.Dispatch<React.SetStateAction<any>>
+  is_completed1fd36Props: any 
+  setis_completed1fd36Props: React.Dispatch<React.SetStateAction<any>>
+  special_rules_text24a29: any,
+  setspecial_rules_text24a29:React.Dispatch<React.SetStateAction<any>>
+  special_rules_text24a29Props: any 
+  setspecial_rules_text24a29Props: React.Dispatch<React.SetStateAction<any>>
+  dynamic_iconc7b56: any,
+  setdynamic_iconc7b56:React.Dispatch<React.SetStateAction<any>>
+  dynamic_iconc7b56Props: any 
+  setdynamic_iconc7b56Props: React.Dispatch<React.SetStateAction<any>>
+  rule_textdb2d4: any,
+  setrule_textdb2d4:React.Dispatch<React.SetStateAction<any>>
+  rule_textdb2d4Props: any 
+  setrule_textdb2d4Props: React.Dispatch<React.SetStateAction<any>>
+  account_idcc45c: any,
+  setaccount_idcc45c:React.Dispatch<React.SetStateAction<any>>
+  account_idcc45cProps: any 
+  setaccount_idcc45cProps: React.Dispatch<React.SetStateAction<any>>
+  craete_header_text26dc6: any,
+  setcraete_header_text26dc6:React.Dispatch<React.SetStateAction<any>>
+  craete_header_text26dc6Props: any 
+  setcraete_header_text26dc6Props: React.Dispatch<React.SetStateAction<any>>
+  reeq_doc_text01111: any,
+  setreeq_doc_text01111:React.Dispatch<React.SetStateAction<any>>
+  reeq_doc_text01111Props: any 
+  setreeq_doc_text01111Props: React.Dispatch<React.SetStateAction<any>>
+  attachment_id08b6e: any,
+  setattachment_id08b6e:React.Dispatch<React.SetStateAction<any>>
+  attachment_id08b6eProps: any 
+  setattachment_id08b6eProps: React.Dispatch<React.SetStateAction<any>>
+  doc_nameedf63: any,
+  setdoc_nameedf63:React.Dispatch<React.SetStateAction<any>>
+  doc_nameedf63Props: any 
+  setdoc_nameedf63Props: React.Dispatch<React.SetStateAction<any>>
+  view_buttoncb62a: any,
+  setview_buttoncb62a:React.Dispatch<React.SetStateAction<any>>
+  view_buttoncb62aProps: any 
+  setview_buttoncb62aProps: React.Dispatch<React.SetStateAction<any>>
+  case_info_text53524: any,
+  setcase_info_text53524:React.Dispatch<React.SetStateAction<any>>
+  case_info_text53524Props: any 
+  setcase_info_text53524Props: React.Dispatch<React.SetStateAction<any>>
+  debtor_namea603a: any,
+  setdebtor_namea603a:React.Dispatch<React.SetStateAction<any>>
+  debtor_namea603aProps: any 
+  setdebtor_namea603aProps: React.Dispatch<React.SetStateAction<any>>
+  case_display_id3ba0a: any,
+  setcase_display_id3ba0a:React.Dispatch<React.SetStateAction<any>>
+  case_display_id3ba0aProps: any 
+  setcase_display_id3ba0aProps: React.Dispatch<React.SetStateAction<any>>
+  ssn_masked36fce: any,
+  setssn_masked36fce:React.Dispatch<React.SetStateAction<any>>
+  ssn_masked36fceProps: any 
+  setssn_masked36fceProps: React.Dispatch<React.SetStateAction<any>>
+  dob19a93: any,
+  setdob19a93:React.Dispatch<React.SetStateAction<any>>
+  dob19a93Props: any 
+  setdob19a93Props: React.Dispatch<React.SetStateAction<any>>
+  address0e39e: any,
+  setaddress0e39e:React.Dispatch<React.SetStateAction<any>>
+  address0e39eProps: any 
+  setaddress0e39eProps: React.Dispatch<React.SetStateAction<any>>
+  creditor_name04ffa: any,
+  setcreditor_name04ffa:React.Dispatch<React.SetStateAction<any>>
+  creditor_name04ffaProps: any 
+  setcreditor_name04ffaProps: React.Dispatch<React.SetStateAction<any>>
+  charge_off_datef5bba: any,
+  setcharge_off_datef5bba:React.Dispatch<React.SetStateAction<any>>
+  charge_off_datef5bbaProps: any 
+  setcharge_off_datef5bbaProps: React.Dispatch<React.SetStateAction<any>>
+  last_payment_date37076: any,
+  setlast_payment_date37076:React.Dispatch<React.SetStateAction<any>>
+  last_payment_date37076Props: any 
+  setlast_payment_date37076Props: React.Dispatch<React.SetStateAction<any>>
+  divider9cfd3: any,
+  setdivider9cfd3:React.Dispatch<React.SetStateAction<any>>
+  divider9cfd3Props: any 
+  setdivider9cfd3Props: React.Dispatch<React.SetStateAction<any>>
+  principal_textb6dc5: any,
+  setprincipal_textb6dc5:React.Dispatch<React.SetStateAction<any>>
+  principal_textb6dc5Props: any 
+  setprincipal_textb6dc5Props: React.Dispatch<React.SetStateAction<any>>
+  principalae986: any,
+  setprincipalae986:React.Dispatch<React.SetStateAction<any>>
+  principalae986Props: any 
+  setprincipalae986Props: React.Dispatch<React.SetStateAction<any>>
+  intrest_textfab09: any,
+  setintrest_textfab09:React.Dispatch<React.SetStateAction<any>>
+  intrest_textfab09Props: any 
+  setintrest_textfab09Props: React.Dispatch<React.SetStateAction<any>>
+  interestf94e4: any,
+  setinterestf94e4:React.Dispatch<React.SetStateAction<any>>
+  interestf94e4Props: any 
+  setinterestf94e4Props: React.Dispatch<React.SetStateAction<any>>
+  fees_textdf3db: any,
+  setfees_textdf3db:React.Dispatch<React.SetStateAction<any>>
+  fees_textdf3dbProps: any 
+  setfees_textdf3dbProps: React.Dispatch<React.SetStateAction<any>>
+  feesd3a22: any,
+  setfeesd3a22:React.Dispatch<React.SetStateAction<any>>
+  feesd3a22Props: any 
+  setfeesd3a22Props: React.Dispatch<React.SetStateAction<any>>
+  total_balance_texta06df: any,
+  settotal_balance_texta06df:React.Dispatch<React.SetStateAction<any>>
+  total_balance_texta06dfProps: any 
+  settotal_balance_texta06dfProps: React.Dispatch<React.SetStateAction<any>>
+  total_balance92fd1: any,
+  settotal_balance92fd1:React.Dispatch<React.SetStateAction<any>>
+  total_balance92fd1Props: any 
+  settotal_balance92fd1Props: React.Dispatch<React.SetStateAction<any>>
+  sol_expiry_date3775f: any,
+  setsol_expiry_date3775f:React.Dispatch<React.SetStateAction<any>>
+  sol_expiry_date3775fProps: any 
+  setsol_expiry_date3775fProps: React.Dispatch<React.SetStateAction<any>>
+  ven_name_text4470c: any,
+  setven_name_text4470c:React.Dispatch<React.SetStateAction<any>>
+  ven_name_text4470cProps: any 
+  setven_name_text4470cProps: React.Dispatch<React.SetStateAction<any>>
+  state10d95: any,
+  setstate10d95:React.Dispatch<React.SetStateAction<any>>
+  state10d95Props: any 
+  setstate10d95Props: React.Dispatch<React.SetStateAction<any>>
+  dividers6822a: any,
+  setdividers6822a:React.Dispatch<React.SetStateAction<any>>
+  dividers6822aProps: any 
+  setdividers6822aProps: React.Dispatch<React.SetStateAction<any>>
+  countryc8824: any,
+  setcountryc8824:React.Dispatch<React.SetStateAction<any>>
+  countryc8824Props: any 
+  setcountryc8824Props: React.Dispatch<React.SetStateAction<any>>
+  dividerss8b343: any,
+  setdividerss8b343:React.Dispatch<React.SetStateAction<any>>
+  dividerss8b343Props: any 
+  setdividerss8b343Props: React.Dispatch<React.SetStateAction<any>>
+  court_name70da0: any,
+  setcourt_name70da0:React.Dispatch<React.SetStateAction<any>>
+  court_name70da0Props: any 
+  setcourt_name70da0Props: React.Dispatch<React.SetStateAction<any>>
+  dividersssd0216: any,
+  setdividersssd0216:React.Dispatch<React.SetStateAction<any>>
+  dividersssd0216Props: any 
+  setdividersssd0216Props: React.Dispatch<React.SetStateAction<any>>
+  judge_name833b7: any,
+  setjudge_name833b7:React.Dispatch<React.SetStateAction<any>>
+  judge_name833b7Props: any 
+  setjudge_name833b7Props: React.Dispatch<React.SetStateAction<any>>
+  dividerssss9e016: any,
+  setdividerssss9e016:React.Dispatch<React.SetStateAction<any>>
+  dividerssss9e016Props: any 
+  setdividerssss9e016Props: React.Dispatch<React.SetStateAction<any>>
+  filing_fee9d0c4: any,
+  setfiling_fee9d0c4:React.Dispatch<React.SetStateAction<any>>
+  filing_fee9d0c4Props: any 
+  setfiling_fee9d0c4Props: React.Dispatch<React.SetStateAction<any>>
+  dividersssss85652: any,
+  setdividersssss85652:React.Dispatch<React.SetStateAction<any>>
+  dividersssss85652Props: any 
+  setdividersssss85652Props: React.Dispatch<React.SetStateAction<any>>
+  service_method926d2: any,
+  setservice_method926d2:React.Dispatch<React.SetStateAction<any>>
+  service_method926d2Props: any 
+  setservice_method926d2Props: React.Dispatch<React.SetStateAction<any>>
+  dividerssssss7d379: any,
+  setdividerssssss7d379:React.Dispatch<React.SetStateAction<any>>
+  dividerssssss7d379Props: any 
+  setdividerssssss7d379Props: React.Dispatch<React.SetStateAction<any>>
+  efiling_system056da: any,
+  setefiling_system056da:React.Dispatch<React.SetStateAction<any>>
+  efiling_system056daProps: any 
+  setefiling_system056daProps: React.Dispatch<React.SetStateAction<any>>
+  valid_checklist_text6a0da: any,
+  setvalid_checklist_text6a0da:React.Dispatch<React.SetStateAction<any>>
+  valid_checklist_text6a0daProps: any 
+  setvalid_checklist_text6a0daProps: React.Dispatch<React.SetStateAction<any>>
+  checklist_item_id27c72: any,
+  setchecklist_item_id27c72:React.Dispatch<React.SetStateAction<any>>
+  checklist_item_id27c72Props: any 
+  setchecklist_item_id27c72Props: React.Dispatch<React.SetStateAction<any>>
+  item_name14346: any,
+  setitem_name14346:React.Dispatch<React.SetStateAction<any>>
+  item_name14346Props: any 
+  setitem_name14346Props: React.Dispatch<React.SetStateAction<any>>
+  is_completeda9a9a: any,
+  setis_completeda9a9a:React.Dispatch<React.SetStateAction<any>>
+  is_completeda9a9aProps: any 
+  setis_completeda9a9aProps: React.Dispatch<React.SetStateAction<any>>
+  special_rules_textdd5e9: any,
+  setspecial_rules_textdd5e9:React.Dispatch<React.SetStateAction<any>>
+  special_rules_textdd5e9Props: any 
+  setspecial_rules_textdd5e9Props: React.Dispatch<React.SetStateAction<any>>
+  warning_icon83e9f: any,
+  setwarning_icon83e9f:React.Dispatch<React.SetStateAction<any>>
+  warning_icon83e9fProps: any 
+  setwarning_icon83e9fProps: React.Dispatch<React.SetStateAction<any>>
+  rule_texta87d5: any,
+  setrule_texta87d5:React.Dispatch<React.SetStateAction<any>>
+  rule_texta87d5Props: any 
+  setrule_texta87d5Props: React.Dispatch<React.SetStateAction<any>>
+  account_id8944a: any,
+  setaccount_id8944a:React.Dispatch<React.SetStateAction<any>>
+  account_id8944aProps: any 
+  setaccount_id8944aProps: React.Dispatch<React.SetStateAction<any>>
+  cancel_btnc64a4: any,
+  setcancel_btnc64a4:React.Dispatch<React.SetStateAction<any>>
+  cancel_btnc64a4Props: any 
+  setcancel_btnc64a4Props: React.Dispatch<React.SetStateAction<any>>
+  reject_btn27005: any,
+  setreject_btn27005:React.Dispatch<React.SetStateAction<any>>
+  reject_btn27005Props: any 
+  setreject_btn27005Props: React.Dispatch<React.SetStateAction<any>>
+  pass_sign_btn916fa: any,
+  setpass_sign_btn916fa:React.Dispatch<React.SetStateAction<any>>
+  pass_sign_btn916faProps: any 
+  setpass_sign_btn916faProps: React.Dispatch<React.SetStateAction<any>>
+  report_editor1140e: any,
+  setreport_editor1140e:React.Dispatch<React.SetStateAction<any>>
+  report_editor1140eProps: any 
+  setreport_editor1140eProps: React.Dispatch<React.SetStateAction<any>>
+  lap_test_screen_texta85ad: any,
+  setlap_test_screen_texta85ad:React.Dispatch<React.SetStateAction<any>>
+  lap_test_screen_texta85adProps: any 
+  setlap_test_screen_texta85adProps: React.Dispatch<React.SetStateAction<any>>
 
 ////// screen states 
-  dashboard_v1: any 
-  setdashboard_v1: React.Dispatch<React.SetStateAction<any>>
-  dashboard_v1Props: any 
-  setdashboard_v1Props: React.Dispatch<React.SetStateAction<any>>
+  newdashboard_v1: any 
+  setnewdashboard_v1: React.Dispatch<React.SetStateAction<any>>
+  newdashboard_v1Props: any 
+  setnewdashboard_v1Props: React.Dispatch<React.SetStateAction<any>>
+  amrqueuetable_v1: any 
+  setamrqueuetable_v1: React.Dispatch<React.SetStateAction<any>>
+  amrqueuetable_v1Props: any 
+  setamrqueuetable_v1Props: React.Dispatch<React.SetStateAction<any>>
   amrqueuesearch_v1: any 
   setamrqueuesearch_v1: React.Dispatch<React.SetStateAction<any>>
   amrqueuesearch_v1Props: any 
@@ -1024,18 +1560,30 @@ export interface TotalContextProps {
   setaddcase_v1: React.Dispatch<React.SetStateAction<any>>
   addcase_v1Props: any 
   setaddcase_v1Props: React.Dispatch<React.SetStateAction<any>>
-  viewcase_v1: any 
-  setviewcase_v1: React.Dispatch<React.SetStateAction<any>>
-  viewcase_v1Props: any 
-  setviewcase_v1Props: React.Dispatch<React.SetStateAction<any>>
+  viewamrcase_v1: any 
+  setviewamrcase_v1: React.Dispatch<React.SetStateAction<any>>
+  viewamrcase_v1Props: any 
+  setviewamrcase_v1Props: React.Dispatch<React.SetStateAction<any>>
   documentviewer_v1: any 
   setdocumentviewer_v1: React.Dispatch<React.SetStateAction<any>>
   documentviewer_v1Props: any 
   setdocumentviewer_v1Props: React.Dispatch<React.SetStateAction<any>>
-  pendingfillingsearch_v1: any 
-  setpendingfillingsearch_v1: React.Dispatch<React.SetStateAction<any>>
-  pendingfillingsearch_v1Props: any 
-  setpendingfillingsearch_v1Props: React.Dispatch<React.SetStateAction<any>>
+  viewamrcasepggraph_v1: any 
+  setviewamrcasepggraph_v1: React.Dispatch<React.SetStateAction<any>>
+  viewamrcasepggraph_v1Props: any 
+  setviewamrcasepggraph_v1Props: React.Dispatch<React.SetStateAction<any>>
+  amrcaseapproval_v1: any 
+  setamrcaseapproval_v1: React.Dispatch<React.SetStateAction<any>>
+  amrcaseapproval_v1Props: any 
+  setamrcaseapproval_v1Props: React.Dispatch<React.SetStateAction<any>>
+  report_v1: any 
+  setreport_v1: React.Dispatch<React.SetStateAction<any>>
+  report_v1Props: any 
+  setreport_v1Props: React.Dispatch<React.SetStateAction<any>>
+  laptestscreen_v1: any 
+  setlaptestscreen_v1: React.Dispatch<React.SetStateAction<any>>
+  laptestscreen_v1Props: any 
+  setlaptestscreen_v1Props: React.Dispatch<React.SetStateAction<any>>
 
 ///////// dfd
   dfd_amrqueuedashboard_v1Props: any 
@@ -1056,10 +1604,14 @@ export interface TotalContextProps {
   setdfd_doctable_v1Props: React.Dispatch<React.SetStateAction<any>>
   dfd_amrcheckliststatus_v1Props: any 
   setdfd_amrcheckliststatus_v1Props: React.Dispatch<React.SetStateAction<any>>
+  dfd_venuespecialrules_v1Props: any 
+  setdfd_venuespecialrules_v1Props: React.Dispatch<React.SetStateAction<any>>
   dfd_pendingfilingsdashboard_v1Props: any 
   setdfd_pendingfilingsdashboard_v1Props: React.Dispatch<React.SetStateAction<any>>
   dfd_cardsdashboard_v1Props: any 
   setdfd_cardsdashboard_v1Props: React.Dispatch<React.SetStateAction<any>>
+  dfd_reportcase_v1Props: any 
+  setdfd_reportcase_v1Props: React.Dispatch<React.SetStateAction<any>>
 
   refetch: any,
   setRefetch: React.Dispatch<React.SetStateAction<any>>
@@ -1105,8 +1657,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     const [matchedAccessProfileData, setMatchedAccessProfileData] = React.useState<any>({})
     const pathname = usePathname()
       //////////
-        const [header_groupb1913, setheader_groupb1913 ] = React.useState<any>({}) 
-    const [header_groupb1913Props, setheader_groupb1913Props ] = React.useState<any>({
+        const [header_groupd8ba9, setheader_groupd8ba9 ] = React.useState<any>({}) 
+    const [header_groupd8ba9Props, setheader_groupd8ba9Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1119,8 +1671,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "text",
       ]
       }) 
-        const [asset_dashboard_group4bbfe, setasset_dashboard_group4bbfe ] = React.useState<any>({}) 
-    const [asset_dashboard_group4bbfeProps, setasset_dashboard_group4bbfeProps ] = React.useState<any>({
+        const [asset_dashboard_group1aa03, setasset_dashboard_group1aa03 ] = React.useState<any>({}) 
+    const [asset_dashboard_group1aa03Props, setasset_dashboard_group1aa03Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1132,8 +1684,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       controls:[
       ]
       }) 
-        const [amr_queue_groupc92ca, setamr_queue_groupc92ca ] = React.useState<any>({}) 
-    const [amr_queue_groupc92caProps, setamr_queue_groupc92caProps ] = React.useState<any>({
+        const [amr_queue_group3c082, setamr_queue_group3c082 ] = React.useState<any>({}) 
+    const [amr_queue_group3c082Props, setamr_queue_group3c082Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1149,8 +1701,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "amr_queue_desc",
       ]
       }) 
-        const [pending_file_groupffe32, setpending_file_groupffe32 ] = React.useState<any>({}) 
-    const [pending_file_groupffe32Props, setpending_file_groupffe32Props ] = React.useState<any>({
+        const [pending_file_group2128c, setpending_file_group2128c ] = React.useState<any>({}) 
+    const [pending_file_group2128cProps, setpending_file_group2128cProps ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1166,8 +1718,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "pending_file_desc",
       ]
       }) 
-        const [service_pending_group7ba93, setservice_pending_group7ba93 ] = React.useState<any>({}) 
-    const [service_pending_group7ba93Props, setservice_pending_group7ba93Props ] = React.useState<any>({
+        const [service_pending_group8c0ca, setservice_pending_group8c0ca ] = React.useState<any>({}) 
+    const [service_pending_group8c0caProps, setservice_pending_group8c0caProps ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1183,8 +1735,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "service_pending_desc",
       ]
       }) 
-        const [slas_at_risk_group23eb4, setslas_at_risk_group23eb4 ] = React.useState<any>({}) 
-    const [slas_at_risk_group23eb4Props, setslas_at_risk_group23eb4Props ] = React.useState<any>({
+        const [slas_at_risk_group1f8c0, setslas_at_risk_group1f8c0 ] = React.useState<any>({}) 
+    const [slas_at_risk_group1f8c0Props, setslas_at_risk_group1f8c0Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1200,8 +1752,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "slas_at_risk_desc",
       ]
       }) 
-        const [court_rejection_groupc9d54, setcourt_rejection_groupc9d54 ] = React.useState<any>({}) 
-    const [court_rejection_groupc9d54Props, setcourt_rejection_groupc9d54Props ] = React.useState<any>({
+        const [court_rejection_groupdf57a, setcourt_rejection_groupdf57a ] = React.useState<any>({}) 
+    const [court_rejection_groupdf57aProps, setcourt_rejection_groupdf57aProps ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1217,8 +1769,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "court_rejection_desc",
       ]
       }) 
-        const [collected_mtd_group7b7b5, setcollected_mtd_group7b7b5 ] = React.useState<any>({}) 
-    const [collected_mtd_group7b7b5Props, setcollected_mtd_group7b7b5Props ] = React.useState<any>({
+        const [collected_mtd_group0f074, setcollected_mtd_group0f074 ] = React.useState<any>({}) 
+    const [collected_mtd_group0f074Props, setcollected_mtd_group0f074Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1234,22 +1786,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "collected_mtd_desc",
       ]
       }) 
-        const [table_group112bd, settable_group112bd ] = React.useState<any>({}) 
-    const [table_group112bdProps, settable_group112bdProps ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "status",
-      ]
-      }) 
-        const [subscreene9ab5, setsubscreene9ab5 ] = React.useState<any>({}) 
-    const [subscreene9ab5Props, setsubscreene9ab5Props ] = React.useState<any>({
+        const [overall_key_performance_indicatorsc2711, setoverall_key_performance_indicatorsc2711 ] = React.useState<any>({}) 
+    const [overall_key_performance_indicatorsc2711Props, setoverall_key_performance_indicatorsc2711Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1261,8 +1799,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       controls:[
       ]
       }) 
-        const [ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797, setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797 ] = React.useState<any>({}) 
-    const [ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797Props, setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797Props ] = React.useState<any>({
+        const [key_performance_indicator_groupf9eaf, setkey_performance_indicator_groupf9eaf ] = React.useState<any>({}) 
+    const [key_performance_indicator_groupf9eafProps, setkey_performance_indicator_groupf9eafProps ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1272,10 +1810,25 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
+            "key_performance_indicators_text",
+            "total_active_accounts_text",
+            "total_active_accounts_text1",
+            "divider1",
+            "avg_days_to_judgment_text",
+            "avg_days_to_judgment_text1",
+            "divider2",
+            "court_rejection_rate_text",
+            "court_rejection_rate_text1",
+            "divider3",
+            "compliance_score_text",
+            "compliance_score_text1",
+            "divider4",
+            "collection_rate_mtd_text",
+            "collection_rate_mtd_text1",
       ]
       }) 
-        const [group28176, setgroup28176 ] = React.useState<any>({}) 
-    const [group28176Props, setgroup28176Props ] = React.useState<any>({
+        const [recent_activity_group91db6, setrecent_activity_group91db6 ] = React.useState<any>({}) 
+    const [recent_activity_group91db6Props, setrecent_activity_group91db6Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1285,56 +1838,62 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
-            "search_btn",
-            "add_btn",
-            "text",
+            "recent_activity_text",
+            "amr_queued_text",
+            "amr_queued_text_1",
+            "divider1",
+            "judgment_entered_text",
+            "judgment_entered_text_1",
+            "divider2",
+            "service_completed_text",
+            "service_completed_text_1",
+            "divider3",
+            "amr_passed_text",
+            "amr_passed_text1",
+            "divider4",
+            "court_rejection_text",
+            "court_rejection_text1",
+            "divider5",
+            "service_assigned_text",
+            "service_assigned_text1",
+            "divider6",
+            "amr_rejected_text",
+            "amr_rejected_text1",
+      ]
+      }) 
+        const [amr_queue_group79589, setamr_queue_group79589 ] = React.useState<any>({}) 
+    const [amr_queue_group79589Props, setamr_queue_group79589Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "back_btn",
+            "bt_search",
+            "new_case_button",
+      ]
+      }) 
+        const [amr_group17ac4, setamr_group17ac4 ] = React.useState<any>({}) 
+    const [amr_group17ac4Props, setamr_group17ac4Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "amr_text",
       ]
       }) 
     
-    const [table852e3, settable852e3 ] = React.useState<any>([]) 
-    const [table852e3Props, settable852e3Props ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      refresh:false,
-      filterInitalLoad: false,
-      }) 
-        const [ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da, setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da ] = React.useState<any>({}) 
-    const [ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8daProps, setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8daProps ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-      ]
-      }) 
-        const [pending_fillings_groupb1568, setpending_fillings_groupb1568 ] = React.useState<any>({}) 
-    const [pending_fillings_groupb1568Props, setpending_fillings_groupb1568Props ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "search_btn",
-            "add_btn",
-            "text",
-      ]
-      }) 
-    
-    const [pending_fillings_table11279, setpending_fillings_table11279 ] = React.useState<any>([]) 
-    const [pending_fillings_table11279Props, setpending_fillings_table11279Props ] = React.useState<any>({
+    const [amr_queue_table09598, setamr_queue_table09598 ] = React.useState<any>([]) 
+    const [amr_queue_table09598Props, setamr_queue_table09598Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1671,8 +2230,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       refresh:false,
       filterInitalLoad: false,
       }) 
-        const [add_case_group1f6e4, setadd_case_group1f6e4 ] = React.useState<any>({}) 
-    const [add_case_group1f6e4Props, setadd_case_group1f6e4Props ] = React.useState<any>({
+        const [add_case_groupbe1de, setadd_case_groupbe1de ] = React.useState<any>({}) 
+    const [add_case_groupbe1deProps, setadd_case_groupbe1deProps ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1682,14 +2241,12 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
-            "venue_id",
-            "creditor_id",
-            "remarks_textarea",
             "account_id",
+            "venue_id",
       ]
       }) 
-        const [header_group3749a, setheader_group3749a ] = React.useState<any>({}) 
-    const [header_group3749aProps, setheader_group3749aProps ] = React.useState<any>({
+        const [header_groupc587e, setheader_groupc587e ] = React.useState<any>({}) 
+    const [header_groupc587eProps, setheader_groupc587eProps ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1699,194 +2256,12 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
+            "button_back",
             "craete_header_text",
       ]
       }) 
-        const [case_information_groupcec29, setcase_information_groupcec29 ] = React.useState<any>({}) 
-    const [case_information_groupcec29Props, setcase_information_groupcec29Props ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "case_info_text",
-            "creditor_name",
-            "attorney_name",
-            "status_name",
-            "priority_name",
-            "queue_position",
-            "quality_score",
-            "sla_wait_start_time",
-      ]
-      }) 
-        const [venue_groupa72d9, setvenue_groupa72d9 ] = React.useState<any>({}) 
-    const [venue_groupa72d9Props, setvenue_groupa72d9Props ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "rules_icon",
-            "venue_special_rules_text",
-            "special_rules",
-            "venue_special_rules_divider",
-            "venue_special_rules_dividers",
-            "venue_special_rules_dividerss",
-            "venue_special_rules_dividersss",
-            "venues_special_rules_dividerssss",
-      ]
-      }) 
-        const [georgia_groupa636c, setgeorgia_groupa636c ] = React.useState<any>({}) 
-    const [georgia_groupa636cProps, setgeorgia_groupa636cProps ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "warning_icon",
-            "georgia_sol_text",
-            "special_rules",
-      ]
-      }) 
-        const [georgias_groupbac01, setgeorgias_groupbac01 ] = React.useState<any>({}) 
-    const [georgias_groupbac01Props, setgeorgias_groupbac01Props ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "warnings_icon",
-            "georgias_sol_text",
-            "specials_rules",
-      ]
-      }) 
-        const [georgias_groupsbf356, setgeorgias_groupsbf356 ] = React.useState<any>({}) 
-    const [georgias_groupsbf356Props, setgeorgias_groupsbf356Props ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "warningss_icons",
-            "georgias_sosl_texts",
-            "specials_ruless",
-      ]
-      }) 
-        const [georgiass_groups9e4dd, setgeorgiass_groups9e4dd ] = React.useState<any>({}) 
-    const [georgiass_groups9e4ddProps, setgeorgiass_groups9e4ddProps ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "warningsss_icons",
-            "georgiass_sosl_texts",
-            "specials_ruless",
-      ]
-      }) 
-        const [georgsiass_groups6bf7a, setgeorgsiass_groups6bf7a ] = React.useState<any>({}) 
-    const [georgsiass_groups6bf7aProps, setgeorgsiass_groups6bf7aProps ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "warningssss_icons",
-            "georsgiass_sosl_texts",
-            "spesciasls_ruless",
-      ]
-      }) 
-        const [debtor_information_groupdfa55, setdebtor_information_groupdfa55 ] = React.useState<any>({}) 
-    const [debtor_information_groupdfa55Props, setdebtor_information_groupdfa55Props ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "debt_info_text",
-            "debtor_name",
-            "ssn_masked",
-            "dob",
-            "address",
-      ]
-      }) 
-        const [financial_details_grouped0d9, setfinancial_details_grouped0d9 ] = React.useState<any>({}) 
-    const [financial_details_grouped0d9Props, setfinancial_details_grouped0d9Props ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "financial_dtls_text",
-            "charge_off_date",
-            "last_payment_date",
-            "total_balance",
-            "principal",
-            "interest",
-            "fees",
-      ]
-      }) 
-        const [venue_details_group6a27a, setvenue_details_group6a27a ] = React.useState<any>({}) 
-    const [venue_details_group6a27aProps, setvenue_details_group6a27aProps ] = React.useState<any>({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "ven_name_text",
-            "state",
-            "county",
-            "court_name",
-            "judge_name",
-            "sol_expiry_date",
-            "filing_fee",
-            "service_method",
-            "efiling_system",
-            "efiling_required",
-      ]
-      }) 
-        const [required_dociument_main_group3eb5b, setrequired_dociument_main_group3eb5b ] = React.useState<any>({}) 
-    const [required_dociument_main_group3eb5bProps, setrequired_dociument_main_group3eb5bProps ] = React.useState<any>({
+        const [required_dociument_main_group6f022, setrequired_dociument_main_group6f022 ] = React.useState<any>({}) 
+    const [required_dociument_main_group6f022Props, setrequired_dociument_main_group6f022Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1900,8 +2275,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       ]
       }) 
     
-    const [doc_tablee79c7, setdoc_tablee79c7 ] = React.useState<any>([]) 
-    const [doc_tablee79c7Props, setdoc_tablee79c7Props ] = React.useState<any>({
+    const [doc_table8bfa1, setdoc_table8bfa1 ] = React.useState<any>([]) 
+    const [doc_table8bfa1Props, setdoc_table8bfa1Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1912,8 +2287,132 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       refresh:false,
       filterInitalLoad: false,
       }) 
-        const [checklist_main_group5b62e, setchecklist_main_group5b62e ] = React.useState<any>({}) 
-    const [checklist_main_group5b62eProps, setchecklist_main_group5b62eProps ] = React.useState<any>({
+        const [case_information_groupe3c1b, setcase_information_groupe3c1b ] = React.useState<any>({}) 
+    const [case_information_groupe3c1bProps, setcase_information_groupe3c1bProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "case_info_text",
+            "debtor_name",
+            "case_display_id",
+            "ssn_masked",
+            "dob",
+            "address",
+            "creditor_name",
+            "charge_off_date",
+            "last_payment_date",
+            "divider",
+            "sol_expiry_date",
+      ]
+      }) 
+        const [card_group7fa83, setcard_group7fa83 ] = React.useState<any>({}) 
+    const [card_group7fa83Props, setcard_group7fa83Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        const [principal_groupde6dd, setprincipal_groupde6dd ] = React.useState<any>({}) 
+    const [principal_groupde6ddProps, setprincipal_groupde6ddProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "principal_text",
+            "principal",
+      ]
+      }) 
+        const [intrest_group44b4d, setintrest_group44b4d ] = React.useState<any>({}) 
+    const [intrest_group44b4dProps, setintrest_group44b4dProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "intrest_text",
+            "interest",
+      ]
+      }) 
+        const [fees_groupee523, setfees_groupee523 ] = React.useState<any>({}) 
+    const [fees_groupee523Props, setfees_groupee523Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "fees_text",
+            "fees",
+      ]
+      }) 
+        const [total_groupd3e06, settotal_groupd3e06 ] = React.useState<any>({}) 
+    const [total_groupd3e06Props, settotal_groupd3e06Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "total_balance_text",
+            "total_balance",
+      ]
+      }) 
+        const [venue_details_group1d734, setvenue_details_group1d734 ] = React.useState<any>({}) 
+    const [venue_details_group1d734Props, setvenue_details_group1d734Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "ven_name_text",
+            "state",
+            "dividers",
+            "county",
+            "dividerss",
+            "court_name",
+            "dividersss",
+            "judge_name",
+            "dividerssss",
+            "filing_fee",
+            "dividersssss",
+            "service_method",
+            "dividerssssss",
+            "efiling_system",
+      ]
+      }) 
+        const [checklist_main_group32240, setchecklist_main_group32240 ] = React.useState<any>({}) 
+    const [checklist_main_group32240Props, setchecklist_main_group32240Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1927,8 +2426,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       ]
       }) 
     
-    const [checklist_table45abc, setchecklist_table45abc ] = React.useState<any>([]) 
-    const [checklist_table45abcProps, setchecklist_table45abcProps ] = React.useState<any>({
+    const [checklist_tablee7dea, setchecklist_tablee7dea ] = React.useState<any>([]) 
+    const [checklist_tablee7deaProps, setchecklist_tablee7deaProps ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1938,6 +2437,35 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       selectedIds:[],
       refresh:false,
       filterInitalLoad: false,
+      }) 
+        const [special_rules_groupf22ab, setspecial_rules_groupf22ab ] = React.useState<any>({}) 
+    const [special_rules_groupf22abProps, setspecial_rules_groupf22abProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "special_rules_text",
+      ]
+      }) 
+        const [special_rules96aec, setspecial_rules96aec ] = React.useState<any>({}) 
+    const [special_rules96aecProps, setspecial_rules96aecProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "dynamic_icon",
+            "rule_text",
+      ]
       }) 
         const [document_viewer_groupe4249, setdocument_viewer_groupe4249 ] = React.useState<any>({}) 
     const [document_viewer_groupe4249Props, setdocument_viewer_groupe4249Props ] = React.useState<any>({
@@ -1953,8 +2481,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "attachment_id",
       ]
       }) 
-        const [search_group39b74, setsearch_group39b74 ] = React.useState<any>({}) 
-    const [search_group39b74Props, setsearch_group39b74Props ] = React.useState<any>({
+        const [add_case_grouped126, setadd_case_grouped126 ] = React.useState<any>({}) 
+    const [add_case_grouped126Props, setadd_case_grouped126Props ] = React.useState<any>({
       validation:false,
       required:false,
       refetch:false,
@@ -1964,10 +2492,511 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
-            "case_display_id",
+            "account_id",
       ]
       }) 
-   const [text9e38a,settext9e38a] = React.useState<any>({
+        const [header_groupbd8a8, setheader_groupbd8a8 ] = React.useState<any>({}) 
+    const [header_groupbd8a8Props, setheader_groupbd8a8Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "back_bt",
+            "craete_header_text",
+      ]
+      }) 
+        const [required_dociument_main_group255d1, setrequired_dociument_main_group255d1 ] = React.useState<any>({}) 
+    const [required_dociument_main_group255d1Props, setrequired_dociument_main_group255d1Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "reeq_doc_text",
+      ]
+      }) 
+    
+    const [doc_table9c4f7, setdoc_table9c4f7 ] = React.useState<any>([]) 
+    const [doc_table9c4f7Props, setdoc_table9c4f7Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      refresh:false,
+      filterInitalLoad: false,
+      }) 
+        const [case_information_group48f3c, setcase_information_group48f3c ] = React.useState<any>({}) 
+    const [case_information_group48f3cProps, setcase_information_group48f3cProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "case_info_text",
+            "debtor_name",
+            "case_display_id",
+            "ssn_masked",
+            "dob",
+            "address",
+            "creditor_name",
+            "charge_off_date",
+            "last_payment_date",
+            "divider",
+            "sol_expiry_date",
+      ]
+      }) 
+        const [card_group4c709, setcard_group4c709 ] = React.useState<any>({}) 
+    const [card_group4c709Props, setcard_group4c709Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        const [principal_group42235, setprincipal_group42235 ] = React.useState<any>({}) 
+    const [principal_group42235Props, setprincipal_group42235Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "principal_text",
+            "principal",
+      ]
+      }) 
+        const [intrest_group65c3b, setintrest_group65c3b ] = React.useState<any>({}) 
+    const [intrest_group65c3bProps, setintrest_group65c3bProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "intrest_text",
+            "interest",
+      ]
+      }) 
+        const [fees_group8c4a6, setfees_group8c4a6 ] = React.useState<any>({}) 
+    const [fees_group8c4a6Props, setfees_group8c4a6Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "fees_text",
+            "fees",
+      ]
+      }) 
+        const [total_groupc52d3, settotal_groupc52d3 ] = React.useState<any>({}) 
+    const [total_groupc52d3Props, settotal_groupc52d3Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "total_balance_text",
+            "total_balance",
+      ]
+      }) 
+        const [venue_details_group51614, setvenue_details_group51614 ] = React.useState<any>({}) 
+    const [venue_details_group51614Props, setvenue_details_group51614Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "ven_name_text",
+            "state",
+            "dividers",
+            "county",
+            "dividerss",
+            "court_name",
+            "dividersss",
+            "judge_name",
+            "dividerssss",
+            "filing_fee",
+            "dividersssss",
+            "service_method",
+            "dividerssssss",
+            "efiling_system",
+      ]
+      }) 
+        const [checklist_main_group2b466, setchecklist_main_group2b466 ] = React.useState<any>({}) 
+    const [checklist_main_group2b466Props, setchecklist_main_group2b466Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "valid_checklist_text",
+      ]
+      }) 
+    
+    const [checklist_tablecafb0, setchecklist_tablecafb0 ] = React.useState<any>([]) 
+    const [checklist_tablecafb0Props, setchecklist_tablecafb0Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      refresh:false,
+      filterInitalLoad: false,
+      }) 
+        const [special_rules_group7ce9f, setspecial_rules_group7ce9f ] = React.useState<any>({}) 
+    const [special_rules_group7ce9fProps, setspecial_rules_group7ce9fProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "special_rules_text",
+      ]
+      }) 
+        const [special_rules7f109, setspecial_rules7f109 ] = React.useState<any>({}) 
+    const [special_rules7f109Props, setspecial_rules7f109Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "dynamic_icon",
+            "rule_text",
+      ]
+      }) 
+        const [add_case_group77747, setadd_case_group77747 ] = React.useState<any>({}) 
+    const [add_case_group77747Props, setadd_case_group77747Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "account_id",
+      ]
+      }) 
+        const [header_groupbae8a, setheader_groupbae8a ] = React.useState<any>({}) 
+    const [header_groupbae8aProps, setheader_groupbae8aProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "craete_header_text",
+      ]
+      }) 
+        const [required_dociument_main_group999a8, setrequired_dociument_main_group999a8 ] = React.useState<any>({}) 
+    const [required_dociument_main_group999a8Props, setrequired_dociument_main_group999a8Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "reeq_doc_text",
+      ]
+      }) 
+    
+    const [doc_table45b8d, setdoc_table45b8d ] = React.useState<any>([]) 
+    const [doc_table45b8dProps, setdoc_table45b8dProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      refresh:false,
+      filterInitalLoad: false,
+      }) 
+        const [case_information_group35ed3, setcase_information_group35ed3 ] = React.useState<any>({}) 
+    const [case_information_group35ed3Props, setcase_information_group35ed3Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "case_info_text",
+            "debtor_name",
+            "case_display_id",
+            "ssn_masked",
+            "dob",
+            "address",
+            "creditor_name",
+            "charge_off_date",
+            "last_payment_date",
+            "divider",
+            "sol_expiry_date",
+      ]
+      }) 
+        const [card_groupe78fa, setcard_groupe78fa ] = React.useState<any>({}) 
+    const [card_groupe78faProps, setcard_groupe78faProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        const [principal_group9ae9f, setprincipal_group9ae9f ] = React.useState<any>({}) 
+    const [principal_group9ae9fProps, setprincipal_group9ae9fProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "principal_text",
+            "principal",
+      ]
+      }) 
+        const [intrest_group8df75, setintrest_group8df75 ] = React.useState<any>({}) 
+    const [intrest_group8df75Props, setintrest_group8df75Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "intrest_text",
+            "interest",
+      ]
+      }) 
+        const [fees_groupac23b, setfees_groupac23b ] = React.useState<any>({}) 
+    const [fees_groupac23bProps, setfees_groupac23bProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "fees_text",
+            "fees",
+      ]
+      }) 
+        const [total_groupe6175, settotal_groupe6175 ] = React.useState<any>({}) 
+    const [total_groupe6175Props, settotal_groupe6175Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "total_balance_text",
+            "total_balance",
+      ]
+      }) 
+        const [venue_details_group6904e, setvenue_details_group6904e ] = React.useState<any>({}) 
+    const [venue_details_group6904eProps, setvenue_details_group6904eProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "ven_name_text",
+            "state",
+            "dividers",
+            "county",
+            "dividerss",
+            "court_name",
+            "dividersss",
+            "judge_name",
+            "dividerssss",
+            "filing_fee",
+            "dividersssss",
+            "service_method",
+            "dividerssssss",
+            "efiling_system",
+      ]
+      }) 
+        const [checklist_main_groupda0ff, setchecklist_main_groupda0ff ] = React.useState<any>({}) 
+    const [checklist_main_groupda0ffProps, setchecklist_main_groupda0ffProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "valid_checklist_text",
+      ]
+      }) 
+    
+    const [checklist_table0e25b, setchecklist_table0e25b ] = React.useState<any>([]) 
+    const [checklist_table0e25bProps, setchecklist_table0e25bProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      refresh:false,
+      filterInitalLoad: false,
+      }) 
+        const [special_rules_groupc1585, setspecial_rules_groupc1585 ] = React.useState<any>({}) 
+    const [special_rules_groupc1585Props, setspecial_rules_groupc1585Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "special_rules_text",
+      ]
+      }) 
+        const [special_rules1fc30, setspecial_rules1fc30 ] = React.useState<any>({}) 
+    const [special_rules1fc30Props, setspecial_rules1fc30Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "warning_icon",
+            "rule_text",
+      ]
+      }) 
+        const [dynamicactions37e34, setdynamicactions37e34 ] = React.useState<any>({}) 
+    const [dynamicactions37e34Props, setdynamicactions37e34Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "cancel_btn",
+            "reject_btn",
+            "pass_sign_btn",
+      ]
+      }) 
+        const [group_report8ef47, setgroup_report8ef47 ] = React.useState<any>({}) 
+    const [group_report8ef47Props, setgroup_report8ef47Props ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "account_id",
+      ]
+      }) 
+        const [lap_test_screen_group38f1e, setlap_test_screen_group38f1e ] = React.useState<any>({}) 
+    const [lap_test_screen_group38f1eProps, setlap_test_screen_group38f1eProps ] = React.useState<any>({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "lap_test_screen_text",
+      ]
+      }) 
+   const [text5e6b2,settext5e6b2] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1975,8 +3004,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [text9e38aProps,settext9e38aProps] = React.useState<any>({}) 
-   const [amr_queue_text28561,setamr_queue_text28561] = React.useState<any>({
+   const [text5e6b2Props,settext5e6b2Props] = React.useState<any>({}) 
+   const [amr_queue_text17149,setamr_queue_text17149] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1984,8 +3013,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [amr_queue_text28561Props,setamr_queue_text28561Props] = React.useState<any>({}) 
-   const [icon_total_assest208f5,seticon_total_assest208f5] = React.useState<any>({
+   const [amr_queue_text17149Props,setamr_queue_text17149Props] = React.useState<any>({}) 
+   const [icon_total_assest42cc7,seticon_total_assest42cc7] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -1993,8 +3022,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [icon_total_assest208f5Props,seticon_total_assest208f5Props] = React.useState<any>({}) 
-   const [amr_queue5b620,setamr_queue5b620] = React.useState<any>({
+   const [icon_total_assest42cc7Props,seticon_total_assest42cc7Props] = React.useState<any>({}) 
+   const [amr_queue0e5a7,setamr_queue0e5a7] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2002,8 +3031,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [amr_queue5b620Props,setamr_queue5b620Props] = React.useState<any>({}) 
-   const [amr_queue_descafe0e,setamr_queue_descafe0e] = React.useState<any>({
+   const [amr_queue0e5a7Props,setamr_queue0e5a7Props] = React.useState<any>({}) 
+   const [amr_queue_desc10020,setamr_queue_desc10020] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2011,8 +3040,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [amr_queue_descafe0eProps,setamr_queue_descafe0eProps] = React.useState<any>({}) 
-   const [pending_file_text86c2a,setpending_file_text86c2a] = React.useState<any>({
+   const [amr_queue_desc10020Props,setamr_queue_desc10020Props] = React.useState<any>({}) 
+   const [pending_file_text61240,setpending_file_text61240] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2020,8 +3049,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [pending_file_text86c2aProps,setpending_file_text86c2aProps] = React.useState<any>({}) 
-   const [icon_maintenance_duecab92,seticon_maintenance_duecab92] = React.useState<any>({
+   const [pending_file_text61240Props,setpending_file_text61240Props] = React.useState<any>({}) 
+   const [icon_maintenance_dueb2661,seticon_maintenance_dueb2661] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2029,8 +3058,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [icon_maintenance_duecab92Props,seticon_maintenance_duecab92Props] = React.useState<any>({}) 
-   const [pending_file1721b,setpending_file1721b] = React.useState<any>({
+   const [icon_maintenance_dueb2661Props,seticon_maintenance_dueb2661Props] = React.useState<any>({}) 
+   const [pending_filea7d91,setpending_filea7d91] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2038,8 +3067,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [pending_file1721bProps,setpending_file1721bProps] = React.useState<any>({}) 
-   const [pending_file_desc53378,setpending_file_desc53378] = React.useState<any>({
+   const [pending_filea7d91Props,setpending_filea7d91Props] = React.useState<any>({}) 
+   const [pending_file_desca182c,setpending_file_desca182c] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2047,8 +3076,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [pending_file_desc53378Props,setpending_file_desc53378Props] = React.useState<any>({}) 
-   const [service_pending_text5cc58,setservice_pending_text5cc58] = React.useState<any>({
+   const [pending_file_desca182cProps,setpending_file_desca182cProps] = React.useState<any>({}) 
+   const [service_pending_textb9d5c,setservice_pending_textb9d5c] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2056,8 +3085,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [service_pending_text5cc58Props,setservice_pending_text5cc58Props] = React.useState<any>({}) 
-   const [icon_warranty_expiring6d299,seticon_warranty_expiring6d299] = React.useState<any>({
+   const [service_pending_textb9d5cProps,setservice_pending_textb9d5cProps] = React.useState<any>({}) 
+   const [icon_warranty_expiringa065e,seticon_warranty_expiringa065e] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2065,8 +3094,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [icon_warranty_expiring6d299Props,seticon_warranty_expiring6d299Props] = React.useState<any>({}) 
-   const [service_pending918f0,setservice_pending918f0] = React.useState<any>({
+   const [icon_warranty_expiringa065eProps,seticon_warranty_expiringa065eProps] = React.useState<any>({}) 
+   const [service_pending0898e,setservice_pending0898e] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2074,8 +3103,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [service_pending918f0Props,setservice_pending918f0Props] = React.useState<any>({}) 
-   const [service_pending_descabf48,setservice_pending_descabf48] = React.useState<any>({
+   const [service_pending0898eProps,setservice_pending0898eProps] = React.useState<any>({}) 
+   const [service_pending_desc91c8a,setservice_pending_desc91c8a] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2083,8 +3112,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [service_pending_descabf48Props,setservice_pending_descabf48Props] = React.useState<any>({}) 
-   const [slas_at_risk_text33ae5,setslas_at_risk_text33ae5] = React.useState<any>({
+   const [service_pending_desc91c8aProps,setservice_pending_desc91c8aProps] = React.useState<any>({}) 
+   const [slas_at_risk_text42bdc,setslas_at_risk_text42bdc] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2092,8 +3121,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [slas_at_risk_text33ae5Props,setslas_at_risk_text33ae5Props] = React.useState<any>({}) 
-   const [icon_2caf8,seticon_2caf8] = React.useState<any>({
+   const [slas_at_risk_text42bdcProps,setslas_at_risk_text42bdcProps] = React.useState<any>({}) 
+   const [icon_eaa1e,seticon_eaa1e] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2101,8 +3130,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [icon_2caf8Props,seticon_2caf8Props] = React.useState<any>({}) 
-   const [slas_at_riskf177b,setslas_at_riskf177b] = React.useState<any>({
+   const [icon_eaa1eProps,seticon_eaa1eProps] = React.useState<any>({}) 
+   const [slas_at_riska3022,setslas_at_riska3022] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2110,8 +3139,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [slas_at_riskf177bProps,setslas_at_riskf177bProps] = React.useState<any>({}) 
-   const [slas_at_risk_desc5c075,setslas_at_risk_desc5c075] = React.useState<any>({
+   const [slas_at_riska3022Props,setslas_at_riska3022Props] = React.useState<any>({}) 
+   const [slas_at_risk_desc57375,setslas_at_risk_desc57375] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2119,8 +3148,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [slas_at_risk_desc5c075Props,setslas_at_risk_desc5c075Props] = React.useState<any>({}) 
-   const [court_rejection_text06a86,setcourt_rejection_text06a86] = React.useState<any>({
+   const [slas_at_risk_desc57375Props,setslas_at_risk_desc57375Props] = React.useState<any>({}) 
+   const [court_rejection_textc9a86,setcourt_rejection_textc9a86] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2128,8 +3157,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [court_rejection_text06a86Props,setcourt_rejection_text06a86Props] = React.useState<any>({}) 
-   const [icona5abd,seticona5abd] = React.useState<any>({
+   const [court_rejection_textc9a86Props,setcourt_rejection_textc9a86Props] = React.useState<any>({}) 
+   const [icon87359,seticon87359] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2137,8 +3166,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [icona5abdProps,seticona5abdProps] = React.useState<any>({}) 
-   const [court_rejection2460a,setcourt_rejection2460a] = React.useState<any>({
+   const [icon87359Props,seticon87359Props] = React.useState<any>({}) 
+   const [court_rejectionff779,setcourt_rejectionff779] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2146,8 +3175,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [court_rejection2460aProps,setcourt_rejection2460aProps] = React.useState<any>({}) 
-   const [court_rejection_desc7c63b,setcourt_rejection_desc7c63b] = React.useState<any>({
+   const [court_rejectionff779Props,setcourt_rejectionff779Props] = React.useState<any>({}) 
+   const [court_rejection_desc6f72f,setcourt_rejection_desc6f72f] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2155,8 +3184,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [court_rejection_desc7c63bProps,setcourt_rejection_desc7c63bProps] = React.useState<any>({}) 
-   const [collected_mtd_text4d825,setcollected_mtd_text4d825] = React.useState<any>({
+   const [court_rejection_desc6f72fProps,setcourt_rejection_desc6f72fProps] = React.useState<any>({}) 
+   const [collected_mtd_textf5ff3,setcollected_mtd_textf5ff3] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2164,8 +3193,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [collected_mtd_text4d825Props,setcollected_mtd_text4d825Props] = React.useState<any>({}) 
-   const [iconaff33,seticonaff33] = React.useState<any>({
+   const [collected_mtd_textf5ff3Props,setcollected_mtd_textf5ff3Props] = React.useState<any>({}) 
+   const [iconb9347,seticonb9347] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2173,8 +3202,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [iconaff33Props,seticonaff33Props] = React.useState<any>({}) 
-   const [collected_mtdab52b,setcollected_mtdab52b] = React.useState<any>({
+   const [iconb9347Props,seticonb9347Props] = React.useState<any>({}) 
+   const [collected_mtd65ae0,setcollected_mtd65ae0] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2182,8 +3211,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [collected_mtdab52bProps,setcollected_mtdab52bProps] = React.useState<any>({}) 
-   const [collected_mtd_descfffed,setcollected_mtd_descfffed] = React.useState<any>({
+   const [collected_mtd65ae0Props,setcollected_mtd65ae0Props] = React.useState<any>({}) 
+   const [collected_mtd_desc21bcb,setcollected_mtd_desc21bcb] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2191,8 +3220,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [collected_mtd_descfffedProps,setcollected_mtd_descfffedProps] = React.useState<any>({}) 
-   const [search_btn4c2ed,setsearch_btn4c2ed] = React.useState<any>({
+   const [collected_mtd_desc21bcbProps,setcollected_mtd_desc21bcbProps] = React.useState<any>({}) 
+   const [key_performance_indicators_text4f6db,setkey_performance_indicators_text4f6db] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2200,8 +3229,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [search_btn4c2edProps,setsearch_btn4c2edProps] = React.useState<any>({}) 
-   const [add_btn2f9d0,setadd_btn2f9d0] = React.useState<any>({
+   const [key_performance_indicators_text4f6dbProps,setkey_performance_indicators_text4f6dbProps] = React.useState<any>({}) 
+   const [total_active_accounts_texted4d7,settotal_active_accounts_texted4d7] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2209,8 +3238,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [add_btn2f9d0Props,setadd_btn2f9d0Props] = React.useState<any>({}) 
-   const [textc2337,settextc2337] = React.useState<any>({
+   const [total_active_accounts_texted4d7Props,settotal_active_accounts_texted4d7Props] = React.useState<any>({}) 
+   const [total_active_accounts_text1b45d0,settotal_active_accounts_text1b45d0] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2218,8 +3247,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [textc2337Props,settextc2337Props] = React.useState<any>({}) 
-   const [case_display_id8caab,setcase_display_id8caab] = React.useState<any>({
+   const [total_active_accounts_text1b45d0Props,settotal_active_accounts_text1b45d0Props] = React.useState<any>({}) 
+   const [divider13ca73,setdivider13ca73] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2227,8 +3256,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [case_display_id8caabProps,setcase_display_id8caabProps] = React.useState<any>({}) 
-   const [debtor_namedb464,setdebtor_namedb464] = React.useState<any>({
+   const [divider13ca73Props,setdivider13ca73Props] = React.useState<any>({}) 
+   const [avg_days_to_judgment_text82b69,setavg_days_to_judgment_text82b69] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2236,8 +3265,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [debtor_namedb464Props,setdebtor_namedb464Props] = React.useState<any>({}) 
-   const [creditor_name29781,setcreditor_name29781] = React.useState<any>({
+   const [avg_days_to_judgment_text82b69Props,setavg_days_to_judgment_text82b69Props] = React.useState<any>({}) 
+   const [avg_days_to_judgment_text14ed01,setavg_days_to_judgment_text14ed01] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2245,8 +3274,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [creditor_name29781Props,setcreditor_name29781Props] = React.useState<any>({}) 
-   const [full_nameda699,setfull_nameda699] = React.useState<any>({
+   const [avg_days_to_judgment_text14ed01Props,setavg_days_to_judgment_text14ed01Props] = React.useState<any>({}) 
+   const [divider214543,setdivider214543] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2254,8 +3283,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [full_nameda699Props,setfull_nameda699Props] = React.useState<any>({}) 
-   const [total_balancea27e6,settotal_balancea27e6] = React.useState<any>({
+   const [divider214543Props,setdivider214543Props] = React.useState<any>({}) 
+   const [court_rejection_rate_text86ac0,setcourt_rejection_rate_text86ac0] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2263,8 +3292,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [total_balancea27e6Props,settotal_balancea27e6Props] = React.useState<any>({}) 
-   const [court_name03aea,setcourt_name03aea] = React.useState<any>({
+   const [court_rejection_rate_text86ac0Props,setcourt_rejection_rate_text86ac0Props] = React.useState<any>({}) 
+   const [court_rejection_rate_text10b69f,setcourt_rejection_rate_text10b69f] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2272,8 +3301,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [court_name03aeaProps,setcourt_name03aeaProps] = React.useState<any>({}) 
-   const [priority_namec8266,setpriority_namec8266] = React.useState<any>({
+   const [court_rejection_rate_text10b69fProps,setcourt_rejection_rate_text10b69fProps] = React.useState<any>({}) 
+   const [divider39db36,setdivider39db36] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2281,8 +3310,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [priority_namec8266Props,setpriority_namec8266Props] = React.useState<any>({}) 
-   const [status_named2368,setstatus_named2368] = React.useState<any>({
+   const [divider39db36Props,setdivider39db36Props] = React.useState<any>({}) 
+   const [compliance_score_textbf682,setcompliance_score_textbf682] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2290,8 +3319,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [status_named2368Props,setstatus_named2368Props] = React.useState<any>({}) 
-   const [trs_created_datec9e9d,settrs_created_datec9e9d] = React.useState<any>({
+   const [compliance_score_textbf682Props,setcompliance_score_textbf682Props] = React.useState<any>({}) 
+   const [compliance_score_text1f41e4,setcompliance_score_text1f41e4] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2299,8 +3328,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [trs_created_datec9e9dProps,settrs_created_datec9e9dProps] = React.useState<any>({}) 
-   const [view_btns77c69,setview_btns77c69] = React.useState<any>({
+   const [compliance_score_text1f41e4Props,setcompliance_score_text1f41e4Props] = React.useState<any>({}) 
+   const [divider432793,setdivider432793] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2308,8 +3337,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [view_btns77c69Props,setview_btns77c69Props] = React.useState<any>({}) 
-   const [edit_btns48ea7,setedit_btns48ea7] = React.useState<any>({
+   const [divider432793Props,setdivider432793Props] = React.useState<any>({}) 
+   const [collection_rate_mtd_text335f5,setcollection_rate_mtd_text335f5] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2317,8 +3346,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [edit_btns48ea7Props,setedit_btns48ea7Props] = React.useState<any>({}) 
-   const [search_btn15268,setsearch_btn15268] = React.useState<any>({
+   const [collection_rate_mtd_text335f5Props,setcollection_rate_mtd_text335f5Props] = React.useState<any>({}) 
+   const [collection_rate_mtd_text16258d,setcollection_rate_mtd_text16258d] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2326,8 +3355,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [search_btn15268Props,setsearch_btn15268Props] = React.useState<any>({}) 
-   const [add_btn707cf,setadd_btn707cf] = React.useState<any>({
+   const [collection_rate_mtd_text16258dProps,setcollection_rate_mtd_text16258dProps] = React.useState<any>({}) 
+   const [recent_activity_text25b7b,setrecent_activity_text25b7b] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2335,8 +3364,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [add_btn707cfProps,setadd_btn707cfProps] = React.useState<any>({}) 
-   const [text3ced2,settext3ced2] = React.useState<any>({
+   const [recent_activity_text25b7bProps,setrecent_activity_text25b7bProps] = React.useState<any>({}) 
+   const [amr_queued_textb4f27,setamr_queued_textb4f27] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2344,8 +3373,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [text3ced2Props,settext3ced2Props] = React.useState<any>({}) 
-   const [case_display_id32ae4,setcase_display_id32ae4] = React.useState<any>({
+   const [amr_queued_textb4f27Props,setamr_queued_textb4f27Props] = React.useState<any>({}) 
+   const [amr_queued_text_1dc178,setamr_queued_text_1dc178] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2353,8 +3382,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [case_display_id32ae4Props,setcase_display_id32ae4Props] = React.useState<any>({}) 
-   const [debtor_namecd77b,setdebtor_namecd77b] = React.useState<any>({
+   const [amr_queued_text_1dc178Props,setamr_queued_text_1dc178Props] = React.useState<any>({}) 
+   const [divider1cb266,setdivider1cb266] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2362,8 +3391,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [debtor_namecd77bProps,setdebtor_namecd77bProps] = React.useState<any>({}) 
-   const [creditor_nameb14ce,setcreditor_nameb14ce] = React.useState<any>({
+   const [divider1cb266Props,setdivider1cb266Props] = React.useState<any>({}) 
+   const [judgment_entered_text2f3e7,setjudgment_entered_text2f3e7] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2371,8 +3400,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [creditor_nameb14ceProps,setcreditor_nameb14ceProps] = React.useState<any>({}) 
-   const [full_name592f3,setfull_name592f3] = React.useState<any>({
+   const [judgment_entered_text2f3e7Props,setjudgment_entered_text2f3e7Props] = React.useState<any>({}) 
+   const [judgment_entered_text_1d4af4,setjudgment_entered_text_1d4af4] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2380,8 +3409,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [full_name592f3Props,setfull_name592f3Props] = React.useState<any>({}) 
-   const [total_balance98c00,settotal_balance98c00] = React.useState<any>({
+   const [judgment_entered_text_1d4af4Props,setjudgment_entered_text_1d4af4Props] = React.useState<any>({}) 
+   const [divider2269d0,setdivider2269d0] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2389,8 +3418,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [total_balance98c00Props,settotal_balance98c00Props] = React.useState<any>({}) 
-   const [court_name4b97b,setcourt_name4b97b] = React.useState<any>({
+   const [divider2269d0Props,setdivider2269d0Props] = React.useState<any>({}) 
+   const [service_completed_text835e5,setservice_completed_text835e5] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2398,8 +3427,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [court_name4b97bProps,setcourt_name4b97bProps] = React.useState<any>({}) 
-   const [priority_namec61c4,setpriority_namec61c4] = React.useState<any>({
+   const [service_completed_text835e5Props,setservice_completed_text835e5Props] = React.useState<any>({}) 
+   const [service_completed_text_197211,setservice_completed_text_197211] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2407,8 +3436,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [priority_namec61c4Props,setpriority_namec61c4Props] = React.useState<any>({}) 
-   const [status_namec590e,setstatus_namec590e] = React.useState<any>({
+   const [service_completed_text_197211Props,setservice_completed_text_197211Props] = React.useState<any>({}) 
+   const [divider3acb72,setdivider3acb72] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2416,8 +3445,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [status_namec590eProps,setstatus_namec590eProps] = React.useState<any>({}) 
-   const [trs_created_date4e909,settrs_created_date4e909] = React.useState<any>({
+   const [divider3acb72Props,setdivider3acb72Props] = React.useState<any>({}) 
+   const [amr_passed_text144d2,setamr_passed_text144d2] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2425,8 +3454,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [trs_created_date4e909Props,settrs_created_date4e909Props] = React.useState<any>({}) 
-   const [view_btn88178,setview_btn88178] = React.useState<any>({
+   const [amr_passed_text144d2Props,setamr_passed_text144d2Props] = React.useState<any>({}) 
+   const [amr_passed_text188d24,setamr_passed_text188d24] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2434,8 +3463,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [view_btn88178Props,setview_btn88178Props] = React.useState<any>({}) 
-   const [edit_btn4cc84,setedit_btn4cc84] = React.useState<any>({
+   const [amr_passed_text188d24Props,setamr_passed_text188d24Props] = React.useState<any>({}) 
+   const [divider4ffc0d,setdivider4ffc0d] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2443,8 +3472,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [edit_btn4cc84Props,setedit_btn4cc84Props] = React.useState<any>({}) 
-   const [status77d60,setstatus77d60] = React.useState<any>({
+   const [divider4ffc0dProps,setdivider4ffc0dProps] = React.useState<any>({}) 
+   const [court_rejection_texte1e9c,setcourt_rejection_texte1e9c] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -2452,7 +3481,241 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [status77d60Props,setstatus77d60Props] = React.useState<any>({}) 
+   const [court_rejection_texte1e9cProps,setcourt_rejection_texte1e9cProps] = React.useState<any>({}) 
+   const [court_rejection_text16e38f,setcourt_rejection_text16e38f] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [court_rejection_text16e38fProps,setcourt_rejection_text16e38fProps] = React.useState<any>({}) 
+   const [divider52864b,setdivider52864b] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [divider52864bProps,setdivider52864bProps] = React.useState<any>({}) 
+   const [service_assigned_textb2d7d,setservice_assigned_textb2d7d] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [service_assigned_textb2d7dProps,setservice_assigned_textb2d7dProps] = React.useState<any>({}) 
+   const [service_assigned_text15a8e1,setservice_assigned_text15a8e1] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [service_assigned_text15a8e1Props,setservice_assigned_text15a8e1Props] = React.useState<any>({}) 
+   const [divider6aaa01,setdivider6aaa01] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [divider6aaa01Props,setdivider6aaa01Props] = React.useState<any>({}) 
+   const [amr_rejected_text92e50,setamr_rejected_text92e50] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [amr_rejected_text92e50Props,setamr_rejected_text92e50Props] = React.useState<any>({}) 
+   const [amr_rejected_text11a51a,setamr_rejected_text11a51a] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [amr_rejected_text11a51aProps,setamr_rejected_text11a51aProps] = React.useState<any>({}) 
+   const [back_btn83b00,setback_btn83b00] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [back_btn83b00Props,setback_btn83b00Props] = React.useState<any>({}) 
+   const [amr_textcc6d3,setamr_textcc6d3] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [amr_textcc6d3Props,setamr_textcc6d3Props] = React.useState<any>({}) 
+   const [bt_searchc8991,setbt_searchc8991] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [bt_searchc8991Props,setbt_searchc8991Props] = React.useState<any>({}) 
+   const [new_case_button34af2,setnew_case_button34af2] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [new_case_button34af2Props,setnew_case_button34af2Props] = React.useState<any>({}) 
+   const [account_id9a546,setaccount_id9a546] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [account_id9a546Props,setaccount_id9a546Props] = React.useState<any>({}) 
+   const [case_id734ed,setcase_id734ed] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [case_id734edProps,setcase_id734edProps] = React.useState<any>({}) 
+   const [debtor_nameb1ea9,setdebtor_nameb1ea9] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [debtor_nameb1ea9Props,setdebtor_nameb1ea9Props] = React.useState<any>({}) 
+   const [creditor_namee48d1,setcreditor_namee48d1] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [creditor_namee48d1Props,setcreditor_namee48d1Props] = React.useState<any>({}) 
+   const [full_name7a369,setfull_name7a369] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [full_name7a369Props,setfull_name7a369Props] = React.useState<any>({}) 
+   const [total_balance6a331,settotal_balance6a331] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [total_balance6a331Props,settotal_balance6a331Props] = React.useState<any>({}) 
+   const [court_name5ae4f,setcourt_name5ae4f] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [court_name5ae4fProps,setcourt_name5ae4fProps] = React.useState<any>({}) 
+   const [priority_name6740a,setpriority_name6740a] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [priority_name6740aProps,setpriority_name6740aProps] = React.useState<any>({}) 
+   const [status_name86d6c,setstatus_name86d6c] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [status_name86d6cProps,setstatus_name86d6cProps] = React.useState<any>({}) 
+   const [trs_created_date92fe2,settrs_created_date92fe2] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [trs_created_date92fe2Props,settrs_created_date92fe2Props] = React.useState<any>({}) 
+   const [venue_idb51d8,setvenue_idb51d8] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [venue_idb51d8Props,setvenue_idb51d8Props] = React.useState<any>({}) 
+   const [view_btnbd9a5,setview_btnbd9a5] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [view_btnbd9a5Props,setview_btnbd9a5Props] = React.useState<any>({}) 
+   const [edit_btn10d01,setedit_btn10d01] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [edit_btn10d01Props,setedit_btn10d01Props] = React.useState<any>({}) 
+   const [view_btn_pg_graph1baad,setview_btn_pg_graph1baad] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [view_btn_pg_graph1baadProps,setview_btn_pg_graph1baadProps] = React.useState<any>({}) 
+   const [bt_approveec5db,setbt_approveec5db] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [bt_approveec5dbProps,setbt_approveec5dbProps] = React.useState<any>({}) 
    const [advancesearch6059f,setadvancesearch6059f] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
@@ -3110,7 +4373,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: null
     }) 
    const [remarks_textareadc753Props,setremarks_textareadc753Props] = React.useState<any>({}) 
-   const [craete_header_text93eaa,setcraete_header_text93eaa] = React.useState<any>({
+   const [button_back1a912,setbutton_back1a912] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3118,8 +4381,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [craete_header_text93eaaProps,setcraete_header_text93eaaProps] = React.useState<any>({}) 
-   const [venue_idcb444,setvenue_idcb444] = React.useState<any>({
+   const [button_back1a912Props,setbutton_back1a912Props] = React.useState<any>({}) 
+   const [craete_header_texte958c,setcraete_header_texte958c] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3127,8 +4390,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [venue_idcb444Props,setvenue_idcb444Props] = React.useState<any>({}) 
-   const [creditor_idb1867,setcreditor_idb1867] = React.useState<any>({
+   const [craete_header_texte958cProps,setcraete_header_texte958cProps] = React.useState<any>({}) 
+   const [reeq_doc_text78b91,setreeq_doc_text78b91] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3136,8 +4399,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [creditor_idb1867Props,setcreditor_idb1867Props] = React.useState<any>({}) 
-   const [case_info_textdf3f1,setcase_info_textdf3f1] = React.useState<any>({
+   const [reeq_doc_text78b91Props,setreeq_doc_text78b91Props] = React.useState<any>({}) 
+   const [attachment_id394f7,setattachment_id394f7] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3145,8 +4408,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [case_info_textdf3f1Props,setcase_info_textdf3f1Props] = React.useState<any>({}) 
-   const [creditor_name257be,setcreditor_name257be] = React.useState<any>({
+   const [attachment_id394f7Props,setattachment_id394f7Props] = React.useState<any>({}) 
+   const [doc_namef31ac,setdoc_namef31ac] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3154,8 +4417,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [creditor_name257beProps,setcreditor_name257beProps] = React.useState<any>({}) 
-   const [attorney_name87be1,setattorney_name87be1] = React.useState<any>({
+   const [doc_namef31acProps,setdoc_namef31acProps] = React.useState<any>({}) 
+   const [view_button04be7,setview_button04be7] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3163,8 +4426,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [attorney_name87be1Props,setattorney_name87be1Props] = React.useState<any>({}) 
-   const [status_namea5f92,setstatus_namea5f92] = React.useState<any>({
+   const [view_button04be7Props,setview_button04be7Props] = React.useState<any>({}) 
+   const [case_info_textd4267,setcase_info_textd4267] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3172,8 +4435,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [status_namea5f92Props,setstatus_namea5f92Props] = React.useState<any>({}) 
-   const [priority_name449dd,setpriority_name449dd] = React.useState<any>({
+   const [case_info_textd4267Props,setcase_info_textd4267Props] = React.useState<any>({}) 
+   const [debtor_name83b58,setdebtor_name83b58] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3181,8 +4444,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [priority_name449ddProps,setpriority_name449ddProps] = React.useState<any>({}) 
-   const [queue_positionceb8d,setqueue_positionceb8d] = React.useState<any>({
+   const [debtor_name83b58Props,setdebtor_name83b58Props] = React.useState<any>({}) 
+   const [case_display_idb53b9,setcase_display_idb53b9] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3190,8 +4453,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [queue_positionceb8dProps,setqueue_positionceb8dProps] = React.useState<any>({}) 
-   const [quality_scoredfaa9,setquality_scoredfaa9] = React.useState<any>({
+   const [case_display_idb53b9Props,setcase_display_idb53b9Props] = React.useState<any>({}) 
+   const [ssn_masked24ce0,setssn_masked24ce0] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3199,8 +4462,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [quality_scoredfaa9Props,setquality_scoredfaa9Props] = React.useState<any>({}) 
-   const [sla_wait_start_time20502,setsla_wait_start_time20502] = React.useState<any>({
+   const [ssn_masked24ce0Props,setssn_masked24ce0Props] = React.useState<any>({}) 
+   const [dobea900,setdobea900] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3208,8 +4471,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [sla_wait_start_time20502Props,setsla_wait_start_time20502Props] = React.useState<any>({}) 
-   const [rules_iconfb03f,setrules_iconfb03f] = React.useState<any>({
+   const [dobea900Props,setdobea900Props] = React.useState<any>({}) 
+   const [address4e81d,setaddress4e81d] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3217,8 +4480,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [rules_iconfb03fProps,setrules_iconfb03fProps] = React.useState<any>({}) 
-   const [venue_special_rules_textecd92,setvenue_special_rules_textecd92] = React.useState<any>({
+   const [address4e81dProps,setaddress4e81dProps] = React.useState<any>({}) 
+   const [creditor_name62479,setcreditor_name62479] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3226,8 +4489,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [venue_special_rules_textecd92Props,setvenue_special_rules_textecd92Props] = React.useState<any>({}) 
-   const [special_rules2001a,setspecial_rules2001a] = React.useState<any>({
+   const [creditor_name62479Props,setcreditor_name62479Props] = React.useState<any>({}) 
+   const [charge_off_dated3231,setcharge_off_dated3231] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3235,8 +4498,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [special_rules2001aProps,setspecial_rules2001aProps] = React.useState<any>({}) 
-   const [venue_special_rules_divider206ab,setvenue_special_rules_divider206ab] = React.useState<any>({
+   const [charge_off_dated3231Props,setcharge_off_dated3231Props] = React.useState<any>({}) 
+   const [last_payment_date500eb,setlast_payment_date500eb] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3244,8 +4507,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [venue_special_rules_divider206abProps,setvenue_special_rules_divider206abProps] = React.useState<any>({}) 
-   const [warning_icond1cd0,setwarning_icond1cd0] = React.useState<any>({
+   const [last_payment_date500ebProps,setlast_payment_date500ebProps] = React.useState<any>({}) 
+   const [divider772d9,setdivider772d9] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3253,8 +4516,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [warning_icond1cd0Props,setwarning_icond1cd0Props] = React.useState<any>({}) 
-   const [georgia_sol_text460ef,setgeorgia_sol_text460ef] = React.useState<any>({
+   const [divider772d9Props,setdivider772d9Props] = React.useState<any>({}) 
+   const [principal_text73a3d,setprincipal_text73a3d] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3262,8 +4525,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [georgia_sol_text460efProps,setgeorgia_sol_text460efProps] = React.useState<any>({}) 
-   const [special_rulesd6c6e,setspecial_rulesd6c6e] = React.useState<any>({
+   const [principal_text73a3dProps,setprincipal_text73a3dProps] = React.useState<any>({}) 
+   const [principald89b4,setprincipald89b4] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3271,8 +4534,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [special_rulesd6c6eProps,setspecial_rulesd6c6eProps] = React.useState<any>({}) 
-   const [venue_special_rules_dividers28a68,setvenue_special_rules_dividers28a68] = React.useState<any>({
+   const [principald89b4Props,setprincipald89b4Props] = React.useState<any>({}) 
+   const [intrest_text58114,setintrest_text58114] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3280,8 +4543,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [venue_special_rules_dividers28a68Props,setvenue_special_rules_dividers28a68Props] = React.useState<any>({}) 
-   const [warnings_icon0adcc,setwarnings_icon0adcc] = React.useState<any>({
+   const [intrest_text58114Props,setintrest_text58114Props] = React.useState<any>({}) 
+   const [interest42832,setinterest42832] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3289,8 +4552,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [warnings_icon0adccProps,setwarnings_icon0adccProps] = React.useState<any>({}) 
-   const [georgias_sol_text24265,setgeorgias_sol_text24265] = React.useState<any>({
+   const [interest42832Props,setinterest42832Props] = React.useState<any>({}) 
+   const [fees_text67815,setfees_text67815] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3298,8 +4561,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [georgias_sol_text24265Props,setgeorgias_sol_text24265Props] = React.useState<any>({}) 
-   const [specials_rules14021,setspecials_rules14021] = React.useState<any>({
+   const [fees_text67815Props,setfees_text67815Props] = React.useState<any>({}) 
+   const [fees9a14f,setfees9a14f] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3307,8 +4570,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [specials_rules14021Props,setspecials_rules14021Props] = React.useState<any>({}) 
-   const [venue_special_rules_dividerss0c16e,setvenue_special_rules_dividerss0c16e] = React.useState<any>({
+   const [fees9a14fProps,setfees9a14fProps] = React.useState<any>({}) 
+   const [total_balance_texted1be,settotal_balance_texted1be] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3316,8 +4579,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [venue_special_rules_dividerss0c16eProps,setvenue_special_rules_dividerss0c16eProps] = React.useState<any>({}) 
-   const [warningss_icons476c3,setwarningss_icons476c3] = React.useState<any>({
+   const [total_balance_texted1beProps,settotal_balance_texted1beProps] = React.useState<any>({}) 
+   const [total_balancee5904,settotal_balancee5904] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3325,8 +4588,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [warningss_icons476c3Props,setwarningss_icons476c3Props] = React.useState<any>({}) 
-   const [georgias_sosl_texts3f264,setgeorgias_sosl_texts3f264] = React.useState<any>({
+   const [total_balancee5904Props,settotal_balancee5904Props] = React.useState<any>({}) 
+   const [sol_expiry_date69782,setsol_expiry_date69782] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3334,8 +4597,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [georgias_sosl_texts3f264Props,setgeorgias_sosl_texts3f264Props] = React.useState<any>({}) 
-   const [specials_rulesscc30f,setspecials_rulesscc30f] = React.useState<any>({
+   const [sol_expiry_date69782Props,setsol_expiry_date69782Props] = React.useState<any>({}) 
+   const [ven_name_textdfed0,setven_name_textdfed0] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3343,8 +4606,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [specials_rulesscc30fProps,setspecials_rulesscc30fProps] = React.useState<any>({}) 
-   const [venue_special_rules_dividersssdcaab,setvenue_special_rules_dividersssdcaab] = React.useState<any>({
+   const [ven_name_textdfed0Props,setven_name_textdfed0Props] = React.useState<any>({}) 
+   const [state8a16f,setstate8a16f] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3352,8 +4615,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [venue_special_rules_dividersssdcaabProps,setvenue_special_rules_dividersssdcaabProps] = React.useState<any>({}) 
-   const [warningsss_icons3be9c,setwarningsss_icons3be9c] = React.useState<any>({
+   const [state8a16fProps,setstate8a16fProps] = React.useState<any>({}) 
+   const [dividers29243,setdividers29243] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3361,8 +4624,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [warningsss_icons3be9cProps,setwarningsss_icons3be9cProps] = React.useState<any>({}) 
-   const [georgiass_sosl_texts88097,setgeorgiass_sosl_texts88097] = React.useState<any>({
+   const [dividers29243Props,setdividers29243Props] = React.useState<any>({}) 
+   const [country40b75,setcountry40b75] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3370,8 +4633,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [georgiass_sosl_texts88097Props,setgeorgiass_sosl_texts88097Props] = React.useState<any>({}) 
-   const [specials_ruless95686,setspecials_ruless95686] = React.useState<any>({
+   const [country40b75Props,setcountry40b75Props] = React.useState<any>({}) 
+   const [dividerss6e19f,setdividerss6e19f] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3379,8 +4642,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [specials_ruless95686Props,setspecials_ruless95686Props] = React.useState<any>({}) 
-   const [venues_special_rules_dividerssss44419,setvenues_special_rules_dividerssss44419] = React.useState<any>({
+   const [dividerss6e19fProps,setdividerss6e19fProps] = React.useState<any>({}) 
+   const [court_name27e21,setcourt_name27e21] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3388,8 +4651,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [venues_special_rules_dividerssss44419Props,setvenues_special_rules_dividerssss44419Props] = React.useState<any>({}) 
-   const [warningssss_icons55275,setwarningssss_icons55275] = React.useState<any>({
+   const [court_name27e21Props,setcourt_name27e21Props] = React.useState<any>({}) 
+   const [dividersss5d68a,setdividersss5d68a] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3397,8 +4660,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [warningssss_icons55275Props,setwarningssss_icons55275Props] = React.useState<any>({}) 
-   const [georsgiass_sosl_texts15f5e,setgeorsgiass_sosl_texts15f5e] = React.useState<any>({
+   const [dividersss5d68aProps,setdividersss5d68aProps] = React.useState<any>({}) 
+   const [judge_name5abc6,setjudge_name5abc6] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3406,8 +4669,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [georsgiass_sosl_texts15f5eProps,setgeorsgiass_sosl_texts15f5eProps] = React.useState<any>({}) 
-   const [spesciasls_ruless910f1,setspesciasls_ruless910f1] = React.useState<any>({
+   const [judge_name5abc6Props,setjudge_name5abc6Props] = React.useState<any>({}) 
+   const [dividerssss4ac29,setdividerssss4ac29] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3415,8 +4678,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [spesciasls_ruless910f1Props,setspesciasls_ruless910f1Props] = React.useState<any>({}) 
-   const [debt_info_textb09b8,setdebt_info_textb09b8] = React.useState<any>({
+   const [dividerssss4ac29Props,setdividerssss4ac29Props] = React.useState<any>({}) 
+   const [filing_fee7fab8,setfiling_fee7fab8] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3424,8 +4687,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [debt_info_textb09b8Props,setdebt_info_textb09b8Props] = React.useState<any>({}) 
-   const [debtor_namef7cac,setdebtor_namef7cac] = React.useState<any>({
+   const [filing_fee7fab8Props,setfiling_fee7fab8Props] = React.useState<any>({}) 
+   const [dividersssssec43b,setdividersssssec43b] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3433,8 +4696,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [debtor_namef7cacProps,setdebtor_namef7cacProps] = React.useState<any>({}) 
-   const [ssn_masked26c46,setssn_masked26c46] = React.useState<any>({
+   const [dividersssssec43bProps,setdividersssssec43bProps] = React.useState<any>({}) 
+   const [service_method80ec2,setservice_method80ec2] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3442,8 +4705,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [ssn_masked26c46Props,setssn_masked26c46Props] = React.useState<any>({}) 
-   const [dob0f0bf,setdob0f0bf] = React.useState<any>({
+   const [service_method80ec2Props,setservice_method80ec2Props] = React.useState<any>({}) 
+   const [dividerssssssbc99f,setdividerssssssbc99f] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3451,8 +4714,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [dob0f0bfProps,setdob0f0bfProps] = React.useState<any>({}) 
-   const [address22d72,setaddress22d72] = React.useState<any>({
+   const [dividerssssssbc99fProps,setdividerssssssbc99fProps] = React.useState<any>({}) 
+   const [efiling_system9b6bc,setefiling_system9b6bc] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3460,8 +4723,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [address22d72Props,setaddress22d72Props] = React.useState<any>({}) 
-   const [financial_dtls_text3451f,setfinancial_dtls_text3451f] = React.useState<any>({
+   const [efiling_system9b6bcProps,setefiling_system9b6bcProps] = React.useState<any>({}) 
+   const [valid_checklist_text6c6d2,setvalid_checklist_text6c6d2] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3469,8 +4732,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [financial_dtls_text3451fProps,setfinancial_dtls_text3451fProps] = React.useState<any>({}) 
-   const [charge_off_date13a39,setcharge_off_date13a39] = React.useState<any>({
+   const [valid_checklist_text6c6d2Props,setvalid_checklist_text6c6d2Props] = React.useState<any>({}) 
+   const [checklist_item_ida8a87,setchecklist_item_ida8a87] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3478,8 +4741,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [charge_off_date13a39Props,setcharge_off_date13a39Props] = React.useState<any>({}) 
-   const [last_payment_dateeab2f,setlast_payment_dateeab2f] = React.useState<any>({
+   const [checklist_item_ida8a87Props,setchecklist_item_ida8a87Props] = React.useState<any>({}) 
+   const [item_name8baf4,setitem_name8baf4] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3487,8 +4750,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [last_payment_dateeab2fProps,setlast_payment_dateeab2fProps] = React.useState<any>({}) 
-   const [total_balanceca1e1,settotal_balanceca1e1] = React.useState<any>({
+   const [item_name8baf4Props,setitem_name8baf4Props] = React.useState<any>({}) 
+   const [is_completed2fafb,setis_completed2fafb] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3496,8 +4759,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [total_balanceca1e1Props,settotal_balanceca1e1Props] = React.useState<any>({}) 
-   const [principal6eb2a,setprincipal6eb2a] = React.useState<any>({
+   const [is_completed2fafbProps,setis_completed2fafbProps] = React.useState<any>({}) 
+   const [special_rules_textda90e,setspecial_rules_textda90e] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3505,8 +4768,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [principal6eb2aProps,setprincipal6eb2aProps] = React.useState<any>({}) 
-   const [interesta6b7d,setinteresta6b7d] = React.useState<any>({
+   const [special_rules_textda90eProps,setspecial_rules_textda90eProps] = React.useState<any>({}) 
+   const [dynamic_icon8f352,setdynamic_icon8f352] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3514,8 +4777,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [interesta6b7dProps,setinteresta6b7dProps] = React.useState<any>({}) 
-   const [feesb456c,setfeesb456c] = React.useState<any>({
+   const [dynamic_icon8f352Props,setdynamic_icon8f352Props] = React.useState<any>({}) 
+   const [rules_text55ce9,setrules_text55ce9] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3523,8 +4786,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [feesb456cProps,setfeesb456cProps] = React.useState<any>({}) 
-   const [ven_name_text0c8ba,setven_name_text0c8ba] = React.useState<any>({
+   const [rules_text55ce9Props,setrules_text55ce9Props] = React.useState<any>({}) 
+   const [account_idc92b6,setaccount_idc92b6] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3532,8 +4795,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [ven_name_text0c8baProps,setven_name_text0c8baProps] = React.useState<any>({}) 
-   const [state3010e,setstate3010e] = React.useState<any>({
+   const [account_idc92b6Props,setaccount_idc92b6Props] = React.useState<any>({}) 
+   const [venue_id063aa,setvenue_id063aa] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3541,178 +4804,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [state3010eProps,setstate3010eProps] = React.useState<any>({}) 
-   const [country1983b,setcountry1983b] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [country1983bProps,setcountry1983bProps] = React.useState<any>({}) 
-   const [court_name41a77,setcourt_name41a77] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [court_name41a77Props,setcourt_name41a77Props] = React.useState<any>({}) 
-   const [judge_name0a819,setjudge_name0a819] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [judge_name0a819Props,setjudge_name0a819Props] = React.useState<any>({}) 
-   const [sol_expiry_dated5486,setsol_expiry_dated5486] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [sol_expiry_dated5486Props,setsol_expiry_dated5486Props] = React.useState<any>({}) 
-   const [filing_fee89c7f,setfiling_fee89c7f] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [filing_fee89c7fProps,setfiling_fee89c7fProps] = React.useState<any>({}) 
-   const [service_method1b411,setservice_method1b411] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [service_method1b411Props,setservice_method1b411Props] = React.useState<any>({}) 
-   const [efiling_system7d508,setefiling_system7d508] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [efiling_system7d508Props,setefiling_system7d508Props] = React.useState<any>({}) 
-   const [efiling_required36d60,setefiling_required36d60] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [efiling_required36d60Props,setefiling_required36d60Props] = React.useState<any>({}) 
-   const [reeq_doc_text732f8,setreeq_doc_text732f8] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [reeq_doc_text732f8Props,setreeq_doc_text732f8Props] = React.useState<any>({}) 
-   const [attachment_id54469,setattachment_id54469] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [attachment_id54469Props,setattachment_id54469Props] = React.useState<any>({}) 
-   const [doc_name513db,setdoc_name513db] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [doc_name513dbProps,setdoc_name513dbProps] = React.useState<any>({}) 
-   const [trs_created_by736ad,settrs_created_by736ad] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [trs_created_by736adProps,settrs_created_by736adProps] = React.useState<any>({}) 
-   const [trs_created_datecfead,settrs_created_datecfead] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [trs_created_datecfeadProps,settrs_created_datecfeadProps] = React.useState<any>({}) 
-   const [valid_checklist_text1428a,setvalid_checklist_text1428a] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [valid_checklist_text1428aProps,setvalid_checklist_text1428aProps] = React.useState<any>({}) 
-   const [checklist_item_id611e6,setchecklist_item_id611e6] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [checklist_item_id611e6Props,setchecklist_item_id611e6Props] = React.useState<any>({}) 
-   const [item_nameafc9a,setitem_nameafc9a] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [item_nameafc9aProps,setitem_nameafc9aProps] = React.useState<any>({}) 
-   const [is_completed6ef7a,setis_completed6ef7a] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [is_completed6ef7aProps,setis_completed6ef7aProps] = React.useState<any>({}) 
-   const [remarks_textarea15a62,setremarks_textarea15a62] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [remarks_textarea15a62Props,setremarks_textarea15a62Props] = React.useState<any>({}) 
-   const [account_id4ecc7,setaccount_id4ecc7] = React.useState<any>({
-    isDisabled: null,
-    presetValues: '',
-    isHidden: false,
-    refetch:false,
-    refresh:false,
-    trigger: null
-    }) 
-   const [account_id4ecc7Props,setaccount_id4ecc7Props] = React.useState<any>({}) 
+   const [venue_id063aaProps,setvenue_id063aaProps] = React.useState<any>({}) 
    const [documentviewer64771,setdocumentviewer64771] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
@@ -3722,7 +4814,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     trigger: null
     }) 
    const [documentviewer64771Props,setdocumentviewer64771Props] = React.useState<any>({}) 
-   const [advancesearch1e502,setadvancesearch1e502] = React.useState<any>({
+   const [back_bt22897,setback_bt22897] = React.useState<any>({
     isDisabled: null,
     presetValues: '',
     isHidden: false,
@@ -3730,62 +4822,961 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     refresh:false,
     trigger: null
     }) 
-   const [advancesearch1e502Props,setadvancesearch1e502Props] = React.useState<any>({}) 
+   const [back_bt22897Props,setback_bt22897Props] = React.useState<any>({}) 
+   const [craete_header_textae5d6,setcraete_header_textae5d6] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [craete_header_textae5d6Props,setcraete_header_textae5d6Props] = React.useState<any>({}) 
+   const [reeq_doc_text64f93,setreeq_doc_text64f93] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [reeq_doc_text64f93Props,setreeq_doc_text64f93Props] = React.useState<any>({}) 
+   const [attachment_idcc3f4,setattachment_idcc3f4] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [attachment_idcc3f4Props,setattachment_idcc3f4Props] = React.useState<any>({}) 
+   const [doc_name909a3,setdoc_name909a3] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [doc_name909a3Props,setdoc_name909a3Props] = React.useState<any>({}) 
+   const [view_button22ede,setview_button22ede] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [view_button22edeProps,setview_button22edeProps] = React.useState<any>({}) 
+   const [case_info_text1e3db,setcase_info_text1e3db] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [case_info_text1e3dbProps,setcase_info_text1e3dbProps] = React.useState<any>({}) 
+   const [debtor_name2af58,setdebtor_name2af58] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [debtor_name2af58Props,setdebtor_name2af58Props] = React.useState<any>({}) 
+   const [case_display_idd1272,setcase_display_idd1272] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [case_display_idd1272Props,setcase_display_idd1272Props] = React.useState<any>({}) 
+   const [ssn_maskedc4424,setssn_maskedc4424] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [ssn_maskedc4424Props,setssn_maskedc4424Props] = React.useState<any>({}) 
+   const [dob29785,setdob29785] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [dob29785Props,setdob29785Props] = React.useState<any>({}) 
+   const [address70906,setaddress70906] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [address70906Props,setaddress70906Props] = React.useState<any>({}) 
+   const [creditor_namea9b98,setcreditor_namea9b98] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [creditor_namea9b98Props,setcreditor_namea9b98Props] = React.useState<any>({}) 
+   const [charge_off_date763d0,setcharge_off_date763d0] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [charge_off_date763d0Props,setcharge_off_date763d0Props] = React.useState<any>({}) 
+   const [last_payment_date43bdb,setlast_payment_date43bdb] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [last_payment_date43bdbProps,setlast_payment_date43bdbProps] = React.useState<any>({}) 
+   const [dividere3c67,setdividere3c67] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [dividere3c67Props,setdividere3c67Props] = React.useState<any>({}) 
+   const [principal_text6883f,setprincipal_text6883f] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [principal_text6883fProps,setprincipal_text6883fProps] = React.useState<any>({}) 
+   const [principal65ef3,setprincipal65ef3] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [principal65ef3Props,setprincipal65ef3Props] = React.useState<any>({}) 
+   const [intrest_text3a919,setintrest_text3a919] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [intrest_text3a919Props,setintrest_text3a919Props] = React.useState<any>({}) 
+   const [interest783c4,setinterest783c4] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [interest783c4Props,setinterest783c4Props] = React.useState<any>({}) 
+   const [fees_text4a6b6,setfees_text4a6b6] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [fees_text4a6b6Props,setfees_text4a6b6Props] = React.useState<any>({}) 
+   const [feesab1fe,setfeesab1fe] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [feesab1feProps,setfeesab1feProps] = React.useState<any>({}) 
+   const [total_balance_text0b418,settotal_balance_text0b418] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [total_balance_text0b418Props,settotal_balance_text0b418Props] = React.useState<any>({}) 
+   const [total_balancee7e5f,settotal_balancee7e5f] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [total_balancee7e5fProps,settotal_balancee7e5fProps] = React.useState<any>({}) 
+   const [sol_expiry_date4dfe3,setsol_expiry_date4dfe3] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [sol_expiry_date4dfe3Props,setsol_expiry_date4dfe3Props] = React.useState<any>({}) 
+   const [ven_name_textf01f8,setven_name_textf01f8] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [ven_name_textf01f8Props,setven_name_textf01f8Props] = React.useState<any>({}) 
+   const [statea7e09,setstatea7e09] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [statea7e09Props,setstatea7e09Props] = React.useState<any>({}) 
+   const [dividersa774c,setdividersa774c] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [dividersa774cProps,setdividersa774cProps] = React.useState<any>({}) 
+   const [countrydb772,setcountrydb772] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [countrydb772Props,setcountrydb772Props] = React.useState<any>({}) 
+   const [dividerssaf051,setdividerssaf051] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [dividerssaf051Props,setdividerssaf051Props] = React.useState<any>({}) 
+   const [court_name7a5a6,setcourt_name7a5a6] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [court_name7a5a6Props,setcourt_name7a5a6Props] = React.useState<any>({}) 
+   const [dividersssbef5f,setdividersssbef5f] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [dividersssbef5fProps,setdividersssbef5fProps] = React.useState<any>({}) 
+   const [judge_name71e3e,setjudge_name71e3e] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [judge_name71e3eProps,setjudge_name71e3eProps] = React.useState<any>({}) 
+   const [dividerssss61d06,setdividerssss61d06] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [dividerssss61d06Props,setdividerssss61d06Props] = React.useState<any>({}) 
+   const [filing_fee144cd,setfiling_fee144cd] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [filing_fee144cdProps,setfiling_fee144cdProps] = React.useState<any>({}) 
+   const [dividersssssd333b,setdividersssssd333b] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [dividersssssd333bProps,setdividersssssd333bProps] = React.useState<any>({}) 
+   const [service_method48ac6,setservice_method48ac6] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [service_method48ac6Props,setservice_method48ac6Props] = React.useState<any>({}) 
+   const [dividerssssss06ce3,setdividerssssss06ce3] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [dividerssssss06ce3Props,setdividerssssss06ce3Props] = React.useState<any>({}) 
+   const [efiling_system964db,setefiling_system964db] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [efiling_system964dbProps,setefiling_system964dbProps] = React.useState<any>({}) 
+   const [valid_checklist_texta0e64,setvalid_checklist_texta0e64] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [valid_checklist_texta0e64Props,setvalid_checklist_texta0e64Props] = React.useState<any>({}) 
+   const [checklist_item_id5bd1d,setchecklist_item_id5bd1d] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [checklist_item_id5bd1dProps,setchecklist_item_id5bd1dProps] = React.useState<any>({}) 
+   const [item_name24046,setitem_name24046] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [item_name24046Props,setitem_name24046Props] = React.useState<any>({}) 
+   const [is_completed1fd36,setis_completed1fd36] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [is_completed1fd36Props,setis_completed1fd36Props] = React.useState<any>({}) 
+   const [special_rules_text24a29,setspecial_rules_text24a29] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [special_rules_text24a29Props,setspecial_rules_text24a29Props] = React.useState<any>({}) 
+   const [dynamic_iconc7b56,setdynamic_iconc7b56] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [dynamic_iconc7b56Props,setdynamic_iconc7b56Props] = React.useState<any>({}) 
+   const [rule_textdb2d4,setrule_textdb2d4] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [rule_textdb2d4Props,setrule_textdb2d4Props] = React.useState<any>({}) 
+   const [account_idcc45c,setaccount_idcc45c] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [account_idcc45cProps,setaccount_idcc45cProps] = React.useState<any>({}) 
+   const [craete_header_text26dc6,setcraete_header_text26dc6] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [craete_header_text26dc6Props,setcraete_header_text26dc6Props] = React.useState<any>({}) 
+   const [reeq_doc_text01111,setreeq_doc_text01111] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [reeq_doc_text01111Props,setreeq_doc_text01111Props] = React.useState<any>({}) 
+   const [attachment_id08b6e,setattachment_id08b6e] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [attachment_id08b6eProps,setattachment_id08b6eProps] = React.useState<any>({}) 
+   const [doc_nameedf63,setdoc_nameedf63] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [doc_nameedf63Props,setdoc_nameedf63Props] = React.useState<any>({}) 
+   const [view_buttoncb62a,setview_buttoncb62a] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [view_buttoncb62aProps,setview_buttoncb62aProps] = React.useState<any>({}) 
+   const [case_info_text53524,setcase_info_text53524] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [case_info_text53524Props,setcase_info_text53524Props] = React.useState<any>({}) 
+   const [debtor_namea603a,setdebtor_namea603a] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [debtor_namea603aProps,setdebtor_namea603aProps] = React.useState<any>({}) 
+   const [case_display_id3ba0a,setcase_display_id3ba0a] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [case_display_id3ba0aProps,setcase_display_id3ba0aProps] = React.useState<any>({}) 
+   const [ssn_masked36fce,setssn_masked36fce] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [ssn_masked36fceProps,setssn_masked36fceProps] = React.useState<any>({}) 
+   const [dob19a93,setdob19a93] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [dob19a93Props,setdob19a93Props] = React.useState<any>({}) 
+   const [address0e39e,setaddress0e39e] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [address0e39eProps,setaddress0e39eProps] = React.useState<any>({}) 
+   const [creditor_name04ffa,setcreditor_name04ffa] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [creditor_name04ffaProps,setcreditor_name04ffaProps] = React.useState<any>({}) 
+   const [charge_off_datef5bba,setcharge_off_datef5bba] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [charge_off_datef5bbaProps,setcharge_off_datef5bbaProps] = React.useState<any>({}) 
+   const [last_payment_date37076,setlast_payment_date37076] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [last_payment_date37076Props,setlast_payment_date37076Props] = React.useState<any>({}) 
+   const [divider9cfd3,setdivider9cfd3] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [divider9cfd3Props,setdivider9cfd3Props] = React.useState<any>({}) 
+   const [principal_textb6dc5,setprincipal_textb6dc5] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [principal_textb6dc5Props,setprincipal_textb6dc5Props] = React.useState<any>({}) 
+   const [principalae986,setprincipalae986] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [principalae986Props,setprincipalae986Props] = React.useState<any>({}) 
+   const [intrest_textfab09,setintrest_textfab09] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [intrest_textfab09Props,setintrest_textfab09Props] = React.useState<any>({}) 
+   const [interestf94e4,setinterestf94e4] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [interestf94e4Props,setinterestf94e4Props] = React.useState<any>({}) 
+   const [fees_textdf3db,setfees_textdf3db] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [fees_textdf3dbProps,setfees_textdf3dbProps] = React.useState<any>({}) 
+   const [feesd3a22,setfeesd3a22] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [feesd3a22Props,setfeesd3a22Props] = React.useState<any>({}) 
+   const [total_balance_texta06df,settotal_balance_texta06df] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [total_balance_texta06dfProps,settotal_balance_texta06dfProps] = React.useState<any>({}) 
+   const [total_balance92fd1,settotal_balance92fd1] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [total_balance92fd1Props,settotal_balance92fd1Props] = React.useState<any>({}) 
+   const [sol_expiry_date3775f,setsol_expiry_date3775f] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [sol_expiry_date3775fProps,setsol_expiry_date3775fProps] = React.useState<any>({}) 
+   const [ven_name_text4470c,setven_name_text4470c] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [ven_name_text4470cProps,setven_name_text4470cProps] = React.useState<any>({}) 
+   const [state10d95,setstate10d95] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [state10d95Props,setstate10d95Props] = React.useState<any>({}) 
+   const [dividers6822a,setdividers6822a] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [dividers6822aProps,setdividers6822aProps] = React.useState<any>({}) 
+   const [countryc8824,setcountryc8824] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [countryc8824Props,setcountryc8824Props] = React.useState<any>({}) 
+   const [dividerss8b343,setdividerss8b343] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [dividerss8b343Props,setdividerss8b343Props] = React.useState<any>({}) 
+   const [court_name70da0,setcourt_name70da0] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [court_name70da0Props,setcourt_name70da0Props] = React.useState<any>({}) 
+   const [dividersssd0216,setdividersssd0216] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [dividersssd0216Props,setdividersssd0216Props] = React.useState<any>({}) 
+   const [judge_name833b7,setjudge_name833b7] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [judge_name833b7Props,setjudge_name833b7Props] = React.useState<any>({}) 
+   const [dividerssss9e016,setdividerssss9e016] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [dividerssss9e016Props,setdividerssss9e016Props] = React.useState<any>({}) 
+   const [filing_fee9d0c4,setfiling_fee9d0c4] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [filing_fee9d0c4Props,setfiling_fee9d0c4Props] = React.useState<any>({}) 
+   const [dividersssss85652,setdividersssss85652] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [dividersssss85652Props,setdividersssss85652Props] = React.useState<any>({}) 
+   const [service_method926d2,setservice_method926d2] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [service_method926d2Props,setservice_method926d2Props] = React.useState<any>({}) 
+   const [dividerssssss7d379,setdividerssssss7d379] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [dividerssssss7d379Props,setdividerssssss7d379Props] = React.useState<any>({}) 
+   const [efiling_system056da,setefiling_system056da] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [efiling_system056daProps,setefiling_system056daProps] = React.useState<any>({}) 
+   const [valid_checklist_text6a0da,setvalid_checklist_text6a0da] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [valid_checklist_text6a0daProps,setvalid_checklist_text6a0daProps] = React.useState<any>({}) 
+   const [checklist_item_id27c72,setchecklist_item_id27c72] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [checklist_item_id27c72Props,setchecklist_item_id27c72Props] = React.useState<any>({}) 
+   const [item_name14346,setitem_name14346] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [item_name14346Props,setitem_name14346Props] = React.useState<any>({}) 
+   const [is_completeda9a9a,setis_completeda9a9a] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [is_completeda9a9aProps,setis_completeda9a9aProps] = React.useState<any>({}) 
+   const [special_rules_textdd5e9,setspecial_rules_textdd5e9] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [special_rules_textdd5e9Props,setspecial_rules_textdd5e9Props] = React.useState<any>({}) 
+   const [warning_icon83e9f,setwarning_icon83e9f] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [warning_icon83e9fProps,setwarning_icon83e9fProps] = React.useState<any>({}) 
+   const [rule_texta87d5,setrule_texta87d5] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [rule_texta87d5Props,setrule_texta87d5Props] = React.useState<any>({}) 
+   const [account_id8944a,setaccount_id8944a] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [account_id8944aProps,setaccount_id8944aProps] = React.useState<any>({}) 
+   const [cancel_btnc64a4,setcancel_btnc64a4] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [cancel_btnc64a4Props,setcancel_btnc64a4Props] = React.useState<any>({}) 
+   const [reject_btn27005,setreject_btn27005] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [reject_btn27005Props,setreject_btn27005Props] = React.useState<any>({}) 
+   const [pass_sign_btn916fa,setpass_sign_btn916fa] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [pass_sign_btn916faProps,setpass_sign_btn916faProps] = React.useState<any>({}) 
+   const [report_editor1140e,setreport_editor1140e] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [report_editor1140eProps,setreport_editor1140eProps] = React.useState<any>({}) 
+   const [lap_test_screen_texta85ad,setlap_test_screen_texta85ad] = React.useState<any>({
+    isDisabled: null,
+    presetValues: '',
+    isHidden: false,
+    refetch:false,
+    refresh:false,
+    trigger: null
+    }) 
+   const [lap_test_screen_texta85adProps,setlap_test_screen_texta85adProps] = React.useState<any>({}) 
     ///////////
-    const [refresh, setRefresh] = React.useState<Record<string, boolean>>({       texttext9e38a:false,
-       textamr_queue_text28561:false,
-       iconicon_total_assest208f5:false,
-       textamr_queue5b620:false,
-       textamr_queue_descafe0e:false,
-       textpending_file_text86c2a:false,
-       iconicon_maintenance_duecab92:false,
-       textpending_file1721b:false,
-       textpending_file_desc53378:false,
-       textservice_pending_text5cc58:false,
-       iconicon_warranty_expiring6d299:false,
-       textservice_pending918f0:false,
-       textservice_pending_descabf48:false,
-       textslas_at_risk_text33ae5:false,
-       iconicon_2caf8:false,
-       textslas_at_riskf177b:false,
-       textslas_at_risk_desc5c075:false,
-       textcourt_rejection_text06a86:false,
-       iconicona5abd:false,
-       textcourt_rejection2460a:false,
-       textcourt_rejection_desc7c63b:false,
-       textcollected_mtd_text4d825:false,
-       iconiconaff33:false,
-       textcollected_mtdab52b:false,
-       textcollected_mtd_descfffed:false,
-       buttonsearch_btn4c2ed:false,
-       buttonadd_btn2f9d0:false,
-       texttextc2337:false,
-       columncase_display_id8caab:false,
-       columndebtor_namedb464:false,
-       columncreditor_name29781:false,
-       columnfull_nameda699:false,
-       columntotal_balancea27e6:false,
-       columncourt_name03aea:false,
-       columnpriority_namec8266:false,
-       columnstatus_named2368:false,
-       columntrs_created_datec9e9d:false,
-       buttonview_btns77c69:false,
-       buttonedit_btns48ea7:false,
-       buttonsearch_btn15268:false,
-       buttonadd_btn707cf:false,
-       texttext3ced2:false,
-       columncase_display_id32ae4:false,
-       columndebtor_namecd77b:false,
-       columncreditor_nameb14ce:false,
-       columnfull_name592f3:false,
-       columntotal_balance98c00:false,
-       columncourt_name4b97b:false,
-       columnpriority_namec61c4:false,
-       columnstatus_namec590e:false,
-       columntrs_created_date4e909:false,
-       buttonview_btn88178:false,
-       buttonedit_btn4cc84:false,
-       textstatus77d60:false,
+    const [refresh, setRefresh] = React.useState<Record<string, boolean>>({       texttext5e6b2:false,
+       textamr_queue_text17149:false,
+       iconicon_total_assest42cc7:false,
+       textamr_queue0e5a7:false,
+       textamr_queue_desc10020:false,
+       textpending_file_text61240:false,
+       iconicon_maintenance_dueb2661:false,
+       textpending_filea7d91:false,
+       textpending_file_desca182c:false,
+       textservice_pending_textb9d5c:false,
+       iconicon_warranty_expiringa065e:false,
+       textservice_pending0898e:false,
+       textservice_pending_desc91c8a:false,
+       textslas_at_risk_text42bdc:false,
+       iconicon_eaa1e:false,
+       textslas_at_riska3022:false,
+       textslas_at_risk_desc57375:false,
+       textcourt_rejection_textc9a86:false,
+       iconicon87359:false,
+       textcourt_rejectionff779:false,
+       textcourt_rejection_desc6f72f:false,
+       textcollected_mtd_textf5ff3:false,
+       iconiconb9347:false,
+       textcollected_mtd65ae0:false,
+       textcollected_mtd_desc21bcb:false,
+       textkey_performance_indicators_text4f6db:false,
+       texttotal_active_accounts_texted4d7:false,
+       texttotal_active_accounts_text1b45d0:false,
+       dividerdivider13ca73:false,
+       textavg_days_to_judgment_text82b69:false,
+       textavg_days_to_judgment_text14ed01:false,
+       dividerdivider214543:false,
+       textcourt_rejection_rate_text86ac0:false,
+       textcourt_rejection_rate_text10b69f:false,
+       dividerdivider39db36:false,
+       textcompliance_score_textbf682:false,
+       textcompliance_score_text1f41e4:false,
+       dividerdivider432793:false,
+       textcollection_rate_mtd_text335f5:false,
+       textcollection_rate_mtd_text16258d:false,
+       textrecent_activity_text25b7b:false,
+       textamr_queued_textb4f27:false,
+       textamr_queued_text_1dc178:false,
+       dividerdivider1cb266:false,
+       textjudgment_entered_text2f3e7:false,
+       textjudgment_entered_text_1d4af4:false,
+       dividerdivider2269d0:false,
+       textservice_completed_text835e5:false,
+       textservice_completed_text_197211:false,
+       dividerdivider3acb72:false,
+       textamr_passed_text144d2:false,
+       textamr_passed_text188d24:false,
+       dividerdivider4ffc0d:false,
+       textcourt_rejection_texte1e9c:false,
+       textcourt_rejection_text16e38f:false,
+       dividerdivider52864b:false,
+       textservice_assigned_textb2d7d:false,
+       textservice_assigned_text15a8e1:false,
+       dividerdivider6aaa01:false,
+       textamr_rejected_text92e50:false,
+       textamr_rejected_text11a51a:false,
+       buttonback_btn83b00:false,
+       textamr_textcc6d3:false,
+       buttonbt_searchc8991:false,
+       buttonnew_case_button34af2:false,
+       columnaccount_id9a546:false,
+       columncase_id734ed:false,
+       columndebtor_nameb1ea9:false,
+       columncreditor_namee48d1:false,
+       columnfull_name7a369:false,
+       columntotal_balance6a331:false,
+       columncourt_name5ae4f:false,
+       columnpriority_name6740a:false,
+       columnstatus_name86d6c:false,
+       columntrs_created_date92fe2:false,
+       columnvenue_idb51d8:false,
+       buttonview_btnbd9a5:false,
+       buttonedit_btn10d01:false,
+       buttonview_btn_pg_graph1baad:false,
+       buttonbt_approveec5db:false,
        advancesearchadvancesearch6059f:false,
        textcraete_header_textace67:false,
        buttoncancel_button70ef3:false,
@@ -3859,91 +5850,167 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
        columnitem_nameeed39:false,
        columnis_completeb8c69:false,
        textarearemarks_textareadc753:false,
-       textcraete_header_text93eaa:false,
-       textvenue_idcb444:false,
-       textcreditor_idb1867:false,
-       textcase_info_textdf3f1:false,
-       textinputcreditor_name257be:false,
-       textinputattorney_name87be1:false,
-       textinputstatus_namea5f92:false,
-       textinputpriority_name449dd:false,
-       textinputqueue_positionceb8d:false,
-       textinputquality_scoredfaa9:false,
-       datepickersla_wait_start_time20502:false,
-       iconrules_iconfb03f:false,
-       textvenue_special_rules_textecd92:false,
-       textspecial_rules2001a:false,
-       dividervenue_special_rules_divider206ab:false,
-       iconwarning_icond1cd0:false,
-       textgeorgia_sol_text460ef:false,
-       textspecial_rulesd6c6e:false,
-       dividervenue_special_rules_dividers28a68:false,
-       iconwarnings_icon0adcc:false,
-       textgeorgias_sol_text24265:false,
-       textspecials_rules14021:false,
-       dividervenue_special_rules_dividerss0c16e:false,
-       iconwarningss_icons476c3:false,
-       textgeorgias_sosl_texts3f264:false,
-       textspecials_rulesscc30f:false,
-       dividervenue_special_rules_dividersssdcaab:false,
-       iconwarningsss_icons3be9c:false,
-       textgeorgiass_sosl_texts88097:false,
-       textspecials_ruless95686:false,
-       dividervenues_special_rules_dividerssss44419:false,
-       iconwarningssss_icons55275:false,
-       textgeorsgiass_sosl_texts15f5e:false,
-       textspesciasls_ruless910f1:false,
-       textdebt_info_textb09b8:false,
-       textinputdebtor_namef7cac:false,
-       textinputssn_masked26c46:false,
-       datepickerdob0f0bf:false,
-       textareaaddress22d72:false,
-       textfinancial_dtls_text3451f:false,
-       datepickercharge_off_date13a39:false,
-       datepickerlast_payment_dateeab2f:false,
-       textinputtotal_balanceca1e1:false,
-       textinputprincipal6eb2a:false,
-       textinputinteresta6b7d:false,
-       textinputfeesb456c:false,
-       textven_name_text0c8ba:false,
-       textinputstate3010e:false,
-       textinputcountry1983b:false,
-       textinputcourt_name41a77:false,
-       textinputjudge_name0a819:false,
-       datepickersol_expiry_dated5486:false,
-       textinputfiling_fee89c7f:false,
-       textinputservice_method1b411:false,
-       textinputefiling_system7d508:false,
-       switchefiling_required36d60:false,
-       textreeq_doc_text732f8:false,
-       columnattachment_id54469:false,
-       columndoc_name513db:false,
-       columntrs_created_by736ad:false,
-       columntrs_created_datecfead:false,
-       textvalid_checklist_text1428a:false,
-       columnchecklist_item_id611e6:false,
-       columnitem_nameafc9a:false,
-       columnis_completed6ef7a:false,
-       textarearemarks_textarea15a62:false,
-       textaccount_id4ecc7:false,
+       buttonbutton_back1a912:false,
+       textcraete_header_texte958c:false,
+       textreeq_doc_text78b91:false,
+       columnattachment_id394f7:false,
+       columndoc_namef31ac:false,
+       buttonview_button04be7:false,
+       textcase_info_textd4267:false,
+       textinputdebtor_name83b58:false,
+       textinputcase_display_idb53b9:false,
+       textinputssn_masked24ce0:false,
+       datepickerdobea900:false,
+       textareaaddress4e81d:false,
+       textinputcreditor_name62479:false,
+       datepickercharge_off_dated3231:false,
+       datepickerlast_payment_date500eb:false,
+       dividerdivider772d9:false,
+       textprincipal_text73a3d:false,
+       textprincipald89b4:false,
+       textintrest_text58114:false,
+       textinterest42832:false,
+       textfees_text67815:false,
+       textfees9a14f:false,
+       texttotal_balance_texted1be:false,
+       texttotal_balancee5904:false,
+       datepickersol_expiry_date69782:false,
+       textven_name_textdfed0:false,
+       textinputstate8a16f:false,
+       dividerdividers29243:false,
+       textinputcountry40b75:false,
+       dividerdividerss6e19f:false,
+       textinputcourt_name27e21:false,
+       dividerdividersss5d68a:false,
+       textinputjudge_name5abc6:false,
+       dividerdividerssss4ac29:false,
+       textinputfiling_fee7fab8:false,
+       dividerdividersssssec43b:false,
+       textinputservice_method80ec2:false,
+       dividerdividerssssssbc99f:false,
+       textinputefiling_system9b6bc:false,
+       textvalid_checklist_text6c6d2:false,
+       columnchecklist_item_ida8a87:false,
+       columnitem_name8baf4:false,
+       columnis_completed2fafb:false,
+       textspecial_rules_textda90e:false,
+       icondynamic_icon8f352:false,
+       textrules_text55ce9:false,
+       textaccount_idc92b6:false,
+       textvenue_id063aa:false,
        documentviewerdocumentviewer64771:false,
-       advancesearchadvancesearch1e502:false,
-       groupheader_groupb1913:false,
-       groupasset_dashboard_group4bbfe:false,
-       groupamr_queue_groupc92ca:false,
-       grouppending_file_groupffe32:false,
-       groupservice_pending_group7ba93:false,
-       groupslas_at_risk_group23eb4:false,
-       groupcourt_rejection_groupc9d54:false,
-       groupcollected_mtd_group7b7b5:false,
-       grouptable_group112bd:false,
-       groupsubscreene9ab5:false,
-       groupCT006_AF_UF_UFWS_LAP_LAP_amrQueueTable_v18a797:false,
-       groupgroup28176:false,
-       tabletable852e3:false,
-       groupCT006_AF_UF_UFWS_LAP_LAP_pendingFilingTable_v1ff8da:false,
-       grouppending_fillings_groupb1568:false,
-       tablepending_fillings_table11279:false,
+       buttonback_bt22897:false,
+       textcraete_header_textae5d6:false,
+       textreeq_doc_text64f93:false,
+       columnattachment_idcc3f4:false,
+       columndoc_name909a3:false,
+       buttonview_button22ede:false,
+       textcase_info_text1e3db:false,
+       textinputdebtor_name2af58:false,
+       textinputcase_display_idd1272:false,
+       textinputssn_maskedc4424:false,
+       datepickerdob29785:false,
+       textareaaddress70906:false,
+       textinputcreditor_namea9b98:false,
+       datepickercharge_off_date763d0:false,
+       datepickerlast_payment_date43bdb:false,
+       dividerdividere3c67:false,
+       textprincipal_text6883f:false,
+       textprincipal65ef3:false,
+       textintrest_text3a919:false,
+       textinterest783c4:false,
+       textfees_text4a6b6:false,
+       textfeesab1fe:false,
+       texttotal_balance_text0b418:false,
+       texttotal_balancee7e5f:false,
+       datepickersol_expiry_date4dfe3:false,
+       textven_name_textf01f8:false,
+       textinputstatea7e09:false,
+       dividerdividersa774c:false,
+       textinputcountrydb772:false,
+       dividerdividerssaf051:false,
+       textinputcourt_name7a5a6:false,
+       dividerdividersssbef5f:false,
+       textinputjudge_name71e3e:false,
+       dividerdividerssss61d06:false,
+       textinputfiling_fee144cd:false,
+       dividerdividersssssd333b:false,
+       textinputservice_method48ac6:false,
+       dividerdividerssssss06ce3:false,
+       textinputefiling_system964db:false,
+       textvalid_checklist_texta0e64:false,
+       columnchecklist_item_id5bd1d:false,
+       columnitem_name24046:false,
+       columnis_completed1fd36:false,
+       textspecial_rules_text24a29:false,
+       icondynamic_iconc7b56:false,
+       textrule_textdb2d4:false,
+       textaccount_idcc45c:false,
+       textcraete_header_text26dc6:false,
+       textreeq_doc_text01111:false,
+       columnattachment_id08b6e:false,
+       columndoc_nameedf63:false,
+       buttonview_buttoncb62a:false,
+       textcase_info_text53524:false,
+       textinputdebtor_namea603a:false,
+       textinputcase_display_id3ba0a:false,
+       textinputssn_masked36fce:false,
+       datepickerdob19a93:false,
+       textareaaddress0e39e:false,
+       textinputcreditor_name04ffa:false,
+       datepickercharge_off_datef5bba:false,
+       datepickerlast_payment_date37076:false,
+       dividerdivider9cfd3:false,
+       textprincipal_textb6dc5:false,
+       textprincipalae986:false,
+       textintrest_textfab09:false,
+       textinterestf94e4:false,
+       textfees_textdf3db:false,
+       textfeesd3a22:false,
+       texttotal_balance_texta06df:false,
+       texttotal_balance92fd1:false,
+       datepickersol_expiry_date3775f:false,
+       textven_name_text4470c:false,
+       textinputstate10d95:false,
+       dividerdividers6822a:false,
+       textinputcountryc8824:false,
+       dividerdividerss8b343:false,
+       textinputcourt_name70da0:false,
+       dividerdividersssd0216:false,
+       textinputjudge_name833b7:false,
+       dividerdividerssss9e016:false,
+       textinputfiling_fee9d0c4:false,
+       dividerdividersssss85652:false,
+       textinputservice_method926d2:false,
+       dividerdividerssssss7d379:false,
+       textinputefiling_system056da:false,
+       textvalid_checklist_text6a0da:false,
+       columnchecklist_item_id27c72:false,
+       columnitem_name14346:false,
+       columnis_completeda9a9a:false,
+       textspecial_rules_textdd5e9:false,
+       iconwarning_icon83e9f:false,
+       textrule_texta87d5:false,
+       textaccount_id8944a:false,
+       buttoncancel_btnc64a4:false,
+       buttonreject_btn27005:false,
+       buttonpass_sign_btn916fa:false,
+       editorreport_editor1140e:false,
+       textlap_test_screen_texta85ad:false,
+       groupheader_groupd8ba9:false,
+       groupasset_dashboard_group1aa03:false,
+       groupamr_queue_group3c082:false,
+       grouppending_file_group2128c:false,
+       groupservice_pending_group8c0ca:false,
+       groupslas_at_risk_group1f8c0:false,
+       groupcourt_rejection_groupdf57a:false,
+       groupcollected_mtd_group0f074:false,
+       groupoverall_key_performance_indicatorsc2711:false,
+       groupkey_performance_indicator_groupf9eaf:false,
+       grouprecent_activity_group91db6:false,
+       groupamr_queue_group79589:false,
+       groupamr_group17ac4:false,
+       tableamr_queue_table09598:false,
        groupsearch_groupdefa1:false,
        groupadd_case_groupeb161:false,
        groupheader_group4878f:false,
@@ -3964,32 +6031,68 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
        groupchecklist_main_group0df6b:false,
        groupchecklist_group32b3d:false,
        tablechecklist_table198e1:false,
-       groupadd_case_group1f6e4:false,
-       groupheader_group3749a:false,
-       groupcase_information_groupcec29:false,
-       groupvenue_groupa72d9:false,
-       groupgeorgia_groupa636c:false,
-       groupgeorgias_groupbac01:false,
-       groupgeorgias_groupsbf356:false,
-       groupgeorgiass_groups9e4dd:false,
-       groupgeorgsiass_groups6bf7a:false,
-       groupdebtor_information_groupdfa55:false,
-       groupfinancial_details_grouped0d9:false,
-       groupvenue_details_group6a27a:false,
-       grouprequired_dociument_main_group3eb5b:false,
-       tabledoc_tablee79c7:false,
-       groupchecklist_main_group5b62e:false,
-       tablechecklist_table45abc:false,
+       groupadd_case_groupbe1de:false,
+       groupheader_groupc587e:false,
+       grouprequired_dociument_main_group6f022:false,
+       tabledoc_table8bfa1:false,
+       groupcase_information_groupe3c1b:false,
+       groupcard_group7fa83:false,
+       groupprincipal_groupde6dd:false,
+       groupintrest_group44b4d:false,
+       groupfees_groupee523:false,
+       grouptotal_groupd3e06:false,
+       groupvenue_details_group1d734:false,
+       groupchecklist_main_group32240:false,
+       tablechecklist_tablee7dea:false,
+       groupspecial_rules_groupf22ab:false,
+       groupspecial_rules96aec:false,
        groupdocument_viewer_groupe4249:false,
-       groupsearch_group39b74:false,
+       groupadd_case_grouped126:false,
+       groupheader_groupbd8a8:false,
+       grouprequired_dociument_main_group255d1:false,
+       tabledoc_table9c4f7:false,
+       groupcase_information_group48f3c:false,
+       groupcard_group4c709:false,
+       groupprincipal_group42235:false,
+       groupintrest_group65c3b:false,
+       groupfees_group8c4a6:false,
+       grouptotal_groupc52d3:false,
+       groupvenue_details_group51614:false,
+       groupchecklist_main_group2b466:false,
+       tablechecklist_tablecafb0:false,
+       groupspecial_rules_group7ce9f:false,
+       groupspecial_rules7f109:false,
+       groupadd_case_group77747:false,
+       groupheader_groupbae8a:false,
+       grouprequired_dociument_main_group999a8:false,
+       tabledoc_table45b8d:false,
+       groupcase_information_group35ed3:false,
+       groupcard_groupe78fa:false,
+       groupprincipal_group9ae9f:false,
+       groupintrest_group8df75:false,
+       groupfees_groupac23b:false,
+       grouptotal_groupe6175:false,
+       groupvenue_details_group6904e:false,
+       groupchecklist_main_groupda0ff:false,
+       tablechecklist_table0e25b:false,
+       groupspecial_rules_groupc1585:false,
+       groupspecial_rules1fc30:false,
+       groupdynamicactions37e34:false,
+       groupgroup_report8ef47:false,
+       grouplap_test_screen_group38f1e:false,
       })
 
   ////// screen states 
-  const [dashboard_v1,setdashboard_v1] = React.useState<any>({
+  const [newdashboard_v1,setnewdashboard_v1] = React.useState<any>({
     _selectedGroup_:"",
     _selectionColor_:"!bg-blue-200"
     })
-  const [dashboard_v1Props,setdashboard_v1Props] = React.useState<any>({})
+  const [newdashboard_v1Props,setnewdashboard_v1Props] = React.useState<any>({})
+  const [amrqueuetable_v1,setamrqueuetable_v1] = React.useState<any>({
+    _selectedGroup_:"",
+    _selectionColor_:"!bg-blue-200"
+    })
+  const [amrqueuetable_v1Props,setamrqueuetable_v1Props] = React.useState<any>({})
   const [amrqueuesearch_v1,setamrqueuesearch_v1] = React.useState<any>({
     _selectedGroup_:"",
     _selectionColor_:"!bg-blue-200"
@@ -4000,21 +6103,36 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
     _selectionColor_:"!bg-blue-200"
     })
   const [addcase_v1Props,setaddcase_v1Props] = React.useState<any>({})
-  const [viewcase_v1,setviewcase_v1] = React.useState<any>({
+  const [viewamrcase_v1,setviewamrcase_v1] = React.useState<any>({
     _selectedGroup_:"",
     _selectionColor_:"!bg-blue-200"
     })
-  const [viewcase_v1Props,setviewcase_v1Props] = React.useState<any>({})
+  const [viewamrcase_v1Props,setviewamrcase_v1Props] = React.useState<any>({})
   const [documentviewer_v1,setdocumentviewer_v1] = React.useState<any>({
     _selectedGroup_:"",
     _selectionColor_:"!bg-blue-200"
     })
   const [documentviewer_v1Props,setdocumentviewer_v1Props] = React.useState<any>({})
-  const [pendingfillingsearch_v1,setpendingfillingsearch_v1] = React.useState<any>({
+  const [viewamrcasepggraph_v1,setviewamrcasepggraph_v1] = React.useState<any>({
     _selectedGroup_:"",
     _selectionColor_:"!bg-blue-200"
     })
-  const [pendingfillingsearch_v1Props,setpendingfillingsearch_v1Props] = React.useState<any>({})
+  const [viewamrcasepggraph_v1Props,setviewamrcasepggraph_v1Props] = React.useState<any>({})
+  const [amrcaseapproval_v1,setamrcaseapproval_v1] = React.useState<any>({
+    _selectedGroup_:"",
+    _selectionColor_:"!bg-blue-200"
+    })
+  const [amrcaseapproval_v1Props,setamrcaseapproval_v1Props] = React.useState<any>({})
+  const [report_v1,setreport_v1] = React.useState<any>({
+    _selectedGroup_:"",
+    _selectionColor_:"!bg-blue-200"
+    })
+  const [report_v1Props,setreport_v1Props] = React.useState<any>({})
+  const [laptestscreen_v1,setlaptestscreen_v1] = React.useState<any>({
+    _selectedGroup_:"",
+    _selectionColor_:"!bg-blue-200"
+    })
+  const [laptestscreen_v1Props,setlaptestscreen_v1Props] = React.useState<any>({})
 
 ///////// dfd
   const [dfd_amrqueuedashboard_v1Props,setdfd_amrqueuedashboard_v1Props] = React.useState<any>([])
@@ -4026,8 +6144,10 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
   const [dfd_amrchecklistcombo_v1Props,setdfd_amrchecklistcombo_v1Props] = React.useState<any>([])
   const [dfd_doctable_v1Props,setdfd_doctable_v1Props] = React.useState<any>([])
   const [dfd_amrcheckliststatus_v1Props,setdfd_amrcheckliststatus_v1Props] = React.useState<any>([])
+  const [dfd_venuespecialrules_v1Props,setdfd_venuespecialrules_v1Props] = React.useState<any>([])
   const [dfd_pendingfilingsdashboard_v1Props,setdfd_pendingfilingsdashboard_v1Props] = React.useState<any>([])
   const [dfd_cardsdashboard_v1Props,setdfd_cardsdashboard_v1Props] = React.useState<any>([])
+  const [dfd_reportcase_v1Props,setdfd_reportcase_v1Props] = React.useState<any>([])
     const [searchParam , setSearchParam] = React.useState<string>("")
     const [disableParam , setDisableParam] = React.useState<Record<string, boolean>>({})
     const [globalState , setGlobalState] = React.useState<Record<string, any>>({})
@@ -4051,7 +6171,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
 
 
   const emptifyStateValues=()=>{ // for refresh disable key values exapmle app RTGS
-    settext9e38a(
+    settext5e6b2(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4060,7 +6180,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setamr_queue_text28561(
+    setamr_queue_text17149(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4069,7 +6189,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    seticon_total_assest208f5(
+    seticon_total_assest42cc7(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4078,7 +6198,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setamr_queue5b620(
+    setamr_queue0e5a7(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4087,7 +6207,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setamr_queue_descafe0e(
+    setamr_queue_desc10020(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4096,7 +6216,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setpending_file_text86c2a(
+    setpending_file_text61240(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4105,7 +6225,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    seticon_maintenance_duecab92(
+    seticon_maintenance_dueb2661(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4114,7 +6234,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setpending_file1721b(
+    setpending_filea7d91(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4123,7 +6243,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setpending_file_desc53378(
+    setpending_file_desca182c(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4132,7 +6252,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setservice_pending_text5cc58(
+    setservice_pending_textb9d5c(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4141,7 +6261,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    seticon_warranty_expiring6d299(
+    seticon_warranty_expiringa065e(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4150,7 +6270,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setservice_pending918f0(
+    setservice_pending0898e(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4159,7 +6279,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setservice_pending_descabf48(
+    setservice_pending_desc91c8a(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4168,7 +6288,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setslas_at_risk_text33ae5(
+    setslas_at_risk_text42bdc(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4177,7 +6297,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    seticon_2caf8(
+    seticon_eaa1e(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4186,7 +6306,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setslas_at_riskf177b(
+    setslas_at_riska3022(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4195,7 +6315,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setslas_at_risk_desc5c075(
+    setslas_at_risk_desc57375(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4204,7 +6324,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcourt_rejection_text06a86(
+    setcourt_rejection_textc9a86(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4213,7 +6333,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    seticona5abd(
+    seticon87359(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4222,7 +6342,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcourt_rejection2460a(
+    setcourt_rejectionff779(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4231,7 +6351,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcourt_rejection_desc7c63b(
+    setcourt_rejection_desc6f72f(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4240,7 +6360,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcollected_mtd_text4d825(
+    setcollected_mtd_textf5ff3(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4249,7 +6369,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    seticonaff33(
+    seticonb9347(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4258,7 +6378,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcollected_mtdab52b(
+    setcollected_mtd65ae0(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4267,7 +6387,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcollected_mtd_descfffed(
+    setcollected_mtd_desc21bcb(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4276,7 +6396,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setsearch_btn4c2ed(
+    setkey_performance_indicators_text4f6db(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4285,7 +6405,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setadd_btn2f9d0(
+    settotal_active_accounts_texted4d7(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4294,7 +6414,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    settextc2337(
+    settotal_active_accounts_text1b45d0(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4303,7 +6423,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcase_display_id8caab(
+    setdivider13ca73(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4312,7 +6432,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setdebtor_namedb464(
+    setavg_days_to_judgment_text82b69(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4321,7 +6441,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcreditor_name29781(
+    setavg_days_to_judgment_text14ed01(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4330,7 +6450,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setfull_nameda699(
+    setdivider214543(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4339,7 +6459,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    settotal_balancea27e6(
+    setcourt_rejection_rate_text86ac0(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4348,7 +6468,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcourt_name03aea(
+    setcourt_rejection_rate_text10b69f(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4357,7 +6477,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setpriority_namec8266(
+    setdivider39db36(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4366,7 +6486,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setstatus_named2368(
+    setcompliance_score_textbf682(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4375,7 +6495,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    settrs_created_datec9e9d(
+    setcompliance_score_text1f41e4(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4384,7 +6504,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setview_btns77c69(
+    setdivider432793(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4393,7 +6513,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setedit_btns48ea7(
+    setcollection_rate_mtd_text335f5(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4402,7 +6522,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setsearch_btn15268(
+    setcollection_rate_mtd_text16258d(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4411,7 +6531,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setadd_btn707cf(
+    setrecent_activity_text25b7b(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4420,7 +6540,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    settext3ced2(
+    setamr_queued_textb4f27(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4429,7 +6549,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcase_display_id32ae4(
+    setamr_queued_text_1dc178(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4438,7 +6558,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setdebtor_namecd77b(
+    setdivider1cb266(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4447,7 +6567,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcreditor_nameb14ce(
+    setjudgment_entered_text2f3e7(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4456,7 +6576,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setfull_name592f3(
+    setjudgment_entered_text_1d4af4(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4465,7 +6585,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    settotal_balance98c00(
+    setdivider2269d0(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4474,7 +6594,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcourt_name4b97b(
+    setservice_completed_text835e5(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4483,7 +6603,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setpriority_namec61c4(
+    setservice_completed_text_197211(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4492,7 +6612,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setstatus_namec590e(
+    setdivider3acb72(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4501,7 +6621,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    settrs_created_date4e909(
+    setamr_passed_text144d2(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4510,7 +6630,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setview_btn88178(
+    setamr_passed_text188d24(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4519,7 +6639,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setedit_btn4cc84(
+    setdivider4ffc0d(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -4528,7 +6648,241 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setstatus77d60(
+    setcourt_rejection_texte1e9c(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcourt_rejection_text16e38f(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdivider52864b(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setservice_assigned_textb2d7d(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setservice_assigned_text15a8e1(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdivider6aaa01(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setamr_rejected_text92e50(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setamr_rejected_text11a51a(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setback_btn83b00(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setamr_textcc6d3(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setbt_searchc8991(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setnew_case_button34af2(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setaccount_id9a546(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcase_id734ed(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdebtor_nameb1ea9(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcreditor_namee48d1(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setfull_name7a369(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    settotal_balance6a331(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcourt_name5ae4f(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setpriority_name6740a(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setstatus_name86d6c(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    settrs_created_date92fe2(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setvenue_idb51d8(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setview_btnbd9a5(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setedit_btn10d01(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setview_btn_pg_graph1baad(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setbt_approveec5db(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5194,7 +7548,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcraete_header_text93eaa(
+    setbutton_back1a912(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5203,7 +7557,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setvenue_idcb444(
+    setcraete_header_texte958c(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5212,7 +7566,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcreditor_idb1867(
+    setreeq_doc_text78b91(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5221,7 +7575,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcase_info_textdf3f1(
+    setattachment_id394f7(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5230,7 +7584,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcreditor_name257be(
+    setdoc_namef31ac(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5239,7 +7593,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setattorney_name87be1(
+    setview_button04be7(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5248,7 +7602,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setstatus_namea5f92(
+    setcase_info_textd4267(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5257,7 +7611,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setpriority_name449dd(
+    setdebtor_name83b58(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5266,7 +7620,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setqueue_positionceb8d(
+    setcase_display_idb53b9(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5275,7 +7629,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setquality_scoredfaa9(
+    setssn_masked24ce0(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5284,7 +7638,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setsla_wait_start_time20502(
+    setdobea900(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5293,7 +7647,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setrules_iconfb03f(
+    setaddress4e81d(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5302,7 +7656,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setvenue_special_rules_textecd92(
+    setcreditor_name62479(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5311,7 +7665,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setspecial_rules2001a(
+    setcharge_off_dated3231(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5320,7 +7674,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setvenue_special_rules_divider206ab(
+    setlast_payment_date500eb(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5329,7 +7683,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setwarning_icond1cd0(
+    setdivider772d9(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5338,7 +7692,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setgeorgia_sol_text460ef(
+    setprincipal_text73a3d(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5347,7 +7701,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setspecial_rulesd6c6e(
+    setprincipald89b4(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5356,7 +7710,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setvenue_special_rules_dividers28a68(
+    setintrest_text58114(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5365,7 +7719,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setwarnings_icon0adcc(
+    setinterest42832(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5374,7 +7728,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setgeorgias_sol_text24265(
+    setfees_text67815(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5383,7 +7737,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setspecials_rules14021(
+    setfees9a14f(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5392,7 +7746,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setvenue_special_rules_dividerss0c16e(
+    settotal_balance_texted1be(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5401,7 +7755,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setwarningss_icons476c3(
+    settotal_balancee5904(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5410,7 +7764,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setgeorgias_sosl_texts3f264(
+    setsol_expiry_date69782(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5419,7 +7773,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setspecials_rulesscc30f(
+    setven_name_textdfed0(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5428,7 +7782,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setvenue_special_rules_dividersssdcaab(
+    setstate8a16f(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5437,7 +7791,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setwarningsss_icons3be9c(
+    setdividers29243(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5446,7 +7800,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setgeorgiass_sosl_texts88097(
+    setcountry40b75(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5455,7 +7809,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setspecials_ruless95686(
+    setdividerss6e19f(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5464,7 +7818,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setvenues_special_rules_dividerssss44419(
+    setcourt_name27e21(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5473,7 +7827,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setwarningssss_icons55275(
+    setdividersss5d68a(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5482,7 +7836,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setgeorsgiass_sosl_texts15f5e(
+    setjudge_name5abc6(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5491,7 +7845,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setspesciasls_ruless910f1(
+    setdividerssss4ac29(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5500,7 +7854,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setdebt_info_textb09b8(
+    setfiling_fee7fab8(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5509,7 +7863,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setdebtor_namef7cac(
+    setdividersssssec43b(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5518,7 +7872,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setssn_masked26c46(
+    setservice_method80ec2(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5527,7 +7881,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setdob0f0bf(
+    setdividerssssssbc99f(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5536,7 +7890,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setaddress22d72(
+    setefiling_system9b6bc(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5545,7 +7899,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setfinancial_dtls_text3451f(
+    setvalid_checklist_text6c6d2(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5554,7 +7908,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setcharge_off_date13a39(
+    setchecklist_item_ida8a87(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5563,7 +7917,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setlast_payment_dateeab2f(
+    setitem_name8baf4(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5572,7 +7926,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    settotal_balanceca1e1(
+    setis_completed2fafb(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5581,7 +7935,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setprincipal6eb2a(
+    setspecial_rules_textda90e(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5590,7 +7944,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setinteresta6b7d(
+    setdynamic_icon8f352(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5599,7 +7953,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setfeesb456c(
+    setrules_text55ce9(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5608,7 +7962,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setven_name_text0c8ba(
+    setaccount_idc92b6(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5617,178 +7971,7 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setstate3010e(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setcountry1983b(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setcourt_name41a77(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setjudge_name0a819(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setsol_expiry_dated5486(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setfiling_fee89c7f(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setservice_method1b411(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setefiling_system7d508(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setefiling_required36d60(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setreeq_doc_text732f8(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setattachment_id54469(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setdoc_name513db(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    settrs_created_by736ad(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    settrs_created_datecfead(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setvalid_checklist_text1428a(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setchecklist_item_id611e6(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setitem_nameafc9a(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setis_completed6ef7a(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setremarks_textarea15a62(
-                          {
-                            isDisabled: null,
-                            presetValues: '',
-                            isHidden: false,
-                            refetch:false,
-                            refresh:false,
-                            trigger: false
-                          }) 
-    setaccount_id4ecc7(
+    setvenue_id063aa(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5806,7 +7989,880 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             refresh:false,
                             trigger: false
                           }) 
-    setadvancesearch1e502(
+    setback_bt22897(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcraete_header_textae5d6(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setreeq_doc_text64f93(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setattachment_idcc3f4(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdoc_name909a3(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setview_button22ede(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcase_info_text1e3db(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdebtor_name2af58(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcase_display_idd1272(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setssn_maskedc4424(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdob29785(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setaddress70906(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcreditor_namea9b98(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcharge_off_date763d0(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setlast_payment_date43bdb(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdividere3c67(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setprincipal_text6883f(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setprincipal65ef3(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setintrest_text3a919(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setinterest783c4(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setfees_text4a6b6(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setfeesab1fe(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    settotal_balance_text0b418(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    settotal_balancee7e5f(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setsol_expiry_date4dfe3(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setven_name_textf01f8(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setstatea7e09(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdividersa774c(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcountrydb772(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdividerssaf051(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcourt_name7a5a6(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdividersssbef5f(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setjudge_name71e3e(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdividerssss61d06(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setfiling_fee144cd(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdividersssssd333b(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setservice_method48ac6(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdividerssssss06ce3(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setefiling_system964db(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setvalid_checklist_texta0e64(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setchecklist_item_id5bd1d(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setitem_name24046(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setis_completed1fd36(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setspecial_rules_text24a29(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdynamic_iconc7b56(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setrule_textdb2d4(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setaccount_idcc45c(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcraete_header_text26dc6(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setreeq_doc_text01111(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setattachment_id08b6e(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdoc_nameedf63(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setview_buttoncb62a(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcase_info_text53524(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdebtor_namea603a(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcase_display_id3ba0a(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setssn_masked36fce(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdob19a93(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setaddress0e39e(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcreditor_name04ffa(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcharge_off_datef5bba(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setlast_payment_date37076(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdivider9cfd3(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setprincipal_textb6dc5(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setprincipalae986(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setintrest_textfab09(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setinterestf94e4(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setfees_textdf3db(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setfeesd3a22(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    settotal_balance_texta06df(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    settotal_balance92fd1(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setsol_expiry_date3775f(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setven_name_text4470c(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setstate10d95(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdividers6822a(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcountryc8824(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdividerss8b343(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcourt_name70da0(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdividersssd0216(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setjudge_name833b7(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdividerssss9e016(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setfiling_fee9d0c4(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdividersssss85652(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setservice_method926d2(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setdividerssssss7d379(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setefiling_system056da(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setvalid_checklist_text6a0da(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setchecklist_item_id27c72(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setitem_name14346(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setis_completeda9a9a(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setspecial_rules_textdd5e9(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setwarning_icon83e9f(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setrule_texta87d5(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setaccount_id8944a(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setcancel_btnc64a4(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setreject_btn27005(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setpass_sign_btn916fa(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setreport_editor1140e(
+                          {
+                            isDisabled: null,
+                            presetValues: '',
+                            isHidden: false,
+                            refetch:false,
+                            refresh:false,
+                            trigger: false
+                          }) 
+    setlap_test_screen_texta85ad(
                           {
                             isDisabled: null,
                             presetValues: '',
@@ -5816,8 +8872,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
                             trigger: false
                           }) 
 
-        setheader_groupb1913({}) 
-    setheader_groupb1913Props({
+        setheader_groupd8ba9({}) 
+    setheader_groupd8ba9Props({
       validation:false,
       required:false,
       refetch:false,
@@ -5830,8 +8886,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "text",
       ]
       }) 
-        setasset_dashboard_group4bbfe({}) 
-    setasset_dashboard_group4bbfeProps({
+        setasset_dashboard_group1aa03({}) 
+    setasset_dashboard_group1aa03Props({
       validation:false,
       required:false,
       refetch:false,
@@ -5843,8 +8899,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       controls:[
       ]
       }) 
-        setamr_queue_groupc92ca({}) 
-    setamr_queue_groupc92caProps({
+        setamr_queue_group3c082({}) 
+    setamr_queue_group3c082Props({
       validation:false,
       required:false,
       refetch:false,
@@ -5860,8 +8916,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "amr_queue_desc",
       ]
       }) 
-        setpending_file_groupffe32({}) 
-    setpending_file_groupffe32Props({
+        setpending_file_group2128c({}) 
+    setpending_file_group2128cProps({
       validation:false,
       required:false,
       refetch:false,
@@ -5877,8 +8933,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "pending_file_desc",
       ]
       }) 
-        setservice_pending_group7ba93({}) 
-    setservice_pending_group7ba93Props({
+        setservice_pending_group8c0ca({}) 
+    setservice_pending_group8c0caProps({
       validation:false,
       required:false,
       refetch:false,
@@ -5894,8 +8950,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "service_pending_desc",
       ]
       }) 
-        setslas_at_risk_group23eb4({}) 
-    setslas_at_risk_group23eb4Props({
+        setslas_at_risk_group1f8c0({}) 
+    setslas_at_risk_group1f8c0Props({
       validation:false,
       required:false,
       refetch:false,
@@ -5911,8 +8967,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "slas_at_risk_desc",
       ]
       }) 
-        setcourt_rejection_groupc9d54({}) 
-    setcourt_rejection_groupc9d54Props({
+        setcourt_rejection_groupdf57a({}) 
+    setcourt_rejection_groupdf57aProps({
       validation:false,
       required:false,
       refetch:false,
@@ -5928,8 +8984,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "court_rejection_desc",
       ]
       }) 
-        setcollected_mtd_group7b7b5({}) 
-    setcollected_mtd_group7b7b5Props({
+        setcollected_mtd_group0f074({}) 
+    setcollected_mtd_group0f074Props({
       validation:false,
       required:false,
       refetch:false,
@@ -5945,22 +9001,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "collected_mtd_desc",
       ]
       }) 
-        settable_group112bd({}) 
-    settable_group112bdProps({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "status",
-      ]
-      }) 
-        setsubscreene9ab5({}) 
-    setsubscreene9ab5Props({
+        setoverall_key_performance_indicatorsc2711({}) 
+    setoverall_key_performance_indicatorsc2711Props({
       validation:false,
       required:false,
       refetch:false,
@@ -5972,8 +9014,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       controls:[
       ]
       }) 
-        setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797({}) 
-    setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797Props({
+        setkey_performance_indicator_groupf9eaf({}) 
+    setkey_performance_indicator_groupf9eafProps({
       validation:false,
       required:false,
       refetch:false,
@@ -5983,10 +9025,25 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
+            "key_performance_indicators_text",
+            "total_active_accounts_text",
+            "total_active_accounts_text1",
+            "divider1",
+            "avg_days_to_judgment_text",
+            "avg_days_to_judgment_text1",
+            "divider2",
+            "court_rejection_rate_text",
+            "court_rejection_rate_text1",
+            "divider3",
+            "compliance_score_text",
+            "compliance_score_text1",
+            "divider4",
+            "collection_rate_mtd_text",
+            "collection_rate_mtd_text1",
       ]
       }) 
-        setgroup28176({}) 
-    setgroup28176Props({
+        setrecent_activity_group91db6({}) 
+    setrecent_activity_group91db6Props({
       validation:false,
       required:false,
       refetch:false,
@@ -5996,56 +9053,62 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
-            "search_btn",
-            "add_btn",
-            "text",
+            "recent_activity_text",
+            "amr_queued_text",
+            "amr_queued_text_1",
+            "divider1",
+            "judgment_entered_text",
+            "judgment_entered_text_1",
+            "divider2",
+            "service_completed_text",
+            "service_completed_text_1",
+            "divider3",
+            "amr_passed_text",
+            "amr_passed_text1",
+            "divider4",
+            "court_rejection_text",
+            "court_rejection_text1",
+            "divider5",
+            "service_assigned_text",
+            "service_assigned_text1",
+            "divider6",
+            "amr_rejected_text",
+            "amr_rejected_text1",
+      ]
+      }) 
+        setamr_queue_group79589({}) 
+    setamr_queue_group79589Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "back_btn",
+            "bt_search",
+            "new_case_button",
+      ]
+      }) 
+        setamr_group17ac4({}) 
+    setamr_group17ac4Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "amr_text",
       ]
       }) 
     
-    settable852e3([]) 
-    settable852e3Props({
-      validation:false,
-      required:false,
-      refetch:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      refresh:false,
-      filterInitalLoad: false,
-      }) 
-        setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da({}) 
-    setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8daProps({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-      ]
-      }) 
-        setpending_fillings_groupb1568({}) 
-    setpending_fillings_groupb1568Props({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "search_btn",
-            "add_btn",
-            "text",
-      ]
-      }) 
-    
-    setpending_fillings_table11279([]) 
-    setpending_fillings_table11279Props({
+    setamr_queue_table09598([]) 
+    setamr_queue_table09598Props({
       validation:false,
       required:false,
       refetch:false,
@@ -6382,8 +9445,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       refresh:false,
       filterInitalLoad: false,
       }) 
-        setadd_case_group1f6e4({}) 
-    setadd_case_group1f6e4Props({
+        setadd_case_groupbe1de({}) 
+    setadd_case_groupbe1deProps({
       validation:false,
       required:false,
       refetch:false,
@@ -6393,14 +9456,12 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
-            "venue_id",
-            "creditor_id",
-            "remarks_textarea",
             "account_id",
+            "venue_id",
       ]
       }) 
-        setheader_group3749a({}) 
-    setheader_group3749aProps({
+        setheader_groupc587e({}) 
+    setheader_groupc587eProps({
       validation:false,
       required:false,
       refetch:false,
@@ -6410,194 +9471,12 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
+            "button_back",
             "craete_header_text",
       ]
       }) 
-        setcase_information_groupcec29({}) 
-    setcase_information_groupcec29Props({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "case_info_text",
-            "creditor_name",
-            "attorney_name",
-            "status_name",
-            "priority_name",
-            "queue_position",
-            "quality_score",
-            "sla_wait_start_time",
-      ]
-      }) 
-        setvenue_groupa72d9({}) 
-    setvenue_groupa72d9Props({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "rules_icon",
-            "venue_special_rules_text",
-            "special_rules",
-            "venue_special_rules_divider",
-            "venue_special_rules_dividers",
-            "venue_special_rules_dividerss",
-            "venue_special_rules_dividersss",
-            "venues_special_rules_dividerssss",
-      ]
-      }) 
-        setgeorgia_groupa636c({}) 
-    setgeorgia_groupa636cProps({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "warning_icon",
-            "georgia_sol_text",
-            "special_rules",
-      ]
-      }) 
-        setgeorgias_groupbac01({}) 
-    setgeorgias_groupbac01Props({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "warnings_icon",
-            "georgias_sol_text",
-            "specials_rules",
-      ]
-      }) 
-        setgeorgias_groupsbf356({}) 
-    setgeorgias_groupsbf356Props({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "warningss_icons",
-            "georgias_sosl_texts",
-            "specials_ruless",
-      ]
-      }) 
-        setgeorgiass_groups9e4dd({}) 
-    setgeorgiass_groups9e4ddProps({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "warningsss_icons",
-            "georgiass_sosl_texts",
-            "specials_ruless",
-      ]
-      }) 
-        setgeorgsiass_groups6bf7a({}) 
-    setgeorgsiass_groups6bf7aProps({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "warningssss_icons",
-            "georsgiass_sosl_texts",
-            "spesciasls_ruless",
-      ]
-      }) 
-        setdebtor_information_groupdfa55({}) 
-    setdebtor_information_groupdfa55Props({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "debt_info_text",
-            "debtor_name",
-            "ssn_masked",
-            "dob",
-            "address",
-      ]
-      }) 
-        setfinancial_details_grouped0d9({}) 
-    setfinancial_details_grouped0d9Props({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "financial_dtls_text",
-            "charge_off_date",
-            "last_payment_date",
-            "total_balance",
-            "principal",
-            "interest",
-            "fees",
-      ]
-      }) 
-        setvenue_details_group6a27a({}) 
-    setvenue_details_group6a27aProps({
-      validation:false,
-      required:false,
-      refetch:false,
-      refresh:false,
-      isDisabled: false,
-      presetValues: '',
-      isHidden: false,
-      selectedIds:[],
-      controls:[
-            "ven_name_text",
-            "state",
-            "county",
-            "court_name",
-            "judge_name",
-            "sol_expiry_date",
-            "filing_fee",
-            "service_method",
-            "efiling_system",
-            "efiling_required",
-      ]
-      }) 
-        setrequired_dociument_main_group3eb5b({}) 
-    setrequired_dociument_main_group3eb5bProps({
+        setrequired_dociument_main_group6f022({}) 
+    setrequired_dociument_main_group6f022Props({
       validation:false,
       required:false,
       refetch:false,
@@ -6611,8 +9490,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       ]
       }) 
     
-    setdoc_tablee79c7([]) 
-    setdoc_tablee79c7Props({
+    setdoc_table8bfa1([]) 
+    setdoc_table8bfa1Props({
       validation:false,
       required:false,
       refetch:false,
@@ -6623,8 +9502,132 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       refresh:false,
       filterInitalLoad: false,
       }) 
-        setchecklist_main_group5b62e({}) 
-    setchecklist_main_group5b62eProps({
+        setcase_information_groupe3c1b({}) 
+    setcase_information_groupe3c1bProps({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "case_info_text",
+            "debtor_name",
+            "case_display_id",
+            "ssn_masked",
+            "dob",
+            "address",
+            "creditor_name",
+            "charge_off_date",
+            "last_payment_date",
+            "divider",
+            "sol_expiry_date",
+      ]
+      }) 
+        setcard_group7fa83({}) 
+    setcard_group7fa83Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        setprincipal_groupde6dd({}) 
+    setprincipal_groupde6ddProps({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "principal_text",
+            "principal",
+      ]
+      }) 
+        setintrest_group44b4d({}) 
+    setintrest_group44b4dProps({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "intrest_text",
+            "interest",
+      ]
+      }) 
+        setfees_groupee523({}) 
+    setfees_groupee523Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "fees_text",
+            "fees",
+      ]
+      }) 
+        settotal_groupd3e06({}) 
+    settotal_groupd3e06Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "total_balance_text",
+            "total_balance",
+      ]
+      }) 
+        setvenue_details_group1d734({}) 
+    setvenue_details_group1d734Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "ven_name_text",
+            "state",
+            "dividers",
+            "county",
+            "dividerss",
+            "court_name",
+            "dividersss",
+            "judge_name",
+            "dividerssss",
+            "filing_fee",
+            "dividersssss",
+            "service_method",
+            "dividerssssss",
+            "efiling_system",
+      ]
+      }) 
+        setchecklist_main_group32240({}) 
+    setchecklist_main_group32240Props({
       validation:false,
       required:false,
       refetch:false,
@@ -6638,8 +9641,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       ]
       }) 
     
-    setchecklist_table45abc([]) 
-    setchecklist_table45abcProps({
+    setchecklist_tablee7dea([]) 
+    setchecklist_tablee7deaProps({
       validation:false,
       required:false,
       refetch:false,
@@ -6649,6 +9652,35 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       selectedIds:[],
       refresh:false,
       filterInitalLoad: false,
+      }) 
+        setspecial_rules_groupf22ab({}) 
+    setspecial_rules_groupf22abProps({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "special_rules_text",
+      ]
+      }) 
+        setspecial_rules96aec({}) 
+    setspecial_rules96aecProps({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "dynamic_icon",
+            "rule_text",
+      ]
       }) 
         setdocument_viewer_groupe4249({}) 
     setdocument_viewer_groupe4249Props({
@@ -6664,8 +9696,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "attachment_id",
       ]
       }) 
-        setsearch_group39b74({}) 
-    setsearch_group39b74Props({
+        setadd_case_grouped126({}) 
+    setadd_case_grouped126Props({
       validation:false,
       required:false,
       refetch:false,
@@ -6675,7 +9707,508 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
       isHidden: false,
       selectedIds:[],
       controls:[
+            "account_id",
+      ]
+      }) 
+        setheader_groupbd8a8({}) 
+    setheader_groupbd8a8Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "back_bt",
+            "craete_header_text",
+      ]
+      }) 
+        setrequired_dociument_main_group255d1({}) 
+    setrequired_dociument_main_group255d1Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "reeq_doc_text",
+      ]
+      }) 
+    
+    setdoc_table9c4f7([]) 
+    setdoc_table9c4f7Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      refresh:false,
+      filterInitalLoad: false,
+      }) 
+        setcase_information_group48f3c({}) 
+    setcase_information_group48f3cProps({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "case_info_text",
+            "debtor_name",
             "case_display_id",
+            "ssn_masked",
+            "dob",
+            "address",
+            "creditor_name",
+            "charge_off_date",
+            "last_payment_date",
+            "divider",
+            "sol_expiry_date",
+      ]
+      }) 
+        setcard_group4c709({}) 
+    setcard_group4c709Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        setprincipal_group42235({}) 
+    setprincipal_group42235Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "principal_text",
+            "principal",
+      ]
+      }) 
+        setintrest_group65c3b({}) 
+    setintrest_group65c3bProps({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "intrest_text",
+            "interest",
+      ]
+      }) 
+        setfees_group8c4a6({}) 
+    setfees_group8c4a6Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "fees_text",
+            "fees",
+      ]
+      }) 
+        settotal_groupc52d3({}) 
+    settotal_groupc52d3Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "total_balance_text",
+            "total_balance",
+      ]
+      }) 
+        setvenue_details_group51614({}) 
+    setvenue_details_group51614Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "ven_name_text",
+            "state",
+            "dividers",
+            "county",
+            "dividerss",
+            "court_name",
+            "dividersss",
+            "judge_name",
+            "dividerssss",
+            "filing_fee",
+            "dividersssss",
+            "service_method",
+            "dividerssssss",
+            "efiling_system",
+      ]
+      }) 
+        setchecklist_main_group2b466({}) 
+    setchecklist_main_group2b466Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "valid_checklist_text",
+      ]
+      }) 
+    
+    setchecklist_tablecafb0([]) 
+    setchecklist_tablecafb0Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      refresh:false,
+      filterInitalLoad: false,
+      }) 
+        setspecial_rules_group7ce9f({}) 
+    setspecial_rules_group7ce9fProps({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "special_rules_text",
+      ]
+      }) 
+        setspecial_rules7f109({}) 
+    setspecial_rules7f109Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "dynamic_icon",
+            "rule_text",
+      ]
+      }) 
+        setadd_case_group77747({}) 
+    setadd_case_group77747Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "account_id",
+      ]
+      }) 
+        setheader_groupbae8a({}) 
+    setheader_groupbae8aProps({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "craete_header_text",
+      ]
+      }) 
+        setrequired_dociument_main_group999a8({}) 
+    setrequired_dociument_main_group999a8Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "reeq_doc_text",
+      ]
+      }) 
+    
+    setdoc_table45b8d([]) 
+    setdoc_table45b8dProps({
+      validation:false,
+      required:false,
+      refetch:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      refresh:false,
+      filterInitalLoad: false,
+      }) 
+        setcase_information_group35ed3({}) 
+    setcase_information_group35ed3Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "case_info_text",
+            "debtor_name",
+            "case_display_id",
+            "ssn_masked",
+            "dob",
+            "address",
+            "creditor_name",
+            "charge_off_date",
+            "last_payment_date",
+            "divider",
+            "sol_expiry_date",
+      ]
+      }) 
+        setcard_groupe78fa({}) 
+    setcard_groupe78faProps({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+      ]
+      }) 
+        setprincipal_group9ae9f({}) 
+    setprincipal_group9ae9fProps({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "principal_text",
+            "principal",
+      ]
+      }) 
+        setintrest_group8df75({}) 
+    setintrest_group8df75Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "intrest_text",
+            "interest",
+      ]
+      }) 
+        setfees_groupac23b({}) 
+    setfees_groupac23bProps({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "fees_text",
+            "fees",
+      ]
+      }) 
+        settotal_groupe6175({}) 
+    settotal_groupe6175Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "total_balance_text",
+            "total_balance",
+      ]
+      }) 
+        setvenue_details_group6904e({}) 
+    setvenue_details_group6904eProps({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "ven_name_text",
+            "state",
+            "dividers",
+            "county",
+            "dividerss",
+            "court_name",
+            "dividersss",
+            "judge_name",
+            "dividerssss",
+            "filing_fee",
+            "dividersssss",
+            "service_method",
+            "dividerssssss",
+            "efiling_system",
+      ]
+      }) 
+        setchecklist_main_groupda0ff({}) 
+    setchecklist_main_groupda0ffProps({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "valid_checklist_text",
+      ]
+      }) 
+    
+    setchecklist_table0e25b([]) 
+    setchecklist_table0e25bProps({
+      validation:false,
+      required:false,
+      refetch:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      refresh:false,
+      filterInitalLoad: false,
+      }) 
+        setspecial_rules_groupc1585({}) 
+    setspecial_rules_groupc1585Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "special_rules_text",
+      ]
+      }) 
+        setspecial_rules1fc30({}) 
+    setspecial_rules1fc30Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "warning_icon",
+            "rule_text",
+      ]
+      }) 
+        setdynamicactions37e34({}) 
+    setdynamicactions37e34Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "cancel_btn",
+            "reject_btn",
+            "pass_sign_btn",
+      ]
+      }) 
+        setgroup_report8ef47({}) 
+    setgroup_report8ef47Props({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "account_id",
+      ]
+      }) 
+        setlap_test_screen_group38f1e({}) 
+    setlap_test_screen_group38f1eProps({
+      validation:false,
+      required:false,
+      refetch:false,
+      refresh:false,
+      isDisabled: false,
+      presetValues: '',
+      isHidden: false,
+      selectedIds:[],
+      controls:[
+            "lap_test_screen_text",
       ]
       }) 
   }
@@ -6694,70 +10227,62 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setCurrentToken,
         matchedAccessProfileData,
         setMatchedAccessProfileData,
-        header_groupb1913, 
-        setheader_groupb1913,
-        header_groupb1913Props, 
-        setheader_groupb1913Props,
-        asset_dashboard_group4bbfe, 
-        setasset_dashboard_group4bbfe,
-        asset_dashboard_group4bbfeProps, 
-        setasset_dashboard_group4bbfeProps,
-        amr_queue_groupc92ca, 
-        setamr_queue_groupc92ca,
-        amr_queue_groupc92caProps, 
-        setamr_queue_groupc92caProps,
-        pending_file_groupffe32, 
-        setpending_file_groupffe32,
-        pending_file_groupffe32Props, 
-        setpending_file_groupffe32Props,
-        service_pending_group7ba93, 
-        setservice_pending_group7ba93,
-        service_pending_group7ba93Props, 
-        setservice_pending_group7ba93Props,
-        slas_at_risk_group23eb4, 
-        setslas_at_risk_group23eb4,
-        slas_at_risk_group23eb4Props, 
-        setslas_at_risk_group23eb4Props,
-        court_rejection_groupc9d54, 
-        setcourt_rejection_groupc9d54,
-        court_rejection_groupc9d54Props, 
-        setcourt_rejection_groupc9d54Props,
-        collected_mtd_group7b7b5, 
-        setcollected_mtd_group7b7b5,
-        collected_mtd_group7b7b5Props, 
-        setcollected_mtd_group7b7b5Props,
-        table_group112bd, 
-        settable_group112bd,
-        table_group112bdProps, 
-        settable_group112bdProps,
-        subscreene9ab5, 
-        setsubscreene9ab5,
-        subscreene9ab5Props, 
-        setsubscreene9ab5Props,
-        ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797, 
-        setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797,
-        ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797Props, 
-        setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797Props,
-        group28176, 
-        setgroup28176,
-        group28176Props, 
-        setgroup28176Props,
-        table852e3, 
-        settable852e3,
-        table852e3Props, 
-        settable852e3Props,
-        ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da, 
-        setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da,
-        ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8daProps, 
-        setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8daProps,
-        pending_fillings_groupb1568, 
-        setpending_fillings_groupb1568,
-        pending_fillings_groupb1568Props, 
-        setpending_fillings_groupb1568Props,
-        pending_fillings_table11279, 
-        setpending_fillings_table11279,
-        pending_fillings_table11279Props, 
-        setpending_fillings_table11279Props,
+        header_groupd8ba9, 
+        setheader_groupd8ba9,
+        header_groupd8ba9Props, 
+        setheader_groupd8ba9Props,
+        asset_dashboard_group1aa03, 
+        setasset_dashboard_group1aa03,
+        asset_dashboard_group1aa03Props, 
+        setasset_dashboard_group1aa03Props,
+        amr_queue_group3c082, 
+        setamr_queue_group3c082,
+        amr_queue_group3c082Props, 
+        setamr_queue_group3c082Props,
+        pending_file_group2128c, 
+        setpending_file_group2128c,
+        pending_file_group2128cProps, 
+        setpending_file_group2128cProps,
+        service_pending_group8c0ca, 
+        setservice_pending_group8c0ca,
+        service_pending_group8c0caProps, 
+        setservice_pending_group8c0caProps,
+        slas_at_risk_group1f8c0, 
+        setslas_at_risk_group1f8c0,
+        slas_at_risk_group1f8c0Props, 
+        setslas_at_risk_group1f8c0Props,
+        court_rejection_groupdf57a, 
+        setcourt_rejection_groupdf57a,
+        court_rejection_groupdf57aProps, 
+        setcourt_rejection_groupdf57aProps,
+        collected_mtd_group0f074, 
+        setcollected_mtd_group0f074,
+        collected_mtd_group0f074Props, 
+        setcollected_mtd_group0f074Props,
+        overall_key_performance_indicatorsc2711, 
+        setoverall_key_performance_indicatorsc2711,
+        overall_key_performance_indicatorsc2711Props, 
+        setoverall_key_performance_indicatorsc2711Props,
+        key_performance_indicator_groupf9eaf, 
+        setkey_performance_indicator_groupf9eaf,
+        key_performance_indicator_groupf9eafProps, 
+        setkey_performance_indicator_groupf9eafProps,
+        recent_activity_group91db6, 
+        setrecent_activity_group91db6,
+        recent_activity_group91db6Props, 
+        setrecent_activity_group91db6Props,
+        amr_queue_group79589, 
+        setamr_queue_group79589,
+        amr_queue_group79589Props, 
+        setamr_queue_group79589Props,
+        amr_group17ac4, 
+        setamr_group17ac4,
+        amr_group17ac4Props, 
+        setamr_group17ac4Props,
+        amr_queue_table09598, 
+        setamr_queue_table09598,
+        amr_queue_table09598Props, 
+        setamr_queue_table09598Props,
         search_groupdefa1, 
         setsearch_groupdefa1,
         search_groupdefa1Props, 
@@ -6838,294 +10363,522 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setchecklist_table198e1,
         checklist_table198e1Props, 
         setchecklist_table198e1Props,
-        add_case_group1f6e4, 
-        setadd_case_group1f6e4,
-        add_case_group1f6e4Props, 
-        setadd_case_group1f6e4Props,
-        header_group3749a, 
-        setheader_group3749a,
-        header_group3749aProps, 
-        setheader_group3749aProps,
-        case_information_groupcec29, 
-        setcase_information_groupcec29,
-        case_information_groupcec29Props, 
-        setcase_information_groupcec29Props,
-        venue_groupa72d9, 
-        setvenue_groupa72d9,
-        venue_groupa72d9Props, 
-        setvenue_groupa72d9Props,
-        georgia_groupa636c, 
-        setgeorgia_groupa636c,
-        georgia_groupa636cProps, 
-        setgeorgia_groupa636cProps,
-        georgias_groupbac01, 
-        setgeorgias_groupbac01,
-        georgias_groupbac01Props, 
-        setgeorgias_groupbac01Props,
-        georgias_groupsbf356, 
-        setgeorgias_groupsbf356,
-        georgias_groupsbf356Props, 
-        setgeorgias_groupsbf356Props,
-        georgiass_groups9e4dd, 
-        setgeorgiass_groups9e4dd,
-        georgiass_groups9e4ddProps, 
-        setgeorgiass_groups9e4ddProps,
-        georgsiass_groups6bf7a, 
-        setgeorgsiass_groups6bf7a,
-        georgsiass_groups6bf7aProps, 
-        setgeorgsiass_groups6bf7aProps,
-        debtor_information_groupdfa55, 
-        setdebtor_information_groupdfa55,
-        debtor_information_groupdfa55Props, 
-        setdebtor_information_groupdfa55Props,
-        financial_details_grouped0d9, 
-        setfinancial_details_grouped0d9,
-        financial_details_grouped0d9Props, 
-        setfinancial_details_grouped0d9Props,
-        venue_details_group6a27a, 
-        setvenue_details_group6a27a,
-        venue_details_group6a27aProps, 
-        setvenue_details_group6a27aProps,
-        required_dociument_main_group3eb5b, 
-        setrequired_dociument_main_group3eb5b,
-        required_dociument_main_group3eb5bProps, 
-        setrequired_dociument_main_group3eb5bProps,
-        doc_tablee79c7, 
-        setdoc_tablee79c7,
-        doc_tablee79c7Props, 
-        setdoc_tablee79c7Props,
-        checklist_main_group5b62e, 
-        setchecklist_main_group5b62e,
-        checklist_main_group5b62eProps, 
-        setchecklist_main_group5b62eProps,
-        checklist_table45abc, 
-        setchecklist_table45abc,
-        checklist_table45abcProps, 
-        setchecklist_table45abcProps,
+        add_case_groupbe1de, 
+        setadd_case_groupbe1de,
+        add_case_groupbe1deProps, 
+        setadd_case_groupbe1deProps,
+        header_groupc587e, 
+        setheader_groupc587e,
+        header_groupc587eProps, 
+        setheader_groupc587eProps,
+        required_dociument_main_group6f022, 
+        setrequired_dociument_main_group6f022,
+        required_dociument_main_group6f022Props, 
+        setrequired_dociument_main_group6f022Props,
+        doc_table8bfa1, 
+        setdoc_table8bfa1,
+        doc_table8bfa1Props, 
+        setdoc_table8bfa1Props,
+        case_information_groupe3c1b, 
+        setcase_information_groupe3c1b,
+        case_information_groupe3c1bProps, 
+        setcase_information_groupe3c1bProps,
+        card_group7fa83, 
+        setcard_group7fa83,
+        card_group7fa83Props, 
+        setcard_group7fa83Props,
+        principal_groupde6dd, 
+        setprincipal_groupde6dd,
+        principal_groupde6ddProps, 
+        setprincipal_groupde6ddProps,
+        intrest_group44b4d, 
+        setintrest_group44b4d,
+        intrest_group44b4dProps, 
+        setintrest_group44b4dProps,
+        fees_groupee523, 
+        setfees_groupee523,
+        fees_groupee523Props, 
+        setfees_groupee523Props,
+        total_groupd3e06, 
+        settotal_groupd3e06,
+        total_groupd3e06Props, 
+        settotal_groupd3e06Props,
+        venue_details_group1d734, 
+        setvenue_details_group1d734,
+        venue_details_group1d734Props, 
+        setvenue_details_group1d734Props,
+        checklist_main_group32240, 
+        setchecklist_main_group32240,
+        checklist_main_group32240Props, 
+        setchecklist_main_group32240Props,
+        checklist_tablee7dea, 
+        setchecklist_tablee7dea,
+        checklist_tablee7deaProps, 
+        setchecklist_tablee7deaProps,
+        special_rules_groupf22ab, 
+        setspecial_rules_groupf22ab,
+        special_rules_groupf22abProps, 
+        setspecial_rules_groupf22abProps,
+        special_rules96aec, 
+        setspecial_rules96aec,
+        special_rules96aecProps, 
+        setspecial_rules96aecProps,
         document_viewer_groupe4249, 
         setdocument_viewer_groupe4249,
         document_viewer_groupe4249Props, 
         setdocument_viewer_groupe4249Props,
-        search_group39b74, 
-        setsearch_group39b74,
-        search_group39b74Props, 
-        setsearch_group39b74Props,
-        text9e38a,
-        settext9e38a, 
-        text9e38aProps,
-        settext9e38aProps,
-        amr_queue_text28561,
-        setamr_queue_text28561, 
-        amr_queue_text28561Props,
-        setamr_queue_text28561Props,
-        icon_total_assest208f5,
-        seticon_total_assest208f5, 
-        icon_total_assest208f5Props,
-        seticon_total_assest208f5Props,
-        amr_queue5b620,
-        setamr_queue5b620, 
-        amr_queue5b620Props,
-        setamr_queue5b620Props,
-        amr_queue_descafe0e,
-        setamr_queue_descafe0e, 
-        amr_queue_descafe0eProps,
-        setamr_queue_descafe0eProps,
-        pending_file_text86c2a,
-        setpending_file_text86c2a, 
-        pending_file_text86c2aProps,
-        setpending_file_text86c2aProps,
-        icon_maintenance_duecab92,
-        seticon_maintenance_duecab92, 
-        icon_maintenance_duecab92Props,
-        seticon_maintenance_duecab92Props,
-        pending_file1721b,
-        setpending_file1721b, 
-        pending_file1721bProps,
-        setpending_file1721bProps,
-        pending_file_desc53378,
-        setpending_file_desc53378, 
-        pending_file_desc53378Props,
-        setpending_file_desc53378Props,
-        service_pending_text5cc58,
-        setservice_pending_text5cc58, 
-        service_pending_text5cc58Props,
-        setservice_pending_text5cc58Props,
-        icon_warranty_expiring6d299,
-        seticon_warranty_expiring6d299, 
-        icon_warranty_expiring6d299Props,
-        seticon_warranty_expiring6d299Props,
-        service_pending918f0,
-        setservice_pending918f0, 
-        service_pending918f0Props,
-        setservice_pending918f0Props,
-        service_pending_descabf48,
-        setservice_pending_descabf48, 
-        service_pending_descabf48Props,
-        setservice_pending_descabf48Props,
-        slas_at_risk_text33ae5,
-        setslas_at_risk_text33ae5, 
-        slas_at_risk_text33ae5Props,
-        setslas_at_risk_text33ae5Props,
-        icon_2caf8,
-        seticon_2caf8, 
-        icon_2caf8Props,
-        seticon_2caf8Props,
-        slas_at_riskf177b,
-        setslas_at_riskf177b, 
-        slas_at_riskf177bProps,
-        setslas_at_riskf177bProps,
-        slas_at_risk_desc5c075,
-        setslas_at_risk_desc5c075, 
-        slas_at_risk_desc5c075Props,
-        setslas_at_risk_desc5c075Props,
-        court_rejection_text06a86,
-        setcourt_rejection_text06a86, 
-        court_rejection_text06a86Props,
-        setcourt_rejection_text06a86Props,
-        icona5abd,
-        seticona5abd, 
-        icona5abdProps,
-        seticona5abdProps,
-        court_rejection2460a,
-        setcourt_rejection2460a, 
-        court_rejection2460aProps,
-        setcourt_rejection2460aProps,
-        court_rejection_desc7c63b,
-        setcourt_rejection_desc7c63b, 
-        court_rejection_desc7c63bProps,
-        setcourt_rejection_desc7c63bProps,
-        collected_mtd_text4d825,
-        setcollected_mtd_text4d825, 
-        collected_mtd_text4d825Props,
-        setcollected_mtd_text4d825Props,
-        iconaff33,
-        seticonaff33, 
-        iconaff33Props,
-        seticonaff33Props,
-        collected_mtdab52b,
-        setcollected_mtdab52b, 
-        collected_mtdab52bProps,
-        setcollected_mtdab52bProps,
-        collected_mtd_descfffed,
-        setcollected_mtd_descfffed, 
-        collected_mtd_descfffedProps,
-        setcollected_mtd_descfffedProps,
-        search_btn4c2ed,
-        setsearch_btn4c2ed, 
-        search_btn4c2edProps,
-        setsearch_btn4c2edProps,
-        add_btn2f9d0,
-        setadd_btn2f9d0, 
-        add_btn2f9d0Props,
-        setadd_btn2f9d0Props,
-        textc2337,
-        settextc2337, 
-        textc2337Props,
-        settextc2337Props,
-        case_display_id8caab,
-        setcase_display_id8caab, 
-        case_display_id8caabProps,
-        setcase_display_id8caabProps,
-        debtor_namedb464,
-        setdebtor_namedb464, 
-        debtor_namedb464Props,
-        setdebtor_namedb464Props,
-        creditor_name29781,
-        setcreditor_name29781, 
-        creditor_name29781Props,
-        setcreditor_name29781Props,
-        full_nameda699,
-        setfull_nameda699, 
-        full_nameda699Props,
-        setfull_nameda699Props,
-        total_balancea27e6,
-        settotal_balancea27e6, 
-        total_balancea27e6Props,
-        settotal_balancea27e6Props,
-        court_name03aea,
-        setcourt_name03aea, 
-        court_name03aeaProps,
-        setcourt_name03aeaProps,
-        priority_namec8266,
-        setpriority_namec8266, 
-        priority_namec8266Props,
-        setpriority_namec8266Props,
-        status_named2368,
-        setstatus_named2368, 
-        status_named2368Props,
-        setstatus_named2368Props,
-        trs_created_datec9e9d,
-        settrs_created_datec9e9d, 
-        trs_created_datec9e9dProps,
-        settrs_created_datec9e9dProps,
-        view_btns77c69,
-        setview_btns77c69, 
-        view_btns77c69Props,
-        setview_btns77c69Props,
-        edit_btns48ea7,
-        setedit_btns48ea7, 
-        edit_btns48ea7Props,
-        setedit_btns48ea7Props,
-        search_btn15268,
-        setsearch_btn15268, 
-        search_btn15268Props,
-        setsearch_btn15268Props,
-        add_btn707cf,
-        setadd_btn707cf, 
-        add_btn707cfProps,
-        setadd_btn707cfProps,
-        text3ced2,
-        settext3ced2, 
-        text3ced2Props,
-        settext3ced2Props,
-        case_display_id32ae4,
-        setcase_display_id32ae4, 
-        case_display_id32ae4Props,
-        setcase_display_id32ae4Props,
-        debtor_namecd77b,
-        setdebtor_namecd77b, 
-        debtor_namecd77bProps,
-        setdebtor_namecd77bProps,
-        creditor_nameb14ce,
-        setcreditor_nameb14ce, 
-        creditor_nameb14ceProps,
-        setcreditor_nameb14ceProps,
-        full_name592f3,
-        setfull_name592f3, 
-        full_name592f3Props,
-        setfull_name592f3Props,
-        total_balance98c00,
-        settotal_balance98c00, 
-        total_balance98c00Props,
-        settotal_balance98c00Props,
-        court_name4b97b,
-        setcourt_name4b97b, 
-        court_name4b97bProps,
-        setcourt_name4b97bProps,
-        priority_namec61c4,
-        setpriority_namec61c4, 
-        priority_namec61c4Props,
-        setpriority_namec61c4Props,
-        status_namec590e,
-        setstatus_namec590e, 
-        status_namec590eProps,
-        setstatus_namec590eProps,
-        trs_created_date4e909,
-        settrs_created_date4e909, 
-        trs_created_date4e909Props,
-        settrs_created_date4e909Props,
-        view_btn88178,
-        setview_btn88178, 
-        view_btn88178Props,
-        setview_btn88178Props,
-        edit_btn4cc84,
-        setedit_btn4cc84, 
-        edit_btn4cc84Props,
-        setedit_btn4cc84Props,
-        status77d60,
-        setstatus77d60, 
-        status77d60Props,
-        setstatus77d60Props,
+        add_case_grouped126, 
+        setadd_case_grouped126,
+        add_case_grouped126Props, 
+        setadd_case_grouped126Props,
+        header_groupbd8a8, 
+        setheader_groupbd8a8,
+        header_groupbd8a8Props, 
+        setheader_groupbd8a8Props,
+        required_dociument_main_group255d1, 
+        setrequired_dociument_main_group255d1,
+        required_dociument_main_group255d1Props, 
+        setrequired_dociument_main_group255d1Props,
+        doc_table9c4f7, 
+        setdoc_table9c4f7,
+        doc_table9c4f7Props, 
+        setdoc_table9c4f7Props,
+        case_information_group48f3c, 
+        setcase_information_group48f3c,
+        case_information_group48f3cProps, 
+        setcase_information_group48f3cProps,
+        card_group4c709, 
+        setcard_group4c709,
+        card_group4c709Props, 
+        setcard_group4c709Props,
+        principal_group42235, 
+        setprincipal_group42235,
+        principal_group42235Props, 
+        setprincipal_group42235Props,
+        intrest_group65c3b, 
+        setintrest_group65c3b,
+        intrest_group65c3bProps, 
+        setintrest_group65c3bProps,
+        fees_group8c4a6, 
+        setfees_group8c4a6,
+        fees_group8c4a6Props, 
+        setfees_group8c4a6Props,
+        total_groupc52d3, 
+        settotal_groupc52d3,
+        total_groupc52d3Props, 
+        settotal_groupc52d3Props,
+        venue_details_group51614, 
+        setvenue_details_group51614,
+        venue_details_group51614Props, 
+        setvenue_details_group51614Props,
+        checklist_main_group2b466, 
+        setchecklist_main_group2b466,
+        checklist_main_group2b466Props, 
+        setchecklist_main_group2b466Props,
+        checklist_tablecafb0, 
+        setchecklist_tablecafb0,
+        checklist_tablecafb0Props, 
+        setchecklist_tablecafb0Props,
+        special_rules_group7ce9f, 
+        setspecial_rules_group7ce9f,
+        special_rules_group7ce9fProps, 
+        setspecial_rules_group7ce9fProps,
+        special_rules7f109, 
+        setspecial_rules7f109,
+        special_rules7f109Props, 
+        setspecial_rules7f109Props,
+        add_case_group77747, 
+        setadd_case_group77747,
+        add_case_group77747Props, 
+        setadd_case_group77747Props,
+        header_groupbae8a, 
+        setheader_groupbae8a,
+        header_groupbae8aProps, 
+        setheader_groupbae8aProps,
+        required_dociument_main_group999a8, 
+        setrequired_dociument_main_group999a8,
+        required_dociument_main_group999a8Props, 
+        setrequired_dociument_main_group999a8Props,
+        doc_table45b8d, 
+        setdoc_table45b8d,
+        doc_table45b8dProps, 
+        setdoc_table45b8dProps,
+        case_information_group35ed3, 
+        setcase_information_group35ed3,
+        case_information_group35ed3Props, 
+        setcase_information_group35ed3Props,
+        card_groupe78fa, 
+        setcard_groupe78fa,
+        card_groupe78faProps, 
+        setcard_groupe78faProps,
+        principal_group9ae9f, 
+        setprincipal_group9ae9f,
+        principal_group9ae9fProps, 
+        setprincipal_group9ae9fProps,
+        intrest_group8df75, 
+        setintrest_group8df75,
+        intrest_group8df75Props, 
+        setintrest_group8df75Props,
+        fees_groupac23b, 
+        setfees_groupac23b,
+        fees_groupac23bProps, 
+        setfees_groupac23bProps,
+        total_groupe6175, 
+        settotal_groupe6175,
+        total_groupe6175Props, 
+        settotal_groupe6175Props,
+        venue_details_group6904e, 
+        setvenue_details_group6904e,
+        venue_details_group6904eProps, 
+        setvenue_details_group6904eProps,
+        checklist_main_groupda0ff, 
+        setchecklist_main_groupda0ff,
+        checklist_main_groupda0ffProps, 
+        setchecklist_main_groupda0ffProps,
+        checklist_table0e25b, 
+        setchecklist_table0e25b,
+        checklist_table0e25bProps, 
+        setchecklist_table0e25bProps,
+        special_rules_groupc1585, 
+        setspecial_rules_groupc1585,
+        special_rules_groupc1585Props, 
+        setspecial_rules_groupc1585Props,
+        special_rules1fc30, 
+        setspecial_rules1fc30,
+        special_rules1fc30Props, 
+        setspecial_rules1fc30Props,
+        dynamicactions37e34, 
+        setdynamicactions37e34,
+        dynamicactions37e34Props, 
+        setdynamicactions37e34Props,
+        group_report8ef47, 
+        setgroup_report8ef47,
+        group_report8ef47Props, 
+        setgroup_report8ef47Props,
+        lap_test_screen_group38f1e, 
+        setlap_test_screen_group38f1e,
+        lap_test_screen_group38f1eProps, 
+        setlap_test_screen_group38f1eProps,
+        text5e6b2,
+        settext5e6b2, 
+        text5e6b2Props,
+        settext5e6b2Props,
+        amr_queue_text17149,
+        setamr_queue_text17149, 
+        amr_queue_text17149Props,
+        setamr_queue_text17149Props,
+        icon_total_assest42cc7,
+        seticon_total_assest42cc7, 
+        icon_total_assest42cc7Props,
+        seticon_total_assest42cc7Props,
+        amr_queue0e5a7,
+        setamr_queue0e5a7, 
+        amr_queue0e5a7Props,
+        setamr_queue0e5a7Props,
+        amr_queue_desc10020,
+        setamr_queue_desc10020, 
+        amr_queue_desc10020Props,
+        setamr_queue_desc10020Props,
+        pending_file_text61240,
+        setpending_file_text61240, 
+        pending_file_text61240Props,
+        setpending_file_text61240Props,
+        icon_maintenance_dueb2661,
+        seticon_maintenance_dueb2661, 
+        icon_maintenance_dueb2661Props,
+        seticon_maintenance_dueb2661Props,
+        pending_filea7d91,
+        setpending_filea7d91, 
+        pending_filea7d91Props,
+        setpending_filea7d91Props,
+        pending_file_desca182c,
+        setpending_file_desca182c, 
+        pending_file_desca182cProps,
+        setpending_file_desca182cProps,
+        service_pending_textb9d5c,
+        setservice_pending_textb9d5c, 
+        service_pending_textb9d5cProps,
+        setservice_pending_textb9d5cProps,
+        icon_warranty_expiringa065e,
+        seticon_warranty_expiringa065e, 
+        icon_warranty_expiringa065eProps,
+        seticon_warranty_expiringa065eProps,
+        service_pending0898e,
+        setservice_pending0898e, 
+        service_pending0898eProps,
+        setservice_pending0898eProps,
+        service_pending_desc91c8a,
+        setservice_pending_desc91c8a, 
+        service_pending_desc91c8aProps,
+        setservice_pending_desc91c8aProps,
+        slas_at_risk_text42bdc,
+        setslas_at_risk_text42bdc, 
+        slas_at_risk_text42bdcProps,
+        setslas_at_risk_text42bdcProps,
+        icon_eaa1e,
+        seticon_eaa1e, 
+        icon_eaa1eProps,
+        seticon_eaa1eProps,
+        slas_at_riska3022,
+        setslas_at_riska3022, 
+        slas_at_riska3022Props,
+        setslas_at_riska3022Props,
+        slas_at_risk_desc57375,
+        setslas_at_risk_desc57375, 
+        slas_at_risk_desc57375Props,
+        setslas_at_risk_desc57375Props,
+        court_rejection_textc9a86,
+        setcourt_rejection_textc9a86, 
+        court_rejection_textc9a86Props,
+        setcourt_rejection_textc9a86Props,
+        icon87359,
+        seticon87359, 
+        icon87359Props,
+        seticon87359Props,
+        court_rejectionff779,
+        setcourt_rejectionff779, 
+        court_rejectionff779Props,
+        setcourt_rejectionff779Props,
+        court_rejection_desc6f72f,
+        setcourt_rejection_desc6f72f, 
+        court_rejection_desc6f72fProps,
+        setcourt_rejection_desc6f72fProps,
+        collected_mtd_textf5ff3,
+        setcollected_mtd_textf5ff3, 
+        collected_mtd_textf5ff3Props,
+        setcollected_mtd_textf5ff3Props,
+        iconb9347,
+        seticonb9347, 
+        iconb9347Props,
+        seticonb9347Props,
+        collected_mtd65ae0,
+        setcollected_mtd65ae0, 
+        collected_mtd65ae0Props,
+        setcollected_mtd65ae0Props,
+        collected_mtd_desc21bcb,
+        setcollected_mtd_desc21bcb, 
+        collected_mtd_desc21bcbProps,
+        setcollected_mtd_desc21bcbProps,
+        key_performance_indicators_text4f6db,
+        setkey_performance_indicators_text4f6db, 
+        key_performance_indicators_text4f6dbProps,
+        setkey_performance_indicators_text4f6dbProps,
+        total_active_accounts_texted4d7,
+        settotal_active_accounts_texted4d7, 
+        total_active_accounts_texted4d7Props,
+        settotal_active_accounts_texted4d7Props,
+        total_active_accounts_text1b45d0,
+        settotal_active_accounts_text1b45d0, 
+        total_active_accounts_text1b45d0Props,
+        settotal_active_accounts_text1b45d0Props,
+        divider13ca73,
+        setdivider13ca73, 
+        divider13ca73Props,
+        setdivider13ca73Props,
+        avg_days_to_judgment_text82b69,
+        setavg_days_to_judgment_text82b69, 
+        avg_days_to_judgment_text82b69Props,
+        setavg_days_to_judgment_text82b69Props,
+        avg_days_to_judgment_text14ed01,
+        setavg_days_to_judgment_text14ed01, 
+        avg_days_to_judgment_text14ed01Props,
+        setavg_days_to_judgment_text14ed01Props,
+        divider214543,
+        setdivider214543, 
+        divider214543Props,
+        setdivider214543Props,
+        court_rejection_rate_text86ac0,
+        setcourt_rejection_rate_text86ac0, 
+        court_rejection_rate_text86ac0Props,
+        setcourt_rejection_rate_text86ac0Props,
+        court_rejection_rate_text10b69f,
+        setcourt_rejection_rate_text10b69f, 
+        court_rejection_rate_text10b69fProps,
+        setcourt_rejection_rate_text10b69fProps,
+        divider39db36,
+        setdivider39db36, 
+        divider39db36Props,
+        setdivider39db36Props,
+        compliance_score_textbf682,
+        setcompliance_score_textbf682, 
+        compliance_score_textbf682Props,
+        setcompliance_score_textbf682Props,
+        compliance_score_text1f41e4,
+        setcompliance_score_text1f41e4, 
+        compliance_score_text1f41e4Props,
+        setcompliance_score_text1f41e4Props,
+        divider432793,
+        setdivider432793, 
+        divider432793Props,
+        setdivider432793Props,
+        collection_rate_mtd_text335f5,
+        setcollection_rate_mtd_text335f5, 
+        collection_rate_mtd_text335f5Props,
+        setcollection_rate_mtd_text335f5Props,
+        collection_rate_mtd_text16258d,
+        setcollection_rate_mtd_text16258d, 
+        collection_rate_mtd_text16258dProps,
+        setcollection_rate_mtd_text16258dProps,
+        recent_activity_text25b7b,
+        setrecent_activity_text25b7b, 
+        recent_activity_text25b7bProps,
+        setrecent_activity_text25b7bProps,
+        amr_queued_textb4f27,
+        setamr_queued_textb4f27, 
+        amr_queued_textb4f27Props,
+        setamr_queued_textb4f27Props,
+        amr_queued_text_1dc178,
+        setamr_queued_text_1dc178, 
+        amr_queued_text_1dc178Props,
+        setamr_queued_text_1dc178Props,
+        divider1cb266,
+        setdivider1cb266, 
+        divider1cb266Props,
+        setdivider1cb266Props,
+        judgment_entered_text2f3e7,
+        setjudgment_entered_text2f3e7, 
+        judgment_entered_text2f3e7Props,
+        setjudgment_entered_text2f3e7Props,
+        judgment_entered_text_1d4af4,
+        setjudgment_entered_text_1d4af4, 
+        judgment_entered_text_1d4af4Props,
+        setjudgment_entered_text_1d4af4Props,
+        divider2269d0,
+        setdivider2269d0, 
+        divider2269d0Props,
+        setdivider2269d0Props,
+        service_completed_text835e5,
+        setservice_completed_text835e5, 
+        service_completed_text835e5Props,
+        setservice_completed_text835e5Props,
+        service_completed_text_197211,
+        setservice_completed_text_197211, 
+        service_completed_text_197211Props,
+        setservice_completed_text_197211Props,
+        divider3acb72,
+        setdivider3acb72, 
+        divider3acb72Props,
+        setdivider3acb72Props,
+        amr_passed_text144d2,
+        setamr_passed_text144d2, 
+        amr_passed_text144d2Props,
+        setamr_passed_text144d2Props,
+        amr_passed_text188d24,
+        setamr_passed_text188d24, 
+        amr_passed_text188d24Props,
+        setamr_passed_text188d24Props,
+        divider4ffc0d,
+        setdivider4ffc0d, 
+        divider4ffc0dProps,
+        setdivider4ffc0dProps,
+        court_rejection_texte1e9c,
+        setcourt_rejection_texte1e9c, 
+        court_rejection_texte1e9cProps,
+        setcourt_rejection_texte1e9cProps,
+        court_rejection_text16e38f,
+        setcourt_rejection_text16e38f, 
+        court_rejection_text16e38fProps,
+        setcourt_rejection_text16e38fProps,
+        divider52864b,
+        setdivider52864b, 
+        divider52864bProps,
+        setdivider52864bProps,
+        service_assigned_textb2d7d,
+        setservice_assigned_textb2d7d, 
+        service_assigned_textb2d7dProps,
+        setservice_assigned_textb2d7dProps,
+        service_assigned_text15a8e1,
+        setservice_assigned_text15a8e1, 
+        service_assigned_text15a8e1Props,
+        setservice_assigned_text15a8e1Props,
+        divider6aaa01,
+        setdivider6aaa01, 
+        divider6aaa01Props,
+        setdivider6aaa01Props,
+        amr_rejected_text92e50,
+        setamr_rejected_text92e50, 
+        amr_rejected_text92e50Props,
+        setamr_rejected_text92e50Props,
+        amr_rejected_text11a51a,
+        setamr_rejected_text11a51a, 
+        amr_rejected_text11a51aProps,
+        setamr_rejected_text11a51aProps,
+        back_btn83b00,
+        setback_btn83b00, 
+        back_btn83b00Props,
+        setback_btn83b00Props,
+        amr_textcc6d3,
+        setamr_textcc6d3, 
+        amr_textcc6d3Props,
+        setamr_textcc6d3Props,
+        bt_searchc8991,
+        setbt_searchc8991, 
+        bt_searchc8991Props,
+        setbt_searchc8991Props,
+        new_case_button34af2,
+        setnew_case_button34af2, 
+        new_case_button34af2Props,
+        setnew_case_button34af2Props,
+        account_id9a546,
+        setaccount_id9a546, 
+        account_id9a546Props,
+        setaccount_id9a546Props,
+        case_id734ed,
+        setcase_id734ed, 
+        case_id734edProps,
+        setcase_id734edProps,
+        debtor_nameb1ea9,
+        setdebtor_nameb1ea9, 
+        debtor_nameb1ea9Props,
+        setdebtor_nameb1ea9Props,
+        creditor_namee48d1,
+        setcreditor_namee48d1, 
+        creditor_namee48d1Props,
+        setcreditor_namee48d1Props,
+        full_name7a369,
+        setfull_name7a369, 
+        full_name7a369Props,
+        setfull_name7a369Props,
+        total_balance6a331,
+        settotal_balance6a331, 
+        total_balance6a331Props,
+        settotal_balance6a331Props,
+        court_name5ae4f,
+        setcourt_name5ae4f, 
+        court_name5ae4fProps,
+        setcourt_name5ae4fProps,
+        priority_name6740a,
+        setpriority_name6740a, 
+        priority_name6740aProps,
+        setpriority_name6740aProps,
+        status_name86d6c,
+        setstatus_name86d6c, 
+        status_name86d6cProps,
+        setstatus_name86d6cProps,
+        trs_created_date92fe2,
+        settrs_created_date92fe2, 
+        trs_created_date92fe2Props,
+        settrs_created_date92fe2Props,
+        venue_idb51d8,
+        setvenue_idb51d8, 
+        venue_idb51d8Props,
+        setvenue_idb51d8Props,
+        view_btnbd9a5,
+        setview_btnbd9a5, 
+        view_btnbd9a5Props,
+        setview_btnbd9a5Props,
+        edit_btn10d01,
+        setedit_btn10d01, 
+        edit_btn10d01Props,
+        setedit_btn10d01Props,
+        view_btn_pg_graph1baad,
+        setview_btn_pg_graph1baad, 
+        view_btn_pg_graph1baadProps,
+        setview_btn_pg_graph1baadProps,
+        bt_approveec5db,
+        setbt_approveec5db, 
+        bt_approveec5dbProps,
+        setbt_approveec5dbProps,
         advancesearch6059f,
         setadvancesearch6059f, 
         advancesearch6059fProps,
@@ -7418,287 +11171,603 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setremarks_textareadc753, 
         remarks_textareadc753Props,
         setremarks_textareadc753Props,
-        craete_header_text93eaa,
-        setcraete_header_text93eaa, 
-        craete_header_text93eaaProps,
-        setcraete_header_text93eaaProps,
-        venue_idcb444,
-        setvenue_idcb444, 
-        venue_idcb444Props,
-        setvenue_idcb444Props,
-        creditor_idb1867,
-        setcreditor_idb1867, 
-        creditor_idb1867Props,
-        setcreditor_idb1867Props,
-        case_info_textdf3f1,
-        setcase_info_textdf3f1, 
-        case_info_textdf3f1Props,
-        setcase_info_textdf3f1Props,
-        creditor_name257be,
-        setcreditor_name257be, 
-        creditor_name257beProps,
-        setcreditor_name257beProps,
-        attorney_name87be1,
-        setattorney_name87be1, 
-        attorney_name87be1Props,
-        setattorney_name87be1Props,
-        status_namea5f92,
-        setstatus_namea5f92, 
-        status_namea5f92Props,
-        setstatus_namea5f92Props,
-        priority_name449dd,
-        setpriority_name449dd, 
-        priority_name449ddProps,
-        setpriority_name449ddProps,
-        queue_positionceb8d,
-        setqueue_positionceb8d, 
-        queue_positionceb8dProps,
-        setqueue_positionceb8dProps,
-        quality_scoredfaa9,
-        setquality_scoredfaa9, 
-        quality_scoredfaa9Props,
-        setquality_scoredfaa9Props,
-        sla_wait_start_time20502,
-        setsla_wait_start_time20502, 
-        sla_wait_start_time20502Props,
-        setsla_wait_start_time20502Props,
-        rules_iconfb03f,
-        setrules_iconfb03f, 
-        rules_iconfb03fProps,
-        setrules_iconfb03fProps,
-        venue_special_rules_textecd92,
-        setvenue_special_rules_textecd92, 
-        venue_special_rules_textecd92Props,
-        setvenue_special_rules_textecd92Props,
-        special_rules2001a,
-        setspecial_rules2001a, 
-        special_rules2001aProps,
-        setspecial_rules2001aProps,
-        venue_special_rules_divider206ab,
-        setvenue_special_rules_divider206ab, 
-        venue_special_rules_divider206abProps,
-        setvenue_special_rules_divider206abProps,
-        warning_icond1cd0,
-        setwarning_icond1cd0, 
-        warning_icond1cd0Props,
-        setwarning_icond1cd0Props,
-        georgia_sol_text460ef,
-        setgeorgia_sol_text460ef, 
-        georgia_sol_text460efProps,
-        setgeorgia_sol_text460efProps,
-        special_rulesd6c6e,
-        setspecial_rulesd6c6e, 
-        special_rulesd6c6eProps,
-        setspecial_rulesd6c6eProps,
-        venue_special_rules_dividers28a68,
-        setvenue_special_rules_dividers28a68, 
-        venue_special_rules_dividers28a68Props,
-        setvenue_special_rules_dividers28a68Props,
-        warnings_icon0adcc,
-        setwarnings_icon0adcc, 
-        warnings_icon0adccProps,
-        setwarnings_icon0adccProps,
-        georgias_sol_text24265,
-        setgeorgias_sol_text24265, 
-        georgias_sol_text24265Props,
-        setgeorgias_sol_text24265Props,
-        specials_rules14021,
-        setspecials_rules14021, 
-        specials_rules14021Props,
-        setspecials_rules14021Props,
-        venue_special_rules_dividerss0c16e,
-        setvenue_special_rules_dividerss0c16e, 
-        venue_special_rules_dividerss0c16eProps,
-        setvenue_special_rules_dividerss0c16eProps,
-        warningss_icons476c3,
-        setwarningss_icons476c3, 
-        warningss_icons476c3Props,
-        setwarningss_icons476c3Props,
-        georgias_sosl_texts3f264,
-        setgeorgias_sosl_texts3f264, 
-        georgias_sosl_texts3f264Props,
-        setgeorgias_sosl_texts3f264Props,
-        specials_rulesscc30f,
-        setspecials_rulesscc30f, 
-        specials_rulesscc30fProps,
-        setspecials_rulesscc30fProps,
-        venue_special_rules_dividersssdcaab,
-        setvenue_special_rules_dividersssdcaab, 
-        venue_special_rules_dividersssdcaabProps,
-        setvenue_special_rules_dividersssdcaabProps,
-        warningsss_icons3be9c,
-        setwarningsss_icons3be9c, 
-        warningsss_icons3be9cProps,
-        setwarningsss_icons3be9cProps,
-        georgiass_sosl_texts88097,
-        setgeorgiass_sosl_texts88097, 
-        georgiass_sosl_texts88097Props,
-        setgeorgiass_sosl_texts88097Props,
-        specials_ruless95686,
-        setspecials_ruless95686, 
-        specials_ruless95686Props,
-        setspecials_ruless95686Props,
-        venues_special_rules_dividerssss44419,
-        setvenues_special_rules_dividerssss44419, 
-        venues_special_rules_dividerssss44419Props,
-        setvenues_special_rules_dividerssss44419Props,
-        warningssss_icons55275,
-        setwarningssss_icons55275, 
-        warningssss_icons55275Props,
-        setwarningssss_icons55275Props,
-        georsgiass_sosl_texts15f5e,
-        setgeorsgiass_sosl_texts15f5e, 
-        georsgiass_sosl_texts15f5eProps,
-        setgeorsgiass_sosl_texts15f5eProps,
-        spesciasls_ruless910f1,
-        setspesciasls_ruless910f1, 
-        spesciasls_ruless910f1Props,
-        setspesciasls_ruless910f1Props,
-        debt_info_textb09b8,
-        setdebt_info_textb09b8, 
-        debt_info_textb09b8Props,
-        setdebt_info_textb09b8Props,
-        debtor_namef7cac,
-        setdebtor_namef7cac, 
-        debtor_namef7cacProps,
-        setdebtor_namef7cacProps,
-        ssn_masked26c46,
-        setssn_masked26c46, 
-        ssn_masked26c46Props,
-        setssn_masked26c46Props,
-        dob0f0bf,
-        setdob0f0bf, 
-        dob0f0bfProps,
-        setdob0f0bfProps,
-        address22d72,
-        setaddress22d72, 
-        address22d72Props,
-        setaddress22d72Props,
-        financial_dtls_text3451f,
-        setfinancial_dtls_text3451f, 
-        financial_dtls_text3451fProps,
-        setfinancial_dtls_text3451fProps,
-        charge_off_date13a39,
-        setcharge_off_date13a39, 
-        charge_off_date13a39Props,
-        setcharge_off_date13a39Props,
-        last_payment_dateeab2f,
-        setlast_payment_dateeab2f, 
-        last_payment_dateeab2fProps,
-        setlast_payment_dateeab2fProps,
-        total_balanceca1e1,
-        settotal_balanceca1e1, 
-        total_balanceca1e1Props,
-        settotal_balanceca1e1Props,
-        principal6eb2a,
-        setprincipal6eb2a, 
-        principal6eb2aProps,
-        setprincipal6eb2aProps,
-        interesta6b7d,
-        setinteresta6b7d, 
-        interesta6b7dProps,
-        setinteresta6b7dProps,
-        feesb456c,
-        setfeesb456c, 
-        feesb456cProps,
-        setfeesb456cProps,
-        ven_name_text0c8ba,
-        setven_name_text0c8ba, 
-        ven_name_text0c8baProps,
-        setven_name_text0c8baProps,
-        state3010e,
-        setstate3010e, 
-        state3010eProps,
-        setstate3010eProps,
-        country1983b,
-        setcountry1983b, 
-        country1983bProps,
-        setcountry1983bProps,
-        court_name41a77,
-        setcourt_name41a77, 
-        court_name41a77Props,
-        setcourt_name41a77Props,
-        judge_name0a819,
-        setjudge_name0a819, 
-        judge_name0a819Props,
-        setjudge_name0a819Props,
-        sol_expiry_dated5486,
-        setsol_expiry_dated5486, 
-        sol_expiry_dated5486Props,
-        setsol_expiry_dated5486Props,
-        filing_fee89c7f,
-        setfiling_fee89c7f, 
-        filing_fee89c7fProps,
-        setfiling_fee89c7fProps,
-        service_method1b411,
-        setservice_method1b411, 
-        service_method1b411Props,
-        setservice_method1b411Props,
-        efiling_system7d508,
-        setefiling_system7d508, 
-        efiling_system7d508Props,
-        setefiling_system7d508Props,
-        efiling_required36d60,
-        setefiling_required36d60, 
-        efiling_required36d60Props,
-        setefiling_required36d60Props,
-        reeq_doc_text732f8,
-        setreeq_doc_text732f8, 
-        reeq_doc_text732f8Props,
-        setreeq_doc_text732f8Props,
-        attachment_id54469,
-        setattachment_id54469, 
-        attachment_id54469Props,
-        setattachment_id54469Props,
-        doc_name513db,
-        setdoc_name513db, 
-        doc_name513dbProps,
-        setdoc_name513dbProps,
-        trs_created_by736ad,
-        settrs_created_by736ad, 
-        trs_created_by736adProps,
-        settrs_created_by736adProps,
-        trs_created_datecfead,
-        settrs_created_datecfead, 
-        trs_created_datecfeadProps,
-        settrs_created_datecfeadProps,
-        valid_checklist_text1428a,
-        setvalid_checklist_text1428a, 
-        valid_checklist_text1428aProps,
-        setvalid_checklist_text1428aProps,
-        checklist_item_id611e6,
-        setchecklist_item_id611e6, 
-        checklist_item_id611e6Props,
-        setchecklist_item_id611e6Props,
-        item_nameafc9a,
-        setitem_nameafc9a, 
-        item_nameafc9aProps,
-        setitem_nameafc9aProps,
-        is_completed6ef7a,
-        setis_completed6ef7a, 
-        is_completed6ef7aProps,
-        setis_completed6ef7aProps,
-        remarks_textarea15a62,
-        setremarks_textarea15a62, 
-        remarks_textarea15a62Props,
-        setremarks_textarea15a62Props,
-        account_id4ecc7,
-        setaccount_id4ecc7, 
-        account_id4ecc7Props,
-        setaccount_id4ecc7Props,
+        button_back1a912,
+        setbutton_back1a912, 
+        button_back1a912Props,
+        setbutton_back1a912Props,
+        craete_header_texte958c,
+        setcraete_header_texte958c, 
+        craete_header_texte958cProps,
+        setcraete_header_texte958cProps,
+        reeq_doc_text78b91,
+        setreeq_doc_text78b91, 
+        reeq_doc_text78b91Props,
+        setreeq_doc_text78b91Props,
+        attachment_id394f7,
+        setattachment_id394f7, 
+        attachment_id394f7Props,
+        setattachment_id394f7Props,
+        doc_namef31ac,
+        setdoc_namef31ac, 
+        doc_namef31acProps,
+        setdoc_namef31acProps,
+        view_button04be7,
+        setview_button04be7, 
+        view_button04be7Props,
+        setview_button04be7Props,
+        case_info_textd4267,
+        setcase_info_textd4267, 
+        case_info_textd4267Props,
+        setcase_info_textd4267Props,
+        debtor_name83b58,
+        setdebtor_name83b58, 
+        debtor_name83b58Props,
+        setdebtor_name83b58Props,
+        case_display_idb53b9,
+        setcase_display_idb53b9, 
+        case_display_idb53b9Props,
+        setcase_display_idb53b9Props,
+        ssn_masked24ce0,
+        setssn_masked24ce0, 
+        ssn_masked24ce0Props,
+        setssn_masked24ce0Props,
+        dobea900,
+        setdobea900, 
+        dobea900Props,
+        setdobea900Props,
+        address4e81d,
+        setaddress4e81d, 
+        address4e81dProps,
+        setaddress4e81dProps,
+        creditor_name62479,
+        setcreditor_name62479, 
+        creditor_name62479Props,
+        setcreditor_name62479Props,
+        charge_off_dated3231,
+        setcharge_off_dated3231, 
+        charge_off_dated3231Props,
+        setcharge_off_dated3231Props,
+        last_payment_date500eb,
+        setlast_payment_date500eb, 
+        last_payment_date500ebProps,
+        setlast_payment_date500ebProps,
+        divider772d9,
+        setdivider772d9, 
+        divider772d9Props,
+        setdivider772d9Props,
+        principal_text73a3d,
+        setprincipal_text73a3d, 
+        principal_text73a3dProps,
+        setprincipal_text73a3dProps,
+        principald89b4,
+        setprincipald89b4, 
+        principald89b4Props,
+        setprincipald89b4Props,
+        intrest_text58114,
+        setintrest_text58114, 
+        intrest_text58114Props,
+        setintrest_text58114Props,
+        interest42832,
+        setinterest42832, 
+        interest42832Props,
+        setinterest42832Props,
+        fees_text67815,
+        setfees_text67815, 
+        fees_text67815Props,
+        setfees_text67815Props,
+        fees9a14f,
+        setfees9a14f, 
+        fees9a14fProps,
+        setfees9a14fProps,
+        total_balance_texted1be,
+        settotal_balance_texted1be, 
+        total_balance_texted1beProps,
+        settotal_balance_texted1beProps,
+        total_balancee5904,
+        settotal_balancee5904, 
+        total_balancee5904Props,
+        settotal_balancee5904Props,
+        sol_expiry_date69782,
+        setsol_expiry_date69782, 
+        sol_expiry_date69782Props,
+        setsol_expiry_date69782Props,
+        ven_name_textdfed0,
+        setven_name_textdfed0, 
+        ven_name_textdfed0Props,
+        setven_name_textdfed0Props,
+        state8a16f,
+        setstate8a16f, 
+        state8a16fProps,
+        setstate8a16fProps,
+        dividers29243,
+        setdividers29243, 
+        dividers29243Props,
+        setdividers29243Props,
+        country40b75,
+        setcountry40b75, 
+        country40b75Props,
+        setcountry40b75Props,
+        dividerss6e19f,
+        setdividerss6e19f, 
+        dividerss6e19fProps,
+        setdividerss6e19fProps,
+        court_name27e21,
+        setcourt_name27e21, 
+        court_name27e21Props,
+        setcourt_name27e21Props,
+        dividersss5d68a,
+        setdividersss5d68a, 
+        dividersss5d68aProps,
+        setdividersss5d68aProps,
+        judge_name5abc6,
+        setjudge_name5abc6, 
+        judge_name5abc6Props,
+        setjudge_name5abc6Props,
+        dividerssss4ac29,
+        setdividerssss4ac29, 
+        dividerssss4ac29Props,
+        setdividerssss4ac29Props,
+        filing_fee7fab8,
+        setfiling_fee7fab8, 
+        filing_fee7fab8Props,
+        setfiling_fee7fab8Props,
+        dividersssssec43b,
+        setdividersssssec43b, 
+        dividersssssec43bProps,
+        setdividersssssec43bProps,
+        service_method80ec2,
+        setservice_method80ec2, 
+        service_method80ec2Props,
+        setservice_method80ec2Props,
+        dividerssssssbc99f,
+        setdividerssssssbc99f, 
+        dividerssssssbc99fProps,
+        setdividerssssssbc99fProps,
+        efiling_system9b6bc,
+        setefiling_system9b6bc, 
+        efiling_system9b6bcProps,
+        setefiling_system9b6bcProps,
+        valid_checklist_text6c6d2,
+        setvalid_checklist_text6c6d2, 
+        valid_checklist_text6c6d2Props,
+        setvalid_checklist_text6c6d2Props,
+        checklist_item_ida8a87,
+        setchecklist_item_ida8a87, 
+        checklist_item_ida8a87Props,
+        setchecklist_item_ida8a87Props,
+        item_name8baf4,
+        setitem_name8baf4, 
+        item_name8baf4Props,
+        setitem_name8baf4Props,
+        is_completed2fafb,
+        setis_completed2fafb, 
+        is_completed2fafbProps,
+        setis_completed2fafbProps,
+        special_rules_textda90e,
+        setspecial_rules_textda90e, 
+        special_rules_textda90eProps,
+        setspecial_rules_textda90eProps,
+        dynamic_icon8f352,
+        setdynamic_icon8f352, 
+        dynamic_icon8f352Props,
+        setdynamic_icon8f352Props,
+        rules_text55ce9,
+        setrules_text55ce9, 
+        rules_text55ce9Props,
+        setrules_text55ce9Props,
+        account_idc92b6,
+        setaccount_idc92b6, 
+        account_idc92b6Props,
+        setaccount_idc92b6Props,
+        venue_id063aa,
+        setvenue_id063aa, 
+        venue_id063aaProps,
+        setvenue_id063aaProps,
         documentviewer64771,
         setdocumentviewer64771, 
         documentviewer64771Props,
         setdocumentviewer64771Props,
-        advancesearch1e502,
-        setadvancesearch1e502, 
-        advancesearch1e502Props,
-        setadvancesearch1e502Props,
+        back_bt22897,
+        setback_bt22897, 
+        back_bt22897Props,
+        setback_bt22897Props,
+        craete_header_textae5d6,
+        setcraete_header_textae5d6, 
+        craete_header_textae5d6Props,
+        setcraete_header_textae5d6Props,
+        reeq_doc_text64f93,
+        setreeq_doc_text64f93, 
+        reeq_doc_text64f93Props,
+        setreeq_doc_text64f93Props,
+        attachment_idcc3f4,
+        setattachment_idcc3f4, 
+        attachment_idcc3f4Props,
+        setattachment_idcc3f4Props,
+        doc_name909a3,
+        setdoc_name909a3, 
+        doc_name909a3Props,
+        setdoc_name909a3Props,
+        view_button22ede,
+        setview_button22ede, 
+        view_button22edeProps,
+        setview_button22edeProps,
+        case_info_text1e3db,
+        setcase_info_text1e3db, 
+        case_info_text1e3dbProps,
+        setcase_info_text1e3dbProps,
+        debtor_name2af58,
+        setdebtor_name2af58, 
+        debtor_name2af58Props,
+        setdebtor_name2af58Props,
+        case_display_idd1272,
+        setcase_display_idd1272, 
+        case_display_idd1272Props,
+        setcase_display_idd1272Props,
+        ssn_maskedc4424,
+        setssn_maskedc4424, 
+        ssn_maskedc4424Props,
+        setssn_maskedc4424Props,
+        dob29785,
+        setdob29785, 
+        dob29785Props,
+        setdob29785Props,
+        address70906,
+        setaddress70906, 
+        address70906Props,
+        setaddress70906Props,
+        creditor_namea9b98,
+        setcreditor_namea9b98, 
+        creditor_namea9b98Props,
+        setcreditor_namea9b98Props,
+        charge_off_date763d0,
+        setcharge_off_date763d0, 
+        charge_off_date763d0Props,
+        setcharge_off_date763d0Props,
+        last_payment_date43bdb,
+        setlast_payment_date43bdb, 
+        last_payment_date43bdbProps,
+        setlast_payment_date43bdbProps,
+        dividere3c67,
+        setdividere3c67, 
+        dividere3c67Props,
+        setdividere3c67Props,
+        principal_text6883f,
+        setprincipal_text6883f, 
+        principal_text6883fProps,
+        setprincipal_text6883fProps,
+        principal65ef3,
+        setprincipal65ef3, 
+        principal65ef3Props,
+        setprincipal65ef3Props,
+        intrest_text3a919,
+        setintrest_text3a919, 
+        intrest_text3a919Props,
+        setintrest_text3a919Props,
+        interest783c4,
+        setinterest783c4, 
+        interest783c4Props,
+        setinterest783c4Props,
+        fees_text4a6b6,
+        setfees_text4a6b6, 
+        fees_text4a6b6Props,
+        setfees_text4a6b6Props,
+        feesab1fe,
+        setfeesab1fe, 
+        feesab1feProps,
+        setfeesab1feProps,
+        total_balance_text0b418,
+        settotal_balance_text0b418, 
+        total_balance_text0b418Props,
+        settotal_balance_text0b418Props,
+        total_balancee7e5f,
+        settotal_balancee7e5f, 
+        total_balancee7e5fProps,
+        settotal_balancee7e5fProps,
+        sol_expiry_date4dfe3,
+        setsol_expiry_date4dfe3, 
+        sol_expiry_date4dfe3Props,
+        setsol_expiry_date4dfe3Props,
+        ven_name_textf01f8,
+        setven_name_textf01f8, 
+        ven_name_textf01f8Props,
+        setven_name_textf01f8Props,
+        statea7e09,
+        setstatea7e09, 
+        statea7e09Props,
+        setstatea7e09Props,
+        dividersa774c,
+        setdividersa774c, 
+        dividersa774cProps,
+        setdividersa774cProps,
+        countrydb772,
+        setcountrydb772, 
+        countrydb772Props,
+        setcountrydb772Props,
+        dividerssaf051,
+        setdividerssaf051, 
+        dividerssaf051Props,
+        setdividerssaf051Props,
+        court_name7a5a6,
+        setcourt_name7a5a6, 
+        court_name7a5a6Props,
+        setcourt_name7a5a6Props,
+        dividersssbef5f,
+        setdividersssbef5f, 
+        dividersssbef5fProps,
+        setdividersssbef5fProps,
+        judge_name71e3e,
+        setjudge_name71e3e, 
+        judge_name71e3eProps,
+        setjudge_name71e3eProps,
+        dividerssss61d06,
+        setdividerssss61d06, 
+        dividerssss61d06Props,
+        setdividerssss61d06Props,
+        filing_fee144cd,
+        setfiling_fee144cd, 
+        filing_fee144cdProps,
+        setfiling_fee144cdProps,
+        dividersssssd333b,
+        setdividersssssd333b, 
+        dividersssssd333bProps,
+        setdividersssssd333bProps,
+        service_method48ac6,
+        setservice_method48ac6, 
+        service_method48ac6Props,
+        setservice_method48ac6Props,
+        dividerssssss06ce3,
+        setdividerssssss06ce3, 
+        dividerssssss06ce3Props,
+        setdividerssssss06ce3Props,
+        efiling_system964db,
+        setefiling_system964db, 
+        efiling_system964dbProps,
+        setefiling_system964dbProps,
+        valid_checklist_texta0e64,
+        setvalid_checklist_texta0e64, 
+        valid_checklist_texta0e64Props,
+        setvalid_checklist_texta0e64Props,
+        checklist_item_id5bd1d,
+        setchecklist_item_id5bd1d, 
+        checklist_item_id5bd1dProps,
+        setchecklist_item_id5bd1dProps,
+        item_name24046,
+        setitem_name24046, 
+        item_name24046Props,
+        setitem_name24046Props,
+        is_completed1fd36,
+        setis_completed1fd36, 
+        is_completed1fd36Props,
+        setis_completed1fd36Props,
+        special_rules_text24a29,
+        setspecial_rules_text24a29, 
+        special_rules_text24a29Props,
+        setspecial_rules_text24a29Props,
+        dynamic_iconc7b56,
+        setdynamic_iconc7b56, 
+        dynamic_iconc7b56Props,
+        setdynamic_iconc7b56Props,
+        rule_textdb2d4,
+        setrule_textdb2d4, 
+        rule_textdb2d4Props,
+        setrule_textdb2d4Props,
+        account_idcc45c,
+        setaccount_idcc45c, 
+        account_idcc45cProps,
+        setaccount_idcc45cProps,
+        craete_header_text26dc6,
+        setcraete_header_text26dc6, 
+        craete_header_text26dc6Props,
+        setcraete_header_text26dc6Props,
+        reeq_doc_text01111,
+        setreeq_doc_text01111, 
+        reeq_doc_text01111Props,
+        setreeq_doc_text01111Props,
+        attachment_id08b6e,
+        setattachment_id08b6e, 
+        attachment_id08b6eProps,
+        setattachment_id08b6eProps,
+        doc_nameedf63,
+        setdoc_nameedf63, 
+        doc_nameedf63Props,
+        setdoc_nameedf63Props,
+        view_buttoncb62a,
+        setview_buttoncb62a, 
+        view_buttoncb62aProps,
+        setview_buttoncb62aProps,
+        case_info_text53524,
+        setcase_info_text53524, 
+        case_info_text53524Props,
+        setcase_info_text53524Props,
+        debtor_namea603a,
+        setdebtor_namea603a, 
+        debtor_namea603aProps,
+        setdebtor_namea603aProps,
+        case_display_id3ba0a,
+        setcase_display_id3ba0a, 
+        case_display_id3ba0aProps,
+        setcase_display_id3ba0aProps,
+        ssn_masked36fce,
+        setssn_masked36fce, 
+        ssn_masked36fceProps,
+        setssn_masked36fceProps,
+        dob19a93,
+        setdob19a93, 
+        dob19a93Props,
+        setdob19a93Props,
+        address0e39e,
+        setaddress0e39e, 
+        address0e39eProps,
+        setaddress0e39eProps,
+        creditor_name04ffa,
+        setcreditor_name04ffa, 
+        creditor_name04ffaProps,
+        setcreditor_name04ffaProps,
+        charge_off_datef5bba,
+        setcharge_off_datef5bba, 
+        charge_off_datef5bbaProps,
+        setcharge_off_datef5bbaProps,
+        last_payment_date37076,
+        setlast_payment_date37076, 
+        last_payment_date37076Props,
+        setlast_payment_date37076Props,
+        divider9cfd3,
+        setdivider9cfd3, 
+        divider9cfd3Props,
+        setdivider9cfd3Props,
+        principal_textb6dc5,
+        setprincipal_textb6dc5, 
+        principal_textb6dc5Props,
+        setprincipal_textb6dc5Props,
+        principalae986,
+        setprincipalae986, 
+        principalae986Props,
+        setprincipalae986Props,
+        intrest_textfab09,
+        setintrest_textfab09, 
+        intrest_textfab09Props,
+        setintrest_textfab09Props,
+        interestf94e4,
+        setinterestf94e4, 
+        interestf94e4Props,
+        setinterestf94e4Props,
+        fees_textdf3db,
+        setfees_textdf3db, 
+        fees_textdf3dbProps,
+        setfees_textdf3dbProps,
+        feesd3a22,
+        setfeesd3a22, 
+        feesd3a22Props,
+        setfeesd3a22Props,
+        total_balance_texta06df,
+        settotal_balance_texta06df, 
+        total_balance_texta06dfProps,
+        settotal_balance_texta06dfProps,
+        total_balance92fd1,
+        settotal_balance92fd1, 
+        total_balance92fd1Props,
+        settotal_balance92fd1Props,
+        sol_expiry_date3775f,
+        setsol_expiry_date3775f, 
+        sol_expiry_date3775fProps,
+        setsol_expiry_date3775fProps,
+        ven_name_text4470c,
+        setven_name_text4470c, 
+        ven_name_text4470cProps,
+        setven_name_text4470cProps,
+        state10d95,
+        setstate10d95, 
+        state10d95Props,
+        setstate10d95Props,
+        dividers6822a,
+        setdividers6822a, 
+        dividers6822aProps,
+        setdividers6822aProps,
+        countryc8824,
+        setcountryc8824, 
+        countryc8824Props,
+        setcountryc8824Props,
+        dividerss8b343,
+        setdividerss8b343, 
+        dividerss8b343Props,
+        setdividerss8b343Props,
+        court_name70da0,
+        setcourt_name70da0, 
+        court_name70da0Props,
+        setcourt_name70da0Props,
+        dividersssd0216,
+        setdividersssd0216, 
+        dividersssd0216Props,
+        setdividersssd0216Props,
+        judge_name833b7,
+        setjudge_name833b7, 
+        judge_name833b7Props,
+        setjudge_name833b7Props,
+        dividerssss9e016,
+        setdividerssss9e016, 
+        dividerssss9e016Props,
+        setdividerssss9e016Props,
+        filing_fee9d0c4,
+        setfiling_fee9d0c4, 
+        filing_fee9d0c4Props,
+        setfiling_fee9d0c4Props,
+        dividersssss85652,
+        setdividersssss85652, 
+        dividersssss85652Props,
+        setdividersssss85652Props,
+        service_method926d2,
+        setservice_method926d2, 
+        service_method926d2Props,
+        setservice_method926d2Props,
+        dividerssssss7d379,
+        setdividerssssss7d379, 
+        dividerssssss7d379Props,
+        setdividerssssss7d379Props,
+        efiling_system056da,
+        setefiling_system056da, 
+        efiling_system056daProps,
+        setefiling_system056daProps,
+        valid_checklist_text6a0da,
+        setvalid_checklist_text6a0da, 
+        valid_checklist_text6a0daProps,
+        setvalid_checklist_text6a0daProps,
+        checklist_item_id27c72,
+        setchecklist_item_id27c72, 
+        checklist_item_id27c72Props,
+        setchecklist_item_id27c72Props,
+        item_name14346,
+        setitem_name14346, 
+        item_name14346Props,
+        setitem_name14346Props,
+        is_completeda9a9a,
+        setis_completeda9a9a, 
+        is_completeda9a9aProps,
+        setis_completeda9a9aProps,
+        special_rules_textdd5e9,
+        setspecial_rules_textdd5e9, 
+        special_rules_textdd5e9Props,
+        setspecial_rules_textdd5e9Props,
+        warning_icon83e9f,
+        setwarning_icon83e9f, 
+        warning_icon83e9fProps,
+        setwarning_icon83e9fProps,
+        rule_texta87d5,
+        setrule_texta87d5, 
+        rule_texta87d5Props,
+        setrule_texta87d5Props,
+        account_id8944a,
+        setaccount_id8944a, 
+        account_id8944aProps,
+        setaccount_id8944aProps,
+        cancel_btnc64a4,
+        setcancel_btnc64a4, 
+        cancel_btnc64a4Props,
+        setcancel_btnc64a4Props,
+        reject_btn27005,
+        setreject_btn27005, 
+        reject_btn27005Props,
+        setreject_btn27005Props,
+        pass_sign_btn916fa,
+        setpass_sign_btn916fa, 
+        pass_sign_btn916faProps,
+        setpass_sign_btn916faProps,
+        report_editor1140e,
+        setreport_editor1140e, 
+        report_editor1140eProps,
+        setreport_editor1140eProps,
+        lap_test_screen_texta85ad,
+        setlap_test_screen_texta85ad, 
+        lap_test_screen_texta85adProps,
+        setlap_test_screen_texta85adProps,
         ////// screen states 
-          dashboard_v1,
-          setdashboard_v1,
-          dashboard_v1Props,
-          setdashboard_v1Props,
+          newdashboard_v1,
+          setnewdashboard_v1,
+          newdashboard_v1Props,
+          setnewdashboard_v1Props,
+          amrqueuetable_v1,
+          setamrqueuetable_v1,
+          amrqueuetable_v1Props,
+          setamrqueuetable_v1Props,
           amrqueuesearch_v1,
           setamrqueuesearch_v1,
           amrqueuesearch_v1Props,
@@ -7707,18 +11776,30 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
           setaddcase_v1,
           addcase_v1Props,
           setaddcase_v1Props,
-          viewcase_v1,
-          setviewcase_v1,
-          viewcase_v1Props,
-          setviewcase_v1Props,
+          viewamrcase_v1,
+          setviewamrcase_v1,
+          viewamrcase_v1Props,
+          setviewamrcase_v1Props,
           documentviewer_v1,
           setdocumentviewer_v1,
           documentviewer_v1Props,
           setdocumentviewer_v1Props,
-          pendingfillingsearch_v1,
-          setpendingfillingsearch_v1,
-          pendingfillingsearch_v1Props,
-          setpendingfillingsearch_v1Props,
+          viewamrcasepggraph_v1,
+          setviewamrcasepggraph_v1,
+          viewamrcasepggraph_v1Props,
+          setviewamrcasepggraph_v1Props,
+          amrcaseapproval_v1,
+          setamrcaseapproval_v1,
+          amrcaseapproval_v1Props,
+          setamrcaseapproval_v1Props,
+          report_v1,
+          setreport_v1,
+          report_v1Props,
+          setreport_v1Props,
+          laptestscreen_v1,
+          setlaptestscreen_v1,
+          laptestscreen_v1Props,
+          setlaptestscreen_v1Props,
         //////////
 
         ///////// dfd
@@ -7740,10 +11821,14 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setdfd_doctable_v1Props,
         dfd_amrcheckliststatus_v1Props,
         setdfd_amrcheckliststatus_v1Props,
+        dfd_venuespecialrules_v1Props,
+        setdfd_venuespecialrules_v1Props,
         dfd_pendingfilingsdashboard_v1Props,
         setdfd_pendingfilingsdashboard_v1Props,
         dfd_cardsdashboard_v1Props,
         setdfd_cardsdashboard_v1Props,
+        dfd_reportcase_v1Props,
+        setdfd_reportcase_v1Props,
         refetch,
         setRefetch,
         searchParam,

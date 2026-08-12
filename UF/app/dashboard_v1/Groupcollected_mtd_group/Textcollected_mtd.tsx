@@ -6,12 +6,13 @@ import { Text } from '@/components/Text';
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import { AxiosService } from "@/app/components/axiosService";
 import { codeExecution } from '@/app/utils/codeExecution';
-import { deleteAllCookies,getCookie } from '@/app/components/cookieMgment';
+import { deleteAllCookies } from '@/app/components/cookieMgment';
+import { useGlobal } from '@/context/GlobalContext'
 import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,PaginationData,AllowedGroupNode,ActionDetails } from "@/types/global";
 import i18n from '@/app/components/i18n';
 
 const Textcollected_mtd = ({encryptionFlagCompData,isDynamic,item,index,setIsProcessing}:any) => {
-  const token: string = getCookie('token')
+  const { token } = useGlobal();
   const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
   const {dfd_cardsdashboard_v1Props, setdfd_cardsdashboard_v1Props} = useContext(TotalContext) as TotalContextProps; 
   const keyset:any=i18n.keyset("language");
@@ -22,43 +23,33 @@ const Textcollected_mtd = ({encryptionFlagCompData,isDynamic,item,index,setIsPro
   encryptionMethod  = encryptionMethod !=='' ? encryptionMethod: encryptionFlagCompData.method;
   /////////////
    //another screen
-  const {header_groupb1913, setheader_groupb1913}= useContext(TotalContext) as TotalContextProps;
-  const {header_groupb1913Props, setheader_groupb1913Props}= useContext(TotalContext) as TotalContextProps;
-  const {asset_dashboard_group4bbfe, setasset_dashboard_group4bbfe}= useContext(TotalContext) as TotalContextProps;
-  const {asset_dashboard_group4bbfeProps, setasset_dashboard_group4bbfeProps}= useContext(TotalContext) as TotalContextProps;
-  const {amr_queue_groupc92ca, setamr_queue_groupc92ca}= useContext(TotalContext) as TotalContextProps;
-  const {amr_queue_groupc92caProps, setamr_queue_groupc92caProps}= useContext(TotalContext) as TotalContextProps;
-  const {pending_file_groupffe32, setpending_file_groupffe32}= useContext(TotalContext) as TotalContextProps;
-  const {pending_file_groupffe32Props, setpending_file_groupffe32Props}= useContext(TotalContext) as TotalContextProps;
-  const {service_pending_group7ba93, setservice_pending_group7ba93}= useContext(TotalContext) as TotalContextProps;
-  const {service_pending_group7ba93Props, setservice_pending_group7ba93Props}= useContext(TotalContext) as TotalContextProps;
-  const {slas_at_risk_group23eb4, setslas_at_risk_group23eb4}= useContext(TotalContext) as TotalContextProps;
-  const {slas_at_risk_group23eb4Props, setslas_at_risk_group23eb4Props}= useContext(TotalContext) as TotalContextProps;
-  const {court_rejection_groupc9d54, setcourt_rejection_groupc9d54}= useContext(TotalContext) as TotalContextProps;
-  const {court_rejection_groupc9d54Props, setcourt_rejection_groupc9d54Props}= useContext(TotalContext) as TotalContextProps;
-  const {collected_mtd_group7b7b5, setcollected_mtd_group7b7b5}= useContext(TotalContext) as TotalContextProps;
-  const {collected_mtd_group7b7b5Props, setcollected_mtd_group7b7b5Props}= useContext(TotalContext) as TotalContextProps;
-  const {collected_mtd_text4d825, setcollected_mtd_text4d825}= useContext(TotalContext) as TotalContextProps;
-  const {iconaff33, seticonaff33}= useContext(TotalContext) as TotalContextProps;
-  const {collected_mtdab52b, setcollected_mtdab52b}= useContext(TotalContext) as TotalContextProps;
-  const {collected_mtd_descfffed, setcollected_mtd_descfffed}= useContext(TotalContext) as TotalContextProps;
-  const {table_group112bd, settable_group112bd}= useContext(TotalContext) as TotalContextProps;
-  const {table_group112bdProps, settable_group112bdProps}= useContext(TotalContext) as TotalContextProps;
-  const {subscreene9ab5, setsubscreene9ab5}= useContext(TotalContext) as TotalContextProps;
-  const {subscreene9ab5Props, setsubscreene9ab5Props}= useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797, setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797}= useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797Props, setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797Props}= useContext(TotalContext) as TotalContextProps;
-  const {group28176, setgroup28176}= useContext(TotalContext) as TotalContextProps;
-  const {group28176Props, setgroup28176Props}= useContext(TotalContext) as TotalContextProps;
-  const {table852e3, settable852e3}= useContext(TotalContext) as TotalContextProps;
-  const {table852e3Props, settable852e3Props}= useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da, setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da}= useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8daProps, setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8daProps}= useContext(TotalContext) as TotalContextProps;
-  const {pending_fillings_groupb1568, setpending_fillings_groupb1568}= useContext(TotalContext) as TotalContextProps;
-  const {pending_fillings_groupb1568Props, setpending_fillings_groupb1568Props}= useContext(TotalContext) as TotalContextProps;
-  const {pending_fillings_table11279, setpending_fillings_table11279}= useContext(TotalContext) as TotalContextProps;
-  const {pending_fillings_table11279Props, setpending_fillings_table11279Props}= useContext(TotalContext) as TotalContextProps;
-  const {collected_mtdab52bProps, setcollected_mtdab52bProps} = useContext(TotalContext) as TotalContextProps;
+  const {header_groupd8ba9, setheader_groupd8ba9}= useContext(TotalContext) as TotalContextProps;
+  const {header_groupd8ba9Props, setheader_groupd8ba9Props}= useContext(TotalContext) as TotalContextProps;
+  const {asset_dashboard_group1aa03, setasset_dashboard_group1aa03}= useContext(TotalContext) as TotalContextProps;
+  const {asset_dashboard_group1aa03Props, setasset_dashboard_group1aa03Props}= useContext(TotalContext) as TotalContextProps;
+  const {amr_queue_group3c082, setamr_queue_group3c082}= useContext(TotalContext) as TotalContextProps;
+  const {amr_queue_group3c082Props, setamr_queue_group3c082Props}= useContext(TotalContext) as TotalContextProps;
+  const {pending_file_group2128c, setpending_file_group2128c}= useContext(TotalContext) as TotalContextProps;
+  const {pending_file_group2128cProps, setpending_file_group2128cProps}= useContext(TotalContext) as TotalContextProps;
+  const {service_pending_group8c0ca, setservice_pending_group8c0ca}= useContext(TotalContext) as TotalContextProps;
+  const {service_pending_group8c0caProps, setservice_pending_group8c0caProps}= useContext(TotalContext) as TotalContextProps;
+  const {slas_at_risk_group1f8c0, setslas_at_risk_group1f8c0}= useContext(TotalContext) as TotalContextProps;
+  const {slas_at_risk_group1f8c0Props, setslas_at_risk_group1f8c0Props}= useContext(TotalContext) as TotalContextProps;
+  const {court_rejection_groupdf57a, setcourt_rejection_groupdf57a}= useContext(TotalContext) as TotalContextProps;
+  const {court_rejection_groupdf57aProps, setcourt_rejection_groupdf57aProps}= useContext(TotalContext) as TotalContextProps;
+  const {collected_mtd_group0f074, setcollected_mtd_group0f074}= useContext(TotalContext) as TotalContextProps;
+  const {collected_mtd_group0f074Props, setcollected_mtd_group0f074Props}= useContext(TotalContext) as TotalContextProps;
+  const {collected_mtd_textf5ff3, setcollected_mtd_textf5ff3}= useContext(TotalContext) as TotalContextProps;
+  const {iconb9347, seticonb9347}= useContext(TotalContext) as TotalContextProps;
+  const {collected_mtd65ae0, setcollected_mtd65ae0}= useContext(TotalContext) as TotalContextProps;
+  const {collected_mtd_desc21bcb, setcollected_mtd_desc21bcb}= useContext(TotalContext) as TotalContextProps;
+  const {overall_key_performance_indicatorsc2711, setoverall_key_performance_indicatorsc2711}= useContext(TotalContext) as TotalContextProps;
+  const {overall_key_performance_indicatorsc2711Props, setoverall_key_performance_indicatorsc2711Props}= useContext(TotalContext) as TotalContextProps;
+  const {key_performance_indicator_groupf9eaf, setkey_performance_indicator_groupf9eaf}= useContext(TotalContext) as TotalContextProps;
+  const {key_performance_indicator_groupf9eafProps, setkey_performance_indicator_groupf9eafProps}= useContext(TotalContext) as TotalContextProps;
+  const {recent_activity_group91db6, setrecent_activity_group91db6}= useContext(TotalContext) as TotalContextProps;
+  const {recent_activity_group91db6Props, setrecent_activity_group91db6Props}= useContext(TotalContext) as TotalContextProps;
+  const {collected_mtd65ae0Props, setcollected_mtd65ae0Props} = useContext(TotalContext) as TotalContextProps;
   //////////////
 
   const handleMapperValue=async(filterProps?:any,filterFlag?:boolean)=>{
@@ -82,7 +73,7 @@ const Textcollected_mtd = ({encryptionFlagCompData,isDynamic,item,index,setIsPro
             }
           }
         )
-        setcollected_mtd_group7b7b5((pre: any) => ({
+        setcollected_mtd_group0f074((pre: any) => ({
           ...pre,
           collected_mtd: api_paginationData.data.records?.length > 0
             ? api_paginationData.data.records[0]?.collected_mtd
@@ -91,14 +82,14 @@ const Textcollected_mtd = ({encryptionFlagCompData,isDynamic,item,index,setIsPro
       }
       else{
       if(filterFlag){
-        setcollected_mtd_group7b7b5((pre: any) => ({
+        setcollected_mtd_group0f074((pre: any) => ({
           ...pre,
-          collected_mtd: collected_mtdab52bProps?.filteredData?.length > 0
-            ? collected_mtdab52bProps?.filteredData[0]?.collected_mtd
+          collected_mtd: collected_mtd65ae0Props?.filteredData?.length > 0
+            ? collected_mtd65ae0Props?.filteredData[0]?.collected_mtd
             : "0"
         }))
-      }else if(Array.isArray(dfd_cardsdashboard_v1Props) && dfd_cardsdashboard_v1Props && !collected_mtd_group7b7b5.collected_mtd){
-        setcollected_mtd_group7b7b5((pre:any)=>({...pre,collected_mtd:dfd_cardsdashboard_v1Props[0]?.collected_mtd}));
+      }else if(Array.isArray(dfd_cardsdashboard_v1Props) && dfd_cardsdashboard_v1Props && !collected_mtd_group0f074.collected_mtd){
+        setcollected_mtd_group0f074((pre:any)=>({...pre,collected_mtd:dfd_cardsdashboard_v1Props[0]?.collected_mtd}));
       }
       }
     }catch(err){
@@ -108,21 +99,21 @@ const Textcollected_mtd = ({encryptionFlagCompData,isDynamic,item,index,setIsPro
 
   useEffect(()=>{
     handleMapperValue()
-  },[collected_mtdab52b?.refresh])
+  },[collected_mtd65ae0?.refresh])
 
   useEffect(() => {
-  if(Array.isArray(dfd_cardsdashboard_v1Props) && !collected_mtd_group7b7b5.collected_mtd){
-    setcollected_mtd_group7b7b5((pre:any)=>({...pre,collected_mtd:dfd_cardsdashboard_v1Props[0]?.collected_mtd}));
+  if(Array.isArray(dfd_cardsdashboard_v1Props) && !collected_mtd_group0f074.collected_mtd){
+    setcollected_mtd_group0f074((pre:any)=>({...pre,collected_mtd:dfd_cardsdashboard_v1Props[0]?.collected_mtd}));
   }
   },[dfd_cardsdashboard_v1Props])
 
   // setSearchFilters
   useEffect(() => {
-    if (!collected_mtdab52bProps?.filterProps) return;
-    handleMapperValue(collected_mtdab52bProps?.filterProps,collected_mtdab52bProps?.filterFlag);
-  },[collected_mtdab52bProps?.filterProps])
+    if (!collected_mtd65ae0Props?.filterProps) return;
+    handleMapperValue(collected_mtd65ae0Props?.filterProps,collected_mtd65ae0Props?.filterFlag);
+  },[collected_mtd65ae0Props?.filterProps])
 
-  if (collected_mtdab52b?.isHidden) {
+  if (collected_mtd65ae0?.isHidden) {
     return <></>
   }
 
@@ -134,7 +125,7 @@ return (
   variant="subheader-2"
   color="primary"
 >
-      {keyset(isDynamic ? item?.collected_mtd : (collected_mtd_group7b7b5?.collected_mtd || ""))}
+      {keyset(isDynamic ? item?.collected_mtd : (collected_mtd_group0f074?.collected_mtd || ""))}
 </Text>
   </div>
   )

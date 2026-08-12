@@ -7,9 +7,10 @@ import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import { AxiosService } from "@/app/components/axiosService";
 import { getGroupOrchestrationData, getControlOrchestrationData } from '@/app/utils/Orchestration';
 import { codeExecution } from '@/app/utils/codeExecution';
-import { deleteAllCookies,getCookie } from '@/app/components/cookieMgment';
+import { deleteAllCookies } from '@/app/components/cookieMgment';
+import { useGlobal } from '@/context/GlobalContext'
 const Iconwarningss_icons = ({encryptionFlagCompData,setIsProcessing,controlData}:any) => {
-  const token:string = getCookie('token'); 
+  const { token } = useGlobal();
   const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps
   const encryptionFlagCont: boolean = encryptionFlagCompData.flag || false ;
   let encryptionDpd: string = "";

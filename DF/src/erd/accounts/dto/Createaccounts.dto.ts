@@ -91,6 +91,9 @@ export class  CreateaccountsDto {
         })
         @IsOptional()
         queue_position?: number;
+        @ApiPropertyOptional()
+        @IsOptional()
+        account_case_id?: string;
         @ApiProperty({
             type: `string`,
             format: `date-time`,

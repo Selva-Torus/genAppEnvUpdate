@@ -55,13 +55,58 @@ const ContextSelector = () => {
   const [selectedRole, setSelectedRole] = useState<Record<string, string>>({})
   const [orgGrpData, setOrgGrpData] = useState<any>([])
   const [isPending, startTransition] = useTransition();  
-  let landingScreen:string = 'User Screen';
+  let landingScreen:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1';
   let screenDetails: any = {
            keys:[
   {
     "screenName": "dashboard",
     "screensName": "dashboard-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1"
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
+  },
+  {
+    "screenName": "report",
+    "screensName": "report-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1"
+  },
+  {
+    "screenName": "filing packages",
+    "screensName": "filing_packages-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+  },
+  {
+    "screenName": "submissions hub",
+    "screensName": "submissions_hub-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+  },
+  {
+    "screenName": "service tracking",
+    "screensName": "service_tracking-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+  },
+  {
+    "screenName": "judgments",
+    "screensName": "judgments-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+  },
+  {
+    "screenName": "enforcement",
+    "screensName": "enforcement-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+  },
+  {
+    "screenName": "kill-switch control",
+    "screensName": "kill-switch_control-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+  },
+  {
+    "screenName": "compliance",
+    "screensName": "compliance-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+  },
+  {
+    "screenName": "analytics",
+    "screensName": "analytics-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   }
 ]
   }
@@ -82,14 +127,14 @@ const ContextSelector = () => {
   }
 
   const introspect = async () => {
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-  const res = await fetch(`${basePath}/next-api/auth/introspect?key=context-selector`)
-  if (!res.ok) {
-    logout()
-    return
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+    const res = await fetch(`${basePath}/next-api/auth/introspect?key=context-selector`)
+    if (!res.ok) {
+      logout()
+      return
+    }
+    router.refresh()
   }
-  router.refresh()
-}
 
   const logout = () => {
     localStorage.clear();
@@ -243,16 +288,18 @@ const ContextSelector = () => {
     }
     setLoading(true)
     try {
-   const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''; 
-   const res = await axios.post(`${basePath}/next-api/auth/get-access-token`, {
-        selectedCombination: selectedCombo,
-        selectedAccessProfile: selectedAccessProfile[0],
-        dap:
-          accessProfiles.find(
-            item => item.accessProfile === selectedAccessProfile[0]
-          )?.dap ?? undefined,
-        ufClientType: 'UFW'
-      })
+     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''; 
+     const res = await axios.post(`${basePath}/next-api/auth/get-access-token`, 
+        {
+          selectedCombination: selectedCombo,
+          selectedAccessProfile: selectedAccessProfile[0],
+          dap:
+            accessProfiles.find(
+              item => item.accessProfile === selectedAccessProfile[0]
+            )?.dap ?? undefined,
+          ufClientType: 'UFW'
+        }
+)
       if (res.status == 200) {
         setCookie(
           'tp_ps',

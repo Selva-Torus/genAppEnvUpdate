@@ -21,6 +21,7 @@ import React, { useEffect, useState,useContext, useRef, useImperativeHandle } fr
 import { AxiosService } from '@/app/components/axiosService';
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
 import { getCookie } from "@/app/components/cookieMgment";
+import { useGlobal } from '@/context/GlobalContext'
 import { nullFilter } from '@/app/utils/nullDataFilter';
 import { codeExecution, validatedCondition } from '@/app/utils/codeExecution';
 import {
@@ -125,7 +126,7 @@ let mapperData:any;
 let schemaDataDFO:any;
 let filterPropsData:any;
 const Tabledoc_type_table = ({ headerButtonsRenders=()=>{return<></>},headerPosition="",headerText="",lockedData,setLockedData,tableData, setTableData,primaryTableData, setPrimaryTableData,checkToAdd,setCheckToAdd,refetch, setRefetch,setData,encryptionFlagCompData,paginationDetails,open, setOpen, ref, ButtonGoRuleData, setButtonGoRuleData,setIsProcessing,groupData,controlData}: any)=>{
-  const token: string | any = getCookie('token');
+  const { token } = useGlobal();
   const tableName = "document_types"
   const decodedTokenObj: any = decodeToken(token);
   const {globalState , setGlobalState} = useContext(TotalContext) as TotalContextProps

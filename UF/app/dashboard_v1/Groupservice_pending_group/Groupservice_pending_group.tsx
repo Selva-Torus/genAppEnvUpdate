@@ -23,13 +23,13 @@ import Iconicon_warranty_expiring  from "./Iconicon_warranty_expiring";
 import Textservice_pending  from "./Textservice_pending";
 import Textservice_pending_desc  from "./Textservice_pending_desc";
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
-import { getCookie } from "@/app/components/cookieMgment";
+import { useGlobal } from '@/context/GlobalContext'
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import { useTheme } from '@/hooks/useTheme';
 
 
 const Groupservice_pending_group = ({lockedData={},setLockedData,primaryTableData={},tableData=[],setTableData, setPrimaryTableData,checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFlagPageData, nodeData, setNodeData,paginationDetails,isFormOpen=false,setIsProcessing, groupData: groupDataProp={}, controlData: controlDataProp={}}:any)=> {
-  const token:string = getCookie('token'); 
+  const { token } = useGlobal();
   const decodedTokenObj:any = decodeToken(token);
   const user : string | undefined = decodedTokenObj?.selectedAccessProfile;
   const {refresh, setRefresh} = useContext(TotalContext) as TotalContextProps;
@@ -76,14 +76,9 @@ const Groupservice_pending_group = ({lockedData={},setLockedData,primaryTableDat
       "slas_at_risk_group",
       "court_rejection_group",
       "collected_mtd_group",
-      "table_group",
-      "subscreen",
-      "ct006_af_uf_ufws_lap_lap_amrqueuetable_v1",
-      "group",
-      "table",
-      "ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1",
-      "pending_fillings_group",
-      "pending_fillings_table"
+      "overall_key_performance_indicators",
+      "key_performance_indicator_group",
+      "recent_activity_group"
     ],
     "blockedControls": [],
     "readOnlyControls": []
@@ -105,14 +100,9 @@ const Groupservice_pending_group = ({lockedData={},setLockedData,primaryTableDat
       "slas_at_risk_group",
       "court_rejection_group",
       "collected_mtd_group",
-      "table_group",
-      "subscreen",
-      "ct006_af_uf_ufws_lap_lap_amrqueuetable_v1",
-      "group",
-      "table",
-      "ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1",
-      "pending_fillings_group",
-      "pending_fillings_table"
+      "overall_key_performance_indicators",
+      "key_performance_indicator_group",
+      "recent_activity_group"
     ],
     "blockedControls": [],
     "readOnlyControls": []
@@ -131,52 +121,42 @@ const Groupservice_pending_group = ({lockedData={},setLockedData,primaryTableDat
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
  /////////////
    //another screen
-  const {header_groupb1913, setheader_groupb1913}= useContext(TotalContext) as TotalContextProps;
-  const {header_groupb1913Props, setheader_groupb1913Props}= useContext(TotalContext) as TotalContextProps;
-  const {asset_dashboard_group4bbfe, setasset_dashboard_group4bbfe}= useContext(TotalContext) as TotalContextProps;
-  const {asset_dashboard_group4bbfeProps, setasset_dashboard_group4bbfeProps}= useContext(TotalContext) as TotalContextProps;
-  const {amr_queue_groupc92ca, setamr_queue_groupc92ca}= useContext(TotalContext) as TotalContextProps;
-  const {amr_queue_groupc92caProps, setamr_queue_groupc92caProps}= useContext(TotalContext) as TotalContextProps;
-  const {pending_file_groupffe32, setpending_file_groupffe32}= useContext(TotalContext) as TotalContextProps;
-  const {pending_file_groupffe32Props, setpending_file_groupffe32Props}= useContext(TotalContext) as TotalContextProps;
-  const {service_pending_group7ba93, setservice_pending_group7ba93}= useContext(TotalContext) as TotalContextProps;
-  const {service_pending_group7ba93Props, setservice_pending_group7ba93Props}= useContext(TotalContext) as TotalContextProps;
-  const {service_pending_text5cc58, setservice_pending_text5cc58}= useContext(TotalContext) as TotalContextProps;
-  const {icon_warranty_expiring6d299, seticon_warranty_expiring6d299}= useContext(TotalContext) as TotalContextProps;
-  const {service_pending918f0, setservice_pending918f0}= useContext(TotalContext) as TotalContextProps;
-  const {service_pending_descabf48, setservice_pending_descabf48}= useContext(TotalContext) as TotalContextProps;
-  const {slas_at_risk_group23eb4, setslas_at_risk_group23eb4}= useContext(TotalContext) as TotalContextProps;
-  const {slas_at_risk_group23eb4Props, setslas_at_risk_group23eb4Props}= useContext(TotalContext) as TotalContextProps;
-  const {court_rejection_groupc9d54, setcourt_rejection_groupc9d54}= useContext(TotalContext) as TotalContextProps;
-  const {court_rejection_groupc9d54Props, setcourt_rejection_groupc9d54Props}= useContext(TotalContext) as TotalContextProps;
-  const {collected_mtd_group7b7b5, setcollected_mtd_group7b7b5}= useContext(TotalContext) as TotalContextProps;
-  const {collected_mtd_group7b7b5Props, setcollected_mtd_group7b7b5Props}= useContext(TotalContext) as TotalContextProps;
-  const {table_group112bd, settable_group112bd}= useContext(TotalContext) as TotalContextProps;
-  const {table_group112bdProps, settable_group112bdProps}= useContext(TotalContext) as TotalContextProps;
-  const {subscreene9ab5, setsubscreene9ab5}= useContext(TotalContext) as TotalContextProps;
-  const {subscreene9ab5Props, setsubscreene9ab5Props}= useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797, setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797}= useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797Props, setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797Props}= useContext(TotalContext) as TotalContextProps;
-  const {group28176, setgroup28176}= useContext(TotalContext) as TotalContextProps;
-  const {group28176Props, setgroup28176Props}= useContext(TotalContext) as TotalContextProps;
-  const {table852e3, settable852e3}= useContext(TotalContext) as TotalContextProps;
-  const {table852e3Props, settable852e3Props}= useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da, setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da}= useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8daProps, setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8daProps}= useContext(TotalContext) as TotalContextProps;
-  const {pending_fillings_groupb1568, setpending_fillings_groupb1568}= useContext(TotalContext) as TotalContextProps;
-  const {pending_fillings_groupb1568Props, setpending_fillings_groupb1568Props}= useContext(TotalContext) as TotalContextProps;
-  const {pending_fillings_table11279, setpending_fillings_table11279}= useContext(TotalContext) as TotalContextProps;
-  const {pending_fillings_table11279Props, setpending_fillings_table11279Props}= useContext(TotalContext) as TotalContextProps;
+  const {header_groupd8ba9, setheader_groupd8ba9}= useContext(TotalContext) as TotalContextProps;
+  const {header_groupd8ba9Props, setheader_groupd8ba9Props}= useContext(TotalContext) as TotalContextProps;
+  const {asset_dashboard_group1aa03, setasset_dashboard_group1aa03}= useContext(TotalContext) as TotalContextProps;
+  const {asset_dashboard_group1aa03Props, setasset_dashboard_group1aa03Props}= useContext(TotalContext) as TotalContextProps;
+  const {amr_queue_group3c082, setamr_queue_group3c082}= useContext(TotalContext) as TotalContextProps;
+  const {amr_queue_group3c082Props, setamr_queue_group3c082Props}= useContext(TotalContext) as TotalContextProps;
+  const {pending_file_group2128c, setpending_file_group2128c}= useContext(TotalContext) as TotalContextProps;
+  const {pending_file_group2128cProps, setpending_file_group2128cProps}= useContext(TotalContext) as TotalContextProps;
+  const {service_pending_group8c0ca, setservice_pending_group8c0ca}= useContext(TotalContext) as TotalContextProps;
+  const {service_pending_group8c0caProps, setservice_pending_group8c0caProps}= useContext(TotalContext) as TotalContextProps;
+  const {service_pending_textb9d5c, setservice_pending_textb9d5c}= useContext(TotalContext) as TotalContextProps;
+  const {icon_warranty_expiringa065e, seticon_warranty_expiringa065e}= useContext(TotalContext) as TotalContextProps;
+  const {service_pending0898e, setservice_pending0898e}= useContext(TotalContext) as TotalContextProps;
+  const {service_pending_desc91c8a, setservice_pending_desc91c8a}= useContext(TotalContext) as TotalContextProps;
+  const {slas_at_risk_group1f8c0, setslas_at_risk_group1f8c0}= useContext(TotalContext) as TotalContextProps;
+  const {slas_at_risk_group1f8c0Props, setslas_at_risk_group1f8c0Props}= useContext(TotalContext) as TotalContextProps;
+  const {court_rejection_groupdf57a, setcourt_rejection_groupdf57a}= useContext(TotalContext) as TotalContextProps;
+  const {court_rejection_groupdf57aProps, setcourt_rejection_groupdf57aProps}= useContext(TotalContext) as TotalContextProps;
+  const {collected_mtd_group0f074, setcollected_mtd_group0f074}= useContext(TotalContext) as TotalContextProps;
+  const {collected_mtd_group0f074Props, setcollected_mtd_group0f074Props}= useContext(TotalContext) as TotalContextProps;
+  const {overall_key_performance_indicatorsc2711, setoverall_key_performance_indicatorsc2711}= useContext(TotalContext) as TotalContextProps;
+  const {overall_key_performance_indicatorsc2711Props, setoverall_key_performance_indicatorsc2711Props}= useContext(TotalContext) as TotalContextProps;
+  const {key_performance_indicator_groupf9eaf, setkey_performance_indicator_groupf9eaf}= useContext(TotalContext) as TotalContextProps;
+  const {key_performance_indicator_groupf9eafProps, setkey_performance_indicator_groupf9eafProps}= useContext(TotalContext) as TotalContextProps;
+  const {recent_activity_group91db6, setrecent_activity_group91db6}= useContext(TotalContext) as TotalContextProps;
+  const {recent_activity_group91db6Props, setrecent_activity_group91db6Props}= useContext(TotalContext) as TotalContextProps;
   //////////////
   const [ruleData,setRuleData]=useState<any>([])
   const [open, setOpen] = React.useState(false);
-  const {dashboard_v1, setdashboard_v1} = useContext(TotalContext) as TotalContextProps;
+  const {newdashboard_v1, setnewdashboard_v1} = useContext(TotalContext) as TotalContextProps;
   const checkOrchestrationData = async (): Promise<{ groupData: any; controlData: any }> => {
   if (Object.keys(groupData).length > 0) {
     return { groupData, controlData } 
   };
   const data: any = await fetchBatchData(
-    'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1',
+    'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1',
     [user],
     'GroupServicePendingGroup',
     token
@@ -188,7 +168,7 @@ const Groupservice_pending_group = ({lockedData={},setLockedData,primaryTableDat
   };
   async function securityCheck() {
   const { groupData: currentGroupData } = await checkOrchestrationData();
-  let orchestrationData:any = getGroupOrchestrationData(currentGroupData, "cf68438e916308ff067822841917ba93");
+  let orchestrationData:any = getGroupOrchestrationData(currentGroupData, "fd5e45a7a8ad5bf43820af249118c0ca");
   code = orchestrationData?.data?.code;
   setAllCode(code)
   const security:any[] = orchestrationData?.data?.security;
@@ -201,7 +181,7 @@ const Groupservice_pending_group = ({lockedData={},setLockedData,primaryTableDat
   setAllowedComponent(allowedGroups) 
   if(orchestrationData?.data?.rule?.nodes?.length > 0){
     setRuleData(orchestrationData?.data?.rule?.nodes)
-    setservice_pending_group7ba93Props((pre:any)=>({...pre,isHaveRule:true}))
+    setservice_pending_group8c0caProps((pre:any)=>({...pre,isHaveRule:true}))
     let schemaFlag:any = evaluateDecisionTable(orchestrationData?.data?.rule.nodes,{},{...decodedTokenObj});
     if (schemaFlag.output) {
       setShowFlag(schemaFlag.output.toLowerCase());
@@ -212,120 +192,100 @@ const Groupservice_pending_group = ({lockedData={},setLockedData,primaryTableDat
     
   /////////////
     if(orchestrationData?.data?.readableControls.includes("service_pending_text")){
-        setservice_pending_text5cc58((pre:any)=>({...pre,isDisabled:true}));
+        setservice_pending_textb9d5c((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(service_pending_text5cc58?.isDisabled==null)
+      if(service_pending_textb9d5c?.isDisabled==null)
       {
-        setservice_pending_text5cc58((pre:any)=>({...pre,isDisabled:false}));
+        setservice_pending_textb9d5c((pre:any)=>({...pre,isDisabled:false}));
       }
     }
     if(orchestrationData?.data?.readableControls.includes("icon_warranty_expiring")){
-        seticon_warranty_expiring6d299((pre:any)=>({...pre,isDisabled:true}));
+        seticon_warranty_expiringa065e((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(icon_warranty_expiring6d299?.isDisabled==null)
+      if(icon_warranty_expiringa065e?.isDisabled==null)
       {
-        seticon_warranty_expiring6d299((pre:any)=>({...pre,isDisabled:false}));
+        seticon_warranty_expiringa065e((pre:any)=>({...pre,isDisabled:false}));
       }
     }
     if(orchestrationData?.data?.readableControls.includes("service_pending")){
-        setservice_pending918f0((pre:any)=>({...pre,isDisabled:true}));
+        setservice_pending0898e((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(service_pending918f0?.isDisabled==null)
+      if(service_pending0898e?.isDisabled==null)
       {
-        setservice_pending918f0((pre:any)=>({...pre,isDisabled:false}));
+        setservice_pending0898e((pre:any)=>({...pre,isDisabled:false}));
       }
     }
     if(orchestrationData?.data?.readableControls.includes("service_pending_desc")){
-        setservice_pending_descabf48((pre:any)=>({...pre,isDisabled:true}));
+        setservice_pending_desc91c8a((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(service_pending_descabf48?.isDisabled==null)
+      if(service_pending_desc91c8a?.isDisabled==null)
       {
-        setservice_pending_descabf48((pre:any)=>({...pre,isDisabled:false}));
+        setservice_pending_desc91c8a((pre:any)=>({...pre,isDisabled:false}));
       }
     }
   //////////////
     if (code != '') {
       let codeStates: any = {};
-        codeStates['header_group'] = header_groupb1913,
-        codeStates['setheader_group'] = setheader_groupb1913,
-        codeStates['header_groupb1913'] = header_groupb1913Props,
-        codeStates['setheader_groupb1913'] = setheader_groupb1913Props,
-        codeStates['asset_dashboard_group'] = asset_dashboard_group4bbfe,
-        codeStates['setasset_dashboard_group'] = setasset_dashboard_group4bbfe,
-        codeStates['asset_dashboard_group4bbfe'] = asset_dashboard_group4bbfeProps,
-        codeStates['setasset_dashboard_group4bbfe'] = setasset_dashboard_group4bbfeProps,
-        codeStates['amr_queue_group'] = amr_queue_groupc92ca,
-        codeStates['setamr_queue_group'] = setamr_queue_groupc92ca,
-        codeStates['amr_queue_groupc92ca'] = amr_queue_groupc92caProps,
-        codeStates['setamr_queue_groupc92ca'] = setamr_queue_groupc92caProps,
-        codeStates['pending_file_group'] = pending_file_groupffe32,
-        codeStates['setpending_file_group'] = setpending_file_groupffe32,
-        codeStates['pending_file_groupffe32'] = pending_file_groupffe32Props,
-        codeStates['setpending_file_groupffe32'] = setpending_file_groupffe32Props,
-        codeStates['service_pending_group'] = service_pending_group7ba93,
-        codeStates['setservice_pending_group'] = setservice_pending_group7ba93,
-        codeStates['service_pending_group7ba93'] = service_pending_group7ba93Props,
-        codeStates['setservice_pending_group7ba93'] = setservice_pending_group7ba93Props,
-        codeStates['service_pending_text'] = service_pending_text5cc58,
-        codeStates['setservice_pending_text'] = setservice_pending_text5cc58,
-        codeStates['icon_warranty_expiring'] = icon_warranty_expiring6d299,
-        codeStates['seticon_warranty_expiring'] = seticon_warranty_expiring6d299,
-        codeStates['service_pending'] = service_pending918f0,
-        codeStates['setservice_pending'] = setservice_pending918f0,
-        codeStates['service_pending_desc'] = service_pending_descabf48,
-        codeStates['setservice_pending_desc'] = setservice_pending_descabf48,
-        codeStates['slas_at_risk_group'] = slas_at_risk_group23eb4,
-        codeStates['setslas_at_risk_group'] = setslas_at_risk_group23eb4,
-        codeStates['slas_at_risk_group23eb4'] = slas_at_risk_group23eb4Props,
-        codeStates['setslas_at_risk_group23eb4'] = setslas_at_risk_group23eb4Props,
-        codeStates['court_rejection_group'] = court_rejection_groupc9d54,
-        codeStates['setcourt_rejection_group'] = setcourt_rejection_groupc9d54,
-        codeStates['court_rejection_groupc9d54'] = court_rejection_groupc9d54Props,
-        codeStates['setcourt_rejection_groupc9d54'] = setcourt_rejection_groupc9d54Props,
-        codeStates['collected_mtd_group'] = collected_mtd_group7b7b5,
-        codeStates['setcollected_mtd_group'] = setcollected_mtd_group7b7b5,
-        codeStates['collected_mtd_group7b7b5'] = collected_mtd_group7b7b5Props,
-        codeStates['setcollected_mtd_group7b7b5'] = setcollected_mtd_group7b7b5Props,
-        codeStates['table_group'] = table_group112bd,
-        codeStates['settable_group'] = settable_group112bd,
-        codeStates['table_group112bd'] = table_group112bdProps,
-        codeStates['settable_group112bd'] = settable_group112bdProps,
-        codeStates['subscreen'] = subscreene9ab5,
-        codeStates['setsubscreen'] = setsubscreene9ab5,
-        codeStates['subscreene9ab5'] = subscreene9ab5Props,
-        codeStates['setsubscreene9ab5'] = setsubscreene9ab5Props,
-        codeStates['ct006_af_uf_ufws_lap_lap_amrqueuetable_v1'] = ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797,
-        codeStates['setct006_af_uf_ufws_lap_lap_amrqueuetable_v1'] = setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797,
-        codeStates['ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797'] = ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797Props,
-        codeStates['setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797'] = setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797Props,
-        codeStates['group'] = group28176,
-        codeStates['setgroup'] = setgroup28176,
-        codeStates['group28176'] = group28176Props,
-        codeStates['setgroup28176'] = setgroup28176Props,
-        codeStates['table'] = table852e3,
-        codeStates['settable'] = settable852e3,
-        codeStates['table852e3'] = table852e3Props,
-        codeStates['settable852e3'] = settable852e3Props,
-        codeStates['ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1'] = ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da,
-        codeStates['setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1'] = setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da,
-        codeStates['ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da'] = ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8daProps,
-        codeStates['setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da'] = setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8daProps,
-        codeStates['pending_fillings_group'] = pending_fillings_groupb1568,
-        codeStates['setpending_fillings_group'] = setpending_fillings_groupb1568,
-        codeStates['pending_fillings_groupb1568'] = pending_fillings_groupb1568Props,
-        codeStates['setpending_fillings_groupb1568'] = setpending_fillings_groupb1568Props,
-        codeStates['pending_fillings_table'] = pending_fillings_table11279,
-        codeStates['setpending_fillings_table'] = setpending_fillings_table11279,
-        codeStates['pending_fillings_table11279'] = pending_fillings_table11279Props,
-        codeStates['setpending_fillings_table11279'] = setpending_fillings_table11279Props,
+        codeStates['header_group'] = header_groupd8ba9,
+        codeStates['setheader_group'] = setheader_groupd8ba9,
+        codeStates['header_groupd8ba9'] = header_groupd8ba9Props,
+        codeStates['setheader_groupd8ba9'] = setheader_groupd8ba9Props,
+        codeStates['asset_dashboard_group'] = asset_dashboard_group1aa03,
+        codeStates['setasset_dashboard_group'] = setasset_dashboard_group1aa03,
+        codeStates['asset_dashboard_group1aa03'] = asset_dashboard_group1aa03Props,
+        codeStates['setasset_dashboard_group1aa03'] = setasset_dashboard_group1aa03Props,
+        codeStates['amr_queue_group'] = amr_queue_group3c082,
+        codeStates['setamr_queue_group'] = setamr_queue_group3c082,
+        codeStates['amr_queue_group3c082'] = amr_queue_group3c082Props,
+        codeStates['setamr_queue_group3c082'] = setamr_queue_group3c082Props,
+        codeStates['pending_file_group'] = pending_file_group2128c,
+        codeStates['setpending_file_group'] = setpending_file_group2128c,
+        codeStates['pending_file_group2128c'] = pending_file_group2128cProps,
+        codeStates['setpending_file_group2128c'] = setpending_file_group2128cProps,
+        codeStates['service_pending_group'] = service_pending_group8c0ca,
+        codeStates['setservice_pending_group'] = setservice_pending_group8c0ca,
+        codeStates['service_pending_group8c0ca'] = service_pending_group8c0caProps,
+        codeStates['setservice_pending_group8c0ca'] = setservice_pending_group8c0caProps,
+        codeStates['service_pending_text'] = service_pending_textb9d5c,
+        codeStates['setservice_pending_text'] = setservice_pending_textb9d5c,
+        codeStates['icon_warranty_expiring'] = icon_warranty_expiringa065e,
+        codeStates['seticon_warranty_expiring'] = seticon_warranty_expiringa065e,
+        codeStates['service_pending'] = service_pending0898e,
+        codeStates['setservice_pending'] = setservice_pending0898e,
+        codeStates['service_pending_desc'] = service_pending_desc91c8a,
+        codeStates['setservice_pending_desc'] = setservice_pending_desc91c8a,
+        codeStates['slas_at_risk_group'] = slas_at_risk_group1f8c0,
+        codeStates['setslas_at_risk_group'] = setslas_at_risk_group1f8c0,
+        codeStates['slas_at_risk_group1f8c0'] = slas_at_risk_group1f8c0Props,
+        codeStates['setslas_at_risk_group1f8c0'] = setslas_at_risk_group1f8c0Props,
+        codeStates['court_rejection_group'] = court_rejection_groupdf57a,
+        codeStates['setcourt_rejection_group'] = setcourt_rejection_groupdf57a,
+        codeStates['court_rejection_groupdf57a'] = court_rejection_groupdf57aProps,
+        codeStates['setcourt_rejection_groupdf57a'] = setcourt_rejection_groupdf57aProps,
+        codeStates['collected_mtd_group'] = collected_mtd_group0f074,
+        codeStates['setcollected_mtd_group'] = setcollected_mtd_group0f074,
+        codeStates['collected_mtd_group0f074'] = collected_mtd_group0f074Props,
+        codeStates['setcollected_mtd_group0f074'] = setcollected_mtd_group0f074Props,
+        codeStates['overall_key_performance_indicators'] = overall_key_performance_indicatorsc2711,
+        codeStates['setoverall_key_performance_indicators'] = setoverall_key_performance_indicatorsc2711,
+        codeStates['overall_key_performance_indicatorsc2711'] = overall_key_performance_indicatorsc2711Props,
+        codeStates['setoverall_key_performance_indicatorsc2711'] = setoverall_key_performance_indicatorsc2711Props,
+        codeStates['key_performance_indicator_group'] = key_performance_indicator_groupf9eaf,
+        codeStates['setkey_performance_indicator_group'] = setkey_performance_indicator_groupf9eaf,
+        codeStates['key_performance_indicator_groupf9eaf'] = key_performance_indicator_groupf9eafProps,
+        codeStates['setkey_performance_indicator_groupf9eaf'] = setkey_performance_indicator_groupf9eafProps,
+        codeStates['recent_activity_group'] = recent_activity_group91db6,
+        codeStates['setrecent_activity_group'] = setrecent_activity_group91db6,
+        codeStates['recent_activity_group91db6'] = recent_activity_group91db6Props,
+        codeStates['setrecent_activity_group91db6'] = setrecent_activity_group91db6Props,
 
     codeExecution(code,codeStates);
     } 
@@ -346,78 +306,58 @@ const Groupservice_pending_group = ({lockedData={},setLockedData,primaryTableDat
     let customCode:any=""
     if (allCode != '') {
       let codeStates: any = {};
-        codeStates['header_group'] = header_groupb1913,
-        codeStates['setheader_group'] = setheader_groupb1913,
-        codeStates['header_groupb1913'] = header_groupb1913Props,
-        codeStates['setheader_groupb1913'] = setheader_groupb1913Props,
-        codeStates['asset_dashboard_group'] = asset_dashboard_group4bbfe,
-        codeStates['setasset_dashboard_group'] = setasset_dashboard_group4bbfe,
-        codeStates['asset_dashboard_group4bbfe'] = asset_dashboard_group4bbfeProps,
-        codeStates['setasset_dashboard_group4bbfe'] = setasset_dashboard_group4bbfeProps,
-        codeStates['amr_queue_group'] = amr_queue_groupc92ca,
-        codeStates['setamr_queue_group'] = setamr_queue_groupc92ca,
-        codeStates['amr_queue_groupc92ca'] = amr_queue_groupc92caProps,
-        codeStates['setamr_queue_groupc92ca'] = setamr_queue_groupc92caProps,
-        codeStates['pending_file_group'] = pending_file_groupffe32,
-        codeStates['setpending_file_group'] = setpending_file_groupffe32,
-        codeStates['pending_file_groupffe32'] = pending_file_groupffe32Props,
-        codeStates['setpending_file_groupffe32'] = setpending_file_groupffe32Props,
-        codeStates['service_pending_group'] = service_pending_group7ba93,
-        codeStates['setservice_pending_group'] = setservice_pending_group7ba93,
-        codeStates['service_pending_group7ba93'] = service_pending_group7ba93Props,
-        codeStates['setservice_pending_group7ba93'] = setservice_pending_group7ba93Props,
-        codeStates['service_pending_text'] = service_pending_text5cc58,
-        codeStates['setservice_pending_text'] = setservice_pending_text5cc58,
-        codeStates['icon_warranty_expiring'] = icon_warranty_expiring6d299,
-        codeStates['seticon_warranty_expiring'] = seticon_warranty_expiring6d299,
-        codeStates['service_pending'] = service_pending918f0,
-        codeStates['setservice_pending'] = setservice_pending918f0,
-        codeStates['service_pending_desc'] = service_pending_descabf48,
-        codeStates['setservice_pending_desc'] = setservice_pending_descabf48,
-        codeStates['slas_at_risk_group'] = slas_at_risk_group23eb4,
-        codeStates['setslas_at_risk_group'] = setslas_at_risk_group23eb4,
-        codeStates['slas_at_risk_group23eb4'] = slas_at_risk_group23eb4Props,
-        codeStates['setslas_at_risk_group23eb4'] = setslas_at_risk_group23eb4Props,
-        codeStates['court_rejection_group'] = court_rejection_groupc9d54,
-        codeStates['setcourt_rejection_group'] = setcourt_rejection_groupc9d54,
-        codeStates['court_rejection_groupc9d54'] = court_rejection_groupc9d54Props,
-        codeStates['setcourt_rejection_groupc9d54'] = setcourt_rejection_groupc9d54Props,
-        codeStates['collected_mtd_group'] = collected_mtd_group7b7b5,
-        codeStates['setcollected_mtd_group'] = setcollected_mtd_group7b7b5,
-        codeStates['collected_mtd_group7b7b5'] = collected_mtd_group7b7b5Props,
-        codeStates['setcollected_mtd_group7b7b5'] = setcollected_mtd_group7b7b5Props,
-        codeStates['table_group'] = table_group112bd,
-        codeStates['settable_group'] = settable_group112bd,
-        codeStates['table_group112bd'] = table_group112bdProps,
-        codeStates['settable_group112bd'] = settable_group112bdProps,
-        codeStates['subscreen'] = subscreene9ab5,
-        codeStates['setsubscreen'] = setsubscreene9ab5,
-        codeStates['subscreene9ab5'] = subscreene9ab5Props,
-        codeStates['setsubscreene9ab5'] = setsubscreene9ab5Props,
-        codeStates['ct006_af_uf_ufws_lap_lap_amrqueuetable_v1'] = ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797,
-        codeStates['setct006_af_uf_ufws_lap_lap_amrqueuetable_v1'] = setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797,
-        codeStates['ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797'] = ct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797Props,
-        codeStates['setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797'] = setct006_af_uf_ufws_lap_lap_amrqueuetable_v18a797Props,
-        codeStates['group'] = group28176,
-        codeStates['setgroup'] = setgroup28176,
-        codeStates['group28176'] = group28176Props,
-        codeStates['setgroup28176'] = setgroup28176Props,
-        codeStates['table'] = table852e3,
-        codeStates['settable'] = settable852e3,
-        codeStates['table852e3'] = table852e3Props,
-        codeStates['settable852e3'] = settable852e3Props,
-        codeStates['ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1'] = ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da,
-        codeStates['setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1'] = setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da,
-        codeStates['ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da'] = ct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8daProps,
-        codeStates['setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8da'] = setct006_af_uf_ufws_lap_lap_pendingfilingtable_v1ff8daProps,
-        codeStates['pending_fillings_group'] = pending_fillings_groupb1568,
-        codeStates['setpending_fillings_group'] = setpending_fillings_groupb1568,
-        codeStates['pending_fillings_groupb1568'] = pending_fillings_groupb1568Props,
-        codeStates['setpending_fillings_groupb1568'] = setpending_fillings_groupb1568Props,
-        codeStates['pending_fillings_table'] = pending_fillings_table11279,
-        codeStates['setpending_fillings_table'] = setpending_fillings_table11279,
-        codeStates['pending_fillings_table11279'] = pending_fillings_table11279Props,
-        codeStates['setpending_fillings_table11279'] = setpending_fillings_table11279Props,
+        codeStates['header_group'] = header_groupd8ba9,
+        codeStates['setheader_group'] = setheader_groupd8ba9,
+        codeStates['header_groupd8ba9'] = header_groupd8ba9Props,
+        codeStates['setheader_groupd8ba9'] = setheader_groupd8ba9Props,
+        codeStates['asset_dashboard_group'] = asset_dashboard_group1aa03,
+        codeStates['setasset_dashboard_group'] = setasset_dashboard_group1aa03,
+        codeStates['asset_dashboard_group1aa03'] = asset_dashboard_group1aa03Props,
+        codeStates['setasset_dashboard_group1aa03'] = setasset_dashboard_group1aa03Props,
+        codeStates['amr_queue_group'] = amr_queue_group3c082,
+        codeStates['setamr_queue_group'] = setamr_queue_group3c082,
+        codeStates['amr_queue_group3c082'] = amr_queue_group3c082Props,
+        codeStates['setamr_queue_group3c082'] = setamr_queue_group3c082Props,
+        codeStates['pending_file_group'] = pending_file_group2128c,
+        codeStates['setpending_file_group'] = setpending_file_group2128c,
+        codeStates['pending_file_group2128c'] = pending_file_group2128cProps,
+        codeStates['setpending_file_group2128c'] = setpending_file_group2128cProps,
+        codeStates['service_pending_group'] = service_pending_group8c0ca,
+        codeStates['setservice_pending_group'] = setservice_pending_group8c0ca,
+        codeStates['service_pending_group8c0ca'] = service_pending_group8c0caProps,
+        codeStates['setservice_pending_group8c0ca'] = setservice_pending_group8c0caProps,
+        codeStates['service_pending_text'] = service_pending_textb9d5c,
+        codeStates['setservice_pending_text'] = setservice_pending_textb9d5c,
+        codeStates['icon_warranty_expiring'] = icon_warranty_expiringa065e,
+        codeStates['seticon_warranty_expiring'] = seticon_warranty_expiringa065e,
+        codeStates['service_pending'] = service_pending0898e,
+        codeStates['setservice_pending'] = setservice_pending0898e,
+        codeStates['service_pending_desc'] = service_pending_desc91c8a,
+        codeStates['setservice_pending_desc'] = setservice_pending_desc91c8a,
+        codeStates['slas_at_risk_group'] = slas_at_risk_group1f8c0,
+        codeStates['setslas_at_risk_group'] = setslas_at_risk_group1f8c0,
+        codeStates['slas_at_risk_group1f8c0'] = slas_at_risk_group1f8c0Props,
+        codeStates['setslas_at_risk_group1f8c0'] = setslas_at_risk_group1f8c0Props,
+        codeStates['court_rejection_group'] = court_rejection_groupdf57a,
+        codeStates['setcourt_rejection_group'] = setcourt_rejection_groupdf57a,
+        codeStates['court_rejection_groupdf57a'] = court_rejection_groupdf57aProps,
+        codeStates['setcourt_rejection_groupdf57a'] = setcourt_rejection_groupdf57aProps,
+        codeStates['collected_mtd_group'] = collected_mtd_group0f074,
+        codeStates['setcollected_mtd_group'] = setcollected_mtd_group0f074,
+        codeStates['collected_mtd_group0f074'] = collected_mtd_group0f074Props,
+        codeStates['setcollected_mtd_group0f074'] = setcollected_mtd_group0f074Props,
+        codeStates['overall_key_performance_indicators'] = overall_key_performance_indicatorsc2711,
+        codeStates['setoverall_key_performance_indicators'] = setoverall_key_performance_indicatorsc2711,
+        codeStates['overall_key_performance_indicatorsc2711'] = overall_key_performance_indicatorsc2711Props,
+        codeStates['setoverall_key_performance_indicatorsc2711'] = setoverall_key_performance_indicatorsc2711Props,
+        codeStates['key_performance_indicator_group'] = key_performance_indicator_groupf9eaf,
+        codeStates['setkey_performance_indicator_group'] = setkey_performance_indicator_groupf9eaf,
+        codeStates['key_performance_indicator_groupf9eaf'] = key_performance_indicator_groupf9eafProps,
+        codeStates['setkey_performance_indicator_groupf9eaf'] = setkey_performance_indicator_groupf9eafProps,
+        codeStates['recent_activity_group'] = recent_activity_group91db6,
+        codeStates['setrecent_activity_group'] = setrecent_activity_group91db6,
+        codeStates['recent_activity_group91db6'] = recent_activity_group91db6Props,
+        codeStates['setrecent_activity_group91db6'] = setrecent_activity_group91db6Props,
       customCode = codeExecution(allCode,codeStates);
       return customCode;
     }
@@ -425,23 +365,23 @@ const Groupservice_pending_group = ({lockedData={},setLockedData,primaryTableDat
   }
 
 
-  const service_pending_group7ba93Ref = useRef<any>(null);
+  const service_pending_group8c0caRef = useRef<any>(null);
   const handleClearSearch = () => {
-    service_pending_group7ba93Ref.current?.setSearchParams();
-    service_pending_group7ba93Ref.current?.handleSearch({});
+    service_pending_group8c0caRef.current?.setSearchParams();
+    service_pending_group8c0caRef.current?.handleSearch({});
   };
 
   useEffect(() => {    
     securityCheck()   
     handleOnload()
     if (prevRefreshRef.current) {
-      if(!Array.isArray(service_pending_group7ba93) && Object.keys(service_pending_group7ba93)?.length>0)
+      if(!Array.isArray(service_pending_group8c0ca) && Object.keys(service_pending_group8c0ca)?.length>0)
       {
-        setservice_pending_group7ba93({})
+        setservice_pending_group8c0ca({})
       }
     }else 
       prevRefreshRef.current= true
-  }, [service_pending_group7ba93Props?.refresh,token])
+  }, [service_pending_group8c0caProps?.refresh,token])
 
 
   const renderBUttons=()=>{
@@ -472,16 +412,16 @@ const Groupservice_pending_group = ({lockedData={},setLockedData,primaryTableDat
         backgroundClip: '',
         backgroundBlendMode: ''
       }}
-      className={`flex flex-col overflow-auto rounded-md p-1 !pl-3 !rounded-2xl !bg-white ${isDark ? 'text-white' : 'text-black'}  ${dashboard_v1?._selectedGroup_=="service_pending_group" ?'border-2 border-solid !border-[var(--selection-color)]': ''}`}
+      className={`flex flex-col overflow-auto rounded-md p-1 !pl-3 !rounded-2xl !bg-white ${isDark ? 'text-white' : 'text-black'}  ${newdashboard_v1?._selectedGroup_=="service_pending_group" ?'border-2 border-solid !border-[var(--selection-color)]': ''}`}
        onClick={(e:any)=>{e.stopPropagation()
         handleOnClick({}, 0);
-          setdashboard_v1((pre:any)=>({...pre,_selectedGroup_:"service_pending_group"}))
+          setnewdashboard_v1((pre:any)=>({...pre,_selectedGroup_:"service_pending_group"}))
         }}
     >
-          {allowedControls.includes("service_pending_text") ?<Textservice_pending_text   /* 5cc58 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
-        {allowedControls.includes("icon_warranty_expiring")?<Iconicon_warranty_expiring /* 6d299 */ encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData}  />: <div></div>}
-          {allowedControls.includes("service_pending") ?<Textservice_pending   /* 918f0 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
-          {allowedControls.includes("service_pending_desc") ?<Textservice_pending_desc   /* abf48 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("service_pending_text") ?<Textservice_pending_text   /* b9d5c */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+        {allowedControls.includes("icon_warranty_expiring")?<Iconicon_warranty_expiring /* a065e */ encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData}  />: <div></div>}
+          {allowedControls.includes("service_pending") ?<Textservice_pending   /* 0898e */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("service_pending_desc") ?<Textservice_pending_desc   /* 91c8a */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
     </div>
  )
 }

@@ -1,5 +1,5 @@
 'use client'
-import * as XLSX from 'xlsx'
+import * as XLSX from '@e965/xlsx'
 import { useEffect, useState } from 'react'
 import * as React from 'react'
 import { DropzoneOptions, useDropzone } from 'react-dropzone'

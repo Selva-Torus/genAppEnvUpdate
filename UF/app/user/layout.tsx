@@ -20,7 +20,7 @@ export default function RootLayout({
           <LayoutDecider
             mode='fluid' 
             navigationStyles='vertical' 
-            sidebarStyle='compact'
+            sidebarStyle='default'
           >
             <main className ="h-full w-full">{children}</main>
             <ToastContainer />

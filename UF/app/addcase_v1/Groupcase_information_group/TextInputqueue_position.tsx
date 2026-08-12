@@ -16,7 +16,7 @@ import {commonSepareteDataFromTheObject, eventFunction } from '@/app/utils/event
 import { eventDecisionTable } from '@/app/utils/evaluateDecisionTable';
 import { codeExecution } from '@/app/utils/codeExecution';
 import { AxiosService } from '@/app/components/axiosService';
-import { getCookie } from '@/app/components/cookieMgment';
+import { useGlobal } from '@/context/GlobalContext'
 import { useRouter } from 'next/navigation';
 import UOmapperData from '@/context/dfdmapperContolnames.json'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
@@ -31,7 +31,7 @@ import * as v from 'valibot';
 ////////////
 
 const TextInputqueue_position = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFlagCompData,setIsProcessing,controlData}:any) => {  
-  const token: string = getCookie('token');
+  const { token } = useGlobal();
   const {globalState , setGlobalState} = useContext(TotalContext) as TotalContextProps;
   const {validateRefetch , setValidateRefetch} = useContext(TotalContext) as TotalContextProps;
   const {validate , setValidate} = useContext(TotalContext) as TotalContextProps;

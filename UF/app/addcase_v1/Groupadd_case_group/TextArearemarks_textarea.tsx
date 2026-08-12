@@ -7,7 +7,7 @@ import { Text } from "@/components/Text";
 import { TextArea } from '@/components/TextArea';
 import { codeExecution } from '@/app/utils/codeExecution';
 import { AxiosService } from '@/app/components/axiosService';
-import { getCookie } from '@/app/components/cookieMgment';
+import { useGlobal } from '@/context/GlobalContext'
 import decodeToken from '@/app/components/decodeToken';
 import { eventDecisionTable } from '@/app/utils/evaluateDecisionTable';
 import { useRouter } from 'next/navigation';
@@ -22,7 +22,7 @@ import * as v from 'valibot';
 
 
 const TextArearemarks_textarea = ({checkToAdd,setCheckToAdd,encryptionFlagCompData,setIsProcessing,controlData}:any) => {
-  const token: string = getCookie('token');
+  const { token } = useGlobal();
   const {globalState , setGlobalState} = useContext(TotalContext) as TotalContextProps;
   const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
   const {memoryVariables, setMemoryVariables} = useContext(TotalContext) as TotalContextProps;

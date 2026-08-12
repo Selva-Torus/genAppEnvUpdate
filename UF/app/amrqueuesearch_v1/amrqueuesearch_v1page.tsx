@@ -3,7 +3,7 @@ import React,{ useContext,useEffect,useState,useRef } from "react";
 import { AxiosService } from '@/app/components/axiosService';
 import { te_refreshDto,api_paginationDto } from '@/app/interfaces/interfaces';
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
-import { deleteAllCookies,getCookie } from '@/app/components/cookieMgment';
+import { deleteAllCookies } from '@/app/components/cookieMgment';
 import { TotalContext, TotalContextProps } from "../globalContext";
 import decodeToken from "../components/decodeToken";
 import { useRouter } from 'next/navigation';
@@ -12,6 +12,8 @@ import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,Pagin
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import clsx from "clsx";
 import dynamic from 'next/dynamic';
+import { useGlobal } from '@/context/GlobalContext'
+
 const Groupsearch_group = dynamic(() => import("./Groupsearch_group/Groupsearch_group"), { ssr: false });
 
 export default function PageAmrqueuesearchV1({ onReady }: { onReady?: () => void } = {}) {
@@ -38,7 +40,7 @@ export default function PageAmrqueuesearchV1({ onReady }: { onReady?: () => void
     }
   }
 }
-  const token:string = getCookie('token'); 
+  const { token } = useGlobal();
   const decodedTokenObj: DecodedToken = decodeToken(token);
   const screenName:string = "dashboard";
   const user : string | undefined = decodedTokenObj?.selectedAccessProfile;

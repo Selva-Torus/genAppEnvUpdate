@@ -7996,89 +7996,6 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-  async uploadFromLocalPath(
-  localPaths: any[],
-  bucketFoldername?: string,
-  folderPath?: string,
-  enableEncryption?: string,
-): Promise<string[]> {
-  try {
-    const bucket = bucketFoldername || '';
-    const subFolder = folderPath || '';
-    const shouldEncrypt = enableEncryption === 'true';
-    
-    // Normalize to array if single path provided
-    let paths :string[] = [];
-    for(let i=0;i<localPaths.length;i++){
-      paths.push(localPaths[i].filepath);
-    }
-    console.log("localPaths ==> ", paths);
-
-    const uploadedFiles: string[] = [];
-
-    // Process each path
-    for (const localPath of paths) {
-      const stat = await fs.promises.stat(localPath);
-
-      let files: string[] = [];
-
-      // If directory → upload all files
-      if (stat.isDirectory()) {
-        const entries = await fs.promises.readdir(localPath);
-        files = entries.map((f) => path.join(localPath, f));
-      } else {
-        files = [localPath];
-      }
-
-      // Upload each file
-      for (const filePath of files) {
-        const buffer = await fs.promises.readFile(filePath);
-        const fileName = path.basename(filePath);
-
-        const encryptedBuffer = shouldEncrypt
-          ? await this.commonService.aes256ctrEncrypt(buffer)
-          : buffer;
-
-        const form = new FormData();
-        form.append('file', Readable.from(encryptedBuffer), {
-          filename: fileName,
-          contentType: 'application/octet-stream',
-        });
-
-        const uploadUrl = `${this.envData.getSeaweedOutputHost()?.replace(
-          /\/$/,
-          '',
-        )}/buckets/${bucket}/${subFolder}/${fileName}`;
-
-        const res = await axios.post(uploadUrl, form, {
-          headers: {
-            Accept: 'application/json',
-            ...form.getHeaders(),
-          },
-          auth: {
-            username: this.envData.getSeaweedUsername()!,
-            password: this.envData.getSeaweedPassword()!,
-          },
-          validateStatus: (status) => status < 500,
-        });
-
-        if (res.status === 201) {
-          uploadedFiles.push(`${bucket}/${subFolder}/${fileName}`);
-        } else {
-          throw new Error(
-            res.data || 'Error occurred while uploading file',
-          );
-        }
-      }
-    }
-
-    console.log("uploadedFiles ==> ", uploadedFiles);
-    return uploadedFiles;
-  } catch (error) {
-    throw error;
-      }
-}
-  
   async getAppTenantsLinkedWithApp() {
     try {
       const result = await this.query(`select
@@ -8427,6 +8344,10 @@ getConfig(): FusionAuthConfig {
       const PG_SCHEMANAME = 'processlog';
       const tableName = (`${tenant}-${app?.code}${type}`).toLowerCase();
 
+      if (!this.commonService.isSafeSqlIdentifier(tenant) || !this.commonService.isSafeSqlIdentifier(app?.code)) {
+        throw new BadRequestException('Invalid tenant/app code');
+      }
+
       // console.log('tableName', tableName);
       const params: any[] = [];
       let whereClause = `WHERE ck_code = $1`;
@@ -8534,7 +8455,8 @@ getConfig(): FusionAuthConfig {
         totalPages: Math.ceil(totalDocuments / limit),
         totalDocuments,
       }
-    } catch (error:any) {         
+    } catch (error:any) {
+      if (error instanceof HttpException) throw error;
       throw new BadRequestException( error);
     }
   }

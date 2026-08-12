@@ -342,6 +342,7 @@ sol_expiry_date  DateTime?
 quality_score  Int? 
 sla_wait_start_time  DateTime? 
 queue_position  Int? 
+account_case_id  String? 
 trs_created_date  DateTime @default(now())
 trs_created_by  String?  @db.VarChar(length: 64)
 trs_modified_date  DateTime? 

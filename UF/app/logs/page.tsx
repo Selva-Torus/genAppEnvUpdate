@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useMemo, useDeferredValue, useContext } from 'react'
 import { AxiosService } from '@/app/components/axiosService'
 import TableHeader from './components/LogTable'
-import { deleteAllCookies, getCookie, setCookie } from '@/app/components/cookieMgment'
+import { deleteAllCookies, setCookie } from '@/app/components/cookieMgment'
 import decodeToken from '@/app/components/decodeToken'
 import Artifactdetails from './components/ArtifactDetails'
 import { TotalContext, TotalContextProps } from '../globalContext'
@@ -50,7 +50,7 @@ const ParentComponent = () => {
   const [ fabrics , setFabrics ] = useState<Array<string>>([])
   const [jsonViewerData, setJsonViewerData] = useState({})
   const router = useRouter()
-  let landingScreen:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1';
+  let landingScreen:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1';
   const encryptionFlagApp: boolean = false;    
   const [jsonData, setJsonData] = useState({
     data: [],

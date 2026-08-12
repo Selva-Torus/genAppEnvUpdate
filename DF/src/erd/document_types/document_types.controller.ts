@@ -184,7 +184,7 @@ export class document_typesController {
     if (req.originalUrl.includes('?') && req.originalUrl.split('?')[1].includes('/') || isComingQuerysAreValid==false) {
       throw new NotFoundException('Invalid query parameter structure.');
     }
-    const result = await this.document_typesService.findAll(token,detokenize,detokenizeData,);
+    const result = await this.document_typesService.findAll(token,req.authContext,detokenize,detokenizeData,);
     return plainToInstance(document_typesEntity, result);
   } 
 
@@ -477,7 +477,7 @@ export class document_typesController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.document_typesService.findFirst(token, detokenize,detokenizeData);
+    const result = await this.document_typesService.findFirst(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(document_typesEntity, result);
   }
 
@@ -525,7 +525,7 @@ export class document_typesController {
       }
     });
     //await this.ufservice.introspectToken(authHeader,"",token);
-    const result = await this.document_typesService.findLast(token, detokenize,detokenizeData);
+    const result = await this.document_typesService.findLast(token, detokenize,detokenizeData,req.authContext);
     return plainToInstance(document_typesEntity, result);
   }
 

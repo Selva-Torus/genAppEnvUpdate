@@ -31,6 +31,7 @@ import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc';
 import * as timezone from 'dayjs/plugin/timezone';
 import { JwtServices } from "src/jwt.services";
+import { assertAllowedOutboundHost as assertAllowedOutboundHostUtil } from "src/utils/ssrf.util";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -888,6 +889,7 @@ export class CommonService{
     }
 
     async axiosPostCall(url,body,headers?){ 
+       this.assertAllowedOutboundHost(url);
       let response = await axios.post(url,body,headers)
       return response.data;
     }  
@@ -910,7 +912,8 @@ export class CommonService{
     }
     } 
 
-    async getCall(url,headers?){   
+    async getCall(url,headers?){ 
+       this.assertAllowedOutboundHost(url);  
       return await axios.get(url,headers)
       .then((res) => this.responseData(res.status, res.data).then((res) => res))
       .catch((err) => {throw err});  
@@ -1192,6 +1195,7 @@ export class CommonService{
     // for that path. Opt-in: with OUTBOUND_HOST_ALLOWLIST unset (the default
     // today), this is a no-op so existing deployments are unaffected until
     // an operator configures the allow-list for their integrations.
+
     assertAllowedOutboundHost(url: string): void {
       const allowlist = (process.env.OUTBOUND_HOST_ALLOWLIST || '')
         .split(',')
@@ -1210,7 +1214,7 @@ export class CommonService{
       }
     }
 
-
+   
     //RollBack Check
      async checkRollBack(Ndp,collectionName,action,currentNode?){
       try {  
@@ -1485,7 +1489,7 @@ export class CommonService{
       var app = await this.splitcommonkey(key,'AFGK')
       var token:any
       try {
-          token = await this.jwtService.verifyToken(token);
+          token = await this.jwtService.verifyToken(stoken);
       } catch (e) {
         token = null;
       }
@@ -1614,14 +1618,15 @@ export class CommonService{
       }      
     }
 
-    async patchCall(url,data,headers){
-      this.assertAllowedOutboundHost(url);
+    async patchCall(url,data,headers){ 
+      this.assertAllowedOutboundHost(url);   
       return await axios.patch(url,data,headers)
       .then((res) => this.responseData(res.status, res.data).then((res) => res))
       .catch((err) => {throw err}); 
     }
 
-    async postCallwithDB(url,body,headers?){      
+    async postCallwithDB(url,body,headers?){ 
+       this.assertAllowedOutboundHost(url);     
       return await axios.post(url,body,headers)
       .then((res) => !res.data.errorCode? this.responseData(res.status, res.data).then((res) => res): res.data)
       .catch((err) => {throw err});  
@@ -1671,7 +1676,7 @@ export class CommonService{
        if(stoken){
         let token:any
         try {
-            token = await this.jwtService.verifyToken(token);
+            token = await this.jwtService.verifyToken(stoken);
         } catch (e) {
           token = null;
         }

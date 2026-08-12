@@ -5,8 +5,8 @@ import { AxiosService } from '../components/axiosService'
 import { COOKIE_PREFIX } from '@/lib/cookies'
 
 const page = async () => {
-  const cookieStore = await cookies()
-  const token = cookieStore.get(`${COOKIE_PREFIX}_token`)
+  const cookieStore = await cookies();
+  const token = cookieStore.get(`${COOKIE_PREFIX}_token`);
 
   const getAllAppList = async () => {
     try {

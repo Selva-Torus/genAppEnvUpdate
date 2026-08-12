@@ -7,7 +7,7 @@ import SideNav from './SideNav'
 import './brand.css'
 import { TotalContext, TotalContextProps } from '../../globalContext'
 import { AxiosService } from '../axiosService'
-import { deleteAllCookies, getCookie } from '../cookieMgment'
+import { deleteAllCookies } from '../cookieMgment'
 import { useInfoMsg } from '../infoMsgHandler'
 import { MenuItem } from '../../interfaces/interfaces'
 import decodeToken from '../decodeToken'
@@ -83,12 +83,140 @@ const LayoutDecider = ({
     "screenDetails": [
       {
         "name": "dashboard",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:dashboard:AFVK:v1",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1",
         "restrictedAccessProfile": [],
-        "static": false
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/Frame.svg"
       }
     ],
-    "items": []
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/Frame.svg"
+  },
+  {
+    "menuGroupLabel": "Report",
+    "screenDetails": [
+      {
+        "name": "report",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/report.png"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/report.png"
+  },
+  {
+    "menuGroupLabel": "Filing Packages",
+    "screenDetails": [
+      {
+        "name": "filing packages",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/file.png"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/file.png"
+  },
+  {
+    "menuGroupLabel": "Submissions Hub",
+    "screenDetails": [
+      {
+        "name": "submissions hub",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/telegram.png"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/telegram.png"
+  },
+  {
+    "menuGroupLabel": "Service Tracking",
+    "screenDetails": [
+      {
+        "name": "service tracking",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/delivery-truck.png"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/delivery-truck.png"
+  },
+  {
+    "menuGroupLabel": "Judgments",
+    "screenDetails": [
+      {
+        "name": "judgments",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/hammer.png"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/hammer.png"
+  },
+  {
+    "menuGroupLabel": "Enforcement",
+    "screenDetails": [
+      {
+        "name": "enforcement",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/shield-badge.png"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/shield-badge.png"
+  },
+  {
+    "menuGroupLabel": "Kill-Switch Control",
+    "screenDetails": [
+      {
+        "name": "kill-switch control",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/warning.png"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/warning.png"
+  },
+  {
+    "menuGroupLabel": "Compliance",
+    "screenDetails": [
+      {
+        "name": "compliance",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/open-book.png"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/open-book.png"
+  },
+  {
+    "menuGroupLabel": "Analytics",
+    "screenDetails": [
+      {
+        "name": "analytics",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/stacked-bar.png"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/stacked-bar.png"
   }
 ]
   const decodedTokenObj: DecodedToken = decodeToken(token)

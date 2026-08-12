@@ -4748,13 +4748,14 @@ export class DynamicFlowService {
                     await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(finalobj)?finalobj[0]:finalobj),collectionName,nodeName);
                     this.logger.log(`Api output node Completed`)
                     return { status: returnStscode, targetStatus: targetStatus, data: finalobj || { description: returnDescription } }
-                } catch (error) {                   
+                } catch (error) {
+                    const redactedError = this.CommonService.redactSensitiveFields(error);
                     if (failureQueue)
-                        await this.redisService.setStreamData(failureQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: failureTargetStatus, data: { request: inputparam, response: error } }))
+                        await this.redisService.setStreamData(failureQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: failureTargetStatus, data: { request: inputparam, response: redactedError } }))
                     if (suspiciousQueue)
-                        await this.redisService.setStreamData(suspiciousQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: failureTargetStatus, data: { request: inputparam, response: error } }))
+                        await this.redisService.setStreamData(suspiciousQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: failureTargetStatus, data: { request: inputparam, response: redactedError } }))
                     if (errorQueue)
-                        await this.redisService.setStreamData(errorQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: failureTargetStatus, data: { request: inputparam, response: error } }))
+                        await this.redisService.setStreamData(errorQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: failureTargetStatus, data: { request: inputparam, response: redactedError } }))
                     if (error?.response?.data)
                         throw { statusCode: error.status, message: error.response.data }
                     else if (error?.response && error?.status)

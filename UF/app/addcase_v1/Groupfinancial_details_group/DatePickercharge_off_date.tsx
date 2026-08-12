@@ -4,7 +4,7 @@
 import React, { useState,useContext,useEffect,useRef } from 'react'
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import i18n from '@/app/components/i18n';
-import { getCookie } from '@/app/components/cookieMgment';
+import { useGlobal } from '@/context/GlobalContext'
 import { codeExecution } from '@/app/utils/codeExecution';
 import { AxiosService } from '@/app/components/axiosService';
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
@@ -22,7 +22,7 @@ import * as v from 'valibot';
 
 
 const DatePickercharge_off_date = ({checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFlagCompData,setIsProcessing,controlData}:any) => {
-  const token:string = getCookie('token'); 
+  const { token } = useGlobal();
   const {validateRefetch , setValidateRefetch} = useContext(TotalContext) as TotalContextProps;
   const {validate , setValidate} = useContext(TotalContext) as TotalContextProps;
   const {refresh, setRefresh} = useContext(TotalContext) as TotalContextProps;
