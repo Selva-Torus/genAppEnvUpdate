@@ -6,7 +6,7 @@ import { PrismaClient } from '@prisma/client';
 export class PrismaService extends PrismaClient implements OnModuleDestroy {
   constructor() {
     const url = new URL(process.env.DATABASE_URL);
-    url.searchParams.set('application_name', 'ct006_ecp_hrm_v1_df');
+    url.searchParams.set('application_name', 'ct006_lap_lap_v1_df');
     // lazy: true — Prisma will NOT open a connection until the first query
     super({ datasources: { db: { url: url.toString() } } });
   }

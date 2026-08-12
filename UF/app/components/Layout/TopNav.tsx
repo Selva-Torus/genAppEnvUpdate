@@ -19,7 +19,9 @@ import { LogoutIcon, RotateIcon, SettingsIcon } from '../../utils/svgApplication
 import clsx from 'clsx'
 import { OrgStructure, ProdStructure, RoleStructure } from '../svgApplication'
 import { isLightColor } from '../utils'
+import Image from "next/image";
 import { AxiosService } from '@/app/components/axiosService'
+import { useGlobal } from '@/context/GlobalContext'
 
 const TopNav = ({
   navData,
@@ -49,7 +51,7 @@ const TopNav = ({
   }[]
 }) => {
   const router = useRouter()
-  const token: string = getCookie('token')
+  const { token } = useGlobal()
   const decodedTokenObj: any = decodeToken(token)
   const user = decodedTokenObj?.loginId
   const selectedAccessProfile = decodedTokenObj?.selectedAccessProfile
@@ -140,12 +142,11 @@ const TopNav = ({
 //  async function logout() {
 //    localStorage.clear()
 //    deleteAllCookies()
-//    window.location.href = '/ct006/ecp/hrm/v1'
+//    window.location.href = '/ct006/lap/lap/v1'
 //  }
 
   async function logout() {
     try {
-      const token = getCookie('token')
       if (token) {
         await AxiosService.post('/UF/release-all-locks', null, {
           headers: { Authorization: `Bearer ${token}` },
@@ -247,7 +248,7 @@ const TopNav = ({
   const LogoSection = useCallback(() => (
     <div className='flex items-center gap-1 min-w-[100px]' style={navigationStyles == 'vertical' ? undefined : getGridStyle('logo')}>
       {logo ? (
-        <img
+        <Image
           className='min-h-[3vh] max-h-[5vh] h-auto w-auto'
           width={100}
           height={100}
@@ -257,18 +258,20 @@ const TopNav = ({
       ) : (
         <Logo />
       )}
-       <Text className='text-nowrap text-start font-bold w-full truncate text-[var(--brand-color)]' contentAlign='left'>
+      <Text className='text-nowrap text-start font-bold w-full truncate text-[var(--brand-color)]' contentAlign='left'>
           <span title={appName}>
           {appName}
           </span>
-        </Text>
+      </Text>
     </div>
   ) , [logo, appName])
 
       const AppLogoSection = useCallback(() => (
     <div className='flex items-center gap-1' style={navigationStyles == 'vertical' ? undefined : getGridStyle('app logo')}>
       {appLogo && (
-        <img
+        <Image
+          width={100}
+          height={100}
           className='min-h-[3vh] max-h-[5vh] h-auto w-auto'
           src={getCdnImage(appLogo)}
           alt='appLogo'

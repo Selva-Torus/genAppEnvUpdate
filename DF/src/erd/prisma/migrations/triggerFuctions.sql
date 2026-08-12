@@ -1,7 +1,7 @@
 
 
 SELECT tam.create_version_triggers(
-    'ct006_hrm',
+    'ct006_lap',
     ARRAY[
-    'hrm_employees',    'hrm_job_positions',    'hrm_job_grades',    'hrm_leave_policies',    'hrm_leave_requests',    'hrm_performance_cycles',    'hrm_performance_reviews',    'hrm_separation_checklists',    'hrm_employee_access_requests',    'hrm_employee_background_checks',    'hrm_employee_nda'        ]
+    'attorneys',    'creditors',    'venues',    'venue_special_rules',    'document_types',    'checklist_items',    'status_lookup',    'priority_lookup',    'rejection_reason_lookup',    'accounts',    'account_documents',    'amr_checklist_status',    'amr_review_sessions',    'activity_log'        ]
     );

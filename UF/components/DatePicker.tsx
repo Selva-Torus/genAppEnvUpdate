@@ -64,6 +64,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     const now = new Date();
     return { year: now.getFullYear(), month: now.getMonth() };
   });
+  const [viewMode, setViewMode] = useState<"days" | "years">("days");
 
   useEffect(() => {
     if (validationState === "invalid" && errorMessage && prevValidationState.current !== "invalid") {
@@ -132,7 +133,10 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     const handleResize = () => positionPopup();
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsModalOpen(false);
+      if (e.key === "Escape") {
+        setIsModalOpen(false);
+        wrapperRef.current?.focus();
+      }
     };
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node) &&
@@ -250,6 +254,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     onChange?.(newValue);
     onUpdate?.(newValue);
     setIsModalOpen(false);
+    wrapperRef.current?.focus();
   };
 
   const handleClear = (e: React.MouseEvent) => {
@@ -258,6 +263,21 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     onChange?.("");
     onUpdate?.("");
     setIsModalOpen(false);
+    wrapperRef.current?.focus();
+  };
+
+  const handleTriggerKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+      e.preventDefault();
+      openPicker();
+      return;
+    }
+    if (e.key === "Tab" && isModalOpen) {
+      // Don't preventDefault -- focus stays on this trigger the whole
+      // time the popup is open, so just close it and let the browser
+      // move focus to the next/previous control as normal.
+      setIsModalOpen(false);
+    }
   };
 
   const openPicker = () => {
@@ -276,6 +296,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       const now = new Date();
       setViewDate({ year: now.getFullYear(), month: now.getMonth() });
     }
+    setViewMode("days");
     setIsModalOpen(true);
   };
 
@@ -347,6 +368,27 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     });
   };
 
+  const YEARS_PER_PAGE = 12;
+  const yearPageStart = Math.floor(viewDate.year / YEARS_PER_PAGE) * YEARS_PER_PAGE;
+  const yearsInPage = Array.from({ length: YEARS_PER_PAGE }, (_, i) => yearPageStart + i);
+
+  const prevYearPage = () => {
+    setViewDate(prev => ({ ...prev, year: prev.year - YEARS_PER_PAGE }));
+  };
+
+  const nextYearPage = () => {
+    setViewDate(prev => ({ ...prev, year: prev.year + YEARS_PER_PAGE }));
+  };
+
+  const selectYear = (year: number) => {
+    setViewDate(prev => ({ ...prev, year }));
+    setViewMode("days");
+  };
+
+  const toggleViewMode = () => {
+    setViewMode(prev => (prev === "days" ? "years" : "days"));
+  };
+
   const MONTH_NAMES = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -371,9 +413,18 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       <div
         ref={wrapperRef}
         onClick={openPicker}
+        onKeyDown={handleTriggerKeyDown}
+        role="button"
+        tabIndex={disabled ? -1 : 0}
+        aria-haspopup="dialog"
+        aria-expanded={isModalOpen}
+        aria-disabled={disabled || readOnly}
+        aria-label={label || "Choose date"}
         className={`
           relative flex-1 min-h-0 flex items-center
           border-2 px-2 sm:px-3
+          cursor-pointer
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1
           ${disabled ? "opacity-50 cursor-not-allowed" : readOnly ? "cursor-default" : "cursor-pointer"}
           ${validationState === "invalid" ? "border-red-500" : isDark ? "border-gray-600" : "border-gray-300"}
           ${isDark ? "bg-gray-800 text-white" : "bg-white text-gray-900"}
@@ -387,6 +438,12 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           if (!disabled && !readOnly && validationState !== "invalid") setBorderColor(branding.hoverColor);
         }}
         onMouseLeave={() => {
+          if (!disabled && !readOnly && validationState !== "invalid") setBorderColor("");
+        }}
+        onFocus={() => {
+          if (!disabled && !readOnly && validationState !== "invalid") setBorderColor(branding.selectionColor);
+        }}
+        onBlur={() => {
           if (!disabled && !readOnly && validationState !== "invalid") setBorderColor("");
         }}
       >
@@ -454,49 +511,94 @@ export const DatePicker: React.FC<DatePickerProps> = ({
             </div>
             <div className="px-3 pb-3 sm:px-4">
               <div className="flex items-center justify-between py-1">
-                <button onClick={prevMonth} className="p-1.5 sm:p-1 hover:opacity-70 transition-opacity" style={{ color: "#FFFFFF" }}>
+                <button
+                  onClick={viewMode === "days" ? prevMonth : prevYearPage}
+                  aria-label={viewMode === "days" ? "Previous month" : "Previous years"}
+                  className="p-1.5 sm:p-1 hover:opacity-70 transition-opacity"
+                  style={{ color: "#FFFFFF" }}
+                >
                   <svg width="20" height="20" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <polyline points={isRtl ? "9 18 15 12 9 6" : "15 18 9 12 15 6"} />
                   </svg>
                 </button>
-                <span className="font-semibold text-[13px] sm:text-xs">{MONTH_NAMES[viewDate.month]} {viewDate.year}</span>
-                <button onClick={nextMonth} className="p-1.5 sm:p-1 hover:opacity-70 transition-opacity" style={{ color: "#FFFFFF" }}>
+                <button
+                  onClick={toggleViewMode}
+                  className="font-semibold text-[13px] sm:text-xs hover:opacity-70 transition-opacity px-2 rounded"
+                  aria-label={viewMode === "days" ? "Choose year" : "Back to days"}
+                >
+                  {viewMode === "days"
+                    ? `${MONTH_NAMES[viewDate.month]} ${viewDate.year}`
+                    : `${yearPageStart} - ${yearPageStart + YEARS_PER_PAGE - 1}`}
+                </button>
+                <button
+                  onClick={viewMode === "days" ? nextMonth : nextYearPage}
+                  aria-label={viewMode === "days" ? "Next month" : "Next years"}
+                  className="p-1.5 sm:p-1 hover:opacity-70 transition-opacity"
+                  style={{ color: "#FFFFFF" }}
+                >
                   <svg width="20" height="20" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <polyline points={isRtl ? "15 18 9 12 15 6" : "9 18 15 12 9 6"} />
                   </svg>
                 </button>
               </div>
-              <div className="grid grid-cols-7 gap-x-0.5 sm:gap-x-1 pb-1">
-                {DAY_NAMES.map(name => (
-                  <div key={name} className="text-center text-[11px] sm:text-xs font-medium py-1" style={{ color: "rgba(255,255,255,0.7)" }}>
-                    {name}
+              {viewMode === "days" ? (
+                <>
+                  <div className="grid grid-cols-7 gap-x-0.5 sm:gap-x-1 pb-1">
+                    {DAY_NAMES.map(name => (
+                      <div key={name} className="text-center text-[11px] sm:text-xs font-medium py-1" style={{ color: "rgba(255,255,255,0.7)" }}>
+                        {name}
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-              <div className="cal-grid grid grid-cols-7">
-                {calendarDays.map((day, i) => {
-                  if (day === null) return <div key={`empty-${i}`} />;
-                  const dateStr = `${viewDate.year}-${pad(viewDate.month + 1)}-${pad(day)}`;
-                  const isSelected = dateStr === dateValue;
-                  const isToday = dateStr === todayStr;
-                  const disabledDay = isDateDisabled(dateStr);
-                  return (
-                    <button
-                      key={dateStr}
-                      disabled={disabledDay}
-                      onClick={() => handleSelect(dateStr)}
-                      className={`cal-btn rounded-full flex items-center justify-center mx-auto transition-all duration-150 touch-manipulation ${disabledDay ? "opacity-30 cursor-not-allowed" : "hover:opacity-80 active:opacity-60"} ${isSelected ? "font-bold" : ""}`}
-                      style={{
-                        backgroundColor: isSelected ? "rgba(255,255,255,0.3)" : "transparent",
-                        color: "#FFFFFF",
-                        border: isToday && !isSelected ? "1px solid rgba(255,255,255,0.5)" : "none",
-                      }}
-                    >
-                      {day}
-                    </button>
-                  );
-                })}
-              </div>
+                  <div className="cal-grid grid grid-cols-7">
+                    {calendarDays.map((day, i) => {
+                      if (day === null) return <div key={`empty-${i}`} />;
+                      const dateStr = `${viewDate.year}-${pad(viewDate.month + 1)}-${pad(day)}`;
+                      const isSelected = dateStr === dateValue;
+                      const isToday = dateStr === todayStr;
+                      const disabledDay = isDateDisabled(dateStr);
+                      return (
+                        <button
+                          key={dateStr}
+                          disabled={disabledDay}
+                          onClick={() => handleSelect(dateStr)}
+                          className={`cal-btn rounded-full flex items-center justify-center mx-auto transition-all duration-150 touch-manipulation ${disabledDay ? "opacity-30 cursor-not-allowed" : "hover:opacity-80 active:opacity-60"} ${isSelected ? "font-bold" : ""}`}
+                          style={{
+                            backgroundColor: isSelected ? "rgba(255,255,255,0.3)" : "transparent",
+                            color: "#FFFFFF",
+                            border: isToday && !isSelected ? "1px solid rgba(255,255,255,0.5)" : "none",
+                          }}
+                        >
+                          {day}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </>
+              ) : (
+                <div className="cal-grid grid grid-cols-4 py-1">
+                  {yearsInPage.map(year => {
+                    const isSelectedYear = year === viewDate.year;
+                    const isCurrentYear = year === new Date().getFullYear();
+                    return (
+                      <button
+                        key={year}
+                        onClick={() => selectYear(year)}
+                        className={`cal-btn rounded-full flex items-center justify-center mx-auto px-2 transition-all duration-150 touch-manipulation hover:opacity-80 active:opacity-60 ${isSelectedYear ? "font-bold" : ""}`}
+                        style={{
+                          width: "auto",
+                          minWidth: "3rem",
+                          backgroundColor: isSelectedYear ? "rgba(255,255,255,0.3)" : "transparent",
+                          color: "#FFFFFF",
+                          border: isCurrentYear && !isSelectedYear ? "1px solid rgba(255,255,255,0.5)" : "none",
+                        }}
+                      >
+                        {year}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         </>,

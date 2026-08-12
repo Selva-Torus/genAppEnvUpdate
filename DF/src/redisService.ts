@@ -6,7 +6,7 @@ import { Client } from 'pg';
 import 'dotenv/config';
 import { Db, MongoClient } from 'mongodb';
 const _ = require("lodash")
-
+import { Queue, QueueOptions } from 'bullmq';
 // import { connectToMongo, connectToRedis, getDb, getRedis,connectPG } from './mongoClient';
 // import { queueMongoOperation } from './mongoQueue-dynamic';
 
@@ -45,7 +45,7 @@ let redis
 @Injectable()
 export class RedisService {
   private readonly BATCH_SIZE = 10000
- 
+ private queues: Map< string, Queue> = new Map();
   constructor(
     // @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {}
@@ -59,7 +59,45 @@ export class RedisService {
    * @throws {Error} If there is an error retrieving the JSON data.
    */
 
-   
+    getQueue(queueName: string, key: string, value: any): void {
+    const jobId = key?.split(':').join('');
+
+    let queue = this.queues.get(queueName);
+
+    if (!queue) {
+      const queueOptions: QueueOptions = {
+        connection: {
+          host: process.env.HOST,
+          port: Number(process.env.PORT),
+        },
+        defaultJobOptions: {
+          attempts: 3,
+          backoff: {
+            type: 'exponential',
+            delay: 2000,
+          },
+          removeOnComplete: true,
+          removeOnFail: false,
+        },
+      };
+
+      queue = new Queue(queueName, queueOptions);
+
+      this.queues.set(queueName, queue);
+
+      // create only once
+      // this.createWorker(queueName);
+    }
+
+    queue.add(
+      key,
+      { value },
+      {
+        jobId,
+      }
+    ).catch(console.error);
+  }
+
     async getJsonData(key: string, collectionName: string) {
     try {
       let returnValue: any;
@@ -76,6 +114,9 @@ export class RedisService {
         let redisResult = await redis.call('JSON.GET', key);    
         if (redisResult) {
           returnValue = redisResult;
+        }else{
+          if(key.includes(':FNGK:AFP:FNK:PF-PFD:'))
+           returnValue = await this.getpgData(key)
         }
         
       }else{
@@ -175,8 +216,13 @@ export class RedisService {
         let pg_response
          const defpath = path ? `.${path}` : "$";
          pg_response = await redis.call("JSON.SET", key, defpath, value);
-       
-         if(pg_response)
+        
+          if(pg_response == 'Value Stored' || pg_response == 'OK'){
+           let valuejson = await redis.call('JSON.GET', key)
+        if(key.includes(':FNGK:AFP:FNK:PF-PFD:'))
+          this.getQueue(`AFP-PERSISTENCE`,key,valuejson);
+        }
+        if(pg_response)
           return 'Value Stored'
               
             
@@ -722,7 +768,7 @@ export class RedisService {
   }
 
 
-   async sethash(records,key){
+   async sethash(records,key,logicCenter:boolean){
     try {
       const totalBatches = Math.ceil(records.length / this.BATCH_SIZE);
       let storedCount = 0;
@@ -746,8 +792,9 @@ export class RedisService {
       }
 
       await redis.set( key+':total', records.length);
-      await redis.set(key+':batches', totalBatches);     
-      //this.getQueue(`AFP-PERSISTENCE`,key,records);
+      await redis.set(key+':batches', totalBatches);  
+      if(logicCenter)   
+      this.getQueue(`AFP-PERSISTENCE`,key,JSON.stringify(records));
     } catch (error) {
       throw error
     }

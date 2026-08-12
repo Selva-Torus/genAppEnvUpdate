@@ -22,21 +22,23 @@ export class EncryptInterceptor implements NestInterceptor {
         data.dpdKey,
         data.method,
         JSON.stringify(data),
-        'ct006_ecp_hrm_v1',
+        'ct006_lap_lap_v1',
       );
 
       let authTag: any = '';
-      if (data.method === 'AESGCM') {
-        authTag = encryptedData.authTag;
-        encryptedData = encryptedData.encrypted;
-      }
-
-      return {
-        ciphertext: encryptedData,
-        dpdKey: data.dpdKey,
-        method: data.method,
-        authTag,
-      };
+        let iv: any = '';
+        if (data.method === 'AESGCM') {
+          authTag = encryptedData.authTag;
+          iv = encryptedData.iv;
+          encryptedData = encryptedData.encrypted;
+        }
+        return {
+          ciphertext: encryptedData,
+          dpdKey: data.dpdKey,
+          method: data.method,
+          authTag,
+          iv,
+        };
     }
 
     return data;

@@ -31,7 +31,7 @@ interface LoginProps {
   appTenantList?: any[]
 }
 
-const LoginForm = ({ logo, appName = "HRM", loginType = "standard", image, appTenantList }: LoginProps) => {
+const LoginForm = ({ logo, appName = "LAP", loginType = "standard", image, appTenantList }: LoginProps) => {
   const [formData, setFormData] = useState<Record<string, string>>({
     email: '',
     password: ''
@@ -44,7 +44,7 @@ const LoginForm = ({ logo, appName = "HRM", loginType = "standard", image, appTe
   const { branding } = useGlobal()
   const { brandColor } = branding
   const { bgColor, borderColor, textColor } = useTheme()
-  const onBoardingKey : string = "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1"
+  const onBoardingKey : string = "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
   const tenant = process.env.NEXT_PUBLIC_TENANT_CODE
   const isSaasApp = process.env.NEXT_PUBLIC_IS_SAAS_APPLICATION;
   const [imageandLogoValid, setImageandLogoValid] = useState({
@@ -70,7 +70,7 @@ const LoginForm = ({ logo, appName = "HRM", loginType = "standard", image, appTe
           tenant: tenant,
           username: formData.email,
           password: formData.password,
-          key: "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT006:AFGK:ECP:AFK:HRM:AFVK:v1:bldc",
+          key: "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT006:AFGK:LAP:AFK:LAP:AFVK:v1:bldc",
           ufClientType: 'UFW',
           app_tenant: selectedAppTenant ? appTenantList?.find(item => item.tenant_name == selectedAppTenant)?.tenant_id : undefined,
           app_tenant_id: selectedAppTenant ? appTenantList?.find(item => item.tenant_name == selectedAppTenant)?.at_id : undefined
@@ -104,52 +104,52 @@ const LoginForm = ({ logo, appName = "HRM", loginType = "standard", image, appTe
   {
     "screenName": "dashboard",
     "screensName": "dashboard-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1"
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
   },
   {
-    "screenName": "employees",
-    "screensName": "employees-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employees:AFVK:v1"
+    "screenName": "report",
+    "screensName": "report-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1"
   },
   {
-    "screenName": "access request",
-    "screensName": "access_request-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:accessRequest:AFVK:v1"
+    "screenName": "filing packages",
+    "screensName": "filing_packages-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "leave management",
-    "screensName": "leave_management-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leaveRequest:AFVK:v1"
+    "screenName": "submissions hub",
+    "screensName": "submissions_hub-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "background check",
-    "screensName": "background_check-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:backgroundCheck:AFVK:v1"
+    "screenName": "service tracking",
+    "screensName": "service_tracking-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "performance review",
-    "screensName": "performance_review-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceReview:AFVK:v1"
+    "screenName": "judgments",
+    "screensName": "judgments-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "job grades",
-    "screensName": "job_grades-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobGrades:AFVK:v1"
+    "screenName": "enforcement",
+    "screensName": "enforcement-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "job position",
-    "screensName": "job_position-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobPositions:AFVK:v1"
+    "screenName": "kill-switch control",
+    "screensName": "kill-switch_control-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "leave policy",
-    "screensName": "leave_policy-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leavePolicy:AFVK:v1"
+    "screenName": "compliance",
+    "screensName": "compliance-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "performance cycle",
-    "screensName": "performance_cycle-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceCycles:AFVK:v1"
+    "screenName": "analytics",
+    "screensName": "analytics-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   }
 ]
           }
@@ -223,7 +223,7 @@ const LoginForm = ({ logo, appName = "HRM", loginType = "standard", image, appTe
       {loginType !== 'standard' && (
         <div className='hidden h-full w-1/2 flex-col items-center justify-center md:flex'>
           {imageandLogoValid.image ? (
-            <img
+            <Image
               className='h-full w-full'
               src={getCdnImage(image as string)}
               alt='login'
@@ -259,7 +259,7 @@ const LoginForm = ({ logo, appName = "HRM", loginType = "standard", image, appTe
           <div className='flex h-4/5 flex-col items-center justify-center lg:gap-4 xl:gap-6 2xl:gap-8'>
             <div className='flex flex-col items-center justify-center gap-2'>
               {imageandLogoValid.logo ? (
-                <img
+                <Image
                   className='h-8 w-12 2xl:h-10 2xl:w-16'
                   width={100}
                   height={100}

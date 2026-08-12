@@ -3,72 +3,95 @@
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-   schemas   = ["ct006_hrm"]
+   schemas   = ["ct006_lap"]
 }
 
 generator client {
 provider = "prisma-client-js"
 }
 
-model hrm_employees {
-employee_id  BigInt @default(autoincrement())
-employee_code  String 
-emp_number  String 
-first_name  String 
-middle_name  String? 
-last_name  String? 
-full_name  String 
-preferred_name  String? 
-gender  String? 
-date_of_birth  DateTime? 
-marital_status  String? 
-personal_email  String? 
-work_email  String? 
-mobile  String? 
-alternate_mobile  String? 
-address_line1  String? 
-address_line2  String? 
-city  String? 
+model attorneys {
+attorney_id  BigInt @default(autoincrement())
+full_name  String? 
+title  String? 
+email  String? 
+persona_role  String? 
+is_active  Boolean? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+accounts   accounts[]    
+amr_review_sessions   amr_review_sessions[]    
+activity_log   activity_log[]    
+
+@@id([attorney_id])
+@@schema("ct006_lap")
+}
+
+
+model creditors {
+creditor_id  BigInt @default(autoincrement())
+creditor_name  String? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+accounts   accounts[]    
+
+@@id([creditor_id])
+@@schema("ct006_lap")
+}
+
+
+model venues {
+venue_id  BigInt @default(autoincrement())
 state  String? 
-country  String? 
-postal_code  String? 
-nationality  String? 
-national_id  String? 
-passport_number  String? 
-blood_group  String? 
-employment_type  String 
-employee_status  String 
-hire_date  DateTime 
-confirmation_date  DateTime? 
-probation_end  DateTime? 
-resignation_date  DateTime? 
-termination_date  DateTime? 
-exit_reason  String? 
-work_mode  String? 
-timezone  String? 
-reporting_manager_id  BigInt? 
-hr_manager_id  BigInt? 
-current_salary  Decimal? 
-annual_ctc  Decimal? 
-salary_currency  String? 
-bank_name  String? 
-bank_account  String? 
-bank_ifsc  String? 
-emergency_contact_name  String? 
-emergency_contact_phone  String? 
-emergency_contact_relation  String? 
-biometric_id  String? 
-profile_photo_url  String? 
-linkedin_profile  String? 
-skills_json  Json? 
-education_history_json  Json? 
-certifications_json  Json? 
-family_details_json  Json? 
-additional_details  Json? 
-custom_attributes_json  Json? 
-secure_data  Json? 
-deleted_at  DateTime? 
-doc_url  String[]   @default([])
+county  String? 
+court_name  String? 
+judge_name  String? 
+filing_fee  Decimal? 
+service_method  String? 
+efiling_required  Boolean? 
+efiling_system  String? 
 trs_created_date  DateTime @default(now())
 trs_created_by  String?  @db.VarChar(length: 64)
 trs_modified_date  DateTime? 
@@ -85,50 +108,25 @@ trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
 trs_sub_org_code  String?  @db.VarChar(length: 16)
 trs_locked_by  String?  @db.VarChar(length: 64)
 trs_locked_time  DateTime? 
-trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
-trs_app_code  String @default("00000") @db.VarChar(length: 16)
-trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
 trs_event_process_status  String?  @db.VarChar(length: 64)
 trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
+trs_token_id  String?  @db.VarChar(length: 64)
 trs_version  String?  @db.VarChar(length: 16)
-hrm_employee_access_requests   hrm_employee_access_requests[]    
-hrm_employee_background_checks   hrm_employee_background_checks[]    
-hrm_employee_nda   hrm_employee_nda[]    
-hrm_separation_checklists   hrm_separation_checklists[]    
-hrm_performance_reviews   hrm_performance_reviews[]    
-hrm_leave_requests   hrm_leave_requests[]    
-position_id   BigInt? 
-hrm_job_positions   hrm_job_positions?  @relation(fields: [position_id], references: [position_id])  
-grade_id   BigInt? 
-hrm_job_grades   hrm_job_grades?  @relation(fields: [grade_id], references: [grade_id])  
+venue_special_rules   venue_special_rules[]    
+accounts   accounts[]    
 
-@@id([employee_id])
-@@schema("ct006_hrm")
+@@id([venue_id])
+@@schema("ct006_lap")
 }
 
 
-model hrm_job_positions {
-position_id  BigInt @default(autoincrement())
-position_code  String  @db.VarChar(length: 216)
-position_title  String 
-description  String? 
-employment_type  String 
-experience_required  Int? 
-salary_range_min  Decimal? 
-salary_range_max  Decimal? 
-headcount  Int 
-approved_headcount  Int 
-filled_headcount  Int 
-is_open  Boolean 
-vacancy_status  String 
-remote_allowed  Boolean 
-travel_required  Boolean 
-job_family  String? 
-job_level  String? 
-additional_details  Json? 
-secure_data  Json? 
-doc_url  String[]   @default([])
+model venue_special_rules {
+rule_id  BigInt @default(autoincrement())
+rule_text  String? 
+rule_type  String? 
 trs_created_date  DateTime @default(now())
 trs_created_by  String?  @db.VarChar(length: 64)
 trs_modified_date  DateTime? 
@@ -145,41 +143,24 @@ trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
 trs_sub_org_code  String?  @db.VarChar(length: 16)
 trs_locked_by  String?  @db.VarChar(length: 64)
 trs_locked_time  DateTime? 
-trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
-trs_app_code  String @default("00000") @db.VarChar(length: 16)
-trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
 trs_event_process_status  String?  @db.VarChar(length: 64)
 trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
+trs_token_id  String?  @db.VarChar(length: 64)
 trs_version  String?  @db.VarChar(length: 16)
-hrm_employees   hrm_employees[]    
-grade_id   BigInt? 
-hrm_job_grades   hrm_job_grades?  @relation(fields: [grade_id], references: [grade_id])  
+venue_id   BigInt? 
+venues   venues?  @relation(fields: [venue_id], references: [venue_id])  
 
-@@id([position_id])
-@@schema("ct006_hrm")
+@@id([rule_id])
+@@schema("ct006_lap")
 }
 
 
-model hrm_job_grades {
-grade_id  BigInt @default(autoincrement())
-grade_code  String 
-grade_name  String 
-grade_description  String? 
-grade_level  Int 
-min_salary  Decimal? 
-max_salary  Decimal? 
-currency  String 
-bonus_percentage  Decimal? 
-promotion_eligible  Boolean 
-overtime_eligible  Boolean 
-notice_period_days  Int? 
-probation_period_days  Int? 
-appraisal_cycle  String? 
-grade_metadata  Json? 
-additional_details  Json? 
-secure_data  Json? 
-doc_url  String[]   @default([])
+model document_types {
+doc_type_id  BigInt @default(autoincrement())
+doc_type_name  String? 
 trs_created_date  DateTime @default(now())
 trs_created_by  String?  @db.VarChar(length: 64)
 trs_modified_date  DateTime? 
@@ -196,41 +177,25 @@ trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
 trs_sub_org_code  String?  @db.VarChar(length: 16)
 trs_locked_by  String?  @db.VarChar(length: 64)
 trs_locked_time  DateTime? 
-trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
-trs_app_code  String @default("00000") @db.VarChar(length: 16)
-trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
 trs_event_process_status  String?  @db.VarChar(length: 64)
 trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
+trs_token_id  String?  @db.VarChar(length: 64)
 trs_version  String?  @db.VarChar(length: 16)
-hrm_employees   hrm_employees[]    
-hrm_job_positions   hrm_job_positions[]    
+account_documents   account_documents[]    
 
-@@id([grade_id])
-@@schema("ct006_hrm")
+@@id([doc_type_id])
+@@schema("ct006_lap")
 }
 
 
-model hrm_leave_policies {
-policy_id  BigInt @default(autoincrement())
-policy_code  String 
-policy_name  String 
-leave_type  String 
-days_per_year  Decimal 
-carry_forward_days  Decimal 
-applicable_to  String 
-gender_applicability  String? 
-accrual_frequency  String? 
-max_consecutive_days  Int? 
-approval_required  Boolean 
-encashment_allowed  Boolean 
-carry_forward_expiry  Int? 
-applicable_locations  Json? 
-policy_rules_json  Json? 
-accrual_rules_json  Json? 
-additional_details  Json? 
-secure_data  Json? 
-doc_url  String[]   @default([])
+model checklist_items {
+checklist_item_id  BigInt @default(autoincrement())
+item_name  String? 
+category_label  String? 
+default_verification_type  String? 
 trs_created_date  DateTime @default(now())
 trs_created_by  String?  @db.VarChar(length: 64)
 trs_modified_date  DateTime? 
@@ -247,43 +212,23 @@ trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
 trs_sub_org_code  String?  @db.VarChar(length: 16)
 trs_locked_by  String?  @db.VarChar(length: 64)
 trs_locked_time  DateTime? 
-trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
-trs_app_code  String @default("00000") @db.VarChar(length: 16)
-trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
 trs_event_process_status  String?  @db.VarChar(length: 64)
 trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
+trs_token_id  String?  @db.VarChar(length: 64)
 trs_version  String?  @db.VarChar(length: 16)
-hrm_leave_requests   hrm_leave_requests[]    
+amr_checklist_status   amr_checklist_status[]    
 
-@@id([policy_id])
-@@schema("ct006_hrm")
+@@id([checklist_item_id])
+@@schema("ct006_lap")
 }
 
 
-model hrm_leave_requests {
-leave_req_id  BigInt @default(autoincrement())
-leave_request_number  String 
-start_date  DateTime 
-end_date  DateTime 
-days_requested  Decimal 
-reason  String? 
-leave_reason_category  String? 
-half_day_flag  Boolean? 
-half_day_session  String? 
-emergency_leave  Boolean 
-contact_during_leave  String? 
-handover_notes  String? 
-attachment_urls  Json? 
-cancellation_reason  String? 
-cancelled_by  BigInt? 
-cancelled_at  DateTime? 
-rejection_reason  String? 
-approval_comments  String? 
-leave_balance_before  Decimal? 
-leave_balance_afterd  Decimal? 
-additional_details  Json? 
-doc_url  String[]   @default([])
+model status_lookup {
+status_id  BigInt @default(autoincrement())
+status_name  String? 
 trs_created_date  DateTime @default(now())
 trs_created_by  String?  @db.VarChar(length: 64)
 trs_modified_date  DateTime? 
@@ -300,35 +245,23 @@ trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
 trs_sub_org_code  String?  @db.VarChar(length: 16)
 trs_locked_by  String?  @db.VarChar(length: 64)
 trs_locked_time  DateTime? 
-trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
-trs_app_code  String @default("00000") @db.VarChar(length: 16)
-trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
 trs_event_process_status  String?  @db.VarChar(length: 64)
 trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
+trs_token_id  String?  @db.VarChar(length: 64)
 trs_version  String?  @db.VarChar(length: 16)
-employee_id   BigInt? 
-hrm_employees   hrm_employees?  @relation(fields: [employee_id], references: [employee_id])  
-policy_id   BigInt? 
-hrm_leave_policies   hrm_leave_policies?  @relation(fields: [policy_id], references: [policy_id])  
+accounts   accounts[]    
 
-@@id([leave_req_id])
-@@schema("ct006_hrm")
+@@id([status_id])
+@@schema("ct006_lap")
 }
 
 
-model hrm_performance_cycles {
-cycle_id  BigInt @default(autoincrement())
-cycle_code  String 
-cycle_name  String 
-cycle_type  String 
-start_date  DateTime 
-end_date  DateTime 
-review_frequency  String? 
-self_review_required  Boolean 
-manager_review_required  Boolean 
-additional_details  Json? 
-doc_url  String[]   @default([])
+model priority_lookup {
+priority_id  BigInt @default(autoincrement())
+priority_name  String? 
 trs_created_date  DateTime @default(now())
 trs_created_by  String?  @db.VarChar(length: 64)
 trs_modified_date  DateTime? 
@@ -345,32 +278,197 @@ trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
 trs_sub_org_code  String?  @db.VarChar(length: 16)
 trs_locked_by  String?  @db.VarChar(length: 64)
 trs_locked_time  DateTime? 
-trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
-trs_app_code  String @default("00000") @db.VarChar(length: 16)
-trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
 trs_event_process_status  String?  @db.VarChar(length: 64)
 trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
+trs_token_id  String?  @db.VarChar(length: 64)
 trs_version  String?  @db.VarChar(length: 16)
-hrm_performance_reviews   hrm_performance_reviews[]    
+accounts   accounts[]    
 
-@@id([cycle_id])
-@@schema("ct006_hrm")
+@@id([priority_id])
+@@schema("ct006_lap")
 }
 
 
-model hrm_performance_reviews {
+model rejection_reason_lookup {
+reason_id  BigInt @default(autoincrement())
+reason_text  String? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+amr_review_sessions   amr_review_sessions[]    
+
+@@id([reason_id])
+@@schema("ct006_lap")
+}
+
+
+model accounts {
+account_id  BigInt @default(autoincrement())
+case_display_id  BigInt? @default(autoincrement())
+debtor_name  String? 
+ssn_masked  String? 
+dob  DateTime? 
+address  String? 
+charge_off_date  DateTime? 
+last_payment_date  DateTime? 
+principal  Decimal? 
+interest  Decimal? 
+fees  Decimal? 
+total_balance  Decimal? 
+sol_expiry_date  DateTime? 
+quality_score  Int? 
+sla_wait_start_time  DateTime? 
+queue_position  Int? 
+account_case_id  String? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+attorney_id   BigInt? 
+attorneys   attorneys?  @relation(fields: [attorney_id], references: [attorney_id])  
+creditor_id   BigInt? 
+creditors   creditors?  @relation(fields: [creditor_id], references: [creditor_id])  
+venue_id   BigInt? 
+venues   venues?  @relation(fields: [venue_id], references: [venue_id])  
+status_id   BigInt? 
+status_lookup   status_lookup?  @relation(fields: [status_id], references: [status_id])  
+priority_id   BigInt? 
+priority_lookup   priority_lookup?  @relation(fields: [priority_id], references: [priority_id])  
+account_documents   account_documents[]    
+amr_checklist_status   amr_checklist_status[]    
+amr_review_sessions   amr_review_sessions[]    
+activity_log   activity_log[]    
+
+@@id([account_id])
+@@schema("ct006_lap")
+}
+
+
+model account_documents {
+doc_instance_id  BigInt @default(autoincrement())
+doc_status  String? 
+doc_reference_url  String[] 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+doc_type_id   BigInt? 
+document_types   document_types?  @relation(fields: [doc_type_id], references: [doc_type_id])  
+account_id   BigInt? 
+accounts   accounts?  @relation(fields: [account_id], references: [account_id])  
+
+@@id([doc_instance_id])
+@@schema("ct006_lap")
+}
+
+
+model amr_checklist_status {
+checklist_status_id  BigInt @default(autoincrement())
+is_complete  Boolean? 
+verified_by  String? 
+verified_timestamp  DateTime? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+checklist_item_id   BigInt? 
+checklist_items   checklist_items?  @relation(fields: [checklist_item_id], references: [checklist_item_id])  
+account_id   BigInt? 
+accounts   accounts?  @relation(fields: [account_id], references: [account_id])  
+
+@@id([checklist_status_id])
+@@schema("ct006_lap")
+}
+
+
+model amr_review_sessions {
 review_id  BigInt @default(autoincrement())
-review_number  String 
-review_type  String 
-review_status  String 
-self_rating  Decimal? 
-manager_rating  Decimal? 
-final_rating  Decimal? 
-improvements  String? 
-completed_at  DateTime? 
-additional_details  Json? 
-doc_url  String[]   @default([])
+start_timestamp  DateTime? 
+end_timestamp  DateTime? 
+review_duration_sec  Int? 
+decision  String? 
+rejection_comment  String? 
+signature_timestamp  DateTime? 
 trs_created_date  DateTime @default(now())
 trs_created_by  String?  @db.VarChar(length: 64)
 trs_modified_date  DateTime? 
@@ -387,37 +485,30 @@ trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
 trs_sub_org_code  String?  @db.VarChar(length: 16)
 trs_locked_by  String?  @db.VarChar(length: 64)
 trs_locked_time  DateTime? 
-trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
-trs_app_code  String @default("00000") @db.VarChar(length: 16)
-trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
 trs_event_process_status  String?  @db.VarChar(length: 64)
 trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
+trs_token_id  String?  @db.VarChar(length: 64)
 trs_version  String?  @db.VarChar(length: 16)
-employee_id   BigInt? 
-hrm_employees   hrm_employees?  @relation(fields: [employee_id], references: [employee_id])  
-cycle_id   BigInt? 
-hrm_performance_cycles   hrm_performance_cycles?  @relation(fields: [cycle_id], references: [cycle_id])  
+attorney_id   BigInt? 
+attorneys   attorneys?  @relation(fields: [attorney_id], references: [attorney_id])  
+reason_id   BigInt? 
+rejection_reason_lookup   rejection_reason_lookup?  @relation(fields: [reason_id], references: [reason_id])  
+account_id   BigInt? 
+accounts   accounts?  @relation(fields: [account_id], references: [account_id])  
 
 @@id([review_id])
-@@schema("ct006_hrm")
+@@schema("ct006_lap")
 }
 
 
-model hrm_separation_checklists {
-checklist_id  BigInt @default(autoincrement())
-resignation_date  DateTime 
-last_working_day  DateTime? 
-checklist_items  Json? 
-access_revoked  Boolean 
-assets_returned  Boolean 
-hr_clearance  Boolean 
-separation_type  String? 
-resignation_reason  String? 
-exit_interview_rating  Decimal? 
-final_settlement_status  String? 
-additional_details  Json? 
-doc_url  String[]   @default([])
+model activity_log {
+activity_id  BigInt @default(autoincrement())
+activity_type  String? 
+description  String? 
+activity_timestamp  DateTime? 
 trs_created_date  DateTime @default(now())
 trs_created_by  String?  @db.VarChar(length: 64)
 trs_modified_date  DateTime? 
@@ -434,162 +525,20 @@ trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
 trs_sub_org_code  String?  @db.VarChar(length: 16)
 trs_locked_by  String?  @db.VarChar(length: 64)
 trs_locked_time  DateTime? 
-trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
-trs_app_code  String @default("00000") @db.VarChar(length: 16)
-trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
 trs_event_process_status  String?  @db.VarChar(length: 64)
 trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
+trs_token_id  String?  @db.VarChar(length: 64)
 trs_version  String?  @db.VarChar(length: 16)
-employee_id   BigInt? 
-hrm_employees   hrm_employees?  @relation(fields: [employee_id], references: [employee_id])  
+attorney_id   BigInt? 
+attorneys   attorneys?  @relation(fields: [attorney_id], references: [attorney_id])  
+account_id   BigInt? 
+accounts   accounts?  @relation(fields: [account_id], references: [account_id])  
 
-@@id([checklist_id])
-@@schema("ct006_hrm")
-}
-
-
-model hrm_employee_access_requests {
-access_req_id  BigInt @default(autoincrement())
-request_number  String 
-request_type  String 
-system_name  String 
-access_role  String? 
-access_level  String? 
-business_justification  String 
-request_priority  String 
-risk_level  String? 
-approval_comments  String? 
-rejection_reason  String? 
-valid_from  DateTime? 
-valid_to  DateTime? 
-access_expiry_date  DateTime? 
-provisioning_status  String 
-provisioned_at  DateTime? 
-provisioning_reference  String? 
-ticket_reference  String? 
-revoked_at  DateTime? 
-revoked_by  BigInt? 
-revoked_reason  String? 
-access_review_required  Boolean 
-last_reviewed_at  DateTime? 
-reviewed_by  BigInt? 
-attachments_json  Json? 
-audit_metadata  Json? 
-additional_details  Json? 
-secure_data  Json? 
-doc_url  String[]   @default([])
-trs_created_date  DateTime @default(now())
-trs_created_by  String?  @db.VarChar(length: 64)
-trs_modified_date  DateTime? 
-trs_modified_by  String?  @db.VarChar(length: 64)
-trs_process_id  String?  @db.VarChar(length: 64)
-trs_access_profile  String?  @db.VarChar(length: 32)
-trs_org_grp_code  String?  @db.VarChar(length: 16)
-trs_org_code  String?  @db.VarChar(length: 16)
-trs_role_grp_code  String?  @db.VarChar(length: 64)
-trs_role_code  String?  @db.VarChar(length: 64)
-trs_ps_grp_code  String?  @db.VarChar(length: 64)
-trs_ps_code  String?  @db.VarChar(length: 64)
-trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
-trs_sub_org_code  String?  @db.VarChar(length: 16)
-trs_locked_by  String?  @db.VarChar(length: 64)
-trs_locked_time  DateTime? 
-trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
-trs_app_code  String @default("00000") @db.VarChar(length: 16)
-trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
-trs_event_process_status  String?  @db.VarChar(length: 64)
-trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
-trs_version  String?  @db.VarChar(length: 16)
-employee_id   BigInt? 
-hrm_employees   hrm_employees?  @relation(fields: [employee_id], references: [employee_id])  
-
-@@id([access_req_id])
-@@schema("ct006_hrm")
-}
-
-
-model hrm_employee_background_checks {
-check_id  BigInt @default(autoincrement())
-check_type  String 
-vendor_name  String? 
-initiated_date  DateTime 
-completed_date  DateTime? 
-result  String? 
-verification_status  String 
-notes  String? 
-additional_details  Json? 
-doc_url  String[]   @default([])
-trs_created_date  DateTime @default(now())
-trs_created_by  String?  @db.VarChar(length: 64)
-trs_modified_date  DateTime? 
-trs_modified_by  String?  @db.VarChar(length: 64)
-trs_process_id  String?  @db.VarChar(length: 64)
-trs_access_profile  String?  @db.VarChar(length: 32)
-trs_org_grp_code  String?  @db.VarChar(length: 16)
-trs_org_code  String?  @db.VarChar(length: 16)
-trs_role_grp_code  String?  @db.VarChar(length: 64)
-trs_role_code  String?  @db.VarChar(length: 64)
-trs_ps_grp_code  String?  @db.VarChar(length: 64)
-trs_ps_code  String?  @db.VarChar(length: 64)
-trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
-trs_sub_org_code  String?  @db.VarChar(length: 16)
-trs_locked_by  String?  @db.VarChar(length: 64)
-trs_locked_time  DateTime? 
-trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
-trs_app_code  String @default("00000") @db.VarChar(length: 16)
-trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
-trs_event_process_status  String?  @db.VarChar(length: 64)
-trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
-trs_version  String?  @db.VarChar(length: 16)
-employee_id   BigInt? 
-hrm_employees   hrm_employees?  @relation(fields: [employee_id], references: [employee_id])  
-
-@@id([check_id])
-@@schema("ct006_hrm")
-}
-
-
-model hrm_employee_nda {
-nda_id  BigInt 
-nda_number  String 
-nda_type  String 
-signed_date  DateTime 
-expiry_date  DateTime? 
-renewal_required  Boolean 
-signed_file_path  String? 
-additional_details  Json? 
-doc_url  String[]   @default([])
-trs_created_date  DateTime @default(now())
-trs_created_by  String?  @db.VarChar(length: 64)
-trs_modified_date  DateTime? 
-trs_modified_by  String?  @db.VarChar(length: 64)
-trs_process_id  String?  @db.VarChar(length: 64)
-trs_access_profile  String?  @db.VarChar(length: 32)
-trs_org_grp_code  String?  @db.VarChar(length: 16)
-trs_org_code  String?  @db.VarChar(length: 16)
-trs_role_grp_code  String?  @db.VarChar(length: 64)
-trs_role_code  String?  @db.VarChar(length: 64)
-trs_ps_grp_code  String?  @db.VarChar(length: 64)
-trs_ps_code  String?  @db.VarChar(length: 64)
-trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
-trs_sub_org_code  String?  @db.VarChar(length: 16)
-trs_locked_by  String?  @db.VarChar(length: 64)
-trs_locked_time  DateTime? 
-trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
-trs_app_code  String @default("00000") @db.VarChar(length: 16)
-trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
-trs_event_process_status  String?  @db.VarChar(length: 64)
-trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
-trs_version  String?  @db.VarChar(length: 16)
-employee_id   BigInt? 
-hrm_employees   hrm_employees?  @relation(fields: [employee_id], references: [employee_id])  
-
-@@id([nda_id])
-@@schema("ct006_hrm")
+@@id([activity_id])
+@@schema("ct006_lap")
 }
 
 

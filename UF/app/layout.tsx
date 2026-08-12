@@ -1,5 +1,5 @@
 /* {
-  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT006:AFGK:ECP:AFK:HRM:AFVK:v1:bldc",
+  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT006:AFGK:LAP:AFK:LAP:AFVK:v1:bldc",
   "ufKey": "Logs Screen",
   "screenName": "logs",
   "screenLabel": "logs",
@@ -33,147 +33,161 @@
       "screenDetails": [
         {
           "name": "dashboard",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1",
           "restrictedAccessProfile": [],
           "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/dashboards (2).png"
+          "icon": "/torus/9.1/CT006/resources/images/Frame.svg"
         }
       ],
       "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/dashboards (2).png"
+      "icon": "/torus/9.1/CT006/resources/images/Frame.svg"
     },
     {
-      "menuGroupLabel": "Employees",
+      "menuGroupLabel": "Report",
       "screenDetails": [
         {
-          "name": "employees",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employees:AFVK:v1",
+          "name": "report",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1",
           "restrictedAccessProfile": [],
           "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/employees (1).png"
+          "icon": "/torus/9.1/CT006/resources/images/report.png"
         }
       ],
       "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/employees (1).png"
+      "icon": "/torus/9.1/CT006/resources/images/report.png"
     },
     {
-      "menuGroupLabel": "Access Request",
+      "menuGroupLabel": "Filing Packages",
       "screenDetails": [
         {
-          "name": "access request",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:accessRequest:AFVK:v1",
+          "name": "filing packages",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
           "restrictedAccessProfile": [],
           "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/lock (1).png"
+          "icon": "/torus/9.1/CT006/resources/images/file.png"
         }
       ],
       "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/lock (1).png"
+      "icon": "/torus/9.1/CT006/resources/images/file.png"
     },
     {
-      "menuGroupLabel": "Leave Management",
+      "menuGroupLabel": "Submissions Hub",
       "screenDetails": [
         {
-          "name": "leave management",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leaveRequest:AFVK:v1",
+          "name": "submissions hub",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
           "restrictedAccessProfile": [],
           "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/calendar-check (1).png"
+          "icon": "/torus/9.1/CT006/resources/images/telegram.png"
         }
       ],
       "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/calendar-check (1).png"
+      "icon": "/torus/9.1/CT006/resources/images/telegram.png"
     },
     {
-      "menuGroupLabel": "Background Check",
+      "menuGroupLabel": "Service Tracking",
       "screenDetails": [
         {
-          "name": "background check",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:backgroundCheck:AFVK:v1",
+          "name": "service tracking",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
           "restrictedAccessProfile": [],
           "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/protect (1).png"
+          "icon": "/torus/9.1/CT006/resources/images/delivery-truck.png"
         }
       ],
       "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/protect (1).png"
+      "icon": "/torus/9.1/CT006/resources/images/delivery-truck.png"
     },
     {
-      "menuGroupLabel": "Performance Review",
+      "menuGroupLabel": "Judgments",
       "screenDetails": [
         {
-          "name": "performance review",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceReview:AFVK:v1",
+          "name": "judgments",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
           "restrictedAccessProfile": [],
           "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/growth-chart (1).png"
+          "icon": "/torus/9.1/CT006/resources/images/hammer.png"
         }
       ],
       "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/growth-chart (1).png"
+      "icon": "/torus/9.1/CT006/resources/images/hammer.png"
     },
     {
-      "menuGroup": "masters",
-      "menuGroupLabel": "Masters",
+      "menuGroupLabel": "Enforcement",
       "screenDetails": [
         {
-          "name": "job grades",
-          "label": "Job Grades",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobGrades:AFVK:v1",
+          "name": "enforcement",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
           "restrictedAccessProfile": [],
           "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/layer (2).png"
-        },
-        {
-          "name": "job position",
-          "label": "Job Position",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobPositions:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/briefcase (1).png"
-        },
-        {
-          "name": "leave policy",
-          "label": "Leave Policy",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leavePolicy:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/schedule (1).png"
-        },
-        {
-          "name": "performance cycle",
-          "label": "Performance Cycle",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceCycles:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/cycle (1).png"
+          "icon": "/torus/9.1/CT006/resources/images/shield-badge.png"
         }
       ],
       "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/settings (1).png"
+      "icon": "/torus/9.1/CT006/resources/images/shield-badge.png"
+    },
+    {
+      "menuGroupLabel": "Kill-Switch Control",
+      "screenDetails": [
+        {
+          "name": "kill-switch control",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false,
+          "icon": "/torus/9.1/CT006/resources/images/warning.png"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/CT006/resources/images/warning.png"
+    },
+    {
+      "menuGroupLabel": "Compliance",
+      "screenDetails": [
+        {
+          "name": "compliance",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false,
+          "icon": "/torus/9.1/CT006/resources/images/open-book.png"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/CT006/resources/images/open-book.png"
+    },
+    {
+      "menuGroupLabel": "Analytics",
+      "screenDetails": [
+        {
+          "name": "analytics",
+          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false,
+          "icon": "/torus/9.1/CT006/resources/images/stacked-bar.png"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/CT006/resources/images/stacked-bar.png"
     }
   ],
   "setupData": {
     "appInfo": {
-      "name": "HRM",
-      "code": "HRM",
+      "name": "LAP",
+      "needAutoDbPush": true,
+      "code": "LAP",
       "encryption": {
         "type": ""
       },
       "applicationUniqueId": "b273d406-451b-406e-b8b6-65b302a66d71",
-      "deploymentArtifactKey": "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:ECP:AFGK:HRM:AFK:hrmDPD:AFVK:v1",
+      "deploymentArtifactKey": "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:LAP:AFGK:LAP:AFK:lapDPD:AFVK:v1",
       "lastBuildVersion": "v1",
-      "lastBuildOn": "2026-07-24T08:13:18.271Z",
-      "accessUrl": "https://tgaprod910.toruslowcode.com/ct006/ecp/hrm/v1",
-      "needAutoDbPush": true,
-      "appLogo": "torus/9.1/CT006/resources/images/Frame 1000004022.png",
-      "logo": "torus/9.1/CT006/resources/images/Frame 1000004022.png",
-      "appGrpName": "Enterprise Compliance Portal",
-      "appGrpCode": "ECP",
+      "lastBuildOn": "2026-08-11T11:22:02.589Z",
+      "accessUrl": "https://tgaprod910.toruslowcode.com/ct006/lap/lap/v1",
+      "appGrpName": "Legal Automation Platform",
+      "appGrpCode": "LAP",
       "fusionAuthAppClientSecret": "NXRGuMfH4-FxN3SRBO7-Nwl3V2Eb0o7tk7FiGREm1W4"
     },
     "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT006:AFK:PROFILE:AFVK:v1:appearance",
-    "selectedPresetKey": "1783422155489",
+    "selectedPresetKey": "1780467258338",
     "group-bg-color": "#ffffff",
     "fontSize": {
       "minPx": "6",
@@ -181,13 +195,13 @@
       "maxPx": "12"
     },
     "direction": "LTR",
-    "brandColor": "#108DDA",
-    "selectionColor": "#5DB8F0",
-    "hoverColor": "#D6EEFC",
+    "brandColor": "#0737c9",
+    "selectionColor": "#579eff",
+    "hoverColor": "#d5eeff",
     "borderRadius": "xl",
     "topbarColor": "#ffffff",
     "menubarColor": "#ffffff",
-    "sidebarStyle": "compact",
+    "sidebarStyle": "default",
     "navigationStyles": "vertical",
     "theme": "light",
     "layoutMode": "fluid",
@@ -241,9 +255,13 @@
     },
     "page-bg-color": "#ffffff",
     "language": "English",
-    "name": "HRM",
+    "name": "ecp_styles",
     "appBackgroundImage": "",
     "fontFamily": [
+      {
+        "label": "Google Sans",
+        "fontUrl": "https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Pliant:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      },
       {
         "label": "Inter",
         "fontUrl": "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
@@ -253,127 +271,39 @@
     "text-header-font": "Inter",
     "text-display-font": "Inter"
   },
-  "setupKey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT006:AFGK:ECP:AFK:HRM:AFVK:v1:appearance",
+  "setupKey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT006:AFGK:LAP:AFK:LAP:AFVK:v1:appearance",
   "allKeys": [
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employees:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:accessRequest:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leaveRequest:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:backgroundCheck:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceReview:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobGrades:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobPositions:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leavePolicy:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceCycles:AFVK:v1"
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   ],
   "loginDetails": {
-    "firstName": "Haritha",
-    "lastName": "Rk",
-    "loginId": "Haritha",
-    "email": "haritha@torus.tech",
-    "mobile": "",
+    "loginId": "sam",
+    "firstName": "Sam",
+    "lastName": "M",
+    "email": "samm@torus.tech",
+    "mobile": "8190002700",
+    "2FAFlag": "N",
+    "scope": "client_admin",
     "status": "active",
     "accessProfile": [
-      "Dev"
+      "admin"
     ],
     "accessExpires": "",
-    "dateAdded": "2026-05-22T13:18:13.118Z",
-    "profile": "",
-    "userUniqueId": "bb0decdf-1901-40e5-8f51-d646de94bd10",
+    "dateAdded": "2026-05-13T10:46:01.070Z",
+    "isRestricted": false,
+    "userUniqueId": "3701adf2-5a28-4b1d-9388-b8a890bc8085",
     "touring": {
-      "isneedTouring": true,
+      "isneedTouring": false,
       "touringData": {
         "/torus": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/home": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "artifactselector": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/company-profile": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/tenant": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "build": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/user-management": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/storage-configuration": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/logic-center": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/orchestrator": {
-          "stepIndex": 0,
-          "isSkipped": false,
-          "completed": false,
-          "notVisited": []
-        },
-        "/tenant-settings": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "Security": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/user-roles": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/resource-library": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/appearance": {
           "stepIndex": 0,
           "isSkipped": true,
           "completed": false,
@@ -381,100 +311,100 @@
         }
       }
     },
-    "users": "HarithaHaritha Rk",
+    "lastActive": "2026-08-11T12:46:30.091Z",
+    "client": "CT006",
+    "users": "samSam M",
+    "profile": "",
     "noOfProductsService": 0,
-    "edit": "",
-    "lastActive": "2026-07-27T10:52:44.611Z",
-    "client": "CT006"
+    "edit": ""
   },
   "webOnBoarding": {
     "navBarStyle": {
-      "activeItems": [
-        {
-          "name": "menu items",
-          "gridRow": "2/10"
-        },
-        {
-          "name": "opr matrix",
-          "gridRow": "10/12"
-        },
-        {
-          "name": "profile",
-          "gridRow": "12/13"
-        },
+      "activeItems": [],
+      "deletedItems": [
         {
           "name": "logo",
-          "gridRow": "1/2"
-        }
-      ],
-      "deletedItems": [
+          "gridColumn": "1/2"
+        },
         {
           "name": "app logo",
           "gridColumn": "2/4"
+        },
+        {
+          "name": "menu items",
+          "gridColumn": "4/9",
+          "gridRow": "1/6"
+        },
+        {
+          "name": "opr matrix",
+          "gridColumn": "9/12",
+          "gridRow": "6/9"
+        },
+        {
+          "name": "profile",
+          "gridColumn": "12/13",
+          "gridRow": "12/13"
         }
       ]
     },
-    "landingScreen": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1",
-    "loginType": "rightAligned",
-    "image": "torus/9.1/CT006/resources/images/8b8e0685a15e58f0145f3c76d263dd009522dd0a.png"
+    "landingScreen": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
   },
   "allKeyswithScreenNames": [
     {
       "screenName": "dashboard",
       "screensName": "dashboard-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1"
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
     },
     {
-      "screenName": "employees",
-      "screensName": "employees-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employees:AFVK:v1"
+      "screenName": "report",
+      "screensName": "report-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1"
     },
     {
-      "screenName": "access request",
-      "screensName": "access_request-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:accessRequest:AFVK:v1"
+      "screenName": "filing packages",
+      "screensName": "filing_packages-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
     },
     {
-      "screenName": "leave management",
-      "screensName": "leave_management-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leaveRequest:AFVK:v1"
+      "screenName": "submissions hub",
+      "screensName": "submissions_hub-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
     },
     {
-      "screenName": "background check",
-      "screensName": "background_check-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:backgroundCheck:AFVK:v1"
+      "screenName": "service tracking",
+      "screensName": "service_tracking-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
     },
     {
-      "screenName": "performance review",
-      "screensName": "performance_review-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceReview:AFVK:v1"
+      "screenName": "judgments",
+      "screensName": "judgments-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
     },
     {
-      "screenName": "job grades",
-      "screensName": "job_grades-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobGrades:AFVK:v1"
+      "screenName": "enforcement",
+      "screensName": "enforcement-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
     },
     {
-      "screenName": "job position",
-      "screensName": "job_position-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobPositions:AFVK:v1"
+      "screenName": "kill-switch control",
+      "screensName": "kill-switch_control-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
     },
     {
-      "screenName": "leave policy",
-      "screensName": "leave_policy-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leavePolicy:AFVK:v1"
+      "screenName": "compliance",
+      "screensName": "compliance-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
     },
     {
-      "screenName": "performance cycle",
-      "screensName": "performance_cycle-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceCycles:AFVK:v1"
+      "screenName": "analytics",
+      "screensName": "analytics-v1",
+      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
     }
   ],
-  "deploymentArtifactKey": "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:ECP:AFGK:HRM:AFK:hrmDPD:AFVK:v1",
-  "appGroupDesc": "Enterprise Compliance Portal",
+  "deploymentArtifactKey": "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:LAP:AFGK:LAP:AFK:lapDPD:AFVK:v1",
+  "appGroupDesc": "Legal Automation Platform",
   "logType": "dfs",
-  "appDesc": "HRM",
-  "appLogo": "torus/9.1/CT006/resources/images/Frame 1000004022.png",
+  "appDesc": "LAP",
   "isOld": true,
   "clientCode": "CT006"
 } */
@@ -487,21 +417,28 @@ import GlobalContext from './globalContext';
 import { GlobalProvider } from '@/context/GlobalContext';
 import { EventBusProvider } from '@/context/EventBusContext';
 import { ThemeWrapper } from '@/components/ThemeWrapper';
+import { cookies } from 'next/headers';
+import { COOKIE_PREFIX } from '@/lib/cookies';
+
 export const metadata: Metadata = {
-  title: 'HRM',
-  description: 'HRM Generated by Torus'
+  title: 'LAP',
+  description: 'LAP Generated by Torus'
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: {
   children: React.ReactNode
 }) {
+  const cookieStore = await cookies();
+  const tokenParam = cookieStore.get(`${COOKIE_PREFIX}_token`)?.value;
+  console.log(tokenParam , "token param from layout");
+
   return (
     <html lang='en'>
       <body>
         <GlobalContext>
-          <GlobalProvider>
+          <GlobalProvider tokenParam={tokenParam ?? ""}>
             <EventBusProvider>
               <ThemeWrapper>
                   <GetSetupKey>{children}</GetSetupKey>

@@ -1,10 +1,66 @@
 import { ApiProperty , ApiPropertyOptional} from "@nestjs/swagger";
-import { IsEnum, IsOptional, IsNotEmpty, IsString, ValidateNested, IsObject, IsBoolean, IsArray, IsNumber} from 'class-validator';
+import { IsEnum, IsOptional, IsNotEmpty, IsString, ValidateNested, IsBoolean, IsArray, IsNumber, IsInt, Min, Max, registerDecorator, ValidationOptions } from 'class-validator';
 import { Request } from 'express';
 import { join } from 'path';
 import { Type } from 'class-transformer';
 
 export const FILE_UPLOADS_DIR = join(process.cwd(), 'uploads');
+
+// filterData/searchFilter/filterDetails are genuinely dynamic: the low-code
+// filter UI generates column names it can't know at DTO-authoring time (see
+// uf.service.ts#getpagination[withLogicCenter], dynamicFlow.service.ts and
+// listener.service.ts, which read them as either an array of per-node
+// {nodeId, ...column: value} records, an array of {key,operator,value,
+// value2,type} descriptors, or a flat column->value record). Typing them as
+// a concrete class would silently drop real fields under whitelist mode.
+// Instead of leaving them as bare `object` (any JSON shape, no structural
+// check), this validator enforces the one thing every downstream consumer
+// (SQL WHERE builders in common.Service.ts/dynamicFlow.service.ts,
+// Object.assign-based mapObj merges, applyFilters()) actually relies on:
+// a plain object, or array of plain objects, whose values are primitives (or
+// arrays of primitives) — never nested objects/functions — and whose keys
+// are never __proto__/constructor/prototype. Column-name safety itself is
+// still enforced downstream by CommonService.isSafeSqlIdentifier(); this
+// only closes the structural gap so malformed/hostile payloads never reach
+// that stage in the first place.
+const DANGEROUS_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
+function isSafeFilterValue(value: any): boolean {
+  if (value === null || value === undefined) return true;
+  const t = typeof value;
+  if (t === 'string' || t === 'number' || t === 'boolean') return true;
+  if (Array.isArray(value)) {
+    return value.every(v => v === null || v === undefined || ['string', 'number', 'boolean'].includes(typeof v));
+  }
+  return false;
+}
+
+function isSafeFilterRecord(value: any): boolean {
+  if (value === null || typeof value !== 'object' || Array.isArray(value)) return false;
+  if (Object.prototype.toString.call(value) !== '[object Object]') return false;
+  return Object.keys(value).every(key => !DANGEROUS_KEYS.has(key) && isSafeFilterValue(value[key]));
+}
+
+export function IsSafeFilterShape(validationOptions?: ValidationOptions) {
+  return function (object: Object, propertyName: string) {
+    registerDecorator({
+      name: 'isSafeFilterShape',
+      target: object.constructor,
+      propertyName,
+      options: validationOptions,
+      validator: {
+        validate(value: any) {
+          if (value === undefined || value === null) return true;
+          if (Array.isArray(value)) return value.every(isSafeFilterRecord);
+          return isSafeFilterRecord(value);
+        },
+        defaultMessage(args) {
+          return `${args.property} must be a plain object, or array of plain objects, with only primitive (or primitive-array) values and no __proto__/constructor/prototype keys`;
+        },
+      },
+    });
+  };
+}
 
 export const fileNameEditor = (
   req: Request,
@@ -102,10 +158,14 @@ export class readAPIDTO {
     @ApiProperty({description: 'Key', example: 'TGA:ABKUF:BUILD:ABC:mvp:bank:v2'})
     @IsNotEmpty()
     key: string;
-  
+
     @ApiProperty({description: 'nodeName', example: 'row1'})
+    @IsOptional()
+    @IsString()
     nodeName?: string;
-  
+
+    @IsOptional()
+    @IsBoolean()
     isTable?:boolean
   }
 
@@ -132,46 +192,119 @@ export class readAPIDTO {
     export class pfDto {
       @IsNotEmpty()
       @IsString()
-      key: string      
-      upId: any    
-      event: string      
+      key: string
+      @IsOptional()
+      upId: any
+      @IsOptional()
+      @IsString()
+      event: string
+      @IsOptional()
       data: any
-      token:string    
-      nodeId: string    
-      nodeName:string    
-      nodeType:string  
+      @IsOptional()
+      @IsString()
+      token:string
+      @IsOptional()
+      @IsString()
+      nodeId: string
+      @IsOptional()
+      @IsString()
+      nodeName:string
+      @IsOptional()
+      @IsString()
+      nodeType:string
+      @IsOptional()
+      @IsString()
       sourceId:string
+      @IsOptional()
+      @IsString()
       refreshFlag : string
+      @IsOptional()
+      @IsString()
       dpdKey ?: string
+      @IsOptional()
+      @IsString()
       method?:string
+      @IsOptional()
+      @Type(() => Number)
+      @IsInt()
+      @Min(1)
       page?:number
+      @IsOptional()
+      @Type(() => Number)
+      @IsInt()
+      @Min(1)
+      @Max(10000)
       count?:number
+      @IsOptional()
+      @IsSafeFilterShape()
       filterData?:object
+      @IsOptional()
       lock?:Object
+      @IsOptional()
       childTable?:any
+      @IsOptional()
+      @IsBoolean()
       logicCenter?:boolean
+      @IsOptional()
+      @IsString()
       schedulerStatus?:string
+      @IsOptional()
+      @IsString()
       parentUpId?:string
+      @IsOptional()
+      @IsString()
       ssKey?:string
+      @IsOptional()
+      @IsString()
       controlName?:string
+      @IsOptional()
+      @IsString()
       afiflag?:string
+      @IsOptional()
+      @IsSafeFilterShape()
       searchFilter?:object
+      @IsOptional()
       trs_version?:any
+      @IsOptional()
+      @IsString()
+      tableName?:string
     }
   
-    export class pageDto { 
+    export class pageDto {
       @IsNotEmpty()
       @IsString()
-      key: string 
-      //@IsNumber()     
+      key: string
+      @IsOptional()
+      @Type(() => Number)
+      @IsInt()
+      @Min(1)
       page: number
-      //@IsNumber() 
-      count: number   
-      filterDetails?: object   
-      searchFilter?:object      
+      @IsOptional()
+      @Type(() => Number)
+      @IsInt()
+      @Min(1)
+      @Max(10000)
+      count: number
+      @IsOptional()
+      @IsSafeFilterShape()
+      filterDetails?: object
+      @IsOptional()
+      @IsSafeFilterShape()
+      searchFilter?:object
+      @IsOptional()
+      @IsString()
       dpdKey?:string
+      @IsOptional()
+      @IsString()
       method?:string
-      filterData?:string   
+      // NOTE: previously typed @IsString() even though every caller
+      // (uf.service.ts#getpagination -> filterData?.find/[0]) treats this as
+      // an array of per-node filter records — a plain string would never
+      // have passed those calls without throwing. Corrected to match actual
+      // usage and validated the same way as pfDto.filterData.
+      @IsOptional()
+      @IsSafeFilterShape()
+      filterData?: object
   }
 
     export class ProcessLogEntryDto {
@@ -316,14 +449,22 @@ export class ExpLogInputDto {
     status: string
   }
 
-  export class dataGet { 
+  export class dataGet {
     @IsNotEmpty()
     @IsString()
-    key: string   
-    filterDetails?: object   
-    searchFilter?:object  
+    key: string
+    @IsOptional()
+    @IsSafeFilterShape()
+    filterDetails?: object
+    @IsOptional()
+    @IsSafeFilterShape()
+    searchFilter?:object
+    @IsOptional()
+    @IsString()
     dpdKey?:string
-    method?:string    
+    @IsOptional()
+    @IsString()
+    method?:string
   }
   export interface errorObj{
     tname : string,
@@ -337,8 +478,14 @@ export class setUpKeyDto{
   @ApiProperty({example: "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:TT001:AFK:PROFILE:AFVK:v1:tpc"})
   @IsNotEmpty()
   key:string
+  @IsOptional()
+  @IsString()
   tag?:string
+  @IsOptional()
+  @IsString()
   dpdKey?:string
+  @IsOptional()
+  @IsString()
   method?:string
 }
 
@@ -376,21 +523,33 @@ export class OrchestrationDto{
   key:string
 
   @ApiProperty({description: 'componentId'})
+  @IsOptional()
+  @IsString()
   componentId?:string
 
   @ApiProperty({description: 'controlId'})
+  @IsOptional()
+  @IsString()
   controlId?:string
 
   @ApiProperty({description: 'isTable'})
+  @IsOptional()
+  @IsBoolean()
   isTable:boolean
 
   @ApiProperty({description: 'accessProfile'})
+  @IsOptional()
+  @IsArray()
   accessProfile?:any[]
-  
+
   @ApiProperty({description: 'dpdKey'})
+  @IsOptional()
+  @IsString()
   dpdKey?:string
 
   @ApiProperty({description: 'method'})
+  @IsOptional()
+  @IsString()
   method?:string
 }
 
@@ -405,9 +564,13 @@ export class elementsFilterDto{
   key:string
 
   @ApiProperty({description: 'group'})
+  @IsOptional()
+  @IsString()
   group?:string
 
   @ApiProperty({description: 'control'})
+  @IsOptional()
+  @IsString()
   control?:string
 }
 
@@ -417,32 +580,46 @@ export class getMapperDetailsDto{
   ufkey:string
 
   @ApiProperty({description: 'componentId'})
+  @IsOptional()
+  @IsString()
   componentId:string
 
   @ApiProperty({description: 'category'})
+  @IsOptional()
+  @IsString()
   category:string
 
   @ApiProperty({description: 'controlId'})
+  @IsOptional()
+  @IsString()
   controlId:string
 
   @ApiProperty({description: 'bindtranValue'})
+  @IsOptional()
   bindtranValue?:any
 
   @ApiProperty({description: 'code'})
+  @IsOptional()
   code?:any
 
   @ApiProperty({description: 'dpdKey'})
+  @IsOptional()
+  @IsString()
   dpdKey?:string
 
   @ApiProperty({description: 'method'})
+  @IsOptional()
+  @IsString()
   method?:string
 }
 
 export class codeExecutionDto{
   @ApiProperty({description: 'stringCode'})
+  @IsString()
   stringCode:string
 
   @ApiProperty({description: 'params'})
+  @IsString()
   params:string
 }
 
@@ -452,18 +629,26 @@ export class codefilterDto{
   key:string
 
   @ApiProperty({description: 'groupId'})
+  @IsOptional()
   groupId?:any
 
   @ApiProperty({description: 'controlId'})
+  @IsOptional()
+  @IsString()
   controlId?:string
 
   @ApiProperty({description: 'event'})
+  @IsOptional()
   event?:any
 
   @ApiProperty({description: 'dpdKey'})
+  @IsOptional()
+  @IsString()
   dpdKey?:string
 
   @ApiProperty({description: 'method'})
+  @IsOptional()
+  @IsString()
   method?:string
 }
 
@@ -471,14 +656,23 @@ export class paginationDataFilterDto{
   @ApiProperty({description: 'key'})
   @IsNotEmpty()
   key:string
+  @IsOptional()
+  @IsString()
   dfdType?:string
   @ApiProperty({description: 'data'})
+  @IsOptional()
   data?:any
   @ApiProperty({description: 'dpdKey'})
+  @IsOptional()
+  @IsString()
   dpdKey?:string
   @ApiProperty({description: 'method'})
+  @IsOptional()
+  @IsString()
   method?:string
   @ApiProperty({description: 'primaryKey'})
+  @IsOptional()
+  @IsString()
   primaryKey?:string
 }
 
@@ -488,12 +682,17 @@ export class InitiatePFDto{
   key:string
 
   @ApiProperty({description: 'sourceId'})
+  @IsOptional()
   sourceId:any
 
   @ApiProperty({description: 'dpdKey'})
+  @IsOptional()
+  @IsString()
   dpdKey?:string
 
   @ApiProperty({description: 'method'})
+  @IsOptional()
+  @IsString()
   method?:string
 }
 
@@ -503,9 +702,13 @@ export class fetchActionDetailsDto{
   key:string
 
   @ApiProperty({description: 'groupId'})
+  @IsOptional()
+  @IsString()
   groupId:string
 
   @ApiProperty({description: 'controlId'})
+  @IsOptional()
+  @IsString()
   controlId:string
 }
 
@@ -515,29 +718,44 @@ export class fetchRuleDetailsDto{
   key:string
 
   @ApiProperty({description: 'groupId'})
+  @IsOptional()
+  @IsString()
   groupId:string
 
   @ApiProperty({description: 'controlId'})
+  @IsOptional()
+  @IsString()
   controlId:string
 }
 
 export class ifoDto{
   @ApiProperty({description: 'formData'})
+  @IsOptional()
   formData:any
 
   @ApiProperty({description: 'key'})
+  @IsOptional()
+  @IsString()
   key:string
 
   @ApiProperty({description: 'controlId'})
+  @IsOptional()
+  @IsString()
   controlId:string
 
   @ApiProperty({description: 'isTable'})
+  @IsOptional()
+  @IsBoolean()
   isTable?:boolean
 
   @ApiProperty({description: 'dpdKey'})
+  @IsOptional()
+  @IsString()
   dpdKey?:string
 
   @ApiProperty({description: 'method'})
+  @IsOptional()
+  @IsString()
   method?:string
 }
 
@@ -547,9 +765,13 @@ export class logoutDto{
   key:string
 
   @ApiProperty({description: 'dpdKey'})
+  @IsOptional()
+  @IsString()
   dpdKey?:string
 
   @ApiProperty({description: 'method'})
+  @IsOptional()
+  @IsString()
   method?:string
 }
 
@@ -559,9 +781,13 @@ export class myAccountForClientdto{
   key:string
 
   @ApiProperty({description: 'dpdKey'})
+  @IsOptional()
+  @IsString()
   dpdKey?:string
 
   @ApiProperty({description: 'method'})
+  @IsOptional()
+  @IsString()
   method?:string
 }
 
@@ -571,44 +797,68 @@ export class introspectDto{
   key:string
 
   @ApiProperty({description: 'dpdKey'})
+  @IsOptional()
+  @IsString()
   dpdKey?:string
 
   @ApiProperty({description: 'method'})
+  @IsOptional()
+  @IsString()
   method?:string
 }
 
 export class signinToTorusDto{
   @ApiProperty({description: 'client'})
+  @IsString()
+  @IsOptional()
   client:string
 
   @ApiProperty({description: 'username'})
+  @IsString()
   username:string
 
   @ApiProperty({description: 'password'})
+  @IsString()
+  @IsOptional()
   password:string
 
   @ApiProperty({description: 'type'})
+  @IsOptional()
+  @IsEnum({ t: 't', c: 'c' })
   type:'t' | 'c' = 't'
 
   @ApiProperty({description: 'dpdKey'})
+  @IsOptional()
+  @IsString()
   dpdKey?:string
 
   @ApiProperty({description: 'method'})
+  @IsOptional()
+  @IsString()
   method?:string
 
   @ApiProperty({description: 'ufClientType'})
+  @IsOptional()
+  @IsString()
   ufClientType?:string
 
   @ApiPropertyOptional({description: 'app_tenant'})
+  @IsOptional()
+  @IsString()
   app_tenant?:string
 
   @ApiPropertyOptional({description: 'app_tenant_id'})
+  @IsOptional()
+  @IsNumber()
   app_tenant_id?:number
 
   @ApiPropertyOptional({description: 'fusionAuthLoginResponse'})
+  @IsOptional()
   fusionAuthLoginResponse?:any
 
   @ApiPropertyOptional({description: 'isOauthUser'})
+  @IsOptional()
+  @IsBoolean()
   isOauthUser?:boolean
 }
 
@@ -1000,6 +1250,83 @@ export class exportdata {
   @ApiProperty({ example: 'CK:TGA:FNGK:BLDC:FNK:DEV:CATK:TT001:AFGK:Torus20261:AFK:Torus202601:AFVK:v1:bldc' })
   @IsString()
   bldcKey: string;
+}
+
+export class LockDetailsDto {
+  @ApiPropertyOptional({ description: 'ttl' })
+  @IsOptional()
+  @IsNumber()
+  ttl?: number;
+}
+
+export class teSaveDto {
+  @ApiProperty({ description: 'key' })
+  @IsNotEmpty()
+  @IsString()
+  key: string;
+
+  @ApiProperty({ description: 'data' })
+  @IsNotEmpty()
+  data: any;
+
+  @ApiProperty({ description: 'nodeId' })
+  @IsNotEmpty()
+  @IsString()
+  nodeId: string;
+
+  @ApiProperty({ description: 'nodeName' }) 
+  @IsNotEmpty() 
+  @IsString()
+  nodeName: string;
+
+  @ApiProperty({ description: 'nodeType' })
+  @IsNotEmpty()
+  @IsString()
+  nodeType: string;
+
+  @ApiProperty({ description: 'event' })
+  @IsNotEmpty()
+  @IsString()
+  event: string;
+
+  @ApiPropertyOptional({ description: 'upId' })
+  @IsOptional()
+  upId?: any;
+
+  @ApiPropertyOptional({ description: 'sourceId' })
+  @IsOptional()
+  @IsString()
+  sourceId?: string;
+
+  @ApiPropertyOptional({ description: 'childTable' })
+  @IsOptional()
+  childTable?: any;
+
+  @ApiPropertyOptional({ description: 'ssKey' })
+  @IsOptional()
+  @IsString()
+  ssKey?: string;
+
+  @ApiPropertyOptional({ description: 'controlName' })
+  @IsOptional()
+  @IsString()
+  controlName?: string;
+
+  @ApiPropertyOptional({ type: LockDetailsDto })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => LockDetailsDto)
+  lockDetails?: LockDetailsDto;
+
+  @ApiPropertyOptional({ description: 'dpdKey' })
+  @IsOptional()
+  @IsString()
+  dpdKey?: string;
+
+  @ApiPropertyOptional({ description: 'method' })
+  @IsOptional()
+  @IsString()
+  method?: string;
 }
 
 export class LockRecordDto {

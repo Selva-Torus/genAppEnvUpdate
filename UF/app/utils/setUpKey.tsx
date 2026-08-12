@@ -6,6 +6,7 @@ import { AxiosService } from "../components/axiosService";
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import { deleteAllCookies,getCookie } from '@/app/components/cookieMgment';
 import { useGlobal } from "@/context/GlobalContext";
+import Image from "next/image";
 const borderRadiusMap = {
   xs: '3px',
   s: '3px',
@@ -60,13 +61,13 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
   }
 
   const [data, setData] = useState<SetupKeyData | null>(null);
-  const token:string = getCookie('token'); 
+  const { token } = useGlobal();
   const encryptionFlagApp: boolean = true;
-  const encryptionDpd: string = "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:ECP:AFGK:HRM:AFK:hrmDPD:AFVK:v1";
+  const encryptionDpd: string = "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:LAP:AFGK:LAP:AFK:lapDPD:AFVK:v1";
   const encryptionMethod: string = "";
   const fetchSetupKey = async () => {
     try {
-      let setUpKeyDto:any = {key:"CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT006:AFGK:ECP:AFK:HRM:AFVK:v1:appearance"
+      let setUpKeyDto:any = {key:"CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT006:AFGK:LAP:AFK:LAP:AFVK:v1:appearance"
 };
       if (encryptionFlagApp) {
         setUpKeyDto["dpdKey"] = encryptionDpd;

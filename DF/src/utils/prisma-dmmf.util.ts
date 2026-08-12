@@ -9,6 +9,12 @@ export interface FieldTypeMap {
   [fieldName: string]: string;
 }
 
+// Real table/model names known to Prisma's schema — used to allow-list a
+// caller-supplied table name before it is interpolated into raw SQL.
+export function getAllowedModelNames(): string[] {
+  return Prisma.dmmf.datamodel.models.map((m) => m.name);
+}
+
 // Extracts all field lengths from Prisma DMMF for a given model
 export function getModelFieldLengths(modelName: string): FieldLengthMap {
   const dmmf = Prisma.dmmf.datamodel.models;

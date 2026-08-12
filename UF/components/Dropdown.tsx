@@ -160,15 +160,25 @@ export const Dropdown: React.FC<DropdownProps> = ({
       setPanelStyle(style);
     };
 
+    // Scrolling inside the options panel itself doesn't move the trigger,
+    // so it shouldn't trigger a reposition -- and letting it through here
+    // means the panel's own scroll gets treated like an ancestor scroll by
+    // anything else listening on window (e.g. overlay/close-on-scroll logic
+    // in whatever the dropdown is rendered inside).
+    const handleWindowScroll = (e: Event) => {
+      if (listRef.current && listRef.current.contains(e.target as Node)) return;
+      recalcPosition();
+    };
+
     recalcPosition();
     const raf = requestAnimationFrame(recalcPosition);
 
     window.addEventListener("resize", recalcPosition);
-    window.addEventListener("scroll", recalcPosition, true);
+    window.addEventListener("scroll", handleWindowScroll, true);
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", recalcPosition);
-      window.removeEventListener("scroll", recalcPosition, true);
+      window.removeEventListener("scroll", handleWindowScroll, true);
     };
   }, [isOpen, filterText, isLoadingMore]);
 
@@ -199,6 +209,12 @@ export const Dropdown: React.FC<DropdownProps> = ({
         break;
       case "Escape":
         e.preventDefault();
+        setIsOpen(false);
+        break;
+      case "Tab":
+        // Don't preventDefault -- let focus move to the next/previous
+        // control as normal, just close the panel so it doesn't stay
+        // floating open over whatever the user tabs into.
         setIsOpen(false);
         break;
     }
@@ -297,6 +313,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
     return isDark ? "border-gray-600" : "border-gray-300";
   };
 
+  // No fixed validation color (invalid/valid) is driving the border,
+  // so hover/open highlighting is free to apply.
+  const isNeutralValidation = validationState !== "invalid" && validationState !== "valid";
+
   const getFillClasses = () => {
     if (!fillContainer) return "";
     return "w-full h-full";
@@ -317,13 +337,14 @@ export const Dropdown: React.FC<DropdownProps> = ({
   const optionsPanel = (
     <div
       ref={listRef}
+      data-modal="true"
       className={`
         border-2
         ${isDark ? "bg-gray-800 border-gray-600" : "bg-white border-gray-300"}
         shadow-lg
         overflow-auto
       `}
-      style={{ borderRadius: "var(--border-radius)", maxHeight: panelStyle.maxHeight ?? 240, ...panelStyle }}
+      style={{ borderRadius: "var(--border-radius)", maxHeight: panelStyle.maxHeight ?? 240, overscrollBehavior: "contain", ...panelStyle }}
       onMouseDown={(e) => e.stopPropagation()}
     >
       {filteredOptions.map((option, index) => {
@@ -410,15 +431,15 @@ export const Dropdown: React.FC<DropdownProps> = ({
             `}
             style={{
               borderRadius: "var(--border-radius)",
-              borderColor: validationState === "none" && isOpen ? branding.selectionColor : undefined,
+              borderColor: isNeutralValidation && isOpen ? branding.selectionColor : undefined,
             }}
             onMouseEnter={e => {
-              if (!disabled && validationState === "none" && !isOpen) {
+              if (!disabled && isNeutralValidation && !isOpen) {
                 e.currentTarget.style.borderColor = branding.hoverColor
               }
             }}
             onMouseLeave={e => {
-              if (!disabled && validationState === "none" && !isOpen) {
+              if (!disabled && isNeutralValidation && !isOpen) {
                 e.currentTarget.style.borderColor = ''
               }
             }}
@@ -473,15 +494,15 @@ export const Dropdown: React.FC<DropdownProps> = ({
           `}
           style={{
             borderRadius: "var(--border-radius)",
-            borderColor: validationState === "none" && isOpen ? branding.selectionColor : undefined,
+            borderColor: isNeutralValidation && isOpen ? branding.selectionColor : undefined,
           }}
           onMouseEnter={e => {
-            if (!disabled && validationState === "none" && !isOpen) {
+            if (!disabled && isNeutralValidation && !isOpen) {
               e.currentTarget.style.borderColor = branding.hoverColor
             }
           }}
           onMouseLeave={e => {
-            if (!disabled && validationState === "none" && !isOpen) {
+            if (!disabled && isNeutralValidation && !isOpen) {
               e.currentTarget.style.borderColor = ''
             }
           }}

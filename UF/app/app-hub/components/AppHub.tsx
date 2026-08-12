@@ -6,13 +6,13 @@ import { useGlobal } from '@/context/GlobalContext'
 import { twMerge } from 'tailwind-merge'
 import { useTheme } from '@/hooks/useTheme'
 import { getCdnImage } from '@/app/utils/getAssets'
-import { getCookie } from '@/app/components/cookieMgment'
 import { AxiosService } from '@/app/components/axiosService'
 import { useInfoMsg } from '@/app/components/infoMsgHandler'
 import { Button } from '@/components/Button'
 import { Dropdown } from '@/components/Dropdown'
 import { AppHubIcon, SearchIcon } from '@/app/components/svgApplication'
 import clsx from 'clsx'
+import Image from "next/image";
 
 type VersionInfo = {
   version: string
@@ -30,12 +30,11 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
   const { userDetails, setUserDetails } = useContext(
     TotalContext
   ) as TotalContextProps
-  const { branding } = useGlobal()
+  const { branding , token } = useGlobal()
   const { brandColor } = branding
   const { borderColor, isDark } = useTheme()
   const bgColor = isDark ? "bg-gray-800" : "bg-white"
   const bgCardColor = isDark ? "bg-gray-700" : "bg-gray-100"
-  const token = getCookie('token')
   const toast: Function = useInfoMsg()
 
   const [searchTerm, setSearchTerm] = useState('')
@@ -177,7 +176,9 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
                 >
                   <div className='mb-3 flex h-12 w-12 items-center justify-center rounded-md bg-gray-100'>
                     {app.logo ? (
-                      <img
+                      <Image
+                        width={100}
+                        height={100}
                         src={getCdnImage(app.logo)}
                         alt={app.name}
                         className='h-6 w-6 object-contain'

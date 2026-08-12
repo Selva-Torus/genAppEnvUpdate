@@ -5,6 +5,7 @@ const  Xid = require('xid-js');
 import { CommonService } from "src/common.Service";
 import { CustomException } from "src/customException";
 import { JwtService } from "@nestjs/jwt";
+import { JwtServices } from "src/jwt.services";
 import { CronJob } from 'cron';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { Queue, JobsOptions, QueueOptions } from 'bullmq';
@@ -17,6 +18,7 @@ import * as pg from "pg";
 import { MongoClient } from "mongodb";
 import { format } from "date-fns";
 import { EnvData } from "src/envData/envData.service";
+import { runInSandbox } from "src/sandbox";
 
 @Injectable()
 export class ListenerService implements OnModuleInit, OnModuleDestroy{ 
@@ -31,7 +33,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
 
     constructor(
         private readonly redisService:RedisService,    
-        private readonly jwtService:JwtService,
+        private readonly jwtService:JwtServices,
         private schedulerRegistry: SchedulerRegistry,
         private readonly CommonService: CommonService,
         private readonly teService: TeService,
@@ -101,7 +103,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
 
     let keyarr = []
         
-    let artifactToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoiSGFyaXRoYSIsImNsaWVudCI6IkNUMDA2IiwidHlwZSI6ImMiLCJsb2dUeXBlIjoiZGZzIiwic2lkIjoiYzk1MGQxMDMtZWJhMy00MDE5LWI1NjctZGU3YjAwZjhhMTRhIiwiaWF0IjoxNzg1MTQ5NTY0LCJleHAiOjE3ODUxNTA3NjR9.dzbUr0rehDr6pQY2WSBxDCL8OR9Fiyt8M8FMZjVNIrA';  
+    let artifactToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoic2FtIiwiY2xpZW50IjoiQ1QwMDYiLCJ0eXBlIjoiYyIsImxvZ1R5cGUiOiJkZnMiLCJzaWQiOiI4NDFlZGEzNS00ZmRlLTRmYTQtYjhlZi0xZmRmNmYzOWRlYjAiLCJpYXQiOjE3ODY0NDc5NTYsImV4cCI6MTc4NjQ0OTE1Nn0.QwyLntSVEDQNQY7QRGoG67yDd6yuveaXf8jCjqOLtPc';  
     for (const key of keyarr) {
       this.listenToKey(key,artifactToken); // fire & forget
     }  
@@ -214,11 +216,16 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
     //.logger.log(`Stopped listener for '${this.options.streamName}'`);
   }
 
-  async startCronJob(name: string, interval, pfdto,client,token) {
+ async startCronJob(name: string, interval, pfdto,client,token) {
     this.logger.log(`Interval: ${interval}`); 
     let temp = pfdto       
     const job:any = new CronJob(interval, async () => {
-      let tokenDecode = this.jwtService.decode(pfdto.token, { json: true })
+      let tokenDecode: any;
+      try {
+        tokenDecode = await this.jwtService.verifyToken(pfdto.token);
+      } catch (e) {
+        tokenDecode = null;
+      }
         if (!tokenDecode || !tokenDecode.loginId)
           throw new CustomException('Invalid token', 401);
 
@@ -353,7 +360,12 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
     this.logger.log(`Interval Step`); 
     let temp = pfdto 
     const intervalId = setInterval(async () => {
-      let tokenDecode = this.jwtService.decode(pfdto.token, { json: true })
+      let tokenDecode: any;
+      try {
+        tokenDecode = await this.jwtService.verifyToken(pfdto.token); 
+      } catch (e) {
+        tokenDecode = null;
+      }
         if (!tokenDecode || !tokenDecode.loginId)
           throw new CustomException('Invalid token', 401);
 
@@ -463,7 +475,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
     this.intervalJobs.set(jobname, intervalId);
   }
 
-  async addEventEmitterJob(queueName: string, pfdto: pfDto, jobName: string,processedKey,pfs,currentFabric,options?: JobsOptions) {
+ async addEventEmitterJob(queueName: string, pfdto: pfDto, jobName: string,processedKey,pfs,currentFabric,options?: JobsOptions) {
     try {
       const queue = this.getQueue(queueName);
       if(pfdto && (Object.keys(pfdto.data).length >0 || pfdto.data.length > 0)){
@@ -588,6 +600,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
 
     async firstProcessor(pfdto, event, pfjson ,poJson,pfo, ndp,currentFabric, flag, page, count, filterData, lockDetails,childtable,logicCenter,semarc) {
     this.logger.log('firstProcessor started!');
+     ({ page, count } = this.CommonService.sanitizePagination(page, count));
       let upId= pfdto.upId
       // this.logger.log('UPID', upId);
       let key:string = pfdto.key
@@ -1565,8 +1578,9 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                         }
                       }
                     }
-                    const FormatFn = new Function(`return ${manualQry}`);
-                    let result = FormatFn();
+                    // Evaluated in a vm sandbox (no process/require/fs access) instead of
+                    // new Function(), which ran in this module's real global scope.
+                    let result = runInSandbox(manualQry, {});
                     manualQry = Array.isArray(result) ? result : [result];
 
                     if (manualQryType == 'aggregate') {
@@ -1876,7 +1890,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                 if (mapobj && Object.keys(mapobj).length > 0) {
                   Object.keys(mapobj).forEach(key => {
                     const regex = new RegExp(`\\$\\$${key}`, 'g');
-                    const value = typeof mapobj[key] === 'string' ? `'${mapobj[key]}'` : mapobj[key];
+                    const value = this.CommonService.sqlLiteral(mapobj[key]);
                     executecommand = executecommand.replace(regex, value);
                   });
                 }
@@ -1905,14 +1919,18 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                           removedVal = key
                         }
 
+                        // Column names here come from client-supplied filterData and are spliced
+                        // directly into the WHERE fragment; reject anything that isn't a plain
+                        // (optionally dotted) SQL identifier instead of concatenating it.
+                        if (!this.CommonService.isSafeSqlIdentifier(removedVal)) return;
                         if (value && typeof value == 'number') {
                           formKey = formKey + ` ${removedVal} = ${value} AND`;
                         } else if (value && typeof value == 'string' && value != '') {
-                          formKey = formKey + ` ${removedVal} = '${value}' AND`;
+                          formKey = formKey + ` ${removedVal} = ${this.CommonService.sqlLiteral(value)} AND`;
                         } else if (Array.isArray(value) && value.length > 0) {
                           let s = ''
                           for (let item of value) {
-                            s = s + `'${item}',`
+                            s = s + `${this.CommonService.sqlLiteral(item)},`
                           }
                           if (s.endsWith(',')) {
                             s = s.slice(0, -1);
@@ -1998,7 +2016,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
           }
 
           //Procedure Execution node
-          if (nodeType == 'procedureexecutionnode' && poNode[j].nodeId == nodeId) {
+           if (nodeType == 'procedureexecutionnode' && poNode[j].nodeId == nodeId) {
             try {
               this.logger.log(`first ${poNode[j].nodeName} procedureexecutionnode Started`)
               let mapobj = {}, status, params, customConfig, procedurequery, nodeVersion, dbType, connectorType, storageType, dpdkey, conncectorName, dbConfig, executecommand, inMemory
@@ -2081,41 +2099,11 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                 if (mapobj && Object.keys(mapobj).length > 0) {
                   Object.keys(mapobj).forEach(key => {
                     const regex = new RegExp(`\\$\\$${key}`, 'g');
-                    const value = typeof mapobj[key] === 'string' ? `'${mapobj[key]}'` : mapobj[key];
+                    const value = this.CommonService.sqlLiteral(mapobj[key]);
                     executecommand = executecommand.replace(regex, value);
                   });
                 }
-                if (filterData && Array.isArray(filterData) && filterData.length > 0) {
-                  filterData.forEach((filterObj) => {
-                    if (filterObj.nodeId == poNode[j].nodeId) {
-                      const entries = Object.entries(filterObj).filter(([key]) => key !== 'nodeId',);
-                      // console.log('entries', entries);
-
-                      entries.forEach(([key, value]) => {
-                        let removedVal;
-                        if (key.includes('.')) {
-                          let s_item = key.split('.');
-
-                          removedVal = s_item.filter((item) => !statickeyword.includes(item)).join('.');
-                          // console.log("removedVal",removedVal);
-
-                          if (removedVal.includes('.') && removedVal.startsWith('items.')) {
-                            removedVal = removedVal.replace('items.', '');
-                          }
-                        } else {
-                          removedVal = key
-                        }
-
-                        const regex = new RegExp(`\\$\\$\\$${removedVal}`, 'g');
-                        if (typeof value == 'number')
-                          executecommand = executecommand.replace(regex, `${value}`);
-                        else if (typeof value == 'string')
-                          executecommand = executecommand.replace(regex, `'${value}'`);
-
-                      });
-                    }
-                  });
-                }
+                executecommand = this.CommonService.applyDollarDollarDollarFilters(executecommand, filterData, poNode[j].nodeId, statickeyword);
                 if (executecommand.includes('$$$') || executecommand.includes('$$'))
                   executecommand = executecommand.replace(/\${2,3}[a-zA-Z0-9_]+/g, 'NULL');
                 if (dbType == 'postgres') {

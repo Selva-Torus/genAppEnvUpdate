@@ -4,11 +4,12 @@
 import React, { useState, useEffect, useMemo, useDeferredValue, useContext } from 'react'
 import { AxiosService } from '@/app/components/axiosService'
 import TableHeader from './components/LogTable'
-import { deleteAllCookies, getCookie, setCookie } from '@/app/components/cookieMgment'
+import { deleteAllCookies, setCookie } from '@/app/components/cookieMgment'
 import decodeToken from '@/app/components/decodeToken'
 import Artifactdetails from './components/ArtifactDetails'
 import { TotalContext, TotalContextProps } from '../globalContext'
 import { useRouter } from 'next/navigation'
+import { useGlobal } from '@/context/GlobalContext'
 
 const ParentComponent = () => {
   console.log("🚀 ~ TgService ~ codeGeneration ~ setupData:")
@@ -17,14 +18,14 @@ const ParentComponent = () => {
   const [nodeData, setNodeData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [app, setApp] = useState({
-    code: 'HRM',
-    name: 'HRM'
+    code: 'LAP',
+    name: 'LAP'
   })
   const [appGroup, setappGroup] = useState({
-    code: 'ECP',
-    name: 'Enterprise Compliance Portal'
+    code: 'LAP',
+    name: 'Legal Automation Platform'
   })
-  const token: string = getCookie('token')
+  const { token } = useGlobal();
   const decodedToken: any = decodeToken(token)
   const [user, setUser] = useState<string[]>([decodedToken?.loginId])
   const { encAppFalg,setEncAppFalg}= useContext(TotalContext) as TotalContextProps
@@ -49,7 +50,7 @@ const ParentComponent = () => {
   const [ fabrics , setFabrics ] = useState<Array<string>>([])
   const [jsonViewerData, setJsonViewerData] = useState({})
   const router = useRouter()
-  let landingScreen:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1';
+  let landingScreen:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1';
   const encryptionFlagApp: boolean = false;    
   const [jsonData, setJsonData] = useState({
     data: [],
@@ -105,6 +106,9 @@ const ParentComponent = () => {
         `/${activeTab === 'torus' ? 'expLog' : 'prcLog'}`,
         payload,
         {
+          headers : {
+            Authorization : `Bearer ${token}`
+          },
           signal: signal
         }
       )
@@ -273,7 +277,7 @@ const ParentComponent = () => {
   const securityCheck = async () => {
   try {
     const encryptionDpd: string =
-      'CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:ECP:AFGK:HRM:AFK:hrmDPD:AFVK:v1'
+      'CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:LAP:AFGK:LAP:AFK:lapDPD:AFVK:v1'
     const encryptionMethod: string = ''
     let introspect: any
     if (encryptionFlagApp) {

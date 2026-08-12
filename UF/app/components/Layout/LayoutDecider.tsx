@@ -7,7 +7,7 @@ import SideNav from './SideNav'
 import './brand.css'
 import { TotalContext, TotalContextProps } from '../../globalContext'
 import { AxiosService } from '../axiosService'
-import { deleteAllCookies, getCookie } from '../cookieMgment'
+import { deleteAllCookies } from '../cookieMgment'
 import { useInfoMsg } from '../infoMsgHandler'
 import { MenuItem } from '../../interfaces/interfaces'
 import decodeToken from '../decodeToken'
@@ -39,19 +39,19 @@ const LayoutDecider = ({
     sidebarStyle == 'default' || sidebarStyle == 'condensed' ? true : false
   )
   const {userDetails, setUserDetails } = useContext(TotalContext) as TotalContextProps
-  const { branding } : { branding: Branding } = useGlobal();
+  const { branding , token }= useGlobal();
   const { borderColor, bgColor } : { borderColor: string; bgColor: string } = useTheme()
   const { brandColor, hoverColor, selectionColor } : { brandColor: string; hoverColor: string; selectionColor: string } = branding;
   const encryptionFlagApp: boolean = false;    
-  const encryptionDpd: string = "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:ECP:AFGK:HRM:AFK:hrmDPD:AFVK:v1";
+  const encryptionDpd: string = "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:LAP:AFGK:LAP:AFK:lapDPD:AFVK:v1";
   const encryptionMethod: string = "";
-  const logo: string = "torus/9.1/CT006/resources/images/Frame 1000004022.png"
-  const appLogo: string = "torus/9.1/CT006/resources/images/Frame 1000004022.png"
-  const appName: string = "HRM"
+  const logo: string = ""
+  const appLogo: string = ""
+  const appName: string = "LAP"
   const toast: Function = useInfoMsg()
   const [loading, setLoading] = useState<boolean>(true)
   const [updatedNavData, setUpdatedNavData] = useState<MenuItem[]>([])
-  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT006:AFGK:ECP:AFK:HRM:AFVK:v1:bldc"
+  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT006:AFGK:LAP:AFK:LAP:AFVK:v1:bldc"
   const [rawNavData, setRawNavData] = useState<MenuItem[] | null>(null);
   const navData: MenuItem[] = [
   {
@@ -83,127 +83,142 @@ const LayoutDecider = ({
     "screenDetails": [
       {
         "name": "dashboard",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/dashboards (2).png"
+        "icon": "/torus/9.1/CT006/resources/images/Frame.svg"
       }
     ],
     "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/dashboards (2).png"
+    "icon": "/torus/9.1/CT006/resources/images/Frame.svg"
   },
   {
-    "menuGroupLabel": "Employees",
+    "menuGroupLabel": "Report",
     "screenDetails": [
       {
-        "name": "employees",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employees:AFVK:v1",
+        "name": "report",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/employees (1).png"
+        "icon": "/torus/9.1/CT006/resources/images/report.png"
       }
     ],
     "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/employees (1).png"
+    "icon": "/torus/9.1/CT006/resources/images/report.png"
   },
   {
-    "menuGroupLabel": "Access Request",
+    "menuGroupLabel": "Filing Packages",
     "screenDetails": [
       {
-        "name": "access request",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:accessRequest:AFVK:v1",
+        "name": "filing packages",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/lock (1).png"
+        "icon": "/torus/9.1/CT006/resources/images/file.png"
       }
     ],
     "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/lock (1).png"
+    "icon": "/torus/9.1/CT006/resources/images/file.png"
   },
   {
-    "menuGroupLabel": "Leave Management",
+    "menuGroupLabel": "Submissions Hub",
     "screenDetails": [
       {
-        "name": "leave management",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leaveRequest:AFVK:v1",
+        "name": "submissions hub",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/calendar-check (1).png"
+        "icon": "/torus/9.1/CT006/resources/images/telegram.png"
       }
     ],
     "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/calendar-check (1).png"
+    "icon": "/torus/9.1/CT006/resources/images/telegram.png"
   },
   {
-    "menuGroupLabel": "Background Check",
+    "menuGroupLabel": "Service Tracking",
     "screenDetails": [
       {
-        "name": "background check",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:backgroundCheck:AFVK:v1",
+        "name": "service tracking",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/protect (1).png"
+        "icon": "/torus/9.1/CT006/resources/images/delivery-truck.png"
       }
     ],
     "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/protect (1).png"
+    "icon": "/torus/9.1/CT006/resources/images/delivery-truck.png"
   },
   {
-    "menuGroupLabel": "Performance Review",
+    "menuGroupLabel": "Judgments",
     "screenDetails": [
       {
-        "name": "performance review",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceReview:AFVK:v1",
+        "name": "judgments",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/growth-chart (1).png"
+        "icon": "/torus/9.1/CT006/resources/images/hammer.png"
       }
     ],
     "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/growth-chart (1).png"
+    "icon": "/torus/9.1/CT006/resources/images/hammer.png"
   },
   {
-    "menuGroup": "masters",
-    "menuGroupLabel": "Masters",
+    "menuGroupLabel": "Enforcement",
     "screenDetails": [
       {
-        "name": "job grades",
-        "label": "Job Grades",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobGrades:AFVK:v1",
+        "name": "enforcement",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/layer (2).png"
-      },
-      {
-        "name": "job position",
-        "label": "Job Position",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobPositions:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/briefcase (1).png"
-      },
-      {
-        "name": "leave policy",
-        "label": "Leave Policy",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leavePolicy:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/schedule (1).png"
-      },
-      {
-        "name": "performance cycle",
-        "label": "Performance Cycle",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceCycles:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/cycle (1).png"
+        "icon": "/torus/9.1/CT006/resources/images/shield-badge.png"
       }
     ],
     "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/settings (1).png"
+    "icon": "/torus/9.1/CT006/resources/images/shield-badge.png"
+  },
+  {
+    "menuGroupLabel": "Kill-Switch Control",
+    "screenDetails": [
+      {
+        "name": "kill-switch control",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/warning.png"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/warning.png"
+  },
+  {
+    "menuGroupLabel": "Compliance",
+    "screenDetails": [
+      {
+        "name": "compliance",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/open-book.png"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/open-book.png"
+  },
+  {
+    "menuGroupLabel": "Analytics",
+    "screenDetails": [
+      {
+        "name": "analytics",
+        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT006/resources/images/stacked-bar.png"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/CT006/resources/images/stacked-bar.png"
   }
 ]
-  const token:string = getCookie('token'); 
   const decodedTokenObj: DecodedToken = decodeToken(token)
   const user: string | undefined = decodedTokenObj?.selectedAccessProfile
   const getSideNavClassName = useMemo(() => {
@@ -382,8 +397,7 @@ const LayoutDecider = ({
 
   useEffect(() => {
     if (typeof window !== undefined) {
-      const currentToken: string = getCookie('token')
-      if (currentToken) {
+      if (token) {
         // 4a. Initial fetch of raw navigation data
         getNavData()
       } else {
@@ -396,9 +410,8 @@ const LayoutDecider = ({
 
   useEffect(() => {
     if (rawNavData) {
-      const currentToken: string = getCookie('token')
-      if (currentToken) {
-        checkAccessProfile(currentToken, rawNavData)
+      if (token) {
+        checkAccessProfile(token, rawNavData)
       }
     }
   }, [rawNavData])
@@ -452,7 +465,6 @@ const LayoutDecider = ({
 
   useEffect(() => {
     if (typeof window !== undefined) {
-      const token = getCookie('token')
       if (token) {
         checkAccessProfile(token)
       }
@@ -475,24 +487,7 @@ const LayoutDecider = ({
     name: string
     'gridColumn'?: string
     'gridRow'?: string
-  }[] =[
-  {
-    "name": "menu items",
-    "gridRow": "2/10"
-  },
-  {
-    "name": "opr matrix",
-    "gridRow": "10/12"
-  },
-  {
-    "name": "profile",
-    "gridRow": "12/13"
-  },
-  {
-    "name": "logo",
-    "gridRow": "1/2"
-  }
-]
+  }[] =[]
 
    if (loading == true){
     return (<div className='flex w-[100vw] h-[100vh] bg-slate-200 justify-center items-center '><span>Loading...</span></div>);

@@ -1,11 +1,6 @@
 // app/next-api/auth/logout/route.ts
+import { COOKIE_PREFIX, FULL_BASE_PATH } from '@/lib/cookies';
 import { NextRequest, NextResponse } from 'next/server'
-
-const FULL_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
-export const COOKIE_PREFIX = FULL_BASE_PATH.replace(/^\/|\/$/g, '').replace(
-  /\//g,
-  '_'
-)
 
 export async function GET(request: NextRequest) {
   // Fire and forget FA server-side logout
@@ -33,12 +28,11 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  // Logout needs only the discovery fields; no secret is requested.
   const {
     tenantUniqueId,
     applicationId,
-    fusionAuthAppClientSecret,
     fusionAuthBaseUrl,
-    fusionAuthApiKey
   } = await response.json();
 
     await fetch(

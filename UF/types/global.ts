@@ -118,6 +118,7 @@ export interface Branding {
 }
 
 export interface GlobalProps {
+  token: string;
   theme: Theme;
   language: Language;
   direction: Direction;

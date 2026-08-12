@@ -23,10 +23,11 @@ export async function buildAuthorizationUrl(
       throw new Error(`Failed to fetch FusionAuth registration details: ${response.status}`);
     }
 
+    // No client secret requested here — building the authorization URL only
+    // needs the public discovery fields (they appear in the redirect URL anyway).
     const {
       tenantUniqueId,
       applicationId,
-      fusionAuthAppClientSecret,
       appTenantId,
       fusionAuthBaseUrl,
     } = await response.json();
@@ -60,12 +61,18 @@ export async function exchangeCodeForTokens(
     queryParams.append('tenant', appTenantParam);
   }
 
+  // This is the only flow that needs the OAuth client secret. The backend now
+  // releases it solely to a caller presenting the shared internal-service key,
+  // so an anonymous request to the same endpoint gets discovery data only.
+  // Server-side module — INTERNAL_SERVICE_KEY is deliberately not NEXT_PUBLIC_*
+  // and must never be exposed to the browser bundle.
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/UF/fusionauth-credentials?${queryParams.toString()}`,
     {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        'x-internal-service-key': process.env.INTERNAL_SERVICE_KEY ?? '',
       },
     },
   );
@@ -80,9 +87,14 @@ export async function exchangeCodeForTokens(
     tenantUniqueId,
     applicationId,
     fusionAuthAppClientSecret,
-    fusionAuthBaseUrl,
-    fusionAuthApiKey
+    fusionAuthBaseUrl
   } = await response.json();
+
+  if (!fusionAuthAppClientSecret) {
+    throw new Error(
+      'FusionAuth client secret was not returned — set INTERNAL_SERVICE_KEY to the same value on both the UF server and the DF backend.',
+    );
+  }
 
   const params = new URLSearchParams({
     grant_type: 'authorization_code',

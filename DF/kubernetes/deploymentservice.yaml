@@ -2,16 +2,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ct006-hrm-df-generator
-  namespace: ct006-hrm-df-v1
+  name: ct006-lap-df-generator
+  namespace: ct006-lap-df-v1
   labels:
-    app: ct006-hrm-df-generator
+    app: ct006-lap-df-generator
 spec:
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: ct006-hrm-df-generator
+      app: ct006-lap-df-generator
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -20,11 +20,11 @@ spec:
   template:
     metadata:
       labels:
-        app: ct006-hrm-df-generator
+        app: ct006-lap-df-generator
     spec:
       containers:
-      - name: ct006-hrm-df-generator-backend-container
-        image: 192.168.2.164:5000/ct006-hrm-df-v1:docker_tag
+      - name: ct006-lap-df-generator-backend-container
+        image: 192.168.2.164:5000/ct006-lap-df-v1:docker_tag
         imagePullPolicy: IfNotPresent
         ports:
         - name: http
@@ -39,13 +39,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ct006-hrm-df-generator
-  namespace: ct006-hrm-df-v1
+  name: ct006-lap-df-generator
+  namespace: ct006-lap-df-v1
   labels:
-    app: ct006-hrm-df-generator
+    app: ct006-lap-df-generator
 spec:
   selector:
-    app: ct006-hrm-df-generator
+    app: ct006-lap-df-generator
   ports:
     - name: http
       protocol: TCP

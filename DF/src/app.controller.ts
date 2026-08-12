@@ -4,6 +4,7 @@ import { CommonService } from 'src/common.Service';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PrcLogInputDto, LogOutputDto,ExpLogInputDto, ProcessLogResponseDto, RawProcessLogInputDto  } from './dto';
 import { UfService } from './Torus/v1/uf/uf.service';
+import { Public } from './public.decorator';
 
 @Controller()
 export class AppController {
@@ -11,6 +12,7 @@ export class AppController {
   private readonly ufService:UfService) {}
 
   @Get()
+  @Public()
   getHello(): string {
     return this.appService.getHello();
   }

@@ -18,15 +18,15 @@ import { useHandleDfdRefresh } from '@/context/dfdRefreshContext';
 import evaluateDecisionTable,{ evaluateDecisionForDynamicActions,eventDecisionTable } from '@/app/utils/evaluateDecisionTable';
 import decodeToken from '@/app/components/decodeToken';
 import uoMapperData from '@/context/dfdmapperContolnames.json';
-import Textheader_text  from "./Textheader_text";
+import Texttext  from "./Texttext";
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
-import { getCookie } from "@/app/components/cookieMgment";
+import { useGlobal } from '@/context/GlobalContext'
 import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import { useTheme } from '@/hooks/useTheme';
 
 
 const Groupheader_group = ({lockedData={},setLockedData,primaryTableData={},tableData=[],setTableData, setPrimaryTableData,checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFlagPageData, nodeData, setNodeData,paginationDetails,isFormOpen=false,setIsProcessing, groupData: groupDataProp={}, controlData: controlDataProp={}}:any)=> {
-  const token:string = getCookie('token'); 
+  const { token } = useGlobal();
   const decodedTokenObj:any = decodeToken(token);
   const user : string | undefined = decodedTokenObj?.selectedAccessProfile;
   const {refresh, setRefresh} = useContext(TotalContext) as TotalContextProps;
@@ -41,9 +41,9 @@ const Groupheader_group = ({lockedData={},setLockedData,primaryTableData={},tabl
   let idx = "";
   let item = "";
   const { isDark, isHighContrast, bgStyle, textStyle } = useTheme();
-  const {dfd_hrmdashboard_v1Props, setdfd_hrmdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
-  const {dfd_employees_v1Props, setdfd_employees_v1Props} = useContext(TotalContext) as TotalContextProps;
-  const {dfd_accessrequest_v1Props, setdfd_accessrequest_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_amrqueuedashboard_v1Props, setdfd_amrqueuedashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_pendingfilingsdashboard_v1Props, setdfd_pendingfilingsdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_cardsdashboard_v1Props, setdfd_cardsdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
   const encryptionFlagComp: boolean = encryptionFlagPageData?.flag || false;
   let encryptionDpd: string = "";
   encryptionDpd = encryptionDpd !=='' ? encryptionDpd: encryptionFlagPageData?.dpd;
@@ -56,210 +56,44 @@ const Groupheader_group = ({lockedData={},setLockedData,primaryTableData={},tabl
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
   const securityData:any={
-  "CXO": {
+  "Branch Manager": {
     "allowedControls": [
-      "header_text"
+      "text"
     ],
     "allowedGroups": [
       "canvas",
       "header_group",
-      "hrm_dashboard_group",
-      "total_employees_group",
-      "pending_access_req_group",
-      "leave_requests_group",
-      "onboarding_group",
-      "table_group",
-      "subscreen",
-      "ct006_af_uf_ufws_ecp_hrm_totalemployees_v1",
-      "employee_table_group",
-      "emp_group",
-      "total_employee_table",
-      "ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1",
-      "access_req_group",
-      "acc_group",
-      "access_req_table"
+      "asset_dashboard_group",
+      "amr_queue_group",
+      "pending_file_group",
+      "service_pending_group",
+      "slas_at_risk_group",
+      "court_rejection_group",
+      "collected_mtd_group",
+      "overall_key_performance_indicators",
+      "key_performance_indicator_group",
+      "recent_activity_group"
     ],
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "HR Manager": {
+  "Branch Officer": {
     "allowedControls": [
-      "header_text"
+      "text"
     ],
     "allowedGroups": [
       "canvas",
       "header_group",
-      "hrm_dashboard_group",
-      "total_employees_group",
-      "pending_access_req_group",
-      "leave_requests_group",
-      "onboarding_group",
-      "table_group",
-      "subscreen",
-      "ct006_af_uf_ufws_ecp_hrm_totalemployees_v1",
-      "employee_table_group",
-      "emp_group",
-      "total_employee_table",
-      "ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1",
-      "access_req_group",
-      "acc_group",
-      "access_req_table"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
-  "Info Security Officer": {
-    "allowedControls": [
-      "header_text"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "header_group",
-      "hrm_dashboard_group",
-      "total_employees_group",
-      "pending_access_req_group",
-      "leave_requests_group",
-      "onboarding_group",
-      "table_group",
-      "subscreen",
-      "ct006_af_uf_ufws_ecp_hrm_totalemployees_v1",
-      "employee_table_group",
-      "emp_group",
-      "total_employee_table",
-      "ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1",
-      "access_req_group",
-      "acc_group",
-      "access_req_table"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
-  "Employee": {
-    "allowedControls": [
-      "header_text"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "header_group",
-      "hrm_dashboard_group",
-      "total_employees_group",
-      "pending_access_req_group",
-      "leave_requests_group",
-      "onboarding_group",
-      "table_group",
-      "subscreen",
-      "ct006_af_uf_ufws_ecp_hrm_totalemployees_v1",
-      "employee_table_group",
-      "emp_group",
-      "total_employee_table",
-      "ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1",
-      "access_req_group",
-      "acc_group",
-      "access_req_table"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
-  "IT Manager": {
-    "allowedControls": [
-      "header_text"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "header_group",
-      "hrm_dashboard_group",
-      "total_employees_group",
-      "pending_access_req_group",
-      "leave_requests_group",
-      "onboarding_group",
-      "table_group",
-      "subscreen",
-      "ct006_af_uf_ufws_ecp_hrm_totalemployees_v1",
-      "employee_table_group",
-      "emp_group",
-      "total_employee_table",
-      "ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1",
-      "access_req_group",
-      "acc_group",
-      "access_req_table"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
-  "Operation Staff": {
-    "allowedControls": [
-      "header_text"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "header_group",
-      "hrm_dashboard_group",
-      "total_employees_group",
-      "pending_access_req_group",
-      "leave_requests_group",
-      "onboarding_group",
-      "table_group",
-      "subscreen",
-      "ct006_af_uf_ufws_ecp_hrm_totalemployees_v1",
-      "employee_table_group",
-      "emp_group",
-      "total_employee_table",
-      "ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1",
-      "access_req_group",
-      "acc_group",
-      "access_req_table"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
-  "Auditor": {
-    "allowedControls": [
-      "header_text"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "header_group",
-      "hrm_dashboard_group",
-      "total_employees_group",
-      "pending_access_req_group",
-      "leave_requests_group",
-      "onboarding_group",
-      "table_group",
-      "subscreen",
-      "ct006_af_uf_ufws_ecp_hrm_totalemployees_v1",
-      "employee_table_group",
-      "emp_group",
-      "total_employee_table",
-      "ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1",
-      "access_req_group",
-      "acc_group",
-      "access_req_table"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
-  "Operation Manager": {
-    "allowedControls": [
-      "header_text"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "header_group",
-      "hrm_dashboard_group",
-      "total_employees_group",
-      "pending_access_req_group",
-      "leave_requests_group",
-      "onboarding_group",
-      "table_group",
-      "subscreen",
-      "ct006_af_uf_ufws_ecp_hrm_totalemployees_v1",
-      "employee_table_group",
-      "emp_group",
-      "total_employee_table",
-      "ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1",
-      "access_req_group",
-      "acc_group",
-      "access_req_table"
+      "asset_dashboard_group",
+      "amr_queue_group",
+      "pending_file_group",
+      "service_pending_group",
+      "slas_at_risk_group",
+      "court_rejection_group",
+      "collected_mtd_group",
+      "overall_key_performance_indicators",
+      "key_performance_indicator_group",
+      "recent_activity_group"
     ],
     "blockedControls": [],
     "readOnlyControls": []
@@ -278,49 +112,39 @@ const Groupheader_group = ({lockedData={},setLockedData,primaryTableData={},tabl
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
  /////////////
    //another screen
-  const {header_groupf778a, setheader_groupf778a}= useContext(TotalContext) as TotalContextProps;
-  const {header_groupf778aProps, setheader_groupf778aProps}= useContext(TotalContext) as TotalContextProps;
-  const {header_textbcd83, setheader_textbcd83}= useContext(TotalContext) as TotalContextProps;
-  const {hrm_dashboard_group4d6cb, sethrm_dashboard_group4d6cb}= useContext(TotalContext) as TotalContextProps;
-  const {hrm_dashboard_group4d6cbProps, sethrm_dashboard_group4d6cbProps}= useContext(TotalContext) as TotalContextProps;
-  const {total_employees_group69aa9, settotal_employees_group69aa9}= useContext(TotalContext) as TotalContextProps;
-  const {total_employees_group69aa9Props, settotal_employees_group69aa9Props}= useContext(TotalContext) as TotalContextProps;
-  const {pending_access_req_groupb5bd4, setpending_access_req_groupb5bd4}= useContext(TotalContext) as TotalContextProps;
-  const {pending_access_req_groupb5bd4Props, setpending_access_req_groupb5bd4Props}= useContext(TotalContext) as TotalContextProps;
-  const {leave_requests_group4beb5, setleave_requests_group4beb5}= useContext(TotalContext) as TotalContextProps;
-  const {leave_requests_group4beb5Props, setleave_requests_group4beb5Props}= useContext(TotalContext) as TotalContextProps;
-  const {onboarding_group2580d, setonboarding_group2580d}= useContext(TotalContext) as TotalContextProps;
-  const {onboarding_group2580dProps, setonboarding_group2580dProps}= useContext(TotalContext) as TotalContextProps;
-  const {table_groupe0a6f, settable_groupe0a6f}= useContext(TotalContext) as TotalContextProps;
-  const {table_groupe0a6fProps, settable_groupe0a6fProps}= useContext(TotalContext) as TotalContextProps;
-  const {subscreen1c010, setsubscreen1c010}= useContext(TotalContext) as TotalContextProps;
-  const {subscreen1c010Props, setsubscreen1c010Props}= useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547f, setct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547f}= useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547fProps, setct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547fProps}= useContext(TotalContext) as TotalContextProps;
-  const {employee_table_group55008, setemployee_table_group55008}= useContext(TotalContext) as TotalContextProps;
-  const {employee_table_group55008Props, setemployee_table_group55008Props}= useContext(TotalContext) as TotalContextProps;
-  const {emp_group5e40b, setemp_group5e40b}= useContext(TotalContext) as TotalContextProps;
-  const {emp_group5e40bProps, setemp_group5e40bProps}= useContext(TotalContext) as TotalContextProps;
-  const {total_employee_tablee4e9d, settotal_employee_tablee4e9d}= useContext(TotalContext) as TotalContextProps;
-  const {total_employee_tablee4e9dProps, settotal_employee_tablee4e9dProps}= useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfe, setct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfe}= useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfeProps, setct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfeProps}= useContext(TotalContext) as TotalContextProps;
-  const {access_req_groupb1258, setaccess_req_groupb1258}= useContext(TotalContext) as TotalContextProps;
-  const {access_req_groupb1258Props, setaccess_req_groupb1258Props}= useContext(TotalContext) as TotalContextProps;
-  const {acc_group3b167, setacc_group3b167}= useContext(TotalContext) as TotalContextProps;
-  const {acc_group3b167Props, setacc_group3b167Props}= useContext(TotalContext) as TotalContextProps;
-  const {access_req_tablec5aac, setaccess_req_tablec5aac}= useContext(TotalContext) as TotalContextProps;
-  const {access_req_tablec5aacProps, setaccess_req_tablec5aacProps}= useContext(TotalContext) as TotalContextProps;
+  const {header_groupd8ba9, setheader_groupd8ba9}= useContext(TotalContext) as TotalContextProps;
+  const {header_groupd8ba9Props, setheader_groupd8ba9Props}= useContext(TotalContext) as TotalContextProps;
+  const {text5e6b2, settext5e6b2}= useContext(TotalContext) as TotalContextProps;
+  const {asset_dashboard_group1aa03, setasset_dashboard_group1aa03}= useContext(TotalContext) as TotalContextProps;
+  const {asset_dashboard_group1aa03Props, setasset_dashboard_group1aa03Props}= useContext(TotalContext) as TotalContextProps;
+  const {amr_queue_group3c082, setamr_queue_group3c082}= useContext(TotalContext) as TotalContextProps;
+  const {amr_queue_group3c082Props, setamr_queue_group3c082Props}= useContext(TotalContext) as TotalContextProps;
+  const {pending_file_group2128c, setpending_file_group2128c}= useContext(TotalContext) as TotalContextProps;
+  const {pending_file_group2128cProps, setpending_file_group2128cProps}= useContext(TotalContext) as TotalContextProps;
+  const {service_pending_group8c0ca, setservice_pending_group8c0ca}= useContext(TotalContext) as TotalContextProps;
+  const {service_pending_group8c0caProps, setservice_pending_group8c0caProps}= useContext(TotalContext) as TotalContextProps;
+  const {slas_at_risk_group1f8c0, setslas_at_risk_group1f8c0}= useContext(TotalContext) as TotalContextProps;
+  const {slas_at_risk_group1f8c0Props, setslas_at_risk_group1f8c0Props}= useContext(TotalContext) as TotalContextProps;
+  const {court_rejection_groupdf57a, setcourt_rejection_groupdf57a}= useContext(TotalContext) as TotalContextProps;
+  const {court_rejection_groupdf57aProps, setcourt_rejection_groupdf57aProps}= useContext(TotalContext) as TotalContextProps;
+  const {collected_mtd_group0f074, setcollected_mtd_group0f074}= useContext(TotalContext) as TotalContextProps;
+  const {collected_mtd_group0f074Props, setcollected_mtd_group0f074Props}= useContext(TotalContext) as TotalContextProps;
+  const {overall_key_performance_indicatorsc2711, setoverall_key_performance_indicatorsc2711}= useContext(TotalContext) as TotalContextProps;
+  const {overall_key_performance_indicatorsc2711Props, setoverall_key_performance_indicatorsc2711Props}= useContext(TotalContext) as TotalContextProps;
+  const {key_performance_indicator_groupf9eaf, setkey_performance_indicator_groupf9eaf}= useContext(TotalContext) as TotalContextProps;
+  const {key_performance_indicator_groupf9eafProps, setkey_performance_indicator_groupf9eafProps}= useContext(TotalContext) as TotalContextProps;
+  const {recent_activity_group91db6, setrecent_activity_group91db6}= useContext(TotalContext) as TotalContextProps;
+  const {recent_activity_group91db6Props, setrecent_activity_group91db6Props}= useContext(TotalContext) as TotalContextProps;
   //////////////
   const [ruleData,setRuleData]=useState<any>([])
   const [open, setOpen] = React.useState(false);
-  const {hrmdashboard_v1, sethrmdashboard_v1} = useContext(TotalContext) as TotalContextProps;
+  const {newdashboard_v1, setnewdashboard_v1} = useContext(TotalContext) as TotalContextProps;
   const checkOrchestrationData = async (): Promise<{ groupData: any; controlData: any }> => {
   if (Object.keys(groupData).length > 0) {
     return { groupData, controlData } 
   };
   const data: any = await fetchBatchData(
-    'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1',
+    'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1',
     [user],
     'GroupHeaderGroup',
     token
@@ -332,7 +156,7 @@ const Groupheader_group = ({lockedData={},setLockedData,primaryTableData={},tabl
   };
   async function securityCheck() {
   const { groupData: currentGroupData } = await checkOrchestrationData();
-  let orchestrationData:any = getGroupOrchestrationData(currentGroupData, "4c061331707f4d6e9c978dd73dff778a");
+  let orchestrationData:any = getGroupOrchestrationData(currentGroupData, "5aa2f1dcc410359d5d87f1ad246d8ba9");
   code = orchestrationData?.data?.code;
   setAllCode(code)
   const security:any[] = orchestrationData?.data?.security;
@@ -345,7 +169,7 @@ const Groupheader_group = ({lockedData={},setLockedData,primaryTableData={},tabl
   setAllowedComponent(allowedGroups) 
   if(orchestrationData?.data?.rule?.nodes?.length > 0){
     setRuleData(orchestrationData?.data?.rule?.nodes)
-    setheader_groupf778aProps((pre:any)=>({...pre,isHaveRule:true}))
+    setheader_groupd8ba9Props((pre:any)=>({...pre,isHaveRule:true}))
     let schemaFlag:any = evaluateDecisionTable(orchestrationData?.data?.rule.nodes,{},{...decodedTokenObj});
     if (schemaFlag.output) {
       setShowFlag(schemaFlag.output.toLowerCase());
@@ -355,85 +179,65 @@ const Groupheader_group = ({lockedData={},setLockedData,primaryTableData={},tabl
   }
     
   /////////////
-    if(orchestrationData?.data?.readableControls.includes("header_text")){
-        setheader_textbcd83((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("text")){
+        settext5e6b2((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(header_textbcd83?.isDisabled==null)
+      if(text5e6b2?.isDisabled==null)
       {
-        setheader_textbcd83((pre:any)=>({...pre,isDisabled:false}));
+        settext5e6b2((pre:any)=>({...pre,isDisabled:false}));
       }
     }
   //////////////
     if (code != '') {
       let codeStates: any = {};
-        codeStates['header_group'] = header_groupf778a,
-        codeStates['setheader_group'] = setheader_groupf778a,
-        codeStates['header_groupf778a'] = header_groupf778aProps,
-        codeStates['setheader_groupf778a'] = setheader_groupf778aProps,
-        codeStates['header_text'] = header_textbcd83,
-        codeStates['setheader_text'] = setheader_textbcd83,
-        codeStates['hrm_dashboard_group'] = hrm_dashboard_group4d6cb,
-        codeStates['sethrm_dashboard_group'] = sethrm_dashboard_group4d6cb,
-        codeStates['hrm_dashboard_group4d6cb'] = hrm_dashboard_group4d6cbProps,
-        codeStates['sethrm_dashboard_group4d6cb'] = sethrm_dashboard_group4d6cbProps,
-        codeStates['total_employees_group'] = total_employees_group69aa9,
-        codeStates['settotal_employees_group'] = settotal_employees_group69aa9,
-        codeStates['total_employees_group69aa9'] = total_employees_group69aa9Props,
-        codeStates['settotal_employees_group69aa9'] = settotal_employees_group69aa9Props,
-        codeStates['pending_access_req_group'] = pending_access_req_groupb5bd4,
-        codeStates['setpending_access_req_group'] = setpending_access_req_groupb5bd4,
-        codeStates['pending_access_req_groupb5bd4'] = pending_access_req_groupb5bd4Props,
-        codeStates['setpending_access_req_groupb5bd4'] = setpending_access_req_groupb5bd4Props,
-        codeStates['leave_requests_group'] = leave_requests_group4beb5,
-        codeStates['setleave_requests_group'] = setleave_requests_group4beb5,
-        codeStates['leave_requests_group4beb5'] = leave_requests_group4beb5Props,
-        codeStates['setleave_requests_group4beb5'] = setleave_requests_group4beb5Props,
-        codeStates['onboarding_group'] = onboarding_group2580d,
-        codeStates['setonboarding_group'] = setonboarding_group2580d,
-        codeStates['onboarding_group2580d'] = onboarding_group2580dProps,
-        codeStates['setonboarding_group2580d'] = setonboarding_group2580dProps,
-        codeStates['table_group'] = table_groupe0a6f,
-        codeStates['settable_group'] = settable_groupe0a6f,
-        codeStates['table_groupe0a6f'] = table_groupe0a6fProps,
-        codeStates['settable_groupe0a6f'] = settable_groupe0a6fProps,
-        codeStates['subscreen'] = subscreen1c010,
-        codeStates['setsubscreen'] = setsubscreen1c010,
-        codeStates['subscreen1c010'] = subscreen1c010Props,
-        codeStates['setsubscreen1c010'] = setsubscreen1c010Props,
-        codeStates['ct006_af_uf_ufws_ecp_hrm_totalemployees_v1'] = ct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547f,
-        codeStates['setct006_af_uf_ufws_ecp_hrm_totalemployees_v1'] = setct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547f,
-        codeStates['ct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547f'] = ct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547fProps,
-        codeStates['setct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547f'] = setct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547fProps,
-        codeStates['employee_table_group'] = employee_table_group55008,
-        codeStates['setemployee_table_group'] = setemployee_table_group55008,
-        codeStates['employee_table_group55008'] = employee_table_group55008Props,
-        codeStates['setemployee_table_group55008'] = setemployee_table_group55008Props,
-        codeStates['emp_group'] = emp_group5e40b,
-        codeStates['setemp_group'] = setemp_group5e40b,
-        codeStates['emp_group5e40b'] = emp_group5e40bProps,
-        codeStates['setemp_group5e40b'] = setemp_group5e40bProps,
-        codeStates['total_employee_table'] = total_employee_tablee4e9d,
-        codeStates['settotal_employee_table'] = settotal_employee_tablee4e9d,
-        codeStates['total_employee_tablee4e9d'] = total_employee_tablee4e9dProps,
-        codeStates['settotal_employee_tablee4e9d'] = settotal_employee_tablee4e9dProps,
-        codeStates['ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1'] = ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfe,
-        codeStates['setct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1'] = setct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfe,
-        codeStates['ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfe'] = ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfeProps,
-        codeStates['setct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfe'] = setct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfeProps,
-        codeStates['access_req_group'] = access_req_groupb1258,
-        codeStates['setaccess_req_group'] = setaccess_req_groupb1258,
-        codeStates['access_req_groupb1258'] = access_req_groupb1258Props,
-        codeStates['setaccess_req_groupb1258'] = setaccess_req_groupb1258Props,
-        codeStates['acc_group'] = acc_group3b167,
-        codeStates['setacc_group'] = setacc_group3b167,
-        codeStates['acc_group3b167'] = acc_group3b167Props,
-        codeStates['setacc_group3b167'] = setacc_group3b167Props,
-        codeStates['access_req_table'] = access_req_tablec5aac,
-        codeStates['setaccess_req_table'] = setaccess_req_tablec5aac,
-        codeStates['access_req_tablec5aac'] = access_req_tablec5aacProps,
-        codeStates['setaccess_req_tablec5aac'] = setaccess_req_tablec5aacProps,
+        codeStates['header_group'] = header_groupd8ba9,
+        codeStates['setheader_group'] = setheader_groupd8ba9,
+        codeStates['header_groupd8ba9'] = header_groupd8ba9Props,
+        codeStates['setheader_groupd8ba9'] = setheader_groupd8ba9Props,
+        codeStates['text'] = text5e6b2,
+        codeStates['settext'] = settext5e6b2,
+        codeStates['asset_dashboard_group'] = asset_dashboard_group1aa03,
+        codeStates['setasset_dashboard_group'] = setasset_dashboard_group1aa03,
+        codeStates['asset_dashboard_group1aa03'] = asset_dashboard_group1aa03Props,
+        codeStates['setasset_dashboard_group1aa03'] = setasset_dashboard_group1aa03Props,
+        codeStates['amr_queue_group'] = amr_queue_group3c082,
+        codeStates['setamr_queue_group'] = setamr_queue_group3c082,
+        codeStates['amr_queue_group3c082'] = amr_queue_group3c082Props,
+        codeStates['setamr_queue_group3c082'] = setamr_queue_group3c082Props,
+        codeStates['pending_file_group'] = pending_file_group2128c,
+        codeStates['setpending_file_group'] = setpending_file_group2128c,
+        codeStates['pending_file_group2128c'] = pending_file_group2128cProps,
+        codeStates['setpending_file_group2128c'] = setpending_file_group2128cProps,
+        codeStates['service_pending_group'] = service_pending_group8c0ca,
+        codeStates['setservice_pending_group'] = setservice_pending_group8c0ca,
+        codeStates['service_pending_group8c0ca'] = service_pending_group8c0caProps,
+        codeStates['setservice_pending_group8c0ca'] = setservice_pending_group8c0caProps,
+        codeStates['slas_at_risk_group'] = slas_at_risk_group1f8c0,
+        codeStates['setslas_at_risk_group'] = setslas_at_risk_group1f8c0,
+        codeStates['slas_at_risk_group1f8c0'] = slas_at_risk_group1f8c0Props,
+        codeStates['setslas_at_risk_group1f8c0'] = setslas_at_risk_group1f8c0Props,
+        codeStates['court_rejection_group'] = court_rejection_groupdf57a,
+        codeStates['setcourt_rejection_group'] = setcourt_rejection_groupdf57a,
+        codeStates['court_rejection_groupdf57a'] = court_rejection_groupdf57aProps,
+        codeStates['setcourt_rejection_groupdf57a'] = setcourt_rejection_groupdf57aProps,
+        codeStates['collected_mtd_group'] = collected_mtd_group0f074,
+        codeStates['setcollected_mtd_group'] = setcollected_mtd_group0f074,
+        codeStates['collected_mtd_group0f074'] = collected_mtd_group0f074Props,
+        codeStates['setcollected_mtd_group0f074'] = setcollected_mtd_group0f074Props,
+        codeStates['overall_key_performance_indicators'] = overall_key_performance_indicatorsc2711,
+        codeStates['setoverall_key_performance_indicators'] = setoverall_key_performance_indicatorsc2711,
+        codeStates['overall_key_performance_indicatorsc2711'] = overall_key_performance_indicatorsc2711Props,
+        codeStates['setoverall_key_performance_indicatorsc2711'] = setoverall_key_performance_indicatorsc2711Props,
+        codeStates['key_performance_indicator_group'] = key_performance_indicator_groupf9eaf,
+        codeStates['setkey_performance_indicator_group'] = setkey_performance_indicator_groupf9eaf,
+        codeStates['key_performance_indicator_groupf9eaf'] = key_performance_indicator_groupf9eafProps,
+        codeStates['setkey_performance_indicator_groupf9eaf'] = setkey_performance_indicator_groupf9eafProps,
+        codeStates['recent_activity_group'] = recent_activity_group91db6,
+        codeStates['setrecent_activity_group'] = setrecent_activity_group91db6,
+        codeStates['recent_activity_group91db6'] = recent_activity_group91db6Props,
+        codeStates['setrecent_activity_group91db6'] = setrecent_activity_group91db6Props,
 
     codeExecution(code,codeStates);
     } 
@@ -454,72 +258,52 @@ const Groupheader_group = ({lockedData={},setLockedData,primaryTableData={},tabl
     let customCode:any=""
     if (allCode != '') {
       let codeStates: any = {};
-        codeStates['header_group'] = header_groupf778a,
-        codeStates['setheader_group'] = setheader_groupf778a,
-        codeStates['header_groupf778a'] = header_groupf778aProps,
-        codeStates['setheader_groupf778a'] = setheader_groupf778aProps,
-        codeStates['header_text'] = header_textbcd83,
-        codeStates['setheader_text'] = setheader_textbcd83,
-        codeStates['hrm_dashboard_group'] = hrm_dashboard_group4d6cb,
-        codeStates['sethrm_dashboard_group'] = sethrm_dashboard_group4d6cb,
-        codeStates['hrm_dashboard_group4d6cb'] = hrm_dashboard_group4d6cbProps,
-        codeStates['sethrm_dashboard_group4d6cb'] = sethrm_dashboard_group4d6cbProps,
-        codeStates['total_employees_group'] = total_employees_group69aa9,
-        codeStates['settotal_employees_group'] = settotal_employees_group69aa9,
-        codeStates['total_employees_group69aa9'] = total_employees_group69aa9Props,
-        codeStates['settotal_employees_group69aa9'] = settotal_employees_group69aa9Props,
-        codeStates['pending_access_req_group'] = pending_access_req_groupb5bd4,
-        codeStates['setpending_access_req_group'] = setpending_access_req_groupb5bd4,
-        codeStates['pending_access_req_groupb5bd4'] = pending_access_req_groupb5bd4Props,
-        codeStates['setpending_access_req_groupb5bd4'] = setpending_access_req_groupb5bd4Props,
-        codeStates['leave_requests_group'] = leave_requests_group4beb5,
-        codeStates['setleave_requests_group'] = setleave_requests_group4beb5,
-        codeStates['leave_requests_group4beb5'] = leave_requests_group4beb5Props,
-        codeStates['setleave_requests_group4beb5'] = setleave_requests_group4beb5Props,
-        codeStates['onboarding_group'] = onboarding_group2580d,
-        codeStates['setonboarding_group'] = setonboarding_group2580d,
-        codeStates['onboarding_group2580d'] = onboarding_group2580dProps,
-        codeStates['setonboarding_group2580d'] = setonboarding_group2580dProps,
-        codeStates['table_group'] = table_groupe0a6f,
-        codeStates['settable_group'] = settable_groupe0a6f,
-        codeStates['table_groupe0a6f'] = table_groupe0a6fProps,
-        codeStates['settable_groupe0a6f'] = settable_groupe0a6fProps,
-        codeStates['subscreen'] = subscreen1c010,
-        codeStates['setsubscreen'] = setsubscreen1c010,
-        codeStates['subscreen1c010'] = subscreen1c010Props,
-        codeStates['setsubscreen1c010'] = setsubscreen1c010Props,
-        codeStates['ct006_af_uf_ufws_ecp_hrm_totalemployees_v1'] = ct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547f,
-        codeStates['setct006_af_uf_ufws_ecp_hrm_totalemployees_v1'] = setct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547f,
-        codeStates['ct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547f'] = ct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547fProps,
-        codeStates['setct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547f'] = setct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547fProps,
-        codeStates['employee_table_group'] = employee_table_group55008,
-        codeStates['setemployee_table_group'] = setemployee_table_group55008,
-        codeStates['employee_table_group55008'] = employee_table_group55008Props,
-        codeStates['setemployee_table_group55008'] = setemployee_table_group55008Props,
-        codeStates['emp_group'] = emp_group5e40b,
-        codeStates['setemp_group'] = setemp_group5e40b,
-        codeStates['emp_group5e40b'] = emp_group5e40bProps,
-        codeStates['setemp_group5e40b'] = setemp_group5e40bProps,
-        codeStates['total_employee_table'] = total_employee_tablee4e9d,
-        codeStates['settotal_employee_table'] = settotal_employee_tablee4e9d,
-        codeStates['total_employee_tablee4e9d'] = total_employee_tablee4e9dProps,
-        codeStates['settotal_employee_tablee4e9d'] = settotal_employee_tablee4e9dProps,
-        codeStates['ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1'] = ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfe,
-        codeStates['setct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1'] = setct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfe,
-        codeStates['ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfe'] = ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfeProps,
-        codeStates['setct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfe'] = setct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfeProps,
-        codeStates['access_req_group'] = access_req_groupb1258,
-        codeStates['setaccess_req_group'] = setaccess_req_groupb1258,
-        codeStates['access_req_groupb1258'] = access_req_groupb1258Props,
-        codeStates['setaccess_req_groupb1258'] = setaccess_req_groupb1258Props,
-        codeStates['acc_group'] = acc_group3b167,
-        codeStates['setacc_group'] = setacc_group3b167,
-        codeStates['acc_group3b167'] = acc_group3b167Props,
-        codeStates['setacc_group3b167'] = setacc_group3b167Props,
-        codeStates['access_req_table'] = access_req_tablec5aac,
-        codeStates['setaccess_req_table'] = setaccess_req_tablec5aac,
-        codeStates['access_req_tablec5aac'] = access_req_tablec5aacProps,
-        codeStates['setaccess_req_tablec5aac'] = setaccess_req_tablec5aacProps,
+        codeStates['header_group'] = header_groupd8ba9,
+        codeStates['setheader_group'] = setheader_groupd8ba9,
+        codeStates['header_groupd8ba9'] = header_groupd8ba9Props,
+        codeStates['setheader_groupd8ba9'] = setheader_groupd8ba9Props,
+        codeStates['text'] = text5e6b2,
+        codeStates['settext'] = settext5e6b2,
+        codeStates['asset_dashboard_group'] = asset_dashboard_group1aa03,
+        codeStates['setasset_dashboard_group'] = setasset_dashboard_group1aa03,
+        codeStates['asset_dashboard_group1aa03'] = asset_dashboard_group1aa03Props,
+        codeStates['setasset_dashboard_group1aa03'] = setasset_dashboard_group1aa03Props,
+        codeStates['amr_queue_group'] = amr_queue_group3c082,
+        codeStates['setamr_queue_group'] = setamr_queue_group3c082,
+        codeStates['amr_queue_group3c082'] = amr_queue_group3c082Props,
+        codeStates['setamr_queue_group3c082'] = setamr_queue_group3c082Props,
+        codeStates['pending_file_group'] = pending_file_group2128c,
+        codeStates['setpending_file_group'] = setpending_file_group2128c,
+        codeStates['pending_file_group2128c'] = pending_file_group2128cProps,
+        codeStates['setpending_file_group2128c'] = setpending_file_group2128cProps,
+        codeStates['service_pending_group'] = service_pending_group8c0ca,
+        codeStates['setservice_pending_group'] = setservice_pending_group8c0ca,
+        codeStates['service_pending_group8c0ca'] = service_pending_group8c0caProps,
+        codeStates['setservice_pending_group8c0ca'] = setservice_pending_group8c0caProps,
+        codeStates['slas_at_risk_group'] = slas_at_risk_group1f8c0,
+        codeStates['setslas_at_risk_group'] = setslas_at_risk_group1f8c0,
+        codeStates['slas_at_risk_group1f8c0'] = slas_at_risk_group1f8c0Props,
+        codeStates['setslas_at_risk_group1f8c0'] = setslas_at_risk_group1f8c0Props,
+        codeStates['court_rejection_group'] = court_rejection_groupdf57a,
+        codeStates['setcourt_rejection_group'] = setcourt_rejection_groupdf57a,
+        codeStates['court_rejection_groupdf57a'] = court_rejection_groupdf57aProps,
+        codeStates['setcourt_rejection_groupdf57a'] = setcourt_rejection_groupdf57aProps,
+        codeStates['collected_mtd_group'] = collected_mtd_group0f074,
+        codeStates['setcollected_mtd_group'] = setcollected_mtd_group0f074,
+        codeStates['collected_mtd_group0f074'] = collected_mtd_group0f074Props,
+        codeStates['setcollected_mtd_group0f074'] = setcollected_mtd_group0f074Props,
+        codeStates['overall_key_performance_indicators'] = overall_key_performance_indicatorsc2711,
+        codeStates['setoverall_key_performance_indicators'] = setoverall_key_performance_indicatorsc2711,
+        codeStates['overall_key_performance_indicatorsc2711'] = overall_key_performance_indicatorsc2711Props,
+        codeStates['setoverall_key_performance_indicatorsc2711'] = setoverall_key_performance_indicatorsc2711Props,
+        codeStates['key_performance_indicator_group'] = key_performance_indicator_groupf9eaf,
+        codeStates['setkey_performance_indicator_group'] = setkey_performance_indicator_groupf9eaf,
+        codeStates['key_performance_indicator_groupf9eaf'] = key_performance_indicator_groupf9eafProps,
+        codeStates['setkey_performance_indicator_groupf9eaf'] = setkey_performance_indicator_groupf9eafProps,
+        codeStates['recent_activity_group'] = recent_activity_group91db6,
+        codeStates['setrecent_activity_group'] = setrecent_activity_group91db6,
+        codeStates['recent_activity_group91db6'] = recent_activity_group91db6Props,
+        codeStates['setrecent_activity_group91db6'] = setrecent_activity_group91db6Props,
       customCode = codeExecution(allCode,codeStates);
       return customCode;
     }
@@ -527,23 +311,23 @@ const Groupheader_group = ({lockedData={},setLockedData,primaryTableData={},tabl
   }
 
 
-  const header_groupf778aRef = useRef<any>(null);
+  const header_groupd8ba9Ref = useRef<any>(null);
   const handleClearSearch = () => {
-    header_groupf778aRef.current?.setSearchParams();
-    header_groupf778aRef.current?.handleSearch({});
+    header_groupd8ba9Ref.current?.setSearchParams();
+    header_groupd8ba9Ref.current?.handleSearch({});
   };
 
   useEffect(() => {    
     securityCheck()   
     handleOnload()
     if (prevRefreshRef.current) {
-      if(!Array.isArray(header_groupf778a) && Object.keys(header_groupf778a)?.length>0)
+      if(!Array.isArray(header_groupd8ba9) && Object.keys(header_groupd8ba9)?.length>0)
       {
-        setheader_groupf778a({})
+        setheader_groupd8ba9({})
       }
     }else 
       prevRefreshRef.current= true
-  }, [header_groupf778aProps?.refresh,token])
+  }, [header_groupd8ba9Props?.refresh,token])
 
 
   const renderBUttons=()=>{
@@ -555,7 +339,7 @@ const Groupheader_group = ({lockedData={},setLockedData,primaryTableData={},tabl
     <div 
       style={{          
         gridColumn: '1 / 25',
-        gridRow: '1 / 9',
+        gridRow: '1 / 10',
       
         //rowGap: '0px',
         display: 'grid',
@@ -565,7 +349,7 @@ const Groupheader_group = ({lockedData={},setLockedData,primaryTableData={},tabl
         overflow: 'auto',
         gridAutoRows: '4px',
         columnGap: '0px',
-        backgroundColor:'#ffffff',
+        backgroundColor:'',
         backgroundImage:"url('')",
         backgroundPosition: '',
         backgroundSize: '',
@@ -574,13 +358,13 @@ const Groupheader_group = ({lockedData={},setLockedData,primaryTableData={},tabl
         backgroundClip: '',
         backgroundBlendMode: ''
       }}
-      className={`flex flex-col overflow-auto rounded-md p-1 ${isDark ? 'text-white' : 'text-black'}`}
+      className={`flex flex-col overflow-auto rounded-md  ${isDark ? 'text-white' : 'text-black'}`}
        onClick={(e:any)=>{e.stopPropagation()
         handleOnClick({}, 0);
-          sethrmdashboard_v1((pre:any)=>({...pre,_selectedGroup_:"header_group"}))
+          setnewdashboard_v1((pre:any)=>({...pre,_selectedGroup_:"header_group"}))
         }}
     >
-          {allowedControls.includes("header_text") ?<Textheader_text   /* bcd83 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
+          {allowedControls.includes("text") ?<Texttext   /* 5e6b2 */ isDynamic={false } index={idx} item={item} checkToAdd={checkToAdd} setCheckToAdd={setCheckToAdd} refetch={refetch} setRefetch={setRefetch} encryptionFlagCompData={encryptionFlagCompData} setIsProcessing={setIsProcessing} controlData={controlData} />: <div></div>}
     </div>
  )
 }

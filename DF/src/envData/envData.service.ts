@@ -8,8 +8,8 @@ export class EnvData {
   private config: any = null;
   private isLoaded: boolean = false;
   private readonly TENANT_NAME: string = 'ct006';
-  private readonly APP_GROUP_NAME: string = 'ecp';
-  private readonly APP_NAME: string = 'hrm';
+  private readonly APP_GROUP_NAME: string = 'lap';
+  private readonly APP_NAME: string = 'lap';
   private readonly VERSION: string = 'v1';
 
   constructor() {
@@ -306,7 +306,14 @@ export class EnvData {
   }
 
   getAuthSecret(): string {
-    return this.getConfigValue('iam.auth_secret') || 'HpZnm7V6YeshFDVbwACyOtx6oa6QSbraZoNyU9fwtGYUL1Rnc6PN5QUosu9BcqVBo5L6QeSs';
+    const secret = this.getConfigValue('iam.auth_secret');
+    if (!secret) {
+      // Fail closed: a missing secret must never fall back to a value that
+      // sits in source control, since that would let anyone forge a token
+      // that passes AuthGuard's verify() check.
+      //throw new Error('iam.auth_secret is not configured — refusing to start with no JWT signing secret');
+    }
+    return secret;
   }
 
    getAuthAccessTokenExpiryTime(): string {

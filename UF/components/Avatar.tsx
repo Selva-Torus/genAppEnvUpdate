@@ -6,6 +6,7 @@ import { Tooltip } from "./Tooltip";
 import { Icon } from "./Icon";
 import { AvatarView, AvatarTheme, AvatarShape, HeaderPosition, TooltipProps as TooltipPropsType } from "@/types/global";
 import { CommonHeaderAndTooltip } from "./CommonHeaderAndTooltip";
+import Image from "next/image";
 // import { GravityIcon } from "@/types/icons";
 
 type ContentAlign = "left" | "center" | "right";
@@ -146,9 +147,11 @@ export const Avatar: React.FC<AvatarProps> = ({
       }}
     >
       {imageUrl ? (
-        <img
+        <Image
           src={imageUrl}
           alt={alt}
+          width={100}
+          height={100}
           className={`h-full object-contain ${contentAlign === "center" ? "w-full" : ""}`}
           onError={(e) => {
             if (fallbackImgUrl) {

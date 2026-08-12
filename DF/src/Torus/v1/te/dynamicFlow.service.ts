@@ -4,6 +4,7 @@ import { RedisService } from "src/redisService";
 import { CommonService } from "src/common.Service";
 import { CustomException } from "src/customException";
 import { JwtService } from "@nestjs/jwt";
+import { JwtServices } from "src/jwt.services";
 import { LockService } from "src/lock.service";
 import axios,{ AxiosRequestConfig } from "axios";
 import * as FormData from 'form-data';
@@ -29,6 +30,7 @@ import * as http from 'http';
 import * as fs from 'fs';
 import { format } from "date-fns";
 import * as nodemailer from 'nodemailer';
+import { runInSandbox } from "src/sandbox";
 
 type MappingValue = string | { sourcePath: string; arrayMap: Record< string, string> };
 type MappingConfig = Record< string, MappingValue>;
@@ -47,7 +49,7 @@ export class DynamicFlowService {
     constructor(
     private readonly redisService:RedisService,
     private readonly listenerService:ListenerService,
-    private readonly jwtService:JwtService,  
+    private readonly jwtService:JwtServices,  
     private readonly CommonService: CommonService,
     private readonly lockservice: LockService,
     private readonly envData:EnvData,
@@ -92,6 +94,7 @@ export class DynamicFlowService {
 
     async pfProcessor(pfdto, event, pfjson, poJson, pfo, ndp, currentFabric, flag, page, count, filterData, lockDetails, childtable, logicCenter,searchFilter) {
         this.logger.log('Pf Processor started!');
+        ({ page, count } = this.CommonService.sanitizePagination(page, count));
         let upId = pfdto.upId
         this.logger.log('UPID', upId);
         let key: string = pfdto.key
@@ -102,7 +105,7 @@ export class DynamicFlowService {
         let nodeName = pfdto.nodeName
         let parentUpId = pfdto.parentUpId
         let collectionName = process.env.CLIENTCODE;
-       
+
         let offset = (page - 1) * count;
         
         let fngkKey = await this.CommonService.splitcommonkey(pfdto.key, 'FNGK');
@@ -117,8 +120,15 @@ export class DynamicFlowService {
         let poNode = poJson?.mappedData?.artifact?.node;
         let internalEdges = poJson?.internalMappingEdges;
        
-        let SessionToken = await this.jwtService.decode(token, { json: true });
-       // let tokenDecode = await this.CommonService.MyAccountForClient(token);  
+        let SessionToken: any;
+        try {
+          // Verified — this drives trs_created_by/trs_org_code/etc. audit
+          // stamping below, so a forged token must not be trusted here.
+           SessionToken = await this.jwtService.verifyToken(token);;
+        } catch (e) {
+          SessionToken = null;
+        }
+       // let tokenDecode = await this.CommonService.MyAccountForClient(token);
         
         let {sobj,SessionInfo} = await this.CommonService.sessionDecode(token, upId);
 
@@ -438,10 +448,10 @@ export class DynamicFlowService {
                         let apires: any,headerRole,tokenrule
                         if (customConfig) {                        
                            const rulevar =  async (rulekey,flag?) => {
-                            if (!rulekey) throw new CustomException(pfjson[i].nodeName+' rulekey key not found', 404);
+                            if (!rulekey) throw new CustomException(pfjson[j].nodeName+' rulekey key not found', 404);
                             let ruleConfig: any = JSON.parse(await this.redisService.getJsonData(rulekey, collectionName));                  
                             if (!ruleConfig || Object.keys(ruleConfig).length == 0)
-                                throw new CustomException(pfjson[i].nodeName +' Reference key value not found', 404);
+                                throw new CustomException(pfjson[j].nodeName +' Reference key value not found', 404);
                             let rulejson: any = Object.values(ruleConfig)[0];
                             let rulecheck:any
                             if(flag)                 
@@ -823,17 +833,18 @@ export class DynamicFlowService {
                                                             };
                                                         }
                                                         
-                                                        if(Object.keys(httpAgentParams).length>0){   
+                                                        if(Object.keys(httpAgentParams).length>0){
                                                             if(httpAgentType == 'http')
                                                                 requestConfig['httpAgent'] = httpAgent
                                                             else if (httpAgentType == 'https')
                                                                 requestConfig['httpsAgent'] = httpAgent
-                                                        }else{
-                                                            const agent = new https.Agent({
-                                                                rejectUnauthorized: false
-                                                            });
-                                                            requestConfig['httpsAgent'] = agent
-                                                        }                                                           
+                                                        }
+                                                        // No explicit TLS/agent config for this node: fall through to
+                                                        // axios/Node's default HTTPS agent, which verifies certificates.
+                                                        // Previously this branch created an https.Agent with
+                                                        // rejectUnauthorized:false, silently disabling TLS verification
+                                                        // (and MITM protection) for every outbound call that didn't
+                                                        // configure a custom agent.
 
                                                         if (contentType == 'application/json' && mapObj && Object.keys(mapObj).length > 0) {
                                                             if (referenceKey.includes(':FNK:API-APIPD:')) {
@@ -963,9 +974,7 @@ export class DynamicFlowService {
                                                         if (referenceKey.includes(':FNK:API-APIPD:')) {
                                                             mapObj['trs_event_process_status'] = sourceStatus;
                                                             mapObj['trs_modified_by'] = SessionToken?.loginId;
-                                                            mapObj['trs_process_id'] = upId;
-                                                            if(pfdto?.trs_version)
-                                                            mapObj['trs_version'] = pfdto?.trs_version
+                                                            mapObj['trs_process_id'] = upId;                                                            
                                                         }
                                                     } else {
                                                         throw 'MappingObject is empty';
@@ -992,6 +1001,10 @@ export class DynamicFlowService {
                                                     if (!primaryKey) throw 'Primary Key not found'
                                                     let split = endPoint.split('/')
                                                     let tableName = split[1]
+                                                     if(tableName == pfdto?.tableName){
+                                                         if(pfdto?.trs_version)
+                                                            mapObj['trs_version'] = pfdto?.trs_version
+                                                    }
                                                     try {
                                                         if (lockDetails && (lockDetails.lockMode).toLowerCase() == 'single' && lockDetails.ttl) {
                                                             let isProcessing
@@ -1234,7 +1247,7 @@ export class DynamicFlowService {
                                         apires = apichildResult;
                                         //this.ruleParams[nodeName] = Array.isArray(apichildResult)?apichildResult[0]:apichildResult
                                         await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(apichildResult)?apichildResult[0]:apichildResult),collectionName,nodeName);
-                                    } else if(apiResult){
+                                    } else if(apiResult && ((Array.isArray(apiResult) && apiResult.length > 0) || (!Array.isArray(apiResult) && typeof apiResult === 'object' && Object.keys(apiResult).length > 0))) {
                                          if(Array.isArray(apiResult))
                                         apiResult = apiResult.flat()
                                         await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(apiResult), collectionName, 'response',);
@@ -1358,10 +1371,10 @@ export class DynamicFlowService {
                      let tokenrule;
                     let tokenization = customConfig?.tokenization
                     const rulevar =  async (rulekey) => {
-                            if (!rulekey) throw new CustomException(pfjson[i].nodeName+' rulekey key not found', 404);
+                            if (!rulekey) throw new CustomException(pfjson[j].nodeName+' rulekey key not found', 404);
                             let ruleConfig: any = JSON.parse(await this.redisService.getJsonData(rulekey, collectionName));                  
                             if (!ruleConfig || Object.keys(ruleConfig).length == 0)
-                                throw new CustomException(pfjson[i].nodeName +' Reference key value not found', 404);
+                                throw new CustomException(pfjson[j].nodeName +' Reference key value not found', 404);
                             let rulejson: any = Object.values(ruleConfig)[0];
                             //let rulecheck:any = await this.CommonService.getRuleCodeMapper(rulejson, this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                            let rulecheck:any = await this.CommonService.ruleCheck(rulejson?.rule,{session:SessionInfo})
@@ -1406,8 +1419,10 @@ export class DynamicFlowService {
                             for (let i = 0; i < childInsertArr.length; i++) {
                                 mapObj = childInsertArr[i]
                                 mapObj = Object.assign(mapObj,sobj)                                
-                                let replaceQry = manualQuery 
-                                replaceQry = await this.replaceQuery(replaceQry,mapObj)
+                                let Qry = manualQuery 
+                                Qry = await this.replaceQuery(Qry,mapObj)
+                                let replaceData = await this.dollarReplace(Qry,mapObj,schema)
+                                let replaceQry = replaceData?.manualQuery
                                 if(childInsertArr.length ==1)
                                     manualQuery = replaceQry
                                 else
@@ -1509,14 +1524,14 @@ export class DynamicFlowService {
                             if (mapObj && Object.keys(mapObj).length > 0) {
                                 Object.keys(mapObj).forEach(key => {
                                     const regex = new RegExp(`\\$\\$${key}`, 'g');
-                                    const value = typeof mapObj[key] === 'string' ? `'${mapObj[key]}'` : mapObj[key];
+                                    const value = this.CommonService.sqlLiteral(mapObj[key]);
                                     qry = qry.replace(regex, value);
                                 });
                             }   
                         //trs_version_no (lock update) 
-                        if(pfdto?.trs_version && qry.toLowerCase().includes('update')){                           
-                            qry =  await this.CommonService.appendWhereClause(qry,`trs_version == ${pfdto?.trs_version}`)//qry + ` where trs_version_no == ${pfdto?.trs_version_no}`
-                        }                   
+                        if(pfdto?.tableName && pfdto?.trs_version && qry.toLowerCase().includes('update') && qry.toLowerCase().includes(pfdto?.tableName)){
+                            qry =  await this.CommonService.appendWhereClause(qry,`trs_version = ${this.CommonService.sqlLiteral(pfdto?.trs_version)}`)//qry + ` where trs_version_no = ${pfdto?.trs_version_no}`
+                        }                  
                         logqry = qry
                         }  else {
                             oprname = 'select'
@@ -1556,19 +1571,23 @@ export class DynamicFlowService {
                                             } else {
                                                 removedVal = key
                                             }
+                                            // Column names here come from client-supplied filterData and are spliced
+                                            // directly into the WHERE fragment; reject anything that isn't a plain
+                                            // (optionally dotted) SQL identifier instead of concatenating it.
+                                            if (!this.CommonService.isSafeSqlIdentifier(removedVal)) continue;
                                             const value = filterParamsObjvalues[p];
                                              const dateType = this.isDateTimeField(schema, removedVal);                               
                                             if(dateType){                                        
-                                                formKey = formKey + ` DATE(${removedVal}) = '${value}' AND`;
+                                                formKey = formKey + ` DATE(${removedVal}) = ${this.CommonService.sqlLiteral(value)} AND`;
                                             }
                                             else if (typeof value == 'number') {
                                                 formKey = formKey + ` ${removedVal} = ${value} AND`;
                                             } else if (typeof value == 'string') {
-                                                formKey = formKey + ` ${removedVal} = '${value}' AND`;
+                                                formKey = formKey + ` ${removedVal} = ${this.CommonService.sqlLiteral(value)} AND`;
                                             } else if (Array.isArray(value) && value.length > 0) {
                                                 let s = ''
                                                 for (let item of value) {
-                                                    s = s + `'${item}',`
+                                                    s = s + `${this.CommonService.sqlLiteral(item)},`
                                                 }
                                                 if (s.endsWith(',')) {
                                                     s = s.slice(0, -1);
@@ -1599,19 +1618,23 @@ export class DynamicFlowService {
                                     } else {
                                         removedVal = key
                                     }
+                                    // Column names here come from client-supplied filterData and are spliced
+                                    // directly into the WHERE fragment; reject anything that isn't a plain
+                                    // (optionally dotted) SQL identifier instead of concatenating it.
+                                    if (!this.CommonService.isSafeSqlIdentifier(removedVal)) continue;
                                     const value = searchParamsObjvalues[p];
                                      const dateType = this.isDateTimeField(schema, removedVal);                               
                                     if(dateType){                                        
-                                        formKey = formKey + ` DATE(${removedVal}) = '${value}' AND`;
+                                        formKey = formKey + ` DATE(${removedVal}) = ${this.CommonService.sqlLiteral(value)} AND`;
                                     }
                                     else if (typeof value == 'number') {
-                                         formKey = formKey + ` ${removedVal}::TEXT LIKE '${value}%' AND`;
+                                         formKey = formKey + ` ${removedVal}::TEXT LIKE ${this.CommonService.sqlLiteral(value + '%')} AND`;
                                     } else if (typeof value == 'string') {
-                                        formKey = formKey + ` ${removedVal} LIKE '${value}%' AND`;
+                                        formKey = formKey + ` ${removedVal} LIKE ${this.CommonService.sqlLiteral(value + '%')} AND`;
                                     } else if (Array.isArray(value) && value.length > 0) {
                                         let s = ''
                                         for (let item of value) {
-                                            s = s + `'${item}%',`
+                                            s = s + `${this.CommonService.sqlLiteral(item + '%')},`
                                         }
                                         if (s.endsWith(',')) {
                                             s = s.slice(0, -1);
@@ -1635,6 +1658,10 @@ export class DynamicFlowService {
                                     } else {
                                         removedVal = key
                                     }
+                                    // Column names here come from client-supplied filterData and are spliced
+                                    // directly into the WHERE fragment; reject anything that isn't a plain
+                                    // (optionally dotted) SQL identifier instead of concatenating it.
+                                    if (!this.CommonService.isSafeSqlIdentifier(removedVal)) continue;
                                     let value = searchFilter[p].value;
                                     let value2 = searchFilter[p].value2;
                                     let operator = searchFilter[p].operator;
@@ -1643,11 +1670,11 @@ export class DynamicFlowService {
                                     if(key && value && operator){   
                                         if (['=', '!=', '<>', '>=', '<=', '>', '<'].includes(operator)) { 
                                             if (type === 'date') 
-                                                formKey = formKey + ` DATE(${removedVal}) ${operator} '${value}' AND`; 
+                                                formKey = formKey + ` DATE(${removedVal}) ${operator} ${this.CommonService.sqlLiteral(value)} AND`; 
                                             if (typeof value == 'number')
                                                 formKey = formKey + ` ${removedVal} ${operator} ${value} AND`;
                                             if(typeof value == 'string')
-                                                formKey = formKey + ` ${removedVal} ${operator} '${value}' AND`;                                            
+                                                formKey = formKey + ` ${removedVal} ${operator} ${this.CommonService.sqlLiteral(value)} AND`;                                            
                                         }else if(['LIKE','NOT LIKE','LIKE_START','LIKE_END'].includes(operator)){  
                                             let likeMap = {
                                                 LIKE_START: `${value}%`,
@@ -1658,15 +1685,15 @@ export class DynamicFlowService {
                                             const likeVal = likeMap[operator];
 
                                             if (typeof value == 'string')
-                                                formKey = formKey + ` ${removedVal} LIKE '${likeVal}' AND`;                                            
+                                                formKey = formKey + ` ${removedVal} LIKE ${this.CommonService.sqlLiteral(likeVal)} AND`;                                            
                                             if (typeof value == 'number')
-                                                formKey = formKey + ` ${removedVal}::TEXT LIKE '${likeVal}' AND`;
+                                                formKey = formKey + ` ${removedVal}::TEXT LIKE ${this.CommonService.sqlLiteral(likeVal)} AND`;
                                         }else if(['BETWEEN','NOT BETWEEN'].includes(operator)){
                                             if (value && value2){
                                                 if (type === 'date') 
-                                                    formKey = formKey + ` DATE(${removedVal}) ${operator} '${value}' AND '${value2}' AND`;
+                                                    formKey = formKey + ` DATE(${removedVal}) ${operator} ${this.CommonService.sqlLiteral(value)} AND ${this.CommonService.sqlLiteral(value2)} AND`;
                                                     else                                                    
-                                                    formKey = formKey + ` ${removedVal} ${operator} '${value}' AND '${value2}' AND`;                                                
+                                                    formKey = formKey + ` ${removedVal} ${operator} ${this.CommonService.sqlLiteral(value)} AND ${this.CommonService.sqlLiteral(value2)} AND`;                                                
                                             }
                                         }                                                                          
                                     }                                   
@@ -1721,6 +1748,14 @@ export class DynamicFlowService {
                  
                     qry = qry.replace(/\u2003/g, ' ');  
                     logqry = logqry.replace(/\u2003/g, ' ');
+                    // Replace single quotes inside JSON values with double quotes                   
+                    qry = qry.replace(
+                        /'(\{[\s\S]*?\})'::jsonb/g,
+                        (match, json) => {
+                            const fixed = json.replace(/:\s*'([^']+)'/g, ': "$1"');
+                            return `'${fixed}'::jsonb`;
+                        }
+                    );
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(logqry), collectionName, 'request');
                    
                     await client.connect();
@@ -1932,7 +1967,10 @@ export class DynamicFlowService {
                                         removedVal = key
                                     }
                                     const regex = new RegExp(`"\\$\\$\\$${removedVal}"`, 'g');
-                                    manualQry = manualQry.replace(regex, `"${value}"`);
+                                    // JSON.stringify (not manual `"${value}"` wrapping) so a value
+                                    // containing a quote/backslash can't break out of the string
+                                    // literal before it reaches the new Function()/sandbox eval below.
+                                    manualQry = manualQry.replace(regex, JSON.stringify(value));
                                 });
                             });
                         }
@@ -1945,8 +1983,9 @@ export class DynamicFlowService {
                                 }
                             }
                         }
-                        const FormatFn = new Function(`return ${manualQry}`);
-                        let result = FormatFn();
+                        // Evaluated in a vm sandbox (no process/require/fs access) instead of
+                        // new Function(), which ran in this module's real global scope.
+                        let result = runInSandbox(manualQry, {});
                         manualQry = Array.isArray(result) ? result : [result];
                         if (manualQryType == 'aggregate') {
                             if (!Array.isArray(manualQry))
@@ -3426,25 +3465,36 @@ export class DynamicFlowService {
                                 throw new CustomException('Table name not found', 404);
 
                             if (dbFlg == 'pg') {
+                                if (!this.CommonService.isSafeSqlIdentifier(tableName)) {
+                                    throw new CustomException('Invalid table name', 404);
+                                }
                                 if (Array.isArray(inputData)) {
                                     for (var i = 0; i < inputData.length; i++) {
                                         if (Object.keys(inputData[i]).length > 0) {
                                             const keys = Object.keys(inputData[i]);
+                                            if (keys.some((k) => !this.CommonService.isSafeSqlIdentifier(k))) {
+                                                throw new CustomException('Invalid column name', 404);
+                                            }
                                             const values = Object.values(inputData[i]);
-                                            const query = `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (${values.map((v) => `'${v}'`).join(', ')});`;
+                                            const placeholders = values.map((_, idx) => `$${idx + 1}`).join(', ');
+                                            const query = `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (${placeholders});`;
                                             await client.connect();
-                                            await client.query(query);
+                                            await client.query(query, values);
                                             await client.end();
                                         }
                                     }
                                 }
                                 if (Object.keys(inputData).length > 0) {
                                     const keys = Object.keys(inputData);
+                                    if (keys.some((k) => !this.CommonService.isSafeSqlIdentifier(k))) {
+                                        throw new CustomException('Invalid column name', 404);
+                                    }
                                     const values = Object.values(inputData);
-                                    const query = `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (${values.map((v) => `'${v}'`).join(', ')});`;
+                                    const placeholders = values.map((_, idx) => `$${idx + 1}`).join(', ');
+                                    const query = `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (${placeholders});`;
                                     logReq = query;
                                     await client.connect();
-                                    await client.query(query);
+                                    await client.query(query, values);
                                     await client.end();
                                 }
                             } else if ((dbFlg = 'mongo')) {
@@ -4698,13 +4748,14 @@ export class DynamicFlowService {
                     await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(finalobj)?finalobj[0]:finalobj),collectionName,nodeName);
                     this.logger.log(`Api output node Completed`)
                     return { status: returnStscode, targetStatus: targetStatus, data: finalobj || { description: returnDescription } }
-                } catch (error) {                   
+                } catch (error) {
+                    const redactedError = this.CommonService.redactSensitiveFields(error);
                     if (failureQueue)
-                        await this.redisService.setStreamData(failureQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: failureTargetStatus, data: { request: inputparam, response: error } }))
+                        await this.redisService.setStreamData(failureQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: failureTargetStatus, data: { request: inputparam, response: redactedError } }))
                     if (suspiciousQueue)
-                        await this.redisService.setStreamData(suspiciousQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: failureTargetStatus, data: { request: inputparam, response: error } }))
+                        await this.redisService.setStreamData(suspiciousQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: failureTargetStatus, data: { request: inputparam, response: redactedError } }))
                     if (errorQueue)
-                        await this.redisService.setStreamData(errorQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: failureTargetStatus, data: { request: inputparam, response: error } }))
+                        await this.redisService.setStreamData(errorQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: failureTargetStatus, data: { request: inputparam, response: redactedError } }))
                     if (error?.response?.data)
                         throw { statusCode: error.status, message: error.response.data }
                     else if (error?.response && error?.status)
@@ -5064,8 +5115,9 @@ export class DynamicFlowService {
                         }
                     }
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(checkdata), collectionName, 'request')
-                    let FormatFn = new Function(`return ${checkdata}`);
-                    let parsedXml = FormatFn();
+                    // Evaluated in a vm sandbox (no process/require/fs access) instead of
+                    // new Function(), which ran in this module's real global scope.
+                    let parsedXml = runInSandbox(checkdata, {});
                     let jsonData = await parseStringPromise(parsedXml);
                     inputparam = await this.assignToInputParam(inputparam, nodeName, { xml2jsondata: jsonData })
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify({ xml2jsondata: jsonData }), collectionName, 'response')
@@ -5442,30 +5494,7 @@ export class DynamicFlowService {
                             procedurequery = await this.replaceQuery(procedurequery,mapobj)   
                         }
                     }
-                    if (filterData && Array.isArray(filterData) && filterData.length > 0) {
-                        filterData.forEach((filterObj) => {
-                            if (filterObj.nodeId == poNode[j]?.nodeId) {
-                                const entries = Object.entries(filterObj).filter(([key]) => key !== 'nodeId',);
-                                entries.forEach(([key, value]) => {
-                                    let removedVal;
-                                    if (key.includes('.')) {
-                                        let s_item = key.split('.');
-                                        removedVal = s_item.filter((item) => !this.statickeyword.includes(item)).join('.');
-                                        if (removedVal.includes('.') && removedVal.startsWith('items.')) {
-                                            removedVal = removedVal.replace('items.', '');
-                                        }
-                                    } else {
-                                        removedVal = key
-                                    }
-                                    const regex = new RegExp(`\\$\\$\\$${removedVal}`, 'g');
-                                    if (typeof value == 'number')
-                                        executecommand = executecommand.replace(regex, `${value}`);
-                                    else if (typeof value == 'string')
-                                        executecommand = executecommand.replace(regex, `'${value}'`);
-                                });
-                            }
-                        });
-                    }
+                    executecommand = this.CommonService.applyDollarDollarDollarFilters(executecommand, filterData, poNode[j]?.nodeId, this.statickeyword);
                     let obj ={},result;
                     if (executecommand.includes('$$$') || executecommand.includes('$$'))
                         executecommand = executecommand.replace(/\${2,3}[a-zA-Z0-9_]+/g, 'NULL');
@@ -5580,7 +5609,7 @@ export class DynamicFlowService {
                             if (mapobj && Object.keys(mapobj).length > 0) {
                                 Object.keys(mapobj).forEach(key => {
                                     const regex = new RegExp(`\\$\\$${key}`, 'g');
-                                    const value = typeof mapobj[key] === 'string' ? `'${mapobj[key]}'` : mapobj[key];
+                                    const value = this.CommonService.sqlLiteral(mapobj[key]);
                                     executecommand = executecommand.replace(regex, value);
                                 });
                             } else {
@@ -5602,35 +5631,12 @@ export class DynamicFlowService {
                         if (mapobj && Object.keys(mapobj).length > 0) {
                             Object.keys(mapobj).forEach(key => {
                                 const regex = new RegExp(`\\$\\$${key}`, 'g');
-                                const value = typeof mapobj[key] === 'string' ? `'${mapobj[key]}'` : mapobj[key];
+                                const value = this.CommonService.sqlLiteral(mapobj[key]);
                                 executecommand = executecommand.replace(regex, value);
                             });
                         }
                     }
-                    if (filterData && Array.isArray(filterData) && filterData.length > 0) {
-                        filterData.forEach((filterObj) => {
-                            if (filterObj.nodeId == poNode[j].nodeId) {
-                                const entries = Object.entries(filterObj).filter(([key]) => key !== 'nodeId',);
-                                entries.forEach(([key, value]) => {
-                                    let removedVal;
-                                    if (key.includes('.')) {
-                                        let s_item = key.split('.');
-                                        removedVal = s_item.filter((item) => !this.statickeyword.includes(item)).join('.');
-                                        if (removedVal.includes('.') && removedVal.startsWith('items.')) {
-                                            removedVal = removedVal.replace('items.', '');
-                                        }
-                                    } else {
-                                        removedVal = key
-                                    }
-                                    const regex = new RegExp(`\\$\\$\\$${removedVal}`, 'g');
-                                    if (typeof value == 'number')
-                                        executecommand = executecommand.replace(regex, `${value}`);
-                                    else if (typeof value == 'string')
-                                        executecommand = executecommand.replace(regex, `'${value}'`);
-                                });
-                            }
-                        });
-                    }
+                    executecommand = this.CommonService.applyDollarDollarDollarFilters(executecommand, filterData, poNode[j].nodeId, this.statickeyword);
                     if (executecommand.includes('$$$') || executecommand.includes('$$'))
                         executecommand = executecommand.replace(/\${2,3}[a-zA-Z0-9_]+/g, 'NULL');
                     await client.connect();
@@ -5727,7 +5733,7 @@ export class DynamicFlowService {
                             if (mapobj && Object.keys(mapobj).length > 0) {
                                 Object.keys(mapobj).forEach(key => {
                                     const regex = new RegExp(`\\$\\$${key}`, 'g');
-                                    const value = typeof mapobj[key] === 'string' ? `'${mapobj[key]}'` : mapobj[key];
+                                    const value = this.CommonService.sqlLiteral(mapobj[key]);
                                     executecommand = executecommand.replace(regex, value);
                                 });
                             } else {
@@ -5749,7 +5755,7 @@ export class DynamicFlowService {
                         if (mapobj && Object.keys(mapobj).length > 0) {
                             Object.keys(mapobj).forEach(key => {
                                 const regex = new RegExp(`\\$\\$${key}`, 'g');
-                                const value = typeof mapobj[key] === 'string' ? `'${mapobj[key]}'` : mapobj[key];
+                                const value = this.CommonService.sqlLiteral(mapobj[key]);
                                 executecommand = executecommand.replace(regex, value);
                             });
                         }
@@ -5776,14 +5782,18 @@ export class DynamicFlowService {
                                         removedVal = key
                                     }
 
+                                    // Column names here come from client-supplied filterData and are spliced
+                                    // directly into the WHERE fragment; reject anything that isn't a plain
+                                    // (optionally dotted) SQL identifier instead of concatenating it.
+                                    if (!this.CommonService.isSafeSqlIdentifier(removedVal)) return;
                                     if (value && typeof value == 'number') {
                                         formKey = formKey + ` ${removedVal} = ${value} AND`;
                                     } else if (value && typeof value == 'string' && value != '') {
-                                        formKey = formKey + ` ${removedVal} = '${value}' AND`;
+                                        formKey = formKey + ` ${removedVal} = ${this.CommonService.sqlLiteral(value)} AND`;
                                     } else if (Array.isArray(value) && value.length > 0) {
                                         let s = ''
                                         for (let item of value) {
-                                            s = s + `'${item}',`
+                                            s = s + `${this.CommonService.sqlLiteral(item)},`
                                         }
                                         if (s.endsWith(',')) {
                                             s = s.slice(0, -1);
@@ -6002,6 +6012,10 @@ export class DynamicFlowService {
             return;
           }
 
+          if (!this.CommonService.isSafeSqlIdentifier(key)) {
+            return;
+          }
+
           // =, !=, <>, >, >=, <, <=
           if (
             ['=', '!=', '<>', '>=', '<=', '>', '<'].includes(operator)
@@ -6009,7 +6023,7 @@ export class DynamicFlowService {
             if (type === 'date') {
               manualQuery = manualQuery.replaceAll(
                 `\${${key}}`,
-                `DATE(${key}) ${operator} '${value}'`,
+                `DATE(${key}) ${operator} ${this.CommonService.sqlLiteral(value)}`,
               );
             } else if (typeof value === 'number') {
               manualQuery = manualQuery.replaceAll(
@@ -6019,7 +6033,7 @@ export class DynamicFlowService {
             } else {
               manualQuery = manualQuery.replaceAll(
                 `\${${key}}`,
-                `${key} ${operator} '${value}'`,
+                `${key} ${operator} ${this.CommonService.sqlLiteral(value)}`,
               );
             }
           }
@@ -6039,21 +6053,12 @@ export class DynamicFlowService {
 
             const likeVal = likeMap[operator];
 
-            if (typeof value === 'number') {
-              manualQuery = manualQuery.replaceAll(
-                `\${${key}}`,
-                `${key} ${
-                  operator === 'NOT LIKE' ? 'NOT LIKE' : 'LIKE'
-                } '${likeVal}'`,
-              );
-            } else {
-              manualQuery = manualQuery.replaceAll(
-                `\${${key}}`,
-                `${key} ${
-                  operator === 'NOT LIKE' ? 'NOT LIKE' : 'LIKE'
-                } '${likeVal}'`,
-              );
-            }
+            manualQuery = manualQuery.replaceAll(
+              `\${${key}}`,
+              `${key} ${
+                operator === 'NOT LIKE' ? 'NOT LIKE' : 'LIKE'
+              } ${this.CommonService.sqlLiteral(likeVal)}`,
+            );
           }
 
           // BETWEEN
@@ -6064,12 +6069,12 @@ export class DynamicFlowService {
               if (type === 'date') {
                 manualQuery = manualQuery.replaceAll(
                   `\${${key}}`,
-                  `DATE(${key}) ${operator} '${value}' AND '${value2}'`,
+                  `DATE(${key}) ${operator} ${this.CommonService.sqlLiteral(value)} AND ${this.CommonService.sqlLiteral(value2)}`,
                 );
               } else {
                 manualQuery = manualQuery.replaceAll(
                   `\${${key}}`,
-                  `${key} ${operator} '${value}' AND '${value2}'`,
+                  `${key} ${operator} ${this.CommonService.sqlLiteral(value)} AND ${this.CommonService.sqlLiteral(value2)}`,
                 );
               }
             }
@@ -6098,16 +6103,19 @@ export class DynamicFlowService {
           if (value === undefined) {
             return match;
           }
+          if (!this.CommonService.isSafeSqlIdentifier(alias) || !this.CommonService.isSafeSqlIdentifier(key)) {
+            return match;
+          }
 
           const isDate = this.isDateTimeField(schema, key);
 
           if (isDate) {
-            return `DATE(${alias}.${key}) = '${value}'`;
+            return `DATE(${alias}.${key}) = ${this.CommonService.sqlLiteral(value)}`;
           }
 
           return typeof value === 'number'
             ? `${alias}.${key} = ${value}`
-            : `${alias}.${key} = '${value}'`;
+            : `${alias}.${key} = ${this.CommonService.sqlLiteral(value)}`;
         },
       );
 
@@ -6120,16 +6128,19 @@ export class DynamicFlowService {
           if (value === undefined) {
             return match;
           }
+          if (!this.CommonService.isSafeSqlIdentifier(key)) {
+            return match;
+          }
 
           const isDate = this.isDateTimeField(schema, key);
 
           if (isDate) {
-            return `DATE(${key}) = '${value}'`;
+            return `DATE(${key}) = ${this.CommonService.sqlLiteral(value)}`;
           }
 
           return typeof value === 'number'
             ? `${key} = ${value}`
-            : `${key} = '${value}'`;
+            : `${key} = ${this.CommonService.sqlLiteral(value)}`;
         },
       );
     }
@@ -6268,17 +6279,22 @@ export class DynamicFlowService {
     }
 
      private createTransport(emailConfig) {
+        // TLS verification defaults on (rejectUnauthorized: true) so the SMTP
+        // connection — including outgoing OTP email — can't be silently
+        // MITM'd. The only opt-out is this explicit, operator-set env var;
+        // there is no per-node/per-request way to disable verification.
+        const allowInsecureTls = process.env.SMTP_ALLOW_INSECURE_TLS === 'true';
         return nodemailer?.createTransport({
           host: emailConfig?.smtpHost?.value,
            port: emailConfig?.smtpPort?.value,
           secure: false,
-          requireTLS: true, 
+          requireTLS: true,
           auth: {
             user: emailConfig?.smtpUser?.value,
             pass: emailConfig?.smtpPassword?.value
           },
            tls: {
-          rejectUnauthorized: false, // verify certificate
+          rejectUnauthorized: !allowInsecureTls,
         },
         });
     }
@@ -8119,10 +8135,15 @@ export class DynamicFlowService {
                             schemaField = schemaField[schemaField.length-1]
                         
                         let key = schemaField.split('.')
-                        key = key[key.length-1]                      
+                        key = key[key.length-1]   
+                         let values:any , keys                    
                         let getValue = _.get(targetNode.schema,schemaField)                       
-                        let values:any = Object.values(getValue)[0]
-                        let keys = Object.keys(getValue)[0]
+                         if(getValue && Object.values(getValue).length>0) {
+                            values = Object.values(getValue)[0]
+                            keys = Object.keys(getValue)[0]
+                        } 
+                        
+                        else throw `${key} does not exist in ${targetNode.nodeName}`;
                         let targetType
                       
                         if(getValue?.type){

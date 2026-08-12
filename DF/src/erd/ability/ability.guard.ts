@@ -23,14 +23,25 @@ export class AbilitiesGuard implements CanActivate {
     const rules =
       this.reflector.get<RequiredRule[]>(CHECK_ABILITY, context.getHandler()) ||
       [];
+    // No @CheckAbilities() rule declared for this route — nothing to check
+    // against, so fail closed instead of throwing on rules[0] below.
+    if (!rules.length) {
+      return false;
+    }
 
     const request: any = context.switchToHttp().getRequest();
-    const dfKey:string = 'CK:CT006:FNGK:AF:FNK:API-ERD:CATK:ECP:AFGK:HRM:AFK:hrmERD:AFVK:v1';
+    const dfKey:string = 'CK:CT006:FNGK:AF:FNK:API-ERD:CATK:LAP:AFGK:LAP:AFK:lapERD:AFVK:v1';
     const source: string = 'redis';
     const target: string = 'redis';
     const artifact : string = dfKey.split(':')[11];
-    const token: string = request.headers.authorization.split(' ')[1];
-    const decodedToken: any = this.jwtService.decodeToken(token);
+    const authHeader: string | undefined = request.headers.authorization;
+    if (!authHeader) {
+      return false;
+    }
+    const token: string = authHeader.split(' ')[1];
+    // Verified (signature + expiry checked), not a bare decode — a forged
+    // token must no longer be able to drive an authorization decision here.
+    const decodedToken: any = this.jwtService.verifyToken(token);
     decodedToken.template = 'T1';
 
     const DO: any = await this.TGCommonService.readAPI(dfKey + ':DO',process.env.clientCode,token);

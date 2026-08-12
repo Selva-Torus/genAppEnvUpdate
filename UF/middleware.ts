@@ -1,13 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerCookie, deleteServerCookie } from '@/app/components/cookieMgment'
 import { buildAuthorizationUrl } from './lib/fusionauth'
-
-const FULL_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
-
-export const COOKIE_PREFIX = FULL_BASE_PATH.replace(/^\/|\/$/g, '').replace(
-  /\//g,
-  '_'
-)
+import { COOKIE_PREFIX, FULL_BASE_PATH } from './lib/cookies'
 
 function generateRandomString(length: number): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -29,62 +22,62 @@ function decodeTokenPayload(token: string): any {
 }
 
 export async function middleware(request: NextRequest) {
-  const token = getServerCookie(request, 'token')
+  const token = request.cookies.get(`${COOKIE_PREFIX}_token`)?.value || "";
   const path = request.nextUrl.pathname
   const isAuthRoute = ["/" , "/forgot-password"].includes(path);
   const isForgotPasswordRoute = ["/forgot-password"].includes(path);
-   let screenName:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1';
+   let screenName:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1';
     let screenDetails: any = {
         keys:[
   {
     "screenName": "dashboard",
     "screensName": "dashboard-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1"
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
   },
   {
-    "screenName": "employees",
-    "screensName": "employees-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employees:AFVK:v1"
+    "screenName": "report",
+    "screensName": "report-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1"
   },
   {
-    "screenName": "access request",
-    "screensName": "access_request-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:accessRequest:AFVK:v1"
+    "screenName": "filing packages",
+    "screensName": "filing_packages-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "leave management",
-    "screensName": "leave_management-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leaveRequest:AFVK:v1"
+    "screenName": "submissions hub",
+    "screensName": "submissions_hub-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "background check",
-    "screensName": "background_check-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:backgroundCheck:AFVK:v1"
+    "screenName": "service tracking",
+    "screensName": "service_tracking-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "performance review",
-    "screensName": "performance_review-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceReview:AFVK:v1"
+    "screenName": "judgments",
+    "screensName": "judgments-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "job grades",
-    "screensName": "job_grades-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobGrades:AFVK:v1"
+    "screenName": "enforcement",
+    "screensName": "enforcement-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "job position",
-    "screensName": "job_position-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobPositions:AFVK:v1"
+    "screenName": "kill-switch control",
+    "screensName": "kill-switch_control-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "leave policy",
-    "screensName": "leave_policy-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leavePolicy:AFVK:v1"
+    "screenName": "compliance",
+    "screensName": "compliance-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "performance cycle",
-    "screensName": "performance_cycle-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceCycles:AFVK:v1"
+    "screenName": "analytics",
+    "screensName": "analytics-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   }
 ]
     }
@@ -179,36 +172,6 @@ export async function middleware(request: NextRequest) {
 
   return NextResponse.next()
 
-//  if (token && isAuthRoute) {
-//    try {
-//      const decodedToken = Buffer.from(token!.split('.')[1], 'base64').toString(
-//        'utf8'
-//      )
-//      const parsedToken = decodedToken ? JSON.parse(decodedToken) : {}
-//      if (parsedToken?.psCode) {
-//        return NextResponse.redirect(
-//          new URL(
-//            `${process.env.NEXT_PUBLIC_BASE_PATH}${landingScreen}`,
-//            request.url
-//          )
-//        )
-//      } else {
-//        return NextResponse.redirect(
-//          new URL(
-//            `${process.env.NEXT_PUBLIC_BASE_PATH}/select-context`,
-//            request.url
-//          )
-//        )
-//      }
-//    } catch (error) {
-//      deleteServerCookie(request, 'token')
-//      return NextResponse.redirect(
-//        new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}`, request.url)
-//      )
-//    }
-//  }
-//
-//  return NextResponse.next()
 }
 
 export const config = {

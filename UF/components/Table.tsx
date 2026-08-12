@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useGlobal } from "@/context/GlobalContext";
 import { Icon } from "./Icon";
 import { getBorderRadiusClass } from "@/app/utils/branding";
@@ -67,7 +67,8 @@ interface TableProps {
   onRowClick?: (row: any, index: any) => void;
   className?: string;
   renderRowActions?: (props: RenderRowActionsProps) => React.ReactNode | Promise<React.ReactNode>;
-  selectedIds?: string[];
+  primaryKey?: string;
+  selectedIds?: any[];
   onSelectionChange?: (selectedIds: string[]) => void;
   selectionMode?: 'Single' | 'Multi';
   getRowId?: (row: any, index: number) => string;
@@ -75,6 +76,7 @@ interface TableProps {
   wordWrap?: boolean;
   loading?: boolean;
   isRowclick?: boolean;
+  disable?: boolean;
   // Pagination props
   pagination?: {
     page: number;
@@ -107,6 +109,7 @@ export const Table: React.FC<TableProps> = ({
   onRowClick,
   className = "",
   renderRowActions,
+  primaryKey="",
   selectedIds=[],
   onSelectionChange,
   selectionMode = 'single',
@@ -114,6 +117,7 @@ export const Table: React.FC<TableProps> = ({
   edgePadding = true,
   wordWrap = false,
   loading = false,
+  disable = false,
   pagination,
   showPagination = false,
   needTooltip = false,
@@ -148,10 +152,8 @@ export const Table: React.FC<TableProps> = ({
   // Use controlled selection if selectedIds is provided, otherwise use internal state
   // Helper function to get row ID
   const getRowIdHelper = (row: any, index: number): string => {
-    if (getRowId) {
-      return getRowId(row, index);
-    }
-    return index.toString();
+
+    return row[primaryKey]
   };
 
   const handleRowSelection = (row: any, index: number) => {
@@ -205,28 +207,53 @@ export const Table: React.FC<TableProps> = ({
     setVisibleColumns([]);
   };
 
-  const filteredData = search
-    ? data.filter((row) =>
-        Object.values(row).some((value) =>
-          String(value).toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData = useMemo(() => (
+    search
+      ? data.filter((row) =>
+          Object.values(row).some((value) =>
+            String(value).toLowerCase().includes(searchTerm.toLowerCase())
+          )
         )
-      )
-    : data;
+      : data
+  ), [data, search, searchTerm]);
+  const sortedData = useMemo(() => (
 
-const sortedData = sortColumn
-  ? [...filteredData].sort((a, b) => {
-      const aVal = a[sortColumn];
-      const bVal = b[sortColumn];
-      
-      // Handle null/undefined values
-      if (aVal == null && bVal == null) return 0;
-      if (aVal == null) return 1;  // Push nulls to end
-      if (bVal == null) return -1;
-      
-      const comparison = aVal > bVal ? 1 : aVal < bVal ? -1 : 0;
-      return sortDirection === "asc" ? comparison : -comparison;
-    })
-  : filteredData;
+    sortColumn
+      ? [...filteredData].sort((a, b) => {
+          const aVal = a[sortColumn];
+          const bVal = b[sortColumn];
+
+          // Handle null/undefined values
+          if (aVal == null && bVal == null) return 0;
+          if (aVal == null) return 1;  // Push nulls to end
+          if (bVal == null) return -1;
+
+          let comparison;
+
+          // Numeric comparison when both values are numbers (or numeric strings)
+          const aNum = typeof aVal === "number" ? aVal : Number(aVal);
+          const bNum = typeof bVal === "number" ? bVal : Number(bVal);
+          const bothNumeric =
+            !Number.isNaN(aNum) &&
+            !Number.isNaN(bNum) &&
+            String(aVal).trim() !== "" &&
+            String(bVal).trim() !== "";
+
+          if (bothNumeric) {
+            comparison = aNum - bNum;
+          } else {
+            // Fall back to case-insensitive string comparison
+            comparison = String(aVal).localeCompare(String(bVal), undefined, {
+              numeric: true,
+              sensitivity: "base",
+            });
+          }
+
+          return sortDirection === "asc" ? comparison : -comparison;
+        })
+      : filteredData
+
+  ), [filteredData, sortColumn, sortDirection]);
 
   // Use all sorted data without pagination
   const displayData = sortedData;
@@ -491,7 +518,9 @@ const sortedData = sortColumn
               w-full
               ${getBorderRadiusClass(branding.borderRadius)}
               ${isDark ? "bg-gray-800" : "bg-white"}
+              ${disable ? "opacity-50 pointer-events-none" : ""}
             `}
+       
           >
             <thead
               className={`
@@ -641,11 +670,11 @@ const sortedData = sortColumn
                 </tr>
               ) : (displayData.map((row, index) => {
               const rowId = getRowIdHelper(row, index);
-              const isSelected = selectedIds.includes(rowId) || clickedRowId === rowId;
-
+              // const isSelected = selectedIds.includes(rowId) || clickedRowId === rowId;
+              const isSelected =primaryKey in row ? selectedIds?.includes(row[primaryKey]):false
               return (
                 <tr
-                  key={rowId}
+                  key={index}
                   onClick={() => {
                     if(isRowclick){                      
                       onRowClick?.(row,rowId);

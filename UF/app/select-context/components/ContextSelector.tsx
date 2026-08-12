@@ -36,15 +36,14 @@ const ContextSelector = () => {
   const { userDetails, setUserDetails , setMatchedAccessProfileData } = useContext(
     TotalContext
   ) as TotalContextProps
-  const token: string = getCookie('token')
   const tp_ps: any = getCookie('tp_ps')
   const toast = useInfoMsg()
   const baseUrl: any = process.env.NEXT_PUBLIC_API_BASE_URL
-  const appName = 'HRM'
+  const appName = 'LAP'
   const [accessProfiles, setAccessProfiles] = useState<any[]>([])
   const router = useRouter()
   const [loading, setLoading] = useState(false)
-  const { branding } = useGlobal()
+  const { branding , token } = useGlobal()
   const { brandColor } = branding
   const [selectedCombination, setSelectedCombination] = useState<
     Record<string, string>
@@ -56,58 +55,58 @@ const ContextSelector = () => {
   const [selectedRole, setSelectedRole] = useState<Record<string, string>>({})
   const [orgGrpData, setOrgGrpData] = useState<any>([])
   const [isPending, startTransition] = useTransition();  
-  let landingScreen:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1';
+  let landingScreen:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1';
   let screenDetails: any = {
            keys:[
   {
     "screenName": "dashboard",
     "screensName": "dashboard-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1"
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
   },
   {
-    "screenName": "employees",
-    "screensName": "employees-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employees:AFVK:v1"
+    "screenName": "report",
+    "screensName": "report-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1"
   },
   {
-    "screenName": "access request",
-    "screensName": "access_request-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:accessRequest:AFVK:v1"
+    "screenName": "filing packages",
+    "screensName": "filing_packages-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "leave management",
-    "screensName": "leave_management-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leaveRequest:AFVK:v1"
+    "screenName": "submissions hub",
+    "screensName": "submissions_hub-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "background check",
-    "screensName": "background_check-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:backgroundCheck:AFVK:v1"
+    "screenName": "service tracking",
+    "screensName": "service_tracking-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "performance review",
-    "screensName": "performance_review-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceReview:AFVK:v1"
+    "screenName": "judgments",
+    "screensName": "judgments-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "job grades",
-    "screensName": "job_grades-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobGrades:AFVK:v1"
+    "screenName": "enforcement",
+    "screensName": "enforcement-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "job position",
-    "screensName": "job_position-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobPositions:AFVK:v1"
+    "screenName": "kill-switch control",
+    "screensName": "kill-switch_control-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "leave policy",
-    "screensName": "leave_policy-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leavePolicy:AFVK:v1"
+    "screenName": "compliance",
+    "screensName": "compliance-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "performance cycle",
-    "screensName": "performance_cycle-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceCycles:AFVK:v1"
+    "screenName": "analytics",
+    "screensName": "analytics-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   }
 ]
   }
@@ -128,30 +127,14 @@ const ContextSelector = () => {
   }
 
   const introspect = async () => {
-    if (!token) {
-      logout();
-      return;
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+    const res = await fetch(`${basePath}/next-api/auth/introspect?key=context-selector`)
+    if (!res.ok) {
+      logout()
+      return
     }
-
-    try {
-      const response = await AxiosService.get("/UF/introspect", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          key: "context-selector",
-        },
-      });
-
-      if (response?.data?.authenticated === false) {
-        logout();
-        return;
-      }
-    } catch (err) {
-      toast("The token is no longer active.", "danger");
-      logout();
-    }
-  };
+    router.refresh()
+  }
 
   const logout = () => {
     localStorage.clear();
@@ -305,8 +288,8 @@ const ContextSelector = () => {
     }
     setLoading(true)
     try {
-      const res = await axios.post(
-        `${baseUrl}/UF/getAccessToken`,
+     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''; 
+     const res = await axios.post(`${basePath}/next-api/auth/get-access-token`, 
         {
           selectedCombination: selectedCombo,
           selectedAccessProfile: selectedAccessProfile[0],
@@ -315,15 +298,9 @@ const ContextSelector = () => {
               item => item.accessProfile === selectedAccessProfile[0]
             )?.dap ?? undefined,
           ufClientType: 'UFW'
-        },
-        {
-          headers: {
-            authorization: `Bearer ${token}`
-          }
         }
-      )
-      if (res.status == 201) {
-        setCookie('token', res.data.token)
+)
+      if (res.status == 200) {
         setCookie(
           'tp_ps',
           btoa(
@@ -333,22 +310,11 @@ const ContextSelector = () => {
             })
           )
         )
-        const ORM: any = decodeToken(res.data.token)
-        sessionStorage.setItem(
-          'organizationDetails',
-          JSON.stringify({
-            orgGrpCode: ORM.orgGrpCode,
-            orgCode: ORM.orgCode,
-            roleGrpCode: ORM.roleGrpCode,
-            roleCode: ORM.roleCode,
-            psGrpCode: ORM.psGrpCode,
-            psCode: ORM.psCode
-          })
-        )
         setMatchedAccessProfileData({})
         startTransition(() => {
           router.push(landingScreen)
         })
+        router.refresh()
         // here we have to set the default authentication route
         setLoading(false)
       }
@@ -384,27 +350,10 @@ const ContextSelector = () => {
     name: string
     'gridColumn'?: string
     'gridRow'?: string
-  }[] = [
-  {
-    "name": "menu items",
-    "gridRow": "2/10"
-  },
-  {
-    "name": "opr matrix",
-    "gridRow": "10/12"
-  },
-  {
-    "name": "profile",
-    "gridRow": "12/13"
-  },
-  {
-    "name": "logo",
-    "gridRow": "1/2"
-  }
-]
+  }[] = []
 
-  const logo: string = "torus/9.1/CT006/resources/images/Frame 1000004022.png"
-  const appLogo: string = "torus/9.1/CT006/resources/images/Frame 1000004022.png"
+  const logo: string = ""
+  const appLogo: string = ""
 
   return (
     <div className='h-full w-full  bg-cover bg-center'>

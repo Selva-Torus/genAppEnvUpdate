@@ -1,5 +1,5 @@
 let data:any ={
-  "hrmDPD": {
+  "lapDPD": {
     "encryptionType": {
       "name": "encryptionType",
       "_type": "select",

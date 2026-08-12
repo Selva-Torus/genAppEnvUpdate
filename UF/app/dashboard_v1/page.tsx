@@ -3,7 +3,7 @@ import React,{ useContext,useEffect,useState,useRef } from "react";
 import { AxiosService } from '@/app/components/axiosService';
 import { te_refreshDto,api_paginationDto } from '@/app/interfaces/interfaces';
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
-import { deleteAllCookies,getCookie } from '@/app/components/cookieMgment';
+import { deleteAllCookies } from '@/app/components/cookieMgment';
 import { TotalContext, TotalContextProps } from "../globalContext";
 import decodeToken from "../components/decodeToken";
 import { useRouter } from 'next/navigation';
@@ -12,38 +12,21 @@ import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,Pagin
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import clsx from "clsx";
 import dynamic from 'next/dynamic';
+import { useGlobal } from '@/context/GlobalContext'
+
 const Groupheader_group = dynamic(() => import("./Groupheader_group/Groupheader_group"), { ssr: false });
-const Grouphrm_dashboard_group = dynamic(() => import("./Grouphrm_dashboard_group/Grouphrm_dashboard_group"), { ssr: false });
-const Grouptable_group = dynamic(() => import("./Grouptable_group/Grouptable_group"), { ssr: false });
+const Groupasset_dashboard_group = dynamic(() => import("./Groupasset_dashboard_group/Groupasset_dashboard_group"), { ssr: false });
+const Groupoverall_key_performance_indicators = dynamic(() => import("./Groupoverall_key_performance_indicators/Groupoverall_key_performance_indicators"), { ssr: false });
 
-
-export default function PageDashboardV1() {
+export default function PageDashboardV1({ onReady }: { onReady?: () => void } = {}) {
   const { isDark, isHighContrast, bgStyle, textStyle } : { isDark: boolean; isHighContrast: boolean; bgStyle: string; textStyle: string } = useTheme();
   const [initialLoad, setInitialLoad] = useState<boolean>(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const securityData : SecurityData = {
-  "CXO": {
+  "Branch Manager": {
     "blockedGroups": []
   },
-  "HR Manager": {
-    "blockedGroups": []
-  },
-  "Info Security Officer": {
-    "blockedGroups": []
-  },
-  "Employee": {
-    "blockedGroups": []
-  },
-  "IT Manager": {
-    "blockedGroups": []
-  },
-  "Operation Staff": {
-    "blockedGroups": []
-  },
-  "Auditor": {
-    "blockedGroups": []
-  },
-  "Operation Manager": {
+  "Branch Officer": {
     "blockedGroups": []
   }
 };
@@ -54,155 +37,210 @@ export default function PageDashboardV1() {
   const [checkToAdd, setCheckToAdd] = useState<Record<string, any>>({});
   const allRuleData:any={
   "header_group": {
-    "header_text": {
+    "text": {
       "show": false
     }
   },
-  "hrm_dashboard_group": {},
-  "total_employees_group": {
-    "total_employees_text": {
+  "asset_dashboard_group": {},
+  "amr_queue_group": {
+    "amr_queue_text": {
       "show": false
     },
-    "emp_icon": {
+    "icon_total_assest": {
       "show": false
     },
-    "total_employees": {
+    "amr_queue": {
       "show": false
     },
-    "total_emp_text": {
+    "amr_queue_desc": {
       "show": false
     }
   },
-  "pending_access_req_group": {
-    "pending_access_req_text": {
+  "pending_file_group": {
+    "pending_file_text": {
       "show": false
     },
-    "access_icon": {
+    "icon_maintenance_due": {
       "show": false
     },
-    "pending_access_req": {
+    "pending_file": {
       "show": false
     },
-    "access_des_text": {
+    "pending_file_desc": {
       "show": false
     }
   },
-  "leave_requests_group": {
-    "leave_req_text": {
+  "service_pending_group": {
+    "service_pending_text": {
       "show": false
     },
-    "leave_icon": {
+    "icon_warranty_expiring": {
       "show": false
     },
-    "leave_requests": {
+    "service_pending": {
       "show": false
     },
-    "leave_des_text": {
+    "service_pending_desc": {
       "show": false
     }
   },
-  "onboarding_group": {
-    "onboarding_text": {
+  "slas_at_risk_group": {
+    "slas_at_risk_text": {
       "show": false
     },
-    "leave_icon": {
+    "icon_": {
       "show": false
     },
-    "onboarding": {
+    "slas_at_risk": {
       "show": false
     },
-    "board_des_text": {
+    "slas_at_risk_desc": {
       "show": false
     }
   },
-  "table_group": {
-    "status": {
+  "court_rejection_group": {
+    "court_rejection_text": {
+      "show": false
+    },
+    "icon": {
+      "show": false
+    },
+    "court_rejection": {
+      "show": false
+    },
+    "court_rejection_desc": {
       "show": false
     }
   },
-  "subscreen": {},
-  "ct006_af_uf_ufws_ecp_hrm_totalemployees_v1": {},
-  "employee_table_group": {
-    "button": {
+  "collected_mtd_group": {
+    "collected_mtd_text": {
+      "show": false
+    },
+    "icon": {
+      "show": false
+    },
+    "collected_mtd": {
+      "show": false
+    },
+    "collected_mtd_desc": {
       "show": false
     }
   },
-  "emp_group": {
-    "emp_head_text": {
+  "overall_key_performance_indicators": {},
+  "key_performance_indicator_group": {
+    "key_performance_indicators_text": {
+      "show": false
+    },
+    "total_active_accounts_text": {
+      "show": false
+    },
+    "total_active_accounts_text1": {
+      "show": false
+    },
+    "divider1": {
+      "show": false
+    },
+    "avg_days_to_judgment_text": {
+      "show": false
+    },
+    "avg_days_to_judgment_text1": {
+      "show": false
+    },
+    "divider2": {
+      "show": false
+    },
+    "court_rejection_rate_text": {
+      "show": false
+    },
+    "court_rejection_rate_text1": {
+      "show": false
+    },
+    "divider3": {
+      "show": false
+    },
+    "compliance_score_text": {
+      "show": false
+    },
+    "compliance_score_text1": {
+      "show": false
+    },
+    "divider4": {
+      "show": false
+    },
+    "collection_rate_mtd_text": {
+      "show": false
+    },
+    "collection_rate_mtd_text1": {
       "show": false
     }
   },
-  "total_employee_table": {
-    "employee_id": {
+  "recent_activity_group": {
+    "recent_activity_text": {
       "show": false
     },
-    "employee_code": {
+    "amr_queued_text": {
       "show": false
     },
-    "full_name": {
+    "amr_queued_text_1": {
       "show": false
     },
-    "employee_number": {
+    "divider1": {
       "show": false
     },
-    "work_email": {
+    "judgment_entered_text": {
       "show": false
     },
-    "gender": {
+    "judgment_entered_text_1": {
       "show": false
     },
-    "employment_type": {
+    "divider2": {
       "show": false
     },
-    "hire_date": {
+    "service_completed_text": {
       "show": false
     },
-    "workmode": {
+    "service_completed_text_1": {
       "show": false
     },
-    "employee_status": {
-      "show": false
-    }
-  },
-  "ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1": {},
-  "access_req_group": {
-    "search_button": {
-      "show": false
-    }
-  },
-  "acc_group": {
-    "acc_r_text": {
-      "show": false
-    }
-  },
-  "access_req_table": {
-    "request_number": {
+    "divider3": {
       "show": false
     },
-    "full_name": {
+    "amr_passed_text": {
       "show": false
     },
-    "system_name": {
+    "amr_passed_text1": {
       "show": false
     },
-    "request_type": {
+    "divider4": {
       "show": false
     },
-    "access_role": {
+    "court_rejection_text": {
       "show": false
     },
-    "request_priority": {
+    "court_rejection_text1": {
       "show": false
     },
-    "risk_level": {
+    "divider5": {
       "show": false
     },
-    "employee_status": {
+    "service_assigned_text": {
+      "show": false
+    },
+    "service_assigned_text1": {
+      "show": false
+    },
+    "divider6": {
+      "show": false
+    },
+    "amr_rejected_text": {
+      "show": false
+    },
+    "amr_rejected_text1": {
       "show": false
     }
   }
 }
-  const token:string = getCookie('token'); 
+  const { token } = useGlobal();
   const decodedTokenObj: DecodedToken = decodeToken(token);
   const screenName:string = "dashboard";
   const user : string | undefined = decodedTokenObj?.selectedAccessProfile;
@@ -213,43 +251,33 @@ export default function PageDashboardV1() {
   const [tableData, setTableData] = useState<any[]>([]);  
   const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
   const { eventEmitterData,setEventEmitterData}= useContext(TotalContext) as TotalContextProps;
-  const {hrmdashboard_v1, sethrmdashboard_v1} = useContext(TotalContext) as TotalContextProps;
-  const {hrmdashboard_v1Props, sethrmdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {newdashboard_v1, setnewdashboard_v1} = useContext(TotalContext) as TotalContextProps;
+  const {newdashboard_v1Props, setnewdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
   const [checkheader_group,setCheckheader_group,]=useState<boolean>(false);
-  const [checkhrm_dashboard_group,setCheckhrm_dashboard_group,]=useState<boolean>(false);
-  const [checktotal_employees_group,setChecktotal_employees_group,]=useState<boolean>(false);
-  const [checkpending_access_req_group,setCheckpending_access_req_group,]=useState<boolean>(false);
-  const [checkleave_requests_group,setCheckleave_requests_group,]=useState<boolean>(false);
-  const [checkonboarding_group,setCheckonboarding_group,]=useState<boolean>(false);
-  const [checktable_group,setChecktable_group,]=useState<boolean>(false);
-  const [checksubscreen,setChecksubscreen,]=useState<boolean>(false);
-  const [checkct006_af_uf_ufws_ecp_hrm_totalemployees_v1,setCheckct006_af_uf_ufws_ecp_hrm_totalemployees_v1,]=useState<boolean>(false);
-  const [checkemployee_table_group,setCheckemployee_table_group,]=useState<boolean>(false);
-  const [checkemp_group,setCheckemp_group,]=useState<boolean>(false);
-  const [checktotal_employee_table,setChecktotal_employee_table,]=useState<boolean>(false);
-  const [checkct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1,setCheckct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1,]=useState<boolean>(false);
-  const [checkaccess_req_group,setCheckaccess_req_group,]=useState<boolean>(false);
-  const [checkacc_group,setCheckacc_group,]=useState<boolean>(false);
-  const [checkaccess_req_table,setCheckaccess_req_table,]=useState<boolean>(false);
-  const {header_groupf778a, setheader_groupf778a} = useContext(TotalContext) as TotalContextProps;
-  const {hrm_dashboard_group4d6cb, sethrm_dashboard_group4d6cb} = useContext(TotalContext) as TotalContextProps;
-  const {total_employees_group69aa9, settotal_employees_group69aa9} = useContext(TotalContext) as TotalContextProps;
-  const {pending_access_req_groupb5bd4, setpending_access_req_groupb5bd4} = useContext(TotalContext) as TotalContextProps;
-  const {leave_requests_group4beb5, setleave_requests_group4beb5} = useContext(TotalContext) as TotalContextProps;
-  const {onboarding_group2580d, setonboarding_group2580d} = useContext(TotalContext) as TotalContextProps;
-  const {table_groupe0a6f, settable_groupe0a6f} = useContext(TotalContext) as TotalContextProps;
-  const {subscreen1c010, setsubscreen1c010} = useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547f, setct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547f} = useContext(TotalContext) as TotalContextProps;
-  const {employee_table_group55008, setemployee_table_group55008} = useContext(TotalContext) as TotalContextProps;
-  const {emp_group5e40b, setemp_group5e40b} = useContext(TotalContext) as TotalContextProps;
-  const {total_employee_tablee4e9d, settotal_employee_tablee4e9d} = useContext(TotalContext) as TotalContextProps;
-  const {ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfe, setct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfe} = useContext(TotalContext) as TotalContextProps;
-  const {access_req_groupb1258, setaccess_req_groupb1258} = useContext(TotalContext) as TotalContextProps;
-  const {acc_group3b167, setacc_group3b167} = useContext(TotalContext) as TotalContextProps;
-  const {access_req_tablec5aac, setaccess_req_tablec5aac} = useContext(TotalContext) as TotalContextProps;
-  const {dfd_hrmdashboard_v1Props, setdfd_hrmdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
-  const {dfd_employees_v1Props, setdfd_employees_v1Props} = useContext(TotalContext) as TotalContextProps;
-  const {dfd_accessrequest_v1Props, setdfd_accessrequest_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const [checkasset_dashboard_group,setCheckasset_dashboard_group,]=useState<boolean>(false);
+  const [checkamr_queue_group,setCheckamr_queue_group,]=useState<boolean>(false);
+  const [checkpending_file_group,setCheckpending_file_group,]=useState<boolean>(false);
+  const [checkservice_pending_group,setCheckservice_pending_group,]=useState<boolean>(false);
+  const [checkslas_at_risk_group,setCheckslas_at_risk_group,]=useState<boolean>(false);
+  const [checkcourt_rejection_group,setCheckcourt_rejection_group,]=useState<boolean>(false);
+  const [checkcollected_mtd_group,setCheckcollected_mtd_group,]=useState<boolean>(false);
+  const [checkoverall_key_performance_indicators,setCheckoverall_key_performance_indicators,]=useState<boolean>(false);
+  const [checkkey_performance_indicator_group,setCheckkey_performance_indicator_group,]=useState<boolean>(false);
+  const [checkrecent_activity_group,setCheckrecent_activity_group,]=useState<boolean>(false);
+  const {header_groupd8ba9, setheader_groupd8ba9} = useContext(TotalContext) as TotalContextProps;
+  const {asset_dashboard_group1aa03, setasset_dashboard_group1aa03} = useContext(TotalContext) as TotalContextProps;
+  const {amr_queue_group3c082, setamr_queue_group3c082} = useContext(TotalContext) as TotalContextProps;
+  const {pending_file_group2128c, setpending_file_group2128c} = useContext(TotalContext) as TotalContextProps;
+  const {service_pending_group8c0ca, setservice_pending_group8c0ca} = useContext(TotalContext) as TotalContextProps;
+  const {slas_at_risk_group1f8c0, setslas_at_risk_group1f8c0} = useContext(TotalContext) as TotalContextProps;
+  const {court_rejection_groupdf57a, setcourt_rejection_groupdf57a} = useContext(TotalContext) as TotalContextProps;
+  const {collected_mtd_group0f074, setcollected_mtd_group0f074} = useContext(TotalContext) as TotalContextProps;
+  const {overall_key_performance_indicatorsc2711, setoverall_key_performance_indicatorsc2711} = useContext(TotalContext) as TotalContextProps;
+  const {key_performance_indicator_groupf9eaf, setkey_performance_indicator_groupf9eaf} = useContext(TotalContext) as TotalContextProps;
+  const {recent_activity_group91db6, setrecent_activity_group91db6} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_amrqueuedashboard_v1Props, setdfd_amrqueuedashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_pendingfilingsdashboard_v1Props, setdfd_pendingfilingsdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_cardsdashboard_v1Props, setdfd_cardsdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
   const [controlData, setControlData] = useState<any>({});
   const [groupData, setGroupData] = useState<any>({});
   const encryptionFlagPage: boolean = false|| encAppFalg.flag;
@@ -265,41 +293,41 @@ export default function PageDashboardV1() {
   const [paginationDetails, setpaginationDetails] = useState<Record<string, any>>({});
   const [paginationData,setPaginationData]=useState<PaginationData>({count:10,page:1})
     const prevRefreshRef = useRef<any>({
-      hrmdashboard_v1:false,
-      employees_v1:false,
-      accessrequest_v1:false,
+      amrqueuedashboard_v1:false,
+      pendingfilingsdashboard_v1:false,
+      cardsdashboard_v1:false,
     });
-    async function hrmdashboard_v1DFD(pagination:any): Promise<void>{
+    async function amrqueuedashboard_v1DFD(pagination:any): Promise<void>{
         let filterData :any[] =[];
-        let hrmdashboard_v1Body:te_refreshDto={
-          key: "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1"+":",
+        let amrqueuedashboard_v1Body:te_refreshDto={
+          key: "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1"+":",
           refreshFlag: "Y",
           count:parseInt(pagination?.count) || 10,
           page:parseInt(pagination?.page) || 1
         }
         if (encryptionFlagPage) {          
-          hrmdashboard_v1Body["dpdKey"] = encryptionDpd;
-          hrmdashboard_v1Body["method"] = encryptionMethod;
+          amrqueuedashboard_v1Body["dpdKey"] = encryptionDpd;
+          amrqueuedashboard_v1Body["method"] = encryptionMethod;
         }
-        if(hrmdashboard_v1Props.length > 0){
-          for(let i=0;i< hrmdashboard_v1Props.length;i++){
-            if(hrmdashboard_v1Props[i].DFDkey == "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1"){
-              // delete hrmdashboard_v1Props[i].DFDkey;
-              let temp=structuredClone(hrmdashboard_v1Props[i])
+        if(newdashboard_v1Props.length > 0){
+          for(let i=0;i< newdashboard_v1Props.length;i++){
+            if(newdashboard_v1Props[i].DFDkey == "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrQueueDashboard:AFVK:v1"){
+              // delete newdashboard_v1Props[i].DFDkey;
+              let temp=structuredClone(newdashboard_v1Props[i])
               delete temp?.DFDkey
               filterData.push(temp)
             }           
           }
-          hrmdashboard_v1Body['filterData'] = filterData;
+          amrqueuedashboard_v1Body['filterData'] = filterData;
         }
-        const hrmdashboard_v1Data:any=await AxiosService.post("/te/eventEmitter",hrmdashboard_v1Body,{
+        const amrqueuedashboard_v1Data:any=await AxiosService.post("/te/eventEmitter",amrqueuedashboard_v1Body,{
           headers: {
             Authorization: `Bearer ${token}`
           }
         })
-        let dstKey:string=hrmdashboard_v1Body?.key || ""
+        let dstKey:string=amrqueuedashboard_v1Body?.key || ""
         dstKey=dstKey.replace(":AFC:",":AFCP:").replace(":AF:",":AFP:").replace(":DF-DFD:",":DF-DST:");
-        if(hrmdashboard_v1Data?.data?.dataset === 'Bulk Data Processing'){
+        if(amrqueuedashboard_v1Data?.data?.dataset === 'Bulk Data Processing'){
           if(filterData.length>0){
             const api_paginationBody: api_paginationDto = {
           key: dstKey,
@@ -325,14 +353,14 @@ export default function PageDashboardV1() {
           toast(api_paginationData?.data?.errorDetails?.message, 'danger')
           return
         }
-        setdfd_hrmdashboard_v1Props(api_paginationData?.data?.records || []);
+        setdfd_amrqueuedashboard_v1Props(api_paginationData?.data?.records || []);
       }else{
-          setdfd_hrmdashboard_v1Props({ hasLogicCenter: false, dstKey: dstKey })
+          setdfd_amrqueuedashboard_v1Props({ hasLogicCenter: false, dstKey: dstKey })
       }
-      }else if (hrmdashboard_v1Data?.data?.dataset) {
-           setdfd_hrmdashboard_v1Props(
-              Array.isArray(hrmdashboard_v1Data?.data?.dataset?.data)
-                 ? hrmdashboard_v1Data?.data.dataset.data.map((obj: any) =>
+      }else if (amrqueuedashboard_v1Data?.data?.dataset) {
+           setdfd_amrqueuedashboard_v1Props(
+              Array.isArray(amrqueuedashboard_v1Data?.data?.dataset?.data)
+                 ? amrqueuedashboard_v1Data?.data.dataset.data.map((obj: any) =>
                   Object.fromEntries(
                     Object.entries(obj || {}).map(([key, value]) => [
                       key.toLowerCase(),
@@ -369,46 +397,46 @@ export default function PageDashboardV1() {
           toast(api_paginationData?.data?.errorDetails?.message, 'danger')
           return
         }
-        setdfd_hrmdashboard_v1Props(api_paginationData?.data?.records || []);
+        setdfd_amrqueuedashboard_v1Props(api_paginationData?.data?.records || []);
         }
       }
   useEffect(()=>{
-    if (prevRefreshRef?.current?.hrmdashboard_v1) {
-      hrmdashboard_v1DFD(paginationData)
+    if (prevRefreshRef?.current?.amrqueuedashboard_v1) {
+      amrqueuedashboard_v1DFD(paginationData)
     }else 
-      prevRefreshRef.current.hrmdashboard_v1= true
-  },[refetch?.hrmdashboard_v1])
-    async function employees_v1DFD(pagination:any): Promise<void>{
+      prevRefreshRef.current.amrqueuedashboard_v1= true
+  },[refetch?.amrqueuedashboard_v1])
+    async function pendingfilingsdashboard_v1DFD(pagination:any): Promise<void>{
         let filterData :any[] =[];
-        let employees_v1Body:te_refreshDto={
-          key: "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:ECP:AFGK:HRM:AFK:employees:AFVK:v1"+":",
+        let pendingfilingsdashboard_v1Body:te_refreshDto={
+          key: "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1"+":",
           refreshFlag: "Y",
           count:parseInt(pagination?.count) || 10,
           page:parseInt(pagination?.page) || 1
         }
         if (encryptionFlagPage) {          
-          employees_v1Body["dpdKey"] = encryptionDpd;
-          employees_v1Body["method"] = encryptionMethod;
+          pendingfilingsdashboard_v1Body["dpdKey"] = encryptionDpd;
+          pendingfilingsdashboard_v1Body["method"] = encryptionMethod;
         }
-        if(hrmdashboard_v1Props.length > 0){
-          for(let i=0;i< hrmdashboard_v1Props.length;i++){
-            if(hrmdashboard_v1Props[i].DFDkey == "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:ECP:AFGK:HRM:AFK:employees:AFVK:v1"){
-              // delete hrmdashboard_v1Props[i].DFDkey;
-              let temp=structuredClone(hrmdashboard_v1Props[i])
+        if(newdashboard_v1Props.length > 0){
+          for(let i=0;i< newdashboard_v1Props.length;i++){
+            if(newdashboard_v1Props[i].DFDkey == "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:pendingFilingsDashboard:AFVK:v1"){
+              // delete newdashboard_v1Props[i].DFDkey;
+              let temp=structuredClone(newdashboard_v1Props[i])
               delete temp?.DFDkey
               filterData.push(temp)
             }           
           }
-          employees_v1Body['filterData'] = filterData;
+          pendingfilingsdashboard_v1Body['filterData'] = filterData;
         }
-        const employees_v1Data:any=await AxiosService.post("/te/eventEmitter",employees_v1Body,{
+        const pendingfilingsdashboard_v1Data:any=await AxiosService.post("/te/eventEmitter",pendingfilingsdashboard_v1Body,{
           headers: {
             Authorization: `Bearer ${token}`
           }
         })
-        let dstKey:string=employees_v1Body?.key || ""
+        let dstKey:string=pendingfilingsdashboard_v1Body?.key || ""
         dstKey=dstKey.replace(":AFC:",":AFCP:").replace(":AF:",":AFP:").replace(":DF-DFD:",":DF-DST:");
-        if(employees_v1Data?.data?.dataset === 'Bulk Data Processing'){
+        if(pendingfilingsdashboard_v1Data?.data?.dataset === 'Bulk Data Processing'){
           if(filterData.length>0){
             const api_paginationBody: api_paginationDto = {
           key: dstKey,
@@ -434,14 +462,14 @@ export default function PageDashboardV1() {
           toast(api_paginationData?.data?.errorDetails?.message, 'danger')
           return
         }
-        setdfd_employees_v1Props(api_paginationData?.data?.records || []);
+        setdfd_pendingfilingsdashboard_v1Props(api_paginationData?.data?.records || []);
       }else{
-          setdfd_employees_v1Props({ hasLogicCenter: false, dstKey: dstKey })
+          setdfd_pendingfilingsdashboard_v1Props({ hasLogicCenter: false, dstKey: dstKey })
       }
-      }else if (employees_v1Data?.data?.dataset) {
-           setdfd_employees_v1Props(
-              Array.isArray(employees_v1Data?.data?.dataset?.data)
-                 ? employees_v1Data?.data.dataset.data.map((obj: any) =>
+      }else if (pendingfilingsdashboard_v1Data?.data?.dataset) {
+           setdfd_pendingfilingsdashboard_v1Props(
+              Array.isArray(pendingfilingsdashboard_v1Data?.data?.dataset?.data)
+                 ? pendingfilingsdashboard_v1Data?.data.dataset.data.map((obj: any) =>
                   Object.fromEntries(
                     Object.entries(obj || {}).map(([key, value]) => [
                       key.toLowerCase(),
@@ -478,46 +506,46 @@ export default function PageDashboardV1() {
           toast(api_paginationData?.data?.errorDetails?.message, 'danger')
           return
         }
-        setdfd_employees_v1Props(api_paginationData?.data?.records || []);
+        setdfd_pendingfilingsdashboard_v1Props(api_paginationData?.data?.records || []);
         }
       }
   useEffect(()=>{
-    if (prevRefreshRef?.current?.employees_v1) {
-      employees_v1DFD(paginationData)
+    if (prevRefreshRef?.current?.pendingfilingsdashboard_v1) {
+      pendingfilingsdashboard_v1DFD(paginationData)
     }else 
-      prevRefreshRef.current.employees_v1= true
-  },[refetch?.employees_v1])
-    async function accessrequest_v1DFD(pagination:any): Promise<void>{
+      prevRefreshRef.current.pendingfilingsdashboard_v1= true
+  },[refetch?.pendingfilingsdashboard_v1])
+    async function cardsdashboard_v1DFD(pagination:any): Promise<void>{
         let filterData :any[] =[];
-        let accessrequest_v1Body:te_refreshDto={
-          key: "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:ECP:AFGK:HRM:AFK:accessRequest:AFVK:v1"+":",
+        let cardsdashboard_v1Body:te_refreshDto={
+          key: "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:cardsDashboard:AFVK:v1"+":",
           refreshFlag: "Y",
           count:parseInt(pagination?.count) || 10,
           page:parseInt(pagination?.page) || 1
         }
         if (encryptionFlagPage) {          
-          accessrequest_v1Body["dpdKey"] = encryptionDpd;
-          accessrequest_v1Body["method"] = encryptionMethod;
+          cardsdashboard_v1Body["dpdKey"] = encryptionDpd;
+          cardsdashboard_v1Body["method"] = encryptionMethod;
         }
-        if(hrmdashboard_v1Props.length > 0){
-          for(let i=0;i< hrmdashboard_v1Props.length;i++){
-            if(hrmdashboard_v1Props[i].DFDkey == "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:ECP:AFGK:HRM:AFK:accessRequest:AFVK:v1"){
-              // delete hrmdashboard_v1Props[i].DFDkey;
-              let temp=structuredClone(hrmdashboard_v1Props[i])
+        if(newdashboard_v1Props.length > 0){
+          for(let i=0;i< newdashboard_v1Props.length;i++){
+            if(newdashboard_v1Props[i].DFDkey == "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:cardsDashboard:AFVK:v1"){
+              // delete newdashboard_v1Props[i].DFDkey;
+              let temp=structuredClone(newdashboard_v1Props[i])
               delete temp?.DFDkey
               filterData.push(temp)
             }           
           }
-          accessrequest_v1Body['filterData'] = filterData;
+          cardsdashboard_v1Body['filterData'] = filterData;
         }
-        const accessrequest_v1Data:any=await AxiosService.post("/te/eventEmitter",accessrequest_v1Body,{
+        const cardsdashboard_v1Data:any=await AxiosService.post("/te/eventEmitter",cardsdashboard_v1Body,{
           headers: {
             Authorization: `Bearer ${token}`
           }
         })
-        let dstKey:string=accessrequest_v1Body?.key || ""
+        let dstKey:string=cardsdashboard_v1Body?.key || ""
         dstKey=dstKey.replace(":AFC:",":AFCP:").replace(":AF:",":AFP:").replace(":DF-DFD:",":DF-DST:");
-        if(accessrequest_v1Data?.data?.dataset === 'Bulk Data Processing'){
+        if(cardsdashboard_v1Data?.data?.dataset === 'Bulk Data Processing'){
           if(filterData.length>0){
             const api_paginationBody: api_paginationDto = {
           key: dstKey,
@@ -543,14 +571,14 @@ export default function PageDashboardV1() {
           toast(api_paginationData?.data?.errorDetails?.message, 'danger')
           return
         }
-        setdfd_accessrequest_v1Props(api_paginationData?.data?.records || []);
+        setdfd_cardsdashboard_v1Props(api_paginationData?.data?.records || []);
       }else{
-          setdfd_accessrequest_v1Props({ hasLogicCenter: false, dstKey: dstKey })
+          setdfd_cardsdashboard_v1Props({ hasLogicCenter: false, dstKey: dstKey })
       }
-      }else if (accessrequest_v1Data?.data?.dataset) {
-           setdfd_accessrequest_v1Props(
-              Array.isArray(accessrequest_v1Data?.data?.dataset?.data)
-                 ? accessrequest_v1Data?.data.dataset.data.map((obj: any) =>
+      }else if (cardsdashboard_v1Data?.data?.dataset) {
+           setdfd_cardsdashboard_v1Props(
+              Array.isArray(cardsdashboard_v1Data?.data?.dataset?.data)
+                 ? cardsdashboard_v1Data?.data.dataset.data.map((obj: any) =>
                   Object.fromEntries(
                     Object.entries(obj || {}).map(([key, value]) => [
                       key.toLowerCase(),
@@ -587,29 +615,57 @@ export default function PageDashboardV1() {
           toast(api_paginationData?.data?.errorDetails?.message, 'danger')
           return
         }
-        setdfd_accessrequest_v1Props(api_paginationData?.data?.records || []);
+        setdfd_cardsdashboard_v1Props(api_paginationData?.data?.records || []);
         }
       }
   useEffect(()=>{
-    if (prevRefreshRef?.current?.accessrequest_v1) {
-      accessrequest_v1DFD(paginationData)
+    if (prevRefreshRef?.current?.cardsdashboard_v1) {
+      cardsdashboard_v1DFD(paginationData)
     }else 
-      prevRefreshRef.current.accessrequest_v1= true
-  },[refetch?.accessrequest_v1])
+      prevRefreshRef.current.cardsdashboard_v1= true
+  },[refetch?.cardsdashboard_v1])
   const handleArtfactRule=async(rule:any,data:any={},allRuleData:any)=>{
     const { getAftfactLevelRule } = await import("../utils/evaluateDecisionTable");
     let result :any =await getAftfactLevelRule(rule,data,allRuleData)
-    sethrmdashboard_v1({...result,_artfactPFRule_:rule})
+    setnewdashboard_v1({...result,_artfactPFRule_:rule})
   }
 
   async function securityCheck(): Promise<void> {
     const { fetchBatchData } = await import("../utils/Orchestration");
-    const data: any = await fetchBatchData(
-      'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1',
-      [user],
-      'pageDashboardV1',
+    const introspectParams = encryptionFlagPage
+      ? {
+          dpdKey: encryptionDpd,
+          method: encryptionMethod,
+          key: "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
+        }
+      : { key: "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1" }
+
+    // fetchBatchData, introspect and myAccount-for-client don't depend on one
+    // another's results — only programmain_v1DFD (below) needs the pagination
+    // value that comes out of fetchBatchData. Run all three concurrently
+    // instead of one after another. Each call is caught locally so one
+    // failure doesn't swallow the other two responses (Promise.all rejects
+    // on the first rejection otherwise).
+    const [data, introspect, myAccountRes]: [any, any, any] = await Promise.all([
+      fetchBatchData(
+        'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1',
+        [user],
+        'pageDashboardV1',
+        token
+      ),
       token
-    )
+        ? AxiosService.get("/UF/introspect", {
+            headers: { Authorization: `Bearer ${token}` },
+            params: introspectParams
+          }).catch((err: any) => ({ __error: err }))
+        : Promise.resolve(null),
+      token
+        ? AxiosService.get("/UF/myAccount-for-client", {
+            headers: { Authorization: `Bearer ${token}` },
+            params: introspectParams
+          }).catch((err: any) => ({ __error: err }))
+        : Promise.resolve(null)
+    ])
     const orchestrationData: any = data.pageData
     setGroupData(data.groupData || {});
     setControlData(data.controlData || {});
@@ -625,134 +681,70 @@ export default function PageDashboardV1() {
       await handleArtfactRule(orchestrationData?.artfactPFRule,{...decodedTokenObj},allRuleData)  
     }
     if (token) {
-      try {
-        let introspect:any;
-        if(encryptionFlagPage){
-           introspect = await AxiosService.get("/UF/introspect",{
-            headers: {
-              Authorization: `Bearer ${token}`
-            },
-            params: {
-              dpdKey: encryptionDpd,
-              method: encryptionMethod,
-              key:"CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1"
-            }
-          }) 
-        }else{
-          introspect = await AxiosService.get("/UF/introspect",{
-            headers: {
-              Authorization: `Bearer ${token}`
-             },
-            params: {
-              key:"CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1"  
-            }
-          })          
-        }
-        if(introspect?.data?.authenticated === false){
-        localStorage.clear();
-        deleteAllCookies();
-        window.location.href = '/ct006/ecp/hrm/v1';
-        }
-      }catch (err: any) {
+      if (introspect?.__error) {
         toast("The token is no longer active.", 'danger');
         localStorage.clear();
         deleteAllCookies();
-        window.location.href = '/ct006/ecp/hrm/v1';
+        window.location.href = '/ct006/lap/lap/v1';
+        } else if (introspect?.data?.authenticated === false) {
+        localStorage.clear();
+        deleteAllCookies();
+        window.location.href = '/ct006/lap/lap/v1';
       }
       try {
-        if(encryptionFlagPage){
-          await AxiosService.get("/UF/myAccount-for-client",{
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-          params: {
-              dpdKey: encryptionDpd,
-              method: encryptionMethod,
-              key:"CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1"
-            }
-        })
-        }else{
-          await AxiosService.get("/UF/myAccount-for-client",{
-           headers: {
-             Authorization: `Bearer ${token}`
-           },
-            params: {
-              key:"CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1"
-            }
-         })
-        }
+        if (myAccountRes?.__error) throw myAccountRes.__error;
         if( user != "" && user != null){
           setAccessProfile([user]);
         }
         try{
-    await hrmdashboard_v1DFD(pagination)
-    await employees_v1DFD(pagination)
-    await accessrequest_v1DFD(pagination)
+    await amrqueuedashboard_v1DFD(pagination)
+    await pendingfilingsdashboard_v1DFD(pagination)
+    await cardsdashboard_v1DFD(pagination)
           if (security == 'AA' || security == 'RA') {
           allowedGroup.map((nodes:AllowedGroupNode)=>{
             if(nodes?.groupName == 'header_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
               setCheckheader_group(true)
             }
-            if(nodes?.groupName == 'hrm_dashboard_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'asset_dashboard_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setCheckhrm_dashboard_group(true)
+              setCheckasset_dashboard_group(true)
             }
-            if(nodes?.groupName == 'total_employees_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'amr_queue_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setChecktotal_employees_group(true)
+              setCheckamr_queue_group(true)
             }
-            if(nodes?.groupName == 'pending_access_req_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'pending_file_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setCheckpending_access_req_group(true)
+              setCheckpending_file_group(true)
             }
-            if(nodes?.groupName == 'leave_requests_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'service_pending_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setCheckleave_requests_group(true)
+              setCheckservice_pending_group(true)
             }
-            if(nodes?.groupName == 'onboarding_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'slas_at_risk_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setCheckonboarding_group(true)
+              setCheckslas_at_risk_group(true)
             }
-            if(nodes?.groupName == 'table_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'court_rejection_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setChecktable_group(true)
+              setCheckcourt_rejection_group(true)
             }
-            if(nodes?.groupName == 'subscreen' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'collected_mtd_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setChecksubscreen(true)
+              setCheckcollected_mtd_group(true)
             }
-            if(nodes?.groupName == 'CT006_AF_UF_UFWS_ECP_HRM_totalEmployees_v1' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'overall_key_performance_indicators' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setCheckct006_af_uf_ufws_ecp_hrm_totalemployees_v1(true)
+              setCheckoverall_key_performance_indicators(true)
             }
-            if(nodes?.groupName == 'employee_table_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'key_performance_indicator_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setCheckemployee_table_group(true)
+              setCheckkey_performance_indicator_group(true)
             }
-            if(nodes?.groupName == 'emp_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'recent_activity_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setCheckemp_group(true)
-            }
-            if(nodes?.groupName == 'total_employee_table' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
-            {
-              setChecktotal_employee_table(true)
-            }
-            if(nodes?.groupName == 'CT006_AF_UF_UFWS_ECP_HRM_pendingAccessRequest_v1' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
-            {
-              setCheckct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1(true)
-            }
-            if(nodes?.groupName == 'access_req_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
-            {
-              setCheckaccess_req_group(true)
-            }
-            if(nodes?.groupName == 'acc_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
-            {
-              setCheckacc_group(true)
-            }
-            if(nodes?.groupName == 'access_req_table' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
-            {
-              setCheckaccess_req_table(true)
+              setCheckrecent_activity_group(true)
             }
           })
           }
@@ -767,38 +759,28 @@ export default function PageDashboardV1() {
         //Code Execution
         if (code !="" ) {
           let codeStates: Record<string, any> = {}
-          codeStates['header_group'] = header_groupf778a;
-          codeStates['setheader_group'] = setheader_groupf778a;
-          codeStates['hrm_dashboard_group'] = hrm_dashboard_group4d6cb;
-          codeStates['sethrm_dashboard_group'] = sethrm_dashboard_group4d6cb;
-          codeStates['total_employees_group'] = total_employees_group69aa9;
-          codeStates['settotal_employees_group'] = settotal_employees_group69aa9;
-          codeStates['pending_access_req_group'] = pending_access_req_groupb5bd4;
-          codeStates['setpending_access_req_group'] = setpending_access_req_groupb5bd4;
-          codeStates['leave_requests_group'] = leave_requests_group4beb5;
-          codeStates['setleave_requests_group'] = setleave_requests_group4beb5;
-          codeStates['onboarding_group'] = onboarding_group2580d;
-          codeStates['setonboarding_group'] = setonboarding_group2580d;
-          codeStates['table_group'] = table_groupe0a6f;
-          codeStates['settable_group'] = settable_groupe0a6f;
-          codeStates['subscreen'] = subscreen1c010;
-          codeStates['setsubscreen'] = setsubscreen1c010;
-          codeStates['ct006_af_uf_ufws_ecp_hrm_totalemployees_v1'] = ct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547f;
-          codeStates['setct006_af_uf_ufws_ecp_hrm_totalemployees_v1'] = setct006_af_uf_ufws_ecp_hrm_totalemployees_v1f547f;
-          codeStates['employee_table_group'] = employee_table_group55008;
-          codeStates['setemployee_table_group'] = setemployee_table_group55008;
-          codeStates['emp_group'] = emp_group5e40b;
-          codeStates['setemp_group'] = setemp_group5e40b;
-          codeStates['total_employee_table'] = total_employee_tablee4e9d;
-          codeStates['settotal_employee_table'] = settotal_employee_tablee4e9d;
-          codeStates['ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1'] = ct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfe;
-          codeStates['setct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1'] = setct006_af_uf_ufws_ecp_hrm_pendingaccessrequest_v1adcfe;
-          codeStates['access_req_group'] = access_req_groupb1258;
-          codeStates['setaccess_req_group'] = setaccess_req_groupb1258;
-          codeStates['acc_group'] = acc_group3b167;
-          codeStates['setacc_group'] = setacc_group3b167;
-          codeStates['access_req_table'] = access_req_tablec5aac;
-          codeStates['setaccess_req_table'] = setaccess_req_tablec5aac;
+          codeStates['header_group'] = header_groupd8ba9;
+          codeStates['setheader_group'] = setheader_groupd8ba9;
+          codeStates['asset_dashboard_group'] = asset_dashboard_group1aa03;
+          codeStates['setasset_dashboard_group'] = setasset_dashboard_group1aa03;
+          codeStates['amr_queue_group'] = amr_queue_group3c082;
+          codeStates['setamr_queue_group'] = setamr_queue_group3c082;
+          codeStates['pending_file_group'] = pending_file_group2128c;
+          codeStates['setpending_file_group'] = setpending_file_group2128c;
+          codeStates['service_pending_group'] = service_pending_group8c0ca;
+          codeStates['setservice_pending_group'] = setservice_pending_group8c0ca;
+          codeStates['slas_at_risk_group'] = slas_at_risk_group1f8c0;
+          codeStates['setslas_at_risk_group'] = setslas_at_risk_group1f8c0;
+          codeStates['court_rejection_group'] = court_rejection_groupdf57a;
+          codeStates['setcourt_rejection_group'] = setcourt_rejection_groupdf57a;
+          codeStates['collected_mtd_group'] = collected_mtd_group0f074;
+          codeStates['setcollected_mtd_group'] = setcollected_mtd_group0f074;
+          codeStates['overall_key_performance_indicators'] = overall_key_performance_indicatorsc2711;
+          codeStates['setoverall_key_performance_indicators'] = setoverall_key_performance_indicatorsc2711;
+          codeStates['key_performance_indicator_group'] = key_performance_indicator_groupf9eaf;
+          codeStates['setkey_performance_indicator_group'] = setkey_performance_indicator_groupf9eaf;
+          codeStates['recent_activity_group'] = recent_activity_group91db6;
+          codeStates['setrecent_activity_group'] = setrecent_activity_group91db6;
           const { codeExecution } = await import("../utils/codeExecution");
           codeExecution(code,codeStates);
         }   
@@ -822,19 +804,19 @@ export default function PageDashboardV1() {
       ...prev,
       screenName: screenName,    
     }))
-    securityCheck();
+    securityCheck().finally(() => onReady?.());
     handleOnload();
-    sethrmdashboard_v1((pre:any)=>({...pre,...allRuleData||{}}))
+    setnewdashboard_v1((pre:any)=>({...pre,...allRuleData||{}}))
   }, [])
 
   useEffect(()=>{
-    if(hrmdashboard_v1?._artfactPFRule_)
+    if(newdashboard_v1?._artfactPFRule_)
     {
       let data:any ={
         ...decodedTokenObj,
         session:decodedTokenObj,
       }
-      handleArtfactRule(hrmdashboard_v1?._artfactPFRule_,data,allRuleData)
+      handleArtfactRule(newdashboard_v1?._artfactPFRule_,data,allRuleData)
     }
   },[])
 
@@ -842,7 +824,7 @@ export default function PageDashboardV1() {
   useEffect(() => {
     const handleClickOutside = (event:any) => {
       if (parentRef.current && !parentRef.current.contains(event.target)) {
-        sethrmdashboard_v1((pre:any)=>({...pre,_selectedGroup_:""}))
+        setnewdashboard_v1((pre:any)=>({...pre,_selectedGroup_:""}))
       }
     };
       document.addEventListener("mousedown", handleClickOutside);
@@ -916,7 +898,7 @@ export default function PageDashboardV1() {
           controlData={controlData} 
           groupData={groupData}        />}
         
-        {checkhrm_dashboard_group && initialLoad &&<Grouphrm_dashboard_group
+        {checkasset_dashboard_group && initialLoad &&<Groupasset_dashboard_group
           lockedData={lockedData} 
           setLockedData={setLockedData} 
           primaryTableData={primaryTableData}
@@ -933,7 +915,7 @@ export default function PageDashboardV1() {
           controlData={controlData} 
           groupData={groupData}        />}
         
-        {checktable_group && initialLoad &&<Grouptable_group
+        {checkoverall_key_performance_indicators && initialLoad &&<Groupoverall_key_performance_indicators
           lockedData={lockedData} 
           setLockedData={setLockedData} 
           primaryTableData={primaryTableData}

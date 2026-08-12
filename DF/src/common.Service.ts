@@ -30,6 +30,8 @@ import { decrypt } from "src/decrypt";
 import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc';
 import * as timezone from 'dayjs/plugin/timezone';
+import { JwtServices } from "src/jwt.services";
+import { assertAllowedOutboundHost as assertAllowedOutboundHostUtil } from "src/utils/ssrf.util";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -66,7 +68,7 @@ export class CommonService{
   private bucket: GridFSBucket;
   constructor(private readonly ruleEngine:RuleService,
     private readonly codeService:CodeService,
-    private readonly jwtService: JwtService,
+    private readonly jwtService: JwtServices,
     private readonly redisService: RedisService,
     private readonly configService: ConfigService,
     private readonly envData:EnvData
@@ -84,12 +86,46 @@ export class CommonService{
         });
     this.encryptionKey = this.vaultKey;
   }
+  async readTextFileSmart(path: string): Promise<string> {
+    const buf = await readFile(path); // read as raw Buffer first, no encoding
 
-  async  getLatestMigrationSql(isLocal?: string ): Promise<{ baseline: string; incremental: string }> {
+    // UTF-16 LE BOM: FF FE
+    if (buf.length >= 2 && buf[0] === 0xff && buf[1] === 0xfe) {
+      return buf.toString('utf16le', 2); // skip BOM
+    }
+
+    // UTF-16 BE BOM: FE FF (Node doesn't natively decode this, swap bytes)
+    if (buf.length >= 2 && buf[0] === 0xfe && buf[1] === 0xff) {
+      const swapped = Buffer.alloc(buf.length - 2);
+      for (let i = 2; i < buf.length; i += 2) {
+        swapped[i - 2] = buf[i + 1];
+        swapped[i - 1] = buf[i];
+      }
+      return swapped.toString('utf16le');
+    }
+
+    // UTF-8 BOM: EF BB BF
+    if (buf.length >= 3 && buf[0] === 0xef && buf[1] === 0xbb && buf[2] === 0xbf) {
+      return buf.toString('utf-8', 3); // skip BOM
+    }
+
+    // plain UTF-8, no BOM
+    return buf.toString('utf-8');
+  }
+
+  async  getLatestMigrationSql(isLocal?: string ): Promise<{ baseline: string; incremental: string; prismaSchema:string }> {
     // Determine the base migrations directory based on isLocal
-    const migrationsDir = isLocal === 'dev'
-      ? './src/erd/prisma/migrations'
-      : './dist/prisma/migrations';
+    let prismaSchemaPath=''
+    let migrationsDir =''
+    if(isLocal === 'dev')
+    {
+      migrationsDir = './src/erd/prisma/migrations'
+      prismaSchemaPath = './src/erd/prisma'
+    }
+    else {
+      migrationsDir = './dist/prisma/migrations'
+      prismaSchemaPath = './dist/prisma'
+    }
 
     // Read all entries in the migrations directory
     //const migrationEntries = await readdir(migrationsDir, { withFileTypes: true });
@@ -110,15 +146,16 @@ export class CommonService{
 
     // Read the SQL file inside the latest migration folder
     //const migrationSqlPath = `${migrationsDir}/${latestMigrationFolder}/migration.sql`;
-    let migrationSql_baseline = await readFile(`${migrationsDir}/ddl_changes_baseline.sql`, 'utf-8');
-    let migrationSql_incremental = await readFile(`${migrationsDir}/ddl_changes_incremental.sql`, 'utf-8');
-    let migrationSql_trigger = await readFile(`${migrationsDir}/triggerFuctions.sql`, 'utf-8');
-    migrationSql_baseline=migrationSql_baseline+migrationSql_trigger
-    if(!migrationSql_incremental?.includes("No DDL changes available"))
+    let migrationSql_baseline = await this.readTextFileSmart(`${migrationsDir}/ddl_changes_baseline.sql`);
+    let migrationSql_incremental = await this.readTextFileSmart(`${migrationsDir}/ddl_changes_incremental.sql`);
+    let migrationSql_trigger = await this.readTextFileSmart(`${migrationsDir}/triggerFuctions.sql`);
+    let overallPrismaSchema = await this.readTextFileSmart(`${prismaSchemaPath}/schema.prisma`);
+    migrationSql_baseline = migrationSql_baseline + migrationSql_trigger;
+    if (!migrationSql_incremental?.includes('-- This is an empty migration.')&&!migrationSql_incremental?.includes("No DDL changes available")) 
     {
-      migrationSql_incremental=migrationSql_incremental+migrationSql_trigger
+      migrationSql_incremental = migrationSql_incremental + migrationSql_trigger;
     }
-    return {'baseline': migrationSql_baseline, 'incremental': migrationSql_incremental};
+    return { baseline: migrationSql_baseline, incremental: migrationSql_incremental, prismaSchema: overallPrismaSchema };
   }
 
   replaceKeysWithDollar(
@@ -144,7 +181,7 @@ export class CommonService{
   }
 
   private readonly logger = new Logger(CommonService.name) 
-  private readonly GRIDFS_BUCKET = 'CT006/ECP/HRM/v1';
+  private readonly GRIDFS_BUCKET = 'CT006/LAP/LAP/v1';
 
   private async getBucket(): Promise<GridFSBucket> {
     if (!db) {
@@ -199,7 +236,7 @@ export class CommonService{
       }
     }
 
-     async commonEncryption(dpdKey,Method,value,context:string): Promise<any> {
+    async commonEncryption(dpdKey,Method,value,context:string): Promise<any> {
       try {        
         let getCredentials = await this.getEncryptionInfo(dpdKey,Method)
         if(getCredentials){
@@ -222,27 +259,33 @@ export class CommonService{
               });
               return result.data.ciphertext;
             }else if(encMethod == 'AESCTR'){
-             
-              const iv = Buffer.from(encryptCredentials.IVlength, 'base64')
-              const key = Buffer.from(encryptCredentials.Key, 'base64');        
-              const cipher = crypto.createCipheriv('aes-256-ctr', key, iv);        
-              let encrypted = cipher.update(JSON.stringify(value), 'utf8', 'base64');        
-              encrypted += cipher.final('base64');        
-             
-              return encrypted;
-    
-            }else if(encMethod == 'AESGCM'){    
- 
+              // Fresh random IV per call (not the static per-tenant config
+              // value) — CTR mode with a reused IV/key pair leaks plaintext
+              // via ciphertext XOR. Embedded as a fixed 24-char base64 prefix
+              // so commondecryption can recover it; see there for the
+              // legacy (pre-fix, static-IV) fallback path.
+              const iv = crypto.randomBytes(16);
               const key = Buffer.from(encryptCredentials.Key, 'base64');
-              const iv = Buffer.from(encryptCredentials.IVlength, 'base64')
- 
+              const cipher = crypto.createCipheriv('aes-256-ctr', key, iv);
+              let encrypted = cipher.update(JSON.stringify(value), 'utf8', 'base64');
+              encrypted += cipher.final('base64');
+
+              return `${iv.toString('base64')}:${encrypted}`;
+
+            }else if(encMethod == 'AESGCM'){
+
+              const key = Buffer.from(encryptCredentials.Key, 'base64');
+              // Fresh random IV per call — see AESCTR branch above. For GCM,
+              // IV reuse is worse: it also makes ciphertexts forgeable.
+              const iv = crypto.randomBytes(16);
+
               const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
               let encrypted = cipher.update(JSON.stringify(value), 'utf8', 'base64');
               encrypted += cipher.final('base64');
- 
+
               const authTag = cipher.getAuthTag();
-             
-             return {encrypted,authTag:authTag.toString('base64')};
+
+             return {encrypted,authTag:authTag.toString('base64'),iv:iv.toString('base64')};
             }else if (encMethod == 'RSA') {
               const publicKey = encryptCredentials.publicKey
               const encryptData = async (data: string) => {
@@ -266,7 +309,7 @@ export class CommonService{
       }
     }
 
-    async commondecryption(dpdKey,Method,encryptedData: any,context): Promise<any> {
+        async commondecryption(dpdKey,Method,encryptedData: any,context): Promise<any> {
       try {      
         let getCredentials = await this.getEncryptionInfo(dpdKey,Method)
         if(getCredentials){
@@ -288,27 +331,46 @@ export class CommonService{
               });
               return Buffer.from(result.data.plaintext, 'base64').toString('utf-8');
             }else if(encMethod == 'AESCTR'){
-              
-              let key = Buffer.from(encryptCredentials.Key, 'base64'); 
-              let iv = Buffer.from(encryptCredentials.IVlength , 'base64');
+
+              let key = Buffer.from(encryptCredentials.Key, 'base64');
+              const raw: string = encryptedData.ciphertext;
+              let iv: Buffer;
+              let cipherB64: string;
+              // New format embeds a fresh per-call IV as a 24-char base64
+              // prefix before ':' (see commonEncryption). A value encrypted
+              // before this fix has no ':' and used the static config IV —
+              // keep decrypting those with the legacy IV so old data isn't
+              // stranded.
+              if (raw && raw.length > 24 && raw[24] === ':') {
+                iv = Buffer.from(raw.slice(0, 24), 'base64');
+                cipherB64 = raw.slice(25);
+              } else {
+                iv = Buffer.from(encryptCredentials.IVlength, 'base64');
+                cipherB64 = raw;
+              }
 
               const decipher = crypto.createDecipheriv('aes-256-ctr',key ,iv );
-              let decrypted = decipher.update(encryptedData.ciphertext, 'base64', 'utf8');
+              let decrypted = decipher.update(cipherB64, 'base64', 'utf8');
               decrypted += decipher.final('utf8');
               return decrypted;
-    
+
             }else if(encMethod == 'AESGCM'){
               let key = Buffer.from(encryptCredentials.Key, 'base64');
-              let iv = Buffer.from(encryptCredentials.IVlength, 'base64');
- 
+              // encryptedData.iv is only present for ciphertexts produced
+              // after this fix; fall back to the legacy static config IV
+              // for anything encrypted before it.
+              let iv = encryptedData.iv
+                ? Buffer.from(encryptedData.iv, 'base64')
+                : Buffer.from(encryptCredentials.IVlength, 'base64');
+
               const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
               decipher.setAuthTag(Buffer.from(encryptedData.authTag, 'base64'));
-             
+
               let decrypted = decipher.update(encryptedData.ciphertext, 'base64', 'utf8');
               decrypted += decipher.final('utf8');
- 
+
               return decrypted;
-             
+
             }else if (encMethod == 'RSA') {
               try{
               const key = new NodeRSA(encryptCredentials.privateKey);
@@ -329,14 +391,20 @@ export class CommonService{
       }
     }
 
-    async aes256ctrEncrypt(buffer: Buffer): Promise<Buffer> {
+        // Marks buffers produced by the fixed aes256ctrEncrypt below (fresh
+    // random IV per call, embedded) so aes256ctrDecrypt/DecryptFile can tell
+    // them apart from legacy buffers encrypted with the old static
+    // process.env.AES_IV, and decrypt each with the right IV.
+    private readonly AES_CTR_IV_MARKER = Buffer.from('AESCTRV2:', 'utf8');
+
+        async aes256ctrEncrypt(buffer: Buffer): Promise<Buffer> {
       try {
         const key = Buffer.from(process.env.AES_KEY, 'base64');
-        const iv = Buffer.from(process.env.AES_IV, 'base64');
+        const iv = crypto.randomBytes(16);
 
         const cipher = crypto.createCipheriv('aes-256-ctr', key, iv);
         const encrypted = Buffer.concat([cipher.update(buffer), cipher.final()]);
-        return encrypted;
+        return Buffer.concat([this.AES_CTR_IV_MARKER, iv, encrypted]);
       } catch (error) {
         throw error
       }
@@ -345,10 +413,24 @@ export class CommonService{
     async aes256ctrDecrypt(encryptedBuffer: Buffer): Promise<Buffer> {
       try {
       const key = Buffer.from(process.env.AES_KEY!, 'base64');
-      const iv = Buffer.from(process.env.AES_IV!, 'base64');
+      const markerLen = this.AES_CTR_IV_MARKER.length;
+
+      let iv: Buffer;
+      let ciphertext: Buffer;
+      if (
+        encryptedBuffer.length >= markerLen + 16 &&
+        encryptedBuffer.subarray(0, markerLen).equals(this.AES_CTR_IV_MARKER)
+      ) {
+        iv = encryptedBuffer.subarray(markerLen, markerLen + 16);
+        ciphertext = encryptedBuffer.subarray(markerLen + 16);
+      } else {
+        // Legacy buffer, encrypted before the per-call random IV fix.
+        iv = Buffer.from(process.env.AES_IV!, 'base64');
+        ciphertext = encryptedBuffer;
+      }
 
       const decipher = crypto.createDecipheriv('aes-256-ctr', key, iv);
-      const decrypted = Buffer.concat([decipher.update(encryptedBuffer), decipher.final()]);
+      const decrypted = Buffer.concat([decipher.update(ciphertext), decipher.final()]);
 
       return decrypted
       } catch (error) {
@@ -727,7 +809,20 @@ export class CommonService{
       return finalres;
     }
   async readAPI(keys: string, clientCode: string, token:string): Promise<any> {
-      try {      
+      try {  
+        const deploymentTenant = process.env.CLIENTCODE;
+        if (token && clientCode && clientCode !== deploymentTenant && clientCode !== 'redis') {
+          let verifiedPayload: any;
+          try {
+            verifiedPayload = await this.jwtService.verifyToken(token);;
+          } catch (e) {
+            throw new CustomException('Invalid or expired token', 401);
+          }
+          const tokenTenant = verifiedPayload?.tenant || deploymentTenant;
+          if (tokenTenant !== clientCode) {
+            throw new CustomException('Requested tenant does not match the authenticated session', 403);
+          }
+        }    
         let result:any = structuredClone(JSON.parse(await this.redisService.getJsonData(keys,clientCode)));
         return result
       } catch (error) {
@@ -787,12 +882,14 @@ export class CommonService{
     }
     
     async postCall(url,body,headers?){ 
+      this.assertAllowedOutboundHost(url);
       return await axios.post(url,body,headers)
       .then((res) => this.responseData(res.status, res.data).then((res) => res))
       .catch((err) => {throw err});  
     }
 
     async axiosPostCall(url,body,headers?){ 
+       this.assertAllowedOutboundHost(url);
       let response = await axios.post(url,body,headers)
       return response.data;
     }  
@@ -815,7 +912,8 @@ export class CommonService{
     }
     } 
 
-    async getCall(url,headers?){   
+    async getCall(url,headers?){ 
+       this.assertAllowedOutboundHost(url);  
       return await axios.get(url,headers)
       .then((res) => this.responseData(res.status, res.data).then((res) => res))
       .catch((err) => {throw err});  
@@ -1005,6 +1103,118 @@ export class CommonService{
       return zenresultArr
     }
 
+    // Safe   replacement for the ad-hoc `typeof v === 'string' ? `'${v}'` : v`
+    // quoting used when splicing values into manualQuery/executecommand
+    // templates below — doubles embedded single quotes so a value can no
+    // longer break out of the SQL string literal it's placed into.
+    sqlLiteral(value: any): any {
+      if (value === null || value === undefined) return 'NULL';
+      if (typeof value === 'string') return `'${value.replace(/'/g, "''")}'`;
+      return value;
+    }
+
+    // Column/identifier guard for the dynamic filter builders, whose column
+    // names come from client-supplied filterData and are spliced straight into
+    // a WHERE fragment. Accepts only plain (optionally dotted) SQL identifiers;
+    // anything else is rejected rather than concatenated. Legitimate generated
+    // filters only ever use bare column / table.column names, so this does not
+    // narrow what the low-code filter mechanism can express.
+
+    isSafeSqlIdentifier(name: any): boolean {
+      return typeof name === 'string' && /^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)*$/.test(name);
+    }
+
+    // Single shared implementation of the procedureexecutionnode `$$$field`
+    // placeholder substitution used by dynamicFlow.service.ts and
+    // listener.service.ts. Column names come from client-supplied filterData
+    // and are only ever used to locate a `$$$name` placeholder already present
+    // in the developer-authored executecommand template (not spliced in as an
+    // identifier), but are still run through isSafeSqlIdentifier as a guard;
+    // values are escaped through sqlLiteral before being spliced into the SQL
+    // text. Kept as one copy so this fix can't drift out of sync between the
+    // two call sites again.
+
+    applyDollarDollarDollarFilters(
+      executecommand: string,
+      filterData: any,
+      nodeId: string,
+      statickeyword: string[],
+      ): string {
+      if (!(filterData && Array.isArray(filterData) && filterData.length > 0)) {
+        return executecommand;
+      }
+      filterData.forEach((filterObj) => {
+        if (filterObj?.nodeId != nodeId) return;
+        const entries = Object.entries(filterObj).filter(([key]) => key !== 'nodeId');
+        entries.forEach(([key, value]) => {
+          let removedVal: string;
+          if (key.includes('.')) {
+            const s_item = key.split('.');
+            removedVal = s_item.filter((item) => !statickeyword.includes(item)).join('.');
+            if (removedVal.includes('.') && removedVal.startsWith('items.')) {
+              removedVal = removedVal.replace('items.', '');
+            }
+          } else {
+            removedVal = key;
+          }
+          if (!this.isSafeSqlIdentifier(removedVal)) return;
+          const regex = new RegExp(`\\$\\$\\$${removedVal}`, 'g');
+          if (typeof value == 'number') executecommand = executecommand.replace(regex, `${value}`);
+          else if (typeof value == 'string') executecommand = executecommand.replace(regex, this.sqlLiteral(value));
+        });
+      });
+      return executecommand;
+    }
+
+
+    // Runtime guard for the pagination params that get spliced straight into
+    // `LIMIT ${count} OFFSET ${offset}` on raw pg queries (dynamicFlow/listener
+    // services). DTO-level @IsInt()/@Type(() => Number) only covers the HTTP
+    // entry point; this is the choke point every call path (HTTP DTO, queue/
+    // event-pattern input, internal recursion) runs through before the value
+    // reaches SQL. page/count are optional — omitting both just means "no
+    // pagination" and is left alone; supplying either as a non-integer,
+    // non-positive, or absurdly large value is rejected outright.
+    
+    sanitizePagination(page: any, count: any): { page: any; count: any } {
+      if ((page === undefined || page === null) && (count === undefined || count === null)) {
+        return { page, count };
+      }
+      const p = Number(page);
+      const c = Number(count);
+      const MAX_PAGE_SIZE = 10000;
+      if (!Number.isInteger(p) || !Number.isInteger(c) || p < 1 || c < 1 || c > MAX_PAGE_SIZE) {
+        throw new CustomException('Invalid pagination parameters: page and count must be positive integers', 400);
+      }
+      return { page: p, count: c };
+    }
+
+    // SSRF guard for outbound calls built from tenant-configurable data
+    // (rollback/API-node serverUrl+endPoint, etc.) — checked in
+    // postCall/getCall/deleteCall/patchCall below, the shared choke points
+    // for that path. Opt-in: with OUTBOUND_HOST_ALLOWLIST unset (the default
+    // today), this is a no-op so existing deployments are unaffected until
+    // an operator configures the allow-list for their integrations.
+
+    assertAllowedOutboundHost(url: string): void {
+      const allowlist = (process.env.OUTBOUND_HOST_ALLOWLIST || '')
+        .split(',')
+        .map(h => h.trim().toLowerCase())
+        .filter(Boolean);
+      if (!allowlist.length) return;
+      let hostname: string;
+      try {
+        hostname = new URL(url).hostname.toLowerCase();
+      } catch (e) {
+        throw new CustomException(`Invalid outbound URL: ${url}`, 400);
+      }
+      const isAllowed = allowlist.some(h => hostname === h || hostname.endsWith(`.${h}`));
+      if (!isAllowed) {
+        throw new CustomException(`Outbound host not allow-listed: ${hostname}`, 400);
+      }
+    }
+
+   
     //RollBack Check
      async checkRollBack(Ndp,collectionName,action,currentNode?){
       try {  
@@ -1101,7 +1311,7 @@ export class CommonService{
                     manualQry = rollback.subSelection._true.manualQuery
                   Object.keys(insertedData).forEach(key => {
                     const regex = new RegExp(`\\$\\$${key}`, 'g');
-                    const value = typeof insertedData[key] === 'string' ? `'${insertedData[key]}'` : insertedData[key];
+                    const value = this.sqlLiteral(insertedData[key]);
                     qry = manualQry.replace(regex, value);
                   });
                   // let qry = `DELETE FROM ${tablename} WHERE ${primaryKey} = ${insertedData[primaryKey]};`
@@ -1187,12 +1397,12 @@ export class CommonService{
                       await axios.delete(url, { auth });
                   }
                 }
-                else if (Ndp[item].nodeType == 'procedureexecutionnode' || 'function_node') {
+                else if (Ndp[item].nodeType == 'procedureexecutionnode' || Ndp[item].nodeType == 'function_node') {
                   let pconf = await this.procedureConfig(Ndp[item], collectionName)
                   if (insertedData && Object.keys(insertedData).length > 0) {
                     Object.keys(insertedData).forEach(key => {
                       const regex = new RegExp(`\\$\\$${key}`, 'g');
-                      const value = typeof insertedData[key] === 'string' ? `'${insertedData[key]}'` : insertedData[key];
+                      const value = this.sqlLiteral(insertedData[key]);
                       pconf.rexecmd = pconf.rexecmd.replace(regex, value);
                     });
                   }
@@ -1215,6 +1425,7 @@ export class CommonService{
     }
 
     async deleteCall(url, headers?) {
+      this.assertAllowedOutboundHost(url);
       return await axios.delete(url, headers)
       .then((res) => this.responseData(res.status, res.data).then((res) => res))
       .catch((err) => { return err });
@@ -1249,14 +1460,40 @@ export class CommonService{
       }
     }
 
+    private static readonly SENSITIVE_LOG_KEY_PATTERN = /^(authorization|cookie|set-cookie|token|accesstoken|access_token|refreshtoken|refresh_token|password|secret|apikey|api_key|x-api-key)$/i;
+
+    redactSensitiveFields(value: any, seen: WeakSet<object> = new WeakSet()): any {
+      if (value === null || value === undefined) return value;
+      if (Array.isArray(value)) {
+        return value.map((item) => this.redactSensitiveFields(item, seen));
+      }
+      if (typeof value === 'object') {
+        if (seen.has(value)) return '[Circular]';
+        seen.add(value);
+        const result: any = {};
+        for (const [k, v] of Object.entries(value)) {
+          result[k] = CommonService.SENSITIVE_LOG_KEY_PATTERN.test(k)
+            ? '[REDACTED]'
+            : this.redactSensitiveFields(v, seen);
+        }
+        return result;
+      }
+      return value;
+    }
+
     async getTPL(key: any, upId: any,pfjson:any,status:string, targetQueue:string ,stoken:any,fabric:string,sourceStatus?:string,request?:any,response?:any){
       // this.logger.log("TPL Log Started")     
       var sessionInfo = {} 
       var processInfo = {};
       var tenant = await this.splitcommonkey(key,'CK')
       var app = await this.splitcommonkey(key,'AFGK')
-      var token:any = this.jwtService.decode(stoken,{ json: true })
-      if(token){       
+      var token:any
+      try {
+          token = await this.jwtService.verifyToken(stoken);
+      } catch (e) {
+        token = null;
+      }
+      if(token){ 
         sessionInfo['user'] =  token.loginId     
         sessionInfo['accessProfile'] =  token.accessProfile     
       }        
@@ -1280,26 +1517,26 @@ export class CommonService{
 
         if(status == 'Success'){
           if(request)
-            processInfo['request'] = request;                     
-                 
+            processInfo['request'] = this.redactSensitiveFields(request);
+
           if(response){
             let childObj = {}
-            
+            const redactedResponse = this.redactSensitiveFields(response);
             if(response.upId){
               childObj['subFlowKey'] = response.key
               childObj['subFlowUpId'] = response.upId
               if(response.eventError)
                 childObj['subFlowError'] = response.eventError
               if(response.data)
-                childObj['subFlowResponse'] = response.data
+                childObj['subFlowResponse'] = redactedResponse.data
               processInfo['subFlowInfo'] = childObj;
             }
-            processInfo['response'] = response;
+            processInfo['response'] = redactedResponse;
           }
         }else{
-          var errdata = {}  
+          var errdata = {}
           errdata['tname'] = 'TE'
-           processInfo['request'] = request; 
+           processInfo['request'] = this.redactSensitiveFields(request);
           if(response.status == 403){
             errdata['errGrp'] = 'Security'
           }else
@@ -1308,8 +1545,8 @@ export class CommonService{
           errdata['fabric'] = fabric
           errdata['errType'] = 'Fatal'
           errdata['errCode'] = '001'
-          var errorDetails = await this.errorobj(errdata,response,status)
-        }   
+          var errorDetails = await this.errorobj(errdata,this.redactSensitiveFields(response),status)
+        }
        var prclogdata:any
         if(status == 'Success'){
           prclogdata = {
@@ -1327,7 +1564,7 @@ export class CommonService{
         await this.redisService.setStreamData(tenant+'-'+app+'-TPL', key + upId, JSON.stringify(prclogdata));  
         // this.logger.log("TPL Log completed")     
         return prclogdata 
-    } 
+    }  
 
     async errorobj(errdata:any,error: any,status:any): Promise<any> {    
       if(error.code){
@@ -1381,13 +1618,15 @@ export class CommonService{
       }      
     }
 
-    async patchCall(url,data,headers){
+    async patchCall(url,data,headers){ 
+      this.assertAllowedOutboundHost(url);   
       return await axios.patch(url,data,headers)
       .then((res) => this.responseData(res.status, res.data).then((res) => res))
       .catch((err) => {throw err}); 
     }
 
-    async postCallwithDB(url,body,headers?){      
+    async postCallwithDB(url,body,headers?){ 
+       this.assertAllowedOutboundHost(url);     
       return await axios.post(url,body,headers)
       .then((res) => !res.data.errorCode? this.responseData(res.status, res.data).then((res) => res): res.data)
       .catch((err) => {throw err});  
@@ -1435,7 +1674,12 @@ export class CommonService{
        }
       //  stoken = null
        if(stoken){
-        let token:any = this.jwtService.decode(stoken,{ json: true })
+        let token:any
+        try {
+            token = await this.jwtService.verifyToken(stoken);
+        } catch (e) {
+          token = null;
+        }
         //let token = await this.MyAccountForClient(stoken)
         if(token){
          
@@ -1445,19 +1689,19 @@ export class CommonService{
         }  
         } 
 
-        let errorDetails = await this.errorobj(errdata,error,status)
+        let errorDetails = await this.errorobj(errdata,this.redactSensitiveFields(error),status)
         let logs = {}
         logs['sessionInfo'] = sessionInfo
         if(key){
           if(fabric == 'PF-PFD' || fabric == 'DF-DFD' || fabric == 'PF-SFD' || fabric == 'PF-SCDL')
-            logs['processInfo'] = prcdet
+            logs['processInfo'] = this.redactSensitiveFields(prcdet)
           }
-        logs['errorDetails'] = errorDetails   
+        logs['errorDetails'] = errorDetails
         
         if(typeof key != 'string')
         key = 'commonError'
-        tenant=tenant || "CT006"
-        app=app ||  "HRM"
+         tenant=tenant || "CT006"
+        app=app ||  "LAP"
         await this.redisService.setStreamData(tenant+'-'+app+'-TSL',key,JSON.stringify(logs))    
         return logs
 
@@ -1470,7 +1714,12 @@ export class CommonService{
       const ag = process.env.APPGROUPCODE;
       const app = process.env.APPCODE;
       try {
-        const payload: any = this.jwtService.decode(token);
+         let payload: any;
+        try {
+          payload = await this.jwtService.verifyToken(token);;
+        } catch (e) {
+          throw new BadRequestException('Invalid or expired token');
+        }
         if (!payload) {
           throw new BadRequestException('Please provide valid token');
         } else {
@@ -2263,7 +2512,12 @@ export class CommonService{
   async sessionDecode(token,upId){
     try {
         let sobj = {},SessionInfo = {}
-        let SessionToken = await this.jwtService.decode(token, { json: true });
+        let SessionToken: any;
+        try {
+          SessionToken = await this.jwtService.verifyToken(token);;
+        } catch (e) {
+          throw new BadRequestException('Invalid or expired token');
+        }
         //sobj['session.client'] = SessionToken.client || process.env?.CLIENTCODE
         sobj['session.tenant'] = SessionToken.tenant || process.env?.CLIENTCODE
         sobj['session.orgGrpCode'] = SessionToken.orgGrpCode || process.env?.ORGGRPCODE
@@ -2315,9 +2569,9 @@ export class CommonService{
 
   convertTimeZone(utcDate) {
     try {  
-      return dayjs.utc(utcDate).tz(process.env.TIMEZONE).format(process.env.DATEFORMAT.replace(/\[:ss\]/g, ''))
+      return dayjs.utc(utcDate).tz(process.env.TIMEZONE).format(process.env.DATEFORMAT?.replace(/\[:ss\]/g, ''))
     } catch (error) {
-      throw error
+    throw error
     }
   }
 
@@ -2432,7 +2686,7 @@ export class CommonService{
         }
       );
       const encryptedFile = response.data;
-      const decryptedFile = this.DecryptFile(encryptedFile);
+      const decryptedFile = await this.DecryptFile(encryptedFile);
       return decryptedFile;
 
     } catch (error) {
@@ -2441,10 +2695,10 @@ export class CommonService{
     }
   }
 
-  private DecryptFile(encryptedData: Buffer): Buffer {
-    const decipher = crypto.createDecipheriv('aes-256-ctr', Buffer.from(process.env.AES_KEY!, 'base64'), Buffer.from(process.env.AES_IV!, 'base64'));
-    const decrypted = Buffer.concat([decipher.update(encryptedData), decipher.final()]);      
-    return decrypted;
+  private async DecryptFile(encryptedData: Buffer): Promise<Buffer> {
+    // Delegates to aes256ctrDecrypt so both the new random-IV format and
+    // legacy static-IV files decrypt correctly through one code path.
+    return this.aes256ctrDecrypt(encryptedData);
   }
 
   async setfileKeys(config: any, operationName: string, folderPath: string, fileName: string, fileType?: string, insertData?: any) {

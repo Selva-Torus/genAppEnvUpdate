@@ -10,12 +10,19 @@ import { RuleService } from 'src/ruleService';
 import { CodeService } from 'src/codeService';
 import { ConfigService } from '@nestjs/config';
 import { EnvData } from 'src/envData/envData.service';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [JwtModule.register({
     secret: process.env.JWT_SECRET,
     signOptions: { expiresIn: '1d' },
-  }),],
+  }),
+  ThrottlerModule.forRoot({
+    throttlers: [
+      { name: 'auth', ttl: 60_000, limit: 50 },
+    ],
+  }),
+  ],
   controllers: [UfController],
   providers: [UfService, JwtModule,JwtServices,RedisService,CommonService,RuleService,CodeService,ConfigService,EnvData,],
   exports: [UfService]

@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable, Logger, forwardRef } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Inject, Injectable, Logger, forwardRef } from '@nestjs/common';
 import axios, { AxiosRequestConfig } from 'axios';
 import * as cronParser from 'cron-parser'; 
 import { InjectQueue } from '@nestjs/bullmq'; 
@@ -8,6 +8,7 @@ import { SchedulerRegistry } from '@nestjs/schedule';
 import { JobProcessor } from './processors/job.processor';
 import { EnvData } from 'src/envData/envData.service';
 import { CustomException } from 'src/customException';
+import { encryptToken } from 'src/utils/tokenCrypto.util';
 const  Xid = require('xid-js');
 
 @Injectable()
@@ -23,57 +24,57 @@ export class SchedulerService {
     ) {} 
    
 
-    async startScheduler(input,token) {   
-        try {            
-            let scheduledJobs       
+    async startScheduler(input,token,authContext?:any) {
+        try {
+            let scheduledJobs
             if(input) {
                 if(Array.isArray(input) && input.length > 0){
                     scheduledJobs = []
                     for(let i=0;i < input.length;i++){
                         scheduledJobs.push(await this.getDataFromTable(token,'GET',"sch_scheduled_job",'',{path:input[i]?.id}))
                     }
-                }else if(typeof input == "object" && Object.keys(input).length > 0){                
+                }else if(typeof input == "object" && Object.keys(input).length > 0){
                     scheduledJobs = await this.getDataFromTable(token,'GET',"sch_scheduled_job",'',{path:input?.id});
                 }
-            }       
-            //console.log('scheduledJobs',scheduledJobs);      
-    
+            }
+            //console.log('scheduledJobs',scheduledJobs);
+
             if(scheduledJobs) {
-                if(Array.isArray(scheduledJobs) && scheduledJobs.length > 0){                
+                if(Array.isArray(scheduledJobs) && scheduledJobs.length > 0){
                     for (const schedule of scheduledJobs) {
-                        await this.checkAndExecute(token,schedule,input.pf_key);
+                        await this.checkAndExecute(token,schedule,input.pf_key,authContext);
                     }
                 }else if(typeof scheduledJobs === 'object' && Object.keys(scheduledJobs).length > 0){
-                    await this.checkAndExecute(token,scheduledJobs,input.pf_key);
+                    await this.checkAndExecute(token,scheduledJobs,input.pf_key,authContext);
                 }
             }
         } catch (error:any) {
             throw new CustomException(error?.message || error, 400)
-        }       
-    }   
+        }
+    }
 
-    async checkAndExecute(token,Job,pf_key){
-        try {            
-            this.logger.log('checkAndExecute Started');        
-           
-            let run_category = Job.scheduler_info.run_category;       
+    async checkAndExecute(token,Job,pf_key,authContext?:any){
+        try {
+            this.logger.log('checkAndExecute Started');
+
+            let run_category = Job.scheduler_info.run_category;
             let j_start_date = Job.scheduler_info.job_start_date
-            let j_end_date = Job.scheduler_info.job_end_date        
+            let j_end_date = Job.scheduler_info.job_end_date
             let isRepeat = false
-                            
+
             if (Job.status == "ACTIVE") {
-                if(run_category == "Multiple"){ 
+                if(run_category == "Multiple"){
                     isRepeat = true
                 }
-                
+
                 // let isCurrentTime = await this.checkWindowAndCurrent("current",j_start_date,j_end_date);
 
                 let isCurrentTime = await this.checkWindowAndCurrent(j_start_date,j_end_date);
                 if(isCurrentTime)
-                    await this.addBullJob(Job,isRepeat,token,pf_key);   
-                
+                    await this.addBullJob(Job,isRepeat,token,pf_key,authContext);
+
             }
-        } catch (error:any) {          
+        } catch (error:any) {
             let errorDetails , status
             if (error?.response?.data) {
                 errorDetails = error.response.data.message || error.response.data;
@@ -81,14 +82,14 @@ export class SchedulerService {
             } else if (error?.message) {
                 errorDetails = error.message;
                 status = error?.status || 500;
-            }   
+            }
             throw new CustomException(errorDetails || error, status || 500)
-            
-        }
-       
-    }  
 
-    async addBullJob(sch_job_data: any,isRepeat,token,pf_key) {
+        }
+
+    }
+
+    async addBullJob(sch_job_data: any,isRepeat,token,pf_key,authContext?:any) {
         try {            
             
             console.log(`Executing schedule: ${sch_job_data.name}`);
@@ -118,18 +119,22 @@ export class SchedulerService {
                 status: "ACTIVE"                      
             }); 
     
-            const queue = this.getQueue(pf_key);
-            const bullJob = await queue.add( 
-                sch_job_data.name, 
-                {               
-                    schjt_id : sch_job_data.schjt_id, 
-                    schsj_id : sch_job_data.schsj_id, 
+            const queue = this.getQueue(pf_key,authContext?.tenant);
+            const bullJob = await queue.add(
+                sch_job_data.name,
+                {
+                    schjt_id : sch_job_data.schjt_id,
+                    schsj_id : sch_job_data.schsj_id,
                     schjl_id : sch_job_log_res.schjl_id,
-                    token: token,
-                    data: sch_job_data.job_data 
-                }, 
+                    // Encrypted at rest — BullMQ persists this payload in Redis for the
+                    // job's lifetime (indefinitely on failure), and Redis itself runs
+                    // with no auth in this stack. Decrypted only inside the worker
+                    // right before use (job.processor.ts).
+                    token: encryptToken(token),
+                    data: sch_job_data.job_data
+                },
                 opts
-            ); 
+            );
             sch_job_data.bullmqJobId = bullJob.repeatJobKey;          
     
             this.logger.log(`Created scheduled job: ${sch_job_data.name} [${sch_job_data.trs_process_id}]`); 
@@ -138,10 +143,22 @@ export class SchedulerService {
         }
     } 
    
-    getQueue(queueName: string): Queue {
+    // pf_key is caller-supplied and not itself trustworthy for authorization —
+    // any tenant can name any other tenant's pf_key in a request body. The
+    // actual BullMQ queue this resolves to is always namespaced under the
+    // caller's own verified tenant claim, so a caller can never address a
+    // queue outside their own tenant's namespace regardless of which pf_key
+    // they supply, on either the start (job-creation) or stop side.
+    private queueKey(queueName: string, tenant?: string): string {
+        if (!tenant) throw new ForbiddenException('Tenant context is required');
+        return `${tenant}_${queueName}`;
+    }
+
+    getQueue(queueName: string, tenant?: string): Queue {
+        const key = this.queueKey(queueName, tenant);
         // Check if queue already exists
-        if (this.queues.has(queueName)) {
-            return this.queues.get(queueName);
+        if (this.queues.has(key)) {
+            return this.queues.get(key);
         }
 
         // Create new queue dynamically
@@ -157,16 +174,19 @@ export class SchedulerService {
                     delay: 2000,
                 },
                 removeOnComplete: 100,
-                removeOnFail: false,
+                // Bounded rather than kept forever — failed job payloads carry an
+                // encrypted bearer token (see addBullJob); indefinite retention
+                // widened that exposure window for no operational benefit.
+                removeOnFail: { count: 500, age: 7 * 24 * 3600 },
             },
         };
 
-        const newQueue = new Queue(queueName, queueOptions);
-        this.queues.set(queueName, newQueue);
-        this.logger.log(`Created new queue: ${queueName}`);
+        const newQueue = new Queue(key, queueOptions);
+        this.queues.set(key, newQueue);
+        this.logger.log(`Created new queue: ${key}`);
 
         // Create worker for this queue
-        this.processor.createWorker(queueName);
+        this.processor.createWorker(key);
 
         return newQueue;
     }
@@ -301,13 +321,58 @@ export class SchedulerService {
         }
     }      
 
-    async stopBullJob(input) {
-        const results = { removed: [], failed: [] }; 
+    async stopBullJob(input,authContext?:any,token?:any) {
+        const results = { removed: [], failed: [] };
+        if (!input?.pf_key) throw new BadRequestException('Please provide pf_key');
         let queueName = input.pf_key
-        const queue = this.getQueue(queueName);   
+        // getQueue namespaces by authContext.tenant — this call can only ever
+        // resolve to (or create) a queue inside the caller's own tenant,
+        // regardless of which pf_key the caller names. See queueKey().
+        const queue = this.getQueue(queueName,authContext?.tenant);
         // const repeatableJobs = await queue.getRepeatableJobs();
         // console.log('repeatableJobs',repeatableJobs);
-           
+
+        // Stop exactly one job by scheduled-job id (stopSpecificScheduler always
+        // supplies this). Resolved via a DB lookup rather than trusting a
+        // client-supplied BullMQ job id, then matched by the trs_process_id
+        // that addBullJob used as opts.jobId when the job was created — never
+        // falls through to the "stop everything in the queue" branch below,
+        // even if the caller omits name.
+        if (input?.id) {
+            if (!token) throw new BadRequestException('Missing credentials to resolve scheduled job');
+            try {
+                const scheduledJob = await this.getDataFromTable(token,'GET',"sch_scheduled_job","",{path:input.id});
+                const jobId = scheduledJob?.trs_process_id;
+                if (!jobId) {
+                    results.failed.push({ id: input.id, reason: 'Scheduled job not found' });
+                    return results;
+                }
+
+                const repeatableJobs = await queue.getRepeatableJobs();
+                for (const repJob of repeatableJobs) {
+                    if (repJob.id === jobId) {
+                        await queue.removeRepeatableByKey(repJob.key);
+                        results.removed.push({ name: repJob.name, key: repJob.key });
+                        this.logger.log(`Removed repeatable job by id: ${jobId}`);
+                    }
+                }
+
+                const job = await queue.getJob(jobId);
+                if (job) {
+                    await job.remove();
+                    results.removed.push(job.id);
+                    this.logger.log(`Removed job by id: ${jobId}`);
+                }
+
+                if (results.removed.length === 0) {
+                    results.failed.push({ id: input.id, reason: 'No matching job found in queue' });
+                }
+            } catch (error:any) {
+                results.failed.push({ id: input.id, reason: error.message });
+            }
+            return results;
+        }
+
         // Stop by job name (easiest way for repeatable jobs)
         if (input?.name) {
             try {

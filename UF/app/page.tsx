@@ -9,71 +9,72 @@ import decodeToken from './components/decodeToken';
 import { useInfoMsg } from './components/infoMsgHandler';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { DecodedToken,ScreenDetail } from '@/types/global';
+import { useGlobal } from '@/context/GlobalContext';
 
 export default function HomePage() {
   const router : AppRouterInstance = useRouter();
-  const token :string | undefined = getCookie('token');
+  const { token } = useGlobal()
   const decodedToken : DecodedToken = decodeToken(token);
   const encryptionFlagApp: boolean = false;    
-  let landingScreen:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1';
+  let landingScreen:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1';
   const toast : Function = useInfoMsg();
   let screenDetails : ScreenDetail[] = [
   {
     "screenName": "dashboard",
     "screensName": "dashboard-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:hrmDashboard:AFVK:v1"
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
   },
   {
-    "screenName": "employees",
-    "screensName": "employees-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employees:AFVK:v1"
+    "screenName": "report",
+    "screensName": "report-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1"
   },
   {
-    "screenName": "access request",
-    "screensName": "access_request-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:accessRequest:AFVK:v1"
+    "screenName": "filing packages",
+    "screensName": "filing_packages-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "leave management",
-    "screensName": "leave_management-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leaveRequest:AFVK:v1"
+    "screenName": "submissions hub",
+    "screensName": "submissions_hub-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "background check",
-    "screensName": "background_check-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:backgroundCheck:AFVK:v1"
+    "screenName": "service tracking",
+    "screensName": "service_tracking-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "performance review",
-    "screensName": "performance_review-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceReview:AFVK:v1"
+    "screenName": "judgments",
+    "screensName": "judgments-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "job grades",
-    "screensName": "job_grades-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobGrades:AFVK:v1"
+    "screenName": "enforcement",
+    "screensName": "enforcement-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "job position",
-    "screensName": "job_position-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:employeeJobPositions:AFVK:v1"
+    "screenName": "kill-switch control",
+    "screensName": "kill-switch_control-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "leave policy",
-    "screensName": "leave_policy-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:leavePolicy:AFVK:v1"
+    "screenName": "compliance",
+    "screensName": "compliance-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   },
   {
-    "screenName": "performance cycle",
-    "screensName": "performance_cycle-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:ECP:AFGK:HRM:AFK:performanceCycles:AFVK:v1"
+    "screenName": "analytics",
+    "screensName": "analytics-v1",
+    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
   }
 ]
   const isSaasApp = process.env.NEXT_PUBLIC_IS_SAAS_APPLICATION;
   const [appTenantList , setAppTenantList] = useState([]);
   const securityCheck = async () : Promise<void> => {
     try {
-      const encryptionDpd: string = "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:ECP:AFGK:HRM:AFK:hrmDPD:AFVK:v1";
+      const encryptionDpd: string = "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:LAP:AFGK:LAP:AFK:lapDPD:AFVK:v1";
       const encryptionMethod: string = "";
       let introspect:any;
       if(encryptionFlagApp){
@@ -157,7 +158,7 @@ export default function HomePage() {
 
   return (
     <>
-      <LoginForm logo="torus/9.1/CT006/resources/images/Frame 1000004022.png"   loginType="rightAligned"   image="torus/9.1/CT006/resources/images/8b8e0685a15e58f0145f3c76d263dd009522dd0a.png" appTenantList={appTenantList}/>
+      <LoginForm logo=""  image="" appTenantList={appTenantList}/>
     </>
   )
 }

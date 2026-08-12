@@ -14,6 +14,7 @@ import { getFontSizeForHeader } from '../utils/branding'
 import { Dropdown } from '@/components/Dropdown'
 import i18n from '../components/i18n'
 import clsx from 'clsx'
+import Image from "next/image";
 
 interface Props {
   logo: string
@@ -60,7 +61,7 @@ const ForgotPassword = ({ logo, appName, appTenantList }: Props) => {
     <div className={(`g-root flex h-screen w-screen flex-col gap-[1vh] justify-center items-center`)}>
       <div className='flex w-full justify-center items-center font-semibold text-[1.5vw]'>
         {logo ? (
-          <img
+          <Image
             className='h-[3.5vw] w-[3.5vw] object-cover'
             width={100}
             height={100}

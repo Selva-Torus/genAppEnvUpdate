@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Headers, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, ForbiddenException, Headers, Post, Req } from '@nestjs/common';
 import { SchedulerService } from './scheduler.service';
 import { ApiBody, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { start_all_scheduler, start_specific_scheduler, stop_all_scheduler, stop_specific_scheduler } from './scheduler.dto';
@@ -24,10 +24,10 @@ export class SchedulerController {
         },
     })
     @Post('startAllScheduler')
-    async startAllScheduler(@Body() input:any, @Headers('Authorization') auth: any) {
-        
+    async startAllScheduler(@Body() input:any, @Headers('Authorization') auth: any, @Req() req: any) {
+
        let token = auth?.split(' ')[1];
-       return await this.schedulerService.startScheduler(input,token);
+       return await this.schedulerService.startScheduler(input,token,req.authContext);
     }
 
     @ApiOperation({
@@ -45,10 +45,10 @@ export class SchedulerController {
         },
     })
     @Post('startSpecificScheduler')
-    async startSpecificScheduler(@Body() input:any,@Headers('Authorization') auth: any) {       
+    async startSpecificScheduler(@Body() input:any,@Headers('Authorization') auth: any, @Req() req: any) {
        if(!(input?.id)) throw new BadRequestException('Please provide id')
         let token = auth?.split(' ')[1];
-       return await this.schedulerService.startScheduler(input,token);
+       return await this.schedulerService.startScheduler(input,token,req.authContext);
     }
 
     @ApiOperation({
@@ -66,8 +66,10 @@ export class SchedulerController {
         },
     })
     @Post('stopAllScheduler')
-    async stopAllScheduler(@Body() input:any) {  
-       return await this.schedulerService.stopBullJob(input);
+    async stopAllScheduler(@Body() input:any, @Req() req: any) {
+       if(!(input?.pf_key)) throw new BadRequestException('Please provide pf_key')
+       if(!req.authContext?.tenant) throw new ForbiddenException('Tenant context is required')
+       return await this.schedulerService.stopBullJob(input,req.authContext);
     }
 
     @ApiOperation({
@@ -84,9 +86,12 @@ export class SchedulerController {
         },
         },
     })
-    @Post('stopSpecificScheduler')
-    async stopSpecificScheduler(@Body() input:any) { 
-    //    if(!(input?.id)) throw new BadRequestException('Please provide id')      
-       return await this.schedulerService.stopBullJob(input);
+     @Post('stopSpecificScheduler')
+    async stopSpecificScheduler(@Body() input:any, @Headers('Authorization') auth: any, @Req() req: any) {
+       if(!(input?.id)) throw new BadRequestException('Please provide id')
+       if(!(input?.pf_key)) throw new BadRequestException('Please provide pf_key')
+       if(!req.authContext?.tenant) throw new ForbiddenException('Tenant context is required')
+       let token = auth?.split(' ')[1];
+       return await this.schedulerService.stopBullJob(input,req.authContext,token);
     }
 }

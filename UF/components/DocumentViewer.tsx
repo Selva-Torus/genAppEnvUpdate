@@ -19,6 +19,10 @@ import { IoMdAdd, IoMdRemove } from 'react-icons/io'
 import { Document, Page, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
+import * as mammoth from 'mammoth'
+import * as XLSX from "@e965/xlsx";
+import Image from "next/image";
+import DOMPurify from 'dompurify'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
 
@@ -54,6 +58,17 @@ const isPdf = (url?: string) => !!url && /\.pdf$/i.test(url)
 const isOffice = (url?: string) => !!url && /\.(docx?|xlsx?|pptx?)$/i.test(url)
 const isImageType = (type?: string) => !!type && type.startsWith('image/')
 const isPdfType = (type?: string) => type === 'application/pdf'
+const isWordType = (type?: string) =>
+  !!type &&
+  (type === 'application/msword' ||
+    type ===
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+const isWordUrl = (url?: string) => !!url && /\.docx?$/i.test(url)
+const isExcelType = (type?: string) =>
+  !!type &&
+  (type === 'application/vnd.ms-excel' ||
+    type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+const isExcelUrl = (url?: string) => !!url && /\.xlsx?$/i.test(url)
 
 /* ---------- component ---------- */
 const DocViewer: React.FC<DocViewerProps> = ({
@@ -91,6 +106,76 @@ const DocViewer: React.FC<DocViewerProps> = ({
   const [isDragging, setIsDragging] = useState(false)
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const contentRef = useRef<HTMLDivElement>(null)
+
+  const isWordDoc = isWordType(currentFileType) || isWordUrl(currentUrl)
+  const [wordHtml, setWordHtml] = useState('')
+  const [wordLoading, setWordLoading] = useState(false)
+  const [wordError, setWordError] = useState('')
+
+  useEffect(() => {
+    if (!isWordDoc || !currentUrl) {
+      setWordHtml('')
+      setWordError('')
+      return
+    }
+    let cancelled = false
+    setWordLoading(true)
+    setWordError('')
+    fetch(currentUrl)
+      .then(res => res.arrayBuffer())
+      .then(arrayBuffer => mammoth.convertToHtml({ arrayBuffer }))
+      .then(result => {
+        // mammoth converts docx markup structurally but does not sanitize it —
+        // a crafted upload (e.g. an image with an onerror handler) would
+        // otherwise execute as stored XSS for anyone who views this document.
+        if (!cancelled) setWordHtml(DOMPurify.sanitize(result.value))
+      })
+      .catch(() => {
+        if (!cancelled) setWordError('Failed to render document.')
+      })
+      .finally(() => {
+        if (!cancelled) setWordLoading(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [isWordDoc, currentUrl])
+
+  const isExcelDoc = isExcelType(currentFileType) || isExcelUrl(currentUrl)
+  const [workbook, setWorkbook] = useState<XLSX.WorkBook | null>(null)
+  const [activeSheet, setActiveSheet] = useState('')
+  const [excelLoading, setExcelLoading] = useState(false)
+  const [excelError, setExcelError] = useState('')
+
+  useEffect(() => {
+    if (!isExcelDoc || !currentUrl) {
+      setWorkbook(null)
+      setActiveSheet('')
+      setExcelError('')
+      return
+    }
+    let cancelled = false
+    setExcelLoading(true)
+    setExcelError('')
+    fetch(currentUrl)
+      .then(res => res.arrayBuffer())
+      .then(arrayBuffer => {
+        const wb = XLSX.read(arrayBuffer, { type: 'array' })
+        if (!cancelled) {
+          setWorkbook(wb)
+          setActiveSheet(wb.SheetNames[0] || '')
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setExcelError('Failed to render spreadsheet.')
+      })
+      .finally(() => {
+        if (!cancelled) setExcelLoading(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [isExcelDoc, currentUrl])
 
   const MIN_ZOOM = 1
   const MAX_ZOOM = 4
@@ -343,13 +428,112 @@ const zoomControls = (
           }}
           {...panHandlers}
         >
-          <img
+          <Image
             src={currentUrl}
             alt='document'
+            width={100}
+            height={100}
             className='h-full w-full select-none object-contain'
             style={transformStyle}
             draggable={false}
           />
+        </div>
+      )
+    }
+
+    if (isWordDoc) {
+      if (wordLoading) {
+        return (
+          <div className='flex h-full w-full items-center justify-center'>
+            <p className='text-sm text-gray-500'>Loading document…</p>
+          </div>
+        )
+      }
+      if (wordError) {
+        return (
+          <div className='flex h-full w-full items-center justify-center'>
+            <p className='text-sm text-red-500'>{wordError}</p>
+          </div>
+        )
+      }
+      return (
+        <div
+          ref={contentRef}
+          className='h-full w-full overflow-auto bg-white p-6'
+          style={{
+            cursor: zoom > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default'
+          }}
+          {...panHandlers}
+        >
+          <div
+            className='max-w-none text-slate-900 [&_h1]:text-2xl [&_h1]:font-bold [&_h2]:text-xl [&_h2]:font-bold [&_h3]:text-lg [&_h3]:font-semibold [&_img]:max-w-full [&_p]:mb-2 [&_table]:border-collapse [&_td]:border [&_td]:border-gray-300 [&_td]:p-1 [&_th]:border [&_th]:border-gray-300 [&_th]:p-1'
+            style={transformStyle}
+            dangerouslySetInnerHTML={{ __html: wordHtml }}
+          />
+        </div>
+      )
+    }
+
+    if (isExcelDoc) {
+      if (excelLoading) {
+        return (
+          <div className='flex h-full w-full items-center justify-center'>
+            <p className='text-sm text-gray-500'>Loading spreadsheet…</p>
+          </div>
+        )
+      }
+      if (excelError) {
+        return (
+          <div className='flex h-full w-full items-center justify-center'>
+            <p className='text-sm text-red-500'>{excelError}</p>
+          </div>
+        )
+      }
+      const sheetNames = workbook?.SheetNames || []
+      const activeSheetHtml =
+        workbook && activeSheet
+          ? DOMPurify.sanitize(
+              // sheet_to_html doesn't guarantee sanitized output either — same
+              // stored-XSS risk as the docx path above, same fix.
+              XLSX.utils.sheet_to_html(workbook.Sheets[activeSheet], {
+                header: '',
+                footer: ''
+              })
+            )
+          : ''
+      return (
+        <div className='flex h-full w-full flex-col overflow-hidden'>
+          {sheetNames.length > 1 && (
+            <div className='flex shrink-0 gap-1 overflow-x-auto border-b bg-gray-100 px-2 py-1 dark:border-gray-600 dark:bg-gray-900'>
+              {sheetNames.map(name => (
+                <button
+                  key={name}
+                  onClick={() => setActiveSheet(name)}
+                  className={`shrink-0 rounded px-2 py-1 text-xs font-medium ${
+                    name === activeSheet
+                      ? 'bg-white text-slate-900 shadow'
+                      : 'text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  {name}
+                </button>
+              ))}
+            </div>
+          )}
+          <div
+            ref={contentRef}
+            className='min-h-0 flex-1 overflow-auto bg-white p-2'
+            style={{
+              cursor: zoom > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default'
+            }}
+            {...panHandlers}
+          >
+            <div
+              className='inline-block text-slate-900 [&_table]:border-collapse [&_td]:border [&_td]:border-gray-300 [&_td]:px-2 [&_td]:py-1 [&_th]:border [&_th]:border-gray-300 [&_th]:bg-gray-100 [&_th]:px-2 [&_th]:py-1'
+              style={transformStyle}
+              dangerouslySetInnerHTML={{ __html: activeSheetHtml }}
+            />
+          </div>
         </div>
       )
     }

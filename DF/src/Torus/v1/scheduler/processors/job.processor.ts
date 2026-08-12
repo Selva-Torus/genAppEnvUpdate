@@ -7,6 +7,10 @@ import { HttpHandler } from './http.handler';
 import { GrpcHandler } from './grpc.handler';
 import * as cronParser from 'cron-parser';
 import { EnvData } from 'src/envData/envData.service';
+import { decryptToken } from 'src/utils/tokenCrypto.util';
+
+// See P8 — no outbound call in the scheduler module had a timeout.
+const OUTBOUND_TIMEOUT_MS = Number(process.env.SCHEDULER_HTTP_TIMEOUT_MS) || 15_000;
 
 
  
@@ -50,29 +54,36 @@ export class JobProcessor{
         const worker = new Worker(
             queueName,
             async (job: Job<any>) => {
+                const { token: encryptedToken, ...loggableData } = job.data;
                 this.logger.log({
                     msg: 'Processing job started',
                     jobId: job.id,
                     name: job.name,
-                    data: job.data,
-                }); 
+                    data: loggableData,
+                });
 
                 let schjl_id
-                try {     
-                    
-                    let { schjt_id,schsj_id, ...payload } = job.data; 
+                // Decrypted once here — never logged, and job.data itself keeps
+                // holding only the encrypted form at rest in Redis. Decrypted inside
+                // the try so a malformed/legacy token fails this job the same way
+                // any other startup error does, instead of crashing the worker.
+                let decryptedToken: string
+                try {
+                    decryptedToken = decryptToken(encryptedToken);
+                    let { schjt_id,schsj_id, ...payload } = job.data;
+                    delete payload.token;
                     schjl_id = job.data.schjl_id
-                    const startTime = Date.now();    
-                    // job_log_res = await this.getDataFromTable(job.data.token,'POST',"sch_job_log",{            
-                    //     status: "ACTIVE",                    
+                    const startTime = Date.now();
+                    // job_log_res = await this.getDataFromTable(decryptedToken,'POST',"sch_job_log",{
+                    //     status: "ACTIVE",
                     // });
                     // console.log('job_log_res',job_log_res);
-                    
-                    let execution;         
-                    try {     
+
+                    let execution;
+                    try {
                         let isWithinWindow = true
-                        const JobTemplate = await this.getDataFromTable(job.data.token,'GET',"sch_job_template","",{path:schjt_id});
-                        const scheduledJob = await this.getDataFromTable(job.data.token,'GET',"sch_scheduled_job","",{path:schsj_id});
+                        const JobTemplate = await this.getDataFromTable(decryptedToken,'GET',"sch_job_template","",{path:schjt_id});
+                        const scheduledJob = await this.getDataFromTable(decryptedToken,'GET',"sch_scheduled_job","",{path:schsj_id});
                         const now = new Date();
                 
                         if(scheduledJob.scheduler_info.run_category != 'OnDemand'){
@@ -89,7 +100,7 @@ export class JobProcessor{
                             }
                         }                 
                         if(isWithinWindow){
-                            execution = await this.getDataFromTable(job.data.token,'POST',"sch_job_thread_log",{ 
+                            execution = await this.getDataFromTable(decryptedToken,'POST',"sch_job_thread_log",{
                                 // jobId, 
                                 bullmq_job_id: job.id, 
                                 status: "RUNNING", 
@@ -125,8 +136,8 @@ export class JobProcessor{
                             // Update execution as completed 
                             const duration = Date.now() - startTime; 
                             console.log('result..',result)
-                            await this.getDataFromTable(job.data.token,'PATCH',"sch_job_thread_log",{
-                                status: "COMPLETED", 
+                            await this.getDataFromTable(decryptedToken,'PATCH',"sch_job_thread_log",{
+                                status: "COMPLETED",
                                 // completedAt: new Date(), 
                                 duration_ms: duration, 
                                 result, 
@@ -147,8 +158,8 @@ export class JobProcessor{
                     } catch (error) { 
                         console.log('ERROR',error);
                         const duration = Date.now() - startTime;  
-                        await this.getDataFromTable(job.data.token,'PATCH',"sch_job_thread_log",{
-                            status: "FAILED",  
+                        await this.getDataFromTable(decryptedToken,'PATCH',"sch_job_thread_log",{
+                            status: "FAILED",
                             // completedAt: new Date(), 
                             duration_ms: duration, 
                             error: { message: error.message, stack: error.stack },  
@@ -160,7 +171,7 @@ export class JobProcessor{
                     
                 } catch (error) {
                     // console.log('ERROR',error);
-                    await this.getDataFromTable(job.data.token,'PATCH',"sch_job_log",{
+                    await this.getDataFromTable(decryptedToken,'PATCH',"sch_job_log",{
                         status: "FAILED",                                       
                         error_msg: { message: error.message, stack: error.stack },  
                     },{path:schjl_id}); //execution.schjtl_id            
@@ -199,12 +210,13 @@ export class JobProcessor{
     } 
 
     async getDataFromTable(token,method,tableName,data,params?): Promise<any> {
-        try {         
+        try {
             const requestConfig: AxiosRequestConfig = {
                 headers: {
                     Authorization: `Bearer ${token}`
-                }
-            }   
+                },
+                timeout: OUTBOUND_TIMEOUT_MS,
+            }
             let response
             // let url = this.APIURL + tableName //"sch_scheduled_job" //sch_job_template;
             let url = this.envData.getBeUrl()+ '/' +tableName //process.env.BE_URL + '/' +tableName 

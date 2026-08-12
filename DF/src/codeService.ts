@@ -5,6 +5,7 @@ import * as babelParser from '@babel/parser';
 import traverse from '@babel/traverse';
 import generate from '@babel/generator';
 import * as t from '@babel/types';
+import { runInSandbox } from './sandbox';
 
 @Injectable()
 export class CodeService{
@@ -105,18 +106,7 @@ function buildLiteralAST(value: any, seen = new Set()): t.Expression {
 
       //console.log('code EndTime',new Date());
 
-    //   const vm = new VM({
-    //  timeout: 1000,
-    //  sandbox: {},
-    // });
-    
-    // ✅ Step 3: Execute the function in VM
-  //   const output = vm.run(`
-  //     ${updatedFunctionString}
-  //     test(); 
-  //  `);
-
-      const output =  eval(updatedFunctionString);
+      const output = runInSandbox(updatedFunctionString);
       return output
    }
 

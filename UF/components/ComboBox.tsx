@@ -82,6 +82,27 @@ export const Combobox: React.FC<ComboboxProps> = ({
   const [currentPage, setCurrentPage] = useState<number | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [loadTick, setLoadTick] = useState(0);
+  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const highlightedItemRef = useRef<HTMLDivElement | null>(null);
+  // Mousedown fires just before focus, so a click sets this flag right
+  // before handleTriggerFocus would otherwise run -- lets that handler
+  // tell a mouse-driven focus (about to be handled by onClick/handleOpen)
+  // apart from a keyboard Tab into the trigger.
+  const pointerInteractionRef = useRef(false);
+
+  // Reset highlighted option when the panel closes or the search filters the list
+  useEffect(() => {
+    if (!isOpen) setHighlightedIndex(-1);
+  }, [isOpen]);
+  useEffect(() => {
+    setHighlightedIndex(-1);
+  }, [search]);
+  useEffect(() => {
+    if (highlightedItemRef.current) {
+      highlightedItemRef.current.scrollIntoView({ block: "nearest" });
+    }
+  }, [highlightedIndex]);
 
   useEffect(() => {
     if (isArray && Array.isArray(value)) setSelectedArray(value);
@@ -205,17 +226,27 @@ export const Combobox: React.FC<ComboboxProps> = ({
     };
   }, [isOpen, options.length, isLoading]);
 
+  const openPanel = () => {
+    setIsOpen(true);
+    noMorePagesRef.current = false;
+    if (!isStatic && !currentPage && !loadingRef.current) {
+      loadPage(initialPage);
+    }
+  };
+
   const handleOpen = () => {
+    pointerInteractionRef.current = false;
     if (disabled) return;
     if (isOpen) {
       setIsOpen(false);
     } else {
-      setIsOpen(true);
-      noMorePagesRef.current = false;
-      if (!isStatic && !currentPage && !loadingRef.current) {
-        loadPage(initialPage);
-      }
+      openPanel();
     }
+  };
+
+  const handleTriggerFocus = () => {
+    if (pointerInteractionRef.current || disabled || isOpen) return;
+    openPanel();
   };
 
   const handleListScroll = (e: React.UIEvent<HTMLDivElement>) => {
@@ -243,6 +274,74 @@ export const Combobox: React.FC<ComboboxProps> = ({
       el.scrollHeight - el.scrollTop <= el.clientHeight + 20
     ) {
       loadPage((currentPage || 1) + 1);
+    }
+  };
+
+  const handleSelect = (option: { label: string; value: string }) => {
+    if (isArray) {
+      if (isMultiple) {
+        const next = selectedArray.includes(option.value)
+          ? selectedArray.filter((v) => v !== option.value)
+          : [...selectedArray, option.value];
+        setSelectedArray(next);
+        onChange(next);
+        onBlur?.(next);
+      } else {
+        const next = [option.value];
+        setSelectedArray(next);
+        onChange(next);
+        setIsOpen(false);
+        buttonRef.current?.focus();
+        onBlur?.(next);
+      }
+    } else {
+      const next = { [toSave]: option.value, ...(toDisplay ? { [toDisplay]: option.label } : {}) };
+      onChange(next);
+      setIsOpen(false);
+      buttonRef.current?.focus();
+      onBlur?.(next);
+    }
+  };
+
+  // Focus stays on the search input (inside the portaled panel) while
+  // open, so Tab/Escape explicitly return focus to the trigger button
+  // before letting the browser's default action run -- without this, the
+  // browser computes "next focusable" from inside the portal, which is
+  // appended at the very end of document.body and has nothing after it,
+  // so Tab jumps straight out of the page (into browser chrome) instead
+  // of moving to the next control in the form.
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!isOpen) {
+      if (e.key === "ArrowDown" || e.key === "Enter") {
+        e.preventDefault();
+        openPanel();
+      }
+      return;
+    }
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        setHighlightedIndex((prev) => (prev < options.length - 1 ? prev + 1 : prev));
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : 0));
+        break;
+      case "Enter":
+        e.preventDefault();
+        if (highlightedIndex >= 0 && highlightedIndex < options.length) {
+          handleSelect(options[highlightedIndex]);
+        }
+        break;
+      case "Escape":
+        e.preventDefault();
+        setIsOpen(false);
+        buttonRef.current?.focus();
+        break;
+      case "Tab":
+        setIsOpen(false);
+        buttonRef.current?.focus();
+        break;
     }
   };
 
@@ -298,8 +397,12 @@ export const Combobox: React.FC<ComboboxProps> = ({
       tabIndex={-1}
     >
       <button
+        ref={buttonRef}
         type="button"
         onClick={handleOpen}
+        onKeyDown={handleKeyDown}
+        onMouseDown={() => { pointerInteractionRef.current = true; }}
+        onFocus={handleTriggerFocus}
         disabled={disabled}
         className={`
           w-full px-4 py-2 border-2 flex items-center justify-between
@@ -374,47 +477,39 @@ export const Combobox: React.FC<ComboboxProps> = ({
                 }
               }}
               onMouseDown={(e) => e.stopPropagation()}
+              onKeyDown={handleKeyDown}
               placeholder="Search..."
               className={`w-full px-3 py-1 border focus:outline-none  ${isDark ? "bg-gray-700 text-white border-gray-500 placeholder-gray-400" : "bg-white text-black border-gray-300 placeholder-gray-400"}`}
               style={{ borderRadius: "var(--border-radius)" }}
             />
           </div>
-          {options.map((option, idx) => (
-            <div
-              key={`${option.value}-${idx}`}
-              className={`px-4 py-2 cursor-pointer transition-colors  ${
-                (isArray ? selectedArray.includes(option.value) : option.label === value || option.value === value)
-                  ? "text-white"
-                  : isDark ? "text-gray-200 hover:[background-color:var(--hover-color)]" : "text-gray-700 hover:[background-color:var(--hover-color)]"
-              }`}
-              style={{ backgroundColor: (isArray ? selectedArray.includes(option.value) : option.label === value || option.value === value) ? branding.selectionColor : undefined }}
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={() => {
-                if (isArray) {
-                  if (isMultiple) {
-                    const next = selectedArray.includes(option.value)
-                      ? selectedArray.filter((v) => v !== option.value)
-                      : [...selectedArray, option.value];
-                    setSelectedArray(next);
-                    onChange(next);
-                    onBlur?.(next)
-                  } else {
-                    const next = [option.value];
-                    setSelectedArray(next);
-                    onChange(next);
-                    setIsOpen(false);
-                    onBlur?.(next)
-                  }
-                } else {
-                  onChange({ [toSave]: option.value, ...(toDisplay ? { [toDisplay]: option.label } : {}) });
-                  setIsOpen(false);
-                  onBlur?.({ [toSave]: option.value, ...(toDisplay ? { [toDisplay]: option.label } : {}) })
-                }
-              }}
-            >
-              {option.label}
-            </div>
-          ))}
+          {options.map((option, idx) => {
+            const isSelected = isArray ? selectedArray.includes(option.value) : option.label === value || option.value === value;
+            const isHighlighted = idx === highlightedIndex;
+            return (
+              <div
+                key={`${option.value}-${idx}`}
+                ref={isHighlighted ? highlightedItemRef : null}
+                className={`px-4 py-2 cursor-pointer transition-colors  ${
+                  isSelected
+                    ? "text-white"
+                    : isDark ? "text-gray-200 hover:[background-color:var(--hover-color)]" : "text-gray-700 hover:[background-color:var(--hover-color)]"
+                }`}
+                style={{
+                  backgroundColor: isSelected
+                    ? branding.selectionColor
+                    : isHighlighted
+                    ? branding.hoverColor
+                    : undefined,
+                }}
+                onMouseDown={(e) => e.preventDefault()}
+                onMouseEnter={() => setHighlightedIndex(idx)}
+                onClick={() => handleSelect(option)}
+              >
+                {option.label}
+              </div>
+            );
+          })}
           {isLoading && (
             <div className={`px-4 py-2 text-center ${isDark ? "text-gray-400" : "text-gray-500"}`}>
               Loading...

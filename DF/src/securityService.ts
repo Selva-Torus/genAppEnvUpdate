@@ -3,10 +3,12 @@ import { RedisService } from "./redisService";
 import { CommonService } from "./common.Service";
 import { CustomException } from "./customException";
 import { JwtService } from "@nestjs/jwt";
+import { JwtServices } from "src/jwt.services";
+import { EnvData } from "./envData/envData.service";
 
 @Injectable()
 export class SecurityService {
-    constructor(private redisService: RedisService, private commonService: CommonService,private readonly jwtService:JwtService){}
+    constructor(private redisService: RedisService, private commonService: CommonService,private readonly jwtService:JwtServices,private readonly envData:EnvData){}
     private readonly logger = new Logger(SecurityService.name);
     
     async getSecurityTemplate(key,token){ 
@@ -23,8 +25,13 @@ export class SecurityService {
             if (security) {
               if (security.accessProfile.length > 0) {
                 // let tokenDecode = await this.commonService.MyAccountForClient(token)
-                let tokenDecode = this.jwtService.decode(token);
-                let tokenFlg = 0                
+                let tokenDecode: any;
+                try {
+                  tokenDecode = await this.jwtService.verifyToken(token);;
+                } catch (e) {
+                  tokenDecode = null;
+                }
+                let tokenFlg = 0
                 // let profile = JSON.parse(await this.redisService.getJsonData(`CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${appgrp}:AFK:${app}:AFVK:v1:securityTemplates`, process.env.CLIENTCODE))                
                 // if (profile?.length > 0) {
                 //   for (let a = 0; a < profile.length; a++) {

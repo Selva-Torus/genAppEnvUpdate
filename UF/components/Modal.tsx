@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useTheme } from "@/hooks/useTheme";
 import { eventBus } from "@/app/eventBus";
 import { Tooltip } from "./Tooltip";
@@ -43,6 +43,26 @@ interface ModalProps {
   position?: ModalPosition;
   showOverlay?: boolean;
   modalName?: string;
+  // When provided and false, children still mount (so they can start
+  // loading their own data) but the reveal is held at the invisible
+  // "measuring" phase until this becomes true -- lets a caller open the
+  // modal only once its content is actually ready, instead of showing it
+  // half-loaded. Omit this prop to keep the default behavior (reveal as
+  // soon as open is true).
+  ready?: boolean;
+}
+
+let nextModalId = 0;
+let openModalIds: number[] = [];
+const modalStackListeners = new Set<() => void>();
+function notifyModalStackListeners() {
+  modalStackListeners.forEach((listener) => listener());
+}
+function subscribeModalStack(listener: () => void) {
+  modalStackListeners.add(listener);
+  return () => {
+    modalStackListeners.delete(listener);
+  };
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -64,8 +84,68 @@ export const Modal: React.FC<ModalProps> = ({
   position = "center",
   showOverlay = true,
   modalName,
+  ready,
 }) => {
   const { isDark, isHighContrast, branding } = useTheme();
+
+  const ANIMATION_DURATION = 300;
+  const [shouldRender, setShouldRender] = useState(open);
+  const [phase, setPhase] = useState<"measuring" | "visible" | "closing">(open ? "measuring" : "closing");
+
+  // Stable identity for this instance's slot in the shared open-modal stack.
+  const [modalId] = useState(() => ++nextModalId);
+
+  useLayoutEffect(() => {
+    if (shouldRender && !openModalIds.includes(modalId)) {
+      openModalIds = [...openModalIds, modalId];
+      notifyModalStackListeners();
+    } else if (!shouldRender && openModalIds.includes(modalId)) {
+      openModalIds = openModalIds.filter((id) => id !== modalId);
+      notifyModalStackListeners();
+    }
+    return () => {
+      if (openModalIds.includes(modalId)) {
+        openModalIds = openModalIds.filter((id) => id !== modalId);
+        notifyModalStackListeners();
+      }
+    };
+  }, [shouldRender, modalId]);
+
+  // True only for whichever modal is currently the most-recently-opened one
+  // still mounted -- re-evaluated live via the subscription, so if it closes,
+  // the next one down the stack picks up the backdrop automatically.
+  const isTopmost = useSyncExternalStore(
+    subscribeModalStack,
+    () => openModalIds[openModalIds.length - 1] === modalId,
+    () => false
+  );
+
+  useEffect(() => {
+    if (open) {
+      setShouldRender(true);
+      setPhase("measuring");
+      // `ready === false` means the caller has content still loading --
+      // stay mounted-but-invisible and wait for `ready` to flip true
+      // (this effect re-runs then, since `ready` is a dependency).
+      if (ready === false) return;
+      // Two rAFs: the first lets the just-mounted (invisible) dialog and its
+      // children commit their initial layout, the second starts the reveal
+      // on a fresh frame so the browser actually transitions from it.
+      let raf2 = 0;
+      const raf1 = requestAnimationFrame(() => {
+        raf2 = requestAnimationFrame(() => setPhase("visible"));
+      });
+      return () => {
+        cancelAnimationFrame(raf1);
+        cancelAnimationFrame(raf2);
+      };
+    }
+    if (shouldRender) {
+      setPhase("closing");
+      const timer = setTimeout(() => setShouldRender(false), ANIMATION_DURATION);
+      return () => clearTimeout(timer);
+    }
+  }, [open, ready]);
 
   // Handle escape key
   useEffect(() => {
@@ -81,9 +161,11 @@ export const Modal: React.FC<ModalProps> = ({
     return () => document.removeEventListener("keydown", handleEscape);
   }, [open, closeOnEscape, onClose]);
 
-  // Prevent body scroll when modal is open
+  // Prevent body scroll while the modal is mounted, including during the
+  // closing animation (unlocking early would let the background jump/scroll
+  // while the dialog is still visibly fading out).
   useEffect(() => {
-    if (open) {
+    if (shouldRender) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
@@ -92,7 +174,7 @@ export const Modal: React.FC<ModalProps> = ({
     return () => {
       document.body.style.overflow = "unset";
     };
-  }, [open]);
+  }, [shouldRender]);
 
   // Listen for closeModal event and close if modalName matches
   useEffect(() => {
@@ -110,7 +192,9 @@ export const Modal: React.FC<ModalProps> = ({
     };
   }, [modalName, onClose]);
 
-  if (!open) return null;
+  if (!shouldRender) return null;
+
+  const isVisible = phase === "visible";
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (closeOnOverlayClick && e.target === e.currentTarget) {
@@ -146,17 +230,21 @@ export const Modal: React.FC<ModalProps> = ({
     }
   };
 
-  const overlayStyles: React.CSSProperties = showOverlay
-    ? {
-        backgroundColor: "rgba(0, 0, 0, 0.6)",
-        backdropFilter: "blur(10px)",
-        WebkitBackdropFilter: "blur(10px)",
-      }
-    : {};
+  const overlayStyles: React.CSSProperties = {
+    ...(showOverlay && isTopmost
+      ? {
+          backgroundColor: "rgba(0, 0, 0, 0.6)",
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
+        }
+      : {}),
+    opacity: isVisible ? 1 : 0,
+    pointerEvents: phase === "measuring" ? "none" : "auto",
+  };
 
   const modalElement = (
     <div
-      className={`fixed inset-0 z-50 flex rounded-lg ${getPositionClasses()}`}
+      className={`fixed inset-0 z-50 flex rounded-lg transition-opacity duration-300 ease-in-out ${getPositionClasses()}`}
       style={overlayStyles}
       onClick={handleOverlayClick}
     >
@@ -165,9 +253,7 @@ export const Modal: React.FC<ModalProps> = ({
         aria-modal="true"
         className={`
           ${className}
-          animate-scaleIn
           flex flex-col
-          ${isHighContrast ? 'border-2' : 'border'}
           transition-all duration-300 ease-in-out
           hover:shadow-2xl
           rounded-lg
@@ -177,6 +263,8 @@ export const Modal: React.FC<ModalProps> = ({
           borderColor: isDark ? "#4B5563" : "#E5E7EB",
           color: isDark ? "#F9FAFB" : "#111827",
           maxHeight: "90vh",
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible ? "none" : "scale(0.95)",
         }}
         onClick={(e) => e.stopPropagation()}
       >

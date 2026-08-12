@@ -7,19 +7,27 @@ import * as fs from 'fs';
 import { UfService } from './Torus/v1/uf/uf.service';
 import { CommonService } from './common.Service';
 import { CdcPrismaService } from './erd/cdc_prisma.service';
+import { SwaggerGuard } from './swagger.guard';
 @Injectable()
 export class AppService implements OnModuleInit{
   private readonly apiUrl = process.env.API_URL;
   private readonly clientcode = process.env.CLIENTCODE;
+  private readonly loginId = process.env.LOGINID;
   constructor(private readonly ufservice: UfService,
+  private readonly swaggerGuard: SwaggerGuard,
   private readonly commonService: CommonService,
   private readonly triggerSqlQueries:CdcPrismaService
   ) {}
 
   async onModuleInit() {
     console.info('Starting Swagger upload to API Fabric...');
+    if (!fs.existsSync('./swagger.json')) {
+      console.warn('swagger.json not found at project root — skipping Swagger upload to API Fabric.');
+      return;
+    }
     let preParedData:any=await this.dataPrep(JSON.parse(fs.readFileSync('./swagger.json', 'utf-8')))
-    // await this.triggerFuntionExecute()
+    return
+    await this.triggerFuntionExecute()
     if(Object.keys(preParedData).includes('erdWithData'))
       {
       let endPointData : any = {};
@@ -29,12 +37,17 @@ export class AppService implements OnModuleInit{
       let res =  await this.ufservice.getEndPoints(endPointData);
       erdDatas.endpoint = res;
       erdDatas.tenant =  "CT006";
-      erdDatas.domain = "Enterprise Compliance Portal";
-      erdDatas.collection = "HRM";
+      erdDatas.domain = "Legal Automation Platform";
+      erdDatas.collection = "LAP";
       erdDatas.data = preParedData?.erdWithData||{}
       erdDatas.fabric = 'API-APIPD';
-      erdDatas.loginId = "Haritha";    
-      erdDatas.erdFlag = true;  
+      erdDatas.loginId = this.loginId;
+      erdDatas.erdFlag = true;
+
+      if (!this.swaggerGuard.canActivate()) {
+        return;
+      }
+
       await this.ufservice.createApiCollection(erdDatas,this.clientcode);
       console.info('Swagger upload to API Fabric completed successfully.');
       }
@@ -43,7 +56,12 @@ export class AppService implements OnModuleInit{
     const migrationsDir = isLocal === 'dev'
       ? './src/erd/prisma/migrations'
       : './dist/prisma/migrations';
-    let migrationSql_trigger = await fs.readFileSync(`${migrationsDir}/triggerFuctions.sql`, 'utf-8');
+       const migrationsFile = `${migrationsDir}/triggerFuctions.sql`;
+    if (!fs.existsSync(migrationsFile)) {
+      console.warn(`${migrationsFile} not found — skipping trigger function execution.`);
+      return;
+    }
+    let migrationSql_trigger = await fs.readFileSync(migrationsFile, 'utf-8'); 
     await this.triggerSqlQueries.$executeRawUnsafe(migrationSql_trigger);
     console.info('trigger queries executed');
   }

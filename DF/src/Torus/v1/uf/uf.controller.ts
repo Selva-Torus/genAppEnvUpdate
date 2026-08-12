@@ -1,3 +1,4 @@
+import * as crypto from 'crypto';
 import {
   Body,
   Controller,
@@ -13,8 +14,11 @@ import {
   HttpStatus,
   Headers,
   Patch,
-  BadRequestException
+  BadRequestException,
+  UseGuards
 } from '@nestjs/common';
+import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
+import { Public } from 'src/public.decorator';
 import { UfService } from './uf.service';
 import {
   ApiBadRequestResponse,
@@ -29,7 +33,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import {
-  codeExecutionDto,
   codefilterDto,
   elementsFilterDto,
   fetchActionDetailsDto,
@@ -63,13 +66,16 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { Response } from 'express';
 import { lookup } from 'mime-types';
 import { JwtServices } from 'src/jwt.services';
+import { CommonService } from 'src/common.Service';
+import { getAllowedModelNames, getModelFieldTypes } from 'src/utils/prisma-dmmf.util';
 
 @ApiTags('TG')
 @Controller('UF')
 export class UfController {
   constructor(
     private readonly appService: UfService,
-    private readonly jwtService: JwtServices
+    private readonly jwtService: JwtServices,
+    private readonly commonService: CommonService
   ) {}
 
   @Post('screenRoute')
@@ -227,7 +233,8 @@ export class UfController {
     description: 'Download file from the specified path',
   })                                                                                                                                                                                     
   async download(@Body() body: any, @Res() res: FastifyReply) {                                                                                                                                            
-    const { id } = body                                                                                                                                                                                      
+    const { id } = body
+    this.assertSafeDownloadTarget(id);                                                                                                                                                                                        
                                                                                                                                                                                                             
     const response = await fetch(id)                                                                                                                                                                         
     const buffer = await response.arrayBuffer()                                                                                                                                                              
@@ -285,6 +292,7 @@ export class UfController {
   }
 
   @Post('setUpKey')
+  @Public()
   @ApiHeader({
     name: 'Authorization',
     description: 'Bearer token for authentication',
@@ -451,13 +459,6 @@ export class UfController {
     }
     return result;
   }
-
-  // @Post('codeExecution')
-  // @ApiBody({ type: codeExecutionDto })
-  // async codeExecution(@Body() body: codeExecutionDto) {
-  //   const { stringCode, params } = body;
-  //   return await this.appService.codeExecution(stringCode, params);
-  // }
 
    @Post('code')
    @ApiBody({ type: codefilterDto })
@@ -745,6 +746,9 @@ export class UfController {
   }
 
   @Post('signin')
+  @Public()
+  @UseGuards(ThrottlerGuard)
+  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   @ApiBody({ type: signinToTorusDto })
   @ApiHeader({
     name: 'Authorization',
@@ -943,7 +947,7 @@ export class UfController {
       },
     },
   })
-  async getpagination(@Body() input: pageDto,@Req() req: any) {
+   async getpagination(@Body(new ValidationPipe({ transform: true, whitelist: true, forbidNonWhitelisted: true })) input: pageDto,@Req() req: any) {
     const token: string = req?.headers?.authorization?.split(' ')[1];
     if(!token) return 'Authorization token not found';
     // const {keys} = input;
@@ -1028,11 +1032,6 @@ export class UfController {
   @Get('getAppSecurityData')
   async getAppSecurityData() {
     return this.appService.getAppSecurityData();
-  }
-
-  @Get('getAPPSecurityTemplateData')
-  async getAPPSecurityTemplateData() {
-    return this.appService.getAPPSecurityTemplateData();
   }
 
   @Post('setJson')
@@ -1138,21 +1137,30 @@ export class UfController {
     return this.appService.readAMDKey(key, token);
   }
   @Get('getResetPasswordOtp')
+  @Public()
+  @UseGuards(ThrottlerGuard)
+  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   async getResetPasswordOtp(@Query() query: any) {
     const { email, tenantId }  = query;
     return this.appService.getResetPasswordOtp(email, tenantId);
   }
 
   @Get('verifyOtp')
+  @Public()
+  @UseGuards(ThrottlerGuard)
+  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   async verifyOtp(@Query() query: any) {
     const { email, otp } = query;
     return this.appService.verifyOtp(email, otp);
   }
 
   @Patch('resetPassword')
+  @Public()
+  @UseGuards(ThrottlerGuard)
+  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   async resetPassword(@Body() body: any) {
-    const { email, password, app_tenant, tenantId } = body;
-    return this.appService.resetPassword(email, password, app_tenant, tenantId);
+    const { email, password, app_tenant, tenantId , resetToken } = body;
+    return this.appService.resetPassword(email, password, app_tenant, tenantId , resetToken);
   }
 
   @Post("getNavbarData")
@@ -1170,56 +1178,114 @@ export class UfController {
   }
 
   @Post('sso')
+  @Public()
   async sso(@Body() body:any) {
     const { token , ufClientType } = body;
     return this.appService.sso(token , ufClientType);
   }
 
-  @Post('uploadFromLocalPath')
-   async post_uploadFromLocalPath(@Req() req: FastifyRequest,@Body() body: any) {
-     const { bucketFolderame, folderPath , localPaths,enableEncryption} =body; 
-    const imageUrl = await this.appService.uploadFromLocalPath(
-      localPaths,
-      bucketFolderame,
-      folderPath,
-      enableEncryption
-    );
-    return { imageUrl };
-  }
-
   @Get('app-tenant-app')
+  @Public()
   async getAppTenantsLinkedWithApp(@Req() req: any) {
     return this.appService.getAppTenantsLinkedWithApp();
   }
 
+  // Stays @Public() because the UF server must build the FusionAuth authorization
+  // URL before any user token exists. The OAuth client secret, however, is only
+  // released to a caller presenting the shared internal-service key — previously
+  // this route handed both the client secret and the FusionAuth admin API key to
+  // any anonymous caller, which is a full identity-provider takeover.
+  // Fails closed: with INTERNAL_SERVICE_KEY unset, no secret is ever returned.
   @Get('fusionauth-credentials')
-  async getFusionAuthCredentials(@Query() query: any ) {
+  @Public()
+  async getFusionAuthCredentials(@Query() query: any, @Req() req: any ) {
     const { tenant : app_tenant } = query;
-    return this.appService.getFusionAuthCredentials(app_tenant);
+    const includeSecrets = this.hasInternalServiceKey(req);
+    return this.appService.getFusionAuthCredentials(app_tenant, includeSecrets);
+  }
+
+  private hasInternalServiceKey(req: any): boolean {
+    const expected = process.env.INTERNAL_SERVICE_KEY;
+    if (!expected) return false;
+    const provided = req?.headers?.['x-internal-service-key'];
+    if (typeof provided !== 'string' || provided.length !== expected.length) return false;
+    // constant-time compare so the key can't be recovered byte-by-byte via timing
+    return crypto.timingSafeEqual(Buffer.from(provided), Buffer.from(expected));
+  }
+  private assertSafeDownloadTarget(id: string): void {
+    // Match every other outbound-call site: allow-list the host when
+    // OUTBOUND_HOST_ALLOWLIST is configured (no-op otherwise).
+    this.commonService.assertAllowedOutboundHost(id);
+    // Defense-in-depth that works even without the allowlist: never proxy
+    // downloads from loopback / link-local / 0.0.0.0 literals — the classic
+    // cloud-metadata SSRF target (169.254.169.254) lives in 169.254.0.0/16.
+    let hostname: string;
+    try {
+      hostname = new URL(id).hostname.toLowerCase();
+    } catch (e) {
+      throw new BadRequestException(`Invalid download URL: ${id}`);
+    }
+    if (this.isBlockedDownloadHost(hostname)) {
+      throw new BadRequestException(`Download target not allowed: ${hostname}`);
+    }
+  }
+
+  private isBlockedDownloadHost(hostname: string): boolean {
+    if (hostname === 'localhost' || hostname === '::1' || hostname === '[::1]') {
+      return true;
+    }
+    if (hostname.includes(':')) {
+      return false; // non-literal IPv6 name; allow (still gated by the allowlist above)
+    }
+    const parts = hostname.split('.').map(Number);
+    if (parts.length !== 4 || parts.some((p) => Number.isNaN(p) || p < 0 || p > 255)) {
+      return false; // DNS name, not an IPv4 literal
+    }
+    const [a, b] = parts;
+    return a === 127 || a === 0 || (a === 169 && b === 254);
+  }
+
+
+    // Allow-list dto.tableName against real Prisma models and dto.key against
+  // that model's real columns — this endpoint previously passed both
+  // straight into uf.service.ts's raw SQL (`WHERE ${dto.key} = $1`) with no
+  // validation at all, letting any authenticated caller inject SQL and/or
+  // target an arbitrary table.
+  private assertValidLockTarget(dto: LockRecordBodyDto): void {
+    const allowedTables = getAllowedModelNames();
+    if (typeof dto?.tableName !== 'string' || !allowedTables.includes(dto.tableName)) {
+      throw new BadRequestException(`Invalid table name: ${dto?.tableName}`);
+    }
+    const allowedKeys = Object.keys(getModelFieldTypes(dto.tableName));
+    if (typeof dto?.key !== 'string' || !allowedKeys.includes(dto.key)) {
+      throw new BadRequestException(`Invalid lock key: ${dto?.key}`);
+    }
   }
 
   @Post('lock')
   async lock(@Body() dto: LockRecordBodyDto, @Req() req: any) {
     const token: string = req.headers.authorization.split(' ')[1]
-    const decodedToken: any = this.jwtService.decodeToken(token);
+    const decodedToken: any = this.jwtService.verifyToken(token);
     const loginId = decodedToken.loginId;
     dto['userId'] = loginId;
+    this.assertValidLockTarget(dto);
     return this.appService.acquireLock(dto);
   }
 
   @Post('unlock')
   async unlock(@Body() dto: LockRecordBodyDto, @Req() req: any) {
     const token: string = req.headers.authorization.split(' ')[1]
-    const decodedToken: any = this.jwtService.decodeToken(token);
+    const decodedToken: any = this.jwtService.verifyToken(token);
     const loginId = decodedToken.loginId;
     dto['userId'] = loginId;
+    this.assertValidLockTarget(dto);
     return this.appService.releaseLock(dto);
   }
 
   @Post('release-all-locks')
   async releaseAllLocks(@Req() req: any) {
     const token: string = req.headers.authorization.split(' ')[1]
-    const decodedToken: any = this.jwtService.decodeToken(token);
+    const decodedToken: any = this.jwtService.verifyToken(token);
     const loginId = decodedToken.loginId;
     return this.appService.releaseAllLocks(loginId);
   }

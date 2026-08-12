@@ -48,6 +48,7 @@ const OtpVerification = ({
     number: false
   })
   const { isDark } = useTheme()
+  const [resetToken, setResetToken] = useState<string | null>(null)
 
   const handleVerifyOtp = async () => {
     try {
@@ -59,6 +60,7 @@ const OtpVerification = ({
       })
       if (res.status === 200) {
         setIsOtpVerified(true)
+        setResetToken(res.data?.resetToken)
       }
     } catch (error: any) {
       toast(error?.response?.data?.message, 'danger')
@@ -144,7 +146,8 @@ const OtpVerification = ({
         email: email,
         password: formData.password,
         app_tenant: selectedAppTenant ? appTenantList?.find((item: any) => item.tenant_name == selectedAppTenant)?.tenant_id : undefined,
-        tenantId: selectedAppTenant ? appTenantList?.find((item: any) => item.tenant_name == selectedAppTenant)?.at_id : undefined
+        tenantId: selectedAppTenant ? appTenantList?.find((item: any) => item.tenant_name == selectedAppTenant)?.at_id : undefined,
+        resetToken: resetToken
       })
       if (res.status == 200) {
         toast(typeof res.data == "string" ? res.data : 'Password updated successfully', 'success')
