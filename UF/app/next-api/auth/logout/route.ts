@@ -3,30 +3,50 @@ import { COOKIE_PREFIX, FULL_BASE_PATH } from '@/lib/cookies';
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
-  // Fire and forget FA server-side logout
+  const token = request.cookies.get(`${COOKIE_PREFIX}_token`)?.value;
+
+  // 1. Revoke the session server-side FIRST. This is what actually kills
+  // the JWT via Redis (jwtService.revokeToken) — everything after this is
+  // just FusionAuth/browser cleanup and was never enforcing anything.
+  if (token) {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/UF/logout`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch {
+      // non-blocking — don't let a backend hiccup trap the user unable
+      // to log out client-side
+    }
+  }
+
+  // 2. Fire and forget FA server-side logout (unchanged)
   try {
     const queryParams = new URLSearchParams();
     const app_tenant = request.cookies.get(`${COOKIE_PREFIX}_app_tenant`)?.value;
    
-      if (app_tenant) {
-        queryParams.append('tenant', app_tenant);
-      }
+    if (app_tenant) {
+      queryParams.append('tenant', app_tenant);
+    }
 
     const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/UF/fusionauth-credentials?${queryParams.toString()}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/UF/fusionauth-credentials?${queryParams.toString()}`,
     {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
     },
-  );
+    );
 
-  if (!response.ok) {
+    if (!response.ok) {
     throw new Error(
       `Failed to fetch FusionAuth registration details: ${response.status}`,
     );
-  }
+    }
 
   // Logout needs only the discovery fields; no secret is requested.
   const {
@@ -38,8 +58,8 @@ export async function GET(request: NextRequest) {
     await fetch(
       `${fusionAuthBaseUrl}/oauth2/logout?client_id=${applicationId}`,
       {
-        method: 'GET',
-        redirect: 'manual',
+      method: 'GET',
+      redirect: 'manual',
         headers: { 'X-FusionAuth-TenantId': tenantUniqueId }
       }
     )
@@ -53,7 +73,6 @@ export async function GET(request: NextRequest) {
   )
 
   const cookieOptions = {
-    // httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
     path: FULL_BASE_PATH,

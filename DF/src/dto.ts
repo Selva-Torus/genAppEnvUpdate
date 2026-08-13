@@ -759,22 +759,6 @@ export class ifoDto{
   method?:string
 }
 
-export class logoutDto{
-  @ApiProperty({description: 'key'})
-  @IsNotEmpty()
-  key:string
-
-  @ApiProperty({description: 'dpdKey'})
-  @IsOptional()
-  @IsString()
-  dpdKey?:string
-
-  @ApiProperty({description: 'method'})
-  @IsOptional()
-  @IsString()
-  method?:string
-}
-
 export class myAccountForClientdto{
   @ApiProperty({description: 'key'})
   @IsNotEmpty()

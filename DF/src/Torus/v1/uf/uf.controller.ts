@@ -54,7 +54,6 @@ import {
   signinToTorusDto,
   uploadFileDto,
   uploadFileMobileDto,
-  logoutDto,
   uploadHandlerDto,
   myAccountForClientdto,
   introspectDto,
@@ -871,11 +870,10 @@ export class UfController {
       },
     },
   })
-  async logout(@Headers() header,@Body() body:logoutDto, @Query() query ) {
-    const {key} = body;
+  async logout(@Headers() header, @Query() query ) {
     const {dpdKey,method} = query;
     const tokens: string = header.authorization.split(' ')[1];	
-    let result : any = await this.appService.logout(header,tokens,key);
+    let result : any = await this.appService.logout(header,tokens, 'User Screen');
     if(dpdKey && method){
       result["dpdKey"] = dpdKey
       result["method"] = method
