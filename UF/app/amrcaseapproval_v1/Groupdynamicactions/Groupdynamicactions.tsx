@@ -473,7 +473,7 @@ const Groupdynamicactions = ({lockedData={},setLockedData,primaryTableData={},ta
         height: '100%',
         overflow: 'auto',
         gridAutoRows: '4px',
-        columnGap: '0px',
+        columnGap: '7px',
         backgroundColor:'',
         backgroundImage:"url('')",
         backgroundPosition: '',

@@ -347,7 +347,7 @@ export class priority_lookupController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.priority_lookupService.updateMaster(+priority_id,updatepriority_lookupDto,makerInfo,token);
+      const result = await this.priority_lookupService.updateMaster(+priority_id,updatepriority_lookupDto,makerInfo,token,req.authContext);
       return result;
     }
 
@@ -425,7 +425,7 @@ export class priority_lookupController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.priority_lookupService.deleteMaster(+priority_id,makerInfo,token);
+      const result = await this.priority_lookupService.deleteMaster(+priority_id,makerInfo,token,req.authContext);
       return result;
     }
 

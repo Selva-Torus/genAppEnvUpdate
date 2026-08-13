@@ -138,7 +138,7 @@ export default function PageAmrcaseapprovalV1({ onReady }: { onReady?: () => voi
     "dividers": {
       "show": false
     },
-    "country": {
+    "county": {
       "show": false
     },
     "dividerss": {
@@ -946,6 +946,14 @@ export default function PageAmrcaseapprovalV1({ onReady }: { onReady?: () => voi
     setamrcaseapproval_v1({...result,_artfactPFRule_:rule})
   }
 
+  
+  const logout = () => {
+    localStorage.clear();
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+    const from = encodeURIComponent(`${basePath}/`);
+    window.location.href = `${basePath}/next-api/auth/logout?from=${from}`;
+  };
+
   async function securityCheck(): Promise<void> {
     const { fetchBatchData } = await import("../utils/Orchestration");
     const introspectParams = encryptionFlagPage
@@ -962,19 +970,13 @@ export default function PageAmrcaseapprovalV1({ onReady }: { onReady?: () => voi
     // instead of one after another. Each call is caught locally so one
     // failure doesn't swallow the other two responses (Promise.all rejects
     // on the first rejection otherwise).
-    const [data, introspect, myAccountRes]: [any, any, any] = await Promise.all([
+    const [data, myAccountRes]: [any, any] = await Promise.all([
       fetchBatchData(
         'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRCaseApproval:AFVK:v1',
         [user],
         'pageAmrcaseapprovalV1',
         token
       ),
-      token
-        ? AxiosService.get("/UF/introspect", {
-            headers: { Authorization: `Bearer ${token}` },
-            params: introspectParams
-          }).catch((err: any) => ({ __error: err }))
-        : Promise.resolve(null),
       token
         ? AxiosService.get("/UF/myAccount-for-client", {
             headers: { Authorization: `Bearer ${token}` },
@@ -997,16 +999,14 @@ export default function PageAmrcaseapprovalV1({ onReady }: { onReady?: () => voi
       await handleArtfactRule(orchestrationData?.artfactPFRule,{...decodedTokenObj},allRuleData)  
     }
     if (token) {
-      if (introspect?.__error) {
-        toast("The token is no longer active.", 'danger');
-        localStorage.clear();
-        deleteAllCookies();
-        window.location.href = '/ct006/lap/lap/v1';
-        } else if (introspect?.data?.authenticated === false) {
-        localStorage.clear();
-        deleteAllCookies();
-        window.location.href = '/ct006/lap/lap/v1';
+      const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+      const res = await fetch(`${basePath}/next-api/auth/introspect?key=CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRCaseApproval:AFVK:v1`)
+      if (!res.ok) {
+        logout()
+        return
       }
+      routes.refresh()
+
       try {
         if (myAccountRes?.__error) throw myAccountRes.__error;
         if( user != "" && user != null){

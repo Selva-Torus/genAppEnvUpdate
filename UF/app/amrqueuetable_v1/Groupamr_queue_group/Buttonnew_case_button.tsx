@@ -178,7 +178,7 @@ const Buttonnew_case_button = ({ lockedData, setLockedData, tableData, setTableD
   const handleMapper=async (data?:any) => {
     try{     
       data = {...data,...amr_queue_group79589Ref.current};
-      let parentRowSpan = 158;
+      let parentRowSpan = 165;
       const orchestrationData : any = getControlOrchestrationData(
         controlData,
         "15ad4405caca54ea5086b43505379589",

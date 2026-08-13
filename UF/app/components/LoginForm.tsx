@@ -96,8 +96,6 @@ const LoginForm = ({ logo, appName = "LAP", loginType = "standard", image, appTe
             setLoading(false)
             return
           }
-          setCookie("token", api_signin.data.token, 10, "/");
-          setCookie('tenant', tenant)
           setCookie('language', 'en')
           let screenDetails: any = {
             keys:[

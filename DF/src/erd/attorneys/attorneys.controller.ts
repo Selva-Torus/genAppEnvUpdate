@@ -363,7 +363,7 @@ export class attorneysController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.attorneysService.updateMaster(+attorney_id,updateattorneysDto,makerInfo,token);
+      const result = await this.attorneysService.updateMaster(+attorney_id,updateattorneysDto,makerInfo,token,req.authContext);
       return result;
     }
 
@@ -445,7 +445,7 @@ export class attorneysController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.attorneysService.deleteMaster(+attorney_id,makerInfo,token);
+      const result = await this.attorneysService.deleteMaster(+attorney_id,makerInfo,token,req.authContext);
       return result;
     }
 

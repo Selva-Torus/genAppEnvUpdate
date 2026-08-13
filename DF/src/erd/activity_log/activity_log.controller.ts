@@ -355,7 +355,7 @@ export class activity_logController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.activity_logService.updateMaster(+activity_id,updateactivity_logDto,makerInfo,token);
+      const result = await this.activity_logService.updateMaster(+activity_id,updateactivity_logDto,makerInfo,token,req.authContext);
       return result;
     }
 
@@ -435,7 +435,7 @@ export class activity_logController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.activity_logService.deleteMaster(+activity_id,makerInfo,token);
+      const result = await this.activity_logService.deleteMaster(+activity_id,makerInfo,token,req.authContext);
       return result;
     }
 

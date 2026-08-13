@@ -2,9 +2,12 @@ import { AxiosService } from '@/app/components/axiosService'
 import { COOKIE_PREFIX, FULL_BASE_PATH } from '@/lib/cookies'
 import { NextRequest, NextResponse } from 'next/server'
 
+const SSO_STATE_COOKIE = '_sso_state' // fixed name, shared across apps — not per-app COOKIE_PREFIX
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const token = searchParams.get('token')
+  const state = searchParams.get('state')
   const baseUrl = new URL(process.env.NEXT_PUBLIC_APP_URL!).origin
 
   // `origin` is caller-supplied and was previously handed straight to
@@ -23,12 +26,26 @@ export async function GET(req: NextRequest) {
   }
   const origin = resolveSafeOrigin(searchParams.get('origin'))
 
+  const storedState = req.cookies.get(SSO_STATE_COOKIE)?.value
+
+  const clearState = (res: NextResponse) => {
+    res.cookies.set(SSO_STATE_COOKIE, '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+      path: '/',
+      maxAge: 0
+    })
+    return res
+  }
+
+  // Reject if token missing, state missing, cookie missing, or mismatch.
+  // This is what blocks a forged/replayed link that didn't originate from sso-init.
+  if (!token || !state || !storedState || storedState !== state) {
+    return clearState(NextResponse.redirect(origin))
+  }
 
   try {
-    if (!token) {
-      return NextResponse.redirect(origin)
-    }
-    // verify token with the Origin
     const signinApiResponse = await AxiosService.post('UF/sso', {
       token,
       ufClientType: 'UFW'
@@ -50,7 +67,7 @@ export async function GET(req: NextRequest) {
         )
       }
       const cookieOptions = {
-        // httpOnly: true,
+        httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
         path: FULL_BASE_PATH,
@@ -62,8 +79,8 @@ export async function GET(req: NextRequest) {
       response = NextResponse.redirect(origin)
     }
 
-    return response
+    return clearState(response)
   } catch {
-    return NextResponse.redirect(origin)
+    return clearState(NextResponse.redirect(origin))
   }
 }

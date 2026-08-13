@@ -27,12 +27,16 @@ export async function GET(request: NextRequest) {
       `${APP_URL}${FULL_BASE_PATH}/?error=invalid_state`  // ← absolute
     )
   }
+  const codeVerifier = request.cookies.get(`${COOKIE_PREFIX}_pkce_verifier`)?.value   // ← new
+  if (!codeVerifier) {
+    return NextResponse.redirect(`${APP_URL}${FULL_BASE_PATH}/?error=invalid_state`)
+  }
 
   try {
     const storedAppTenantParam = request.cookies.get(`${COOKIE_PREFIX}_app_tenant`)?.value
     const storedAppTenantId = request.cookies.get(`${COOKIE_PREFIX}_app_tenant_id`)?.value
     // 1. Exchange code for tokens
-    const fusionAuthTokens = await exchangeCodeForTokens(code , storedAppTenantParam)
+    const fusionAuthTokens = await exchangeCodeForTokens(code, codeVerifier, storedAppTenantParam)
     
     
     const queryParams = new URLSearchParams();
@@ -179,7 +183,13 @@ export async function GET(request: NextRequest) {
       maxAge: 60 * 60 * 8
     })
     response.cookies.set(`${COOKIE_PREFIX}_oauth_state`, '', {
-      // httpOnly: true,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+      path: FULL_BASE_PATH,
+      maxAge: 0
+    })
+    response.cookies.set(`${COOKIE_PREFIX}_pkce_verifier`, '', {   // ← new, clear verifier too
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
       path: FULL_BASE_PATH,

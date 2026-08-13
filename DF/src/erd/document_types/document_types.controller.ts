@@ -347,7 +347,7 @@ export class document_typesController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.document_typesService.updateMaster(+doc_type_id,updatedocument_typesDto,makerInfo,token);
+      const result = await this.document_typesService.updateMaster(+doc_type_id,updatedocument_typesDto,makerInfo,token,req.authContext);
       return result;
     }
 
@@ -425,7 +425,7 @@ export class document_typesController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.document_typesService.deleteMaster(+doc_type_id,makerInfo,token);
+      const result = await this.document_typesService.deleteMaster(+doc_type_id,makerInfo,token,req.authContext);
       return result;
     }
 

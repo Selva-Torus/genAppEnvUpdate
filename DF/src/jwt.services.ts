@@ -19,13 +19,15 @@ export class JwtServices {
     try {
       const dbUrl = new URL(process.env.DATABASE_URL);
       dbUrl.pathname = "/fusionauth";
+
       const client = new Client({
         connectionString: dbUrl.toString(),
         application_name: `${tenant}_${ag}_${app}_auth_verify_service`,
         database: 'fusionauth',
-        connectionTimeoutMillis: 30000,
+        connectionTimeoutMillis: 30000, // fail fast if can't connect in 5s
       });
       await client.connect();
+
       const query = `SELECT k.public_key FROM public.applications a JOIN public."keys" k
             ON k.id = a.access_token_signing_keys_id WHERE a.name = $1`;
       const result = await client.query(query, [`${tenant}-defaultApplication`]);
@@ -36,11 +38,8 @@ export class JwtServices {
     }
   }
 
-  // Signature + expiry verified, AND now checked against the same
-  // sessionList that logout() prunes. Previously that list was write-only
-  // from verifyToken's point of view — removing a sid at logout had zero
-  // effect on whether future requests with that JWT were accepted. This
-  // is the fix: a token is only valid if its sid is still present here.
+  // Signature + expiry verified — use this wherever the decoded claims drive
+  // an authorization/identity decision. decodeToken() below trusts nothing.
   async verifyToken(token: string): Promise<any> {
     let claims: any;
     try {
@@ -49,22 +48,21 @@ export class JwtServices {
         algorithms: ['RS256'],
         publicKey,
       });
+      if (!claims?.sid) {
+        // No sid on the token means we have nothing to check the session
+        // list against — fail closed rather than silently skip the check.
+        throw new Error('Invalid or expired token');
+      }
+
+      const isActive = await this.isSessionActive(claims.sid);
+      if (!isActive) {
+        throw new Error('Invalid or expired token');
+      }
+
+      return claims;
     } catch (error) {
       throw new Error('Invalid or expired token');
     }
-
-    if (!claims?.sid) {
-      // No sid on the token means we have nothing to check the session
-      // list against — fail closed rather than silently skip the check.
-      throw new Error('Invalid or expired token');
-    }
-
-    const isActive = await this.isSessionActive(claims.sid);
-    if (!isActive) {
-      throw new Error('Invalid or expired token');
-    }
-
-    return claims;
   }
 
   private async isSessionActive(sid: string): Promise<boolean> {
@@ -97,4 +95,4 @@ export class JwtServices {
       throw new Error('Invalid token');
     }
   }
-}
+} 

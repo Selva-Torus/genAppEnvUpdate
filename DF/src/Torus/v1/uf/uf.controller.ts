@@ -7,8 +7,6 @@ import {
   Query,
   Req,
   Res,
-  UseInterceptors,
-  UploadedFile,
   ValidationPipe,
   HttpException,
   HttpStatus,
@@ -38,11 +36,9 @@ import {
   fetchActionDetailsDto,
   fetchRuleDetailsDto,
   FILE_UPLOADS_DIR,
-  fileNameEditor,
   getMapperDetailsDto,
   getPresignedUrlDto,
   ifoDto,
-  imageFileFilter,
   InitiatePFDto,
   OrchestrationDto,
   pageDto,
@@ -57,16 +53,16 @@ import {
   uploadHandlerDto,
   myAccountForClientdto,
   introspectDto,
-  LockRecordBodyDto
+  LockRecordBodyDto,
+  sanitizeForFileResponse,
 } from 'src/dto';
-import { diskStorage } from 'multer';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { Response } from 'express';
 import { lookup } from 'mime-types';
 import { JwtServices } from 'src/jwt.services';
 import { CommonService } from 'src/common.Service';
 import { getAllowedModelNames, getModelFieldTypes } from 'src/utils/prisma-dmmf.util';
+import { safeFetchBuffer ,assertAllowedOutboundHost} from 'src/utils/ssrf.util';
 
 @ApiTags('TG')
 @Controller('UF')
@@ -165,8 +161,7 @@ export class UfController {
     description: 'Bearer token for authentication',
     required: true,
   })
-  // @UseInterceptors(FileInterceptor('file'))
-
+  
   async uploadFile(@Req() req: FastifyRequest) {
       if (!req.isMultipart()) {
         throw new Error('Request is not multipart');
@@ -231,19 +226,23 @@ export class UfController {
     summary: 'Download file from seaweed direct URL',
     description: 'Download file from the specified path',
   })                                                                                                                                                                                     
-  async download(@Body() body: any, @Res() res: FastifyReply) {                                                                                                                                            
+  async download(@Body() body: any, @Res() res: FastifyReply) {
     const { id } = body
-    this.assertSafeDownloadTarget(id);                                                                                                                                                                                        
-                                                                                                                                                                                                            
-    const response = await fetch(id)                                                                                                                                                                         
-    const buffer = await response.arrayBuffer()                                                                                                                                                              
-                                                                                                                                                                                                            
-    const fileName = decodeURIComponent(id.split('/').pop() || 'file')                                                                                                                                       
-                                                                                                                                                                                                            
-    res                                                                                                                                                                                                      
-    .header('Content-Type', 'application/octet-stream')                                                                                                                                                      
-    .header('Content-Disposition', `attachment; filename="${fileName}"`)                                                                                                                                     
-    .send(Buffer.from(buffer))                                                                                                                                                                               
+    // Opt-in allowlist gate (no-op today unless OUTBOUND_HOST_ALLOWLIST is set).
+    assertAllowedOutboundHost(id);
+    // Mandatory defense-in-depth: resolves DNS itself, rejects private/reserved
+    // targets (RFC1918, loopback, link-local/cloud-metadata, IPv6 equivalents,
+    // etc.) regardless of allowlist config, and pins the connection to the
+    // vetted address so a second DNS resolution can't rebind it — see
+    // src/utils/ssrf.util.ts for the full range list and rationale.
+    const { body: buffer, finalUrl } = await safeFetchBuffer(id);
+
+    const fileName = decodeURIComponent(finalUrl.split('/').pop() || 'file')
+
+    res
+    .header('Content-Type', 'application/octet-stream')
+    .header('Content-Disposition', `attachment; filename="${fileName}"`)
+    .send(buffer)
   }
   
   @Post('gridfs')
@@ -280,11 +279,12 @@ export class UfController {
     // Handle single file
     const fileMetadata: any = Array.isArray(result.file) ? result.file[0] : result.file;
     const buffer: any = Array.isArray(result.res) ? result.res[0] : result.res;
+    const { contentType, disposition } = sanitizeForFileResponse(fileMetadata?.contentType);
 
     res
-      .header('Content-Type', fileMetadata?.contentType || 'application/octet-stream')
+      .header('Content-Type', contentType)
       .header('File-Name', fileMetadata?.filename || 'Document')
-      .header('Content-Disposition', `inline; filename="${fileMetadata?.filename || 'file'}"`)
+      .header('Content-Disposition', `${disposition}; filename="${fileMetadata?.filename || 'file'}"`)
       .header('Access-Control-Expose-Headers', 'File-Name, Content-Disposition');
 
     return res.send(buffer);
@@ -1045,12 +1045,12 @@ export class UfController {
   async getDFS(@Body() body: any, @Res() res: FastifyReply) {
     const { id, enableEncryption } = body
     const decrypted = await this.appService.getDFS(id, enableEncryption)
-    const contentType = lookup(id)
     const fileName = decodeURIComponent(id.split('/').pop() || 'Document')
+    const { contentType, disposition } = sanitizeForFileResponse(lookup(id) || undefined)
     res
-      .header('Content-Type', contentType || 'application/octet-stream')
+      .header('Content-Type', contentType)
       .header('File-Name', fileName)
-      .header('Content-Disposition', `inline; filename="${fileName}"`)
+      .header('Content-Disposition', `${disposition}; filename="${fileName}"`)
       .header('Access-Control-Expose-Headers', 'File-Name, Content-Disposition')
       .send(decrypted)
   }
@@ -1210,41 +1210,9 @@ export class UfController {
     // constant-time compare so the key can't be recovered byte-by-byte via timing
     return crypto.timingSafeEqual(Buffer.from(provided), Buffer.from(expected));
   }
-  private assertSafeDownloadTarget(id: string): void {
-    // Match every other outbound-call site: allow-list the host when
-    // OUTBOUND_HOST_ALLOWLIST is configured (no-op otherwise).
-    this.commonService.assertAllowedOutboundHost(id);
-    // Defense-in-depth that works even without the allowlist: never proxy
-    // downloads from loopback / link-local / 0.0.0.0 literals — the classic
-    // cloud-metadata SSRF target (169.254.169.254) lives in 169.254.0.0/16.
-    let hostname: string;
-    try {
-      hostname = new URL(id).hostname.toLowerCase();
-    } catch (e) {
-      throw new BadRequestException(`Invalid download URL: ${id}`);
-    }
-    if (this.isBlockedDownloadHost(hostname)) {
-      throw new BadRequestException(`Download target not allowed: ${hostname}`);
-    }
-  }
+  
 
-  private isBlockedDownloadHost(hostname: string): boolean {
-    if (hostname === 'localhost' || hostname === '::1' || hostname === '[::1]') {
-      return true;
-    }
-    if (hostname.includes(':')) {
-      return false; // non-literal IPv6 name; allow (still gated by the allowlist above)
-    }
-    const parts = hostname.split('.').map(Number);
-    if (parts.length !== 4 || parts.some((p) => Number.isNaN(p) || p < 0 || p > 255)) {
-      return false; // DNS name, not an IPv4 literal
-    }
-    const [a, b] = parts;
-    return a === 127 || a === 0 || (a === 169 && b === 254);
-  }
-
-
-    // Allow-list dto.tableName against real Prisma models and dto.key against
+  // Allow-list dto.tableName against real Prisma models and dto.key against
   // that model's real columns — this endpoint previously passed both
   // straight into uf.service.ts's raw SQL (`WHERE ${dto.key} = $1`) with no
   // validation at all, letting any authenticated caller inject SQL and/or

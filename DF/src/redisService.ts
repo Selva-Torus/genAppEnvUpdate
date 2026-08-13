@@ -16,19 +16,7 @@ let redis
 //let pgConnecting: Promise<Client> | null = null;
 //let pgConfig: { connectionString: string; application_name: string } | null = null;
 
-  //connectToMongo().then(async () => { 
-   // db = await getDb();
-   // console.log('Database initialized'); 
-  //}).catch((error) => {
-    //console.error('Error connecting to MongoDB:', error);
-  //}); 
-
-  // connectToRedis().then(() => { 
-  //  redis = getRedis();
-   // console.log('Redis initialized'); 
-  //}).catch((error) => {
-  //  console.error('Error connecting to Redis:', error);
-  //});
+  
 
   if (!redis) {
     redis = new Redis({
@@ -1457,12 +1445,12 @@ async select(db: number) {
     }
   }
 
-  async getpgKeys(key){    
+    async getpgKeys(key){    
     let pgClient
     try {
       pgClient = await this.connectPG();
       let DbSchema = process.env.PG_SCHEMANAME;     
-      
+
       if (!DbSchema || !pgClient) throw ('pgClient/schema not found')
       let tableName
       if(key){
@@ -1471,10 +1459,39 @@ async select(db: number) {
         else
           tableName = 'amd_registry'
       }
-      key = key.replaceAll('*','%');
-     
-      let result = await pgClient.query(`SELECT full_key from "${DbSchema}".${tableName} where full_key LIKE '${key}%'`)
-     
+
+      const conditions = [];
+      const mapping = {
+        CK: 'ck_code',
+        FNGK: 'fngk_code',
+        FNK: 'fnk_code',
+        CATK: 'catk_code',
+        AFGK: 'afgk_code',
+        AFK: 'afk_code',
+        AFVK: 'afvk_code'
+      };
+      function parseKey(key) {
+          const parts = key.split(':');
+          const result = {};
+
+          for (let i = 0; i < parts.length - 1; i += 2) {
+              result[parts[i]] = parts[i + 1];
+          }
+
+          return result;
+      }
+      const values = parseKey(key);
+      const params = [];
+
+      Object.entries(mapping).forEach(([k, column]) => {
+        if (values[k] && values[k] !== '*') {
+            params.push(values[k]);
+            conditions.push(`${column} = $${params.length}`);
+        }
+      });
+
+      let result = await pgClient.query(`SELECT full_key from "${DbSchema}".${tableName} where ${conditions.join(' AND ')}`, params)
+
       await pgClient.end();
       let allApiKeys = result?.rows?.map(row => row.full_key) || [] 
       return allApiKeys

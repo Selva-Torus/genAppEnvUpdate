@@ -127,7 +127,7 @@ return (
   <div className="" style={{gridColumn: `1 / 25`,gridRow: `8 / 16`, gap:``, height: `100%`}} >
 <Text
   contentAlign={"center"}
-  className="!text-purple-800 !font-bold"
+  className="!text-[#000000] !font-bold"
   variant="subheader-3"
   color="primary"
 >

@@ -75,23 +75,9 @@ import Buttonbt_approve  from './Buttonbt_approve'
 let colourIndicatorCols:any= [] ;
 let defaultColumns:any = [
   {
-    "id": "account_id",
-    "nodeid": "f6394d08b20a4718af6800c17a09a546",
-    "name": "Account iD",
-    "meta": {
-      "sort": true
-    },
-    "className": "",
-    "align": "left",
-    "hide": false,
-    "isSearch": false,
-    "colourIndicator": [],
-    "dfdName": "account_id"
-  },
-  {
     "id": "case_id",
-    "nodeid": "4e36b7a36c73349304a6e3fe9ca734ed",
-    "name": "Case ID",
+    "nodeid": "df6901bbed1946869bb968e67b2ea43b",
+    "name": "CASE ID",
     "meta": {
       "sort": true
     },
@@ -103,9 +89,37 @@ let defaultColumns:any = [
     "dfdName": "case_display_id"
   },
   {
+    "id": "venue_id",
+    "nodeid": "401517e8d16b459388dad2a497a37c04",
+    "name": "VENUE ID",
+    "meta": {
+      "sort": true
+    },
+    "className": "",
+    "align": "left",
+    "hide": true,
+    "isSearch": false,
+    "colourIndicator": [],
+    "dfdName": "venue_id"
+  },
+  {
+    "id": "account_id",
+    "nodeid": "a77bb1cbcfac46c59cf0979384f4eec9",
+    "name": "ACCOUNT ID",
+    "meta": {
+      "sort": true
+    },
+    "className": "",
+    "align": "left",
+    "hide": true,
+    "isSearch": false,
+    "colourIndicator": [],
+    "dfdName": "account_id"
+  },
+  {
     "id": "debtor_name",
     "nodeid": "4b62a5d3948501358bcace91ba5b1ea9",
-    "name": "Debtor Name",
+    "name": "DEBTOR NAME",
     "meta": {
       "sort": true
     },
@@ -117,51 +131,9 @@ let defaultColumns:any = [
     "dfdName": "debtor_name"
   },
   {
-    "id": "creditor_name",
-    "nodeid": "038b847ed6c3922d45699fe5153e48d1",
-    "name": "Creditor Name",
-    "meta": {
-      "sort": true
-    },
-    "className": "",
-    "align": "left",
-    "hide": false,
-    "isSearch": false,
-    "colourIndicator": [],
-    "dfdName": "creditor_name"
-  },
-  {
-    "id": "full_name",
-    "nodeid": "8000751c3cae52e89c14ed9751a7a369",
-    "name": "Assigned Attorney",
-    "meta": {
-      "sort": true
-    },
-    "className": "",
-    "align": "left",
-    "hide": false,
-    "isSearch": false,
-    "colourIndicator": [],
-    "dfdName": "attorney_name"
-  },
-  {
-    "id": "total_balance",
-    "nodeid": "03fff0ac42a443d6ba449921fb86a331",
-    "name": "Total Balance",
-    "meta": {
-      "sort": true
-    },
-    "className": "",
-    "align": "left",
-    "hide": false,
-    "isSearch": false,
-    "colourIndicator": [],
-    "dfdName": "total_balance"
-  },
-  {
     "id": "court_name",
     "nodeid": "3368d72c112b7d3aee3c6d3368c5ae4f",
-    "name": "Venue",
+    "name": "VENUE",
     "meta": {
       "sort": true
     },
@@ -173,9 +145,23 @@ let defaultColumns:any = [
     "dfdName": "court_name"
   },
   {
+    "id": "total_balance",
+    "nodeid": "03fff0ac42a443d6ba449921fb86a331",
+    "name": "BALANCE",
+    "meta": {
+      "sort": true
+    },
+    "className": "!text-right",
+    "align": "left",
+    "hide": false,
+    "isSearch": false,
+    "colourIndicator": [],
+    "dfdName": "total_balance"
+  },
+  {
     "id": "priority_name",
     "nodeid": "a07e1a83dcf594aef3c6efff1da6740a",
-    "name": "Priority",
+    "name": "PRIORITY",
     "meta": {
       "sort": true
     },
@@ -189,7 +175,7 @@ let defaultColumns:any = [
   {
     "id": "status_name",
     "nodeid": "7decafd9a0699afb8adee1f0b3086d6c",
-    "name": "Status",
+    "name": "STATUS",
     "meta": {
       "sort": true
     },
@@ -199,34 +185,6 @@ let defaultColumns:any = [
     "isSearch": false,
     "colourIndicator": [],
     "dfdName": "status_name"
-  },
-  {
-    "id": "trs_created_date",
-    "nodeid": "2f90df1b4164a692db308b42d0692fe2",
-    "name": "Created Date",
-    "meta": {
-      "sort": true
-    },
-    "className": "",
-    "align": "left",
-    "hide": false,
-    "isSearch": false,
-    "colourIndicator": [],
-    "dfdName": "trs_created_date"
-  },
-  {
-    "id": "venue_id",
-    "nodeid": "7c629e12dd084e44b6595c014a2b51d8",
-    "name": "Venue ID",
-    "meta": {
-      "sort": true
-    },
-    "className": "",
-    "align": "left",
-    "hide": false,
-    "isSearch": false,
-    "colourIndicator": [],
-    "dfdName": "venue_id"
   },
   {
     "type": "__ActionDetails__",
@@ -251,6 +209,20 @@ let defaultColumns:any = [
     "id": "bt_approve",
     "name": "Approve",
     "controlType": "Button"
+  },
+  {
+    "id": "sla_wait_start_time",
+    "nodeid": "f7010d0e5a5e4e659579df16d2652ae8",
+    "name": "🕒 SLA/ WAIT",
+    "meta": {
+      "sort": true
+    },
+    "className": "",
+    "align": "left",
+    "hide": false,
+    "isSearch": false,
+    "colourIndicator": [],
+    "dfdName": "sla_wait_start_time"
   }
 ];
 for (let i = 0; i < defaultColumns.length; i++) {
@@ -354,46 +326,42 @@ const Tableamr_queue_table = ({ headerButtonsRenders=()=>{return<></>},headerPos
   const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps
   const [translatedColumns,setTranslatedColumns]= useState<any>([])
   const securityData:any={
-  "Branch Manager": {
+  "Junior Attorney": {
     "allowedControls": [
-      "account_id",
       "case_id",
+      "venue_id",
+      "account_id",
       "debtor_name",
-      "creditor_name",
-      "full_name",
-      "total_balance",
       "court_name",
+      "total_balance",
       "priority_name",
       "status_name",
-      "trs_created_date",
       "view_btn",
       "view_btn_pg_graph",
-      "bt_approve"
+      "sla_wait_start_time"
     ],
     "blockedControls": [
-      "venue_id",
-      "edit_btn"
+      "edit_btn",
+      "bt_approve"
     ],
     "readOnlyControls": []
   },
-  "Branch Officer": {
+  "Senior Attorney": {
     "allowedControls": [
-      "account_id",
       "case_id",
+      "venue_id",
+      "account_id",
       "debtor_name",
-      "creditor_name",
-      "full_name",
-      "total_balance",
       "court_name",
+      "total_balance",
       "priority_name",
       "status_name",
-      "trs_created_date",
       "view_btn",
       "view_btn_pg_graph",
-      "bt_approve"
+      "bt_approve",
+      "sla_wait_start_time"
     ],
     "blockedControls": [
-      "venue_id",
       "edit_btn"
     ],
     "readOnlyControls": []
@@ -450,21 +418,19 @@ const Tableamr_queue_table = ({ headerButtonsRenders=()=>{return<></>},headerPos
   const {amr_group17ac4Props, setamr_group17ac4Props}= useContext(TotalContext) as TotalContextProps  
   const {amr_queue_table09598, setamr_queue_table09598}= useContext(TotalContext) as TotalContextProps  
   const {amr_queue_table09598Props, setamr_queue_table09598Props}= useContext(TotalContext) as TotalContextProps  
-  const {account_id9a546, setaccount_id9a546}= useContext(TotalContext) as TotalContextProps  
-  const {case_id734ed, setcase_id734ed}= useContext(TotalContext) as TotalContextProps  
+  const {case_idea43b, setcase_idea43b}= useContext(TotalContext) as TotalContextProps  
+  const {venue_id37c04, setvenue_id37c04}= useContext(TotalContext) as TotalContextProps  
+  const {account_id4eec9, setaccount_id4eec9}= useContext(TotalContext) as TotalContextProps  
   const {debtor_nameb1ea9, setdebtor_nameb1ea9}= useContext(TotalContext) as TotalContextProps  
-  const {creditor_namee48d1, setcreditor_namee48d1}= useContext(TotalContext) as TotalContextProps  
-  const {full_name7a369, setfull_name7a369}= useContext(TotalContext) as TotalContextProps  
-  const {total_balance6a331, settotal_balance6a331}= useContext(TotalContext) as TotalContextProps  
   const {court_name5ae4f, setcourt_name5ae4f}= useContext(TotalContext) as TotalContextProps  
+  const {total_balance6a331, settotal_balance6a331}= useContext(TotalContext) as TotalContextProps  
   const {priority_name6740a, setpriority_name6740a}= useContext(TotalContext) as TotalContextProps  
   const {status_name86d6c, setstatus_name86d6c}= useContext(TotalContext) as TotalContextProps  
-  const {trs_created_date92fe2, settrs_created_date92fe2}= useContext(TotalContext) as TotalContextProps  
-  const {venue_idb51d8, setvenue_idb51d8}= useContext(TotalContext) as TotalContextProps  
   const {view_btnbd9a5, setview_btnbd9a5}= useContext(TotalContext) as TotalContextProps  
   const {edit_btn10d01, setedit_btn10d01}= useContext(TotalContext) as TotalContextProps  
   const {view_btn_pg_graph1baad, setview_btn_pg_graph1baad}= useContext(TotalContext) as TotalContextProps  
   const {bt_approveec5db, setbt_approveec5db}= useContext(TotalContext) as TotalContextProps  
+  const {sla_wait_start_time52ae8, setsla_wait_start_time52ae8}= useContext(TotalContext) as TotalContextProps  
   //////////////
   const [goruleData,setGoruleData]=useState<any>({})
   function getValueByPath(obj: any, path: string): any {
@@ -767,28 +733,22 @@ const Tableamr_queue_table = ({ headerButtonsRenders=()=>{return<></>},headerPos
         codeStates['setamr_queue_table'] = setamr_queue_table09598,
         codeStates['amr_queue_table09598'] = amr_queue_table09598Props,
         codeStates['setamr_queue_table09598'] = setamr_queue_table09598Props,
-        codeStates['account_id'] = account_id9a546,
-        codeStates['setaccount_id'] = setaccount_id9a546,
-        codeStates['case_id'] = case_id734ed,
-        codeStates['setcase_id'] = setcase_id734ed,
+        codeStates['case_id'] = case_idea43b,
+        codeStates['setcase_id'] = setcase_idea43b,
+        codeStates['venue_id'] = venue_id37c04,
+        codeStates['setvenue_id'] = setvenue_id37c04,
+        codeStates['account_id'] = account_id4eec9,
+        codeStates['setaccount_id'] = setaccount_id4eec9,
         codeStates['debtor_name'] = debtor_nameb1ea9,
         codeStates['setdebtor_name'] = setdebtor_nameb1ea9,
-        codeStates['creditor_name'] = creditor_namee48d1,
-        codeStates['setcreditor_name'] = setcreditor_namee48d1,
-        codeStates['full_name'] = full_name7a369,
-        codeStates['setfull_name'] = setfull_name7a369,
-        codeStates['total_balance'] = total_balance6a331,
-        codeStates['settotal_balance'] = settotal_balance6a331,
         codeStates['court_name'] = court_name5ae4f,
         codeStates['setcourt_name'] = setcourt_name5ae4f,
+        codeStates['total_balance'] = total_balance6a331,
+        codeStates['settotal_balance'] = settotal_balance6a331,
         codeStates['priority_name'] = priority_name6740a,
         codeStates['setpriority_name'] = setpriority_name6740a,
         codeStates['status_name'] = status_name86d6c,
         codeStates['setstatus_name'] = setstatus_name86d6c,
-        codeStates['trs_created_date'] = trs_created_date92fe2,
-        codeStates['settrs_created_date'] = settrs_created_date92fe2,
-        codeStates['venue_id'] = venue_idb51d8,
-        codeStates['setvenue_id'] = setvenue_idb51d8,
         codeStates['view_btn'] = view_btnbd9a5,
         codeStates['setview_btn'] = setview_btnbd9a5,
         codeStates['edit_btn'] = edit_btn10d01,
@@ -797,6 +757,8 @@ const Tableamr_queue_table = ({ headerButtonsRenders=()=>{return<></>},headerPos
         codeStates['setview_btn_pg_graph'] = setview_btn_pg_graph1baad,
         codeStates['bt_approve'] = bt_approveec5db,
         codeStates['setbt_approve'] = setbt_approveec5db,
+        codeStates['sla_wait_start_time'] = sla_wait_start_time52ae8,
+        codeStates['setsla_wait_start_time'] = setsla_wait_start_time52ae8,
       customCode = codeExecution(allCode,codeStates);
       return customCode;
     }

@@ -54,21 +54,19 @@ const Groupamr_queue_table = ({lockedData={},setLockedData,primaryTableData={},t
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
   const securityData:any={
-  "Branch Manager": {
+  "Junior Attorney": {
     "allowedControls": [
-      "account_id",
       "case_id",
+      "venue_id",
+      "account_id",
       "debtor_name",
-      "creditor_name",
-      "full_name",
-      "total_balance",
       "court_name",
+      "total_balance",
       "priority_name",
       "status_name",
-      "trs_created_date",
       "view_btn",
       "view_btn_pg_graph",
-      "bt_approve"
+      "sla_wait_start_time"
     ],
     "allowedGroups": [
       "canvas",
@@ -77,26 +75,25 @@ const Groupamr_queue_table = ({lockedData={},setLockedData,primaryTableData={},t
       "amr_queue_table"
     ],
     "blockedControls": [
-      "venue_id",
-      "edit_btn"
+      "edit_btn",
+      "bt_approve"
     ],
     "readOnlyControls": []
   },
-  "Branch Officer": {
+  "Senior Attorney": {
     "allowedControls": [
-      "account_id",
       "case_id",
+      "venue_id",
+      "account_id",
       "debtor_name",
-      "creditor_name",
-      "full_name",
-      "total_balance",
       "court_name",
+      "total_balance",
       "priority_name",
       "status_name",
-      "trs_created_date",
       "view_btn",
       "view_btn_pg_graph",
-      "bt_approve"
+      "bt_approve",
+      "sla_wait_start_time"
     ],
     "allowedGroups": [
       "canvas",
@@ -105,7 +102,6 @@ const Groupamr_queue_table = ({lockedData={},setLockedData,primaryTableData={},t
       "amr_queue_table"
     ],
     "blockedControls": [
-      "venue_id",
       "edit_btn"
     ],
     "readOnlyControls": []
@@ -130,21 +126,19 @@ const Groupamr_queue_table = ({lockedData={},setLockedData,primaryTableData={},t
   const {amr_group17ac4Props, setamr_group17ac4Props}= useContext(TotalContext) as TotalContextProps;
   const {amr_queue_table09598, setamr_queue_table09598}= useContext(TotalContext) as TotalContextProps;
   const {amr_queue_table09598Props, setamr_queue_table09598Props}= useContext(TotalContext) as TotalContextProps;
-  const {account_id9a546, setaccount_id9a546}= useContext(TotalContext) as TotalContextProps;
-  const {case_id734ed, setcase_id734ed}= useContext(TotalContext) as TotalContextProps;
+  const {case_idea43b, setcase_idea43b}= useContext(TotalContext) as TotalContextProps;
+  const {venue_id37c04, setvenue_id37c04}= useContext(TotalContext) as TotalContextProps;
+  const {account_id4eec9, setaccount_id4eec9}= useContext(TotalContext) as TotalContextProps;
   const {debtor_nameb1ea9, setdebtor_nameb1ea9}= useContext(TotalContext) as TotalContextProps;
-  const {creditor_namee48d1, setcreditor_namee48d1}= useContext(TotalContext) as TotalContextProps;
-  const {full_name7a369, setfull_name7a369}= useContext(TotalContext) as TotalContextProps;
-  const {total_balance6a331, settotal_balance6a331}= useContext(TotalContext) as TotalContextProps;
   const {court_name5ae4f, setcourt_name5ae4f}= useContext(TotalContext) as TotalContextProps;
+  const {total_balance6a331, settotal_balance6a331}= useContext(TotalContext) as TotalContextProps;
   const {priority_name6740a, setpriority_name6740a}= useContext(TotalContext) as TotalContextProps;
   const {status_name86d6c, setstatus_name86d6c}= useContext(TotalContext) as TotalContextProps;
-  const {trs_created_date92fe2, settrs_created_date92fe2}= useContext(TotalContext) as TotalContextProps;
-  const {venue_idb51d8, setvenue_idb51d8}= useContext(TotalContext) as TotalContextProps;
   const {view_btnbd9a5, setview_btnbd9a5}= useContext(TotalContext) as TotalContextProps;
   const {edit_btn10d01, setedit_btn10d01}= useContext(TotalContext) as TotalContextProps;
   const {view_btn_pg_graph1baad, setview_btn_pg_graph1baad}= useContext(TotalContext) as TotalContextProps;
   const {bt_approveec5db, setbt_approveec5db}= useContext(TotalContext) as TotalContextProps;
+  const {sla_wait_start_time52ae8, setsla_wait_start_time52ae8}= useContext(TotalContext) as TotalContextProps;
   //////////////
   const [ruleData,setRuleData]=useState<any>([])
   const [open, setOpen] = React.useState(false);
@@ -189,24 +183,34 @@ const Groupamr_queue_table = ({lockedData={},setLockedData,primaryTableData={},t
   }
     
   /////////////
-    if(orchestrationData?.data?.readableControls.includes("account_id")){
-        setaccount_id9a546((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("case_id")){
+        setcase_idea43b((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(account_id9a546?.isDisabled==null)
+      if(case_idea43b?.isDisabled==null)
       {
-        setaccount_id9a546((pre:any)=>({...pre,isDisabled:false}));
+        setcase_idea43b((pre:any)=>({...pre,isDisabled:false}));
       }
     }
-    if(orchestrationData?.data?.readableControls.includes("case_id")){
-        setcase_id734ed((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("venue_id")){
+        setvenue_id37c04((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(case_id734ed?.isDisabled==null)
+      if(venue_id37c04?.isDisabled==null)
       {
-        setcase_id734ed((pre:any)=>({...pre,isDisabled:false}));
+        setvenue_id37c04((pre:any)=>({...pre,isDisabled:false}));
+      }
+    }
+    if(orchestrationData?.data?.readableControls.includes("account_id")){
+        setaccount_id4eec9((pre:any)=>({...pre,isDisabled:true}));
+
+    }else
+    {
+      if(account_id4eec9?.isDisabled==null)
+      {
+        setaccount_id4eec9((pre:any)=>({...pre,isDisabled:false}));
       }
     }
     if(orchestrationData?.data?.readableControls.includes("debtor_name")){
@@ -219,24 +223,14 @@ const Groupamr_queue_table = ({lockedData={},setLockedData,primaryTableData={},t
         setdebtor_nameb1ea9((pre:any)=>({...pre,isDisabled:false}));
       }
     }
-    if(orchestrationData?.data?.readableControls.includes("creditor_name")){
-        setcreditor_namee48d1((pre:any)=>({...pre,isDisabled:true}));
+    if(orchestrationData?.data?.readableControls.includes("court_name")){
+        setcourt_name5ae4f((pre:any)=>({...pre,isDisabled:true}));
 
     }else
     {
-      if(creditor_namee48d1?.isDisabled==null)
+      if(court_name5ae4f?.isDisabled==null)
       {
-        setcreditor_namee48d1((pre:any)=>({...pre,isDisabled:false}));
-      }
-    }
-    if(orchestrationData?.data?.readableControls.includes("full_name")){
-        setfull_name7a369((pre:any)=>({...pre,isDisabled:true}));
-
-    }else
-    {
-      if(full_name7a369?.isDisabled==null)
-      {
-        setfull_name7a369((pre:any)=>({...pre,isDisabled:false}));
+        setcourt_name5ae4f((pre:any)=>({...pre,isDisabled:false}));
       }
     }
     if(orchestrationData?.data?.readableControls.includes("total_balance")){
@@ -247,16 +241,6 @@ const Groupamr_queue_table = ({lockedData={},setLockedData,primaryTableData={},t
       if(total_balance6a331?.isDisabled==null)
       {
         settotal_balance6a331((pre:any)=>({...pre,isDisabled:false}));
-      }
-    }
-    if(orchestrationData?.data?.readableControls.includes("court_name")){
-        setcourt_name5ae4f((pre:any)=>({...pre,isDisabled:true}));
-
-    }else
-    {
-      if(court_name5ae4f?.isDisabled==null)
-      {
-        setcourt_name5ae4f((pre:any)=>({...pre,isDisabled:false}));
       }
     }
     if(orchestrationData?.data?.readableControls.includes("priority_name")){
@@ -277,26 +261,6 @@ const Groupamr_queue_table = ({lockedData={},setLockedData,primaryTableData={},t
       if(status_name86d6c?.isDisabled==null)
       {
         setstatus_name86d6c((pre:any)=>({...pre,isDisabled:false}));
-      }
-    }
-    if(orchestrationData?.data?.readableControls.includes("trs_created_date")){
-        settrs_created_date92fe2((pre:any)=>({...pre,isDisabled:true}));
-
-    }else
-    {
-      if(trs_created_date92fe2?.isDisabled==null)
-      {
-        settrs_created_date92fe2((pre:any)=>({...pre,isDisabled:false}));
-      }
-    }
-    if(orchestrationData?.data?.readableControls.includes("venue_id")){
-        setvenue_idb51d8((pre:any)=>({...pre,isDisabled:true}));
-
-    }else
-    {
-      if(venue_idb51d8?.isDisabled==null)
-      {
-        setvenue_idb51d8((pre:any)=>({...pre,isDisabled:false}));
       }
     }
     if(orchestrationData?.data?.readableControls.includes("view_btn")){
@@ -339,6 +303,16 @@ const Groupamr_queue_table = ({lockedData={},setLockedData,primaryTableData={},t
         setbt_approveec5db((pre:any)=>({...pre,isDisabled:false}));
       }
     }
+    if(orchestrationData?.data?.readableControls.includes("sla_wait_start_time")){
+        setsla_wait_start_time52ae8((pre:any)=>({...pre,isDisabled:true}));
+
+    }else
+    {
+      if(sla_wait_start_time52ae8?.isDisabled==null)
+      {
+        setsla_wait_start_time52ae8((pre:any)=>({...pre,isDisabled:false}));
+      }
+    }
   //////////////
   }
 
@@ -369,28 +343,22 @@ const Groupamr_queue_table = ({lockedData={},setLockedData,primaryTableData={},t
         codeStates['setamr_queue_table'] = setamr_queue_table09598,
         codeStates['amr_queue_table09598'] = amr_queue_table09598Props,
         codeStates['setamr_queue_table09598'] = setamr_queue_table09598Props,
-        codeStates['account_id'] = account_id9a546,
-        codeStates['setaccount_id'] = setaccount_id9a546,
-        codeStates['case_id'] = case_id734ed,
-        codeStates['setcase_id'] = setcase_id734ed,
+        codeStates['case_id'] = case_idea43b,
+        codeStates['setcase_id'] = setcase_idea43b,
+        codeStates['venue_id'] = venue_id37c04,
+        codeStates['setvenue_id'] = setvenue_id37c04,
+        codeStates['account_id'] = account_id4eec9,
+        codeStates['setaccount_id'] = setaccount_id4eec9,
         codeStates['debtor_name'] = debtor_nameb1ea9,
         codeStates['setdebtor_name'] = setdebtor_nameb1ea9,
-        codeStates['creditor_name'] = creditor_namee48d1,
-        codeStates['setcreditor_name'] = setcreditor_namee48d1,
-        codeStates['full_name'] = full_name7a369,
-        codeStates['setfull_name'] = setfull_name7a369,
-        codeStates['total_balance'] = total_balance6a331,
-        codeStates['settotal_balance'] = settotal_balance6a331,
         codeStates['court_name'] = court_name5ae4f,
         codeStates['setcourt_name'] = setcourt_name5ae4f,
+        codeStates['total_balance'] = total_balance6a331,
+        codeStates['settotal_balance'] = settotal_balance6a331,
         codeStates['priority_name'] = priority_name6740a,
         codeStates['setpriority_name'] = setpriority_name6740a,
         codeStates['status_name'] = status_name86d6c,
         codeStates['setstatus_name'] = setstatus_name86d6c,
-        codeStates['trs_created_date'] = trs_created_date92fe2,
-        codeStates['settrs_created_date'] = settrs_created_date92fe2,
-        codeStates['venue_id'] = venue_idb51d8,
-        codeStates['setvenue_id'] = setvenue_idb51d8,
         codeStates['view_btn'] = view_btnbd9a5,
         codeStates['setview_btn'] = setview_btnbd9a5,
         codeStates['edit_btn'] = edit_btn10d01,
@@ -399,6 +367,8 @@ const Groupamr_queue_table = ({lockedData={},setLockedData,primaryTableData={},t
         codeStates['setview_btn_pg_graph'] = setview_btn_pg_graph1baad,
         codeStates['bt_approve'] = bt_approveec5db,
         codeStates['setbt_approve'] = setbt_approveec5db,
+        codeStates['sla_wait_start_time'] = sla_wait_start_time52ae8,
+        codeStates['setsla_wait_start_time'] = setsla_wait_start_time52ae8,
       customCode = codeExecution(allCode,codeStates);
       return customCode;
     }
@@ -434,7 +404,7 @@ const Groupamr_queue_table = ({lockedData={},setLockedData,primaryTableData={},t
     <div 
       style={{          
         gridColumn: '1 / 25',
-        gridRow: '9 / 153',
+        gridRow: '15 / 159',
       
         //rowGap: '0px',
         overflow: 'visible',

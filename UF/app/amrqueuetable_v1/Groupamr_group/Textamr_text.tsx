@@ -27,6 +27,7 @@ const Textamr_text = ({encryptionFlagCompData,isDynamic,item,index,setIsProcessi
   const {amr_group17ac4, setamr_group17ac4}= useContext(TotalContext) as TotalContextProps;
   const {amr_group17ac4Props, setamr_group17ac4Props}= useContext(TotalContext) as TotalContextProps;
   const {amr_textcc6d3, setamr_textcc6d3}= useContext(TotalContext) as TotalContextProps;
+  const {amrs_text43bc9, setamrs_text43bc9}= useContext(TotalContext) as TotalContextProps;
   const {amr_queue_table09598, setamr_queue_table09598}= useContext(TotalContext) as TotalContextProps;
   const {amr_queue_table09598Props, setamr_queue_table09598Props}= useContext(TotalContext) as TotalContextProps;
   const {amr_textcc6d3Props, setamr_textcc6d3Props} = useContext(TotalContext) as TotalContextProps;

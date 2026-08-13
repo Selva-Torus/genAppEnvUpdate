@@ -367,7 +367,7 @@ export class amr_review_sessionsController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.amr_review_sessionsService.updateMaster(+review_id,updateamr_review_sessionsDto,makerInfo,token);
+      const result = await this.amr_review_sessionsService.updateMaster(+review_id,updateamr_review_sessionsDto,makerInfo,token,req.authContext);
       return result;
     }
 
@@ -450,7 +450,7 @@ export class amr_review_sessionsController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.amr_review_sessionsService.deleteMaster(+review_id,makerInfo,token);
+      const result = await this.amr_review_sessionsService.deleteMaster(+review_id,makerInfo,token,req.authContext);
       return result;
     }
 

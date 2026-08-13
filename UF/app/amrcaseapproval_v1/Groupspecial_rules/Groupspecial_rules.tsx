@@ -446,7 +446,7 @@ return (
   return (
     <div key={idx}
       style={{          
-        gridRow: 'span 23', 
+        gridRow: 'span 22', 
         gridColumn: 'span 24',  
       
         //rowGap: '0px',
@@ -469,7 +469,7 @@ return (
         backgroundClip: '',
         backgroundBlendMode: ''
       }}
-      className={`flex flex-col rounded-md !overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-lg hover:scale-[1.02] hover:bg-[var(--hover-color)] !p-2 ${isDark ? 'text-white' : 'text-black'} ${selectedIdx === idx ? 'shadow-lg scale-[1.02] bg-[var(--hover-color)] outline outline-2 outline-blue-500' : ''}`}
+      className={`flex flex-col rounded-md !overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-lg hover:scale-[1.02] hover:bg-[var(--hover-color)] !rounded-2xl !border border-[#D6C9AD] ${isDark ? 'text-white' : 'text-black'} ${selectedIdx === idx ? 'shadow-lg scale-[1.02] bg-[var(--hover-color)] outline outline-2 outline-blue-500' : ''}`}
       onClick={(e:any)=>{
         e.stopPropagation();
         handleOnClick(item, idx);

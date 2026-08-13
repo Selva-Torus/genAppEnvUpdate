@@ -21,7 +21,7 @@ import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
 import * as mammoth from 'mammoth'
 import * as XLSX from "@e965/xlsx";
-import Image from "next/image";
+import Image from 'next/image'
 import DOMPurify from 'dompurify'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
@@ -67,7 +67,8 @@ const isWordUrl = (url?: string) => !!url && /\.docx?$/i.test(url)
 const isExcelType = (type?: string) =>
   !!type &&
   (type === 'application/vnd.ms-excel' ||
-    type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    type ===
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 const isExcelUrl = (url?: string) => !!url && /\.xlsx?$/i.test(url)
 
 /* ---------- component ---------- */
@@ -184,9 +185,12 @@ const DocViewer: React.FC<DocViewerProps> = ({
   const resetZoomAndPosition = useCallback(() => {
     setZoom(1)
     setPosition({ x: 0, y: 0 })
-    setPdfPageNumber(1)
-    setNumPages(0)
   }, [])
+
+  useEffect(() => {
+    setNumPages(0)
+    setPdfPageNumber(1)
+  }, [currentUrl])
 
   const navigate = (newIndex: number) => {
     if (onUrlIndexChange !== undefined && currentUrlIndex !== undefined) {
@@ -312,7 +316,7 @@ const DocViewer: React.FC<DocViewerProps> = ({
   const navBtnBase =
     'flex h-8 w-8 md:h-9 md:w-9 lg:h-10 lg:w-10 items-center justify-center rounded bg-gray-200 text-slate-900 hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50'
 
-    const positionClass =
+  const positionClass =
     toolbarAlignment === 'start'
       ? 'justify-start'
       : toolbarAlignment === 'center'
@@ -321,43 +325,43 @@ const DocViewer: React.FC<DocViewerProps> = ({
 
   /* ---------- controls block (reused for all directions) ---------- */
   // For left/right: stacks vertically. For top/bottom: stays horizontal.
-const zoomControls = (
-  <div
-    className={`flex items-center rounded-lg border bg-white p-2 dark:border-gray-600 dark:bg-gray-800 ${
-      isVertical ? 'flex-col gap-3' : 'flex-row gap-3'
-    }`}
-  >
-    <button
-      onClick={handleZoomIn}
-      disabled={zoom >= MAX_ZOOM}
-      className={navBtnBase}
-      title='Zoom in'
+  const zoomControls = (
+    <div
+      className={`flex items-center rounded-lg border bg-white p-2 dark:border-gray-600 dark:bg-gray-800 ${
+        isVertical ? 'flex-col gap-3' : 'flex-row gap-3'
+      }`}
     >
-      <IoMdAdd className='h-5 w-5 md:h-6 md:w-6' />
-    </button>
+      <button
+        onClick={handleZoomIn}
+        disabled={zoom >= MAX_ZOOM}
+        className={navBtnBase}
+        title='Zoom in'
+      >
+        <IoMdAdd className='h-5 w-5 md:h-6 md:w-6' />
+      </button>
 
-    <span className='flex h-8 min-w-[55px] md:h-9 md:min-w-[65px] items-center justify-center rounded border bg-gray-200 px-2 text-xs md:text-sm font-medium text-slate-900'>
-      {Math.round(zoom * 100)}%
-    </span>
+      <span className='flex h-8 min-w-[55px] items-center justify-center rounded border bg-gray-200 px-2 text-xs font-medium text-slate-900 md:h-9 md:min-w-[65px] md:text-sm'>
+        {Math.round(zoom * 100)}%
+      </span>
 
-    <button
-      onClick={handleZoomOut}
-      disabled={zoom <= MIN_ZOOM}
-      className={navBtnBase}
-      title='Zoom out'
-    >
-      <IoMdRemove className='h-5 w-5 md:h-6 md:w-6' />
-    </button>
+      <button
+        onClick={handleZoomOut}
+        disabled={zoom <= MIN_ZOOM}
+        className={navBtnBase}
+        title='Zoom out'
+      >
+        <IoMdRemove className='h-5 w-5 md:h-6 md:w-6' />
+      </button>
 
-    <button
-      onClick={handleResetZoom}
-      className={navBtnBase}
-      title='Reset zoom'
-    >
-      <LuRefreshCcw className='h-4 w-4 md:h-5 md:w-5' />
-    </button>
-  </div>
-)
+      <button
+        onClick={handleResetZoom}
+        className={navBtnBase}
+        title='Reset zoom'
+      >
+        <LuRefreshCcw className='h-4 w-4 md:h-5 md:w-5' />
+      </button>
+    </div>
+  )
 
   const fileNavControls = files.length > 1 && (
     <div
@@ -548,27 +552,26 @@ const zoomControls = (
           }}
           {...panHandlers}
         >
-          <div
-            className='flex min-h-0 flex-1 items-center justify-center overflow-hidden'
-            style={transformStyle}
-          >
-            <Document
-              file={currentUrl}
-              onLoadSuccess={({ numPages: n }) => setNumPages(n)}
-              loading={<p className='text-sm text-gray-500'>Loading PDF…</p>}
-              error={
-                <p className='text-sm text-red-500'>Failed to load PDF.</p>
-              }
-            >
-              <Page
-                pageNumber={pdfPageNumber}
-                renderTextLayer
-                renderAnnotationLayer
-              />
-            </Document>
+          <div className='flex min-h-0 flex-1 items-start justify-center overflow-auto'>
+            <div style={transformStyle}>
+              <Document
+                file={currentUrl}
+                onLoadSuccess={({ numPages: n }) => setNumPages(n)}
+                loading={<p className='text-sm text-gray-500'>Loading PDF…</p>}
+                error={
+                  <p className='text-sm text-red-500'>Failed to load PDF.</p>
+                }
+              >
+                <Page
+                  pageNumber={pdfPageNumber}
+                  renderTextLayer
+                  renderAnnotationLayer
+                />
+              </Document>
+            </div>
           </div>
           {numPages > 1 && (
-            <div className='flex items-center justify-center gap-2 py-1'>
+            <div className='flex shrink-0 items-center justify-center gap-2 py-1'>
               <button
                 onClick={() => setPdfPageNumber(1)}
                 disabled={pdfPageNumber <= 1}
@@ -641,7 +644,7 @@ const zoomControls = (
   }
 
   const fileNameBar = files.length > 0 && (
-    <div className='flex shrink-0 items-center rounded-lg bg-[#f4f5fa] dark:bg-gray-900 px-3 py-2 shadow'>
+    <div className='flex shrink-0 items-center rounded-lg bg-[#f4f5fa] px-3 py-2 shadow dark:bg-gray-900'>
       <span className='min-w-0 flex-1 truncate font-medium text-slate-900'>
         {currentFileName}
       </span>
@@ -655,7 +658,7 @@ const zoomControls = (
     >
       {/* ── TOP ── filename + controls inline on same row */}
       {toolbarPosition === 'top' && files.length > 0 && (
-        <div className='flex shrink-0 items-center gap-2 rounded-lg bg-[#f4f5fa] dark:bg-gray-900 px-3 py-2 shadow'>
+        <div className='flex shrink-0 items-center gap-2 rounded-lg bg-[#f4f5fa] px-3 py-2 shadow dark:bg-gray-900'>
           <span className='min-w-0 flex-1  truncate font-medium text-slate-900'>
             {currentFileName}
           </span>
@@ -668,7 +671,7 @@ const zoomControls = (
 
       {/* ── BOTTOM ── filename at top */}
       {toolbarPosition === 'bottom' && files.length > 0 && (
-        <div className='flex shrink-0 items-center rounded-lg bg-[#f4f5fa] dark:bg-gray-900 px-3 py-2 shadow'>
+        <div className='flex shrink-0 items-center rounded-lg bg-[#f4f5fa] px-3 py-2 shadow dark:bg-gray-900'>
           <span className='min-w-0 flex-1 truncate  font-medium text-slate-900'>
             {currentFileName}
           </span>
@@ -709,7 +712,7 @@ const zoomControls = (
           {/* filename + content stacked together */}
           <div className='flex min-h-0 flex-1 flex-col overflow-hidden'>
             {files.length > 0 && (
-              <div className='shrink-0 rounded-lg bg-[#f4f5fa] dark:bg-gray-900 px-3 py-2 shadow'>
+              <div className='shrink-0 rounded-lg bg-[#f4f5fa] px-3 py-2 shadow dark:bg-gray-900'>
                 <span className='block min-w-0 truncate font-medium text-slate-900'>
                   {currentFileName}
                 </span>

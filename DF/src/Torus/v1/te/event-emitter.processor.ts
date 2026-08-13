@@ -24,8 +24,15 @@ export class EventEmitterProcessor implements OnModuleInit {
 
     const workerOptions: WorkerOptions = {
       connection: {
-        host: process.env.HOST,
-        port: parseInt(process.env.PORT),
+        sentinels: [
+        {
+          host: process.env.REDIS_SENTINEL_HOST,
+          port: Number(process.env.REDIS_SENTINEL_PORT),
+        },      
+      ],    
+       name: process.env.REDIS_MASTER_NAME,
+      username: process.env.REDIS_USERNAME,
+      password: process.env.REDIS_PASSWORD, 
         maxRetriesPerRequest: 3,
       },
       concurrency: 20, //50,

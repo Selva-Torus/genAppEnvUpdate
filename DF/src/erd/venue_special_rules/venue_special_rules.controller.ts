@@ -351,7 +351,7 @@ export class venue_special_rulesController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.venue_special_rulesService.updateMaster(+rule_id,updatevenue_special_rulesDto,makerInfo,token);
+      const result = await this.venue_special_rulesService.updateMaster(+rule_id,updatevenue_special_rulesDto,makerInfo,token,req.authContext);
       return result;
     }
 
@@ -430,7 +430,7 @@ export class venue_special_rulesController {
       }
 
       const makerInfo = { role: mcRole, username: mcIdentity, remarks: mcRemarks,approvalStatus: mcApprovalStatus,detokenize: detokenize };
-      const result = await this.venue_special_rulesService.deleteMaster(+rule_id,makerInfo,token);
+      const result = await this.venue_special_rulesService.deleteMaster(+rule_id,makerInfo,token,req.authContext);
       return result;
     }
 

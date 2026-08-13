@@ -21,10 +21,10 @@ export default function PageAmrqueuetableV1({ onReady }: { onReady?: () => void 
   const [initialLoad, setInitialLoad] = useState<boolean>(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const securityData : SecurityData = {
-  "Branch Manager": {
+  "Junior Attorney": {
     "blockedGroups": []
   },
-  "Branch Officer": {
+  "Senior Attorney": {
     "blockedGroups": []
   }
 };
@@ -48,40 +48,34 @@ export default function PageAmrqueuetableV1({ onReady }: { onReady?: () => void 
   "amr_group": {
     "amr_text": {
       "show": false
+    },
+    "amrs_text": {
+      "show": false
     }
   },
   "amr_queue_table": {
-    "account_id": {
+    "case_id": {
       "show": false
     },
-    "case_id": {
+    "venue_id": {
+      "show": false
+    },
+    "account_id": {
       "show": false
     },
     "debtor_name": {
       "show": false
     },
-    "creditor_name": {
-      "show": false
-    },
-    "full_name": {
+    "court_name": {
       "show": false
     },
     "total_balance": {
-      "show": false
-    },
-    "court_name": {
       "show": false
     },
     "priority_name": {
       "show": false
     },
     "status_name": {
-      "show": false
-    },
-    "trs_created_date": {
-      "show": false
-    },
-    "venue_id": {
       "show": false
     },
     "view_btn": {
@@ -94,6 +88,9 @@ export default function PageAmrqueuetableV1({ onReady }: { onReady?: () => void 
       "show": false
     },
     "bt_approve": {
+      "show": false
+    },
+    "sla_wait_start_time": {
       "show": false
     }
   }
@@ -250,6 +247,14 @@ export default function PageAmrqueuetableV1({ onReady }: { onReady?: () => void 
     setamrqueuetable_v1({...result,_artfactPFRule_:rule})
   }
 
+  
+  const logout = () => {
+    localStorage.clear();
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+    const from = encodeURIComponent(`${basePath}/`);
+    window.location.href = `${basePath}/next-api/auth/logout?from=${from}`;
+  };
+
   async function securityCheck(): Promise<void> {
     const { fetchBatchData } = await import("../utils/Orchestration");
     const introspectParams = encryptionFlagPage
@@ -266,19 +271,13 @@ export default function PageAmrqueuetableV1({ onReady }: { onReady?: () => void 
     // instead of one after another. Each call is caught locally so one
     // failure doesn't swallow the other two responses (Promise.all rejects
     // on the first rejection otherwise).
-    const [data, introspect, myAccountRes]: [any, any, any] = await Promise.all([
+    const [data, myAccountRes]: [any, any] = await Promise.all([
       fetchBatchData(
         'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1',
         [user],
         'pageAmrqueuetableV1',
         token
       ),
-      token
-        ? AxiosService.get("/UF/introspect", {
-            headers: { Authorization: `Bearer ${token}` },
-            params: introspectParams
-          }).catch((err: any) => ({ __error: err }))
-        : Promise.resolve(null),
       token
         ? AxiosService.get("/UF/myAccount-for-client", {
             headers: { Authorization: `Bearer ${token}` },
@@ -301,16 +300,14 @@ export default function PageAmrqueuetableV1({ onReady }: { onReady?: () => void 
       await handleArtfactRule(orchestrationData?.artfactPFRule,{...decodedTokenObj},allRuleData)  
     }
     if (token) {
-      if (introspect?.__error) {
-        toast("The token is no longer active.", 'danger');
-        localStorage.clear();
-        deleteAllCookies();
-        window.location.href = '/ct006/lap/lap/v1';
-        } else if (introspect?.data?.authenticated === false) {
-        localStorage.clear();
-        deleteAllCookies();
-        window.location.href = '/ct006/lap/lap/v1';
+      const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+      const res = await fetch(`${basePath}/next-api/auth/introspect?key=CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:AMRQueueTable:AFVK:v1`)
+      if (!res.ok) {
+        logout()
+        return
       }
+      routes.refresh()
+
       try {
         if (myAccountRes?.__error) throw myAccountRes.__error;
         if( user != "" && user != null){

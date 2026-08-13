@@ -4234,10 +4234,11 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-  async getAccessTemplate(token: string , calledInternally: boolean = false) {
+   async getAccessTemplate(token: string , calledInternally: boolean = false, tenantOverride?: string) {
     try {
       const accountDetails = await this.MyAccountForClient(token, 's', true);
       const { accessProfile } = accountDetails;
+      const effectiveTenant = tenantOverride || tenant;
       const accessProfileList = await this.query(`select 
         opr_ap_id ,
         access_profile as "accessProfile" ,
@@ -4251,7 +4252,7 @@ getConfig(): FusionAuthConfig {
         ${schemaName}.tam_opr_access_profile 
         where 
         tenant_code=$1 and ag_code=$2 and app_code=$3 and trs_tenant_id=$1`
-          , [tenant , ag , app])
+          , [effectiveTenant , ag , app])
       if (
         accessProfileList && 
         Array.isArray(accessProfileList) && 
@@ -4281,6 +4282,40 @@ getConfig(): FusionAuthConfig {
         },
       );
       throw new BadGatewayException(error);
+    }
+  }
+
+  // Maker-checker entitlement check (R2 remediation): the ERD services'
+  // approve/reject branches previously trusted the client-supplied
+  // xCdcaRole header on its own. This resolves the caller's own
+  // access-profile templates (by verified token, not by header) and checks
+  // for a capability key of the form "<module>:AUTHORIZE" in
+  // tam_opr_access_profile.assigned_keys. Fails closed: any lookup error,
+  // missing template, or unrecognized assignedKeys shape returns false.
+  async hasCapability(token: string, capabilityKey: string, tenantOverride?: string): Promise<boolean> {
+    try {
+      const templates: any[] = await this.getAccessTemplate(token, true, tenantOverride);
+      if (!Array.isArray(templates)) return false;
+      return templates.some((template: any) => {
+        const raw = template?.assignedKeys;
+        if (!raw) return false;
+        let keys: any[];
+        if (Array.isArray(raw)) {
+          keys = raw;
+        } else if (typeof raw === 'string') {
+          try {
+            const parsed = JSON.parse(raw);
+            keys = Array.isArray(parsed) ? parsed : raw.split(',');
+          } catch {
+            keys = raw.split(',');
+          }
+        } else {
+          return false;
+        }
+        return keys.some((k: any) => typeof k === 'string' && k.trim() === capabilityKey);
+      });
+    } catch {
+      return false;
     }
   }
 
@@ -5486,11 +5521,9 @@ getConfig(): FusionAuthConfig {
         if (!str) return str; // If the string is empty or null, return it as is.
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
       };
-      // const otp = Math.floor(100000 + Math.random() * 900000);
       const otp = randomInt(100000, 1000000);
-  
       var otpJson = { email, otp }
-
+     
       await this.redisService.setJsonData(
         otpCacheKey,
         JSON.stringify(otpJson),
@@ -5549,17 +5582,8 @@ getConfig(): FusionAuthConfig {
       if (!otpJsonFromRedis) throw new NotFoundException('otp not found');
       const otpJson = JSON.parse(otpJsonFromRedis);
       const isCorrectOtp = otpJson.email.toLowerCase() === email.toLowerCase() && String(otpJson.otp) === String(otp);
-      // const existingIndex = otpJson.findIndex(
-      //   (ele) => ele.email == email && ele.otp == otp,
-      // );
       if (!isCorrectOtp) throw new NotFoundException('invalid otp');
-      // otpJson.splice(existingIndex, 1);
       await this.redisService.deleteKey(otpCacheKey, process.env.CLIENTCODE);
-      // await this.redisService.setJsonData(
-      //   otpCacheKey,
-      //   JSON.stringify(otpJson),
-      //   process.env.CLIENTCODE,
-      // );
       
       // Issue a short-lived, single-use reset token bound to this email and
       // hand it back instead of a bare `true`. resetPassword() below now
@@ -5613,7 +5637,7 @@ getConfig(): FusionAuthConfig {
       }
       // Burn the token immediately so it can't be replayed, even if
       // something below this point fails.
-      await this.redisService.deleteKey(resetTokenKey, process.env.CLIENTCODE);
+      await this.redisService.del(resetTokenKey);
       const storedToken = JSON.parse(storedTokenRaw);
       if (String(storedToken.email).toLowerCase() !== String(email).toLowerCase()) {
         throw new UnauthorizedException('Reset token does not match this email');
@@ -7988,9 +8012,9 @@ getConfig(): FusionAuthConfig {
         },
       );
       await this.throwCustomException(error);
-    }
-  }
-
+      }
+}
+  
   async getAppTenantsLinkedWithApp() {
     try {
       const result = await this.query(`select

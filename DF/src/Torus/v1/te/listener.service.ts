@@ -310,7 +310,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                 pfdto['nodeId'] = ponode[1].nodeId
                 pfdto['nodeName'] = ponode[1].nodeName
                 pfdto['nodeType'] = ponode[1].nodeType
-                this.logger.log(`Running dynamic job with data: ${JSON.stringify(pfdto)}`);
+                 this.logger.log(`Running dynamic job with data: ${JSON.stringify(this.CommonService.redactSensitiveFields(pfdto))}`);
                 // await this.redisService.setJsonData(processedKey + upId + ':NPV:' + ponode[1].nodeName + '.PRO', JSON.stringify(pfResponseData[p]), client, 'response',);
               
                 // cronResponse = await this.EventEmitter(pfdto);
@@ -541,8 +541,15 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
         // Create new queue dynamically
         const queueOptions: QueueOptions = {
             connection: {
-                host: process.env.HOST,
-                port: parseInt(process.env.PORT),
+                sentinels: [
+                  {
+                    host: process.env.REDIS_SENTINEL_HOST,
+                    port: Number(process.env.REDIS_SENTINEL_PORT),
+                  },      
+                ],    
+                name: process.env.REDIS_MASTER_NAME,
+                username: process.env.REDIS_USERNAME,
+                password: process.env.REDIS_PASSWORD, 
             },
             defaultJobOptions: {
                 attempts: 3,
@@ -772,7 +779,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
             }
           } 
 
-          //Stream Node
+           //Stream Node
             if (nodeType == 'streamnode' && poNode[j].nodeId == nodeId) {
               try {
                 this.logger.log('Stream first node Started');
@@ -824,9 +831,11 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                 //}
                 if (customConfig) {
                   let streamhost
-                  let streamport  
+                  let streamport
+                  let streamusername
+                  let streampassword
                   if(!oprname)
-                  throw new CustomException('Operation name not found', 404); 
+                  throw new CustomException('Operation name not found', 404);
                   if(currentFabric == 'PF-SCDL' && !semarc){
                     if (storageType?.toLowerCase() == 'external') {
                     if (!dpdkey) throw new CustomException('DPD key not found', 404);
@@ -838,16 +847,20 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                         if (configConnectors[i].connectorName == conncectorName) {
                           streamhost = configConnectors[i]?.credentials.host;
                           streamport = parseInt(configConnectors[i]?.credentials.port);
+                          streamusername = configConnectors[i]?.credentials.username;
+                          streampassword = configConnectors[i]?.credentials.password;
                         }
                       }
                     }
                     if (!streamhost || !streamport) {
                     throw new CustomException('Invalid stream credentials', 422);
                   }
-                  
+
                   const ext_redis = new Redis({
                     host: streamhost,
                     port: streamport,
+                    username: streamusername,
+                    password: streampassword,
                   });
 
                     if (oprname == 'read') {                  
@@ -2212,16 +2225,16 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                         if (isNumberArray) {
                             value = `ARRAY[${value.join(',')}]`;
                         } else if(isStringArray){
-                            value = `ARRAY[${value.map(v => `'${String(v).replace(/'/g, "''")}'`).join(',')}]`;
+                            value = `ARRAY[${value.map(v => this.CommonService.sqlLiteral(v)).join(',')}]`;
                         }
                     }
                     else if (typeof value === 'object') {
-                        value = `'${JSON.stringify(value)}'`;
+                        value = this.CommonService.sqlLiteral(JSON.stringify(value));
                     }
                     else if (typeof value === 'string') {
-                        value = `'${value.replace(/'/g, "''")}'`;
-                    }                   
-                    replaceQry = replaceQry.replace(regex, value);                                    
+                        value = this.CommonService.sqlLiteral(value);
+                    }
+                    replaceQry = replaceQry.replace(regex, value);
                 }
             }
             return replaceQry
@@ -2229,6 +2242,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
             throw error
         }
     }
+
 
 
    codeAssign(data: any) {

@@ -921,6 +921,80 @@ export class amr_review_sessionsService {
   // - MAKER role: Calls request_change() to submit changes for approval
   // - CHECKER role: Calls approve_change() to approve pending requests
   // =====================================================
+   // Q15 closure attempt (pilot, creditors only) — ⚠ UNVERIFIED AGAINST YOUR
+  // REAL SCHEMA, READ THIS BEFORE TRUSTING IT ⚠
+  //
+  // The gap: createMaster's AUTHORIZER branch approves/rejects a pending
+  // INSERT by approval_id alone, with nothing checking that the pending
+  // change was staged under the caller's own tenant. That staged change
+  // lives in the `tam` schema's maker-checker staging table — which has
+  // NO Prisma model, NO migration, and NO schema definition anywhere in
+  // this repository. It is not visible to this codebase.
+  //
+  // The three constants below are a best-effort GUESS, not a confirmed
+  // fact. The only real tam.* table name visible anywhere in this repo is
+  // `tam.tam_transaction_locks` (used by uf.service.ts's lock/unlock), so
+  // TAM_STAGING_TABLE follows that same `tam_<noun>` naming convention —
+  // that is the entire basis for the guess. TAM_APPROVAL_ID_COLUMN and
+  // TAM_CHANGES_COLUMN are guessed from the parameter names
+  // tam.request_change() itself uses (p_changes, and the approval_id it
+  // returns). None of this has been run against a real database — there
+  // is no reachable Postgres instance or schema file in this environment
+  // to verify it against.
+  //
+  // Deliberately fails CLOSED, not open: if the lookup errors (near-certain
+  // on first deploy until someone confirms/corrects these three constants
+  // against the real tam schema) or the caller has no tenant claim or the
+  // staged tenant doesn't match, this throws and blocks the approve/reject
+  // — it does not fall through and silently allow the action. That means
+  // this WILL break creditors' approve/reject flow in your environment
+  // until the constants below are corrected. That is intentional: a
+  // security check that fails open when misconfigured is worse than no
+  // check at all, and this cannot be validated from inside this repo.
+  //
+  // To finish this: confirm the real table/column names (e.g. `\dt tam.*`
+  // and `\d tam.<table>` in psql, or ask whoever owns that schema) and
+  // update the three constants — no other code changes needed.
+  private readonly TAM_STAGING_TABLE = 'tam_change_requests'; // ⚠ UNCONFIRMED GUESS
+  private readonly TAM_APPROVAL_ID_COLUMN = 'approval_id'; // ⚠ UNCONFIRMED GUESS
+  private readonly TAM_CHANGES_COLUMN = 'changes'; // ⚠ UNCONFIRMED GUESS — expected JSONB containing trs_tenant_id
+
+  private async verifyPendingChangeTenant(approvalId: number, callerTenant: string | undefined, token: string): Promise<void> {
+    if (!callerTenant) {
+      throw new ForbiddenException('Cannot verify tenant ownership of this approval without a verified tenant claim');
+    }
+    let rows: any[];
+    try {
+      // The three identifiers are spliced as plain JS string interpolation
+      // (not a Prisma tagged template) because you can't bind-parameterize
+      // a table/column name — safe here only because they are hardcoded
+      // class constants above, never derived from request input.
+      // approvalId is passed separately as a real bound parameter ($1),
+      // via $queryRawUnsafe(sql, ...values) — standard Prisma Client API.
+      const sql = `SELECT ${this.TAM_CHANGES_COLUMN}->>'trs_tenant_id' AS staged_tenant
+                   FROM tam.${this.TAM_STAGING_TABLE}
+                   WHERE ${this.TAM_APPROVAL_ID_COLUMN} = $1`;
+      rows = await this.cdcPrismaService.withConnection(() =>
+        (this.cdcPrismaService as any).$queryRawUnsafe(sql, approvalId),
+      );
+    } catch (lookupError: any) {
+      await this.commonService.errorLog(
+        'Technical', 'AK', 'Fatal', 'TG032',
+        `Q15 staged-tenant lookup failed for approval_id=${approvalId} — TAM_STAGING_TABLE/TAM_APPROVAL_ID_COLUMN/TAM_CHANGES_COLUMN in creditors.service.ts do not match the real tam schema and need correcting. Underlying error: ${lookupError?.message ?? lookupError}`,
+        '"CK:CT006:FNGK:AF:FNK:API-ERD:CATK:LAP:AFGK:LAP:AFK:lapERD:AFVK:v1",',
+        token,
+      );
+      throw new HttpException(
+        'Unable to verify tenant ownership of this approval (staging-table lookup is misconfigured) — denying by default; see server logs (TG032) to fix the lookup.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+    const stagedTenant = rows?.[0]?.staged_tenant;
+    if (!stagedTenant || stagedTenant !== callerTenant) {
+      throw new ForbiddenException('This approval was staged under a different tenant');
+    }
+  }
+
 
   /**
    * Create a new customer record through maker-checker approval flow.
@@ -952,12 +1026,38 @@ export class amr_review_sessionsService {
       // CHECKER ROLE: Approve pending INSERT request
       // =====================================================
       if (workflowRole === 'AUTHORIZER') {
+        // R2 remediation: xCdcaRole is a client-declared workflow request,
+        // not a credential — verify the caller's own verified identity is
+        // actually entitled to authorize changes for this module before
+        // honoring it.
+         //
+        // Q15 remediation (pilot): getAccessTemplate previously resolved
+        // "is this caller entitled to creditors:AUTHORIZE at all" against
+        // the deployment-global process.env.TENANT, not the caller's own
+        // verified tenant claim — so entitlement itself wasn't tenant-scoped.
+        // Passing authContext.tenant here narrows that: the caller must
+        // hold the AUTHORIZE capability within their *own* tenant's
+        // access-profile assignment, not merely within the deployment at
+        // large.
+        //
+        // IMPORTANT — entitlement alone still isn't tenant-specific to the
+        // *target* approval_id. verifyPendingChangeTenant() below is a
+        // best-effort attempt to close that: see its own comment block for
+        // why it's UNVERIFIED against the real tam schema, and why it fails
+        // closed rather than silently allowing the action if it can't
+        // confirm the match.
+        if (!(await this.ufservice.hasCapability(token, 'amr_review_sessions:AUTHORIZE', authContext?.tenant))) {
+          throw new ForbiddenException('Caller is not entitled to authorize changes for amr_review_sessions');
+        }
         const approvalId = userInfo.approvalId;
 
         if (!approvalId) {
           throw new HttpException('approval_id is required for CHECKER role', HttpStatus.BAD_REQUEST);
         }
-
+        // Q15 closure attempt — see verifyPendingChangeTenant()'s own
+        // comment block above for the full caveat about these guessed
+        // table/column names being unverified against the real database.
+        await this.verifyPendingChangeTenant(+approvalId, authContext?.tenant, token);
         if (approvalStatus === 'APPROVED') {
           // Call approve_change(approval_id, checker_id, checker_remarks)
           
@@ -1371,7 +1471,8 @@ export class amr_review_sessionsService {
 review_id:number,
     updateamr_review_sessionsDto: Prisma.amr_review_sessionsUpdateInput,
     userInfo: { role: string; username: string; remarks?: string,approvalStatus?:string },
-    token:string
+    token:string,
+    authContext?: any,
   ) {
     try {
       const workflowRole = userInfo.role?.toUpperCase();
@@ -1384,6 +1485,27 @@ review_id:number,
 
         if (!updateMaster_id) {
           throw new HttpException('id is required for CHECKER role', HttpStatus.BAD_REQUEST);
+        }
+
+        // R2 remediation: xCdcaRole is a client-declared workflow request,
+        // not a credential — verify entitlement against the caller's own
+        // verified identity before honoring it.
+        if (!(await this.ufservice.hasCapability(token, 'amr_review_sessions:AUTHORIZE', authContext?.tenant))) {
+          throw new ForbiddenException('Caller is not entitled to authorize changes for amr_review_sessions');
+        }
+
+        // Close the tenant-blindness half of R2: the pending change's
+        // target row still exists in its pre-change state until approved,
+        // so its current tenant is checkable here even though the pending
+        // change payload itself isn't.
+        if (authContext?.tenant) {
+          const targetRecord = await this.prismaService.amr_review_sessions.findUnique({
+            where: { review_id: updateMaster_id },
+            select: { trs_tenant_id: true },
+          });
+          if (targetRecord && targetRecord.trs_tenant_id !== authContext.tenant) {
+            throw new ForbiddenException('Record belongs to a different tenant');
+          }
         }
 
         // Call approve_change(approval_id, checker_id, checker_remarks)
@@ -1686,7 +1808,8 @@ review_id:number,
   async deleteMaster(
 review_id:number,
     userInfo: { role: string; username: string; remarks?: string; approvalStatus?:string },
-    token: string
+    token: string,
+    authContext?: any,
   ) {
     try {
       const workflowRole = userInfo.role?.toUpperCase();
@@ -1699,6 +1822,26 @@ review_id:number,
 
         if (!deleteMaster_id) {
           throw new HttpException('id is required for CHECKER role', HttpStatus.BAD_REQUEST);
+        }
+
+        // R2 remediation: xCdcaRole is a client-declared workflow request,
+        // not a credential — verify entitlement against the caller's own
+        // verified identity before honoring it.
+        if (!(await this.ufservice.hasCapability(token, 'amr_review_sessions:AUTHORIZE', authContext?.tenant))) {
+          throw new ForbiddenException('Caller is not entitled to authorize changes for amr_review_sessions');
+        }
+
+        // Close the tenant-blindness half of R2: the pending change's
+        // target row still exists in its pre-change state until approved,
+        // so its current tenant is checkable here.
+        if (authContext?.tenant) {
+          const targetRecord = await this.prismaService.amr_review_sessions.findUnique({
+            where: { review_id: deleteMaster_id },
+            select: { trs_tenant_id: true },
+          });
+          if (targetRecord && targetRecord.trs_tenant_id !== authContext.tenant) {
+            throw new ForbiddenException('Record belongs to a different tenant');
+          }
         }
 
         // Call approve_change(approval_id, checker_id, checker_remarks)

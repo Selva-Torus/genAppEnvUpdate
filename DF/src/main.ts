@@ -152,9 +152,10 @@ async function bootstrap() {
       return;
     }
     try {
-      swaggerJwtService.verifyToken(token);
+      await swaggerJwtService.verifyToken(token);
     } catch (e) {
       reply.code(401).send({ message: 'Invalid or expired token' });
+      return;
     }
   });
 

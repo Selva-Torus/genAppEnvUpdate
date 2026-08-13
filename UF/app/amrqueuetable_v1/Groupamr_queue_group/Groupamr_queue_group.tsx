@@ -58,7 +58,7 @@ const Groupamr_queue_group = ({lockedData={},setLockedData,primaryTableData={},t
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
   const securityData:any={
-  "Branch Manager": {
+  "Junior Attorney": {
     "allowedControls": [
       "back_btn",
       "bt_search",
@@ -73,7 +73,7 @@ const Groupamr_queue_group = ({lockedData={},setLockedData,primaryTableData={},t
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "Branch Officer": {
+  "Senior Attorney": {
     "allowedControls": [
       "back_btn",
       "bt_search",
@@ -299,7 +299,7 @@ const Groupamr_queue_group = ({lockedData={},setLockedData,primaryTableData={},t
     <div 
       style={{          
         gridColumn: '1 / 25',
-        gridRow: '1 / 159',
+        gridRow: '1 / 166',
       
         //rowGap: '0px',
         display: 'grid',

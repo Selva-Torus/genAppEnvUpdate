@@ -31,7 +31,7 @@ import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc';
 import * as timezone from 'dayjs/plugin/timezone';
 import { JwtServices } from "src/jwt.services";
-import { assertAllowedOutboundHost as assertAllowedOutboundHostUtil } from "src/utils/ssrf.util";
+import { assertAllowedOutboundHost } from "src/utils/ssrf.util";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -309,7 +309,7 @@ export class CommonService{
       }
     }
 
-        async commondecryption(dpdKey,Method,encryptedData: any,context): Promise<any> {
+    async commondecryption(dpdKey,Method,encryptedData: any,context): Promise<any> {
       try {      
         let getCredentials = await this.getEncryptionInfo(dpdKey,Method)
         if(getCredentials){
@@ -397,7 +397,7 @@ export class CommonService{
     // process.env.AES_IV, and decrypt each with the right IV.
     private readonly AES_CTR_IV_MARKER = Buffer.from('AESCTRV2:', 'utf8');
 
-        async aes256ctrEncrypt(buffer: Buffer): Promise<Buffer> {
+   async aes256ctrEncrypt(buffer: Buffer): Promise<Buffer> {
       try {
         const key = Buffer.from(process.env.AES_KEY, 'base64');
         const iv = crypto.randomBytes(16);
@@ -808,6 +808,7 @@ export class CommonService{
     
       return finalres;
     }
+
   async readAPI(keys: string, clientCode: string, token:string): Promise<any> {
       try {  
         const deploymentTenant = process.env.CLIENTCODE;
@@ -882,14 +883,14 @@ export class CommonService{
     }
     
     async postCall(url,body,headers?){ 
-      this.assertAllowedOutboundHost(url);
+      assertAllowedOutboundHost(url);
       return await axios.post(url,body,headers)
       .then((res) => this.responseData(res.status, res.data).then((res) => res))
       .catch((err) => {throw err});  
     }
 
     async axiosPostCall(url,body,headers?){ 
-       this.assertAllowedOutboundHost(url);
+      assertAllowedOutboundHost(url);
       let response = await axios.post(url,body,headers)
       return response.data;
     }  
@@ -913,23 +914,23 @@ export class CommonService{
     } 
 
     async getCall(url,headers?){ 
-       this.assertAllowedOutboundHost(url);  
+      assertAllowedOutboundHost(url);  
       return await axios.get(url,headers)
       .then((res) => this.responseData(res.status, res.data).then((res) => res))
       .catch((err) => {throw err});  
     } 
 
-        async extractInputFields(rule) {
-               let fieldarr = [];
+   async extractInputFields(rule) {
+      let fieldarr = [];
 
-           if (rule?.nodes?.length) {
-         for (let node of rule.nodes) {
-         let inputs = node?.content?.inputs;
+      if (rule?.nodes?.length) {
+      for (let node of rule.nodes) {
+        let inputs = node?.content?.inputs;
 
-            if (inputs?.length) {
-            for (let input of inputs) {
-              if (input.field) {
-             fieldarr.push(input.field);
+        if (inputs?.length) {
+        for (let input of inputs) {
+          if (input.field) {
+            fieldarr.push(input.field);
             }
            }
          }
@@ -940,7 +941,7 @@ export class CommonService{
      }
     
     
-       async getRuleCodeMapper(currentNode, inputparam,processedKey,fabric ,SessionInfo,controlName? ){       
+    async getRuleCodeMapper(currentNode, inputparam,processedKey,fabric ,SessionInfo,controlName? ){       
       try {       
         let zenresult
         var ResultObj = {}
@@ -999,7 +1000,7 @@ export class CommonService{
       }          
     }
 
-    async ruleCheck(ruleJson,input){
+  async ruleCheck(ruleJson,input){
       try {       
     // Find the decision table node
      const decisionNode = ruleJson.nodes.find(
@@ -1039,11 +1040,11 @@ export class CommonService{
       }
     }
 
-     private getValue(obj: any, path: string): any {
+  private getValue(obj: any, path: string): any {
     return path.split('.').reduce((acc, key) => acc?.[key], obj);
   }
 
-    async PfRuleExtract(rule:any,SessionInfo,HtInputParam,controlName){
+  async PfRuleExtract(rule:any,SessionInfo,HtInputParam,controlName){
       let gparamreq = {}  
        if(rule && Object.keys(rule).length > 0){
           var nodes = rule.nodes     
@@ -1103,38 +1104,35 @@ export class CommonService{
       return zenresultArr
     }
 
-    // Safe   replacement for the ad-hoc `typeof v === 'string' ? `'${v}'` : v`
-    // quoting used when splicing values into manualQuery/executecommand
-    // templates below — doubles embedded single quotes so a value can no
-    // longer break out of the SQL string literal it's placed into.
+    
     sqlLiteral(value: any): any {
       if (value === null || value === undefined) return 'NULL';
       if (typeof value === 'string') return `'${value.replace(/'/g, "''")}'`;
+      if (Array.isArray(value)) return value.map(v => this.sqlLiteral(v)).join(',');
       return value;
     }
 
-    // Column/identifier guard for the dynamic filter builders, whose column
-    // names come from client-supplied filterData and are spliced straight into
-    // a WHERE fragment. Accepts only plain (optionally dotted) SQL identifiers;
-    // anything else is rejected rather than concatenated. Legitimate generated
-    // filters only ever use bare column / table.column names, so this does not
-    // narrow what the low-code filter mechanism can express.
-
+   
     isSafeSqlIdentifier(name: any): boolean {
       return typeof name === 'string' && /^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)*$/.test(name);
     }
 
-    // Single shared implementation of the procedureexecutionnode `$$$field`
-    // placeholder substitution used by dynamicFlow.service.ts and
-    // listener.service.ts. Column names come from client-supplied filterData
-    // and are only ever used to locate a `$$$name` placeholder already present
-    // in the developer-authored executecommand template (not spliced in as an
-    // identifier), but are still run through isSafeSqlIdentifier as a guard;
-    // values are escaped through sqlLiteral before being spliced into the SQL
-    // text. Kept as one copy so this fix can't drift out of sync between the
-    // two call sites again.
-
-    applyDollarDollarDollarFilters(
+     isAuthorizedOutputTable(tenant: string | undefined, tableName: any): boolean {
+      if (!this.isSafeSqlIdentifier(tableName)) return false;
+      const raw = process.env.OUTPUTNODE_WRITE_ALLOWLIST;
+      if (!raw) return false;
+      try {
+        const allowlist = JSON.parse(raw);
+        const tenantList: string[] = (tenant && allowlist[tenant]) || [];
+        const globalList: string[] = allowlist['*'] || [];
+        return tenantList.includes(tableName) || globalList.includes(tableName);
+      } catch (e) {
+        this.logger?.error?.('OUTPUTNODE_WRITE_ALLOWLIST is not valid JSON — denying output-node write by default', e);
+        return false;
+      }
+    }
+    
+   applyDollarDollarDollarFilters(
       executecommand: string,
       filterData: any,
       nodeId: string,
@@ -1167,15 +1165,7 @@ export class CommonService{
     }
 
 
-    // Runtime guard for the pagination params that get spliced straight into
-    // `LIMIT ${count} OFFSET ${offset}` on raw pg queries (dynamicFlow/listener
-    // services). DTO-level @IsInt()/@Type(() => Number) only covers the HTTP
-    // entry point; this is the choke point every call path (HTTP DTO, queue/
-    // event-pattern input, internal recursion) runs through before the value
-    // reaches SQL. page/count are optional — omitting both just means "no
-    // pagination" and is left alone; supplying either as a non-integer,
-    // non-positive, or absurdly large value is rejected outright.
-    
+      
     sanitizePagination(page: any, count: any): { page: any; count: any } {
       if ((page === undefined || page === null) && (count === undefined || count === null)) {
         return { page, count };
@@ -1187,33 +1177,8 @@ export class CommonService{
         throw new CustomException('Invalid pagination parameters: page and count must be positive integers', 400);
       }
       return { page: p, count: c };
-    }
-
-    // SSRF guard for outbound calls built from tenant-configurable data
-    // (rollback/API-node serverUrl+endPoint, etc.) — checked in
-    // postCall/getCall/deleteCall/patchCall below, the shared choke points
-    // for that path. Opt-in: with OUTBOUND_HOST_ALLOWLIST unset (the default
-    // today), this is a no-op so existing deployments are unaffected until
-    // an operator configures the allow-list for their integrations.
-
-    assertAllowedOutboundHost(url: string): void {
-      const allowlist = (process.env.OUTBOUND_HOST_ALLOWLIST || '')
-        .split(',')
-        .map(h => h.trim().toLowerCase())
-        .filter(Boolean);
-      if (!allowlist.length) return;
-      let hostname: string;
-      try {
-        hostname = new URL(url).hostname.toLowerCase();
-      } catch (e) {
-        throw new CustomException(`Invalid outbound URL: ${url}`, 400);
-      }
-      const isAllowed = allowlist.some(h => hostname === h || hostname.endsWith(`.${h}`));
-      if (!isAllowed) {
-        throw new CustomException(`Outbound host not allow-listed: ${hostname}`, 400);
-      }
-    }
-
+    } 
+    
    
     //RollBack Check
      async checkRollBack(Ndp,collectionName,action,currentNode?){
@@ -1425,13 +1390,13 @@ export class CommonService{
     }
 
     async deleteCall(url, headers?) {
-      this.assertAllowedOutboundHost(url);
+     assertAllowedOutboundHost(url);
       return await axios.delete(url, headers)
       .then((res) => this.responseData(res.status, res.data).then((res) => res))
       .catch((err) => { return err });
     }
     
-      setNestedValue(obj: any, path: string, value: any): void {
+  setNestedValue(obj: any, path: string, value: any): void {
       const parts = path.split('.');
       let current = obj;
 
@@ -1619,14 +1584,14 @@ export class CommonService{
     }
 
     async patchCall(url,data,headers){ 
-      this.assertAllowedOutboundHost(url);   
+     assertAllowedOutboundHost(url);   
       return await axios.patch(url,data,headers)
       .then((res) => this.responseData(res.status, res.data).then((res) => res))
       .catch((err) => {throw err}); 
     }
 
     async postCallwithDB(url,body,headers?){ 
-       this.assertAllowedOutboundHost(url);     
+       assertAllowedOutboundHost(url);     
       return await axios.post(url,body,headers)
       .then((res) => !res.data.errorCode? this.responseData(res.status, res.data).then((res) => res): res.data)
       .catch((err) => {throw err});  
@@ -1842,7 +1807,7 @@ export class CommonService{
   }
   }  
    
-    streamToString = async (readableStream: stream.Readable): Promise<string> => {
+  streamToString = async (readableStream: stream.Readable): Promise<string> => {
       const chunks: Uint8Array[] = [];
       for await (const chunk of readableStream) {
         chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
@@ -2289,12 +2254,14 @@ export class CommonService{
 
       let streamhost
       let streamport
+      let streamusername
+      let streampassword
       let redisconfig
       if (storageType?.toLowerCase() == 'external') {
         if (!dpdkey) throw new CustomException('DPD key not found', 404);
-          let extdata:any =  Object.values(JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName)))[0];      
-          let dpdData      
-          dpdData = decrypt(extdata) 
+          let extdata:any =  Object.values(JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName)))[0];
+          let dpdData
+          dpdData = decrypt(extdata)
        // let nodedata = Object.keys(extdata)[0];
         let configConnectors = dpdData.data['externalConnectors-STREAM']?.items;
         if (configConnectors?.length > 0) {
@@ -2302,12 +2269,16 @@ export class CommonService{
             if (configConnectors[i].connectorName == conncectorName) {
               streamhost = configConnectors[i]?.credentials.host;
               streamport = parseInt(configConnectors[i]?.credentials.port);
+              streamusername = configConnectors[i]?.credentials.username;
+              streampassword = configConnectors[i]?.credentials.password;
             }
           }
         }
         redisconfig = new Redis({
           host: streamhost,
           port: streamport,
+          username: streamusername,
+          password: streampassword,
         });
                     
         
@@ -2605,60 +2576,7 @@ export class CommonService{
     return `${modifiedQuery}${trailingQuery}`;
   }
 
-//   async appendWhereClause(baseQuery: string, condition: string) {
-//   const query = baseQuery.trim();
-//   const lower = query.toLowerCase();
 
-//   // ✅ Detect outer query pattern: ") alias"
-//   const outerMatch = query.match(
-//      /(\)\s+\w+)((\s+(?:LIMIT|ORDER\s+BY|GROUP\s+BY|OFFSET)\b[\s\S]*)?)$/i,
-//    );
-
-//   // 👉 CASE 1: Query has subquery → apply WHERE outside
-//   if (outerMatch) {
-//     const aliasEnd      = outerMatch.index! + outerMatch[1].length; // right after ") alias"
-//     const trailingClause = outerMatch[2] || '';                      // " LIMIT 10 OFFSET 0" or ""
-//     const beforeTrailing = query.slice(0, aliasEnd);                 // everything up to and including ") alias"
-//     const betweenPart    = query.slice(aliasEnd, query.length - trailingClause.length); // any existing WHERE between alias and trailing
-
-//     const hasOuterWhere = /\bwhere\b/i.test(betweenPart);
-
-//     if (hasOuterWhere) {
-//       return `${beforeTrailing}${betweenPart} AND ${condition}${trailingClause}`;
-//     } else {
-//       return `${beforeTrailing} WHERE ${condition}${trailingClause}`;
-//     }
-//   }
-
-//   // 👉 CASE 2: Simple query (your original logic, cleaned)
-//   const keywords = [' order by ', ' group by ', ' limit '];
-//   let firstKeywordIndex = -1;
-
-//   for (const keyword of keywords) {
-//     const index = lower.lastIndexOf(keyword);
-//     if (index !== -1 && (firstKeywordIndex === -1 || index < firstKeywordIndex)) {
-//       firstKeywordIndex = index;
-//     }
-//   }
-
-//   const mainQuery =
-//     firstKeywordIndex !== -1 ? query.substring(0, firstKeywordIndex) : query;
-
-//   const trailingQuery =
-//     firstKeywordIndex !== -1 ? query.substring(firstKeywordIndex) : '';
-
-//   const hasWhere = /\bwhere\b/i.test(mainQuery);
-
-//   let modifiedQuery;
-
-//   if (hasWhere) {
-//     modifiedQuery = `${mainQuery} AND ${condition}`;
-//   } else {
-//     modifiedQuery = `${mainQuery} WHERE ${condition}`;
-//   }
-
-//   return `${modifiedQuery}${trailingQuery}`;
-// }
 
   async checkEncryption(nodeInfo) {
     try {

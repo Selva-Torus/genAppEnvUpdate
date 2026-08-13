@@ -11,6 +11,9 @@ import { CustomException } from 'src/customException';
 import { encryptToken } from 'src/utils/tokenCrypto.util';
 const  Xid = require('xid-js');
 
+// See P8 — no outbound call in the scheduler module had a timeout.
+const OUTBOUND_TIMEOUT_MS = Number(process.env.SCHEDULER_HTTP_TIMEOUT_MS) || 15_000;
+
 @Injectable()
 export class SchedulerService {
     private readonly logger = new Logger(SchedulerService.name);
@@ -154,18 +157,45 @@ export class SchedulerService {
         return `${tenant}_${queueName}`;
     }
 
+    // Bounds the number of live Queue+Worker pairs (and their underlying Redis
+    // connections) this.queues is allowed to hold at once — previously
+    // unbounded, growing forever with one entry per distinct pf_key ever seen
+    // (P6). this.queues is a Map, which preserves insertion order, so moving
+    // an accessed key to the end on every hit turns iteration order into
+    // least-recently-used-first ordering for free.
+    private readonly MAX_QUEUES = Number(process.env.SCHEDULER_MAX_QUEUES) || 200;
+
     getQueue(queueName: string, tenant?: string): Queue {
         const key = this.queueKey(queueName, tenant);
         // Check if queue already exists
         if (this.queues.has(key)) {
-            return this.queues.get(key);
+            const existing = this.queues.get(key);
+            this.queues.delete(key);
+            this.queues.set(key, existing);
+            return existing;
+        }
+
+        if (this.queues.size >= this.MAX_QUEUES) {
+            const oldestKey = this.queues.keys().next().value;
+            const oldestQueue = this.queues.get(oldestKey);
+            this.queues.delete(oldestKey);
+            oldestQueue.close().catch(err => this.logger.error(`Error closing evicted queue ${oldestKey}: ${err.message}`));
+            this.processor.closeWorker(oldestKey).catch(err => this.logger.error(`Error closing evicted worker ${oldestKey}: ${err.message}`));
+            this.logger.warn(`Queue cap (${this.MAX_QUEUES}) reached — evicted least-recently-used queue: ${oldestKey}`);
         }
 
         // Create new queue dynamically
         const queueOptions: QueueOptions = {
             connection: {
-                host: process.env.HOST,
-                port: parseInt(process.env.PORT),
+               sentinels: [
+        {
+          host: process.env.REDIS_SENTINEL_HOST,
+          port: Number(process.env.REDIS_SENTINEL_PORT),
+        },      
+      ],    
+       name: process.env.REDIS_MASTER_NAME,
+      username: process.env.REDIS_USERNAME,
+      password: process.env.REDIS_PASSWORD, 
             },
             defaultJobOptions: {
                 attempts: 3,
@@ -282,8 +312,9 @@ export class SchedulerService {
             const requestConfig: AxiosRequestConfig = {
                 headers: {
                     Authorization: `Bearer ${token}`
-                }
-            }   
+                },
+                timeout: OUTBOUND_TIMEOUT_MS,
+            }
             let response
             // let url = this.APIURL + tableName //"sch_scheduled_job" //sch_job_template;
             let url = this.envData.getBeUrl()+ '/' +tableName//process.env.BE_URL + '/' +tableName 
@@ -307,19 +338,30 @@ export class SchedulerService {
 
 
     async buildCron(frequency_type, frequency) {
+        const freq = Number(frequency);
+        if (!Number.isInteger(freq) || freq <= 0) {
+            throw new BadRequestException('frequency must be a positive integer');
+        }
         switch (frequency_type) {
             case "SECS":
-                return `*/${frequency} * * * * *`;
+                // Floor on sub-minute frequency — without it, a caller-supplied
+                // frequency of 1 builds "*/1 * * * * *", re-triggering addBullJob
+                // every second forever (P7).
+                const MIN_SECS_FREQUENCY = Number(process.env.SCHEDULER_MIN_SECS_FREQUENCY) || 10;
+                if (freq < MIN_SECS_FREQUENCY) {
+                    throw new BadRequestException(`frequency for SECS must be at least ${MIN_SECS_FREQUENCY} seconds`);
+                }
+                return `*/${freq} * * * * *`;
             case "MINS":
-                return `0 */${frequency} * * * *`;
+                return `0 */${freq} * * * *`;
             case "HOURS":
-                return `0 0 */${frequency} * * *`;
+                return `0 0 */${freq} * * *`;
             case "DAYS":
-                return `0 0 0 */${frequency} * *`;
+                return `0 0 0 */${freq} * *`;
             default:
-                throw new Error("Unsupported frequency_type");
+                throw new BadRequestException("Unsupported frequency_type");
         }
-    }      
+    }
 
     async stopBullJob(input,authContext?:any,token?:any) {
         const results = { removed: [], failed: [] };

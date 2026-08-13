@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { buildAuthorizationUrl } from './lib/fusionauth'
+import { buildAuthorizationUrl, generateCodeChallenge, generateCodeVerifier } from './lib/fusionauth'
 import { COOKIE_PREFIX, FULL_BASE_PATH } from './lib/cookies'
 
 function generateRandomString(length: number): string {
@@ -122,14 +122,23 @@ export async function middleware(request: NextRequest) {
     pathname === `/forgot-password`
 
  if (!token && !isForgotPasswordRoute) {
-    const state = generateRandomString(32)
+    const state = generateRandomString(32);
+    const codeVerifier = generateCodeVerifier()
+    const codeChallenge = await generateCodeChallenge(codeVerifier)
     const appTenantParam = request.nextUrl.searchParams.get('tenant');
     
     try {
-       const authResponse = await buildAuthorizationUrl(state , appTenantParam)
+       const authResponse = await buildAuthorizationUrl(state, codeChallenge, appTenantParam)
        if(!authResponse) throw new Error('Fausion auth details not found')
        const response = NextResponse.redirect(authResponse.url)
        response.cookies.set(`${COOKIE_PREFIX}_oauth_state`, state, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+          path: FULL_BASE_PATH,
+          maxAge: 60 * 10
+       })
+       response.cookies.set(`${COOKIE_PREFIX}_pkce_verifier`, codeVerifier, {   // ← new
           httpOnly: true,
           secure: process.env.NODE_ENV === 'production',
           sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
