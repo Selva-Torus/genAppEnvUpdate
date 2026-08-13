@@ -1,5 +1,22 @@
+// Add near generateRandomString / at top of the file
+export function generateCodeVerifier(): string {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~'
+  const array = new Uint8Array(64)
+  crypto.getRandomValues(array)
+  return Array.from(array).map(b => chars[b % chars.length]).join('')
+}
+
+export async function generateCodeChallenge(verifier: string): Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier))
+  const bytes:any = new Uint8Array(digest)
+  let str = ''
+  for (const b of bytes) str += String.fromCharCode(b)
+  return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+}
+
 export async function buildAuthorizationUrl(
   state: string,
+  codeChallenge: string,          // ← new
   appTenantParam: string | null,
 ) {
   try {
@@ -40,6 +57,8 @@ export async function buildAuthorizationUrl(
       tenantId: tenantUniqueId,
       state,
       prompt: 'login',
+      code_challenge: codeChallenge,
+      code_challenge_method: 'S256',  
     });
 
     return {
@@ -53,6 +72,7 @@ export async function buildAuthorizationUrl(
 
 export async function exchangeCodeForTokens(
   code: string,
+  codeVerifier: string,
   appTenantParam: string | null | undefined,
 ) {
   const queryParams = new URLSearchParams();
@@ -102,6 +122,7 @@ export async function exchangeCodeForTokens(
     redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}${process.env.NEXT_PUBLIC_BASE_PATH}/next-api/auth/callback`,
     client_id: applicationId,
     client_secret: fusionAuthAppClientSecret,
+    code_verifier: codeVerifier,
   });
 
   const res = await fetch(
