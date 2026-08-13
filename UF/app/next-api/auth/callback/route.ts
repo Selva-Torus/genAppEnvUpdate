@@ -190,11 +190,11 @@ export async function GET(request: NextRequest) {
       maxAge: 0
     })
     response.cookies.set(`${COOKIE_PREFIX}_pkce_verifier`, '', {   // ← new, clear verifier too
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
-    path: FULL_BASE_PATH,
-    maxAge: 0
-  })
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+      path: FULL_BASE_PATH,
+      maxAge: 0
+    })
 
     return response
   } catch (err: any) {

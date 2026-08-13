@@ -31,6 +31,7 @@ import * as fs from 'fs';
 import { format } from "date-fns";
 import * as nodemailer from 'nodemailer';
 import { runInSandbox } from "src/sandbox";
+import { Surreal, Table, RecordId } from 'surrealdb';
 
 type MappingValue = string | { sourcePath: string; arrayMap: Record< string, string> };
 type MappingConfig = Record< string, MappingValue>;
@@ -1882,6 +1883,102 @@ export class DynamicFlowService {
                     );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
+            }
+
+             //surreal db node
+            if (nodeType == 'surrealdbnode' && poNode[j].nodeId == nodeId) {
+              let db;
+
+              try {
+                this.logger.log(
+                  `${poNode[j]?.nodeName}, surrealdbnode started`,
+                );
+
+                const namespace = process.env.SURREAL_NAMESPACE!;
+                const database = process.env.SURREAL_DATABASE!;
+
+                db = new Surreal();
+
+                await db.connect(process.env.SURREAL_URL!);
+
+                await db.signin({
+                  username: process.env.SURREAL_USERNAME!,
+                  password: process.env.SURREAL_PASSWORD!,
+                });
+
+                await db.use({
+                  namespace,
+                  database,
+                });
+                let customConfig = ndp[poNode[j]?.nodeId];
+                let nodeVersion = customConfig?.nodeVersion;
+                if (!nodeVersion)
+                  throw new CustomException('Node version not found', 404);
+                let qrydata, queryName, manualQuery;
+                qrydata = customConfig?.data?.pro?.value?.manualQuery?.items;
+                let qryfield = qrydata;
+                if (qryfield?.length > 0) {
+                  for (let item of qryfield) {
+                   
+                      manualQuery = item?.value?.query?.value
+                        .replace(/\r?\n/g, ' ') // replace newline with space
+                        .replace(/\s+/g, ' ') // remove extra spaces
+                        .trim();
+                    
+                  }
+                }
+                let result:any = await db.query(manualQuery);
+                result = result?.flat()
+                //this.logger.log(`SurrealDB record: ${JSON.stringify(result[0])}`);
+                await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(result)?result[0]:result),collectionName,nodeName);
+
+                // console.log('SurrealDB Record:', result);
+                if (upId) {
+                  // await this.redisService.setStreamData(srcQueue, collectionName + '-TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: logqry, response: dbres } }));
+                  await this.CommonService.getTPL(
+                    processedKey,
+                    upId,
+                    poNode[j],
+                    'Success',
+                    targetQueue,
+                    token,
+                    currentFabric,
+                    sourceStatus,
+                    manualQuery,
+                    result[0],
+                  );
+                  await this.redisService.setJsonData(
+                    processedKey + upId + ':NPV:' + nodeName + '.PRO',
+                    JSON.stringify(manualQuery),
+                    collectionName,
+                    'request',
+                  );
+                  await this.redisService.setJsonData(
+                    processedKey + upId + ':NPV:' + nodeName + '.PRO',
+                    JSON.stringify(result[0]),
+                    collectionName,
+                    'response',
+                  );
+                }
+
+                this.logger.log('SurrealDB execution completed');
+                if (currentFabric == 'DF-DFD')
+                  return {
+                    status: 200,
+                    targetStatus: targetStatus,
+                    data: result[0],
+                  };
+                else
+                  return {
+                    status: 200,
+                    targetStatus: targetStatus,
+                    data: inputparam,
+                  };
+              } catch (error) {
+                console.log('Error occurred while querying SurrealDB:', error);
+              } finally {
+                await db.close();
+              }
             }
 
             //mongo db node
