@@ -56,14 +56,12 @@ const OtpVerification = ({
 
   const handleVerifyOtp = async () => {
     try {
-      const res = await AxiosService.get(`UF/verifyOtp`, {
-        params: {
-          email: email,
-          otp: otp.join(''),
-          id: otpResetToken
-        }
+      const res = await AxiosService.post(`UF/verifyOtp`, {
+        email: email,
+        otp: otp.join(''),
+        id: otpResetToken
       })
-      if (res.status === 200) {
+      if (res.status === 201) {
         setIsOtpVerified(true)
         setOtpResetToken('')
         setResetToken(res.data?.resetToken)
@@ -75,13 +73,11 @@ const OtpVerification = ({
 
   const handleGetOtp = async () => {
     try {
-      const res = await AxiosService.get(`UF/getResetPasswordOtp`, {
-        params: {
-          email: email,
-          tenantId: selectedAppTenant ? appTenantList?.find((item: any) => item.tenant_name == selectedAppTenant)?.at_id : undefined
-        }
+      const res = await AxiosService.post(`UF/getResetPasswordOtp`, {
+        email: email,
+        tenantId: selectedAppTenant ? appTenantList?.find((item: any) => item.tenant_name == selectedAppTenant)?.at_id : undefined
       })
-      if (res.status === 200) {
+      if (res.status === 201) {
         setOtpResetToken(res.data.id)
         return res.data
       }
@@ -178,7 +174,7 @@ const OtpVerification = ({
             >
               Set New Password
             </Text>
-           <span color='secondary' className='flex w-[12vw] text-center text-[.7vw]'>
+            <span color='secondary' className='flex w-[12vw] text-center text-[.7vw]'>
               Your new password must be different from previous used passwords
             </span>
           </div>

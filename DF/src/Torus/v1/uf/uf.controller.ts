@@ -1134,23 +1134,26 @@ export class UfController {
     const token: string = req.headers.authorization?.split(' ')[1];
     return this.appService.readAMDKey(key, token);
   }
-  @Get('getResetPasswordOtp')
-  @Public()
-  @UseGuards(ThrottlerGuard)
-  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
-  async getResetPasswordOtp(@Query() query: any) {
-    const { email, tenantId }  = query;
-    return this.appService.getResetPasswordOtp(email, tenantId);
-  }
 
-  @Get('verifyOtp')
-  @Public()
-  @UseGuards(ThrottlerGuard)
-  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
-  async verifyOtp(@Query() query: any) {
-    const { email, otp, id } = query;
-    return this.appService.verifyOtp(email, otp, id);
-  }
+ @Post('getResetPasswordOtp')
+ @Public()
+ @UseGuards(ThrottlerGuard)
+ @Throttle({ auth: { limit: 5, ttl: 60_000 } })
+ async getResetPasswordOtp(@Body() body: any) {
+  const { email, tenantId } = body;
+
+  return this.appService.getResetPasswordOtp(email, tenantId);
+ }
+
+ @Post('verifyOtp')
+ @Public()
+ @UseGuards(ThrottlerGuard)
+ @Throttle({ auth: { limit: 5, ttl: 60_000 } })
+ async verifyOtp(@Body() body: any) {
+  const { email, otp, id } = body;
+
+  return this.appService.verifyOtp(email, otp, id);
+ }
 
   @Patch('resetPassword')
   @Public()
@@ -1177,6 +1180,8 @@ export class UfController {
 
   @Post('sso')
   @Public()
+  @UseGuards(ThrottlerGuard)
+  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   async sso(@Body() body:any) {
     const { token , ufClientType } = body;
     return this.appService.sso(token , ufClientType);
