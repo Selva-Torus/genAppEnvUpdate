@@ -1150,8 +1150,8 @@ export class UfController {
   @UseGuards(ThrottlerGuard)
   @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   async verifyOtp(@Query() query: any) {
-    const { email, otp } = query;
-    return this.appService.verifyOtp(email, otp);
+    const { email, otp, id } = query;
+    return this.appService.verifyOtp(email, otp, id);
   }
 
   @Patch('resetPassword')

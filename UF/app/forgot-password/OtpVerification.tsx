@@ -17,6 +17,8 @@ interface Props {
   email: string
   brandColor?: string
   setIsOtpReceive: React.Dispatch<React.SetStateAction<boolean>>
+  otpResetToken: string
+  setOtpResetToken: React.Dispatch<React.SetStateAction<string>>
   selectedAppTenant?: string
   appTenantList?: any
 }
@@ -26,7 +28,9 @@ const OtpVerification = ({
   brandColor = '#76C432',
   setIsOtpReceive,
   selectedAppTenant,
-  appTenantList
+  appTenantList,
+  otpResetToken,
+  setOtpResetToken
 }: Props) => {
   const router = useRouter()
   const inputRefs = useRef<Array<HTMLInputElement | null>>([])
@@ -55,11 +59,13 @@ const OtpVerification = ({
       const res = await AxiosService.get(`UF/verifyOtp`, {
         params: {
           email: email,
-          otp: otp.join('')
+          otp: otp.join(''),
+          id: otpResetToken
         }
       })
       if (res.status === 200) {
         setIsOtpVerified(true)
+        setOtpResetToken('')
         setResetToken(res.data?.resetToken)
       }
     } catch (error: any) {
@@ -76,6 +82,7 @@ const OtpVerification = ({
         }
       })
       if (res.status === 200) {
+        setOtpResetToken(res.data.id)
         return res.data
       }
     } catch (error: any) {

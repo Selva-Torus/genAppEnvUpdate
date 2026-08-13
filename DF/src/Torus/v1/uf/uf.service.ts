@@ -12,7 +12,7 @@ import {
   UnauthorizedException,
   NotFoundException,
 } from 'src/customException';
-import { randomBytes, scryptSync, timingSafeEqual } from 'crypto';
+import { randomBytes, randomInt, scryptSync, timingSafeEqual } from 'crypto';
 import * as nodemailer from 'nodemailer';
 import { JwtServices } from 'src/jwt.services';
 import { RuleService } from 'src/ruleService';
@@ -5435,7 +5435,8 @@ getConfig(): FusionAuthConfig {
   async getResetPasswordOtp(email: string, tenantId: string | undefined = undefined) {
     try {
       if (!email) throw new BadRequestException('email is required');
-      const otpCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:otp`;
+      const otpResetToken = randomBytes(32).toString('hex');
+      const otpCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:otp:${otpResetToken}`;
       let query = 
         `SELECT
             au.org_au_id,
@@ -5485,29 +5486,17 @@ getConfig(): FusionAuthConfig {
         if (!str) return str; // If the string is empty or null, return it as is.
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
       };
-      const otp = Math.floor(100000 + Math.random() * 900000);
-      const otpJsonFromRedis = await this.redisService.getJsonData(
-        otpCacheKey,
-        process.env.CLIENTCODE,
-      );
-      var otpJson = [];
+      // const otp = Math.floor(100000 + Math.random() * 900000);
+      const otp = randomInt(100000, 1000000);
+  
+      var otpJson = { email, otp }
 
-      if (otpJsonFromRedis) {
-        otpJson = JSON.parse(otpJsonFromRedis);
-        const existingIndex = otpJson.findIndex((ele) => ele.email == email);
-        if (existingIndex != -1) {
-          otpJson.splice(existingIndex, 1, { email, otp });
-        } else {
-          otpJson.push({ email, otp });
-        }
-      } else {
-        otpJson.push({ email, otp });
-      }
       await this.redisService.setJsonData(
         otpCacheKey,
         JSON.stringify(otpJson),
         process.env.CLIENTCODE,
       );
+      await this.redisService.expire(otpCacheKey, 60);
 
       const updatedTemplateHtml = (resetOtpTemplate.html as string)
         .replace(
@@ -5529,7 +5518,7 @@ getConfig(): FusionAuthConfig {
           console.log('Email sent: ' + info.response);
         }
       });
-      return 'Email sent to the registered email address';
+      return {message: 'Email sent to the registered email address', id: otpResetToken};
     } catch (error: any) {
       await this.commonService.errorLog(
         'Technical',
@@ -5548,27 +5537,29 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-  async verifyOtp(email: string, otp: string) {
+  async verifyOtp(email: string, otp: string, otpResetToken: string) {
     try {
       if (!email || !otp)
         throw new BadRequestException('email or otp is required');
-      const otpCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:otp`;
+      const otpCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:otp:${otpResetToken}`;
       const otpJsonFromRedis = await this.redisService.getJsonData(
         otpCacheKey,
         process.env.CLIENTCODE,
       );
       if (!otpJsonFromRedis) throw new NotFoundException('otp not found');
       const otpJson = JSON.parse(otpJsonFromRedis);
-      const existingIndex = otpJson.findIndex(
-        (ele) => ele.email == email && ele.otp == otp,
-      );
-      if (existingIndex == -1) throw new NotFoundException('invalid otp');
-      otpJson.splice(existingIndex, 1);
-      await this.redisService.setJsonData(
-        otpCacheKey,
-        JSON.stringify(otpJson),
-        process.env.CLIENTCODE,
-      );
+      const isCorrectOtp = otpJson.email.toLowerCase() === email.toLowerCase() && String(otpJson.otp) === String(otp);
+      // const existingIndex = otpJson.findIndex(
+      //   (ele) => ele.email == email && ele.otp == otp,
+      // );
+      if (!isCorrectOtp) throw new NotFoundException('invalid otp');
+      // otpJson.splice(existingIndex, 1);
+      await this.redisService.deleteKey(otpCacheKey, process.env.CLIENTCODE);
+      // await this.redisService.setJsonData(
+      //   otpCacheKey,
+      //   JSON.stringify(otpJson),
+      //   process.env.CLIENTCODE,
+      // );
       
       // Issue a short-lived, single-use reset token bound to this email and
       // hand it back instead of a bare `true`. resetPassword() below now
@@ -5577,7 +5568,11 @@ getConfig(): FusionAuthConfig {
       // own to change their password.
       const resetToken = randomBytes(32).toString('hex');
       const resetTokenKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:pwdResetToken:${resetToken}`;
-      await this.redisService.set(resetTokenKey, JSON.stringify({ email }));
+      await this.redisService.setJsonData(
+        resetTokenKey,
+        JSON.stringify({ email }),
+        process.env.CLIENTCODE,
+      );
       await this.redisService.expire(resetTokenKey, 600); // 10-minute window; also deleted on redemption below
 
       return { verified: true, resetToken };
@@ -5612,13 +5607,13 @@ getConfig(): FusionAuthConfig {
         throw new UnauthorizedException('A valid password reset token is required');
       }
       const resetTokenKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:pwdResetToken:${resetToken}`;
-      const storedTokenRaw = await this.redisService.get(resetTokenKey);
+      const storedTokenRaw = await this.redisService.getJsonData(resetTokenKey, process.env.CLIENTCODE);
       if (!storedTokenRaw) {
         throw new UnauthorizedException('Reset token is invalid or has expired');
       }
       // Burn the token immediately so it can't be replayed, even if
       // something below this point fails.
-      await this.redisService.del(resetTokenKey);
+      await this.redisService.deleteKey(resetTokenKey, process.env.CLIENTCODE);
       const storedToken = JSON.parse(storedTokenRaw);
       if (String(storedToken.email).toLowerCase() !== String(email).toLowerCase()) {
         throw new UnauthorizedException('Reset token does not match this email');
