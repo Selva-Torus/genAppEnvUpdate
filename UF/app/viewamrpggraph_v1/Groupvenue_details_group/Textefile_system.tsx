@@ -145,9 +145,9 @@ const Textefile_system = ({encryptionFlagCompData,isDynamic,item,index,setIsProc
 return (
   <div className="" style={{gridColumn: `1 / 25`,gridRow: `108 / 114`, gap:``, height: `100%`}} >
 <Text
-  contentAlign={"center"}
+  contentAlign={"left"}
   className="!bg-white"
-  variant="subheader-3"
+  variant="subheader-1"
   color="primary"
 >
       {keyset(isDynamic ? item?.efile_system : (venue_details_group5f664?.efile_system || ""))}

@@ -143,11 +143,11 @@ const Textservice_method = ({encryptionFlagCompData,isDynamic,item,index,setIsPr
   }
 
 return (
-  <div className="" style={{gridColumn: `1 / 25`,gridRow: `92 / 98`, gap:``, height: `100%`}} >
+  <div className="" style={{gridColumn: `1 / 25`,gridRow: `93 / 99`, gap:``, height: `100%`}} >
 <Text
-  contentAlign={"center"}
+  contentAlign={"left"}
   className="!bg-white"
-  variant="subheader-3"
+  variant="subheader-1"
   color="primary"
 >
       {keyset(isDynamic ? item?.service_method : (venue_details_group5f664?.service_method || ""))}

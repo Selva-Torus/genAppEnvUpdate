@@ -1634,10 +1634,10 @@ export interface TotalContextProps {
   setdfd_amrcheckliststatus_v1Props: React.Dispatch<React.SetStateAction<any>>
   dfd_venuespecialrules_v1Props: any 
   setdfd_venuespecialrules_v1Props: React.Dispatch<React.SetStateAction<any>>
-  dfd_specialrulessurerealdb_v1Props: any 
-  setdfd_specialrulessurerealdb_v1Props: React.Dispatch<React.SetStateAction<any>>
   dfd_venuesurerealdb_v1Props: any 
   setdfd_venuesurerealdb_v1Props: React.Dispatch<React.SetStateAction<any>>
+  dfd_specialrulessurerealdb_v1Props: any 
+  setdfd_specialrulessurerealdb_v1Props: React.Dispatch<React.SetStateAction<any>>
   dfd_pendingfilingsdashboard_v1Props: any 
   setdfd_pendingfilingsdashboard_v1Props: React.Dispatch<React.SetStateAction<any>>
   dfd_cardsdashboard_v1Props: any 
@@ -6256,8 +6256,8 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
   const [dfd_doctable_v1Props,setdfd_doctable_v1Props] = React.useState<any>([])
   const [dfd_amrcheckliststatus_v1Props,setdfd_amrcheckliststatus_v1Props] = React.useState<any>([])
   const [dfd_venuespecialrules_v1Props,setdfd_venuespecialrules_v1Props] = React.useState<any>([])
-  const [dfd_specialrulessurerealdb_v1Props,setdfd_specialrulessurerealdb_v1Props] = React.useState<any>([])
   const [dfd_venuesurerealdb_v1Props,setdfd_venuesurerealdb_v1Props] = React.useState<any>([])
+  const [dfd_specialrulessurerealdb_v1Props,setdfd_specialrulessurerealdb_v1Props] = React.useState<any>([])
   const [dfd_pendingfilingsdashboard_v1Props,setdfd_pendingfilingsdashboard_v1Props] = React.useState<any>([])
   const [dfd_cardsdashboard_v1Props,setdfd_cardsdashboard_v1Props] = React.useState<any>([])
   const [dfd_reportcase_v1Props,setdfd_reportcase_v1Props] = React.useState<any>([])
@@ -12036,10 +12036,10 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
         setdfd_amrcheckliststatus_v1Props,
         dfd_venuespecialrules_v1Props,
         setdfd_venuespecialrules_v1Props,
-        dfd_specialrulessurerealdb_v1Props,
-        setdfd_specialrulessurerealdb_v1Props,
         dfd_venuesurerealdb_v1Props,
         setdfd_venuesurerealdb_v1Props,
+        dfd_specialrulessurerealdb_v1Props,
+        setdfd_specialrulessurerealdb_v1Props,
         dfd_pendingfilingsdashboard_v1Props,
         setdfd_pendingfilingsdashboard_v1Props,
         dfd_cardsdashboard_v1Props,

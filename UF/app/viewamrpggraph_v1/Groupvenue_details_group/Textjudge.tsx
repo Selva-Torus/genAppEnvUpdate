@@ -143,11 +143,11 @@ const Textjudge = ({encryptionFlagCompData,isDynamic,item,index,setIsProcessing}
   }
 
 return (
-  <div className="" style={{gridColumn: `1 / 25`,gridRow: `61 / 67`, gap:``, height: `100%`}} >
+  <div className="" style={{gridColumn: `1 / 25`,gridRow: `62 / 68`, gap:``, height: `100%`}} >
 <Text
-  contentAlign={"center"}
+  contentAlign={"left"}
   className="!bg-white"
-  variant="subheader-3"
+  variant="subheader-1"
   color="primary"
 >
       {keyset(isDynamic ? item?.judge : (venue_details_group5f664?.judge || ""))}

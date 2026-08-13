@@ -12,7 +12,7 @@ import {
   UnauthorizedException,
   NotFoundException,
 } from 'src/customException';
-import { randomBytes, scryptSync, timingSafeEqual } from 'crypto';
+import { randomBytes, randomInt, scryptSync, timingSafeEqual } from 'crypto';
 import * as nodemailer from 'nodemailer';
 import { JwtServices } from 'src/jwt.services';
 import { RuleService } from 'src/ruleService';
@@ -5521,7 +5521,7 @@ getConfig(): FusionAuthConfig {
         if (!str) return str; // If the string is empty or null, return it as is.
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
       };
-      const otp = Math.floor(100000 + Math.random() * 900000);
+      const otp = randomInt(100000, 1000000);
       var otpJson = { email, otp }
      
       await this.redisService.setJsonData(
@@ -5581,7 +5581,7 @@ getConfig(): FusionAuthConfig {
       );
       if (!otpJsonFromRedis) throw new NotFoundException('otp not found');
       const otpJson = JSON.parse(otpJsonFromRedis);
-      const isCorrectOtp = otpJson.email == email && otpJson.otp == otp;
+      const isCorrectOtp = otpJson.email.toLowerCase() === email.toLowerCase() && String(otpJson.otp) === String(otp);
       if (!isCorrectOtp) throw new NotFoundException('invalid otp');
       await this.redisService.deleteKey(otpCacheKey, process.env.CLIENTCODE);
       

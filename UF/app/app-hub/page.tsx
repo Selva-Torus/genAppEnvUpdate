@@ -26,7 +26,6 @@ const page = async () => {
     }
   }
   const appList = (await getAllAppList()) ?? []
-  
 
   return (
     <div>

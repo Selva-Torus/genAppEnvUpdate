@@ -24,8 +24,8 @@ import { DFamrChecklistComboModule } from './dfd/DFamrChecklistCombo/v1/DFamrChe
 import { DFDocTableModule } from './dfd/DFDocTable/v1/DFDocTable.module';    
 import { DFamrChecklistStatusModule } from './dfd/DFamrChecklistStatus/v1/DFamrChecklistStatus.module';    
 import { DFvenueSpecialRulesModule } from './dfd/DFvenueSpecialRules/v1/DFvenueSpecialRules.module';    
-import { DFspecialRulesSurerealDBModule } from './dfd/DFspecialRulesSurerealDB/v1/DFspecialRulesSurerealDB.module';    
 import { DFvenueSurerealDBModule } from './dfd/DFvenueSurerealDB/v1/DFvenueSurerealDB.module';    
+import { DFspecialRulesSurerealDBModule } from './dfd/DFspecialRulesSurerealDB/v1/DFspecialRulesSurerealDB.module';    
 import { DFpendingFilingsDashboardModule } from './dfd/DFpendingFilingsDashboard/v1/DFpendingFilingsDashboard.module';    
 import { DFcardsDashboardModule } from './dfd/DFcardsDashboard/v1/DFcardsDashboard.module';    
 import { DFreportCaseModule } from './dfd/DFreportCase/v1/DFreportCase.module';    
@@ -59,7 +59,7 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
       { name: 'default', ttl: 60_000, limit: 120 },
     ],
   }),
-  ScheduleModule.forRoot(),UfModule,TeModule,EnvDataModule,DFamrQueueDashboardModule,DFaddCaseModule,DFdocTypeNameComboModule,DFattorneysComboModule,DFpriorityComboModule,DFstatusComboModule,DFamrChecklistComboModule,DFDocTableModule,DFamrChecklistStatusModule,DFvenueSpecialRulesModule,DFspecialRulesSurerealDBModule,DFvenueSurerealDBModule,DFpendingFilingsDashboardModule,DFcardsDashboardModule,DFreportCaseModule,addCaseModifyModule,addCaseModule,addCaseApprovalModule,ErdModule,], 
+  ScheduleModule.forRoot(),UfModule,TeModule,EnvDataModule,DFamrQueueDashboardModule,DFaddCaseModule,DFdocTypeNameComboModule,DFattorneysComboModule,DFpriorityComboModule,DFstatusComboModule,DFamrChecklistComboModule,DFDocTableModule,DFamrChecklistStatusModule,DFvenueSpecialRulesModule,DFvenueSurerealDBModule,DFspecialRulesSurerealDBModule,DFpendingFilingsDashboardModule,DFcardsDashboardModule,DFreportCaseModule,addCaseModifyModule,addCaseModule,addCaseApprovalModule,ErdModule,], 
   controllers: [AppController],
   providers: [AppService,CommonService,RuleService,CodeService,JwtService,JwtServices,RedisService,ConfigService,EnvData,PersistenceService,SwaggerGuard,{
       provide: APP_INTERCEPTOR,

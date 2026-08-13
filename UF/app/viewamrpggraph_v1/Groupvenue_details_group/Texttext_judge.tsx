@@ -88,7 +88,7 @@ const Texttext_judge = ({encryptionFlagCompData,isDynamic,item,index,setIsProces
   }
 
 return (
-  <div className="" style={{gridColumn: `1 / 25`,gridRow: `56 / 60`, gap:``, height: `100%`}} >
+  <div className="" style={{gridColumn: `1 / 25`,gridRow: `56 / 62`, gap:``, height: `100%`}} >
 <Text
   contentAlign={"left"}
   className=""

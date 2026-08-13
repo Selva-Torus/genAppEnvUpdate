@@ -310,7 +310,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                 pfdto['nodeId'] = ponode[1].nodeId
                 pfdto['nodeName'] = ponode[1].nodeName
                 pfdto['nodeType'] = ponode[1].nodeType
-                this.logger.log(`Running dynamic job with data: ${JSON.stringify(pfdto)}`);
+                 this.logger.log(`Running dynamic job with data: ${JSON.stringify(this.CommonService.redactSensitiveFields(pfdto))}`);
                 // await this.redisService.setJsonData(processedKey + upId + ':NPV:' + ponode[1].nodeName + '.PRO', JSON.stringify(pfResponseData[p]), client, 'response',);
               
                 // cronResponse = await this.EventEmitter(pfdto);

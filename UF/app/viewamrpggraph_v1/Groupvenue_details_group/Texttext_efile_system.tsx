@@ -88,7 +88,7 @@ const Texttext_efile_system = ({encryptionFlagCompData,isDynamic,item,index,setI
   }
 
 return (
-  <div className="" style={{gridColumn: `1 / 25`,gridRow: `102 / 106`, gap:``, height: `100%`}} >
+  <div className="" style={{gridColumn: `1 / 25`,gridRow: `102 / 107`, gap:``, height: `100%`}} >
 <Text
   contentAlign={"left"}
   className=""

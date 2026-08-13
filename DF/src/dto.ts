@@ -178,9 +178,9 @@ export class readAPIDTO {
      
       public pfdto:pfDto,
       public event: string,
-      public pfs : any,
-      public poJson: any,
+      public pfs : any,     
       public pfo: any,
+      public poJson: any,
       public ndp : any,
       public flag : string,
       public page?:number,

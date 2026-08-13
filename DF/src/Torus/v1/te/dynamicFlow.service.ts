@@ -87,12 +87,18 @@ export class DynamicFlowService {
             let currentFabric = await this.CommonService.splitcommonkey(pfdto.key, 'FNK')
             let pfresponse = await this.pfProcessor(pfdto, event, pfjson, pfo, poNode, ndp, currentFabric, flag, page, count, filterData, lockDetails, childtable, logicCenter,searchFilter);
             return pfresponse
-        } catch (error) {           
-            return error
+        } catch (error) {
+            // This is the single handler behind every @EventPattern-based TCP
+            // entry point — unlike the node-level catch blocks elsewhere in
+            // this file, it was returning the raw error straight to the
+            // caller with no redaction (M21).
+            const redactedError = this.CommonService.redactSensitiveFields(error);
+            this.logger.error('DynamicFlowProcess failed', redactedError);
+            return redactedError
         }
     }
 
-    async pfProcessor(pfdto, event, pfjson, poJson, pfo, ndp, currentFabric, flag, page, count, filterData, lockDetails, childtable, logicCenter,searchFilter) {
+    async pfProcessor(pfdto, event, pfjson, pfo,poJson, ndp, currentFabric, flag, page, count, filterData, lockDetails, childtable, logicCenter,searchFilter) {
         this.logger.log('Pf Processor started!');
         ({ page, count } = this.CommonService.sanitizePagination(page, count));
         let upId = pfdto.upId
@@ -3168,11 +3174,13 @@ export class DynamicFlowService {
                             pfdto.data = mapObj
                         pfdto.nodeId = subnodeid;
                         pfdto.nodeType = subnodetype;
-                        pfdto.event = event;
-                        pfdto.token = token;
+                        pfdto.event = event;                     
 
-                        await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(pfdto), collectionName, 'request',);
-
+                        // Redacted regardless of field-assignment order below — pfdto.token
+                        // happens to be unset at this exact line today, but that's incidental
+                        // to statement order, not a deliberate safeguard (M22).
+                        await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(this.CommonService.redactSensitiveFields(pfdto)), collectionName, 'request',);
+                         pfdto.token = token;
                         if (currentFabric == 'PF-SCDL') {
                             pfdto.parentUpId = upId;
                             let keyParts = key.split(':');
@@ -3223,8 +3231,15 @@ export class DynamicFlowService {
                                 // Create a QueueEvents instance to listen for job completion
                                 const queueEvents = new QueueEvents(childJobName, {
                                     connection: {
-                                         host: process.env.HOST,
-                port: parseInt(process.env.PORT),
+                                        sentinels: [
+                                        {
+                                        host: process.env.REDIS_SENTINEL_HOST,
+                                        port: Number(process.env.REDIS_SENTINEL_PORT),
+                                        },      
+                                    ],    
+                                    name: process.env.REDIS_MASTER_NAME,
+                                    username: process.env.REDIS_USERNAME,
+                                    password: process.env.REDIS_PASSWORD, 
                                     },
                                 });
 

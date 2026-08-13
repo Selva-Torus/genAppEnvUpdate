@@ -88,7 +88,7 @@ const Texttext_service_method = ({encryptionFlagCompData,isDynamic,item,index,se
   }
 
 return (
-  <div className="" style={{gridColumn: `1 / 25`,gridRow: `87 / 91`, gap:``, height: `100%`}} >
+  <div className="" style={{gridColumn: `1 / 25`,gridRow: `87 / 92`, gap:``, height: `100%`}} >
 <Text
   contentAlign={"left"}
   className=""
