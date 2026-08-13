@@ -1465,7 +1465,7 @@ checklist_status_id:number,
         // R2 remediation: xCdcaRole is a client-declared workflow request,
         // not a credential — verify entitlement against the caller's own
         // verified identity before honoring it.
-        if (!(await this.ufservice.hasCapability(token, 'amr_checklist_status:AUTHORIZE'))) {
+        if (!(await this.ufservice.hasCapability(token, 'amr_checklist_status:AUTHORIZE', authContext?.tenant))) {
           throw new ForbiddenException('Caller is not entitled to authorize changes for amr_checklist_status');
         }
 
@@ -1799,7 +1799,7 @@ checklist_status_id:number,
         // R2 remediation: xCdcaRole is a client-declared workflow request,
         // not a credential — verify entitlement against the caller's own
         // verified identity before honoring it.
-        if (!(await this.ufservice.hasCapability(token, 'amr_checklist_status:AUTHORIZE'))) {
+        if (!(await this.ufservice.hasCapability(token, 'amr_checklist_status:AUTHORIZE', authContext?.tenant))) {
           throw new ForbiddenException('Caller is not entitled to authorize changes for amr_checklist_status');
         }
 

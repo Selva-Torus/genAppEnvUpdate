@@ -1117,6 +1117,21 @@ export class CommonService{
       return typeof name === 'string' && /^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)*$/.test(name);
     }
 
+     isAuthorizedOutputTable(tenant: string | undefined, tableName: any): boolean {
+      if (!this.isSafeSqlIdentifier(tableName)) return false;
+      const raw = process.env.OUTPUTNODE_WRITE_ALLOWLIST;
+      if (!raw) return false;
+      try {
+        const allowlist = JSON.parse(raw);
+        const tenantList: string[] = (tenant && allowlist[tenant]) || [];
+        const globalList: string[] = allowlist['*'] || [];
+        return tenantList.includes(tableName) || globalList.includes(tableName);
+      } catch (e) {
+        this.logger?.error?.('OUTPUTNODE_WRITE_ALLOWLIST is not valid JSON — denying output-node write by default', e);
+        return false;
+      }
+    }
+    
    applyDollarDollarDollarFilters(
       executecommand: string,
       filterData: any,

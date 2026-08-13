@@ -3333,6 +3333,17 @@ export class DynamicFlowService {
             if (nodeType == 'outputnode' && poNode[j].nodeId == nodeId) {
                 try {
                     this.logger.log('Output node Started');
+                    // Q19 remediation: this whole branch's execution graph
+                    // (ndp/poNode) is caller-supplied with no server-side
+                    // validation of its shape, and it can end in a real
+                    // database write (below). AuthGuard.canActivateRpc()
+                    // verifies the caller's JWT and attaches the claims as
+                    // pfdto.authContext before this handler runs — but until
+                    // now nothing in this file ever read it. Refuse to run
+                    // this branch at all without that verified identity.
+                    if (!pfdto?.authContext) {
+                        throw new CustomException('Unauthorized: output-node event carries no verified identity', 401);
+                    }
                     let customConfig = ndp[poNode[j]?.nodeId]
                     let nodeVersion = customConfig?.nodeVersion;
                     if (!nodeVersion) {
@@ -3480,7 +3491,13 @@ export class DynamicFlowService {
                                 throw new CustomException('Table name not found', 404);
 
                             if (dbFlg == 'pg') {
-                                if (!this.CommonService.isSafeSqlIdentifier(tableName)) {
+                                // Q19: isSafeSqlIdentifier() only rejects unsafe
+                                // *syntax* (quotes/semicolons) — it never checked
+                                // whether this caller/tenant may write to this
+                                // table at all. isAuthorizedOutputTable() adds
+                                // that check via an explicit, operator-maintained
+                                // allowlist (OUTPUTNODE_WRITE_ALLOWLIST).
+                                if (!this.CommonService.isAuthorizedOutputTable(pfdto?.authContext?.tenant, tableName)) {
                                     throw new CustomException('Invalid table name', 404);
                                 }
                                 if (Array.isArray(inputData)) {
@@ -3512,7 +3529,17 @@ export class DynamicFlowService {
                                     await client.query(query, values);
                                     await client.end();
                                 }
-                            } else if ((dbFlg = 'mongo')) {
+                            } else if (dbFlg == 'mongo') {
+                                // Q19: this branch previously had no identifier
+                                // check on `tableName` at all before using it as
+                                // a Mongo collection name — same authorization
+                                // gap as the Postgres branch above, just without
+                                // even the syntax-only check. (The `dbFlg = 'mongo'`
+                                // assignment-instead-of-comparison bug, L29, is
+                                // fixed alongside this since it's the same line.)
+                                if (!this.CommonService.isAuthorizedOutputTable(pfdto?.authContext?.tenant, tableName)) {
+                                    throw new CustomException('Invalid table name', 404);
+                                }
                                 logReq = inputData;
                                 try {
                                     if (Array.isArray(inputData))

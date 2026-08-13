@@ -1490,7 +1490,7 @@ review_id:number,
         // R2 remediation: xCdcaRole is a client-declared workflow request,
         // not a credential — verify entitlement against the caller's own
         // verified identity before honoring it.
-        if (!(await this.ufservice.hasCapability(token, 'amr_review_sessions:AUTHORIZE'))) {
+        if (!(await this.ufservice.hasCapability(token, 'amr_review_sessions:AUTHORIZE', authContext?.tenant))) {
           throw new ForbiddenException('Caller is not entitled to authorize changes for amr_review_sessions');
         }
 
@@ -1827,7 +1827,7 @@ review_id:number,
         // R2 remediation: xCdcaRole is a client-declared workflow request,
         // not a credential — verify entitlement against the caller's own
         // verified identity before honoring it.
-        if (!(await this.ufservice.hasCapability(token, 'amr_review_sessions:AUTHORIZE'))) {
+        if (!(await this.ufservice.hasCapability(token, 'amr_review_sessions:AUTHORIZE', authContext?.tenant))) {
           throw new ForbiddenException('Caller is not entitled to authorize changes for amr_review_sessions');
         }
 

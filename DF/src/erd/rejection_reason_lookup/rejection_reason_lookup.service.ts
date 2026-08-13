@@ -1457,7 +1457,7 @@ reason_id:number,
         // R2 remediation: xCdcaRole is a client-declared workflow request,
         // not a credential — verify entitlement against the caller's own
         // verified identity before honoring it.
-        if (!(await this.ufservice.hasCapability(token, 'rejection_reason_lookup:AUTHORIZE'))) {
+        if (!(await this.ufservice.hasCapability(token, 'rejection_reason_lookup:AUTHORIZE', authContext?.tenant))) {
           throw new ForbiddenException('Caller is not entitled to authorize changes for rejection_reason_lookup');
         }
 
@@ -1789,7 +1789,7 @@ reason_id:number,
         // R2 remediation: xCdcaRole is a client-declared workflow request,
         // not a credential — verify entitlement against the caller's own
         // verified identity before honoring it.
-        if (!(await this.ufservice.hasCapability(token, 'rejection_reason_lookup:AUTHORIZE'))) {
+        if (!(await this.ufservice.hasCapability(token, 'rejection_reason_lookup:AUTHORIZE', authContext?.tenant))) {
           throw new ForbiddenException('Caller is not entitled to authorize changes for rejection_reason_lookup');
         }
 

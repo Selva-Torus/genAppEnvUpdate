@@ -1457,7 +1457,7 @@ priority_id:number,
         // R2 remediation: xCdcaRole is a client-declared workflow request,
         // not a credential — verify entitlement against the caller's own
         // verified identity before honoring it.
-        if (!(await this.ufservice.hasCapability(token, 'priority_lookup:AUTHORIZE'))) {
+        if (!(await this.ufservice.hasCapability(token, 'priority_lookup:AUTHORIZE', authContext?.tenant))) {
           throw new ForbiddenException('Caller is not entitled to authorize changes for priority_lookup');
         }
 
@@ -1789,7 +1789,7 @@ priority_id:number,
         // R2 remediation: xCdcaRole is a client-declared workflow request,
         // not a credential — verify entitlement against the caller's own
         // verified identity before honoring it.
-        if (!(await this.ufservice.hasCapability(token, 'priority_lookup:AUTHORIZE'))) {
+        if (!(await this.ufservice.hasCapability(token, 'priority_lookup:AUTHORIZE', authContext?.tenant))) {
           throw new ForbiddenException('Caller is not entitled to authorize changes for priority_lookup');
         }
 

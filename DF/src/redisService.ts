@@ -55,8 +55,15 @@ export class RedisService {
     if (!queue) {
       const queueOptions: QueueOptions = {
         connection: {
-          host: process.env.HOST,
-          port: Number(process.env.PORT),
+          sentinels: [
+        {
+          host: process.env.REDIS_SENTINEL_HOST,
+          port: Number(process.env.REDIS_SENTINEL_PORT),
+        },      
+      ],    
+       name: process.env.REDIS_MASTER_NAME,
+       username: process.env.REDIS_USERNAME,
+       password: process.env.REDIS_PASSWORD, 
         },
         defaultJobOptions: {
           attempts: 3,

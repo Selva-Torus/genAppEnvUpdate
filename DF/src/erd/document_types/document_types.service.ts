@@ -1457,7 +1457,7 @@ doc_type_id:number,
         // R2 remediation: xCdcaRole is a client-declared workflow request,
         // not a credential — verify entitlement against the caller's own
         // verified identity before honoring it.
-        if (!(await this.ufservice.hasCapability(token, 'document_types:AUTHORIZE'))) {
+        if (!(await this.ufservice.hasCapability(token, 'document_types:AUTHORIZE', authContext?.tenant))) {
           throw new ForbiddenException('Caller is not entitled to authorize changes for document_types');
         }
 
@@ -1789,7 +1789,7 @@ doc_type_id:number,
         // R2 remediation: xCdcaRole is a client-declared workflow request,
         // not a credential — verify entitlement against the caller's own
         // verified identity before honoring it.
-        if (!(await this.ufservice.hasCapability(token, 'document_types:AUTHORIZE'))) {
+        if (!(await this.ufservice.hasCapability(token, 'document_types:AUTHORIZE', authContext?.tenant))) {
           throw new ForbiddenException('Caller is not entitled to authorize changes for document_types');
         }
 

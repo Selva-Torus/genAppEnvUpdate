@@ -7877,7 +7877,7 @@ getConfig(): FusionAuthConfig {
       const appGroupInfo =
         tenantProfile?.AG?.find((group: any) => group?.code == ag) ?? {};
       const overAllApplicationList =
-        appGroupInfo?.APPS ||
+        appGroupInfo?.APPS?.filter((a) => a?.code != currentApp) ||
         [];
       let accessibleAppList: any[] = [];
 
