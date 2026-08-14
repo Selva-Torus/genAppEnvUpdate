@@ -100,7 +100,7 @@ const SideNav = ({
         },
         icon: screen.icon ? (
           <Image
-            className='h-[16px] w-[20px]'
+            className='h-[2.5vh] w-[1vw]'
             width={100}
             height={100}
             alt='icon'
@@ -139,7 +139,7 @@ const SideNav = ({
           items: getNestedMenu(item),
           icon: item.icon ? (
             <Image
-              className='h-[16px] w-[20px]'
+              className='h-[2.5vh] w-[1vw]'
               width={100}
               height={100}
               alt='icon'
@@ -218,14 +218,12 @@ const SideNav = ({
         }
         return {
           backgroundColor: brandColor,
-          height: '6vh',
           color: isLightColor(brandColor)
         }
       }
 
       return {
         backgroundColor: 'transparent',
-        height: '6vh',
         color: 'unset'
       }
     },
@@ -258,7 +256,7 @@ const SideNav = ({
   const MenuItemsSection = useCallback(() => (
     <div
       className={clsx('scrollbar-none col-span-full flex w-full flex-col gap-2 overflow-x-hidden pt-2', {
-        'max-h-[80vh] overflow-y-scroll': !navBarItemsOrder,
+        'max-h-[70vh] overflow-y-scroll': !navBarItemsOrder?.length,
         'overflow-y-auto min-h-0': navBarItemsOrder
       })}
       style={{
@@ -269,6 +267,7 @@ const SideNav = ({
       {navData &&
         navData.map((menu, index): any => {
           if (menu.menuGroup) {
+            const isSelected = typeof getDropDownStyles(menu.menuGroup,true) == 'boolean';
             return (
               <Tooltip
                 key={index}
@@ -302,54 +301,23 @@ const SideNav = ({
                       >
                         {fullView ? (
                           <button
-                            style={{
-                              color: `${
-                                typeof getDropDownStyles(
-                                  menu.menuGroup,
-                                  true
-                                ) !== 'boolean'
-                                  ? brandColor
-                                  : ''
-                              }`
-                            }}
-                            className={`w-full ${
-                              typeof getDropDownStyles(
-                                menu.menuGroup,
-                                true
-                              ) !== 'boolean'
-                                ? 'hover:rounded-md hover:p-3.5'
-                                : ''
-                            }`}
-                            onMouseEnter={e => {
-                              e.currentTarget.style.backgroundColor = `${
-                                typeof getDropDownStyles(
-                                  menu.menuGroup,
-                                  true
-                                ) !== 'boolean'
-                                  ? hoverColor
-                                  : ''
-                              }`
-                            }}
-                            onMouseLeave={e => {
-                              e.currentTarget.style.backgroundColor =
-                                'transparent'
-                            }}
+                            className={clsx('p-[0.3vw] rounded-[0.3vw]' , {
+                            'text-[var(--brand-color)] hover:bg-[var(--hover-color)]' : !isSelected,
+                            'bg-[var(--brand-color)]' : isSelected
+                          })}
                           >
                             <div className={`${getMenuClassName()} w-[100%]`}>
                               <div className='flex w-[20%] items-center justify-end'>
                                 {menu.icon ? (
                                   <Image
-                                    className='h-[16px] w-[20px]'
+                                    className='h-[2.5vh] w-[1vw]'
                                     width={100}
                                     height={100}
                                     alt='icon'
                                     src={getCdnImage(menu.icon)}
                                     style={{
                                       filter:
-                                        typeof getDropDownStyles(
-                                          menu.menuGroup,
-                                          true
-                                        ) == 'boolean' || isDark
+                                        isSelected || isDark
                                           ? 'invert(1) sepia(1) hue-rotate(180deg) saturate(3)'
                                           : 'unset'
                                     }}
@@ -359,10 +327,7 @@ const SideNav = ({
                                     height='20'
                                     width='20'
                                     fill={
-                                      typeof getDropDownStyles(
-                                        menu.menuGroup,
-                                        true
-                                      ) == 'boolean'
+                                     isSelected
                                         ? isLightColor(brandColor)
                                         : isDark
                                         ? '#fff'
@@ -403,53 +368,22 @@ const SideNav = ({
                           </button>
                         ) : (
                           <button
-                            style={{
-                              color: `${
-                                typeof getDropDownStyles(
-                                  menu.menuGroup,
-                                  true
-                                ) !== 'boolean'
-                                  ? brandColor
-                                  : ''
-                              }`
-                            }}
-                            className={`w-full ${
-                              typeof getDropDownStyles(
-                                menu.menuGroup,
-                                true
-                              ) !== 'boolean'
-                                ? 'hover:rounded-md hover:p-3.5'
-                                : ''
-                            }`}
-                            onMouseEnter={e => {
-                              e.currentTarget.style.backgroundColor = `${
-                                typeof getDropDownStyles(
-                                  menu.menuGroup,
-                                  true
-                                ) !== 'boolean'
-                                  ? hoverColor
-                                  : ''
-                              }`
-                            }}
-                            onMouseLeave={e => {
-                              e.currentTarget.style.backgroundColor =
-                                'transparent'
-                            }}
+                            className={clsx('p-[0.3vw] rounded-[0.3vw]' , {
+                              'text-[var(--brand-color)] hover:bg-[var(--hover-color)]' : !isSelected,
+                              'bg-[var(--brand-color)]' : isSelected
+                            })}
                           >
                             <span className='flex items-center'>
                               {menu.icon ? (
                                 <Image
-                                  className='h-[16px] w-[20px]'
+                                  className='h-[2.5vh] w-[1vw]'
                                   width={100}
                                   height={100}
                                   alt='icon'
                                   src={getCdnImage(menu.icon)}
                                   style={{
                                     filter:
-                                      typeof getDropDownStyles(
-                                        menu.menuGroup,
-                                        true
-                                      ) == 'boolean' || isDark
+                                      isSelected || isDark
                                         ? 'invert(1) sepia(1) hue-rotate(180deg) saturate(3)'
                                         : 'unset'
                                   }}
@@ -459,10 +393,7 @@ const SideNav = ({
                                   height='20'
                                   width='20'
                                   fill={
-                                    typeof getDropDownStyles(
-                                      menu.menuGroup,
-                                      true
-                                    ) == 'boolean'
+                                    isSelected
                                       ? isLightColor(brandColor)
                                       : isDark
                                       ? '#fff'
@@ -491,7 +422,8 @@ const SideNav = ({
               '/' +
               menu.screenDetails[0].name.replace(/ /g, '_') +
               '_' +
-              menu.screenDetails[0].key.split(':').at(-1)
+              menu.screenDetails[0].key.split(':').at(-1);
+            const isSelected = routingName == pathname;
             return (
               <Tooltip
                 key={index}
@@ -499,20 +431,10 @@ const SideNav = ({
                 placement='right-start'
               >
                 <button
-                  style={{
-                    color: `${routingName !== pathname ? brandColor : ''}`
-                  }}
-                  className={`${
-                    routingName !== pathname ? `p-1 hover:rounded-md` : ''
-                  }`}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.backgroundColor = `${
-                      routingName !== pathname ? hoverColor : ''
-                    }`
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.backgroundColor = 'transparent'
-                  }}
+                  className={clsx('p-[0.3vw] rounded-[0.3vw]' , {
+                    'text-[var(--brand-color)] hover:bg-[var(--hover-color)]' : !isSelected,
+                    'bg-[var(--brand-color)]' : isSelected
+                  })}
                 >
                   <div
                     key={index}
@@ -522,10 +444,6 @@ const SideNav = ({
                     )}
                     onClick={() => router.push(routingName)}
                     style={{
-                      backgroundColor:
-                        routingName == pathname
-                          ? `${brandColor}`
-                          : 'transparent',
                       width: '100%',
                       justifyContent: fullView ? 'unset' : 'center',
                       color:
@@ -536,7 +454,7 @@ const SideNav = ({
                   >
                     {menu.screenDetails[0].icon ? (
                       <Image
-                        className='h-[16px] w-[20px]'
+                        className='h-[2.5vh] w-[1vw]'
                         width={100}
                         height={100}
                         alt='icon'
@@ -562,7 +480,9 @@ const SideNav = ({
                       />
                     )}
                     {fullView && (
-                      <div className='w-[100px] truncate' key={index}>
+                      <div className={clsx('w-[100px] truncate' , {
+                        'text-left' : sidebarStyle !== 'condensed'
+                      })} key={index}>
                         {menu.menuGroupLabel}
                       </div>
                     )}
@@ -621,7 +541,7 @@ const SideNav = ({
   ), [fullView, brandColor, logout, user, userDetails, selectedAccessProfile])
 
   const LogoSection = useCallback(() => (
-      <div className='flex flex-col w-full items-center gap-1' style={getGridStyle('logo') ? {...getGridStyle('logo') , gridColumn: '2 /8'} : {}}>
+      <div className='flex flex-col w-full items-center justify-center gap-1 pb-[0.5vh]' style={getGridStyle('logo') ? {...getGridStyle('logo') , gridColumn: '2 /8'} : {}}>
         {logo ? (
           <Image
             className='min-h-[3vh] max-h-[5vh] h-auto w-auto'
@@ -633,11 +553,14 @@ const SideNav = ({
         ) : (
           <Logo />
         )}
-        <Text className='text text-center font-bold w-full truncate text-[var(--brand-color)]' contentAlign='left'>
-          <span className="block w-[4vw] truncate" title={appName}>
+          <span 
+            className={clsx("truncate font-semibold text-[var(--brand-color)] text-fsbase" , {
+                "w-[4vw]" : !fullView,
+                "w-[8vw]" : fullView
+              })} 
+          title={appName}>
           {appName}
           </span>
-        </Text>
       </div>
     ) , [logo, appName])
 
@@ -729,7 +652,7 @@ const FullViewAvatar = ({
         onClick={() => setIsPopoverOpen(prev => !prev)}
         ref={popoverButtonElement}
         className={twMerge(
-          'flex items-center gap-2 rounded-lg border px-1 py-1.5',
+          'flex items-center gap-2 rounded-lg border px-[0.8vw] py-[0.7vh]',
           borderColor
         )}
       >
