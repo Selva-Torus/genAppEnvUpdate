@@ -147,6 +147,8 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
   const {checklist_tablec0934, setchecklist_tablec0934}= useContext(TotalContext) as TotalContextProps;
   const {checklist_tablec0934Props, setchecklist_tablec0934Props}= useContext(TotalContext) as TotalContextProps;
   const {viewamrpggraph_v1Props, setviewamrpggraph_v1Props}= useContext(TotalContext) as TotalContextProps;
+  const {venue_details_group5f664, setvenue_details_group5f664}= useContext(TotalContext) as TotalContextProps;
+  const {venue_details_group5f664Props, setvenue_details_group5f664Props}= useContext(TotalContext) as TotalContextProps;
   //////////////
 
 
@@ -236,6 +238,10 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
       codeStates['setchecklist_tablec0934'] = setchecklist_tablec0934Props,
       codeStates['viewamrpggraph_v1'] = viewamrpggraph_v1Props,
       codeStates['setviewamrpggraph_v1'] = setviewamrpggraph_v1Props,
+      codeStates['venue_details_group'] = venue_details_group5f664,
+      codeStates['setvenue_details_group'] = setvenue_details_group5f664,
+      codeStates['venue_details_group5f664'] = venue_details_group5f664Props,
+      codeStates['setvenue_details_group5f664'] = setvenue_details_group5f664Props,
       codeStates['response']  = savedData.current;
       codeStates['mainData'] = mainData,
       customCode = codeExecution(code,codeStates);
@@ -321,11 +327,6 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
     setcase_information_group40df6Props({...case_information_group40df6Props,presetValues:{...(mainData||{})}})
     //bindTran
     // For group or table
-    let bindData14 = filterByKeys(mainData,fees_groupbee4aProps?.controls);
-    setfees_groupbee4a(bindData14||{})
-    setfees_groupbee4aProps({...fees_groupbee4aProps,presetValues:{...(mainData||{})}})
-    //bindTran
-    // For group or table
     let bindData16 = filterByKeys(mainData,total_group197f6Props?.controls);
     settotal_group197f6(bindData16||{})
     settotal_group197f6Props({...total_group197f6Props,presetValues:{...(mainData||{})}})
@@ -362,6 +363,39 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
         }
       }
     ]
+  },
+  {
+    "key": "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:venueSurerealDB:AFVK:v1",
+    "nodeBasedData": [
+      {
+        "nodeId": "cfc5fdc80b5b46dc9bf5a74352f92d52",
+        "object": {
+          "items.properties.account_id": "a77bb1cbcfac46c59cf0979384f4eec9"
+        }
+      }
+    ]
+  },
+  {
+    "key": "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:specialRulesSurerealDB:AFVK:v1",
+    "nodeBasedData": [
+      {
+        "nodeId": "5c1ed2d414f740ab820856297865df26",
+        "object": {
+          "items.properties.account_id": "a77bb1cbcfac46c59cf0979384f4eec9"
+        }
+      }
+    ]
+  },
+  {
+    "key": "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrChecklistStatus:AFVK:v1",
+    "nodeBasedData": [
+      {
+        "nodeId": "401380fb5b984554a4210c053168c928",
+        "object": {
+          "properties.account_id": "a77bb1cbcfac46c59cf0979384f4eec9"
+        }
+      }
+    ]
   }
 ];
     let filterData22 = await getFilterProps(filterProps22,mainData);
@@ -373,6 +407,11 @@ const Buttonview_btn_pg_graph = ({ mainData,lockedData,setLockedData,primaryTabl
     let bindData24 = filterByKeys(mainData,doc_table8af83Props?.controls);
     setdoc_table8af83(bindData24||{})
     setdoc_table8af83Props({...doc_table8af83Props,presetValues:{...(mainData||{})}})
+    //bindTran
+    // For group or table
+    let bindData26 = filterByKeys(mainData,venue_details_group5f664Props?.controls);
+    setvenue_details_group5f664(bindData26||{})
+    setvenue_details_group5f664Props({...venue_details_group5f664Props,presetValues:{...(mainData||{})}})
       await handleCustomCode();
     }catch (err: any) {
       setIsProcessing(false);

@@ -39,13 +39,11 @@ const ForgotPassword = ({ logo, appName, appTenantList }: Props) => {
 
   const handleGetOtp = async () => {
     try {
-      const res = await AxiosService.get(`UF/getResetPasswordOtp`, {
-        params: {
-          email: formData.email,
-          tenantId: selectedAppTenant ? appTenantList?.find(item => item.tenant_name == selectedAppTenant)?.at_id : undefined
-        }
+      const res = await AxiosService.post(`UF/getResetPasswordOtp`, {
+        email: formData.email,
+        tenantId: selectedAppTenant ? appTenantList?.find(item => item.tenant_name == selectedAppTenant)?.at_id : undefined
       })
-      if (res.status === 200) {
+      if (res.status === 201) {
         setOtpResetToken(res.data.id)
         setIsOtpReceive(true)
       }

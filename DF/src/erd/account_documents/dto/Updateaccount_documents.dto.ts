@@ -95,46 +95,15 @@ export class  Updateaccount_documentsDto {
         @ApiPropertyOptional()
         @IsOptional()
         trs_version?: string;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         @ApiProperty({
             type: `integer`,
             format: `int32`,
         })
         doc_type_id: number;
-
-
-
-
-
-
-
-
-
-
         @ApiProperty({
             type: `integer`,
             format: `int32`,
         })
         account_id: number;
-
-
-
-
-
-
-
 }
 

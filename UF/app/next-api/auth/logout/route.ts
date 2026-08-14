@@ -3,6 +3,26 @@ import { COOKIE_PREFIX, FULL_BASE_PATH } from '@/lib/cookies';
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
+  const token = request.cookies.get(`${COOKIE_PREFIX}_token`)?.value;
+
+  // 1. Revoke the session server-side FIRST. This is what actually kills
+  // the JWT via Redis (jwtService.revokeToken) — everything after this is
+  // just FusionAuth/browser cleanup and was never enforcing anything.
+  if (token) {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/UF/logout`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch {
+      // non-blocking — don't let a backend hiccup trap the user unable
+      // to log out client-side
+    }
+  }
+
   // Fire and forget FA server-side logout
   try {
     const queryParams = new URLSearchParams();

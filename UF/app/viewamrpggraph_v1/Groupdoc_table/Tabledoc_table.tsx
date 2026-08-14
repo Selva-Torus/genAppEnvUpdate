@@ -81,7 +81,7 @@ let defaultColumns:any = [
     },
     "className": "",
     "align": "left",
-    "hide": false,
+    "hide": true,
     "isSearch": false,
     "colourIndicator": [],
     "dfdName": "attachment_id"

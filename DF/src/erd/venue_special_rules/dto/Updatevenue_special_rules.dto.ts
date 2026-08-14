@@ -95,41 +95,10 @@ export class  Updatevenue_special_rulesDto {
         @ApiPropertyOptional()
         @IsOptional()
         trs_version?: string;
-
-
-
-
-
-
-
-
-
-
         @ApiProperty({
             type: `integer`,
             format: `int32`,
         })
         venue_id: number;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 

@@ -92,36 +92,5 @@ export class  UpdatecreditorsDto {
         @ApiPropertyOptional()
         @IsOptional()
         trs_version?: string;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 

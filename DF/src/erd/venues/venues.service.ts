@@ -1,4 +1,6 @@
 import { HttpException, Injectable,HttpStatus,InternalServerErrorException,ConflictException,BadRequestException } from '@nestjs/common';
+import { CreatevenuesDto } from './dto/Createvenues.dto';
+import { UpdatevenuesDto } from './dto/Updatevenues.dto';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma.service';
 import { CdcPrismaService } from '../cdc_prisma.service'; 
@@ -433,6 +435,9 @@ export class venuesService {
   }
 
  async findAllmethod(queryDto: any, limit:number, selectColumns:any, token:any, authContext?: any) {
+  if (!authContext?.tenant) {
+     throw new ForbiddenException('Tenant claim is missing from the token');
+   }
     try {
       let queryCondition:any ={}
       let queryValue:any = {}
@@ -577,11 +582,7 @@ export class venuesService {
       if(trs_version){ 
         query.trs_version = { [queryCondition['trs_version']]: trs_version };
       }
-      // Scope by the verified caller's own tenant (when available) — this
-      // previously let a caller filter/list rows across every tenant.
-      if (authContext?.tenant) {
-        query.trs_tenant_id = authContext.tenant;
-      }
+      query.trs_tenant_id = authContext.tenant;
       const skip = (page - 1) * limit;
       if (Object.keys(query).length > 0) {
         const banks = await this.prismaService.withConnection(() =>
@@ -656,10 +657,11 @@ export class venuesService {
   }
 
   async findOne(venue_id:number,token : string,detokenize?: string,detokenizeData?: any,authContext?: any) {
+    if (!authContext?.tenant) {
+      throw new ForbiddenException('Tenant claim is missing from the token');
+    }
     try{
-      // Scope by the verified caller's own tenant (when available) so one
-      // tenant can no longer read another tenant's row by walking doc_instance_id.
-      const tenantFilter = authContext?.tenant ? { trs_tenant_id: authContext.tenant } : {};
+      const tenantFilter = { trs_tenant_id: authContext.tenant };
       const res = await this.prismaService.withConnection(() =>
       this.prismaService.venues.findMany({ 
       where: {venue_id, ...tenantFilter },
@@ -724,10 +726,11 @@ export class venuesService {
 
   async findAll(token : string,authContext?: any,detokenize?: string,detokenizeData?: any
 ) {
+    if (!authContext?.tenant) {
+      throw new ForbiddenException('Tenant claim is missing from the token');
+    }
     try{
-      // Scope by the verified caller's own tenant (when available) — this
-      // previously returned every tenant's rows unconditionally.
-      const whereClause: any = authContext?.tenant ? { trs_tenant_id: authContext.tenant } : {};
+      const whereClause: any = { trs_tenant_id: authContext.tenant };
       const res = await this.prismaService.withConnection(() =>
       this.prismaService.venues.findMany({ 
       where: whereClause,
@@ -799,15 +802,12 @@ export class venuesService {
     }
     }
     
-  async create(createvenuesDto: Prisma.venuesCreateInput,token:string,detokenize:string,detokenizeData?: any,authContext?: any) {
+  async create(createvenuesDto: CreatevenuesDto,token:string,detokenize:string,detokenizeData?: any,authContext?: any) {
+    if (!authContext?.tenant) {
+      throw new ForbiddenException('Tenant claim is missing from the token');
+    }
     try{
-      // Stamp the record with the verified caller's own tenant instead of
-      // trusting whatever trs_tenant_id the request body supplied — closes
-      // the write-side of the tenant-isolation gap (a caller could otherwise
-      // create a row tagged as belonging to a different tenant).
-      if (authContext?.tenant) {
-        (createvenuesDto as any).trs_tenant_id = authContext.tenant;
-      }
+      (createvenuesDto as any).trs_tenant_id = authContext.tenant;
 
       const dataSchema:any =  v.object({
             state :  v.optional(v.string()), 
@@ -1038,17 +1038,16 @@ export class venuesService {
    * @param token - Auth token
    */
   async createMaster(
-    createvenuesDto: Prisma.venuesCreateInput,
+    createvenuesDto: CreatevenuesDto,
     userInfo: { role: string; username: string; remarks?: string,approvalStatus?:string, approvalId?: string },
     token: string,
     authContext?: any,
   ) {
+    if (!authContext?.tenant) {
+      throw new ForbiddenException('Tenant claim is missing from the token');
+    }
     try {
-      // See create() above — stamp the caller's own verified tenant rather
-      // than trusting the request body's trs_tenant_id.
-      if (authContext?.tenant) {
-        (createvenuesDto as any).trs_tenant_id = authContext.tenant;
-      }
+      (createvenuesDto as any).trs_tenant_id = authContext.tenant;
       const workflowRole = userInfo.role?.toUpperCase();
       const approvalStatus = userInfo.approvalStatus?.toUpperCase();
 
@@ -1310,20 +1309,19 @@ export class venuesService {
     }
   }
 
-  async update(venue_id:number, updatevenuesDto: Prisma.venuesUpdateInput,token:string, detokenize:string,detokenizeData?: any,authContext?: any) {   
+  async update(venue_id:number, updatevenuesDto: UpdatevenuesDto,token:string, detokenize:string,detokenizeData?: any,authContext?: any) {   
+    if (!authContext?.tenant) {
+      throw new ForbiddenException('Tenant claim is missing from the token');
+    }
     try{
-      // Ownership check — a caller must not be able to update a row that
-      // belongs to a different tenant just by knowing its doc_instance_id.
-      if (authContext?.tenant) {
-        const owned = await this.prismaService.withConnection(() =>
-          this.prismaService.venues.findFirst({
-            where: {venue_id, trs_tenant_id: authContext.tenant },
-            select: {venue_id:true, },
-          }),
-        );
-        if (!owned) {
-          throw new CustomException('Record not found', HttpStatus.NOT_FOUND);
-        }
+      const owned = await this.prismaService.withConnection(() =>
+        this.prismaService.venues.findFirst({
+          where: {venue_id, trs_tenant_id: authContext.tenant },
+          select: {venue_id:true, },
+        }),
+      );
+      if (!owned) {
+        throw new CustomException('Record not found', HttpStatus.NOT_FOUND);
       }
 
       const dataSchema:any =  v.object({
@@ -1503,12 +1501,17 @@ export class venuesService {
    */
   async updateMaster(
 venue_id:number,
-    updatevenuesDto: Prisma.venuesUpdateInput,
+    updatevenuesDto: UpdatevenuesDto,
     userInfo: { role: string; username: string; remarks?: string,approvalStatus?:string },
     token:string,
     authContext?: any,
   ) {
     try {
+      // Fail closed when the JWT has no tenant claim — without a verified
+      // tenant we cannot prove ownership of the record being changed.
+      if (!authContext?.tenant) {
+        throw new ForbiddenException('Tenant claim is missing from the token');
+      }
       const workflowRole = userInfo.role?.toUpperCase();
       const updateMaster_id =venue_id;
 
@@ -1532,14 +1535,12 @@ venue_id:number,
         // target row still exists in its pre-change state until approved,
         // so its current tenant is checkable here even though the pending
         // change payload itself isn't.
-        if (authContext?.tenant) {
-          const targetRecord = await this.prismaService.venues.findUnique({
-            where: { venue_id: updateMaster_id },
-            select: { trs_tenant_id: true },
-          });
-          if (targetRecord && targetRecord.trs_tenant_id !== authContext.tenant) {
-            throw new ForbiddenException('Record belongs to a different tenant');
-          }
+        const targetRecord = await this.prismaService.venues.findUnique({
+          where: { venue_id: updateMaster_id },
+          select: { trs_tenant_id: true },
+        });
+        if (targetRecord && targetRecord.trs_tenant_id !== authContext.tenant) {
+          throw new ForbiddenException('Record belongs to a different tenant');
         }
 
         // Call approve_change(approval_id, checker_id, checker_remarks)
@@ -1771,7 +1772,13 @@ venue_id:number,
 
   async remove(venue_id:number,token : string, detokenize: string,detokenizeData?: any,authContext?: any) {
     try{
-    const tenantFilter = authContext?.tenant ? { trs_tenant_id: authContext.tenant } : {};
+    // Fail closed when the JWT has no tenant claim — without a verified
+    // tenant we cannot scope the deletion to the caller's own rows.
+    if (!authContext?.tenant) {
+      throw new ForbiddenException('Tenant claim is missing from the token');
+    }
+    const tenantFilter = { trs_tenant_id: authContext.tenant };
+
     const toDelete = await this.prismaService.withConnection(() =>
       this.prismaService.venues.findMany({
       where: {venue_id ,...tenantFilter},
@@ -1848,6 +1855,11 @@ venue_id:number,
     authContext?: any,
   ) {
     try {
+      // Fail closed when the JWT has no tenant claim — without a verified
+      // tenant we cannot prove ownership of the record being changed.
+      if (!authContext?.tenant) {
+        throw new ForbiddenException('Tenant claim is missing from the token');
+      }
       const workflowRole = userInfo.role?.toUpperCase();
       const deleteMaster_id =venue_id;
 
@@ -1870,14 +1882,12 @@ venue_id:number,
         // Close the tenant-blindness half of R2: the pending change's
         // target row still exists in its pre-change state until approved,
         // so its current tenant is checkable here.
-        if (authContext?.tenant) {
-          const targetRecord = await this.prismaService.venues.findUnique({
-            where: { venue_id: deleteMaster_id },
-            select: { trs_tenant_id: true },
-          });
-          if (targetRecord && targetRecord.trs_tenant_id !== authContext.tenant) {
-            throw new ForbiddenException('Record belongs to a different tenant');
-          }
+        const targetRecord = await this.prismaService.venues.findUnique({
+          where: { venue_id: deleteMaster_id },
+          select: { trs_tenant_id: true },
+        });
+        if (targetRecord && targetRecord.trs_tenant_id !== authContext.tenant) {
+          throw new ForbiddenException('Record belongs to a different tenant');
         }
 
         // Call approve_change(approval_id, checker_id, checker_remarks)

@@ -92,36 +92,5 @@ export class  Updaterejection_reason_lookupDto {
         @ApiPropertyOptional()
         @IsOptional()
         trs_version?: string;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 

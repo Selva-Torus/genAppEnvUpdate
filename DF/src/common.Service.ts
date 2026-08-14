@@ -837,49 +837,7 @@ export class CommonService{
             token,
           );
       }
-    //   const keyParts = keys.split(':');
-    //   const catk: string[] = [];
-    //   const afgk: string[] = [];
-    //   const ak: string[] = [];
-    //   const afvk: string[] = [];
-    //   const afsk: string = keyParts[14];
-    //   const ck = keyParts[1];
-    //   const fngk = keyParts[3];
-    //   const fnk = keyParts[5];
-    //   catk.push(keyParts[7]);
-    //   afgk.push(keyParts[9]);
-    //   ak.push(keyParts[11]);
-    //   afvk.push(keyParts[13]);
-
-    //   let readAPIBody: readAPIDTO = {
-    //     SOURCE: source,
-    //     TARGET: target,
-    //     CK: ck,
-    //     FNGK: fngk,
-    //     FNK: fnk,
-    //     CATK: catk,
-    //     AFGK: afgk,
-    //     AFK: ak,
-    //     AFVK: afvk,
-    //     AFSK: afsk,
-    //   };
-
-    //   // const readKey = await axios.post(
-    //   //   process.env.TORUS_URL + '/api/readkey',
-    //   //   readAPIBody,
-    //   // );
-    //   let URL = process.env.TORUS_URL +'/readkey'
-    //   const readKey = await axios.post(
-    //    URL,
-    //      readAPIBody,
-    //      {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`
-    //   }
-    // }
-    //    );
-
-    //   return readKey.data;
+    
     }
     
     async postCall(url,body,headers?){ 
@@ -1181,7 +1139,7 @@ export class CommonService{
     
    
     //RollBack Check
-     async checkRollBack(Ndp,collectionName,action,currentNode?){
+     async checkRollBack(Ndp,collectionName,action,currentNode?,tenant?){
       try {  
         let pfs = currentNode?.pfs
         let ifoflg = []
@@ -1280,7 +1238,7 @@ export class CommonService{
                     qry = manualQry.replace(regex, value);
                   });
                   // let qry = `DELETE FROM ${tablename} WHERE ${primaryKey} = ${insertedData[primaryKey]};`
-                  let conectdb = await this.dbconfig(Ndp[item], collectionName)
+                  let conectdb = await this.dbconfig(Ndp[item], collectionName, tenant)
                   let db = conectdb.client
                   await db.connect();
                   if (qry) qryres = await db.query(qry);
@@ -1293,7 +1251,7 @@ export class CommonService{
                     manualQryType = rollback.subSelection._true.manualQueryType.value
                     rmanualQry = rollback.subSelection._true.manualQueryType.manualQuery
                   }
-                  let mconfig = await this.mongodbconfig(Ndp[item], collectionName)
+                  let mconfig = await this.mongodbconfig(Ndp[item], collectionName, tenant)
                   let mongodbUrl = mconfig.mongodbUrl
                   //let manualQryType = mconfig.manualQryType
                   const client = new MongoClient(mongodbUrl);
@@ -1325,7 +1283,7 @@ export class CommonService{
                 else if (Ndp[item].nodeType == 'streamnode') {
                   let rollbackData = JSON.parse(await this.redisService.getJsonDataWithPath(currentNode.key + ':NPV:' + Ndp[item].nodeName + '.PRO', '.rollback', collectionName));
                   let reqData: any;
-                  let sconf = await this.streamConfig(Ndp[item], collectionName)
+                  let sconf = await this.streamConfig(Ndp[item], collectionName, tenant)
                   if (!sconf.streamName)
                     reqData = JSON.parse(await this.redisService.getJsonDataWithPath(currentNode.key + ':NPV:' + Ndp[item].nodename + '.PRO', '.request', collectionName));
                   else
@@ -1348,7 +1306,7 @@ export class CommonService{
                 else if (Ndp[item].nodeType == 'filenode') {
                   let rollbackData = JSON.parse(await this.redisService.getJsonDataWithPath(currentNode.key + ':NPV:' + Ndp[item].nodeName + '.PRO', '.rollback', collectionName));
 
-                  let fconf = await this.fileConfig(Ndp[item], collectionName)
+                  let fconf = await this.fileConfig(Ndp[item], collectionName, tenant)
                   if (fconf.oprname == 'write') {
                     let auth = {
                       username: fconf.seaWeedConfig.username,
@@ -1363,7 +1321,7 @@ export class CommonService{
                   }
                 }
                 else if (Ndp[item].nodeType == 'procedureexecutionnode' || Ndp[item].nodeType == 'function_node') {
-                  let pconf = await this.procedureConfig(Ndp[item], collectionName)
+                  let pconf = await this.procedureConfig(Ndp[item], collectionName, tenant)
                   if (insertedData && Object.keys(insertedData).length > 0) {
                     Object.keys(insertedData).forEach(key => {
                       const regex = new RegExp(`\\$\\$${key}`, 'g');
@@ -1388,6 +1346,7 @@ export class CommonService{
         throw error
       }    
     }
+
 
     async deleteCall(url, headers?) {
      assertAllowedOutboundHost(url);
@@ -1580,7 +1539,7 @@ export class CommonService{
      
       if (index !== -1) {   
         return parts[index+1]; 
-      }      
+      }       
     }
 
     async patchCall(url,data,headers){ 
@@ -1711,7 +1670,7 @@ export class CommonService{
 
 
 
-  async seaWeeduploadFile(
+ async seaWeeduploadFile(
   data: any,
   bucketName: string,
   folderPath: string,
@@ -1740,6 +1699,7 @@ export class CommonService{
 
     // Try to fetch existing file
         try {
+          assertAllowedOutboundHost(fileUrl);
           const existing = await axios.get(fileUrl, {
         auth: {
         username: this.envData.getSeaweedUsername(),//process.env.SEAWEED_USERNAME,
@@ -1785,6 +1745,7 @@ export class CommonService{
       contentType: 'application/json',
     });
 
+  assertAllowedOutboundHost(fileUrl);
   const response = await axios.post(fileUrl, form, {
       headers: {
         ...form.getHeaders(),
@@ -1818,6 +1779,7 @@ export class CommonService{
   async downloadAndParseFile(client:string,fileName: string): Promise<any> {
     try {
       const streamUrl = `${this.seaweedOutPutPath}/buckets/torus/9.1/${client}${fileName}`;    
+      assertAllowedOutboundHost(streamUrl);
       const response = await axios.get(streamUrl, { responseType: 'stream',  auth: {
     username: this.envData.getSeaweedUsername(),//process.env.SEAWEED_USERNAME,
     password: this.envData.getSeaweedPassword(),//process.env.SEAWEED_PASSWORD
@@ -1837,6 +1799,7 @@ export class CommonService{
       const allFiles: string[] = [];
       const traverse = async (path: string) => {
         try {
+         assertAllowedOutboundHost(`${this.seaweedOutPutPath}${path}`);
          const res = await axios.get(`${this.seaweedOutPutPath}${path}?recursive=true&pretty=y`,{
           headers: {
           Accept: 'application/json',
@@ -2033,6 +1996,7 @@ export class CommonService{
       // volumeUrl example: http://localhost:8080
       const traverse = async (path: string) => {
         try {
+         assertAllowedOutboundHost(`${this.seaweedOutPutPath}${fileName}`);
          const res = await axios.delete(`${this.seaweedOutPutPath}${fileName}?recursive=true&pretty=y`,{
           headers: {
           Accept: 'application/json',
@@ -2070,7 +2034,16 @@ export class CommonService{
 
 
 
-  async dbconfig(customConfig,collectionName){
+
+  async assertConnectorTenant(dpdkey: string, tenant?: string): Promise<void> {
+    const keyTenant = await this.splitcommonkey(dpdkey, 'CK');
+    if (!tenant)
+      throw new CustomException('Tenant identity missing from request context', 403);
+    if (!keyTenant || keyTenant !== tenant)
+      throw new CustomException('Connector tenant ownership check failed', 403);
+  }
+
+  async dbconfig(customConfig,collectionName,tenant?){
     try {
       let client: any;
       let nodeVersion = customConfig?.nodeVersion;
@@ -2088,6 +2061,7 @@ export class CommonService{
       }      
       if (!dpdkey) throw new CustomException('DPD key not found', 404);          
        
+      await this.assertConnectorTenant(dpdkey, tenant);
       let extdata:any =  Object.values(JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName)))[0];
       
       let dpdData:any = decrypt(extdata)         
@@ -2161,7 +2135,7 @@ export class CommonService{
     }
   }
 
-   async mongodbconfig(customConfig,collectionName){
+   async mongodbconfig(customConfig,collectionName,tenant?){
    try {
     let collnName, manualQryType, manualQry, sessionfilterParams, connectorType, storageType, dpdkey, conncectorName, filterParams;
     let nodeVersion = customConfig?.nodeVersion;
@@ -2180,6 +2154,7 @@ export class CommonService{
       let mongoQry, mongoDbarr, mongodbConfig, mongodbUrl;
       if (storageType?.toLowerCase() == 'external') {
         if (!dpdkey) throw new CustomException('DPD key not found', 404);
+        await this.assertConnectorTenant(dpdkey, tenant);
           let extdata:any =  Object.values(JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName)))[0];      
           let dpdData      
           dpdData = decrypt(extdata) 
@@ -2215,7 +2190,7 @@ export class CommonService{
     
   }
 
-  async streamConfig(customConfig,collectionName){
+  async streamConfig(customConfig,collectionName,tenant?){
       let oprname, oprkey, streamName, fromStreamid, toStreamid, connectorType, storageType, dpdkey, conncectorName,apikey,responseNodeName,fieldName,isStatic,useAsConsumer,consumerName,consumerGroupName,rollback,filterParams,ConsumerBasedOnJob;
       let nodeVersion = customConfig?.nodeVersion;
       if (!nodeVersion)
@@ -2259,6 +2234,7 @@ export class CommonService{
       let redisconfig
       if (storageType?.toLowerCase() == 'external') {
         if (!dpdkey) throw new CustomException('DPD key not found', 404);
+        await this.assertConnectorTenant(dpdkey, tenant);
           let extdata:any =  Object.values(JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName)))[0];
           let dpdData
           dpdData = decrypt(extdata)
@@ -2299,7 +2275,7 @@ export class CommonService{
        }
   }
 
-  async fileConfig(customConfig,collectionName){
+  async fileConfig(customConfig,collectionName,tenant?){
     try {
     let nodeVersion = customConfig?.nodeVersion;
     let connectorType, storageType, dpdkey, conncectorName, oprname, oprkey, encryptionFlag, fileFolderPath, fileType, fileName, ndpPro,apikey,responseNodeName,rollback,filterParams,isStatic;
@@ -2341,6 +2317,7 @@ export class CommonService{
 
     if (storageType.toLowerCase() == 'external') {
       if (!dpdkey) throw new CustomException('DPD key not found', 404);
+      await this.assertConnectorTenant(dpdkey, tenant);
         let extdata:any =  Object.values(JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName)))[0];      
         let dpdData      
           dpdData = decrypt(extdata) 
@@ -2365,7 +2342,7 @@ export class CommonService{
 
       if (!url || !userName || !password)                
         throw new CustomException('Invalid File Credentials',404);
-
+         assertAllowedOutboundHost(url);
       const seaWeedConfig = {
         url: url,
         username: userName,
@@ -2380,7 +2357,7 @@ export class CommonService{
     }
   }
 
-  async procedureConfig(customConfig,collectionName){
+  async procedureConfig(customConfig,collectionName,tenant?){
     try {
       let params, procedurequery, nodeVersion, dbType, connectorType, storageType, dpdkey, conncectorName, dbConfig,executecommand,inMemory,rlbckcnfg,rlbckflg,rexecmd,rqry
       nodeVersion = customConfig.nodeVersion
@@ -2413,6 +2390,7 @@ export class CommonService{
       let dbUrl: any
       if (storageType?.toLowerCase() == 'external') {
         if (!dpdkey) throw new CustomException('DPD key not found', 404);
+        await this.assertConnectorTenant(dpdkey, tenant);
           let extdata:any =  Object.values(JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName)))[0];      
           let dpdData      
           dpdData = decrypt(extdata) 
@@ -2478,7 +2456,7 @@ export class CommonService{
     } catch (error) {
       throw error
     }
-  } 
+  }  
 
   async sessionDecode(token,upId){
     try {

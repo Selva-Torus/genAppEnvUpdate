@@ -315,7 +315,16 @@ export class DynamicFlowService {
                         return { status: firstnode.status, targetStatus: firstnode.targetStatus, data: firstnode.data, }
                     }
                     else {
-                        this.logger.log(`${poNode[j].nodeName} Api node Started`);                       
+                        this.logger.log(`${poNode[j].nodeName} Api node Started`);
+                        // Q19-class remediation: this branch can resolve a
+                        // caller-controlled dpdKey into another tenant's
+                        // decrypted API credentials (bearer token/API key)
+                        // and attach them to an outbound request. Refuse to
+                        // run without a verified identity attached by
+                        // AuthGuard.canActivateRpc().
+                        if (!pfdto?.authContext) {
+                            throw new CustomException('Unauthorized: api-node event carries no verified identity', 401);
+                        }
 
                         if (!failureQueue) {
                             failureQueue = srcQueue;
@@ -339,6 +348,7 @@ export class DynamicFlowService {
                         if (!referenceKey)
                            throw new CustomException('Reference key not found', 404);
 
+                        await this.CommonService.assertConnectorTenant(referenceKey, pfdto?.authContext?.tenant);
                         let ApiConfig: any = JSON.parse(await this.redisService.getJsonData(referenceKey, collectionName));
 
                         if (!ApiConfig || Object.keys(ApiConfig).length == 0)
@@ -368,6 +378,7 @@ export class DynamicFlowService {
                             let apiName = customConfigPro?.apiConfigName?.subSelection?.value;
                             //if(!dpdKey || !apiName) throw new CustomException('DPD Key/Api Name not found', 404);
                             if(dpdKey && apiName){
+                                await this.CommonService.assertConnectorTenant(dpdKey, pfdto?.authContext?.tenant);
                                 let dpdValue:any =  JSON.parse(await this.redisService.getJsonData(dpdKey+'NDP', collectionName));
                                 if(!dpdValue) throw new CustomException('DPD value not found', 404); //|| Object.keys(dpdValue).length == 0
                                                                
@@ -1288,7 +1299,7 @@ export class DynamicFlowService {
                         savepoint: rollbackConfig?.savePoint,
                         data: apichildResult,
                         pfs:pfjson
-                    }
+                    }, pfdto?.authContext?.tenant
                     );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
@@ -1343,11 +1354,21 @@ export class DynamicFlowService {
                         return { status: firstnode.status, targetStatus: firstnode.targetStatus, data: firstnode.data, }
                     }else{
                     this.logger.log('DB node Started');
+                    // Q19 remediation: same gate as the outputnode branch —
+                    // ndp/poNode is caller-supplied with no server-side
+                    // validation of its shape, and this branch resolves and
+                    // connects to a real database using whichever connector
+                    // the caller-controlled dpdkey points at. Refuse to run
+                    // without a verified identity attached by
+                    // AuthGuard.canActivateRpc().
+                    if (!pfdto?.authContext) {
+                        throw new CustomException('Unauthorized: db-node event carries no verified identity', 401);
+                    }
                     let qryres: any;
                     let customConfig = ndp[poNode[j]?.nodeId]
                     rollbackConfig = ndp[poNode[j]?.nodeId]
                     let client, oprname, manualQuery,rule
-                    let dbconfig = await this.CommonService.dbconfig(customConfig, collectionName)
+                    let dbconfig = await this.CommonService.dbconfig(customConfig, collectionName, pfdto?.authContext?.tenant)
                     client = dbconfig?.client
                     let nodeVersion = customConfig?.nodeVersion;
                     if (nodeVersion?.toLowerCase() == 'v1') {
@@ -1879,7 +1900,7 @@ export class DynamicFlowService {
                         nodename: rollbackConfig?.nodeName,
                         savepoint: rollbackConfig?.savePoint,
                         data: dbres
-                    }
+                    }, pfdto?.authContext?.tenant
                     );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
@@ -1892,7 +1913,7 @@ export class DynamicFlowService {
               try {
                 this.logger.log(
                   `${poNode[j]?.nodeName}, surrealdbnode started`,
-                );
+                );               
 
                 const namespace = process.env.SURREAL_NAMESPACE!;
                 const database = process.env.SURREAL_DATABASE!;
@@ -1910,27 +1931,336 @@ export class DynamicFlowService {
                   namespace,
                   database,
                 });
+                let mapObj = {}
+                let schema = []
+                let formKey: any = ``;
+                let removedVal,ufCondition,tempQryVal,cleanedQuery,childInsertArr=[],surrealdbres
                 let customConfig = ndp[poNode[j]?.nodeId];
                 let nodeVersion = customConfig?.nodeVersion;
                 if (!nodeVersion)
                   throw new CustomException('Node version not found', 404);
-                let qrydata, queryName, manualQuery;
+                let qrydata, queryName, manualQuery,logqry;
                 qrydata = customConfig?.data?.pro?.value?.manualQuery?.items;
-                let qryfield = qrydata;
+                 let qryfield = qrydata;
                 if (qryfield?.length > 0) {
-                  for (let item of qryfield) {
-                   
+                  for (let item of qryfield) {                   
                       manualQuery = item?.value?.query?.value
                         .replace(/\r?\n/g, ' ') // replace newline with space
                         .replace(/\s+/g, ' ') // remove extra spaces
                         .trim();
-                    
+
                   }
                 }
-                let result:any = await db.query(manualQuery);
-                result = result?.flat()
-                //this.logger.log(`SurrealDB record: ${JSON.stringify(result[0])}`);
-                await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(result)?result[0]:result),collectionName,nodeName);
+                 if(pfo?.length>0){
+                        for(let a=0;a< pfo.length;a++){
+                            if(poNode[j]?.nodeId == pfo[a].nodeId){
+                                schema = pfo[a]?.schema
+                            }
+                        }
+                    }
+                 if (internalEdges && internalEdges.hasOwnProperty(poNode[j]?.nodeId)) {
+                        let currentNodeEdge = internalEdges[poNode[j]?.nodeId];
+                        if (currentFabric == 'DF-DFD') {
+                            let DfmappedData = await this.DFDMapEdgeValues(poNode, currentNodeEdge, inputparam, processedKey, upId, collectionName,  '', '', pfo, currentFabric)
+                            mapObj = DfmappedData?.mapObj
+                            tempQryVal = DfmappedData?.tempQryVal
+                        } else {
+                            let mappedData = await this.mapEdgeValuesToParams(pfdto, currentNodeEdge, inputparam, processedKey, upId, collectionName,  '', '', pfo)
+                            childInsertArr = mappedData?.childInsertArr
+                            tempQryVal = mappedData?.tempQryVal
+                        }                      
+
+                        if (childInsertArr?.length > 0) {
+                            for (let i = 0; i < childInsertArr.length; i++) {
+                                mapObj = childInsertArr[i]
+                                mapObj = Object.assign(mapObj,sobj)                                
+                                let replaceQry = manualQuery 
+                                replaceQry = await this.replaceQuery(replaceQry,mapObj)
+                               // if(childInsertArr.length ==1)
+                                    manualQuery = replaceQry                               
+                            }                      
+
+                        } else {
+                             mapObj = sobj
+                            if (mapObj && Object.keys(mapObj).length > 0) {                                            
+                                manualQuery = await this.replaceQuery(manualQuery,mapObj)                            
+                            }
+                        }
+                    } else{
+                        mapObj = sobj
+                          if(searchFilter && !Array.isArray(searchFilter) && Object.keys(searchFilter).length>0 && !logicCenter){
+                             mapObj = Object.assign(mapObj,searchFilter)                               
+                            let replaceData = await this.dollarReplace(manualQuery,searchFilter,schema) 
+                            manualQuery = replaceData.manualQuery
+                            searchFilter = replaceData.filterObj 
+                         }else if(searchFilter && Array.isArray(searchFilter) && searchFilter.length>0 && !logicCenter){
+                            let searchArrObj = {}
+                            for(let item of searchFilter){
+                                searchArrObj[item.key] = item.value
+                            }
+                            mapObj = Object.assign(mapObj,searchArrObj)                           
+                            let replaceData = await this.dollarReplace(manualQuery,searchArrObj,schema)  
+                            manualQuery = replaceData.manualQuery
+                            searchFilter = replaceData.filterObj  
+
+                        }
+
+                        if(filterData && filterData?.length>0){
+                            for (let f = 0; f < filterData.length; f++){
+                            if (filterData[f].nodeId && filterData[f].nodeId == poNode[j].nodeId){
+                                 const { nodeId, ...filterParamsObj } = filterData[f];                                 
+                                const filterParamsObjKey = Object.keys(filterParamsObj);
+                                const filterParamsObjvalues = Object.values(filterParamsObj);
+                                let removedkey,filterObj = {}
+                                for (let p = 0; p < filterParamsObjKey.length; p++){
+                                    const value = filterParamsObjvalues[p];
+                                    const key = filterParamsObjKey[p]
+                                     if (key.includes('.')) {
+                                        let s_item = key.split('.');
+                                        removedkey = s_item.filter((item) => !this.statickeyword.includes(item)).join('.');
+                                        if (removedkey.includes('.') && removedkey.startsWith('items.')) {
+                                            removedkey = removedkey.replace('items.', '');
+                                        }
+                                    } else {
+                                        removedkey = key
+                                    }
+                                    filterObj[removedkey] = value
+                                }
+                                mapObj = Object.assign(mapObj,filterObj)                                                                                     
+                              let replaceData =  await this.dollarReplace(manualQuery,filterObj,schema,filterData)
+                              manualQuery = replaceData.manualQuery
+                              filterData = replaceData.filterData                                                              
+                            }
+                            }                            
+                        }
+
+                        if (mapObj && Object.keys(mapObj).length > 0) {
+                            manualQuery = await this.replaceQuery(manualQuery,mapObj)  
+                        }                    
+                    }    
+                     const singleMatches = [...manualQuery.matchAll(/\$\{([^}]+)\}/g)];
+                        const singlevariables = singleMatches.map(match => match[1]);
+                        singlevariables.forEach((key) => {
+                            const regex = new RegExp(
+                                `(?:\\([^)]+\\)|\\w+)?\\.\\$\\{${key}\\}|\\$\\{${key}\\}`,
+                                'g'
+                            );
+                            manualQuery = manualQuery.replace(regex, '1=1');                             
+                        });
+
+                            if (page && count) {
+                                 cleanedQuery = manualQuery.trim();
+                                let cQuery = cleanedQuery
+                                if (/limit\s+\d+/i.test(cQuery)) 
+                                    manualQuery = cQuery
+                                  // throw new Error('LIMIT clause detected. Please do not include it.');                                   
+                                else
+                                manualQuery = `${cQuery} LIMIT ${count} START ${offset}`;
+                            }
+
+                            if (filterData && filterData.length) {
+                                for (let f = 0; f < filterData.length; f++) {
+                                    if (filterData[f].nodeId && filterData[f].nodeId == poNode[j].nodeId) {
+                                        const { nodeId, ...filterParamsObj } = filterData[f];
+                                        const filterParamsObjKey = Object.keys(filterParamsObj);
+                                        const filterParamsObjvalues =
+                                            Object.values(filterParamsObj);
+                                        for (let p = 0; p < filterParamsObjKey.length; p++) {
+                                            const key = filterParamsObjKey[p];
+                                            if(key == `${process.env.CLIENTCODE}_condition`){
+                                                ufCondition = filterParamsObj[key]
+                                                continue
+                                            }
+                                            if (key.includes('.')) {
+                                                let s_item = key.split('.');
+                                                removedVal = s_item.filter((item) => !this.statickeyword.includes(item)).join('.');
+                                                if (removedVal.includes('.') && removedVal.startsWith('items.')) {
+                                                    removedVal = removedVal.replace('items.', '');
+                                                }
+                                            } else {
+                                                removedVal = key
+                                            }
+                                            const value = filterParamsObjvalues[p];
+                                             const dateType = this.isDateTimeField(schema, removedVal);                               
+                                            if(dateType){                                        
+                                                formKey = formKey + ` DATE(${removedVal}) = '${value}' AND`;
+                                            }
+                                            else if (typeof value == 'number') {
+                                                formKey = formKey + ` ${removedVal} = ${value} AND`;
+                                            } else if (typeof value == 'string') {
+                                                formKey = formKey + ` ${removedVal} = '${value}' AND`;
+                                            } else if (Array.isArray(value) && value.length > 0) {
+                                                let s = ''
+                                                for (let item of value) {
+                                                    s = s + `'${item}',`
+                                                }
+                                                if (s.endsWith(',')) {
+                                                    s = s.slice(0, -1);
+                                                }
+                                                formKey = formKey + ` ${removedVal}  IN (${s}) AND`;
+                                            }
+                                        }
+                                    }
+
+                                }
+                                if (formKey.endsWith(' AND')) {
+                                    formKey = formKey.slice(0, -4);
+                                }
+                            }
+
+                            if(searchFilter && !Array.isArray(searchFilter) && Object.keys(searchFilter).length>0 && !logicCenter){
+                                 const searchParamsObjKey = Object.keys(searchFilter);
+                                const searchParamsObjvalues =
+                                    Object.values(searchFilter);
+                                for (let p = 0; p < searchParamsObjKey.length; p++) {
+                                    const key = searchParamsObjKey[p];
+                                    if (key.includes('.')) {
+                                        let s_item = key.split('.');
+                                        removedVal = s_item.filter((item) => !this.statickeyword.includes(item)).join('.');
+                                        if (removedVal.includes('.') && removedVal.startsWith('items.')) {
+                                            removedVal = removedVal.replace('items.', '');
+                                        }
+                                    } else {
+                                        removedVal = key
+                                    }
+                                    const value = searchParamsObjvalues[p];
+                                     const dateType = this.isDateTimeField(schema, removedVal);                               
+                                    if(dateType){                                        
+                                        formKey = formKey + ` DATE(${removedVal}) = '${value}' AND`;
+                                    }
+                                    else if (typeof value == 'number') {
+                                         formKey = formKey + ` ${removedVal}::TEXT LIKE '${value}%' AND`;
+                                    } else if (typeof value == 'string') {
+                                        formKey = formKey + ` ${removedVal} LIKE '${value}%' AND`;
+                                    } else if (Array.isArray(value) && value.length > 0) {
+                                        let s = ''
+                                        for (let item of value) {
+                                            s = s + `'${item}%',`
+                                        }
+                                        if (s.endsWith(',')) {
+                                            s = s.slice(0, -1);
+                                        }
+                                        formKey = formKey + ` ${removedVal} LIKE ANY (ARRAY[${s}]) AND`;
+                                    }
+                                }
+
+                                 if (formKey.endsWith(' AND')) {
+                                    formKey = formKey.slice(0, -4);
+                                }
+                            }else if(Array.isArray(searchFilter) && searchFilter?.length>0 && !logicCenter){                                
+                                for (let p = 0; p < searchFilter.length; p++) {
+                                    let key = searchFilter[p].key;
+                                    if (key.includes('.')) {
+                                        let s_item = key.split('.');
+                                        removedVal = s_item.filter((item) => !this.statickeyword.includes(item)).join('.');
+                                        if (removedVal.includes('.') && removedVal.startsWith('items.')) {
+                                            removedVal = removedVal.replace('items.', '');
+                                        }
+                                    } else {
+                                        removedVal = key
+                                    }
+                                    let value = searchFilter[p].value;
+                                    let value2 = searchFilter[p].value2;
+                                    let operator = searchFilter[p].operator;
+                                    let type = searchFilter[p].type;
+
+                                    if(key && value && operator){   
+                                        if (['=', '!=', '<>', '>=', '<=', '>', '<'].includes(operator)) { 
+                                            if (type === 'date') 
+                                                formKey = formKey + ` DATE(${removedVal}) ${operator} '${value}' AND`; 
+                                            if (typeof value == 'number')
+                                                formKey = formKey + ` ${removedVal} ${operator} ${value} AND`;
+                                            if(typeof value == 'string')
+                                                formKey = formKey + ` ${removedVal} ${operator} '${value}' AND`;                                            
+                                        }else if(['LIKE','NOT LIKE','LIKE_START','LIKE_END'].includes(operator)){  
+                                            let likeMap = {
+                                                LIKE_START: `${value}%`,
+                                                LIKE_END: `%${value}`,
+                                                LIKE: `%${value}%`
+                                            };
+
+                                            const likeVal = likeMap[operator];
+
+                                            if (typeof value == 'string')
+                                                formKey = formKey + ` ${removedVal} LIKE '${likeVal}' AND`;                                            
+                                            if (typeof value == 'number')
+                                                formKey = formKey + ` ${removedVal}::TEXT LIKE '${likeVal}' AND`;
+                                        }else if(['BETWEEN','NOT BETWEEN'].includes(operator)){
+                                            if (value && value2){
+                                                if (type === 'date') 
+                                                    formKey = formKey + ` DATE(${removedVal}) ${operator} '${value}' AND '${value2}' AND`;
+                                                    else                                                    
+                                                    formKey = formKey + ` ${removedVal} ${operator} '${value}' AND '${value2}' AND`;                                                
+                                            }
+                                        }                                                                          
+                                    }                                   
+
+                                }                               
+
+                                if (formKey.endsWith(' AND')) {
+                                    formKey = formKey.slice(0, -4);
+                                }
+                            }
+
+                            if (formKey){
+                                if(ufCondition){
+                                    formKey = formKey + ` AND ${ufCondition}`
+                                }    
+                            }else if(ufCondition){
+                                formKey = ufCondition
+                            }
+                            if (formKey && (/\$where/i.test(manualQuery) || /\$and/i.test(manualQuery))) {
+                                    manualQuery = manualQuery
+                                        .replace(/\$where/gi, `WHERE ${formKey}`)
+                                        .replace(/\$and/gi, `AND ${formKey}`);
+
+                                    // logqry = `${cleanedQuery} LIMIT ${count} OFFSET ${offset}`
+                                    //     .replace(/\$where/gi, `WHERE ${formKey}`)
+                                    //     .replace(/\$and/gi, `AND ${formKey}`);
+                                }
+                            else{
+                                if(currentFabric == 'DF-DFD')
+                                logqry = `${cleanedQuery} LIMIT ${count} START ${offset}`
+                                else 
+                                logqry = manualQuery
+                            }
+
+                             if((/\$where/i.test(manualQuery) || /\$and/i.test(manualQuery)))
+                            manualQuery = manualQuery.replace(/\$where/gi, '').replace(/\$and/gi, '');
+
+                const result = await db.query(manualQuery);
+                surrealdbres = result[0]
+                if(surrealdbres?.length>0)
+                surrealdbres = surrealdbres?.flat()
+                this.logger.log(`SurrealDB record: ${JSON.stringify(result[0])}`);
+                if (inputparam) {
+                        inputparam = await this.assignToInputParam(inputparam, nodeName, surrealdbres)
+                        //this.ruleParams[nodeName] = Array.isArray(dbres)?dbres[0]:dbres
+                        await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(surrealdbres)?surrealdbres[0]:surrealdbres),collectionName,nodeName);
+                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                    } else {   
+                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                    }                    
+                    if (RCMresult) {
+                        zenresult = RCMresult.rule;
+                        customcoderesult = RCMresult.code;
+                    }
+                    ifoObj = await this.ifoAssign(poJson?.internalMappingNodes, poNode[j].nodeId,sobj,zenresult,processedKey + upId,inputparam,pfdto)
+                    if (ifoObj && Object.keys(ifoObj).length > 0) {
+                        if (currentFabric == 'PF-PFD')
+                            await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(ifoObj), collectionName, 'ifo',);
+                        surrealdbres = await this.codeORifoAndInputparamAssign(ifoObj, surrealdbres)
+                    }
+
+                    if (customcoderesult && customcoderesult != undefined && customcoderesult != null) {
+                        codeObj = await this.codeAssign(customcoderesult)
+                        if (codeObj) {
+                            if (currentFabric == 'PF-PFD')
+                                await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(codeObj), collectionName, 'code',);
+                            if (surrealdbres)
+                                surrealdbres = await this.codeORifoAndInputparamAssign(codeObj, surrealdbres)
+                        }
+                    }
 
                 // console.log('SurrealDB Record:', result);
                 if (upId) {
@@ -1944,18 +2274,18 @@ export class DynamicFlowService {
                     token,
                     currentFabric,
                     sourceStatus,
-                    manualQuery,
-                    result[0],
+                    logqry,
+                    surrealdbres,
                   );
                   await this.redisService.setJsonData(
                     processedKey + upId + ':NPV:' + nodeName + '.PRO',
-                    JSON.stringify(manualQuery),
+                    JSON.stringify(logqry),
                     collectionName,
                     'request',
                   );
                   await this.redisService.setJsonData(
                     processedKey + upId + ':NPV:' + nodeName + '.PRO',
-                    JSON.stringify(result[0]),
+                    JSON.stringify(surrealdbres),
                     collectionName,
                     'response',
                   );
@@ -1966,7 +2296,7 @@ export class DynamicFlowService {
                   return {
                     status: 200,
                     targetStatus: targetStatus,
-                    data: result[0],
+                    data: surrealdbres,
                   };
                 else
                   return {
@@ -1977,19 +2307,30 @@ export class DynamicFlowService {
               } catch (error) {
                 console.log('Error occurred while querying SurrealDB:', error);
               } finally {
-                await db.close();
+                if (db) { await db.close(); }
               }
             }
+            
 
             //mongo db node
             if (nodeType == 'mongo-dbnode' && poNode[j].nodeId == nodeId) {
                 let rollbackConfig, mongoDbarr,mongodbClient
                 try {
                     this.logger.log(`${poNode[j]?.nodeName},Mongo DB Node started`);
+                    // Q19 remediation: same gate as the outputnode/dbnode
+                    // branches — ndp/poNode is caller-supplied with no
+                    // server-side validation of its shape, and this branch
+                    // resolves and connects to a real database using
+                    // whichever connector the caller-controlled dpdkey
+                    // points at. Refuse to run without a verified identity
+                    // attached by AuthGuard.canActivateRpc().
+                    if (!pfdto?.authContext) {
+                        throw new CustomException('Unauthorized: mongo-db-node event carries no verified identity', 401);
+                    }
                     let customConfig = ndp[poNode[j]?.nodeId]
                     rollbackConfig = ndp[poNode[j]?.nodeId]
                     let collnName, manualQryType, manualQry, sessionfilterParams, mongoQry, mongodbUrl, filterParams;
-                    let mongodbconfig = await this.CommonService.mongodbconfig(customConfig, collectionName)
+                    let mongodbconfig = await this.CommonService.mongodbconfig(customConfig, collectionName, pfdto?.authContext?.tenant)
                     mongodbUrl = mongodbconfig?.mongodbUrl
                     manualQry = mongodbconfig?.manualQry
                     manualQryType = mongodbconfig?.manualQryType
@@ -2200,7 +2541,7 @@ export class DynamicFlowService {
                         nodename: rollbackConfig?.nodeName,
                         savepoint: rollbackConfig?.savePoint,
                         data: mongoDbarr
-                    }
+                    }, pfdto?.authContext?.tenant
                     );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 } finally {
@@ -2217,10 +2558,19 @@ export class DynamicFlowService {
                         return { status: firstnode.status, targetStatus: firstnode.targetStatus, data: firstnode.data, }
                     } else {
                         this.logger.log(nodeName + 'Stream node Started');
+                        // Q19-class remediation: this branch can resolve a
+                        // caller-controlled dpdkey into another tenant's
+                        // decrypted stream-connector credentials
+                        // (host/port/username/password). Refuse to run
+                        // without a verified identity attached by
+                        // AuthGuard.canActivateRpc().
+                        if (!pfdto?.authContext) {
+                            throw new CustomException('Unauthorized: stream-node event carries no verified identity', 401);
+                        }
                         let oprname, streamName, fromStreamid, toStreamid, apikey, responseNodeName, fieldName, isStatic, consumerName, consumerGroupName, useAsConsumer, entryId, rollback, sessionfilterParams, startOfToday, endOfToday, storageType, ConsumerBasedOnJob;
                         rollbackConfig = ndp[poNode[j]?.nodeId]
                         let customConfig = ndp[poNode[j]?.nodeId]
-                        let sconf = await this.CommonService.streamConfig(customConfig, collectionName)
+                        let sconf = await this.CommonService.streamConfig(customConfig, collectionName, pfdto?.authContext?.tenant)
                         isStatic = sconf?.isStatic
                         oprname = sconf?.oprname
                         responseNodeName = sconf?.responseNodeName
@@ -2641,7 +2991,7 @@ export class DynamicFlowService {
                         nodename: rollbackConfig?.nodeName,
                         savepoint: rollbackConfig?.savePoint,
                         data: streamArr
-                    }
+                    }, pfdto?.authContext?.tenant
                     );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
@@ -2656,6 +3006,14 @@ export class DynamicFlowService {
                 }
                 else{
                 this.logger.log('Kafka Stream first node Started');
+                // Q19-class remediation: this branch can resolve a
+                // caller-controlled dpdkey into another tenant's decrypted
+                // Kafka-connector credentials (broker host/port). Refuse to
+                // run without a verified identity attached by
+                // AuthGuard.canActivateRpc().
+                if (!pfdto?.authContext) {
+                    throw new CustomException('Unauthorized: kafka-stream-node event carries no verified identity', 401);
+                }
                 let kafkaResultArr: any = [];
                 let oprname, topicName, connectorType, storageType, dpdkey, connectorName, isStatic, groupId,autoOffsetReset;
                 let childInsertArr, textobj, tempQryVal = [];
@@ -2761,6 +3119,7 @@ export class DynamicFlowService {
 
                 if (storageType?.toLowerCase() == 'external') {
                     if (!dpdkey) throw new CustomException('DPD key not found', 404);
+                    await this.CommonService.assertConnectorTenant(dpdkey, pfdto?.authContext?.tenant);
                     // let extdata = JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName));
                     let extdata:any =  Object.values(JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName)))[0];      
                     let dpdData      
@@ -2960,10 +3319,18 @@ export class DynamicFlowService {
                 let rollbackConfig, fileres
                 try {
                     this.logger.log(`File node Execution Started ${poNode[j].nodeName}`);
+                    // Q19-class remediation: this branch can resolve a
+                    // caller-controlled dpdkey into another tenant's
+                    // decrypted SeaweedFS connector credentials. Refuse to
+                    // run without a verified identity attached by
+                    // AuthGuard.canActivateRpc().
+                    if (!pfdto?.authContext) {
+                        throw new CustomException('Unauthorized: file-node event carries no verified identity', 401);
+                    }
                     let customConfig = ndp[poNode[j]?.nodeId]
                     rollbackConfig = ndp[poNode[j]?.nodeId]
                     let oprname, oprkey, fileFolderPath, fileType, fileName, apikey, responseNodeName, seaWeedConfig, rollback, isStatic, sessionfilterParams;
-                    let fconf = await this.CommonService.fileConfig(customConfig, collectionName)
+                    let fconf = await this.CommonService.fileConfig(customConfig, collectionName, pfdto?.authContext?.tenant)
                     seaWeedConfig = fconf?.seaWeedConfig
                     oprname = fconf?.oprname
                     apikey = fconf?.apikey
@@ -3213,7 +3580,7 @@ export class DynamicFlowService {
                         nodename: rollbackConfig?.nodeName,
                         savepoint: rollbackConfig?.savePoint,
                         data: fileres
-                    }
+                    }, pfdto?.authContext?.tenant
                     );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
@@ -3272,12 +3639,12 @@ export class DynamicFlowService {
                         pfdto.nodeId = subnodeid;
                         pfdto.nodeType = subnodetype;
                         pfdto.event = event;                     
-
+                         pfdto.token = token;
                         // Redacted regardless of field-assignment order below — pfdto.token
                         // happens to be unset at this exact line today, but that's incidental
                         // to statement order, not a deliberate safeguard (M22).
                         await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(this.CommonService.redactSensitiveFields(pfdto)), collectionName, 'request',);
-                         pfdto.token = token;
+                        
                         if (currentFabric == 'PF-SCDL') {
                             pfdto.parentUpId = upId;
                             let keyParts = key.split(':');
@@ -3446,30 +3813,15 @@ export class DynamicFlowService {
                     if (!nodeVersion) {
                         throw new CustomException('nodeVersion not found', 404);
                     }
-                    let extdata,nodedata,connectorType, storageType, dpdkey, conncectorName, responseNodeName, tableName, fileType, fileName, folderPath, streamName, fieldName,dpdKeyValue,output_type;
+                    let responseNodeName, output_type;
                     
                     if (nodeVersion.toLowerCase() == 'v1') {
-                        let customConfigPro = customConfig.data?.pro?.value
-                        connectorType =customConfigPro?.connector?.value;
-                        dpdkey = customConfigPro?.connector?._selection?.value;
-                        storageType = customConfigPro?.connector?._selection?._selection?.value;                        
-                        conncectorName = customConfigPro?.connector?._selection?.subSelection?.value;
-                        responseNodeName = customConfig?.outputDataNodes;
-                        tableName = customConfigPro?.database?.value?.insert?.value?.tableName?.value;
-                        fileType = customConfigPro?.file?.value?.write?.value?.fileType?.value;
-                        fileName = customConfigPro?.file?.value?.write?.value?.fileName?.value;
-                        folderPath = customConfigPro?.file?.value?.write?.value?.pathName?.value;
-                        streamName = customConfigPro?.stream?.value?.write?.value?.streamName?.value;
-                        fieldName = customConfigPro?.stream?.value?.write?.value?.field?.value;
+                        let customConfigPro = customConfig.data?.pro?.value                       
+                        responseNodeName = customConfig?.outputDataNodes;                       
                         output_type = customConfigPro?.output_type?.value
                     }
                    // if (!dpdkey) throw new CustomException('DPD key not found', 404);
-                    if(dpdkey){
-                        extdata = JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName));
-                        if (!extdata) throw new CustomException('DPD value not found', 404);
-                        nodedata = Object.keys(extdata)[0];
-                        dpdKeyValue = extdata[nodedata]?.data;
-                    }                    
+                                      
                     if (responseNodeName?.length == 0) throw new CustomException('outputDataNodes not found', 404);
                     for (let p = 0; p < pfjson.length; p++) {
                         if (responseNodeName.includes(pfjson[p]?.nodeId)) {
@@ -3509,222 +3861,7 @@ export class DynamicFlowService {
                             inputData = inputData[0]
                         }   
 
-                        if(dpdKeyValue){
-                        if (connectorType == 'database') {
-                            let dbconfig;
-                            let dbFlg;
-                            if (storageType == 'internal') {
-                                let specificDbType = dpdKeyValue?.dbType?.dbType?.value;
-                                if (!specificDbType)
-                                    throw new CustomException('DB type not found', 404);
-                                if (specificDbType == 'postgres') {
-                                    dbconfig = extdata?.data?.postgres;
-                                    if (!dbconfig || !dbconfig.POSTGRES_HOST)
-                                        throw new CustomException(`Invalid DB credentials`, 404);
-                                    const { Client } = pg;
-                                    if (dbconfig.POSTGRES_HOST && dbconfig.POSTGRES_PORT && dbconfig.POSTGRES_USERNAME && dbconfig.POSTGRES_PASSWORD && dbconfig.POSTGRES_DATABASENAME) {
-                                        client = new Client({
-                                            host: dbconfig.POSTGRES_HOST,
-                                            port: dbconfig.POSTGRES_PORT,
-                                            user: dbconfig.POSTGRES_USERNAME,
-                                            password: dbconfig.POSTGRES_PASSWORD,
-                                            database: dbconfig.POSTGRES_DATABASENAME,
-                                        });
-                                    } else {
-                                        client = new Client({
-                                            connectionString: dbconfig.POSTGRES_HOST,
-                                        });
-                                    }
-                                    dbFlg = 'pg';
-                                } else if (specificDbType == 'mongodb') {
-                                    dbconfig = dpdKeyValue?.mongodb;
-                                    if (!dbconfig || !dbconfig.MONGODB_HOST) {
-                                        throw new CustomException(`Invalid DB credentials`, 422);
-                                    }
-                                    let mongoDbUrl
-                                    if (dbconfig.MONGODB_USERNAME && dbconfig.MONGODB_PASSWORD && dbconfig.MONGODB_HOST && dbconfig.MONGODB_PORT && dbconfig.MONGODB_DATABASENAME)
-                                        mongoDbUrl = `mongodb://${dbconfig.MONGODB_USERNAME}:${dbconfig.MONGODB_PASSWORD}@${dbconfig.MONGODB_HOST}:${dbconfig.MONGODB_PORT}/${dbconfig.MONGODB_DATABASENAME}?authSource=admin`;
-                                    else
-                                        mongoDbUrl = dbconfig.MONGODB_HOST
-                                    const mongoOptions = {
-                                        appName: `${process.env.CLIENTCODE}-${process.env.APPNAME}-${process.env.APPGROUPNAME}-dynamicFlow.service`                    
-                                    };
-                                    client = new MongoClient(mongoDbUrl,mongoOptions);                                    
-                                    await client.connect();
-                                    db = client.db(dbconfig.MONGODB_DATABASENAME);
-                                    dbFlg = 'mongo';
-                                }
-                            } else if (storageType == 'external') {
-                                let configConnectors = extdata[nodedata]?.data['externalConnectors-DB']?.items;
-                                if (configConnectors?.length > 0) {
-                                    for (let i = 0; i < configConnectors.length; i++) {
-                                        if (configConnectors[i]?.connectorName == conncectorName) {
-                                            dbconfig = configConnectors[i]?.credentials;
-                                        }
-                                    }
-                                }
-
-                                if (!dbconfig?.host) {
-                                    throw new CustomException(`Invalid DB credentials`, 404);
-                                }
-
-                                const { Client } = pg;
-                                if (dbconfig?.host && dbconfig?.port && dbconfig?.username && dbconfig?.password && dbconfig?.database) {
-                                    client = new Client({
-                                        host: dbconfig.host,
-                                        port: dbconfig.port,
-                                        user: dbconfig.username,
-                                        password: dbconfig.password,
-                                        database: dbconfig.database,
-                                    });
-                                } else {
-                                    client = new Client({
-                                        connectionString: dbconfig.host,
-                                    });
-                                }
-
-                            }
-                            if (!tableName)
-                                throw new CustomException('Table name not found', 404);
-
-                            if (dbFlg == 'pg') {
-                                // Q19: isSafeSqlIdentifier() only rejects unsafe
-                                // *syntax* (quotes/semicolons) — it never checked
-                                // whether this caller/tenant may write to this
-                                // table at all. isAuthorizedOutputTable() adds
-                                // that check via an explicit, operator-maintained
-                                // allowlist (OUTPUTNODE_WRITE_ALLOWLIST).
-                                if (!this.CommonService.isAuthorizedOutputTable(pfdto?.authContext?.tenant, tableName)) {
-                                    throw new CustomException('Invalid table name', 404);
-                                }
-                                if (Array.isArray(inputData)) {
-                                    for (var i = 0; i < inputData.length; i++) {
-                                        if (Object.keys(inputData[i]).length > 0) {
-                                            const keys = Object.keys(inputData[i]);
-                                            if (keys.some((k) => !this.CommonService.isSafeSqlIdentifier(k))) {
-                                                throw new CustomException('Invalid column name', 404);
-                                            }
-                                            const values = Object.values(inputData[i]);
-                                            const placeholders = values.map((_, idx) => `$${idx + 1}`).join(', ');
-                                            const query = `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (${placeholders});`;
-                                            await client.connect();
-                                            await client.query(query, values);
-                                            await client.end();
-                                        }
-                                    }
-                                }
-                                if (Object.keys(inputData).length > 0) {
-                                    const keys = Object.keys(inputData);
-                                    if (keys.some((k) => !this.CommonService.isSafeSqlIdentifier(k))) {
-                                        throw new CustomException('Invalid column name', 404);
-                                    }
-                                    const values = Object.values(inputData);
-                                    const placeholders = values.map((_, idx) => `$${idx + 1}`).join(', ');
-                                    const query = `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (${placeholders});`;
-                                    logReq = query;
-                                    await client.connect();
-                                    await client.query(query, values);
-                                    await client.end();
-                                }
-                            } else if (dbFlg == 'mongo') {
-                                // Q19: this branch previously had no identifier
-                                // check on `tableName` at all before using it as
-                                // a Mongo collection name — same authorization
-                                // gap as the Postgres branch above, just without
-                                // even the syntax-only check. (The `dbFlg = 'mongo'`
-                                // assignment-instead-of-comparison bug, L29, is
-                                // fixed alongside this since it's the same line.)
-                                if (!this.CommonService.isAuthorizedOutputTable(pfdto?.authContext?.tenant, tableName)) {
-                                    throw new CustomException('Invalid table name', 404);
-                                }
-                                logReq = inputData;
-                                try {
-                                    if (Array.isArray(inputData))
-                                        await db.collection(tableName).insertMany(inputData);
-                                    else if (Object.keys(inputData).length > 0) {
-                                        await db.collection(tableName).insertOne(inputData);
-                                    }
-                                } finally {
-                                    try { await client.close(); } catch {}
-                                }
-                            }
-                        } else if (connectorType == 'file') {
-                            let seaWeedConfig, OPFileRes, conncectorname;
-                            if (storageType == 'internal') {
-                                if (!this.envData.getSeaweedOutputHost() || !this.envData.getSeaweedUsername() || !this.envData.getSeaweedPassword())
-                                    throw 'Invalid File Credentials';
-                                seaWeedConfig = {
-                                    url: this.envData?.getSeaweedOutputHost(),//process.env.SEAWEED_OUTPUT_HOST,
-                                    username: this.envData?.getSeaweedUsername(),//process.env.SEAWEED_USERNAME,
-                                    password: this.envData?.getSeaweedPassword(),//process.env.SEAWEED_PASSWORD,
-                                };
-                            } else if (storageType == 'external') {
-                                let nodedata = Object.keys(extdata)[0];
-                                let configConnectors = extdata[nodedata].data['externalConnectors-FILE']?.items;
-                                let fileConfig
-                                if (configConnectors?.length > 0) {
-                                    for (let i = 0; i < configConnectors.length; i++) {
-                                        if (configConnectors[i]?.connectorName == conncectorname) {
-                                            fileConfig = configConnectors[i]?.credentials;
-                                        }
-                                    }
-                                }
-                                if (!fileConfig || !fileConfig.host || !fileConfig.username || !fileConfig.password)
-                                    throw 'Invalid File Credentials';
-                                seaWeedConfig = {
-                                    url: fileConfig?.host,
-                                    username: fileConfig?.username,
-                                    password: fileConfig?.password,
-                                };
-                            }
-                            logReq = inputData;
-                            if (fileName + '.' + fileType && inputData) {
-                                OPFileRes = await this.CommonService.setfileKeys(seaWeedConfig, 'write', folderPath, fileName, fileType, inputData);
-                                if (!OPFileRes || OPFileRes?.status != 201) {
-                                    throw new CustomException('write operation failed ', 500);
-                                }
-                            }
-                        } else if (connectorType == 'stream') {
-                            if (storageType == 'internal') {
-                                let redisConfig = dpdKeyValue?.amdPersistence?.redis;
-                                if (!redisConfig)
-                                    throw new CustomException('RedisConfig not found', 422);
-                                if (!redisConfig.REDIS_HOST || !parseInt(redisConfig.REDIS_PORT)) {
-                                    throw new CustomException('Invalid Redis credentials', 400);
-                                }
-                                redis = new Redis({
-                                    host: redisConfig.REDIS_HOST,
-                                    port: parseInt(redisConfig.REDIS_PORT),
-                                    username: redisConfig.REDIS_USERNAME,
-                                    password: redisConfig.REDIS_PASSWORD,
-                                });
-                            } else if (storageType == 'external') {
-                                let nodedata = Object.keys(extdata)[0];
-                                let configConnectors = extdata[nodedata]?.data['externalConnectors-STREAM']?.items;
-                                let streamConfig
-                                if (configConnectors?.length > 0) {
-                                    for (let i = 0; i < configConnectors.length; i++) {
-                                        if (configConnectors[i]?.connectorName == conncectorName) {
-                                            streamConfig = configConnectors[i]?.credentials;
-                                        }
-                                    }
-                                }
-                                if (!streamConfig?.host || !streamConfig?.port) {
-                                    throw new CustomException('Invalid stream credentials', 400);
-                                }
-                                redis = new Redis({
-                                    host: streamConfig?.host,
-                                    port: streamConfig?.port,
-                                    username: streamConfig?.username,
-                                    password: streamConfig?.password,
-                                });
-                            }
-                            logReq = inputData;
-                            if (!streamName || !fieldName)
-                                throw new CustomException('streamName or fieldName not found', 404);
-                            await redis.call('XADD', streamName, '*', fieldName, JSON.stringify(inputData));
-                        }
-                    }
+                       
                         if (upId) {
                            if(!logReq)
                             logReq = connectedNodeName                            
@@ -3783,6 +3920,14 @@ export class DynamicFlowService {
             if (nodeType == 'datasetschemanode' && poNode[j].nodeId == nodeId) {
                 try {
                     this.logger.log('DataSetSchema Node Started');
+                    // Q19-class remediation: this branch can resolve a
+                    // caller-controlled apiKey into another tenant's
+                    // decrypted dataset schema/credentials. Refuse to run
+                    // without a verified identity attached by
+                    // AuthGuard.canActivateRpc().
+                    if (!pfdto?.authContext) {
+                        throw new CustomException('Unauthorized: datasetschema-node event carries no verified identity', 401);
+                    }
                     let schemaRes = {}
                     let customConfig = ndp[poNode[j]?.nodeId]
                     let referenceKey = customConfig?.apiKey
@@ -3816,6 +3961,7 @@ export class DynamicFlowService {
                             }
                         }
 
+                        await this.CommonService.assertConnectorTenant(referenceKey, pfdto?.authContext?.tenant);
                         let apiConfig = JSON.parse(await this.redisService.getJsonData(referenceKey, collectionName))
                         apiConfig = Object.values(apiConfig)[0]
                         if (internalEdges && internalEdges.hasOwnProperty(poNode[j]?.nodeId)) {
@@ -4915,6 +5061,14 @@ export class DynamicFlowService {
             if (nodeType == 'jsonparsernode' && poNode[j].nodeId == nodeId) {
                 try {
                     this.logger.log('jsonparsernode Node Started');
+                    // Q19-class remediation: this branch can resolve a
+                    // caller-controlled apiKey into another tenant's
+                    // decrypted JSON-parser schema/credentials. Refuse to
+                    // run without a verified identity attached by
+                    // AuthGuard.canActivateRpc().
+                    if (!pfdto?.authContext) {
+                        throw new CustomException('Unauthorized: jsonparser-node event carries no verified identity', 401);
+                    }
                     let customConfig = ndp[poNode[j]?.nodeId]
                     let referenceKey = customConfig?.apiKey;
                     let nodeVersion = customConfig?.nodeVersion;
@@ -4923,6 +5077,7 @@ export class DynamicFlowService {
                     if (!referenceKey)
                         throw new CustomException('Reference key not found', 404);
                     let apikeyfabric = await this.CommonService.splitcommonkey(referenceKey, 'FNK')
+                    await this.CommonService.assertConnectorTenant(referenceKey, pfdto?.authContext?.tenant);
                     let ApiConfig: any = JSON.parse(await this.redisService.getJsonData(referenceKey, collectionName));
 
                     if (!ApiConfig || Object.keys(ApiConfig).length == 0)
@@ -5585,10 +5740,18 @@ export class DynamicFlowService {
                 let rollbackConfig, status, pgnotice = []
                 try {
                     this.logger.log(`${poNode[j]?.nodeName} procedureexecutionnode Started`)
+                    // Q19-class remediation: this branch can resolve a
+                    // caller-controlled dpdkey into another tenant's
+                    // decrypted DB credentials and execute a stored
+                    // procedure. Refuse to run without a verified identity
+                    // attached by AuthGuard.canActivateRpc().
+                    if (!pfdto?.authContext) {
+                        throw new CustomException('Unauthorized: procedure-execution-node event carries no verified identity', 401);
+                    }
                     let mapobj = {}, params, customConfig, procedurequery, client, executecommand
                     customConfig = ndp[poNode[j]?.nodeId]
                     rollbackConfig = ndp[poNode[j]?.nodeId]
-                    let prcConf = await this.CommonService.procedureConfig(customConfig, collectionName)
+                    let prcConf = await this.CommonService.procedureConfig(customConfig, collectionName, pfdto?.authContext?.tenant)
                     client = prcConf?.client
                     procedurequery = prcConf?.procedurequery
                     params = prcConf?.params
@@ -5710,7 +5873,7 @@ export class DynamicFlowService {
                         nodename: rollbackConfig?.nodeName,
                         savepoint: rollbackConfig?.savePoint,
                         data: status
-                    }
+                    }, pfdto?.authContext?.tenant
                     );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
@@ -5721,10 +5884,18 @@ export class DynamicFlowService {
                 let rollbackConfig, status
                 try {
                     this.logger.log(`${poNode[j].nodeName} Change Status node Started`)
+                    // Q19-class remediation: this branch can resolve a
+                    // caller-controlled dpdkey into another tenant's
+                    // decrypted DB credentials and execute a stored
+                    // procedure. Refuse to run without a verified identity
+                    // attached by AuthGuard.canActivateRpc().
+                    if (!pfdto?.authContext) {
+                        throw new CustomException('Unauthorized: change-status-node event carries no verified identity', 401);
+                    }
                     let mapobj = {}, params, customConfig, procedurequery, client, executecommand
                     customConfig = ndp[poNode[j].nodeId]
                     rollbackConfig = ndp[poNode[j].nodeId]
-                    let prcConf = await this.CommonService.procedureConfig(customConfig, collectionName)
+                    let prcConf = await this.CommonService.procedureConfig(customConfig, collectionName, pfdto?.authContext?.tenant)
                     client = prcConf.client
                     procedurequery = prcConf.procedurequery
                     params = prcConf.params
@@ -5834,7 +6005,7 @@ export class DynamicFlowService {
                         nodename: rollbackConfig?.nodeName,
                         savepoint: rollbackConfig?.savePoint,
                         data: status
-                    }
+                    }, pfdto?.authContext?.tenant
                     );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
@@ -5845,10 +6016,18 @@ export class DynamicFlowService {
                 let rollbackConfig, status
                 try {
                     this.logger.log(`${poNode[j]?.nodeName} functionnode Started`)
+                    // Q19-class remediation: this branch can resolve a
+                    // caller-controlled dpdkey into another tenant's
+                    // decrypted DB credentials and execute a function.
+                    // Refuse to run without a verified identity attached by
+                    // AuthGuard.canActivateRpc().
+                    if (!pfdto?.authContext) {
+                        throw new CustomException('Unauthorized: function-node event carries no verified identity', 401);
+                    }
                     let mapobj = {}, params, customConfig, procedurequery, client, dbType, executecommand
                     customConfig = ndp[poNode[j]?.nodeId]
                     rollbackConfig = ndp[poNode[j]?.nodeId]
-                    let funConf = await this.CommonService.procedureConfig(customConfig, collectionName)
+                    let funConf = await this.CommonService.procedureConfig(customConfig, collectionName, pfdto?.authContext?.tenant)
                     client = funConf?.client
                     procedurequery = funConf?.procedurequery
                     params = funConf?.params
@@ -6016,7 +6195,7 @@ export class DynamicFlowService {
                         nodename: rollbackConfig?.nodeName,
                         savepoint: rollbackConfig?.savePoint,
                         data: status
-                    }
+                    }, pfdto?.authContext?.tenant
                     );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
@@ -6026,11 +6205,21 @@ export class DynamicFlowService {
             if (nodeType == 'communicationnode' && poNode[j].nodeId == nodeId) {
                 try {
                     this.logger.log('communication Node Started');
+                    // Q19-class remediation: this branch can resolve a
+                    // caller-controlled dpdkey into another tenant's
+                    // decrypted communication (email/SMS) credentials and
+                    // send messages using them. Refuse to run without a
+                    // verified identity attached by
+                    // AuthGuard.canActivateRpc().
+                    if (!pfdto?.authContext) {
+                        throw new CustomException('Unauthorized: communication-node event carries no verified identity', 401);
+                    }
                     let customConfig,dpdkey,html,dpdData,templateKey,communicationType,mapobj,emailConfig,subject,to,sendResponse,cc,bcc
                     customConfig = ndp[poNode[j]?.nodeId]
                     dpdkey = customConfig?.data?.pro?.dpdKey?.value
                     if(!dpdkey) throw new CustomException('DPD key not found',404);
                     communicationType = customConfig?.data?.pro?.channels?.value
+                    await this.CommonService.assertConnectorTenant(dpdkey, pfdto?.authContext?.tenant);
                     let extdata:any =  Object.values(JSON.parse(await this.redisService.getJsonData(dpdkey, collectionName)))[0];  
                     if(!extdata)  throw new CustomException('DPD value not found',404);                      
                     dpdData = decrypt(extdata)  

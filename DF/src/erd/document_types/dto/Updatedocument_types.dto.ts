@@ -92,36 +92,5 @@ export class  Updatedocument_typesDto {
         @ApiPropertyOptional()
         @IsOptional()
         trs_version?: string;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 

@@ -228,6 +228,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
       }
         if (!tokenDecode || !tokenDecode.loginId)
           throw new CustomException('Invalid token', 401);
+        pfdto['authContext'] = tokenDecode;
 
       //const lockKey = `scheduler:${tokenDecode.loginId}:${name}`;
       //const lockTTL = interval - 10 // slightly less than minimum cron interval    
@@ -368,6 +369,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
       }
         if (!tokenDecode || !tokenDecode.loginId)
           throw new CustomException('Invalid token', 401);
+        pfdto['authContext'] = tokenDecode;
 
       const lockKey = `scheduler:${tokenDecode.loginId}:${jobname}`;
       const lockTTL = interval - 10 // slightly less than minimum cron interval
@@ -541,8 +543,15 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
         // Create new queue dynamically
         const queueOptions: QueueOptions = {
             connection: {
-                host: process.env.HOST,
-                port: parseInt(process.env.PORT),
+                sentinels: [
+                  {
+                    host: process.env.REDIS_SENTINEL_HOST,
+                    port: Number(process.env.REDIS_SENTINEL_PORT),
+                  },      
+                ],    
+                name: process.env.REDIS_MASTER_NAME,
+                username: process.env.REDIS_USERNAME,
+                password: process.env.REDIS_PASSWORD, 
             },
             defaultJobOptions: {
                 attempts: 3,
@@ -598,6 +607,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
         };
     }
 
+    
     async firstProcessor(pfdto, event, pfjson ,poJson,pfo, ndp,currentFabric, flag, page, count, filterData, lockDetails,childtable,logicCenter,semarc) {
     this.logger.log('firstProcessor started!');
      ({ page, count } = this.CommonService.sanitizePagination(page, count));
@@ -660,6 +670,14 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
             let lock: any,rollbackConfig,apichildResult: any = []
             try {
               this.logger.log(`${poNode[j].nodeName} Api first node Started`);
+              // Q19-class remediation: this branch can resolve a
+              // caller-controlled apiKey/referenceKey into another
+              // tenant's decrypted API credentials (bearer/API key) and
+              // attach them to an outbound request. Refuse to run without
+              // a verified identity attached by AuthGuard.canActivateRpc().
+              if (!pfdto?.authContext) {
+                throw new CustomException('Unauthorized: api-node event carries no verified identity', 401);
+              }
               // console.log('inputparam',inputparam);
               
               if (!failureQueue) {
@@ -677,6 +695,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
               if (!referenceKey)
                 throw new CustomException('Reference key not found', 404);            
               
+              await this.CommonService.assertConnectorTenant(referenceKey, pfdto?.authContext?.tenant);
               let ApiConfig: any = JSON.parse(await this.redisService.getJsonData(referenceKey, collectionName));
 
               if (!ApiConfig || Object.keys(ApiConfig).length == 0)
@@ -776,6 +795,13 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
             if (nodeType == 'streamnode' && poNode[j].nodeId == nodeId) {
               try {
                 this.logger.log('Stream first node Started');
+                // Q19-class remediation: this branch can resolve a
+                // caller-controlled dpdkey into another tenant's decrypted
+                // stream credentials. Refuse to run without a verified
+                // identity attached by AuthGuard.canActivateRpc().
+                if (!pfdto?.authContext) {
+                  throw new CustomException('Unauthorized: stream-node event carries no verified identity', 401);
+                }
                 let streamArr:any = [];
                 let oprname, entryId, streamName, fromStreamid, toStreamid, connectorType, storageType, dpdkey, conncectorName,apikey,responseNodeName,fieldName,isStatic,useAsConsumer,consumerName,consumerGroupName;
                 let childInsertArr,textobj,tempQryVal = [] 
@@ -832,6 +858,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                   if(currentFabric == 'PF-SCDL' && !semarc){
                     if (storageType?.toLowerCase() == 'external') {
                     if (!dpdkey) throw new CustomException('DPD key not found', 404);
+                    await this.CommonService.assertConnectorTenant(dpdkey, pfdto?.authContext?.tenant);
                     let extdata = JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName));
                     let nodedata = Object.keys(extdata)[0];
                     let configConnectors = extdata[nodedata].data['externalConnectors-STREAM']?.items;
@@ -1094,6 +1121,13 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
            if (nodeType == 'kafka_stream_node' && poNode[j].nodeId == nodeId) {
             try {
               this.logger.log('Kafka Stream first node Started');
+              // Q19-class remediation: this branch can resolve a
+              // caller-controlled dpdkey into another tenant's decrypted
+              // Kafka broker credentials. Refuse to run without a verified
+              // identity attached by AuthGuard.canActivateRpc().
+              if (!pfdto?.authContext) {
+                throw new CustomException('Unauthorized: kafka-stream-node event carries no verified identity', 401);
+              }
               let kafkaResultArr: any = [];
               let oprname, topicName, connectorType, storageType, dpdkey, connectorName, isStatic, groupId,autoOffsetReset;
               let childInsertArr, textobj, tempQryVal = [];
@@ -1160,6 +1194,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
 
               if (storageType?.toLowerCase() == 'external') {
                 if (!dpdkey) throw new CustomException('DPD key not found', 404);
+                await this.CommonService.assertConnectorTenant(dpdkey, pfdto?.authContext?.tenant);
                 let extdata = JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName));
                 let nodedata = Object.keys(extdata)[0];
                 let configConnectors = extdata[nodedata].data['externalConnectors-KAFKA']?.items;
@@ -1404,7 +1439,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                 throw new CustomException('Node version not found', 404);         
               
               let oprname,RCMresult:any = {} ,mapObj = {},ifoObj = {},client, oprkey, tablename, sessionParams, selcol, filterParams, connectorType, storageType, dpdkey, conncectorName, manualQuery, insertParams;
-              let dbconfig = await this.CommonService.dbconfig(customConfig, collectionName)
+              let dbconfig = await this.CommonService.dbconfig(customConfig, collectionName, pfdto?.authContext?.tenant)
               client = dbconfig?.client
              if (nodeVersion?.toLowerCase() == 'v1') {
                   RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], inputparam, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
@@ -1508,6 +1543,13 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
             let listenerMongoClient;
             try {
               this.logger.log(`first ${poNode[j].nodeName},Mongo DB Node started`);
+              // Q19-class remediation: this branch can resolve a
+              // caller-controlled dpdkey into another tenant's decrypted
+              // MongoDB credentials. Refuse to run without a verified
+              // identity attached by AuthGuard.canActivateRpc().
+              if (!pfdto?.authContext) {
+                throw new CustomException('Unauthorized: mongo-node event carries no verified identity', 401);
+              }
               let customConfig = ndp[poNode[j].nodeId]
               let collnName, manualQryType, manualQry, sessionfilterParams, connectorType, storageType, dpdkey, conncectorName, filterParams;
               let nodeVersion = customConfig?.nodeVersion;
@@ -1528,6 +1570,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                 if (currentFabric == 'PF-SCDL' && !semarc) {
                   if (storageType?.toLowerCase() == 'external') {
                     if (!dpdkey) throw new CustomException('DPD key not found', 404);
+                    await this.CommonService.assertConnectorTenant(dpdkey, pfdto?.authContext?.tenant);
                     let extdata = JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName));
                     if (!extdata) throw new CustomException('DPD value not found', 404);
                     let nodedata = Object.keys(extdata)[0];
@@ -1673,6 +1716,13 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
           if (nodeType == 'filenode' && poNode[j].nodeId == nodeId) {
             try {
               this.logger.log(`first File node Execution Started ${poNode[j].nodeName}`);
+              // Q19-class remediation: this branch can resolve a
+              // caller-controlled dpdkey into another tenant's decrypted
+              // file/object-storage credentials. Refuse to run without a
+              // verified identity attached by AuthGuard.canActivateRpc().
+              if (!pfdto?.authContext) {
+                throw new CustomException('Unauthorized: file-node event carries no verified identity', 401);
+              }
               let customConfig = ndp[poNode[j].nodeId]
               let nodeVersion = customConfig?.nodeVersion;
               let connectorType, storageType, dpdkey, conncectorName, oprname, oprkey, encryptionFlag, fileFolderPath, fileType, fileName, ndpPro, apikey, responseNodeName, fullPath;
@@ -1700,6 +1750,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                 if (currentFabric == 'PF-SCDL' && !semarc) {
                   if (storageType.toLowerCase() == 'external') {
                     if (!dpdkey) throw new CustomException('DPD key not found', 404);
+                    await this.CommonService.assertConnectorTenant(dpdkey, pfdto?.authContext?.tenant);
                     let extdata = JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName));
                     if (extdata && Object.keys(extdata).length > 0) {
                       let nodedata = Object.keys(extdata)[0];
@@ -1818,6 +1869,13 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
           if (nodeType == 'function_node' && poNode[j].nodeId == nodeId) {
             try {
               this.logger.log(`first ${poNode[j].nodeName} functionnode Started`)
+              // Q19-class remediation: this branch can resolve a
+              // caller-controlled dpdkey into another tenant's decrypted
+              // function/DB credentials. Refuse to run without a verified
+              // identity attached by AuthGuard.canActivateRpc().
+              if (!pfdto?.authContext) {
+                throw new CustomException('Unauthorized: function-node event carries no verified identity', 401);
+              }
               let mapobj = {}, status, params, customConfig, procedurequery, nodeVersion, dbType, connectorType, storageType, dpdkey, conncectorName, dbConfig, executecommand, inMemory, filterParams
               customConfig = ndp[poNode[j].nodeId]
               nodeVersion = customConfig.nodeVersion
@@ -1846,6 +1904,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
               if (currentFabric == 'PF-SCDL' && !semarc) {
                 if (storageType?.toLowerCase() == 'external') {
                   if (!dpdkey) throw new CustomException('DPD key not found', 404);
+                  await this.CommonService.assertConnectorTenant(dpdkey, pfdto?.authContext?.tenant);
                   let extdata = JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName));
                   let nodedata = Object.keys(extdata)[0];
                   let configConnectors = extdata[nodedata].data['externalConnectors-DB']?.items;
@@ -2025,6 +2084,13 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
            if (nodeType == 'procedureexecutionnode' && poNode[j].nodeId == nodeId) {
             try {
               this.logger.log(`first ${poNode[j].nodeName} procedureexecutionnode Started`)
+              // Q19-class remediation: this branch can resolve a
+              // caller-controlled dpdkey into another tenant's decrypted
+              // procedure/DB credentials. Refuse to run without a verified
+              // identity attached by AuthGuard.canActivateRpc().
+              if (!pfdto?.authContext) {
+                throw new CustomException('Unauthorized: procedure-execution-node event carries no verified identity', 401);
+              }
               let mapobj = {}, status, params, customConfig, procedurequery, nodeVersion, dbType, connectorType, storageType, dpdkey, conncectorName, dbConfig, executecommand, inMemory
               customConfig = ndp[poNode[j].nodeId]
               nodeVersion = customConfig.nodeVersion
@@ -2052,6 +2118,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
               if (currentFabric == 'PF-SCDL' && !semarc) {
                 if (storageType?.toLowerCase() == 'external') {
                   if (!dpdkey) throw new CustomException('DPD key not found', 404);
+                  await this.CommonService.assertConnectorTenant(dpdkey, pfdto?.authContext?.tenant);
                   let extdata = JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName));
                   let nodedata = Object.keys(extdata)[0];
                   let configConnectors = extdata[nodedata].data['externalConnectors-DB']?.items;

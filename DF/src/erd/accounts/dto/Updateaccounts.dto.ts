@@ -173,61 +173,30 @@ export class  UpdateaccountsDto {
         @ApiPropertyOptional()
         @IsOptional()
         trs_version?: string;
-
-
         @ApiProperty({
             type: `integer`,
             format: `int32`,
         })
         attorney_id: number;
-
-
-
-
-
-
         @ApiProperty({
             type: `integer`,
             format: `int32`,
         })
         creditor_id: number;
-
-
-
-
         @ApiProperty({
             type: `integer`,
             format: `int32`,
         })
         venue_id: number;
-
-
-
-
-
-
         @ApiProperty({
             type: `integer`,
             format: `int32`,
         })
         status_id: number;
-
-
         @ApiProperty({
             type: `integer`,
             format: `int32`,
         })
         priority_id: number;
-
-
-
-
-
-
-
-
-
-
-
 }
 

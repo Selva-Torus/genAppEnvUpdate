@@ -1,15 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Client } from 'pg';
+import { RedisService } from './redisService';
 
 const tenant = process.env.TENANT;
 const ag = process.env.APPGROUPCODE;
 const app = process.env.APPCODE;
+const sessionListCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:${tenant}:AFGK:${ag}:AFK:${app}:AFVK:v1:session`;
 
 @Injectable()
 export class JwtServices {
   constructor(
     private readonly jwtService: JwtService,
+    private readonly redisService: RedisService,
   ) {}
 
   async getPublicKeyFromDB(): Promise<string> {
@@ -38,14 +41,50 @@ export class JwtServices {
   // Signature + expiry verified — use this wherever the decoded claims drive
   // an authorization/identity decision. decodeToken() below trusts nothing.
   async verifyToken(token: string): Promise<any> {
+    let claims: any;
     try {
       const publicKey = await this.getPublicKeyFromDB();
-      return this.jwtService.verify(token, {
+      claims = this.jwtService.verify(token, {
         algorithms: ['RS256'],
         publicKey,
       });
+      if (!claims?.sid) {
+        // No sid on the token means we have nothing to check the session
+        // list against — fail closed rather than silently skip the check.
+        throw new Error('Invalid or expired token');
+      }
+
+      const isActive = await this.isSessionActive(claims.sid);
+      if (!isActive) {
+        throw new Error('Invalid or expired token');
+      }
+
+      return claims;
     } catch (error) {
       throw new Error('Invalid or expired token');
+    }
+  }
+
+  private async isSessionActive(sid: string): Promise<boolean> {
+    try {
+      const sessionListCache = await this.redisService.getJsonData(
+        sessionListCacheKey,
+        process.env.CLIENTCODE,
+      );
+      const sessionList =
+        sessionListCache && JSON.parse(sessionListCache)
+          ? JSON.parse(sessionListCache)
+          : [];
+
+      if (!Array.isArray(sessionList) || !sessionList.length) {
+        return false;
+      }
+
+      return sessionList.some((item: any) => item?.sid == sid);
+    } catch (error) {
+      // If the session store can't be read, fail closed — don't let a
+      // Redis hiccup silently grant access.
+      return false;
     }
   }
 

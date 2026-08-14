@@ -292,10 +292,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         color: #ffffff;
     }
 
-    /* =========================
-       SUB HEADER
-    ========================= */
-
     .sub-header {
         background: var(--blue-light);
 
@@ -314,9 +310,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         font-weight: 600;
     }
 
-    /* =========================
-       TITLE
-    ========================= */
 
     .title {
         text-align: center;
@@ -348,10 +341,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
 
         border-radius: 6px;
     }
-
-    /* =========================
-       META BAR
-    ========================= */
 
     .meta-bar {
         display: flex;
@@ -413,10 +402,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         word-break: break-word;
     }
 
-    /* =========================
-       CASE BANNER
-    ========================= */
-
     .case-banner {
         margin: 18px 40px;
 
@@ -471,9 +456,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         justify-content: flex-end;
     }
 
-    /* =========================
-       BADGES
-    ========================= */
 
     .badge {
         padding: 5px 10px;
@@ -521,9 +503,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         color: #374151;
     }
 
-    /* =========================
-       SECTION
-    ========================= */
 
     .section {
         padding: 18px 40px 8px;
@@ -585,9 +564,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         font-weight: 700;
     }
 
-    /* =========================
-       INFO GRID
-    ========================= */
 
     .info-grid {
         display: grid;
@@ -639,9 +615,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         word-break: break-word;
     }
 
-    /* =========================
-       FINANCIAL
-    ========================= */
 
     .financial-grid {
         display: grid;
@@ -693,9 +666,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         box-shadow: 0 2px 8px rgba(31, 78, 121, 0.08);
     }
 
-    /* =========================
-       TABLE
-    ========================= */
 
     .table-wrapper {
         width: 100%;
@@ -756,9 +726,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         color: var(--blue-dark);
     }
 
-    /* =========================
-       DECISION
-    ========================= */
 
     .decision-box {
         border: 1px solid var(--border);
@@ -812,10 +779,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         word-break: break-word;
     }
 
-    /* =========================
-       CERTIFICATION
-    ========================= */
-
     .certification {
         line-height: 1.7;
 
@@ -833,10 +796,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
 
         box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
     }
-
-    /* =========================
-       SIGNATURE
-    ========================= */
 
     .signature-section {
         padding: 30px 40px 36px;
@@ -918,10 +877,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         font-style: italic;
     }
 
-    /* =========================
-       FOOTER
-    ========================= */
-
     .footer {
         background: linear-gradient(
             135deg,
@@ -944,9 +899,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         color: #ffffff;
     }
 
-    /* =========================
-       EMPTY VALUE
-    ========================= */
 
     .empty-value {
         color: #98a2b3;
@@ -956,9 +908,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         font-weight: 400;
     }
 
-    /* =========================
-       PRINT
-    ========================= */
 
     @media print {
 
@@ -1024,9 +973,6 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
         }
     }
 
-    /* =========================
-       RESPONSIVE
-    ========================= */
 
     @media (max-width: 760px) {
 
@@ -1194,7 +1140,7 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
                 </div>
 
                 <div class="sub">
-                    Automated Matter Review
+                    Attorney Meaningful Review
                 </div>
 
             </div>

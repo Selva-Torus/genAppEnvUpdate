@@ -101,46 +101,15 @@ export class  Updateamr_checklist_statusDto {
         @ApiPropertyOptional()
         @IsOptional()
         trs_version?: string;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         @ApiProperty({
             type: `integer`,
             format: `int32`,
         })
         checklist_item_id: number;
-
-
-
-
-
-
-
-
-
-
         @ApiProperty({
             type: `integer`,
             format: `int32`,
         })
         account_id: number;
-
-
-
-
-
 }
 

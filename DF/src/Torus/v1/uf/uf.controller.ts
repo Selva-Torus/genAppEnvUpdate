@@ -50,7 +50,6 @@ import {
   signinToTorusDto,
   uploadFileDto,
   uploadFileMobileDto,
-  logoutDto,
   uploadHandlerDto,
   myAccountForClientdto,
   introspectDto,
@@ -871,11 +870,10 @@ export class UfController {
       },
     },
   })
-  async logout(@Headers() header,@Body() body:logoutDto, @Query() query ) {
-    const {key} = body;
+  async logout(@Headers() header, @Query() query ) {
     const {dpdKey,method} = query;
     const tokens: string = header.authorization.split(' ')[1];	
-    let result : any = await this.appService.logout(header,tokens,key);
+    let result : any = await this.appService.logout(header,tokens, 'User Screen');
     if(dpdKey && method){
       result["dpdKey"] = dpdKey
       result["method"] = method
@@ -1136,21 +1134,22 @@ export class UfController {
     const token: string = req.headers.authorization?.split(' ')[1];
     return this.appService.readAMDKey(key, token);
   }
-  @Get('getResetPasswordOtp')
+
+  @Post('getResetPasswordOtp')
   @Public()
   @UseGuards(ThrottlerGuard)
   @Throttle({ auth: { limit: 5, ttl: 60_000 } })
-  async getResetPasswordOtp(@Query() query: any) {
-    const { email, tenantId }  = query;
+  async getResetPasswordOtp(@Body() body: any) {
+    const { email, tenantId }  = body;
     return this.appService.getResetPasswordOtp(email, tenantId);
   }
 
-  @Get('verifyOtp')
+  @Post('verifyOtp')
   @Public()
   @UseGuards(ThrottlerGuard)
   @Throttle({ auth: { limit: 5, ttl: 60_000 } })
-  async verifyOtp(@Query() query: any) {
-    const { email, otp, id } = query;
+  async verifyOtp(@Body() body: any) {
+    const { email, otp, id } = body;
     return this.appService.verifyOtp(email, otp, id);
   }
 
@@ -1179,6 +1178,8 @@ export class UfController {
 
   @Post('sso')
   @Public()
+  @UseGuards(ThrottlerGuard)
+  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   async sso(@Body() body:any) {
     const { token , ufClientType } = body;
     return this.appService.sso(token , ufClientType);
