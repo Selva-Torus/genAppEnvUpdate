@@ -2403,8 +2403,17 @@ getConfig(): FusionAuthConfig {
                         let nodeName: string =
                           POdata.mappedData.artifact.node[i].ifo[j].name;
                         nodeName = nodeName.toLocaleLowerCase();
+                        let ifoValue: any =
+                          POdata?.mappedData?.artifact?.node[i]?.ifo[j]?.value;
                         if (nodeName in formData) {
                           filterItems[nodeName] = formData[nodeName];
+                        } else if (ifoValue != undefined && ifoValue !== '') {
+                          if (
+                            filterItems[nodeName] == undefined ||
+                            filterItems[nodeName] === ''
+                          ) {
+                            filterItems[nodeName] = ifoValue;
+                          }
                         }
                       }
                     }
@@ -2482,7 +2491,7 @@ getConfig(): FusionAuthConfig {
           );
           const POdata = POdataKey;
           // return POdata
-           if (POdata) {
+          if (POdata) {
             if (POdata?.mappedData?.artifact?.node?.length) {
               for (let i = 0; i < POdata.mappedData.artifact.node.length; i++) {
                 if (POdata.mappedData.artifact.node[i].nodeId == findingkey) {
@@ -2503,12 +2512,21 @@ getConfig(): FusionAuthConfig {
                           POdata.mappedData.artifact.node[i].ifo[
                             j
                           ].name.toLocaleLowerCase();
+                        let ifoValue: any =
+                          POdata?.mappedData?.artifact?.node[i]?.ifo[j]?.value;
                         if (formData[nodeName] != undefined) {
                           filterItems[nodeName] = formData[nodeName];
-                        } else {
+                        } else if (ifoValue != undefined && ifoValue !== '') {
+                          if (
+                            filterItems[nodeName] == undefined ||
+                            filterItems[nodeName] === ''
+                          ) {
+                            filterItems[nodeName] = ifoValue;
+                          }
+                        } else if (filterItems[nodeName] == undefined) {
                           filterItems[nodeName] = '';
                         }
-                        
+
                       }
                     }
                     if ('trs_version' in formData) {
@@ -2525,34 +2543,32 @@ getConfig(): FusionAuthConfig {
                           '.',
                         )[0];
                       if (NodeId == controlId) {
-                        if("_groupArrays_" in formData){
+                        if ("_groupArrays_" in formData) {
                           formData["_groupArrays_"].forEach((arrayKey: string) => {
-                            formData[arrayKey]?.map((groupArrayItems:any,index:number)=>{
+                            formData[arrayKey]?.map((groupArrayItems: any, index: number) => {
                               let nodeName: string =
                                 POdata.mappedData.artifact.node[i].ifo[
                                   j
                                 ].name.toLocaleLowerCase();
                               if (groupArrayItems[nodeName] != undefined) {
-                                if(!(arrayKey in groupArraysData))
-                                {
-                                  groupArraysData={...groupArraysData,[arrayKey]:[]}
+                                if (!(arrayKey in groupArraysData)) {
+                                  groupArraysData = { ...groupArraysData, [arrayKey]: [] }
                                 }
-                                groupArraysData[arrayKey][index] ={...groupArraysData[arrayKey][index]||{} ,[nodeName]:groupArrayItems[nodeName]};
+                                groupArraysData[arrayKey][index] = { ...groupArraysData[arrayKey][index] || {}, [nodeName]: groupArrayItems[nodeName] };
                               }
                             })
                           });
                         }
-                        
+
                       }
                     }
-                    if('childTables' in formData)
-                    {
-                      formData.childTables.map((eachTable:any)=>{
-                        filterItems[eachTable]=formData[eachTable]
+                    if ('childTables' in formData) {
+                      formData.childTables.map((eachTable: any) => {
+                        filterItems[eachTable] = formData[eachTable]
                       })
                       return filterItems;
-                    }else
-                      return {...filterItems,...groupArraysData};
+                    } else
+                      return { ...filterItems, ...groupArraysData };
                   }
                 }
               }
@@ -5294,16 +5310,6 @@ getConfig(): FusionAuthConfig {
     const salt = randomBytes(SALT_LENGTH).toString('hex');
     const hash = scryptSync(password, salt, KEY_LENGTH).toString('hex');
     return `${salt}:${hash}`;
-  }
-
-  // static screen's apis
-  async getTenantUser() {
-    try {
-      const res = await this.query(`select * from ${schemaName}.tam_tenant_user tu where tenant_code=$1 and trs_tenant_id=$1` , [tenant])
-      return res || [];
-    } catch (err: any) {
-      throw new UnauthorizedException('Invalid tenant key');
-    }
   }
 
   async getAppSecurityData() {
