@@ -2361,7 +2361,7 @@ export default function Editorreport_editor({lockedData,setLockedData,checkToAdd
       />
         </div>
       ) : (
-        <p>Loading report...</p>
+        <p></p>
       )}
     </div>
   )

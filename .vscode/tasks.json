@@ -1,0 +1,22 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "dev",
+			"path": "UF",
+			"problemMatcher": [],
+			"label": "npm: dev - UF",
+			"detail": "next dev -p 4000 --turbopack"
+		},
+		{
+			"type": "npm",
+			"script": "dev",
+			"path": "DF",
+			"problemMatcher": [],
+			"label": "npm: dev - DF",
+			"detail": "nest start --watch"
+		},
+
+	]
+}

@@ -17,6 +17,7 @@ import { DecodedToken,PrimaryTableData,EncryptionFlagPageData,PaginationData,All
 import { useGlobal } from '@/context/GlobalContext';
 import { useRouter } from 'next/navigation';
 import Groupgroup_report  from "./Groupgroup_report/Groupgroup_report";
+import { getBorderRadiusClass } from '@/app/utils/branding';
 
 
 type ReportItem = {
@@ -49,7 +50,7 @@ const PageReportV1 = () => {
   const { encAppFalg,setEncAppFalg}= useContext(TotalContext) as TotalContextProps;
   const {paginationDetails, setpaginationDetails} = useContext(TotalContext) as TotalContextProps;
   const {report_v1Props, setreport_v1Props} = useContext(TotalContext) as TotalContextProps;
-  const { isDark, isHighContrast, bgStyle, textStyle } : { isDark: boolean; isHighContrast: boolean; bgStyle: string; textStyle: string } = useTheme();
+  const { isDark, isHighContrast, bgStyle, textStyle , branding } = useTheme();
   const artifactName: string =
     "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1".split(
       ':'
@@ -240,7 +241,7 @@ const PageReportV1 = () => {
             backgroundColor: brandcolor,
             borderColor: 'var(--g-color-line-generic)'
           }}
-          className='flex w-full flex-col gap-[10px] rounded-lg border px-[10px] py-[10px]'
+          className='flex w-full flex-col gap-[2vh] rounded-lg border px-[0.8vw] py-[1vh]'
         >
           <Text variant='subheader-3'>
             {capitalizeEachWord(item.displayName || item.referanceName)}
@@ -261,14 +262,14 @@ const PageReportV1 = () => {
       return (
         <div
           key={item.referencePath}
-          className='flex w-full flex-col rounded-lg border px-[12px] py-[5px]'
+          className='flex w-full flex-col rounded-lg border px-[0.6vw] py-[0.5vh] text-fsbase'
           style={{
             backgroundColor: 'var(--g-color-base-background)',
             color: 'var(--g-color-text-primary)',
             borderColor: 'var(--g-color-line-generic)'
           }}
         >
-          <Text variant='code-2'>
+          <Text contentAlign='left'>
             {capitalizeEachWord(item.displayName || item.referanceName)}
           </Text>
           <input
@@ -444,32 +445,40 @@ const PageReportV1 = () => {
   }, [])
 
   return (
-     <div className='flex h-[80vh] xl:h-[87vh] w-full gap-[20px] overflow-hidden'>
+     <div className='flex h-[95vh] w-full gap-[2vw] overflow-hidden'>
       <>
         {isFormOpen ? (
           <div
             style={{
               borderColor: 'var(--g-color-line-generic)'
             }}
-           className='flex h-full flex-col gap-[10px] rounded-lg border min-w-52'
+           className='flex h-full flex-col gap-[1vh] rounded-lg border min-w-52'
           >
-            <div className='flex items-center justify-between gap-[10px] px-[15px] py-[10px]'>
-              <Text variant='subheader-3' contentAlign="left">{capitalizeEachWord(artifactName)}</Text>
-              <Button view='flat' fillContainer={false} onClick={() => setIsFormOpen(false)} className="!w-fit">
-                 <Multiply fill={isDark ? "white" : "black"} />
-              </Button>
+            <div className='flex items-center justify-between gap-[0.5vw] px-[0.5vw] py-[0.5vh]'>
+              <Text contentAlign="left" className='text-[1vw] mt-[0.2vh]'>{capitalizeEachWord(artifactName)}</Text>
+             <button
+                onClick={() => setIsFormOpen(false)}
+                className={`
+                  p-1
+                  ${getBorderRadiusClass(branding.borderRadius)}
+                  transition-all duration-200
+                  ${isDark ? "hover:bg-gray-700 hover:shadow-lg" : "hover:bg-gray-100 hover:shadow-md"}
+                `}                
+                aria-label="Close modal"
+              >
+                <Icon data="IoCloseOutline" size={20} />
+              </button>
             </div>
             <hr className='w-full border border-black/15' />
             <div
-              //style={{ backgroundColor: selectionColor }}
-               className='flex h-full w-full flex-col items-center gap-[10px] overflow-y-auto rounded-lg px-[10px] py-[10px] scrollbar-hide'
+               className='flex h-full w-full flex-col items-center gap-[1vh] overflow-y-auto rounded-lg px-[10px] py-[10px] scrollbar-hide'
             >
               {reportData.map((item: any, index: number) =>
                 renderItem(item, index)
               )}
             </div>
-            <div className='flex w-full justify-end gap-[10px] px-[10px] py-[10px]'>
-              <Button onClick={handleClick}>Generate Report</Button>
+            <div className='w-full px-[0.1vw] py-[0.5vh]'>
+              <Button onClick={handleClick} className='p-[0.3vw]'>Generate Report</Button>
             </div>
           </div>
         ) : (
