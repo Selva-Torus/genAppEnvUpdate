@@ -578,14 +578,14 @@ export const Table: React.FC<TableProps> = ({
                      ${column?.className}
                   `}
                 >
-      
+                  <div className={`component-header-text flex items-center gap-2 whitespace-nowrap ${column.align === 'right' ? 'justify-end' : column.align === 'center' ? 'justify-center' : ''}`}>
                     {column.name}
                     {tableSorting && sortColumn === column.id && (
                       <BiSort
                         size={14}
                       />
                     )}
-           
+                  </div>
                 </th>
               )
                 }
@@ -603,14 +603,14 @@ export const Table: React.FC<TableProps> = ({
                     ${column?.className}
                   `}
                 >
-
+                  <div className={`component-header-text flex items-center gap-2 whitespace-nowrap ${column.align === 'right' ? 'justify-end' : column.align === 'center' ? 'justify-center' : ''}`}>
                     {column.name}
                     {tableSorting && sortColumn === column.id && (
                       <BiSort
                         size={14}
                       />
                     )}
-
+                  </div>
                 </th>
               )
                 }

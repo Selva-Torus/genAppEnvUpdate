@@ -3,6 +3,7 @@ import { Injectable, Logger, OnModuleInit, Inject, forwardRef } from '@nestjs/co
 import { Worker, Job, WorkerOptions } from 'bullmq';
 import { pfDto } from 'src/dto';
 import { TeService } from './te.service';
+import { getRedisConnectionOptions } from 'src/redis.config';
 
 @Injectable()
 export class EventEmitterProcessor implements OnModuleInit {
@@ -24,8 +25,7 @@ export class EventEmitterProcessor implements OnModuleInit {
 
     const workerOptions: WorkerOptions = {
       connection: {
-          host: process.env.HOST,
-                port: parseInt(process.env.PORT),
+        ...getRedisConnectionOptions(),
         maxRetriesPerRequest: 3,
       },
       concurrency: 20, //50,

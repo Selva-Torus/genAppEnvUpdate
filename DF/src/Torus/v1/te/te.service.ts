@@ -1169,7 +1169,8 @@ export class TeService{
         pfdto.lock = input.lockDetails      
         pfdto.childTable = input.childTable 
         pfdto.ssKey =  input.ssKey   
-        pfdto.controlName =  input.controlName  
+        pfdto.controlName =  input.controlName 
+        pfdto.authContext =  input.authContext 
         formdata =  await this.EventEmitter(pfdto)              
       return formdata
   }catch(err){    

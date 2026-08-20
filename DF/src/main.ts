@@ -7,27 +7,23 @@ import helmet from '@fastify/helmet';
 import * as fs from 'fs';
 import multipart from '@fastify/multipart';
 import { BigIntInterceptor } from './bigint.interceptor';
+import { AppService } from './app.service';
 import { EnvData } from './envData/envData.service';
 //import { envData as mongoClientEnvData } from './mongoClient';
 import { decrypt } from './decrypt';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { JwtServices } from "src/jwt.services";
+import { getRedisClient } from "src/redis.config";
 const Redis = require('ioredis');
 
 async function bootstrap() {
   const logger = new Logger('Redis');
- const redis = new Redis({
-    host: process.env.HOST,
-    port: parseInt(process.env.PORT),
-  }).on('error', (err:any) => {
-    console.log('Redis Client Error', err);
-    throw err;
-  });
+  const redis = getRedisClient();
 
   let configData = null;
   try {
-    const redisResult = await redis.call('JSON.GET', "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:LAP:AFGK:LAP:AFK:lapDPD:AFVK:v1:NDP");
+    const redisResult:any = await redis.call('JSON.GET', "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:RTGS:AFK:RTGS_DPD:AFVK:v1:NDP");
     if (redisResult) {
       const parsed = JSON.parse(redisResult);
       const rootKey = Object.keys(parsed)[0];
@@ -54,6 +50,15 @@ async function bootstrap() {
   const fastifyAdapter = new FastifyAdapter({
     bodyLimit: 10 * 1024 * 1024, // 10MB limit
     logger: true,
+    // Trust X-Forwarded-* headers from the reverse proxy/load balancer in front of
+    // this service, so req.ip / req.protocol / req.hostname reflect the real client
+    // instead of the proxy. Without this, IP-based rate limiting, audit logs, and
+    // any protocol/host checks silently see the proxy's address instead.
+    ///trustProxy: process.env.TRUST_PROXY_HOPS
+     // ? Number(process.env.TRUST_PROXY_HOPS)
+     // : true,
+
+    trustProxy:true,
   });
   if (configData) {
     EnvData.preloadConfig(configData);
@@ -63,7 +68,7 @@ async function bootstrap() {
     AppModule,
     fastifyAdapter,
   );
-
+  await app.init()
   const envData = app.get(EnvData);
 
   if (!configData) {
@@ -135,10 +140,12 @@ async function bootstrap() {
     { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 
     'JWT-auth',
     )
-    .addServer('https://tgaprod910.toruslowcode.com/ct006/lap/lap/v1/api','Production Server')
+    .addServer('https://tgaprod910.toruslowcode.com/ct005/gss/rtgs/v1/api','Production Server')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  fs.writeFileSync('./swagger.json', JSON.stringify(document, null, 2));
+  const appService = app.get(AppService);
+  appService.setSwaggerDocument(document);
+  await appService.initSwaggerUpload();
     // Swagger UI/JSON was previously mounted with no guard in front of it —
   // require the same bearer token AuthGuard checks before serving /docs.
   const swaggerJwtService = app.get(JwtServices);
@@ -162,19 +169,34 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, document);
 
   //helmet
-  await app.register(helmet,{
-  // CSP now enabled (was explicitly disabled) — directives kept permissive
-  // enough for Swagger UI's inline bootstrap script/styles, per Nest's own
-  // Helmet+Swagger guidance, rather than turning CSP off app-wide for it.
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: [`'self'`],
-      scriptSrc: [`'self'`, `'unsafe-inline'`],
-      styleSrc: [`'self'`, `'unsafe-inline'`],
-      imgSrc: [`'self'`, 'data:'],
+  // Strict, no-inline CSP is the global default applied to every response.
+  await app.register(helmet, {
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: [`'self'`],
+        scriptSrc: [`'self'`],
+        styleSrc: [`'self'`],
+        imgSrc: [`'self'`, 'data:'],
+      },
     },
-  },
-  global: true, 
+    global: true,
+  });
+
+  // Swagger UI's bundled bootstrap script/styles are inline, so /docs needs
+  // 'unsafe-inline' — but nowhere else should. This widens the CSP on just
+  // the /docs response, after Helmet's global (strict) policy already ran.
+  fastifyInstance.addHook('onRequest', async (request, reply) => {
+    if (!request.url.includes('/docs')) return;
+    reply.helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: [`'self'`],
+          scriptSrc: [`'self'`, `'unsafe-inline'`],
+          styleSrc: [`'self'`, `'unsafe-inline'`],
+          imgSrc: [`'self'`, 'data:'],
+        },
+      },
+    });
   });
 
   // Start Fastify app

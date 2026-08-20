@@ -15,7 +15,6 @@ import {
   BadRequestException,
   UseGuards
 } from '@nestjs/common';
-import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { Public } from 'src/public.decorator';
 import { UfService } from './uf.service';
 import {
@@ -61,7 +60,6 @@ import { Response } from 'express';
 import { lookup } from 'mime-types';
 import { JwtServices } from 'src/jwt.services';
 import { CommonService } from 'src/common.Service';
-import { getAllowedModelNames, getModelFieldTypes } from 'src/utils/prisma-dmmf.util';
 import { safeFetchBuffer ,assertAllowedOutboundHost} from 'src/utils/ssrf.util';
 
 @ApiTags('TG')
@@ -746,8 +744,6 @@ export class UfController {
 
   @Post('signin')
   @Public()
-  @UseGuards(ThrottlerGuard)
-  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   @ApiBody({ type: signinToTorusDto })
   @ApiHeader({
     name: 'Authorization',
@@ -1085,7 +1081,7 @@ export class UfController {
             mimetype: part.mimetype,
             size: buffer.length,
             buffer,
-            doc_group: part?.fields?.doc_group?.value||"", // Assuming doc_group is sent as a field in the multipart form
+            doc_group: part?.fields?.doc_group?.value || "",
           });
         } else {
           fields[part.fieldname] = part.value;
@@ -1098,7 +1094,6 @@ export class UfController {
 
       const { bucketFolderame, folderPath, enableEncryption, filename = '', returnType } = fields;
 
-    // Process all files and collect imageUrls
       const imageUrls: string[] = [];
       for (const file of files) {
         const imageUrl = await this.appService.uploadImage(
@@ -1112,7 +1107,6 @@ export class UfController {
         imageUrls.push(imageUrl);
       }
 
-    // Return based on returnType: 'string' returns single value, 'string[]' returns array
       return {
         success: true,
         message: 'file saved',
@@ -1137,8 +1131,6 @@ export class UfController {
 
   @Post('getResetPasswordOtp')
   @Public()
-  @UseGuards(ThrottlerGuard)
-  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   async getResetPasswordOtp(@Body() body: any) {
     const { email, tenantId }  = body;
     return this.appService.getResetPasswordOtp(email, tenantId);
@@ -1146,8 +1138,6 @@ export class UfController {
 
   @Post('verifyOtp')
   @Public()
-  @UseGuards(ThrottlerGuard)
-  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   async verifyOtp(@Body() body: any) {
     const { email, otp, id } = body;
     return this.appService.verifyOtp(email, otp, id);
@@ -1155,8 +1145,6 @@ export class UfController {
 
   @Patch('resetPassword')
   @Public()
-  @UseGuards(ThrottlerGuard)
-  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   async resetPassword(@Body() body: any) {
     const { email, password, app_tenant, tenantId , resetToken } = body;
     return this.appService.resetPassword(email, password, app_tenant, tenantId , resetToken);
@@ -1178,8 +1166,6 @@ export class UfController {
 
   @Post('sso')
   @Public()
-  @UseGuards(ThrottlerGuard)
-  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   async sso(@Body() body:any) {
     const { token , ufClientType } = body;
     return this.appService.sso(token , ufClientType);
@@ -1220,41 +1206,28 @@ export class UfController {
   // straight into uf.service.ts's raw SQL (`WHERE ${dto.key} = $1`) with no
   // validation at all, letting any authenticated caller inject SQL and/or
   // target an arbitrary table.
-  private assertValidLockTarget(dto: LockRecordBodyDto): void {
-    const allowedTables = getAllowedModelNames();
-    if (typeof dto?.tableName !== 'string' || !allowedTables.includes(dto.tableName)) {
-      throw new BadRequestException(`Invalid table name: ${dto?.tableName}`);
-    }
-    const allowedKeys = Object.keys(getModelFieldTypes(dto.tableName));
-    if (typeof dto?.key !== 'string' || !allowedKeys.includes(dto.key)) {
-      throw new BadRequestException(`Invalid lock key: ${dto?.key}`);
-    }
-  }
-
   @Post('lock')
   async lock(@Body() dto: LockRecordBodyDto, @Req() req: any) {
     const token: string = req.headers.authorization.split(' ')[1]
-    const decodedToken: any = this.jwtService.verifyToken(token);
+    const decodedToken: any = await this.jwtService.verifyToken(token);
     const loginId = decodedToken.loginId;
     dto['userId'] = loginId;
-    this.assertValidLockTarget(dto);
     return this.appService.acquireLock(dto);
   }
 
   @Post('unlock')
   async unlock(@Body() dto: LockRecordBodyDto, @Req() req: any) {
     const token: string = req.headers.authorization.split(' ')[1]
-    const decodedToken: any = this.jwtService.verifyToken(token);
+    const decodedToken: any = await this.jwtService.verifyToken(token);
     const loginId = decodedToken.loginId;
     dto['userId'] = loginId;
-    this.assertValidLockTarget(dto);
     return this.appService.releaseLock(dto);
   }
 
   @Post('release-all-locks')
   async releaseAllLocks(@Req() req: any) {
     const token: string = req.headers.authorization.split(' ')[1]
-    const decodedToken: any = this.jwtService.verifyToken(token);
+    const decodedToken: any = await this.jwtService.verifyToken(token);
     const loginId = decodedToken.loginId;
     return this.appService.releaseAllLocks(loginId);
   }

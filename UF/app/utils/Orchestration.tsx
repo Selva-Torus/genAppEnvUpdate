@@ -4,22 +4,30 @@ export const fetchBatchData = async (
   key: string,
   accessProfile: any,
   from: string,
-  token: string
+  token: string,
+  encryptionFlagPageData?: any
 ) => {
+  const payload = {
+    key,
+    accessProfile,
+    from,
+    ...(encryptionFlagPageData?.flag
+      ? {
+          dpdKey: encryptionFlagPageData?.dpd,
+          method: encryptionFlagPageData?.method
+        }
+      : {})
+  }
   try {
     const response: any = await AxiosService.post(
-      "/UF/OrchestrationBatch",
-      {
-        key,
-        accessProfile,
-        from
-      },
+      '/UF/OrchestrationBatch',
+      payload,
       {
         headers: {
           Authorization: `Bearer ${token}`
         }
       }
-    );
+    )
 
     if (response?.data) {
       return response.data;
@@ -43,7 +51,7 @@ export const getGroupOrchestrationData = (
     return null;
   }
   return { data: groupData[componentId] || null };
-};
+}
 
 /**
  * Get control-level orchestration data by componentId and controlId
@@ -57,8 +65,8 @@ export const getControlOrchestrationData = (
   if (!controlData || !componentId || !controlId) {
     return null;
   }
-  return { data: controlData[componentId]?.[controlId] || null };
-};
+  return { data: controlData[componentId]?.[controlId] || null }
+}
 
 /**
  * @deprecated Use getGroupOrchestrationData or getControlOrchestrationData instead
@@ -70,5 +78,5 @@ export const getorchestrationDataByComponentId = (
   if (!controlData) {
     return null;
   }
-  return { data: controlData[componentId] || null };
-};
+  return { data: controlData[componentId] || null }
+}

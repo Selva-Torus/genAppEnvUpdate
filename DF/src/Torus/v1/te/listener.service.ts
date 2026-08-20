@@ -19,6 +19,7 @@ import { MongoClient } from "mongodb";
 import { format } from "date-fns";
 import { EnvData } from "src/envData/envData.service";
 import { runInSandbox } from "src/sandbox";
+import { getRedisConnectionOptions } from "src/redis.config";
 
 @Injectable()
 export class ListenerService implements OnModuleInit, OnModuleDestroy{ 
@@ -103,7 +104,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
 
     let keyarr = []
         
-    let artifactToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoiSGFyaXRoYSIsImNsaWVudCI6IkNUMDA2IiwidHlwZSI6ImMiLCJsb2dUeXBlIjoiZGZzIiwic2lkIjoiM2YxZGYwNmYtYmNkZi00ZTE1LTk2MTctZGUwZDNiNmFmYTFjIiwiaWF0IjoxNzg2MTc5OTQxLCJleHAiOjE3ODYxODExNDF9.hjN_JTVGjRTtVsAAPkpDKJxxvEejpAr9aVlx7r2CHhc';  
+    let artifactToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoic2FtIiwiY2xpZW50IjoiQ1QwMDUiLCJ0eXBlIjoiYyIsImxvZ1R5cGUiOiJkZnMiLCJzaWQiOiJhNmQzNTEyYy1mMDdjLTRmNzMtYjM4Yy00MWE5YmE2ZWQ4NTUiLCJpYXQiOjE3ODcyMTIxNDEsImV4cCI6MTc4NzIxMzM0MX0.-0PB8D2PdPPn0zbd9Go0uSzTHPJD1d3FSSMZ5TJUd6M';  
     for (const key of keyarr) {
       this.listenToKey(key,artifactToken); // fire & forget
     }  
@@ -534,7 +535,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
     }
   }
 
-    getQueue(queueName: string): Queue {
+     getQueue(queueName: string): Queue {
         // Check if queue already exists
         if (this.queues.has(queueName)) {
             return this.queues.get(queueName);
@@ -542,17 +543,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
 
         // Create new queue dynamically
         const queueOptions: QueueOptions = {
-            connection: {
-                sentinels: [
-                  {
-                    host: process.env.REDIS_SENTINEL_HOST,
-                    port: Number(process.env.REDIS_SENTINEL_PORT),
-                  },      
-                ],    
-                name: process.env.REDIS_MASTER_NAME,
-                username: process.env.REDIS_USERNAME,
-                password: process.env.REDIS_PASSWORD, 
-            },
+            connection: getRedisConnectionOptions(),
             defaultJobOptions: {
                 attempts: 3,
                 backoff: {
@@ -563,6 +554,7 @@ export class ListenerService implements OnModuleInit, OnModuleDestroy{
                 removeOnFail: false,
             },
         };
+
 
         const newQueue = new Queue(queueName, queueOptions);
         this.queues.set(queueName, newQueue);

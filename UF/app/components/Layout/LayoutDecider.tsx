@@ -43,15 +43,16 @@ const LayoutDecider = ({
   const { borderColor, bgColor } : { borderColor: string; bgColor: string } = useTheme()
   const { brandColor, hoverColor, selectionColor } : { brandColor: string; hoverColor: string; selectionColor: string } = branding;
   const encryptionFlagApp: boolean = false;    
-  const encryptionDpd: string = "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:LAP:AFGK:LAP:AFK:lapDPD:AFVK:v1";
+  const encryptionDpd: string = "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:RTGS:AFK:RTGS_DPD:AFVK:v1";
   const encryptionMethod: string = "";
+  const { encAppFalg, setEncAppFalg }  = useContext(TotalContext) as TotalContextProps;
   const logo: string = ""
-  const appLogo: string = ""
-  const appName: string = "LAP"
+  const appLogo: string = "torus/9.1/CT005/resources/images/White global payment hub.png"
+  const appName: string = "RTGS"
   const toast: Function = useInfoMsg()
   const [loading, setLoading] = useState<boolean>(true)
   const [updatedNavData, setUpdatedNavData] = useState<MenuItem[]>([])
-  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT006:AFGK:LAP:AFK:LAP:AFVK:v1:bldc"
+  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT005:AFGK:GSS:AFK:RTGS:AFVK:v1:bldc"
   const [rawNavData, setRawNavData] = useState<MenuItem[] | null>(null);
   const navData: MenuItem[] = [
   {
@@ -79,144 +80,28 @@ const LayoutDecider = ({
     "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
   },
   {
-    "menuGroupLabel": "Dashboard",
+    "menuGroupLabel": "Transactions",
     "screenDetails": [
       {
-        "name": "dashboard",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1",
+        "name": "transactions",
+        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1",
         "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/Frame.svg"
+        "static": false
       }
     ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/Frame.svg"
+    "items": []
   },
   {
-    "menuGroupLabel": "Report",
+    "menuGroupLabel": "Simulator",
     "screenDetails": [
       {
-        "name": "report",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1",
+        "name": "simulator",
+        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:simulatorProcessUi:AFVK:v1",
         "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/report.png"
+        "static": false
       }
     ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/report.png"
-  },
-  {
-    "menuGroupLabel": "Filing Packages",
-    "screenDetails": [
-      {
-        "name": "filing packages",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/file.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/file.png"
-  },
-  {
-    "menuGroupLabel": "Submissions Hub",
-    "screenDetails": [
-      {
-        "name": "submissions hub",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/telegram.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/telegram.png"
-  },
-  {
-    "menuGroupLabel": "Service Tracking",
-    "screenDetails": [
-      {
-        "name": "service tracking",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/delivery-truck.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/delivery-truck.png"
-  },
-  {
-    "menuGroupLabel": "Judgments",
-    "screenDetails": [
-      {
-        "name": "judgments",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/hammer.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/hammer.png"
-  },
-  {
-    "menuGroupLabel": "Enforcement",
-    "screenDetails": [
-      {
-        "name": "enforcement",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/shield-badge.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/shield-badge.png"
-  },
-  {
-    "menuGroupLabel": "Kill-Switch Control",
-    "screenDetails": [
-      {
-        "name": "kill-switch control",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/warning.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/warning.png"
-  },
-  {
-    "menuGroupLabel": "Compliance",
-    "screenDetails": [
-      {
-        "name": "compliance",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/open-book.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/open-book.png"
-  },
-  {
-    "menuGroupLabel": "Analytics",
-    "screenDetails": [
-      {
-        "name": "analytics",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/stacked-bar.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/stacked-bar.png"
+    "items": []
   }
 ]
   const decodedTokenObj: DecodedToken = decodeToken(token)
@@ -236,7 +121,13 @@ const LayoutDecider = ({
     const marginClass: string = mode === 'detached' ? 'm-2' : ''
     const extraClass: string = mode === 'detached' ? 'rounded-md shadow-md' : ''
     const detachedBorder: string = mode === 'detached' ? 'border' : ''
-
+    if(encryptionDpd){
+      setEncAppFalg({
+        flag: encryptionFlagApp,
+        dpd: encryptionDpd,
+        method: encryptionMethod
+      })
+    }
     if (['condensed', 'hoverView'].includes(sidebarStyle)) {
       return `${marginClass} ${widthClass} ${baseClass} ${detachedBorder}  ${extraClass}`.trim()
     }
@@ -487,7 +378,27 @@ const LayoutDecider = ({
     name: string
     'gridColumn'?: string
     'gridRow'?: string
-  }[] =[]
+  }[] =[
+  {
+    "name": "app logo",
+    "gridColumn": "1/3"
+  },
+  {
+    "name": "menu items",
+    "gridColumn": "3/8",
+    "gridRow": "1/6"
+  },
+  {
+    "name": "profile",
+    "gridColumn": "12/13",
+    "gridRow": "12/13"
+  },
+  {
+    "name": "opr matrix",
+    "gridColumn": "9/12",
+    "gridRow": "6/9"
+  }
+]
 
    if (loading == true){
     return (<div className='flex w-[100vw] h-[100vh] bg-slate-200 justify-center items-center '><span>Loading...</span></div>);

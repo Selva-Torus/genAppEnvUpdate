@@ -1,8 +1,9 @@
 'use server'
 
 import * as crypto from 'crypto';
-const NodeRSA = require('node-rsa')
 import getEnvData from '../getEnvData'
+import { normalizePem } from './normalizePem'
+import { rsaDecryptChunked } from './rsaBlockCrypto'
 
 // Runs as a Next.js Server Action: the function body — including the
 // getEnvData() lookup that resolves the tenant's AES key / RSA private key —
@@ -58,9 +59,10 @@ export async function clientDecrypt(dpdKey: string, method: string, value: any, 
             } else if (method == 'RSA') {
               try {
               const encryptedBase64 = value.ciphertext
-              const key = new NodeRSA(encryptCredentials.privateKey)
-
-              const decrypted = key.decrypt(encryptedBase64, 'utf8')
+              const decrypted = rsaDecryptChunked(
+                normalizePem(encryptCredentials.privateKey),
+                Buffer.from(encryptedBase64, 'base64')
+              ).toString('utf8')
               return JSON.parse(JSON.parse(decrypted))
               } catch (error) {
               console.error('Decryption error:', error)

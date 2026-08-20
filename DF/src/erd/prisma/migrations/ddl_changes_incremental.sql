@@ -1,1 +1,0 @@
-No DDL changes available

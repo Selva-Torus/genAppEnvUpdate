@@ -1,5 +1,5 @@
 /* {
-  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT006:AFGK:LAP:AFK:LAP:AFVK:v1:bldc",
+  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT005:AFGK:GSS:AFK:RTGS:AFVK:v1:bldc",
   "ufKey": "Logs Screen",
   "screenName": "logs",
   "screenLabel": "logs",
@@ -29,194 +29,160 @@
       "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
     },
     {
-      "menuGroupLabel": "Dashboard",
+      "menuGroupLabel": "Transactions",
       "screenDetails": [
         {
-          "name": "dashboard",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1",
+          "name": "transactions",
+          "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1",
           "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/Frame.svg"
+          "static": false
         }
       ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/Frame.svg"
+      "items": []
     },
     {
-      "menuGroupLabel": "Report",
+      "menuGroupLabel": "Simulator",
       "screenDetails": [
         {
-          "name": "report",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1",
+          "name": "simulator",
+          "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:simulatorProcessUi:AFVK:v1",
           "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/report.png"
+          "static": false
         }
       ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/report.png"
-    },
-    {
-      "menuGroupLabel": "Filing Packages",
-      "screenDetails": [
-        {
-          "name": "filing packages",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/file.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/file.png"
-    },
-    {
-      "menuGroupLabel": "Submissions Hub",
-      "screenDetails": [
-        {
-          "name": "submissions hub",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/telegram.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/telegram.png"
-    },
-    {
-      "menuGroupLabel": "Service Tracking",
-      "screenDetails": [
-        {
-          "name": "service tracking",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/delivery-truck.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/delivery-truck.png"
-    },
-    {
-      "menuGroupLabel": "Judgments",
-      "screenDetails": [
-        {
-          "name": "judgments",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/hammer.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/hammer.png"
-    },
-    {
-      "menuGroupLabel": "Enforcement",
-      "screenDetails": [
-        {
-          "name": "enforcement",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/shield-badge.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/shield-badge.png"
-    },
-    {
-      "menuGroupLabel": "Kill-Switch Control",
-      "screenDetails": [
-        {
-          "name": "kill-switch control",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/warning.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/warning.png"
-    },
-    {
-      "menuGroupLabel": "Compliance",
-      "screenDetails": [
-        {
-          "name": "compliance",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/open-book.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/open-book.png"
-    },
-    {
-      "menuGroupLabel": "Analytics",
-      "screenDetails": [
-        {
-          "name": "analytics",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/stacked-bar.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/stacked-bar.png"
+      "items": []
     }
   ],
   "setupData": {
     "appInfo": {
-      "name": "LAP",
-      "needAutoDbPush": true,
-      "code": "LAP",
+      "code": "RTGS",
+      "name": "RTGS",
+      "appLogo": "torus/9.1/CT005/resources/images/White global payment hub.png",
+      "accessUrl": "https://tgaprod910.toruslowcode.com/ct005/gss/rtgs/v1",
       "encryption": {
         "type": ""
       },
-      "applicationUniqueId": "b273d406-451b-406e-b8b6-65b302a66d71",
-      "deploymentArtifactKey": "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:LAP:AFGK:LAP:AFK:lapDPD:AFVK:v1",
+      "lastBuildOn": "2026-07-30T05:32:59.339Z",
       "lastBuildVersion": "v1",
-      "lastBuildOn": "2026-08-11T11:22:02.589Z",
-      "accessUrl": "https://tgaprod910.toruslowcode.com/ct006/lap/lap/v1",
-      "appGrpName": "Legal Automation Platform",
-      "appGrpCode": "LAP",
-      "fusionAuthAppClientSecret": "NXRGuMfH4-FxN3SRBO7-Nwl3V2Eb0o7tk7FiGREm1W4"
+      "applicationUniqueId": "ae093d5d-f44a-444b-afab-9476f31e7dca",
+      "deploymentArtifactKey": "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:RTGS:AFK:RTGS_DPD:AFVK:v1",
+      "appGrpName": "GSS",
+      "appGrpCode": "GSS",
+      "fusionAuthAppClientSecret": "AKE3Mkrdhezw9vln9mTV-Wnb8WVEivZ3BY0KTxqtmbc",
+      "localization": {
+        "datetime": {
+          "display": {
+            "date": {
+              "value": "YYYY-MM-DD"
+            },
+            "time": {
+              "value": "hh:mm:ss a"
+            }
+          },
+          "timezone": {
+            "name": {
+              "value": "Asia/Kolkata"
+            },
+            "offset": {
+              "value": "+05:30"
+            },
+            "abbreviation": {
+              "value": "IST"
+            },
+            "is_dst": {
+              "value": false
+            }
+          }
+        },
+        "currency": {
+          "display": {
+            "currency": "",
+            "symbol": "",
+            "decimal_separator": ".",
+            "thousands_separator": ",",
+            "grouping_rules": [
+              3
+            ],
+            "decimal_places": 0
+          },
+          "rounding_rules": {
+            "rule": 3
+          }
+        },
+        "legal_and_compliance": {
+          "privacy": {
+            "regulations": {
+              "GDPR": {
+                "regions": [
+                  "EU",
+                  "EEA",
+                  "UK"
+                ],
+                "consent_required": false,
+                "right_to_erasure": false,
+                "data_portability": false,
+                "dpo_required": false,
+                "breach_notification_hours": 72
+              },
+              "CCPA": {
+                "regions": [
+                  "US-CA"
+                ],
+                "opt_out_sale": false,
+                "right_to_know": false,
+                "right_to_delete": false
+              },
+              "LGPD": {
+                "regions": [
+                  "BR"
+                ],
+                "consent_required": false,
+                "data_subject_rights": false
+              },
+              "PIPL": {
+                "regions": [
+                  "CN"
+                ],
+                "data_localization": false,
+                "cross_border_transfer_restricted": false
+              },
+              "PDPA": {
+                "regions": [
+                  "TH",
+                  "MY",
+                  "SG"
+                ],
+                "consent_required": false
+              }
+            }
+          }
+        }
+      }
     },
-    "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT006:AFK:PROFILE:AFVK:v1:appearance",
-    "selectedPresetKey": "1780467258338",
-    "group-bg-color": "#ffffff",
-    "fontSize": {
-      "minPx": "6",
-      "preferredVw": "0.85",
-      "maxPx": "12"
-    },
+    "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT005:AFK:PROFILE:AFVK:v1:appearance",
+    "selectedPresetKey": "default",
+    "appBackgroundImage": "torus/9.1/CT005/resources/images/Home.png",
     "direction": "LTR",
     "brandColor": "#0737c9",
     "selectionColor": "#579eff",
     "hoverColor": "#d5eeff",
-    "borderRadius": "xl",
-    "topbarColor": "#ffffff",
-    "menubarColor": "#ffffff",
-    "sidebarStyle": "default",
-    "navigationStyles": "vertical",
+    "borderRadius": "m",
+    "sidebarStyle": "",
+    "navigationStyles": "horizontal",
     "theme": "light",
-    "layoutMode": "fluid",
+    "layoutMode": "detached",
     "mobileAppearance": {
       "language": "English",
       "direction": "LTR",
       "theme": "light",
       "brandColors": {
-        "primary": "#4b39ef",
-        "secondary": "#39d2c0",
-        "tertiary": "#ee8b60"
+        "primary": "#0025dd",
+        "secondary": "#000e51",
+        "tertiary": "#000000"
       },
       "accentColors": {
-        "accentOne": "#4c4b39",
-        "accentTwo": "#4d39d2"
+        "accentOne": "#f4f5ff",
+        "accentTwo": "#ffffff"
       },
       "utilityColors": {
         "lightMode": {
@@ -253,247 +219,112 @@
       "navigationStyle": "Bottom Navigation",
       "drawerStyle": ""
     },
-    "page-bg-color": "#ffffff",
     "language": "English",
-    "name": "ecp_styles",
-    "appBackgroundImage": "",
     "fontFamily": [
       {
-        "label": "Google Sans",
-        "fontUrl": "https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Pliant:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-      },
-      {
         "label": "Inter",
-        "fontUrl": "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        "fontUrl": "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&d…"
       }
     ],
     "text-body-font": "Inter",
     "text-header-font": "Inter",
-    "text-display-font": "Inter"
+    "text-display-font": "Inter",
+    "name": "default",
+    "fontSize": {
+      "minPx": "6",
+      "preferredVw": "0.85",
+      "maxPx": "12"
+    }
   },
-  "setupKey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT006:AFGK:LAP:AFK:LAP:AFVK:v1:appearance",
+  "setupKey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT005:AFGK:GSS:AFK:RTGS:AFVK:v1:appearance",
   "allKeys": [
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+    "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1",
+    "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:simulatorProcessUi:AFVK:v1"
   ],
   "loginDetails": {
-    "firstName": "Haritha",
-    "lastName": "Rk",
-    "loginId": "Haritha",
-    "email": "haritha@torus.tech",
+    "firstName": "Sam",
+    "lastName": "M",
+    "loginId": "sam",
+    "email": "samm@gsstvl.com",
     "mobile": "",
     "status": "active",
     "accessProfile": [
-      "Dev"
+      "Testing"
     ],
-    "accessExpires": "",
-    "dateAdded": "2026-05-22T13:18:13.118Z",
+    "accessExpires": "2028-06-07",
+    "dateAdded": "2026-03-09T11:01:57.190Z",
     "profile": "",
-    "userUniqueId": "bb0decdf-1901-40e5-8f51-d646de94bd10",
+    "userUniqueId": "7f0f7b07-155a-4c52-b3b6-df722f11757e",
     "touring": {
-      "isneedTouring": true,
+      "isneedTouring": false,
       "touringData": {
         "/torus": {
           "stepIndex": 0,
           "isSkipped": true,
           "completed": false,
           "notVisited": []
-        },
-        "/home": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "artifactselector": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/company-profile": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/tenant": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "build": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/user-management": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/storage-configuration": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/logic-center": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/orchestrator": {
-          "stepIndex": 0,
-          "isSkipped": false,
-          "completed": false,
-          "notVisited": []
-        },
-        "/tenant-settings": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "Security": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/user-roles": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/resource-library": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/appearance": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
         }
       }
     },
-    "users": "HarithaHaritha Rk",
+    "lastActive": "2026-08-20T07:49:01.899Z",
+    "client": "CT005",
+    "users": "samSam M",
     "noOfProductsService": 0,
-    "edit": "",
-    "lastActive": "2026-08-14T09:58:38.422Z",
-    "client": "CT006"
+    "edit": ""
   },
   "webOnBoarding": {
     "navBarStyle": {
-      "activeItems": [],
-      "deletedItems": [
-        {
-          "name": "logo",
-          "gridColumn": "1/2"
-        },
+      "activeItems": [
         {
           "name": "app logo",
-          "gridColumn": "2/4"
+          "gridColumn": "1/3"
         },
         {
           "name": "menu items",
-          "gridColumn": "4/9",
+          "gridColumn": "3/8",
           "gridRow": "1/6"
-        },
-        {
-          "name": "opr matrix",
-          "gridColumn": "9/12",
-          "gridRow": "6/9"
         },
         {
           "name": "profile",
           "gridColumn": "12/13",
           "gridRow": "12/13"
+        },
+        {
+          "name": "opr matrix",
+          "gridColumn": "9/12",
+          "gridRow": "6/9"
+        }
+      ],
+      "deletedItems": [
+        {
+          "name": "logo",
+          "gridColumn": "1/2"
         }
       ]
     },
-    "landingScreen": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
+    "landingScreen": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1",
+    "loginType": "standard",
+    "image": "torus/9.1/CT005/resources/images/Login 1.png"
   },
   "allKeyswithScreenNames": [
     {
-      "screenName": "dashboard",
-      "screensName": "dashboard-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
+      "screenName": "transactions",
+      "screensName": "transactions-v1",
+      "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1"
     },
     {
-      "screenName": "report",
-      "screensName": "report-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1"
-    },
-    {
-      "screenName": "filing packages",
-      "screensName": "filing_packages-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-    },
-    {
-      "screenName": "submissions hub",
-      "screensName": "submissions_hub-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-    },
-    {
-      "screenName": "service tracking",
-      "screensName": "service_tracking-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-    },
-    {
-      "screenName": "judgments",
-      "screensName": "judgments-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-    },
-    {
-      "screenName": "enforcement",
-      "screensName": "enforcement-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-    },
-    {
-      "screenName": "kill-switch control",
-      "screensName": "kill-switch_control-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-    },
-    {
-      "screenName": "compliance",
-      "screensName": "compliance-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-    },
-    {
-      "screenName": "analytics",
-      "screensName": "analytics-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+      "screenName": "simulator",
+      "screensName": "simulator-v1",
+      "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:simulatorProcessUi:AFVK:v1"
     }
   ],
-  "deploymentArtifactKey": "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:LAP:AFGK:LAP:AFK:lapDPD:AFVK:v1",
-  "appGroupDesc": "Legal Automation Platform",
+  "deploymentArtifactKey": "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:RTGS:AFK:RTGS_DPD:AFVK:v1",
+  "appGroupDesc": "GSS",
   "logType": "dfs",
-  "appDesc": "LAP",
+  "appDesc": "RTGS",
+  "appLogo": "torus/9.1/CT005/resources/images/White global payment hub.png",
   "isOld": true,
-  "clientCode": "CT006"
+  "clientCode": "CT005"
 } */
 import './globals.css';
 import type { Metadata } from 'next';
@@ -508,8 +339,8 @@ import { cookies } from 'next/headers';
 import { COOKIE_PREFIX } from '@/lib/cookies';
 
 export const metadata: Metadata = {
-  title: 'LAP',
-  description: 'LAP Generated by Torus'
+  title: 'RTGS',
+  description: 'RTGS Generated by Torus'
 }
 
 export default async function RootLayout({

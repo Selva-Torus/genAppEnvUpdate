@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Headers,  Logger,Post,UsePipes,ValidationPipe,} from '@nestjs/common';
+import { BadRequestException, Body, Req, Controller, Headers,  Logger,Post,UsePipes,ValidationPipe,} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { TeService } from './te.service';
 import { CommonService } from 'src/common.Service';
@@ -21,8 +21,9 @@ export class TeController {
   private readonly logger = new Logger(TeController.name);
 
   @Post('eventEmitter')
-   async pfEventEmitter(@Body() pfdto: pfDto, @Headers('Authorization') auth: any): Promise<any> {
+   async pfEventEmitter(@Body() pfdto: pfDto, @Req() req:any, @Headers('Authorization') auth: any): Promise<any> {
     pfdto.token = auth.split(' ')[1];
+     pfdto['authContext'] = req?.authContext
     const { dpdKey, method } = pfdto
     const client = process.env.CLIENTCODE;
     const currentFabric = await this.apiService.splitcommonkey(pfdto.key, 'FNK')
@@ -188,10 +189,11 @@ export class TeController {
    
       
   @Post('save')
-  async save(@Body() input: teSaveDto, @Headers('Authorization') auth: any): Promise<any> {
+  async save(@Body() input: teSaveDto, @Req() req:any, @Headers('Authorization') auth: any): Promise<any> {
     var token = auth.split(' ')[1];   
-    const { dpdKey,method } = input  
-      
+    input['authContext'] = req?.authContext
+    const { dpdKey,method } = input 
+
       if (input.data){
         let result :any = await this.teService.savehandler(input,token)
         if(dpdKey && method){

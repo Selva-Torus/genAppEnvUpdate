@@ -5,6 +5,7 @@ import { Readable } from "stream";
 import axios from 'axios';
 import * as FormData from 'form-data';
 import { EnvData } from "./envData/envData.service";
+import { getRedisConnectionOptions } from "./redis.config";
 
 @Injectable()
 export class PersistenceService implements OnModuleInit{ 
@@ -119,16 +120,15 @@ export class PersistenceService implements OnModuleInit{
           }catch(error){          
             await client.query('ROLLBACK').catch(() => {});
             // console.log('WORKER ERROR', error);
-            throw error;
+            throw error; 
           }finally{           
             client.release();
           }
       },
       {
       connection: {
-             host: process.env.HOST,
-                port: parseInt(process.env.PORT),
-          maxRetriesPerRequest:null,
+        ...getRedisConnectionOptions(),
+        maxRetriesPerRequest: null,
       },
       // Process several jobs in parallel; the pool (max above) caps real
       // DB concurrency, so keep concurrency <= PG_POOL_MAX.

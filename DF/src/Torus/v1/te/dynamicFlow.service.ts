@@ -32,6 +32,7 @@ import { format } from "date-fns";
 import * as nodemailer from 'nodemailer';
 import { runInSandbox } from "src/sandbox";
 import { Surreal, Table, RecordId } from 'surrealdb';
+import { getRedisConnectionOptions } from "src/redis.config";
 
 type MappingValue = string | { sourcePath: string; arrayMap: Record< string, string> };
 type MappingConfig = Record< string, MappingValue>;
@@ -3694,18 +3695,8 @@ export class DynamicFlowService {
                             try {
                                 // Create a QueueEvents instance to listen for job completion
                                 const queueEvents = new QueueEvents(childJobName, {
-                                    connection: {
-                                        sentinels: [
-                                        {
-                                        host: process.env.REDIS_SENTINEL_HOST,
-                                        port: Number(process.env.REDIS_SENTINEL_PORT),
-                                        },      
-                                    ],    
-                                    name: process.env.REDIS_MASTER_NAME,
-                                    username: process.env.REDIS_USERNAME,
-                                    password: process.env.REDIS_PASSWORD, 
-                                    },
-                                });
+                                connection: getRedisConnectionOptions(),
+                            });
 
                                 this.logger.log(`Waiting for child job ${childJob.id} to complete...`);
 

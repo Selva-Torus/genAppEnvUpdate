@@ -142,7 +142,7 @@ const TopNav = ({
 //  async function logout() {
 //    localStorage.clear()
 //    deleteAllCookies()
-//    window.location.href = '/ct006/lap/lap/v1'
+//    window.location.href = '/ct005/gss/rtgs/v1'
 //  }
 
   async function logout() {

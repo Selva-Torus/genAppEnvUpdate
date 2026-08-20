@@ -8,7 +8,7 @@ pipeline {
     }
     environment {
         DOCKERHUB_USERNAME = "192.168.2.164:5000"
-        APP_NAME = "ct006-lap-df-v1"
+        APP_NAME = "ct005-rtgs-df-v1"
         IMAGE_NAME = "${DOCKERHUB_USERNAME}/${APP_NAME}"
         GITHUB_CREDENTIALS = "GIT_HUB_PAT"
         IMAGE_TAG = "${BUILD_NUMBER}"
@@ -29,20 +29,20 @@ pipeline {
             steps {
                 git branch: 'master',
                     credentialsId: "${GITHUB_CREDENTIALS}",
-                    url: 'https://github.com/kuttit/ECP-PROD.git'
+                    url: 'https://github.com/Torus9x/RTGS_PROD.git'
             }
         }
 
-        stage('Detect Changes in ct006 App') {
+        stage('Detect Changes in ct005 App') {
             steps {
                 script {
                     def diff = sh(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim()
-                    if (diff.split('\n').any { it.startsWith('apps/CT006/LAP/LAP/v1/Nest-df/') }) {
+                    if (diff.split('\n').any { it.startsWith('apps/CT005/GSS/RTGS/v1/Nest-df/') }) {
                         env.NEST_DF_CHANGED = "true"
-                        echo "Changes detected in apps/CT006/LAP/LAP/v1/Nest-df"
+                        echo "Changes detected in apps/CT005/GSS/RTGS/v1/Nest-df"
                     } else {
                         env.NEST_DF_CHANGED = "false"
-                        echo "No changes in apps/CT006/LAP/LAP/v1/Nest-df. Skipping build and deployment stages."
+                        echo "No changes in apps/CT005/GSS/RTGS/v1/Nest-df. Skipping build and deployment stages."
                     }
                 }
             }
@@ -62,8 +62,8 @@ pipeline {
                         --no-cache \
                         --build-arg BUILDKIT_INLINE_CACHE=1 \
                         --tag ${IMAGE_NAME}:${IMAGE_TAG} \
-                        --file apps/CT006/LAP/LAP/v1/Nest-df/Dockerfile \
-                        apps/CT006/LAP/LAP/v1/Nest-df \
+                        --file apps/CT005/GSS/RTGS/v1/Nest-df/Dockerfile \
+                        apps/CT005/GSS/RTGS/v1/Nest-df \
                         --push
                     """              
                 }
@@ -76,14 +76,14 @@ pipeline {
             }
             steps {
                 script {
-                    sh "sed -i 's/docker_tag/${IMAGE_TAG}/g' apps/CT006/LAP/LAP/v1/Nest-df/kubernetes/deploymentservice.yaml"
+                    sh "sed -i 's/docker_tag/${IMAGE_TAG}/g' apps/CT005/GSS/RTGS/v1/Nest-df/kubernetes/deploymentservice.yaml"
                     sh """
                     sed -i 's|docker_tag|${IMAGE_TAG}|g' \
-                    apps/CT006/LAP/LAP/v1/Nest-df/kubernetes/deploymentservice.yaml
+                    apps/CT005/GSS/RTGS/v1/Nest-df/kubernetes/deploymentservice.yaml
 
                     echo "=============================="
                     echo "Deployment Image"
-                    grep image: apps/CT006/LAP/LAP/v1/Nest-df/kubernetes/deploymentservice.yaml
+                    grep image: apps/CT005/GSS/RTGS/v1/Nest-df/kubernetes/deploymentservice.yaml
                     """
                 }
             }
@@ -96,9 +96,9 @@ pipeline {
             steps {
                 script {
                     withKubeConfig(credentialsId: 'kubernetes-195', serverUrl: 'https://lb.kubesphere.local:6443') {
-                        sh "kubectl get ns ct006-lap-df-v1 || kubectl create ns ct006-lap-df-v1"
-                        sh "kubectl apply -f apps/CT006/LAP/LAP/v1/Nest-df/kubernetes/deploymentservice.yaml"
-                        sh "kubectl apply -f apps/CT006/LAP/LAP/v1/Nest-df/kubernetes/gateway-df-ingress.yaml"                      
+                        sh "kubectl get ns ct005-rtgs-df-v1 || kubectl create ns ct005-rtgs-df-v1"
+                        sh "kubectl apply -f apps/CT005/GSS/RTGS/v1/Nest-df/kubernetes/deploymentservice.yaml"
+                        sh "kubectl apply -f apps/CT005/GSS/RTGS/v1/Nest-df/kubernetes/gateway-df-ingress.yaml"                      
                     }
                 }
             }

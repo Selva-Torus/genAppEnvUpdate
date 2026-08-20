@@ -8,6 +8,7 @@ import { GrpcHandler } from './grpc.handler';
 import * as cronParser from 'cron-parser';
 import { EnvData } from 'src/envData/envData.service';
 import { decryptToken } from 'src/utils/tokenCrypto.util';
+import { getRedisConnectionOptions } from 'src/redis.config';
 
 // See P8 — no outbound call in the scheduler module had a timeout.
 const OUTBOUND_TIMEOUT_MS = Number(process.env.SCHEDULER_HTTP_TIMEOUT_MS) || 15_000;
@@ -34,10 +35,9 @@ export class JobProcessor{
             return this.workers.get(queueName);
         }
 
-        const workerOptions: WorkerOptions = {
+       const workerOptions: WorkerOptions = {
             connection: {
-                host: process.env.HOST,
-                port: parseInt(process.env.PORT),
+                ...getRedisConnectionOptions(),
                 maxRetriesPerRequest: 3,
             },
             concurrency: 10, //50,
@@ -49,7 +49,7 @@ export class JobProcessor{
                 max: 100,      // Max 100 jobs
                 duration: 1000 // per second
             }
-        };        
+        };       
 
         const worker = new Worker(
             queueName,

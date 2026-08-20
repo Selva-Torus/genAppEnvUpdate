@@ -12,7 +12,6 @@ import { format } from 'date-fns';
 import jsonata from "jsonata";
 const vault = require('node-vault');
 import * as crypto from 'crypto';
-import { publicEncrypt,privateDecrypt,generateKeyPairSync  } from 'crypto';
 import * as fs from 'fs';
 import * as stream from 'stream';
 import { Readable } from "stream";
@@ -22,7 +21,8 @@ import * as pg from "pg";
 import { GridFSBucket } from "mongodb";
 import { MongoClient, ObjectId , Db} from "mongodb";
 import { ConfigService } from "@nestjs/config";
-const NodeRSA = require('node-rsa')
+import { normalizePem } from "src/utils/normalizePem.util";
+import { rsaEncryptChunked, rsaDecryptChunked } from "src/utils/rsaBlockCrypto.util";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { readdir, readFile } from 'fs/promises';
 import { EnvData } from "src/envData/envData.service";
@@ -32,7 +32,7 @@ import * as utc from 'dayjs/plugin/utc';
 import * as timezone from 'dayjs/plugin/timezone';
 import { JwtServices } from "src/jwt.services";
 import { assertAllowedOutboundHost } from "src/utils/ssrf.util";
-
+import { negotiatePgTls, negotiateMongoTls } from "./db-ssl.util";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 const _ = require("lodash")
@@ -181,7 +181,7 @@ export class CommonService{
   }
 
   private readonly logger = new Logger(CommonService.name) 
-  private readonly GRIDFS_BUCKET = 'CT006/LAP/LAP/v1';
+  private readonly GRIDFS_BUCKET = 'CT005/GSS/RTGS/v1';
 
   private async getBucket(): Promise<GridFSBucket> {
     if (!db) {
@@ -289,8 +289,10 @@ export class CommonService{
             }else if (encMethod == 'RSA') {
               const publicKey = encryptCredentials.publicKey
               const encryptData = async (data: string) => {
-                const key = new NodeRSA(publicKey)
-                return key.encrypt(data, 'base64') // Encrypted data in base64
+                return rsaEncryptChunked(
+                  normalizePem(publicKey),
+                  Buffer.from(data, 'utf8')
+                ).toString('base64') // Encrypted data in base64
               }
 
               const sensitiveData = value
@@ -373,8 +375,10 @@ export class CommonService{
 
             }else if (encMethod == 'RSA') {
               try{
-              const key = new NodeRSA(encryptCredentials.privateKey);
-              const decrypted = key.decrypt(encryptedData.ciphertext, 'utf8');
+              const decrypted = rsaDecryptChunked(
+                normalizePem(encryptCredentials.privateKey),
+                Buffer.from(encryptedData.ciphertext, 'base64')
+              ).toString('utf8');
 
               return decrypted
               }catch (error) {
@@ -1539,7 +1543,7 @@ export class CommonService{
      
       if (index !== -1) {   
         return parts[index+1]; 
-      }       
+      }      
     }
 
     async patchCall(url,data,headers){ 
@@ -1624,8 +1628,8 @@ export class CommonService{
         
         if(typeof key != 'string')
         key = 'commonError'
-         tenant=tenant || "CT006"
-        app=app ||  "LAP"
+         tenant=tenant || "CT005"
+        app=app ||  "RTGS"
         await this.redisService.setStreamData(tenant+'-'+app+'-TSL',key,JSON.stringify(logs))    
         return logs
 
@@ -1670,7 +1674,7 @@ export class CommonService{
 
 
 
- async seaWeeduploadFile(
+  async seaWeeduploadFile(
   data: any,
   bucketName: string,
   folderPath: string,
@@ -2110,6 +2114,14 @@ export class CommonService{
         if (!dbUrl) throw new CustomException('DB url not found', 404);
         if (dbtype && dbtype == 'postgres') {
           const { Client } = pg;
+          // M11: this connects to a per-tenant external connector whose
+          // TLS-readiness isn't known in advance, and node-postgres has no
+          // "prefer" fallback of its own — so negotiatePgTls() probes the
+          // target first and only requests TLS if the probe confirms it
+          // supports SSL. See db-ssl.util.ts for the full precedence
+          // (explicit sslmode in the URL, then PG_CONNECTOR_SSL_MODE, then
+          // the probe).
+          dbUrl = await negotiatePgTls(dbUrl, 'PG_CONNECTOR_SSL_MODE');
           client = new Client({
             connectionString: dbUrl,  
            // options: `-c search_path=${schemaname}`,
@@ -2182,7 +2194,10 @@ export class CommonService{
       }
       if (!mongodbUrl)
         throw new CustomException('Mongo DB url not found', 404);    
-
+        // M11: same reasoning as the Postgres connector path above —
+        // negotiateMongoTls() probes the target and only requests tls=true
+        // if the probe confirms it. See db-ssl.util.ts.
+        mongodbUrl = await negotiateMongoTls(mongodbUrl, 'MONGO_CONNECTOR_TLS');
         return {mongodbUrl,manualQryType,manualQry,sessionfilterParams,filterParams,collnName}
       } catch (error) {
         throw error
@@ -2433,6 +2448,9 @@ export class CommonService{
       let client
       if (dbType == 'postgres') {
         const { Client } = pg;
+        // M11: same probe-and-negotiate as dbconfig() — see negotiatePgTls()
+        // in db-ssl.util.ts.
+        dbUrl = await negotiatePgTls(dbUrl, 'PG_CONNECTOR_SSL_MODE');
          client = new Client({
           connectionString: dbUrl,
           application_name: `${process.env.TENANT}_${process.env.APPGROUPCODE}_${process.env.APPCODE}_PFservice`
@@ -2456,7 +2474,7 @@ export class CommonService{
     } catch (error) {
       throw error
     }
-  }  
+  } 
 
   async sessionDecode(token,upId){
     try {

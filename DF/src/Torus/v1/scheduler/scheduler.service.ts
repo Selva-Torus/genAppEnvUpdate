@@ -9,6 +9,7 @@ import { JobProcessor } from './processors/job.processor';
 import { EnvData } from 'src/envData/envData.service';
 import { CustomException } from 'src/customException';
 import { encryptToken } from 'src/utils/tokenCrypto.util';
+import { getRedisConnectionOptions } from 'src/redis.config';
 const  Xid = require('xid-js');
 
 // See P8 — no outbound call in the scheduler module had a timeout.
@@ -186,10 +187,7 @@ export class SchedulerService {
 
         // Create new queue dynamically
         const queueOptions: QueueOptions = {
-            connection: {
-                host: process.env.HOST,
-                port: parseInt(process.env.PORT),
-            },
+            connection: getRedisConnectionOptions(),
             defaultJobOptions: {
                 attempts: 3,
                 backoff: {

@@ -1,8 +1,9 @@
 'use server'
 
 import * as crypto from 'crypto';
-const NodeRSA = require('node-rsa')
 import getEnvData from '../getEnvData'
+import { normalizePem } from './normalizePem'
+import { rsaEncryptChunked } from './rsaBlockCrypto'
 
 // Runs as a Next.js Server Action: the function body — including the
 // getEnvData() lookup that resolves the tenant's AES key / RSA keypair —
@@ -47,8 +48,10 @@ export async function clientEncrypt(dpdKey: string, method: string, value: any, 
           try {
             const publicKey = encryptCredentials.publicKey
             const encryptData = async (data: string) => {
-              const key = new NodeRSA(publicKey)
-              return key.encrypt(data, 'base64')
+              return rsaEncryptChunked(
+                normalizePem(publicKey),
+                Buffer.from(data, 'utf8')
+              ).toString('base64')
             }
 
             const sensitiveData = value

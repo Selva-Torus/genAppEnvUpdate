@@ -7,9 +7,9 @@ export class EnvData {
 
   private config: any = null;
   private isLoaded: boolean = false;
-  private readonly TENANT_NAME: string = 'ct006';
-  private readonly APP_GROUP_NAME: string = 'lap';
-  private readonly APP_NAME: string = 'lap';
+  private readonly TENANT_NAME: string = 'ct005';
+  private readonly APP_GROUP_NAME: string = 'gss';
+  private readonly APP_NAME: string = 'rtgs';
   private readonly VERSION: string = 'v1';
 
   constructor() {

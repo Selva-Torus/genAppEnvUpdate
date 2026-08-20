@@ -309,7 +309,7 @@ getConfig(): FusionAuthConfig {
 
  async insertDocToVgphSourceTranDocMain(category: string, doc_name: string, url: string, size?: number, doc_group?: string): Promise<any> {
     try {
-      const insertUrl = `${process.env.APP_MANAGER_URL}/ct006/attachments`;
+      const insertUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments`;
       //const vgphstm_uuid = uuid();
       const currentDate = new Date().toISOString().slice(0, 19) + '+00:00';
 
@@ -337,7 +337,7 @@ getConfig(): FusionAuthConfig {
 
   async getUrlByVgphstdmId(vgphstdm_id: any): Promise<string> {
     try {
-      const getUrl = `${process.env.APP_MANAGER_URL}/ct006/attachments/${vgphstdm_id}`;
+      const getUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments/${vgphstdm_id}`;
 
       const response = await axios.get(getUrl, {
         headers: {
@@ -416,22 +416,114 @@ getConfig(): FusionAuthConfig {
     doc_group?: string
   ): Promise<string> {
     try {
-      const fileName = filename || file.filename;
-      const bucket = bucketFoldername || ''; // e.g. 'torus'
-      const subFolder = folderPath || ''; // e.g. 'images'
+      const SAFE_SEGMENT = /^[a-zA-Z0-9._-]+$/;
 
-      const actualBuffer = Buffer.isBuffer(file.buffer)
-        ? file.buffer
-        : Buffer.from((file.buffer as any)?.data || []);
+      const ALLOWED_EXTENSIONS: Record<string, string[]> = {
+        'jpg': ['image/jpeg'],
+        'jpeg': ['image/jpeg'],
+        'png': ['image/png'],
+        'gif': ['image/gif'],
+        'webp': ['image/webp'],
+        'svg': ['image/svg+xml'],
+        'pdf': ['application/pdf'],
+        'doc': ['application/msword'],
+        'docx': ['application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+        'xls': ['application/vnd.ms-excel'],
+        'xlsx': ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
+        'txt': ['text/plain'],
+        'csv': ['text/csv'],
+        'mp4': ['video/mp4'],
+        'mp3': ['audio/mpeg'],
+        'avi': ['video/x-msvideo'],
+        'mov': ['video/quicktime'],
+        'zip': ['application/zip', 'application/x-zip-compressed'],
+        'rar': ['application/vnd.rar', 'application/x-rar-compressed'],
+      };
+
+      const validateBucketFolderName = (value: string): void => {
+        if (value.includes('/') || value.includes('\\')) {
+          throw new BadRequestException('bucketFoldername contains invalid characters');
+        }
+        if (value === '.' || value.includes('..')) {
+          throw new BadRequestException('bucketFoldername contains path traversal');
+        }
+        if (!SAFE_SEGMENT.test(value)) {
+          throw new BadRequestException('bucketFoldername contains unsafe characters');
+        }
+      };
+
+      const validateFolderPath = (value: string): void => {
+        if (value.includes('\\')) {
+          throw new BadRequestException('folderPath contains invalid characters');
+        }
+        if (value.includes('..')) {
+          throw new BadRequestException('folderPath contains path traversal');
+        }
+        for (const segment of value.split('/')) {
+          if (segment === '' || segment === '.') {
+            throw new BadRequestException(`Invalid folderPath segment: "${segment}"`);
+          }
+          if (!SAFE_SEGMENT.test(segment)) {
+            throw new BadRequestException(`folderPath contains unsafe characters in segment: "${segment}"`);
+          }
+        }
+      };
+
+      const validateFilename = (value: string): string => {
+        if (!value) {
+          throw new BadRequestException('Filename is required');
+        }
+        if (value.includes('/') || value.includes('\\')) {
+          throw new BadRequestException('Filename contains invalid characters');
+        }
+        if (value === '.' || value.includes('..')) {
+          throw new BadRequestException('Filename contains path traversal');
+        }
+        const dotIndex = value.lastIndexOf('.');
+        if (dotIndex <= 0 || dotIndex === value.length - 1) {
+          throw new BadRequestException('Filename must have a valid extension');
+        }
+        const ext = value.substring(dotIndex + 1).toLowerCase();
+        if (!ALLOWED_EXTENSIONS[ext]) {
+          throw new BadRequestException(`File extension ".${ext}" is not allowed`);
+        }
+        return ext;
+      };
+
+      const validateMimeType = (mimetype: string, ext: string): void => {
+        const allowedMimes = ALLOWED_EXTENSIONS[ext];
+        if (!allowedMimes) {
+          throw new BadRequestException(`File extension ".${ext}" is not allowed`);
+        }
+        const normalizedMime = mimetype.split(';')[0].trim().toLowerCase();
+        if (!allowedMimes.includes(normalizedMime)) {
+          throw new BadRequestException(
+            `MIME type "${normalizedMime}" is not allowed for extension ".${ext}"`
+          );
+        }
+      };
+
+      const bucket = bucketFoldername || '';
+      const subFolder = folderPath || '';
+      const fileName = filename || file.filename;
+
+      if (bucket) {
+        validateBucketFolderName(bucket);
+      }
+      if (subFolder) {
+        validateFolderPath(subFolder);
+      }
+
+      const ext = validateFilename(fileName);
+      validateMimeType(file.mimetype, ext);
 
       const shouldEncrypt = enableEncryption === 'true';
-
-      const encryptedBuffer = shouldEncrypt
-        ? await this.commonService.aes256ctrEncrypt(actualBuffer)
-        : actualBuffer;
+      const fileBuffer = shouldEncrypt
+        ? await this.commonService.aes256ctrEncrypt(file.buffer)
+        : file.buffer;
 
       const form = new FormData();
-      form.append('file', Readable.from(encryptedBuffer), {
+      form.append('file', Readable.from(fileBuffer), {
         filename: fileName,
         contentType: file.mimetype || 'application/octet-stream',
       });
@@ -440,7 +532,7 @@ getConfig(): FusionAuthConfig {
         /\/$/,
         ''
       )}/buckets/${bucket}/${subFolder}/${fileName}`;
-      const res = await axios.post(uploadUrl, form, {
+      const uploadResponse = await axios.post(uploadUrl, form, {
         headers: {
           Accept: 'application/json',
           ...form.getHeaders(),
@@ -452,13 +544,13 @@ getConfig(): FusionAuthConfig {
         validateStatus: (status) => status < 500,
       });
 
-      if (res.status === 201) {
-        const res = `${bucket}/${subFolder}/${fileName}`;
-        const responce = await this.insertDocToVgphSourceTranDocMain("front",fileName,res,file.size,doc_group);
-        return `${responce}`;
+      if (uploadResponse.status === 201) {
+        const storagePath = `${bucket}/${subFolder}/${fileName}`;
+        const attachmentId = await this.insertDocToVgphSourceTranDocMain("front", fileName, storagePath, file.size, doc_group);
+        return `${attachmentId}`;
       } else {
         throw new ConflictException(
-          res.data || 'Error occurred while uploading file'
+          uploadResponse.data || 'Error occurred while uploading file'
         );
       }
     } catch (error: any) {
@@ -8491,7 +8583,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct006_lap';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct005_vgph';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8550,7 +8642,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct006_lap';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct005_vgph';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8620,7 +8712,7 @@ getConfig(): FusionAuthConfig {
       );
 
       for (const lock of locks.rows) {
-        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : 'ct006_lap';
+        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : 'ct005_vgph';
         await client.query(
           `UPDATE ${recordSchema}."${lock.table_name}"
            SET trs_locked_by = NULL, trs_locked_time = NULL

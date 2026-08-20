@@ -1,7 +1,8 @@
-import { Injectable, Logger, Inject } from '@nestjs/common';
+import { Injectable, Inject, OnModuleInit } from '@nestjs/common';
 // import { CACHE_MANAGER } from '@nestjs/cache-manager';
 // import { Cache } from 'cache-manager';
-const Redis = require('ioredis');
+import Redis from 'ioredis';
+import { getRedisConnectionOptions, getRedisClient } from './redis.config';
 import { Client } from 'pg';
 import 'dotenv/config';
 import { Db, MongoClient } from 'mongodb';
@@ -11,32 +12,26 @@ import { Queue, QueueOptions } from 'bullmq';
 // import { queueMongoOperation } from './mongoQueue-dynamic';
 
 let db: Db;
-let redis
 //let pgClient: Client | null = null;
 //let pgConnecting: Promise<Client> | null = null;
 //let pgConfig: { connectionString: string; application_name: string } | null = null;
 
-  
-
-  if (!redis) {
-    redis = new Redis({
-      host: process.env.HOST,
-      port: parseInt(process.env.PORT),      
-    }).on('error', (err) => {
-      console.log('Redis Client Error', err);
-      throw err;
-    });
-  }
-
- 
-
 @Injectable()
-export class RedisService {
+export class RedisService implements OnModuleInit {
   private readonly BATCH_SIZE = 10000
- private queues: Map< string, Queue> = new Map();
+  private queues: Map<string, Queue> = new Map();
+  private redis: Redis;
+
   constructor(
     // @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {}
+
+  onModuleInit() {
+    // Shared across every module that registers RedisService as a provider —
+    // see redis.config.ts. Do not call this.redis.quit() from an instance
+    // lifecycle hook; other instances still hold the same client.
+    this.redis = getRedisClient();
+  }
 
 
   //Retrieves JSON data from Redis
@@ -54,17 +49,7 @@ export class RedisService {
 
     if (!queue) {
       const queueOptions: QueueOptions = {
-        connection: {
-          sentinels: [
-        {
-          host: process.env.REDIS_SENTINEL_HOST,
-          port: Number(process.env.REDIS_SENTINEL_PORT),
-        },      
-      ],    
-       name: process.env.REDIS_MASTER_NAME,
-       username: process.env.REDIS_USERNAME,
-       password: process.env.REDIS_PASSWORD, 
-        },
+        connection: getRedisConnectionOptions(),
         defaultJobOptions: {
           attempts: 3,
           backoff: {
@@ -106,7 +91,7 @@ export class RedisService {
             throw new Error(`Invalid Redis key`);
           }
         });
-        let redisResult = await redis.call('JSON.GET', key);    
+        let redisResult = await this.redis.call('JSON.GET', key);    
         if (redisResult) {
           returnValue = redisResult;
         }else{
@@ -156,7 +141,7 @@ export class RedisService {
         // }
 
         // if (!returnValue) {
-          let redisResult = await redis.call('JSON.GET', key, path);
+          let redisResult = await this.redis.call('JSON.GET', key, path);
           if (redisResult) {
             returnValue = redisResult;
           } 
@@ -173,9 +158,9 @@ export class RedisService {
   async AppendJsonArr(key: string, value: any,collectionName:string, path?: string) {
     try {
       if(path){
-        var request = await redis.call('JSON.ARRAPPEND', key, '$.'+path, value)
+        var request = await this.redis.call('JSON.ARRAPPEND', key, '$.'+path, value)
       }else{
-        var request = await redis.call('JSON.ARRAPPEND', key, '$', value)
+        var request = await this.redis.call('JSON.ARRAPPEND', key, '$', value)
       }
       
       return request;
@@ -210,10 +195,10 @@ export class RedisService {
         
         let pg_response
          const defpath = path ? `.${path}` : "$";
-         pg_response = await redis.call("JSON.SET", key, defpath, value);
+         pg_response = await this.redis.call("JSON.SET", key, defpath, value);
         
           if(pg_response == 'Value Stored' || pg_response == 'OK'){
-           let valuejson = await redis.call('JSON.GET', key)
+           let valuejson = await this.redis.call('JSON.GET', key)
         if(key.includes(':FNGK:AFP:FNK:PF-PFD:'))
           this.getQueue(`AFP-PERSISTENCE`,key,valuejson);
         }
@@ -230,7 +215,7 @@ export class RedisService {
 
   async setIfNotExist(key:string,value:any,ttl:any){
     try {
-      return await redis.set(key, value, 'PX', ttl, 'NX');
+      return await this.redis.set(key, value, 'PX', ttl, 'NX');
     } catch (error) {
       throw error;
     }
@@ -269,7 +254,7 @@ export class RedisService {
       // }
 
       // Create Redis pipeline
-      const pipeline = redis.pipeline();
+      const pipeline = this.redis.pipeline();
 
       // Add all operations to pipeline
       for (const op of operations) {
@@ -326,9 +311,9 @@ export class RedisService {
     try {   
       streamName = streamName?.trim()  
       if(streamName && streamName != '' && key && strValue) {
-        var result = await redis.xadd(streamName, '*', key, strValue);
+        var result = await this.redis.xadd(streamName, '*', key, strValue);
        if(result){     
-        await redis.call('EXPIRE', key, 86400);
+        await this.redis.call('EXPIRE', key, 86400);
        } 
       return result;
       }
@@ -340,7 +325,7 @@ export class RedisService {
 
   async hset(hashName,field, value){
     try {
-      return await redis.hset(hashName, field, value)
+      return await this.redis.hset(hashName, field, value)
     } catch (error) {
       throw error;
     }
@@ -348,7 +333,7 @@ export class RedisService {
 
   async hget(hashName,field){
     try {
-      return await redis.hget(hashName,field);
+      return await this.redis.hget(hashName,field);
     } catch (error) {
       throw error
     }
@@ -365,7 +350,7 @@ export class RedisService {
     try {
      
       if(collectionName){ 
-        let redisResult = await redis.call('EXISTS', key);
+        let redisResult = await this.redis.call('EXISTS', key);
         if(redisResult){
           return redisResult;
         }else{
@@ -382,7 +367,7 @@ export class RedisService {
 
 
   async quit(){
-     await redis.quit();
+     await this.redis.quit();
   }
  
    /**
@@ -394,7 +379,7 @@ export class RedisService {
   
   async getStreamData(streamName) {
     try {
-      var messages = await redis.xread('STREAMS', streamName, 0);     
+      var messages = await this.redis.xread('STREAMS', streamName, 0);     
       if(messages && messages != null){
         return messages;        
       }else{
@@ -422,9 +407,9 @@ export class RedisService {
       if(end && !start)
         start = '-'
        if(end && start){
-       messages = await redis.call('XRANGE', streamName, start, end);
+       messages = await this.redis.call('XRANGE', streamName, start, end);
        }else
-         messages = await redis.call('XRANGE', streamName, '-', '+');
+         messages = await this.redis.call('XRANGE', streamName, '-', '+');
       // if(messages?.length == 0){    
       //   return await this.convertStreamRangeStruct(streamName)
       // }else{
@@ -446,9 +431,9 @@ export class RedisService {
    async getStreamRevRange(streamName, end?,start?,count?) {
     try {    
       if(end && start){
-        var messages = await redis.xrevrange(streamName,end, start,'COUNT',count);
+        var messages = await this.redis.xrevrange(streamName,end, start,'COUNT',count);
       }else{
-        var messages = await redis.xrevrange(streamName,'+', '-', 'COUNT',count);
+        var messages = await this.redis.xrevrange(streamName,'+', '-', 'COUNT',count);
       }
       return messages;
     } catch (error) {
@@ -467,7 +452,7 @@ export class RedisService {
    */
   async getStreamDatawithCount(count, streamName) {
     try {
-      var messages = await redis.xread(
+      var messages = await this.redis.xread(
         'COUNT',
         count,
         'STREAMS',
@@ -492,7 +477,7 @@ export class RedisService {
     async createConsumerGroup(streamName, groupName) {
     try {
       // Check if the consumer group already exists
-      const grpInfo = await redis.xinfo('GROUPS', streamName).catch(() => []);
+      const grpInfo: any[] = await (this.redis.xinfo('GROUPS', streamName) as Promise<any>).catch(() => []);
 
       // Check if the group name already exists in any of the groups
       const groupExists = grpInfo.some((group, index) => {
@@ -506,7 +491,7 @@ export class RedisService {
       });
 
       if (!groupExists) {
-        await redis.xgroup('CREATE', streamName, groupName, '0', 'MKSTREAM');
+        await this.redis.xgroup('CREATE', streamName, groupName, '0', 'MKSTREAM');
         return `consumerGroup was created as ${groupName}`;
       }
 
@@ -531,7 +516,7 @@ export class RedisService {
    */
   async createConsumer(streamName, groupName, consumerName) {
     try {
-      var result = await redis.xgroup(
+      var result = await this.redis.xgroup(
         'CREATECONSUMER',
         streamName,
         groupName,
@@ -555,7 +540,7 @@ export class RedisService {
   async readConsumerGroup(streamName, groupName, consumerName) {
     try {     
       var res = [];
-      var result = await redis.xreadgroup('GROUP',groupName,consumerName,'STREAMS',streamName,'>');
+      var result = await this.redis.xreadgroup('GROUP',groupName,consumerName,'STREAMS',streamName,'>');
       
       if (result) {
         result.forEach(([key, message]) => {
@@ -585,7 +570,7 @@ export class RedisService {
    */
   async ackMessage(streamName, groupName, msgId) {
     try {
-      let result = await redis.xack(streamName, groupName, msgId);
+      let result = await this.redis.xack(streamName, groupName, msgId);
       return result;
     } catch (error) {
       throw error;
@@ -594,7 +579,7 @@ export class RedisService {
 
   async deleteWithEntryId(streamName, msgId) {
     try {      
-      return await redis.call('XDEL',streamName,msgId) 
+      return await this.redis.call('XDEL',streamName,msgId) 
     } catch (error) {
       throw error;
     }
@@ -608,9 +593,9 @@ export class RedisService {
    * @returns {Promise<Array>} - A promise that resolves to an array of information about the consumer group.
    * @throws {Error} - If there is an error retrieving the information.
    */
-  async getInfoGrp(groupName){
-    try {     
-      let result = await redis.xinfo('GROUPS', groupName);   
+  async getInfoGrp(groupName): Promise<any> {
+    try {
+      let result = await this.redis.xinfo('GROUPS', groupName);
       return result
     } catch (error) {
       throw error;
@@ -650,7 +635,7 @@ export class RedisService {
            }
          });
 
-         let keys = await redis.keys(redisKey);
+         let keys = await this.redis.keys(redisKey);
          if (keys?.length > 0) {
            return keys;
          } else {
@@ -671,7 +656,7 @@ export class RedisService {
       const allKeys = [];
     
       do {
-        const [nextCursor, keys] = await redis.scan(cursor,'MATCH',pattern,'COUNT',100);     
+        const [nextCursor, keys] = await this.redis.scan(cursor,'MATCH',pattern,'COUNT',100);     
         cursor = nextCursor;
         allKeys.push(...keys);
       } while (cursor !== '0');
@@ -691,7 +676,7 @@ export class RedisService {
   async deleteKey(key: any,collectionName: string) {
     try {     
       if(key && collectionName){     
-        var response = await redis.del(key); 
+        var response = await this.redis.del(key); 
         if(response){
          // await this.deletePgKey(key)
           return response
@@ -715,7 +700,7 @@ export class RedisService {
    */
   async expire(key, seconds) {
     try {
-      var result = await redis.call('EXPIRE', key, seconds);
+      var result = await this.redis.call('EXPIRE', key, seconds);
       return result;
     } catch (error) {
       throw error;
@@ -731,7 +716,7 @@ export class RedisService {
       //   await this.cacheManager.del(oldKey);
       // }
 
-      var result = await redis.call('RENAME', oldKey, newKey);
+      var result = await this.redis.call('RENAME', oldKey, newKey);
       // Queue MongoDB operations
       // let mongoResult = await queueMongoOperation(
       //   () => this.existsDocument(client, oldKey),
@@ -752,7 +737,7 @@ export class RedisService {
   async getstreamKey(key: string) {
     try {
       let keys
-       keys = await redis.keys(key); 
+       keys = await this.redis.keys(key); 
       if(keys?.length == 0){
         keys = await this.getDocumentKeys(key)
       }
@@ -773,7 +758,7 @@ export class RedisService {
         const end = Math.min(start + this.BATCH_SIZE, records.length);
         const batch = records.slice(start, end);
 
-        const pipeline = redis.pipeline();
+        const pipeline = this.redis.pipeline();
 
         batch.forEach((record, index) => {
           const globalIndex = start + index;
@@ -786,8 +771,8 @@ export class RedisService {
         await pipeline.exec();
       }
 
-      await redis.set( key+':total', records.length);
-      await redis.set(key+':batches', totalBatches);  
+      await this.redis.set( key+':total', records.length);
+      await this.redis.set(key+':batches', totalBatches);  
       if(logicCenter)   
       this.getQueue(`AFP-PERSISTENCE`,key,JSON.stringify(records));
     } catch (error) {
@@ -797,14 +782,14 @@ export class RedisService {
 
 
     async getAllRecordshash(key): Promise<any[]> {
-   //const total = parseInt(await redis.get('records:total') || '0');
-    const totalBatches = parseInt(await redis.get(key+':batches') || '0'); 
+   //const total = parseInt(await this.redis.get('records:total') || '0');
+    const totalBatches = parseInt(await this.redis.get(key+':batches') || '0'); 
     // if (total === 0) {
     //   return [];
     // }    
     const allRecords: any[] = [];    
     for (let batchNum = 0; batchNum < totalBatches; batchNum++) {
-      const batchData: Record<string, string> = await redis.hgetall(
+      const batchData: Record<string, string> = await this.redis.hgetall(
        key+':'+batchNum
       );      
       const batchRecords = Object.values(batchData).map(value => 
@@ -1147,7 +1132,7 @@ export class RedisService {
           let EntryId = singleDocValArr[v].EntryId
           delete singleDocValArr[v].EntryId
       
-          await redis.xadd(collectionName, EntryId, singleDocId, JSON.stringify(singleDocValArr[v]));
+          await this.redis.xadd(collectionName, EntryId, singleDocId, JSON.stringify(singleDocValArr[v]));
 
           fieldKeyArr.push(EntryId,[singleDocId,JSON.stringify(singleDocValArr[v])]);
         
@@ -1183,7 +1168,7 @@ export class RedisService {
           let EntryId = singleDocValArr[v].EntryId
           delete singleDocValArr[v].EntryId
       
-          await redis.xadd(collectionName, EntryId, singleDocId, JSON.stringify(singleDocValArr[v]));
+          await this.redis.xadd(collectionName, EntryId, singleDocId, JSON.stringify(singleDocValArr[v]));
 
           fieldKeyArr.push(EntryId,[singleDocId,JSON.stringify(singleDocValArr[v])]);
         
@@ -1234,85 +1219,85 @@ async deleteDocument(collectionName:string,key:any){
 }
 
 async select(db: number) {
-    return redis.select(db);
+    return this.redis.select(db);
   }
 
   async scan(cursor: string, ...args: any[]) {
-    return redis.scan(cursor, ...args);
+    return this.redis.scan(cursor, ...args);
   }
 
   async ttl(key: string) {
-    return redis.ttl(key);
+    return this.redis.ttl(key);
   }
 
   async type(key: string) {
-    return redis.type(key);
+    return this.redis.type(key);
   }
 
   async call(command: string, ...args: any[]) {
-    return redis.call(command, ...args);
+    return this.redis.call(command, ...args);
   }
 
   async get(key: string) {
-    return redis.get(key);
+    return this.redis.get(key);
   }
 
   async set(key: string, value: any) {
-    return redis.set(key, value);
+    return this.redis.set(key, value);
   }
 
   async del(key: string) {
-    return redis.del(key);
+    return this.redis.del(key);
   }
 
   
 
   async hgetall(key: string) {
-    return redis.hgetall(key);
+    return this.redis.hgetall(key);
   }
 
   async lrange(key: string, start: number, stop: number) {
-    return redis.lrange(key, start, stop);
+    return this.redis.lrange(key, start, stop);
   }
 
   async rpush(key: string, ...values: any[]) {
-    return redis.rpush(key, ...values);
+    return this.redis.rpush(key, ...values);
   }
 
   async smembers(key: string) {
-    return redis.smembers(key);
+    return this.redis.smembers(key);
   }
 
   async sadd(key: string, ...members: any[]) {
-    return redis.sadd(key, ...members);
+    return this.redis.sadd(key, ...members);
   }
 
   async zrange(key: string, start: number, stop: number, ...args: any[]) {
-    return redis.zrange(key, start, stop, ...args);
+    return this.redis.zrange(key, start, stop, ...args);
   }
 
   async zadd(key: string, ...args: any[]) {
-    return redis.zadd(key, ...args);
+    return this.redis.zadd(key, ...args);
   }
 
   async dump(key: string) {
-    return redis.dump(key);
+    return this.redis.dump(key);
   }
 
   async restore(key: string, ttl: number, value: Buffer, ...args: any[]) {
-    return redis.restore(key, ttl, value, ...args);
+    return this.redis.restore(key, ttl, value, ...args);
   }
 
   async pexpire(key: string, ms: number) {
-    return redis.pexpire(key, ms);
+    return this.redis.pexpire(key, ms);
   }
 
   async exists(key: string) {
-    return redis.exists(key);
+    return this.redis.exists(key);
   }
 
   async ping() {
-    return redis.ping();
+    return this.redis.ping();
   }
 
   //__________________________PG_______________________________

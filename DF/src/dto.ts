@@ -237,7 +237,7 @@ export class readAPIDTO {
       @Type(() => Number)
       @IsInt()
       @Min(1)
-      @Max(10000)
+      //@Max(10000)
       count?:number
       @IsOptional()
       @IsSafeFilterShape()
