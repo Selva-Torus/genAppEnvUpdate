@@ -1,3 +1,4 @@
+
 import { BadGatewayException, HttpException, HttpStatus, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { CommonService } from 'src/common.Service';
 import { RedisService } from 'src/redisService';
@@ -309,7 +310,7 @@ getConfig(): FusionAuthConfig {
 
  async insertDocToVgphSourceTranDocMain(category: string, doc_name: string, url: string, size?: number, doc_group?: string): Promise<any> {
     try {
-      const insertUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments`;
+      const insertUrl = `${process.env.APP_MANAGER_URL}/ct001/attachments`;
       //const vgphstm_uuid = uuid();
       const currentDate = new Date().toISOString().slice(0, 19) + '+00:00';
 
@@ -337,7 +338,7 @@ getConfig(): FusionAuthConfig {
 
   async getUrlByVgphstdmId(vgphstdm_id: any): Promise<string> {
     try {
-      const getUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments/${vgphstdm_id}`;
+      const getUrl = `${process.env.APP_MANAGER_URL}/ct001/attachments/${vgphstdm_id}`;
 
       const response = await axios.get(getUrl, {
         headers: {
@@ -348,20 +349,6 @@ getConfig(): FusionAuthConfig {
       return response.data.data.url;
     } catch (error) {
       throw error;
-    }
-  }
-  
-  async uploadFile(file: { buffer: Buffer; filename: string; mimetype: string; size: number }, context: string, enableEncryption: string, doc_group?: string): Promise<any> {
-    try {
-      const res = await this.commonService.uploadFile(file, context, enableEncryption);
-
-      // Insert the URL into vgph_source_tran_doc_main
-      const vgphstdm_id = await this.insertDocToVgphSourceTranDocMain("front", file.filename, res.fileId,file.size,doc_group);
-
-      res.fileId = `${vgphstdm_id}`;
-      return res;
-    } catch (error) {
-      throw new BadGatewayException(error);
     }
   }
 
@@ -571,30 +558,6 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-  async getFile(id: string | string[], context: string,enableEncryption: Boolean) {
-    try {
-      const fileMetadata = await this.commonService.findFileById(id);
-      const buffer = await this.commonService.getFile(id, context,enableEncryption);
-
-      // Handle single file
-      if (!Array.isArray(id)) {
-        return {
-          res: buffer,
-          file: fileMetadata
-        };
-      }
-
-      // Handle multiple files
-      return {
-        res: buffer,
-        file: fileMetadata,
-        isMultiple: true
-      };
-    } catch (error) {
-      throw new BadGatewayException(error);
-    }
-  }
-
    async setUpKey(key: string, token: string,tag?: string) {
     try {
       const sKey: any = await this.commonService.readAPI(
@@ -791,7 +754,8 @@ getConfig(): FusionAuthConfig {
     filter?,
     searchObj?,
     token?: string,
-    filterData?
+    filterData?,
+    sortingDetails?
   ) {
     try {
       
@@ -935,7 +899,11 @@ getConfig(): FusionAuthConfig {
 
       if (Object.keys(filterobj)?.length > 0) {
             payload['filterData'] = [filterobj];
-        }      
+        }
+        
+        if (sortingDetails && Object.keys(sortingDetails)?.length > 0) {
+          payload['sortingDetails'] = sortingDetails;
+        }
           
        await this.commonService.postCall(
               //process.env.BE_URL + '/te/eventEmitter',
@@ -1042,7 +1010,8 @@ getConfig(): FusionAuthConfig {
     filter?,
     searchObj?,
     token?: string,
-    filterData?
+    filterData?,
+    sortingDetails?
   ) {
     try {
       const tokenDecode = await this.jwtService.verifyToken(token);
@@ -1068,7 +1037,8 @@ getConfig(): FusionAuthConfig {
           filter,
           searchObj,
           token,
-          filterData
+          filterData,
+          sortingDetails
         );     
       }
 
@@ -1110,6 +1080,9 @@ getConfig(): FusionAuthConfig {
       page = page || 1;
       const start = count ? (page - 1) * count : 0;
       const end = count ? start + count : data.length;
+
+      if(sortingDetails && Object.keys(sortingDetails).length>0)
+        data = this.sortRecords(data, sortingDetails);
 
       let finalData: any[] = [];
 
@@ -1233,6 +1206,66 @@ getConfig(): FusionAuthConfig {
     }
   }
 
+  private sortRecords(records: any[],sortingDetails: Record< string, 'asc' | 'desc'>): any[] {
+
+  const sortingColumn = Object.keys(sortingDetails)[0];
+  const sortDirection = sortingDetails[sortingColumn];
+
+  if (!sortingColumn || !sortDirection) {
+    return records;
+  }
+
+  return [...records].sort((a, b) => {
+    const valueA = a[sortingColumn];
+    const valueB = b[sortingColumn];
+
+    if (valueA == null && valueB == null) {
+      return 0;
+    }
+
+    if (valueA == null) {
+      return sortDirection === 'asc' ? -1 : 1;
+    }
+
+    if (valueB == null) {
+      return sortDirection === 'asc' ? 1 : -1;
+    }
+
+    let result = 0;
+
+    // Number sorting (including numeric strings)
+    if (
+      !isNaN(Number(valueA)) &&
+      !isNaN(Number(valueB))
+    ) {
+      result = Number(valueA) - Number(valueB);
+    }
+
+    // Date sorting
+    else if (
+      !isNaN(Date.parse(valueA)) &&
+      !isNaN(Date.parse(valueB))
+    ) {
+      result =
+        new Date(valueA).getTime() -
+        new Date(valueB).getTime();
+    }
+
+    // String sorting
+    else {
+      result = String(valueA).localeCompare(
+        String(valueB),
+        undefined,
+        {
+          sensitivity: 'base',
+        }
+      );
+    }
+
+    return sortDirection === 'desc' ? -result : result;
+  });
+}
+
   async filterpagination(start, end, searcharr) {
     try {
       var filArray = [];
@@ -1247,7 +1280,7 @@ getConfig(): FusionAuthConfig {
       }
 
      // return { records: filArray, totalRecords: searcharr.length };
-     return { records: filArray, totalRecords: searcharr?.[0]?.total_records || searcharr.length };
+     return { records: filArray, totalRecords:searcharr?.length };
     } catch (error) {
       throw new BadGatewayException(error);
     }
@@ -8178,7 +8211,7 @@ getConfig(): FusionAuthConfig {
       await this.throwCustomException(error);
     }
   }
-
+ 
   //___________________________LOGS__________________________________________
 
   @Cron(process.env.MY_CRON)
@@ -8583,7 +8616,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct005_vgph';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct001_ta';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8642,7 +8675,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct005_vgph';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct001_ta';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8712,7 +8745,7 @@ getConfig(): FusionAuthConfig {
       );
 
       for (const lock of locks.rows) {
-        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : 'ct005_vgph';
+        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : 'ct001_ta';
         await client.query(
           `UPDATE ${recordSchema}."${lock.table_name}"
            SET trs_locked_by = NULL, trs_locked_time = NULL

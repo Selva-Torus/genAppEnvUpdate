@@ -1,3 +1,5 @@
+
+
 // import Module from "module";
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { TeController } from "./te.controller";
@@ -13,16 +15,14 @@ import { LockService } from "src/lock.service";
 import { JwtServices } from "src/jwt.services";
 import { ConfigService } from "@nestjs/config";
 import { BullModule } from "@nestjs/bullmq";
-import { EventEmitterProcessor } from "./event-emitter.processor";
-import { ListenerService } from "./listener.service";
 import { DynamicFlowService } from "./dynamicFlow.service";
 
-import { SchedulerModule } from "../scheduler/scheduler.module";
+//import { SchedulerModule } from "../scheduler/scheduler.module";
 import { EnvData } from 'src/envData/envData.service';
  
 @Module({
     imports: [      
-      SchedulerModule,   
+      //SchedulerModule,   
       ClientsModule.register([
         {
           name: 'PO',
@@ -32,7 +32,7 @@ import { EnvData } from 'src/envData/envData.service';
       ])    
     ],
     controllers: [TeController],
-    providers: [TeService, RedisService, CommonService,SecurityService,RuleService,JwtService,JwtServices,CodeService,LockService,ConfigService,EventEmitterProcessor,ListenerService,DynamicFlowService,EnvData,],
+    providers: [TeService, RedisService, CommonService,SecurityService,RuleService,JwtService,JwtServices,CodeService,LockService,ConfigService,DynamicFlowService,EnvData,],
     exports:[DynamicFlowService]
 })
   export class TeModule implements NestModule

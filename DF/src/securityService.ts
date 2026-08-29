@@ -20,10 +20,10 @@ export class SecurityService {
       var pojson = JSON.parse(await this.redisService.getJsonData(key,process.env.CLIENTCODE)) 
       
         if (pojson != null) {
-          var security = pojson.securityData
+          var security = pojson?.securityData
           if (security.afk && key.includes(security.afk)) {
             if (security) {
-              if (security.accessProfile.length > 0) {
+              if (security?.accessProfile?.length > 0) {
                 // let tokenDecode = await this.commonService.MyAccountForClient(token)
                 let tokenDecode: any;
                 try {
@@ -77,12 +77,14 @@ export class SecurityService {
                 if (artifactFlg == security.accessProfile.length) {
                   throw new CustomException(`Invalid artifact ${artifact}`, 400);
                 }
-              } else {
-                throw new CustomException('AccessProfile was empty', 404)
-              }
-            } else {
-              throw new CustomException('SecurityData does not exist', 404)
-            }
+               } 
+             // else {
+              //   throw new CustomException('AccessProfile was empty', 404)
+              // }
+            } 
+            //else {
+             // throw new CustomException('SecurityData does not exist', 404)
+           // }
           } else {
             throw new CustomException(`Artifact key mismatched ${key} in security Template ${security.afk}`, 400);
           }

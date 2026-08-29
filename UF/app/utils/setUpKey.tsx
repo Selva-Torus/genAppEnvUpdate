@@ -63,11 +63,11 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
   const [data, setData] = useState<SetupKeyData | null>(null);
   const { token } = useGlobal();
   const encryptionFlagApp: boolean = true;
-  const encryptionDpd: string = "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:RTGS:AFK:RTGS_DPD:AFVK:v1";
+  const encryptionDpd: string = "CK:CT001:FNGK:AF:FNK:CDF-DPD:CATK:TAM:AFGK:TA:AFK:Test_DPD:AFVK:v1";
   const encryptionMethod: string = "";
   const fetchSetupKey = async () => {
     try {
-      let setUpKeyDto:any = {key:"CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT005:AFGK:GSS:AFK:RTGS:AFVK:v1:appearance"
+      let setUpKeyDto:any = {key:"CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT001:AFGK:TAM:AFK:TA:AFVK:v1:appearance"
 };
       if (encryptionFlagApp) {
         setUpKeyDto["dpdKey"] = encryptionDpd;
@@ -198,7 +198,7 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  if (!data) return <div className='flex w-[100vw] h-[100vh] bg-slate-200 justify-center items-center '><span>Loading...</span></div>;
+  if (!data) return <div className='flex w-[100vw] h-[100vh] bg-slate-200 justify-center items-center '><Image src={`${process.env.NEXT_PUBLIC_FTP_OUTPUT_HOST}/torus/9.1/CT001/resources/splashImage/ChatGPT Image May 6, 2026, 01_56_40 PM.png`} alt="loadingImage" width={100} height={100} /></div>;
 
 
   return <div>{children}</div>;

@@ -31,7 +31,7 @@ interface LoginProps {
   appTenantList?: any[]
 }
 
-const LoginForm = ({ logo, appName = "RTGS", loginType = "standard", image, appTenantList }: LoginProps) => {
+const LoginForm = ({ logo, appName = "TestApplication", loginType = "standard", image, appTenantList }: LoginProps) => {
   const [formData, setFormData] = useState<Record<string, string>>({
     email: '',
     password: ''
@@ -44,7 +44,7 @@ const LoginForm = ({ logo, appName = "RTGS", loginType = "standard", image, appT
   const { branding } = useGlobal()
   const { brandColor } = branding
   const { bgColor, borderColor, textColor } = useTheme()
-  const onBoardingKey : string = "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1"
+  const onBoardingKey : string = "Logs Screen"
   const tenant = process.env.NEXT_PUBLIC_TENANT_CODE
   const isSaasApp = process.env.NEXT_PUBLIC_IS_SAAS_APPLICATION;
   const [imageandLogoValid, setImageandLogoValid] = useState({
@@ -70,7 +70,7 @@ const LoginForm = ({ logo, appName = "RTGS", loginType = "standard", image, appT
           tenant: tenant,
           username: formData.email,
           password: formData.password,
-          key: "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT005:AFGK:GSS:AFK:RTGS:AFVK:v1:bldc",
+          key: "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT001:AFGK:TAM:AFK:TA:AFVK:v1:bldc",
           ufClientType: 'UFW',
           app_tenant: selectedAppTenant ? appTenantList?.find(item => item.tenant_name == selectedAppTenant)?.tenant_id : undefined,
           app_tenant_id: selectedAppTenant ? appTenantList?.find(item => item.tenant_name == selectedAppTenant)?.at_id : undefined
@@ -100,14 +100,44 @@ const LoginForm = ({ logo, appName = "RTGS", loginType = "standard", image, appT
           let screenDetails: any = {
             keys:[
   {
-    "screenName": "transactions",
-    "screensName": "transactions-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1"
+    "screenName": "menu item 3",
+    "screensName": "menu_item_3-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:ad_search_table:AFVK:v1"
   },
   {
-    "screenName": "simulator",
-    "screensName": "simulator-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:simulatorProcessUi:AFVK:v1"
+    "screenName": "barchart",
+    "screensName": "barchart-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:chart:AFVK:v1"
+  },
+  {
+    "screenName": "grouparray",
+    "screensName": "grouparray-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:GroupArray:AFVK:v1"
+  },
+  {
+    "screenName": "request form",
+    "screensName": "request_form-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Request_form:AFVK:v1"
+  },
+  {
+    "screenName": "table",
+    "screensName": "table-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Table:AFVK:v1"
+  },
+  {
+    "screenName": "set table",
+    "screensName": "set_table-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:set_memory_table:AFVK:v1"
+  },
+  {
+    "screenName": "combodrop",
+    "screensName": "combodrop-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:combo_dropdown:AFVK:v1"
+  },
+  {
+    "screenName": "set_memory",
+    "screensName": "set_memory-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:setMemoryValuesevent:AFVK:v1"
   }
 ]
           }

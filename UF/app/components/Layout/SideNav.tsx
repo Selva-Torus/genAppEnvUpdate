@@ -100,7 +100,7 @@ const SideNav = ({
         },
         icon: screen.icon ? (
           <Image
-            className='h-[2.5vh] w-[1vw]'
+            className='h-[2vh] w-[1vw]'
             width={100}
             height={100}
             alt='icon'
@@ -139,7 +139,7 @@ const SideNav = ({
           items: getNestedMenu(item),
           icon: item.icon ? (
             <Image
-              className='h-[2.5vh] w-[1vw]'
+              className='h-[2vh] w-[1vw]'
               width={100}
               height={100}
               alt='icon'
@@ -310,7 +310,7 @@ const SideNav = ({
                               <div className='flex w-[20%] items-center justify-end'>
                                 {menu.icon ? (
                                   <Image
-                                    className='h-[2.5vh] w-[1vw]'
+                                    className='h-[2vh] w-[1vw]'
                                     width={100}
                                     height={100}
                                     alt='icon'
@@ -376,7 +376,7 @@ const SideNav = ({
                             <span className='flex items-center'>
                               {menu.icon ? (
                                 <Image
-                                  className='h-[2.5vh] w-[1vw]'
+                                  className='h-[2vh] w-[1vw]'
                                   width={100}
                                   height={100}
                                   alt='icon'
@@ -454,7 +454,7 @@ const SideNav = ({
                   >
                     {menu.screenDetails[0].icon ? (
                       <Image
-                        className='h-[2.5vh] w-[1vw]'
+                        className='h-[2vh] w-[1vw]'
                         width={100}
                         height={100}
                         alt='icon'
@@ -541,7 +541,7 @@ const SideNav = ({
   ), [fullView, brandColor, logout, user, userDetails, selectedAccessProfile])
 
   const LogoSection = useCallback(() => (
-      <div className='flex flex-col w-full items-center justify-center gap-1 pb-[0.5vh]' style={getGridStyle('logo') ? {...getGridStyle('logo') , gridColumn: '2 /8'} : {}}>
+      <div className='flex flex-col w-full items-center justify-center gap-1 pb-[0.5vh]' style={getGridStyle('logo') ? {...getGridStyle('logo') , gridColumn: '1 /8'} : {}}>
         {logo ? (
           <Image
             className='min-h-[3vh] max-h-[5vh] h-auto w-auto'

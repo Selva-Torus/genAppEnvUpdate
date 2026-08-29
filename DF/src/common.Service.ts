@@ -1,4 +1,5 @@
 
+
 import { BadGatewayException, BadRequestException, HttpStatus, Injectable,Logger } from "@nestjs/common";
 import axios, { AxiosRequestConfig } from 'axios';
 import * as FormData from 'form-data';
@@ -6,7 +7,6 @@ import { readAPIDTO,errorObj } from "./dto";
 import { RuleService } from "./ruleService";
 import { CodeService } from "./codeService";
 import { CustomException } from "./customException";
-import { JwtService } from "@nestjs/jwt";
 import { RedisService } from "./redisService";
 import { format } from 'date-fns';
 import jsonata from "jsonata";
@@ -18,7 +18,6 @@ import { Readable } from "stream";
 import path from "path";
 import Redis from 'ioredis';
 import * as pg from "pg";
-import { GridFSBucket } from "mongodb";
 import { MongoClient, ObjectId , Db} from "mongodb";
 import { ConfigService } from "@nestjs/config";
 import { normalizePem } from "src/utils/normalizePem.util";
@@ -65,7 +64,6 @@ export class CommonService{
   private vaultAddr: string;
   private vaultToken: string;
   private vaultKey: string;
-  private bucket: GridFSBucket;
   constructor(private readonly ruleEngine:RuleService,
     private readonly codeService:CodeService,
     private readonly jwtService: JwtServices,
@@ -148,12 +146,13 @@ export class CommonService{
     //const migrationSqlPath = `${migrationsDir}/${latestMigrationFolder}/migration.sql`;
     let migrationSql_baseline = await this.readTextFileSmart(`${migrationsDir}/ddl_changes_baseline.sql`);
     let migrationSql_incremental = await this.readTextFileSmart(`${migrationsDir}/ddl_changes_incremental.sql`);
-    let migrationSql_trigger = await this.readTextFileSmart(`${migrationsDir}/triggerFuctions.sql`);
+    let migrationSql_allTrigger = await this.readTextFileSmart(`${migrationsDir}/allTriggers.sql`);
+    let migrationSql_triggerChanges = await this.readTextFileSmart(`${migrationsDir}/triggerChanges.sql`);
     let overallPrismaSchema = await this.readTextFileSmart(`${prismaSchemaPath}/schema.prisma`);
-    migrationSql_baseline = migrationSql_baseline + migrationSql_trigger;
+    migrationSql_baseline = migrationSql_baseline + migrationSql_allTrigger;
     if (!migrationSql_incremental?.includes('-- This is an empty migration.')&&!migrationSql_incremental?.includes("No DDL changes available")) 
     {
-      migrationSql_incremental = migrationSql_incremental + migrationSql_trigger;
+      migrationSql_incremental = migrationSql_incremental + migrationSql_triggerChanges;
     }
     return { baseline: migrationSql_baseline, incremental: migrationSql_incremental, prismaSchema: overallPrismaSchema };
   }
@@ -181,14 +180,6 @@ export class CommonService{
   }
 
   private readonly logger = new Logger(CommonService.name) 
-  private readonly GRIDFS_BUCKET = 'CT005/GSS/RTGS/v1';
-
-  private async getBucket(): Promise<GridFSBucket> {
-    if (!db) {
-      return null;
-    }
-    return new GridFSBucket(db, { bucketName: this.GRIDFS_BUCKET });
-  }
     async encrypt(value: string,context:string): Promise<string> {
         const result = await this.vaultClient.write(`transit/encrypt/${this.encryptionKey}`, {
           plaintext: Buffer.from(value).toString('base64'),
@@ -480,74 +471,7 @@ export class CommonService{
       );
       return Buffer.from(res.data.data.plaintext, 'base64');
     }
-
-    async findFileById(id: string | string[]) {
-      // Handle single ID or array of IDs
-      const bucket = await this.getBucket();
-      if (Array.isArray(id)) {
-        const objectIds = id.map(fileId => new ObjectId(fileId));
-        const files = await bucket.find({ _id: { $in: objectIds } }).toArray();
-        return files;
-      } else {
-        const files = await bucket.find({ _id: new ObjectId(id) }).toArray();
-        return files[0];
-      }
-    }
-
-    async uploadFile(file: { buffer: Buffer; filename: string; mimetype: string; size: number },context: string, enableEncryption: string): Promise<any> {
-    //const encrypted = await this.encryptFile(file.buffer, context);
-      let encrypted:Buffer
-      if(enableEncryption === "true" ){
-       encrypted = await this.aes256ctrEncrypt(file.buffer);
-      }else{
-         encrypted = file.buffer;
-      }
-      const bucket = await this.getBucket();
-      const uploadStream = bucket.openUploadStream(file.filename, {
-        metadata: { isEncrypted: enableEncryption },
-        contentType: file.mimetype,
-      });
-      uploadStream.end(encrypted);
-      return { message: 'Encrypted file uploaded successfully', fileId: uploadStream.id.toString() };
-    }
-
-    async getFile(id: string | string[], context: string,enableEncryption: Boolean): Promise<Buffer | Buffer[]> {
-      // Handle array of IDs
-      if (Array.isArray(id)) {
-        const buffers: Buffer[] = [];
-        for (const fileId of id) {
-          const buffer = await this.getSingleFile(fileId, context, enableEncryption);
-          buffers.push(buffer);
-        }
-        return buffers;
-      } else {
-        return this.getSingleFile(id, context, enableEncryption);
-      }
-    }
-
-    private async getSingleFile(id: string, context: string, enableEncryption: Boolean): Promise<Buffer> {
-      let decrypted: Buffer;
-      const chunks: Buffer[] = [];
-      const bucket = await this.getBucket();
-      const downloadStream = bucket.openDownloadStream(new ObjectId(id));
-      return new Promise<Buffer>((resolve, reject) => {
-        downloadStream.on('data', (chunk) => chunks.push(chunk));
-        downloadStream.on('end', async () => {
-          const ciphertext = Buffer.concat(chunks);
-          try {
-            if (enableEncryption) {
-              decrypted = await this.aes256ctrDecrypt(ciphertext);
-            } else {
-              decrypted = ciphertext;
-            }
-            resolve(decrypted);
-          } catch (err:any) {
-            reject(err);
-          }
-        });
-        downloadStream.on('error', reject);
-      });
-    }
+    
     async eventFunction(eventProperty: any) {
         let eventsDetails: any = [];
         const eventDetailsArray: any[] = [];
@@ -1134,10 +1058,10 @@ export class CommonService{
       }
       const p = Number(page);
       const c = Number(count);
-      const MAX_PAGE_SIZE = 10000;
-      if (!Number.isInteger(p) || !Number.isInteger(c) || p < 1 || c < 1 || c > MAX_PAGE_SIZE) {
-        throw new CustomException('Invalid pagination parameters: page and count must be positive integers', 400);
-      }
+       // const MAX_PAGE_SIZE = 10000;
+      // if (!Number.isInteger(p) || !Number.isInteger(c) || p < 1 || c < 1 || c > MAX_PAGE_SIZE) {
+      //   throw new CustomException('Invalid pagination parameters: page and count must be positive integers', 400);
+      // }
       return { page: p, count: c };
     } 
     
@@ -1628,8 +1552,8 @@ export class CommonService{
         
         if(typeof key != 'string')
         key = 'commonError'
-         tenant=tenant || "CT005"
-        app=app ||  "RTGS"
+         tenant=tenant || "CT001"
+        app=app ||  "TA"
         await this.redisService.setStreamData(tenant+'-'+app+'-TSL',key,JSON.stringify(logs))    
         return logs
 
@@ -2037,8 +1961,6 @@ export class CommonService{
   }
 
 
-
-
   async assertConnectorTenant(dpdkey: string, tenant?: string): Promise<void> {
     const keyTenant = await this.splitcommonkey(dpdkey, 'CK');
     if (!tenant)
@@ -2113,7 +2035,11 @@ export class CommonService{
         
         if (!dbUrl) throw new CustomException('DB url not found', 404);
         if (dbtype && dbtype == 'postgres') {
-          const { Client } = pg;
+           const { Client ,types } = pg;
+          const bigintParser = { getTypeParser: (oid: number, format: string) => {
+          if (oid === 20) return (val: string) => parseInt(val, 10);
+          return types.getTypeParser(oid, format);
+      }};
           // M11: this connects to a per-tenant external connector whose
           // TLS-readiness isn't known in advance, and node-postgres has no
           // "prefer" fallback of its own — so negotiatePgTls() probes the
@@ -2125,7 +2051,8 @@ export class CommonService{
           client = new Client({
             connectionString: dbUrl,  
            // options: `-c search_path=${schemaname}`,
-            application_name: `${process.env.TENANT}_${process.env.APPGROUPCODE}_${process.env.APPCODE}_PFservice`
+            application_name: `${process.env.TENANT}_${process.env.APPGROUPCODE}_${process.env.APPCODE}_PFservice`,
+             types: bigintParser,
           });
         } else if (dbtype == 'mysql') {
           const mysql = require('mysql2/promise');

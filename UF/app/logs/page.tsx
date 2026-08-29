@@ -16,12 +16,12 @@ const ParentComponent = () => {
   const [nodeData, setNodeData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [app, setApp] = useState({
-    code: 'RTGS',
-    name: 'RTGS'
+    code: 'TA',
+    name: 'TestApplication'
   })
   const [appGroup, setappGroup] = useState({
-    code: 'GSS',
-    name: 'GSS'
+    code: 'TAM',
+    name: 'TAM'
   })
   const { token } = useGlobal();
   const decodedToken: any = decodeToken(token)
@@ -48,7 +48,7 @@ const ParentComponent = () => {
   const [ fabrics , setFabrics ] = useState<Array<string>>([])
   const [jsonViewerData, setJsonViewerData] = useState({})
   const router = useRouter()
-  let landingScreen:string = 'CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1';
+  let landingScreen:string = 'Logs Screen';
   const encryptionFlagApp: boolean = false;    
   const [jsonData, setJsonData] = useState({
     data: [],
@@ -74,7 +74,7 @@ const ParentComponent = () => {
   }
   let payload:any = useMemo(() => {
     return {
-      tenant: 'CT005',
+      tenant: 'CT001',
        fabric: fabrics.length > 0 ? fabrics.flatMap((prefix: any) =>
             suffixes[prefix]
               ? suffixes[prefix].map((suffix: any) => `${prefix}-${suffix}`)
@@ -310,6 +310,7 @@ const ParentComponent = () => {
         <TableHeader
           loading={loading}
           jsonData={jsonData}
+          setJsonData={setJsonData}
           onPageChange={handlePageChange}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}

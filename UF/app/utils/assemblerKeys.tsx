@@ -4,14 +4,44 @@ import UOmapperData from '@/context/dfdmapperContolnames.json'
 export function getRouteScreenDetails(key: string, artfactName: string,other:string=''): string {
   let assemblerKeys: any = [
   {
-    "screenName": "transactions",
-    "screensName": "transactions-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1"
+    "screenName": "menu item 3",
+    "screensName": "menu_item_3-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:ad_search_table:AFVK:v1"
   },
   {
-    "screenName": "simulator",
-    "screensName": "simulator-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:simulatorProcessUi:AFVK:v1"
+    "screenName": "barchart",
+    "screensName": "barchart-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:chart:AFVK:v1"
+  },
+  {
+    "screenName": "grouparray",
+    "screensName": "grouparray-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:GroupArray:AFVK:v1"
+  },
+  {
+    "screenName": "request form",
+    "screensName": "request_form-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Request_form:AFVK:v1"
+  },
+  {
+    "screenName": "table",
+    "screensName": "table-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Table:AFVK:v1"
+  },
+  {
+    "screenName": "set table",
+    "screensName": "set_table-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:set_memory_table:AFVK:v1"
+  },
+  {
+    "screenName": "combodrop",
+    "screensName": "combodrop-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:combo_dropdown:AFVK:v1"
+  },
+  {
+    "screenName": "set_memory",
+    "screensName": "set_memory-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:setMemoryValuesevent:AFVK:v1"
   }
 ]
 

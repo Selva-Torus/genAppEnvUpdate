@@ -60,6 +60,7 @@ import { Response } from 'express';
 import { lookup } from 'mime-types';
 import { JwtServices } from 'src/jwt.services';
 import { CommonService } from 'src/common.Service';
+import { getAllowedModelNames, getModelFieldTypes } from 'src/utils/prisma-dmmf.util';
 import { safeFetchBuffer ,assertAllowedOutboundHost} from 'src/utils/ssrf.util';
 
 @ApiTags('TG')
@@ -110,7 +111,7 @@ export class UfController {
     }
     try {
       let result : any = {};
-      result["token"] = await this.appService.getAccessToken(token, selectedCombination , selectedAccessProfile , dap , ufClientType);
+      result["updatedToken"] = await this.appService.getAccessToken(token, selectedCombination , selectedAccessProfile , dap , ufClientType);
       if(dpdKey && method){
         result["dpdKey"] = dpdKey
         result["method"] = method
@@ -153,67 +154,6 @@ export class UfController {
     }
   }
 
-  @Post('upload')
-  @ApiHeader({
-    name: 'Authorization',
-    description: 'Bearer token for authentication',
-    required: true,
-  })
-  
-  async uploadFile(@Req() req: FastifyRequest) {
-      if (!req.isMultipart()) {
-        throw new Error('Request is not multipart');
-      }
-      const parts = req.parts();
-      const fields: Record<string, string> = {};
-      const files: Array<{
-        filename: string;
-        mimetype: string;
-        size: number;
-        buffer: Buffer;
-        doc_group: string;
-      }> = [];
-
-      for await (const part of parts) {
-        if (part.type === 'file') {
-          const buffer = await part.toBuffer();
-          files.push({
-            filename: part.filename,
-            mimetype: part.mimetype,
-            size: buffer.length,
-            buffer,
-            doc_group: fields?.doc_group||""
-          });
-        } else {
-          fields[part.fieldname] = part.value as string;
-        }
-      }
-
-    if (files.length === 0) {
-      throw new BadRequestException('No files uploaded');
-    }
-    const { context, dpdKey, method, enableEncryption, returnType } = fields;
-
-    // Process all files and collect fileIds
-    const fileIds: string[] = [];
-    for (const file of files) {
-      const uploadRes = await this.appService.uploadFile(file, context, enableEncryption, fields.doc_group||"");
-      fileIds.push(uploadRes.fileId);
-    }
-
-    // Return based on returnType: 'string' returns single value, 'string[]' returns array
-    const result: any = {
-      success: true,
-      message: 'file saved',
-      fileId: returnType === 'string[]' ? fileIds : fileIds[0],
-    };
-
-    if (dpdKey && method) {
-      result['dpdKey'] = dpdKey;
-      result['method'] = method;
-    }
-    return result;
-  }
   @Post('download')  
   @ApiHeader({
     name: 'Authorization',
@@ -243,51 +183,6 @@ export class UfController {
     .send(buffer)
   }
   
-  @Post('gridfs')
-  @ApiHeader({
-    name: 'Authorization',
-    description: 'Bearer token for authentication',
-    required: true,
-  })
-  @ApiOperation({
-    summary: 'Download file from MongoDb GridFSBucket',
-    description: 'Download file from the stored MongoDb GridFSBucket on specified path',
-  })
-  async getFile(@Body() body: any,@Res() res: Response) {
-    let { context , id ,enableEncryption } = body
-    const result = await this.appService.getFile(id,context,enableEncryption);
-
-    if (!result || !result.res) {
-      throw new HttpException('File not found', HttpStatus.NOT_FOUND);
-    }
-
-    // Handle multiple files - return as JSON
-    if (result.isMultiple && Array.isArray(result.file) && Array.isArray(result.res)) {
-      const buffers = result.res as Buffer[];
-      const filesData = result.file.map((fileMetadata: any, index: number) => ({
-        filename: fileMetadata?.filename || `file_${index}`,
-        contentType: fileMetadata?.contentType || 'application/octet-stream',
-        data: buffers[index] ? Buffer.from(buffers[index]).toString('base64') : ''
-      }));
-
-      res.header('Content-Type', 'application/json');
-      return res.send({ files: filesData });
-    }
-
-    // Handle single file
-    const fileMetadata: any = Array.isArray(result.file) ? result.file[0] : result.file;
-    const buffer: any = Array.isArray(result.res) ? result.res[0] : result.res;
-    const { contentType, disposition } = sanitizeForFileResponse(fileMetadata?.contentType);
-
-    res
-      .header('Content-Type', contentType)
-      .header('File-Name', fileMetadata?.filename || 'Document')
-      .header('Content-Disposition', `${disposition}; filename="${fileMetadata?.filename || 'file'}"`)
-      .header('Access-Control-Expose-Headers', 'File-Name, Content-Disposition');
-
-    return res.send(buffer);
-  }
-
   @Post('setUpKey')
   @Public()
   @ApiHeader({
@@ -955,6 +850,7 @@ export class UfController {
         input.searchFilter,
         token,
         input.filterData,
+        input.sortingDetails
       );
       if(dpdKey && method){
       result["dpdKey"] = dpdKey
@@ -1206,12 +1102,23 @@ export class UfController {
   // straight into uf.service.ts's raw SQL (`WHERE ${dto.key} = $1`) with no
   // validation at all, letting any authenticated caller inject SQL and/or
   // target an arbitrary table.
+  private assertValidLockTarget(dto: LockRecordBodyDto): void {
+    const allowedTables = getAllowedModelNames();
+    if (typeof dto?.tableName !== 'string' || !allowedTables.includes(dto.tableName)) {
+      throw new BadRequestException(`Invalid table name: ${dto?.tableName}`);
+    }
+    const allowedKeys = Object.keys(getModelFieldTypes(dto.tableName));
+    if (typeof dto?.key !== 'string' || !allowedKeys.includes(dto.key)) {
+      throw new BadRequestException(`Invalid lock key: ${dto?.key}`);
+    }
+  }
   @Post('lock')
   async lock(@Body() dto: LockRecordBodyDto, @Req() req: any) {
     const token: string = req.headers.authorization.split(' ')[1]
     const decodedToken: any = await this.jwtService.verifyToken(token);
     const loginId = decodedToken.loginId;
     dto['userId'] = loginId;
+    this.assertValidLockTarget(dto);
     return this.appService.acquireLock(dto);
   }
 
@@ -1221,6 +1128,7 @@ export class UfController {
     const decodedToken: any = await this.jwtService.verifyToken(token);
     const loginId = decodedToken.loginId;
     dto['userId'] = loginId;
+    this.assertValidLockTarget(dto);
     return this.appService.releaseLock(dto);
   }
 

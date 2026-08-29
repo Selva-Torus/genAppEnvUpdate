@@ -26,18 +26,48 @@ export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname
   const isAuthRoute = ["/" , "/forgot-password"].includes(path);
   const isForgotPasswordRoute = ["/forgot-password"].includes(path);
-   let screenName:string = 'CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1';
+   let screenName:string = 'Logs Screen';
     let screenDetails: any = {
         keys:[
   {
-    "screenName": "transactions",
-    "screensName": "transactions-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1"
+    "screenName": "menu item 3",
+    "screensName": "menu_item_3-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:ad_search_table:AFVK:v1"
   },
   {
-    "screenName": "simulator",
-    "screensName": "simulator-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:simulatorProcessUi:AFVK:v1"
+    "screenName": "barchart",
+    "screensName": "barchart-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:chart:AFVK:v1"
+  },
+  {
+    "screenName": "grouparray",
+    "screensName": "grouparray-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:GroupArray:AFVK:v1"
+  },
+  {
+    "screenName": "request form",
+    "screensName": "request_form-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Request_form:AFVK:v1"
+  },
+  {
+    "screenName": "table",
+    "screensName": "table-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Table:AFVK:v1"
+  },
+  {
+    "screenName": "set table",
+    "screensName": "set_table-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:set_memory_table:AFVK:v1"
+  },
+  {
+    "screenName": "combodrop",
+    "screensName": "combodrop-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:combo_dropdown:AFVK:v1"
+  },
+  {
+    "screenName": "set_memory",
+    "screensName": "set_memory-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:setMemoryValuesevent:AFVK:v1"
   }
 ]
     }
@@ -91,6 +121,12 @@ export async function middleware(request: NextRequest) {
        const authResponse = await buildAuthorizationUrl(state, codeChallenge, appTenantParam)
        if(!authResponse) throw new Error('Fausion auth details not found')
        const response = NextResponse.redirect(authResponse.url)
+       response.cookies.set(`${COOKIE_PREFIX}_tp_ps`, '', {
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+          path: FULL_BASE_PATH,
+          maxAge: 0
+       })
        response.cookies.set(`${COOKIE_PREFIX}_oauth_state`, state, {
           httpOnly: true,
           secure: process.env.NODE_ENV === 'production',

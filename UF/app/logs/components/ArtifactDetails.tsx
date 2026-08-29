@@ -207,21 +207,22 @@ const Artifactdetails = ({ nodeData, setNodeData }: Nodedataprops) => {
   }
 
   function formatDate(inputDateStr: string) {
-    // Create a Date object from the input string
-    const dateObj = new Date(inputDateStr)
+    if (!inputDateStr) return '-'
 
-    // Get the day, month, year, hours, minutes, and seconds
-    const day = dateObj.getDate()
-    const month = dateObj.toLocaleString('default', { month: 'long' })
-    const year = dateObj.getFullYear()
-    const hours = dateObj.getHours()
-    const minutes = dateObj.getMinutes()
-    const seconds = dateObj.getSeconds()
-    const milliseconds = dateObj.getMilliseconds()
-    // Format the date and time components
-    const formattedDate = `${month} ${day}, ${year} ${hours}:${minutes}:${seconds}:${milliseconds}`
+    const [datePart, timePart] = inputDateStr.split('T')
+    const [, month, day] = datePart.split('-')
 
-    return formattedDate
+    const monthName = new Date(
+      Date.UTC(2000, Number(month) - 1, Number(day))
+    ).toLocaleString('en-US', {
+      month: 'long',
+      timeZone: 'UTC'
+    })
+
+    // Remove milliseconds (.422) and Z
+    const formattedTime = timePart.substring(0, 8)
+
+    return `${monthName} ${Number(day)}, ${formattedTime}`
   }
 
   const handleGetFinishingTime = (nodeTime: string) => {

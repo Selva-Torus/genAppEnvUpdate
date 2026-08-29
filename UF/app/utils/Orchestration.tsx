@@ -1,4 +1,5 @@
 import { AxiosService } from '@/app/components/axiosService';
+import { logout } from '../components/utils';
 
 export const fetchBatchData = async (
   key: string,
@@ -35,6 +36,9 @@ export const fetchBatchData = async (
     return null;
   } catch (error) {
     console.error("Error fetching batch data:", error);
+    if(error?.status === 401){
+      logout();
+    }
     return null;
   }
 };

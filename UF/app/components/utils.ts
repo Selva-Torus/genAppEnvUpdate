@@ -37,3 +37,10 @@ export function hexWithOpacity(hex: string, opacity: number) {
   // Return the original hex color with appended alpha value
   return `#${hex}${alpha}`;
 }
+
+export const logout = () => {
+  localStorage.clear();
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const from = encodeURIComponent(`${basePath}/`);
+  window.location.href = `${basePath}/next-api/auth/logout?from=${from}`;
+};

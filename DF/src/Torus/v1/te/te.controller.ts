@@ -1,3 +1,4 @@
+
 import { BadRequestException, Body, Req, Controller, Headers,  Logger,Post,UsePipes,ValidationPipe,} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { TeService } from './te.service';
@@ -6,7 +7,6 @@ import { pfDto, teSaveDto } from 'src/dto';
 import { LockService } from 'src/lock.service';
 import { CustomException } from 'src/customException';
 import { RedisService } from 'src/redisService';
-import { ListenerService } from './listener.service';
 
 
 
@@ -16,8 +16,7 @@ import { ListenerService } from './listener.service';
 export class TeController {
   constructor (private readonly teService:TeService,private readonly apiService:CommonService,
     private readonly lockservice:LockService,
-    private readonly redisService:RedisService,private readonly listenerService:ListenerService,   
-  ){}
+    private readonly redisService:RedisService,  ){}
   private readonly logger = new Logger(TeController.name);
 
   @Post('eventEmitter')
@@ -37,74 +36,6 @@ export class TeController {
       return result;
     }
 
-    // Fetch flowSummary once
-    const flowSummary = JSON.parse(await this.redisService.getJsonData(pfdto.key + 'PFS', client))
-    let TimeInterval, milliseconds
-
-    // Parallel processing of scheduler and interval nodes
-    if (flowSummary?.length > 0) {
-      const schedulerNodes = flowSummary.filter(f => f.nodeType == 'schedulernode' && currentFabric == 'PF-SCDL');
-      const intervalNodes = flowSummary.filter(f => f.nodeType == 'intervalnode' && currentFabric == 'PF-SCDL');
-
-      // Parallel fetch of scheduler nodes
-      if (schedulerNodes.length > 0) {
-        const schedulerPromises = schedulerNodes.map(node =>
-          this.redisService.getJsonDataWithPath(pfdto.key + 'NDP', '.' + node.nodeId, client)
-        );
-        const schedulerResults = await Promise.all(schedulerPromises);
-
-        for (const result of schedulerResults) {
-          if (result) {
-            const schedulerNode = JSON.parse(result);
-            const schInterval = schedulerNode?.data?.pro?.value?.schedulerInfo?.value?.interval;
-            if (schInterval) {
-              TimeInterval = `${schInterval?.seconds?.value} ${schInterval.minutes?.value} ${schInterval.hours?.value} ${schInterval.dayOfmonth?.value} ${schInterval.months?.value} ${schInterval.dayOfweek?.value}`;
-              break; // Take first valid interval
-            }
-          }
-        }
-      }
-
-      // Parallel fetch of interval nodes
-      if (intervalNodes.length > 0 && !TimeInterval) {
-        const intervalPromises = intervalNodes.map(node =>
-          this.redisService.getJsonDataWithPath(pfdto.key + 'NDP', '.' + node.nodeId, client)
-        );
-        const intervalResults = await Promise.all(intervalPromises);
-
-        for (const result of intervalResults) {
-          if (result) {
-            const schedulerNode = JSON.parse(result);
-            milliseconds = schedulerNode?.data?.pro?.milliseconds?.value;
-            if (milliseconds) break; // Take first valid milliseconds
-          }
-        }
-      }
-    }
-
-    // Extract jobname once (reused for both TimeInterval and milliseconds)
-    const keyname = pfdto?.key.split(':');
-    const jobname = ((keyname[1] + keyname[5] + keyname[7] + keyname[9] + keyname[11] + keyname[13]).replace(/[-_]/g, '')).replace(/\s+/g, '');
-
-    // Handle TimeInterval
-    if (TimeInterval) {
-      if (pfdto.schedulerStatus == 'active') {
-        await this.listenerService.startCronJob(jobname, TimeInterval, pfdto, client, pfdto.token);
-        return 'scheduler started';
-      } else if (pfdto.schedulerStatus == 'inactive') {
-        await this.listenerService.stopCron(jobname);
-        return 'scheduler stopped';
-      }
-    }
-
-    // Handle milliseconds interval
-    if (milliseconds) {
-      if (pfdto.schedulerStatus == 'active') {
-        return await this.listenerService.startInterval(jobname, milliseconds, pfdto, client, pfdto.token);
-      } else if (pfdto.schedulerStatus == 'inactive') {
-        return await this.listenerService.stopIntervalJob(jobname);
-      }
-    }
 
     // Handle regular event emission
       if (!pfdto.upId) {

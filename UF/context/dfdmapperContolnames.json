@@ -1,2944 +1,639 @@
 
 {
   "Canvasroot": [],
-  "tran_main_group1dc7f": [],
-  "ca12c2b73e5b4e6fb12328ecdb75e076": {
-    "source": "outbound_or_inbound",
-    "target": "outbound_or_inbound",
-    "controlName": "outbound_or_inbound"
-  },
-  "22571c749d1a41599018e5b102214cf0": {
+  "6504b641337449efa94749902a6ba2ac": {
     "source": "search",
     "target": "search",
     "controlName": "search"
   },
-  "1488accb65c54630ad1055230e0313d0": {
-    "source": "refresh",
-    "target": "refresh",
-    "controlName": "refresh"
-  },
-  "2e0bbfd05cfa4a23a2320b6369fcb505": {
-    "source": "download",
-    "target": "download",
-    "controlName": "download"
-  },
-  "2a98d70b71d24d5699d6ff120057f5db": {
-    "source": "new_payment",
-    "target": "new_payment",
-    "controlName": "new_payment"
-  },
-  "tran_tab_group08b64": [
-    "outbound_or_inbound",
-    "search",
-    "refresh",
-    "download",
-    "new_payment"
+  "groupb7cd7": [
+    "search"
   ],
-  "view_all_tab4a963": [],
-  "6886a01b99c74a51bd9e0c0d608b0df6": {
-    "source": "trs_created_date",
-    "target": "value_date_view_all",
+  "5be6bd9d106949d28fcffdcc8a30de1c": {
+    "source": "country",
+    "target": "country",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.trs_created_date"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:advance_search:AFVK:v1|f46bdd6636f04d06acd608adb3ca2db3|items.properties.country"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|07c6ad4e30df44ddb49e3e9542ac9e87|6886a01b99c74a51bd9e0c0d608b0df6"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:ad_search_table:AFVK:v1|0076e480888e46f2a4a89dadcac03366|5be6bd9d106949d28fcffdcc8a30de1c"
       }
     ],
-    "controlName": "value_date_view_all"
+    "controlName": "country"
   },
-  "1714b6cab5d945e798bef17ea9d33724": {
-    "source": "dr_account",
-    "target": "dr_account_view_all",
+  "b50fef887ce14624bffc2005f7e64484": {
+    "source": "state",
+    "target": "state",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_account"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:advance_search:AFVK:v1|f46bdd6636f04d06acd608adb3ca2db3|items.properties.state"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|07c6ad4e30df44ddb49e3e9542ac9e87|1714b6cab5d945e798bef17ea9d33724"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:ad_search_table:AFVK:v1|0076e480888e46f2a4a89dadcac03366|b50fef887ce14624bffc2005f7e64484"
       }
     ],
-    "controlName": "dr_account_view_all"
+    "controlName": "state"
   },
-  "0d0d3de2a9fd4ca696561eb408dc0a46": {
-    "source": "dr_name",
-    "target": "dr_name_view_all",
+  "8fc62e2e1f0b4f41971102d4ab66c663": {
+    "source": "city",
+    "target": "city",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_name"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:advance_search:AFVK:v1|f46bdd6636f04d06acd608adb3ca2db3|items.properties.city"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|07c6ad4e30df44ddb49e3e9542ac9e87|0d0d3de2a9fd4ca696561eb408dc0a46"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:ad_search_table:AFVK:v1|0076e480888e46f2a4a89dadcac03366|8fc62e2e1f0b4f41971102d4ab66c663"
       }
     ],
-    "controlName": "dr_name_view_all"
+    "controlName": "city"
   },
-  "86a4ac7388dc4d1d9eef58f465a54da6": {
-    "source": "dr_currency",
-    "target": "dr_currency_view_all",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_currency"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|07c6ad4e30df44ddb49e3e9542ac9e87|86a4ac7388dc4d1d9eef58f465a54da6"
-      }
-    ],
-    "controlName": "dr_currency_view_all"
-  },
-  "a0557be08c13450ca2d0fa71d0988d6b": {
-    "source": "dr_amount",
-    "target": "dr_amount_view_all",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|07c6ad4e30df44ddb49e3e9542ac9e87|a0557be08c13450ca2d0fa71d0988d6b"
-      }
-    ],
-    "controlName": "dr_amount_view_all"
-  },
-  "8a4786b17fc148c8873bc8c61b2d4b39": {
-    "source": "cr_account",
-    "target": "cr_account_view_all",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|07c6ad4e30df44ddb49e3e9542ac9e87|8a4786b17fc148c8873bc8c61b2d4b39"
-      }
-    ],
-    "controlName": "cr_account_view_all"
-  },
-  "25fc69365029476bad5a927c07419d14": {
-    "source": "cr_name",
-    "target": "cr_name_view_all",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_name"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|07c6ad4e30df44ddb49e3e9542ac9e87|25fc69365029476bad5a927c07419d14"
-      }
-    ],
-    "controlName": "cr_name_view_all"
-  },
-  "44a99a26b16b4e7087c406f1c7782afd": {
-    "source": "cr_currency",
-    "target": "cr_currency_view_all",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_currency"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|07c6ad4e30df44ddb49e3e9542ac9e87|44a99a26b16b4e7087c406f1c7782afd"
-      }
-    ],
-    "controlName": "cr_currency_view_all"
-  },
-  "b032ac74cd7b4fdfa9e4fa99d1047e6b": {
-    "source": "cr_amount",
-    "target": "cr_amount_view_all",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|07c6ad4e30df44ddb49e3e9542ac9e87|b032ac74cd7b4fdfa9e4fa99d1047e6b"
-      }
-    ],
-    "controlName": "cr_amount_view_all"
-  },
-  "97295868dcc94f3188e9b4593aaef1ca": {
-    "source": "vgphstm_uuid",
-    "target": "uuid_view_all",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.vgphstm_uuid"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|07c6ad4e30df44ddb49e3e9542ac9e87|97295868dcc94f3188e9b4593aaef1ca"
-      }
-    ],
-    "controlName": "uuid_view_all"
-  },
-  "2bad4913a3fd42eca067d717959569cf": {
-    "source": "process_type",
-    "target": "view_process_type",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.process_type"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|07c6ad4e30df44ddb49e3e9542ac9e87|2bad4913a3fd42eca067d717959569cf"
-      }
-    ],
-    "controlName": "view_process_type"
-  },
-  "view_all_tablec9e87": [
-    "trs_created_date",
-    "dr_account",
-    "dr_name",
-    "dr_currency",
-    "dr_amount",
-    "cr_account",
-    "cr_name",
-    "cr_currency",
-    "cr_amount",
-    "vgphstm_uuid",
-    "process_type"
+  "advancesearchtable03366": [
+    "country",
+    "state",
+    "city"
   ],
-  "ee058e89a99c4b139fdad115366d3ae9": {
-    "source": "vgphstm_uuid",
-    "target": "view_all_journey",
+  "ebf660ac15404ba387e5a0c7735f4a44": {
+    "source": "country",
+    "target": "advancesearch",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:journey:AFVK:v1|0f0ab463021546318f4ee4408eea68c4|properties.vgphstm_uuid"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:advance_search:AFVK:v1|f46bdd6636f04d06acd608adb3ca2db3|items.properties.country",
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:advance_search:AFVK:v1|f46bdd6636f04d06acd608adb3ca2db3|items.properties.state",
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:advance_search:AFVK:v1|f46bdd6636f04d06acd608adb3ca2db3|items.properties.city"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|2d439c34493f4559866a2ed55ea67ce4|ee058e89a99c4b139fdad115366d3ae9"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:ad_search:AFVK:v1|3251c71e9b52454380522b6a5a5a9081|ebf660ac15404ba387e5a0c7735f4a44"
       }
     ],
-    "controlName": "view_all_journey"
+    "controlName": "advancesearch"
   },
-  "view_all_journey_group67ce4": [
-    "vgphstm_uuid"
+  "advancegroupa9081": [
+    "country"
   ],
-  "failure_queue_tab69f01": [],
-  "ce17cbf604204322af1a053983212297": {
-    "source": "trs_created_date",
-    "target": "value_date_failure_queue",
+  "dfb1ceb6e8e34c99ad3e9788e9dcf891": {
+    "source": "country",
+    "target": "barchart",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.trs_created_date"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:combo_dfd:AFVK:v1|bc35a43779594592bfa1aaa0c033b476|items.properties.country",
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:combo_dfd:AFVK:v1|bc35a43779594592bfa1aaa0c033b476|items.properties.state",
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:combo_dfd:AFVK:v1|bc35a43779594592bfa1aaa0c033b476|items.properties.city"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|30d27f3c0b15480fac0a14f04f6a476f|ce17cbf604204322af1a053983212297"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:chart:AFVK:v1|fb42a21c2f8b49c6a44ac466aeb89800|dfb1ceb6e8e34c99ad3e9788e9dcf891"
       }
     ],
-    "controlName": "value_date_failure_queue"
+    "controlName": "barchart"
   },
-  "59e49adb362547729394d8b656f42953": {
-    "source": "dr_account",
-    "target": "dr_account_failure_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|30d27f3c0b15480fac0a14f04f6a476f|59e49adb362547729394d8b656f42953"
-      }
-    ],
-    "controlName": "dr_account_failure_queue"
-  },
-  "3658db216f6545cc97e2502cf3503c86": {
-    "source": "dr_name",
-    "target": "dr_name_failure_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_name"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|30d27f3c0b15480fac0a14f04f6a476f|3658db216f6545cc97e2502cf3503c86"
-      }
-    ],
-    "controlName": "dr_name_failure_queue"
-  },
-  "2586474e38b14516a9e8308d4a6f9d2d": {
-    "source": "dr_currency",
-    "target": "dr_currency_failure_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_currency"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|30d27f3c0b15480fac0a14f04f6a476f|2586474e38b14516a9e8308d4a6f9d2d"
-      }
-    ],
-    "controlName": "dr_currency_failure_queue"
-  },
-  "48bbb04b92d246669c4b7cc3fbb95d4e": {
-    "source": "dr_amount",
-    "target": "dr_amount_failure_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|30d27f3c0b15480fac0a14f04f6a476f|48bbb04b92d246669c4b7cc3fbb95d4e"
-      }
-    ],
-    "controlName": "dr_amount_failure_queue"
-  },
-  "cbf30eef44a74063a2bdbe0dbc1a7246": {
-    "source": "cr_account",
-    "target": "cr_account_failure_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|30d27f3c0b15480fac0a14f04f6a476f|cbf30eef44a74063a2bdbe0dbc1a7246"
-      }
-    ],
-    "controlName": "cr_account_failure_queue"
-  },
-  "28464320c21d47eb87ddd3eadb357c4d": {
-    "source": "cr_name",
-    "target": "cr_name_failure_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_name"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|30d27f3c0b15480fac0a14f04f6a476f|28464320c21d47eb87ddd3eadb357c4d"
-      }
-    ],
-    "controlName": "cr_name_failure_queue"
-  },
-  "777ef03df3244d24894ac43c0bc09d7a": {
-    "source": "cr_currency",
-    "target": "cr_currency_failure_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_currency"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|30d27f3c0b15480fac0a14f04f6a476f|777ef03df3244d24894ac43c0bc09d7a"
-      }
-    ],
-    "controlName": "cr_currency_failure_queue"
-  },
-  "58d15bd0bce341d69929ea6de6a0aef8": {
-    "source": "cr_amount",
-    "target": "cr_amount_failure_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|30d27f3c0b15480fac0a14f04f6a476f|58d15bd0bce341d69929ea6de6a0aef8"
-      }
-    ],
-    "controlName": "cr_amount_failure_queue"
-  },
-  "5fd0c91ebd1e4aa78c766be9694b7b55": {
-    "source": "vgphstm_uuid",
-    "target": "uuid_failure_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.vgphstm_uuid"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|30d27f3c0b15480fac0a14f04f6a476f|5fd0c91ebd1e4aa78c766be9694b7b55"
-      }
-    ],
-    "controlName": "uuid_failure_queue"
-  },
-  "failure_queue_tablea476f": [
-    "trs_created_date",
-    "dr_account",
-    "dr_name",
-    "dr_currency",
-    "dr_amount",
-    "cr_account",
-    "cr_name",
-    "cr_currency",
-    "cr_amount",
-    "vgphstm_uuid"
+  "group89800": [
+    "country"
   ],
-  "7c476869eca645c99f900763d70c8638": {
-    "source": "vgphstm_uuid",
-    "target": "failure_queue_journey",
+  "a3b7095e79db4b41ace02fe8c66f4ab0": {
+    "source": "country",
+    "target": "country",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:journey:AFVK:v1|0f0ab463021546318f4ee4408eea68c4|properties.vgphstm_uuid"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:combo_dfd:AFVK:v1|bc35a43779594592bfa1aaa0c033b476|items.properties.country"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|1d92ad18583447e2a1b3f3f7a1436aba|7c476869eca645c99f900763d70c8638"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:chart:AFVK:v1|e3ede2a2fba04939ab2cf598fd23c3b1|a3b7095e79db4b41ace02fe8c66f4ab0"
       }
     ],
-    "controlName": "failure_queue_journey"
+    "controlName": "country"
   },
-  "failure_queue_journey_group36aba": [
-    "vgphstm_uuid"
+  "8205d35b9ced460780b59f4a7ab015fd": {
+    "source": "state",
+    "target": "state",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:combo_dfd:AFVK:v1|bc35a43779594592bfa1aaa0c033b476|items.properties.state"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:chart:AFVK:v1|e3ede2a2fba04939ab2cf598fd23c3b1|8205d35b9ced460780b59f4a7ab015fd"
+      }
+    ],
+    "controlName": "state"
+  },
+  "8fc3dcf0e4a3487698c871806a1fc3b9": {
+    "source": "city",
+    "target": "city",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:combo_dfd:AFVK:v1|bc35a43779594592bfa1aaa0c033b476|items.properties.city"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:chart:AFVK:v1|e3ede2a2fba04939ab2cf598fd23c3b1|8fc3dcf0e4a3487698c871806a1fc3b9"
+      }
+    ],
+    "controlName": "city"
+  },
+  "table3c3b1": [
+    "country",
+    "state",
+    "city"
   ],
-  "success_queue_tabef582": [],
-  "d28d6e27d1d64f28a89a6e3d81e7c209": {
-    "source": "trs_created_date",
-    "target": "value_date_success_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.trs_created_date"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|479889fb285d4c6ba08dce5b04663aae|d28d6e27d1d64f28a89a6e3d81e7c209"
-      }
-    ],
-    "controlName": "value_date_success_queue"
-  },
-  "595590e11f0b493a8898af7a463eddaf": {
-    "source": "dr_account",
-    "target": "dr_account_success_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|479889fb285d4c6ba08dce5b04663aae|595590e11f0b493a8898af7a463eddaf"
-      }
-    ],
-    "controlName": "dr_account_success_queue"
-  },
-  "cdf1ef1529a94f9d9e65d323337c805b": {
-    "source": "dr_name",
-    "target": "dr_name_success_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_name"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|479889fb285d4c6ba08dce5b04663aae|cdf1ef1529a94f9d9e65d323337c805b"
-      }
-    ],
-    "controlName": "dr_name_success_queue"
-  },
-  "61c62624e3bb467bac88de015b710a49": {
-    "source": "dr_currency",
-    "target": "dr_currency_operational_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_currency"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|479889fb285d4c6ba08dce5b04663aae|61c62624e3bb467bac88de015b710a49"
-      }
-    ],
-    "controlName": "dr_currency_operational_pending"
-  },
-  "f3f0482ecb1a4934abd9cc71594da254": {
-    "source": "dr_amount",
-    "target": "dr_amount_success_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|479889fb285d4c6ba08dce5b04663aae|f3f0482ecb1a4934abd9cc71594da254"
-      }
-    ],
-    "controlName": "dr_amount_success_queue"
-  },
-  "bbe8cdacd0de4b91b4a1546d87f60480": {
-    "source": "cr_account",
-    "target": "cr_account_success_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|479889fb285d4c6ba08dce5b04663aae|bbe8cdacd0de4b91b4a1546d87f60480"
-      }
-    ],
-    "controlName": "cr_account_success_queue"
-  },
-  "2aa66bb6dc954b4ca40f48f61eeb80d4": {
-    "source": "cr_name",
-    "target": "cr_name_success_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_name"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|479889fb285d4c6ba08dce5b04663aae|2aa66bb6dc954b4ca40f48f61eeb80d4"
-      }
-    ],
-    "controlName": "cr_name_success_queue"
-  },
-  "43467147c2fc4f6ab32956ef3382f950": {
-    "source": "cr_currency",
-    "target": "cr_currency_success_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_currency"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|479889fb285d4c6ba08dce5b04663aae|43467147c2fc4f6ab32956ef3382f950"
-      }
-    ],
-    "controlName": "cr_currency_success_queue"
-  },
-  "a572277f7389400580571ad2b95019a2": {
-    "source": "cr_amount",
-    "target": "cr_amount_success_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|479889fb285d4c6ba08dce5b04663aae|a572277f7389400580571ad2b95019a2"
-      }
-    ],
-    "controlName": "cr_amount_success_queue"
-  },
-  "ac2038a77dde4116b1287e73995d0e34": {
-    "source": "vgphstm_uuid",
-    "target": "uuid_success_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.vgphstm_uuid"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|479889fb285d4c6ba08dce5b04663aae|ac2038a77dde4116b1287e73995d0e34"
-      }
-    ],
-    "controlName": "uuid_success_queue"
-  },
-  "success_queue_table63aae": [
-    "trs_created_date",
-    "dr_account",
-    "dr_name",
-    "dr_currency",
-    "dr_amount",
-    "cr_account",
-    "cr_name",
-    "cr_currency",
-    "cr_amount",
-    "vgphstm_uuid"
-  ],
-  "335540448d9b498e84e35dd184a68ac9": {
-    "source": "vgphstm_uuid",
-    "target": "success_queue_journey",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:journey:AFVK:v1|0f0ab463021546318f4ee4408eea68c4|properties.vgphstm_uuid"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|2fa3079c690343a68140ea8d7ff755eb|335540448d9b498e84e35dd184a68ac9"
-      }
-    ],
-    "controlName": "success_queue_journey"
-  },
-  "success_queue_journey_group755eb": [
-    "vgphstm_uuid"
-  ],
-  "return_queue_tab5611e": [],
-  "9ca7ab9d7e3940cfaad75c65523e5e11": {
-    "source": "trs_created_date",
-    "target": "value_date_return_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.trs_created_date"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ce697643ace84d8d980a6e32820267f0|9ca7ab9d7e3940cfaad75c65523e5e11"
-      }
-    ],
-    "controlName": "value_date_return_queue"
-  },
-  "54bd9789ed484225b1a05080f2cbdabb": {
-    "source": "dr_account",
-    "target": "dr_account_return_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ce697643ace84d8d980a6e32820267f0|54bd9789ed484225b1a05080f2cbdabb"
-      }
-    ],
-    "controlName": "dr_account_return_queue"
-  },
-  "1c11379e2f484d8588334fad35c958c9": {
-    "source": "dr_name",
-    "target": "dr_name_return_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_name"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ce697643ace84d8d980a6e32820267f0|1c11379e2f484d8588334fad35c958c9"
-      }
-    ],
-    "controlName": "dr_name_return_queue"
-  },
-  "ece48aad8ed04ae6a4cbda30fcae94b2": {
-    "source": "dr_currency",
-    "target": "dr_currency_return_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_currency"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ce697643ace84d8d980a6e32820267f0|ece48aad8ed04ae6a4cbda30fcae94b2"
-      }
-    ],
-    "controlName": "dr_currency_return_queue"
-  },
-  "b8d9ecec71ce466fb29c016d1512f324": {
-    "source": "dr_amount",
-    "target": "dr_amount_return_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ce697643ace84d8d980a6e32820267f0|b8d9ecec71ce466fb29c016d1512f324"
-      }
-    ],
-    "controlName": "dr_amount_return_queue"
-  },
-  "ddd45023f46541b683b720c3f7021a57": {
-    "source": "cr_account",
-    "target": "cr_account_return_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ce697643ace84d8d980a6e32820267f0|ddd45023f46541b683b720c3f7021a57"
-      }
-    ],
-    "controlName": "cr_account_return_queue"
-  },
-  "fc9d1ff2be144f4f96d2500883f13fec": {
-    "source": "cr_name",
-    "target": "cr_name_return_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_name"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ce697643ace84d8d980a6e32820267f0|fc9d1ff2be144f4f96d2500883f13fec"
-      }
-    ],
-    "controlName": "cr_name_return_queue"
-  },
-  "74e481887e6c4be691e1e4e7fd4f37f7": {
-    "source": "cr_currency",
-    "target": "cr_currency_return_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_currency"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ce697643ace84d8d980a6e32820267f0|74e481887e6c4be691e1e4e7fd4f37f7"
-      }
-    ],
-    "controlName": "cr_currency_return_queue"
-  },
-  "2611d06a74d044579f6acd8e6c395903": {
-    "source": "cr_amount",
-    "target": "cr_amount_return_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ce697643ace84d8d980a6e32820267f0|2611d06a74d044579f6acd8e6c395903"
-      }
-    ],
-    "controlName": "cr_amount_return_queue"
-  },
-  "ad7a6cf3e7aa4234be6d8b21a789fa04": {
-    "source": "vgphstm_uuid",
-    "target": "uuid_return_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.vgphstm_uuid"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ce697643ace84d8d980a6e32820267f0|ad7a6cf3e7aa4234be6d8b21a789fa04"
-      }
-    ],
-    "controlName": "uuid_return_queue"
-  },
-  "return_queue_table267f0": [
-    "trs_created_date",
-    "dr_account",
-    "dr_name",
-    "dr_currency",
-    "dr_amount",
-    "cr_account",
-    "cr_name",
-    "cr_currency",
-    "cr_amount",
-    "vgphstm_uuid"
-  ],
-  "a154ca0794ff4aad816079704e7cc9d3": {
-    "source": "vgphstm_uuid",
-    "target": "return_queue_journey",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:journey:AFVK:v1|0f0ab463021546318f4ee4408eea68c4|properties.vgphstm_uuid"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|60afebff1f5a468fa8427d3070192c55|a154ca0794ff4aad816079704e7cc9d3"
-      }
-    ],
-    "controlName": "return_queue_journey"
-  },
-  "return_queue_journey_group92c55": [
-    "vgphstm_uuid"
-  ],
-  "operational_pending_tab67331": [],
-  "d11f4ad2b0a943bcafea5e9145a6ecd4": {
-    "source": "trs_created_date",
-    "target": "value_date_operational_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.trs_created_date"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ec0fa3b3e01145269d4d5b2823e0a253|d11f4ad2b0a943bcafea5e9145a6ecd4"
-      }
-    ],
-    "controlName": "value_date_operational_pending"
-  },
-  "5bb2df944c4f4e0ab4ef93d2a792ab87": {
-    "source": "dr_account",
-    "target": "dr_account_name_operational_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ec0fa3b3e01145269d4d5b2823e0a253|5bb2df944c4f4e0ab4ef93d2a792ab87"
-      }
-    ],
-    "controlName": "dr_account_name_operational_pending"
-  },
-  "49079c59a64a4c5da184e8f17e4a8ff6": {
-    "source": "dr_name",
-    "target": "dr_name_operational_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_name"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ec0fa3b3e01145269d4d5b2823e0a253|49079c59a64a4c5da184e8f17e4a8ff6"
-      }
-    ],
-    "controlName": "dr_name_operational_pending"
-  },
-  "e166a02c14be46a2987d913a2b85146b": {
-    "source": "dr_currency",
-    "target": "dr_currency_operational_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_currency"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ec0fa3b3e01145269d4d5b2823e0a253|e166a02c14be46a2987d913a2b85146b"
-      }
-    ],
-    "controlName": "dr_currency_operational_pending"
-  },
-  "57cd4c3f3bd54284a2ebf0fffd670e3f": {
-    "source": "dr_amount",
-    "target": "dr_amount_operational_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ec0fa3b3e01145269d4d5b2823e0a253|57cd4c3f3bd54284a2ebf0fffd670e3f"
-      }
-    ],
-    "controlName": "dr_amount_operational_pending"
-  },
-  "db1f68733de84db09de40abe932f9a9c": {
-    "source": "cr_account",
-    "target": "cr_account_operational_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ec0fa3b3e01145269d4d5b2823e0a253|db1f68733de84db09de40abe932f9a9c"
-      }
-    ],
-    "controlName": "cr_account_operational_pending"
-  },
-  "a685b0ecc4554a53974559b5c1dbce21": {
-    "source": "cr_name",
-    "target": "cr_name_operational_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_name"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ec0fa3b3e01145269d4d5b2823e0a253|a685b0ecc4554a53974559b5c1dbce21"
-      }
-    ],
-    "controlName": "cr_name_operational_pending"
-  },
-  "8c409521cfe3450ca9e3288c3ff282bc": {
-    "source": "cr_currency",
-    "target": "cr_currency_operational_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_currency"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ec0fa3b3e01145269d4d5b2823e0a253|8c409521cfe3450ca9e3288c3ff282bc"
-      }
-    ],
-    "controlName": "cr_currency_operational_pending"
-  },
-  "ce40f5734b5a4fa5bd7cd210f5f0df81": {
-    "source": "cr_amount",
-    "target": "cr_amount_operational_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ec0fa3b3e01145269d4d5b2823e0a253|ce40f5734b5a4fa5bd7cd210f5f0df81"
-      }
-    ],
-    "controlName": "cr_amount_operational_pending"
-  },
-  "6ed1f0b74cf24e90856e6bc6c81770f9": {
-    "source": "new_payment_chk_approve_btn",
-    "target": "new_payment_chk_approve_btn",
-    "controlName": "new_payment_chk_approve_btn"
-  },
-  "432c367acd334b9f9f834e0fb964c9a0": {
-    "source": "new_payment_chk_send_to_maker_btn",
-    "target": "new_payment_chk_send_to_maker_btn",
-    "controlName": "new_payment_chk_send_to_maker_btn"
-  },
-  "7399f283e7b640499b32d049bde00488": {
-    "source": "view_details",
-    "target": "view_details",
-    "controlName": "view_details"
-  },
-  "71a161dedb1347609b21adcb3f89a97b": {
-    "source": "repair",
-    "target": "repair",
-    "controlName": "repair"
-  },
-  "94bbac4ce05a41f888fd3c637c3eb172": {
-    "source": "vgphstm_uuid",
-    "target": "uuid_operational_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.vgphstm_uuid"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ec0fa3b3e01145269d4d5b2823e0a253|94bbac4ce05a41f888fd3c637c3eb172"
-      }
-    ],
-    "controlName": "uuid_operational_pending"
-  },
-  "3dfa7d00f99a4a888e4de0bf23111519": {
-    "source": "trs_status",
-    "target": "trs_status",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.trs_status"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|ec0fa3b3e01145269d4d5b2823e0a253|3dfa7d00f99a4a888e4de0bf23111519"
-      }
-    ],
-    "controlName": "trs_status"
-  },
-  "09f2e1426cd74615aac87a0179f0765b": {
-    "source": "reverse_posting",
-    "target": "reverse_posting",
-    "controlName": "reverse_posting"
-  },
-  "operational_pending_table0a253": [
-    "trs_created_date",
-    "dr_account",
-    "dr_name",
-    "dr_currency",
-    "dr_amount",
-    "cr_account",
-    "cr_name",
-    "cr_currency",
-    "cr_amount",
-    "new_payment_chk_approve_btn",
-    "new_payment_chk_send_to_maker_btn",
-    "view_details",
-    "repair",
-    "vgphstm_uuid",
-    "trs_status",
-    "reverse_posting"
-  ],
-  "bd86178cd9cb4f569011ec99c431a1a5": {
-    "source": "vgphstm_uuid",
-    "target": "operational_pending_journey",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:journey:AFVK:v1|0f0ab463021546318f4ee4408eea68c4|properties.vgphstm_uuid"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|e99523c5df50475e83c05552ec463667|bd86178cd9cb4f569011ec99c431a1a5"
-      }
-    ],
-    "controlName": "operational_pending_journey"
-  },
-  "operational_pending_journey_group63667": [
-    "vgphstm_uuid"
-  ],
-  "technical_pending_tab0b23f": [],
-  "7b7981705c4e49f78e41585489511fe0": {
-    "source": "trs_created_date",
-    "target": "value_date_technical_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.trs_created_date"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|aa1e672fa7b94d048045b51e2f984f30|7b7981705c4e49f78e41585489511fe0"
-      }
-    ],
-    "controlName": "value_date_technical_pending"
-  },
-  "d38a7eea4288488cb31935b864fe182f": {
-    "source": "dr_account",
-    "target": "dr_account_technical_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|aa1e672fa7b94d048045b51e2f984f30|d38a7eea4288488cb31935b864fe182f"
-      }
-    ],
-    "controlName": "dr_account_technical_pending"
-  },
-  "d9e17b2e1fc84b69b039abb968fbc6bb": {
-    "source": "dr_name",
-    "target": "dr_name_technical_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_name"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|aa1e672fa7b94d048045b51e2f984f30|d9e17b2e1fc84b69b039abb968fbc6bb"
-      }
-    ],
-    "controlName": "dr_name_technical_pending"
-  },
-  "c197f87e030342edb593ea3ed7ebc856": {
-    "source": "dr_currency",
-    "target": "dr_currency_technical_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_currency"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|aa1e672fa7b94d048045b51e2f984f30|c197f87e030342edb593ea3ed7ebc856"
-      }
-    ],
-    "controlName": "dr_currency_technical_pending"
-  },
-  "304825dbbc8a4b098d8c2d2574d5e6cc": {
-    "source": "dr_amount",
-    "target": "dr_amount_technical_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|aa1e672fa7b94d048045b51e2f984f30|304825dbbc8a4b098d8c2d2574d5e6cc"
-      }
-    ],
-    "controlName": "dr_amount_technical_pending"
-  },
-  "fdd4305f838849ecafcec1d28ed3c4aa": {
-    "source": "cr_account",
-    "target": "cr_account_technical_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|aa1e672fa7b94d048045b51e2f984f30|fdd4305f838849ecafcec1d28ed3c4aa"
-      }
-    ],
-    "controlName": "cr_account_technical_pending"
-  },
-  "a5607c4e96364f51abddb0ec4211bc34": {
-    "source": "cr_name",
-    "target": "cr_name_technical_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_name"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|aa1e672fa7b94d048045b51e2f984f30|a5607c4e96364f51abddb0ec4211bc34"
-      }
-    ],
-    "controlName": "cr_name_technical_pending"
-  },
-  "3f12c71aa2dd4b8dbcfc8560cb678349": {
-    "source": "cr_currency",
-    "target": "cr_currency_technical_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_currency"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|aa1e672fa7b94d048045b51e2f984f30|3f12c71aa2dd4b8dbcfc8560cb678349"
-      }
-    ],
-    "controlName": "cr_currency_technical_pending"
-  },
-  "47926a6440c040439f4fafb21d6738a2": {
-    "source": "cr_amount",
-    "target": "cr_amount_technical_pending",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|aa1e672fa7b94d048045b51e2f984f30|47926a6440c040439f4fafb21d6738a2"
-      }
-    ],
-    "controlName": "cr_amount_technical_pending"
-  },
-  "e6313d8dd93044faac2d0f4df9d73334": {
-    "source": "vgphstm_uuid",
-    "target": "uuid_failure_queue",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.vgphstm_uuid"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|aa1e672fa7b94d048045b51e2f984f30|e6313d8dd93044faac2d0f4df9d73334"
-      }
-    ],
-    "controlName": "uuid_failure_queue"
-  },
-  "technical_pending_table84f30": [
-    "trs_created_date",
-    "dr_account",
-    "dr_name",
-    "dr_currency",
-    "dr_amount",
-    "cr_account",
-    "cr_name",
-    "cr_currency",
-    "cr_amount",
-    "vgphstm_uuid"
-  ],
-  "f23ecfbf57734c84892474e797f6601c": {
-    "source": "vgphstm_uuid",
-    "target": "technical_pending_journey",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:journey:AFVK:v1|0f0ab463021546318f4ee4408eea68c4|properties.vgphstm_uuid"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1|c7d2a9c0c8474e86a5fc7d3544be4f03|f23ecfbf57734c84892474e797f6601c"
-      }
-    ],
-    "controlName": "technical_pending_journey"
-  },
-  "technical_pending_journey_groupe4f03": [
-    "vgphstm_uuid"
-  ],
-  "bc7811490cc642238540124600752f90": {
-    "source": "top_divider",
-    "target": "top_divider",
-    "controlName": "top_divider"
-  },
-  "acf1d258656b47358f9b6d8a5a12cea8": {
-    "source": "trs_created_date",
-    "target": "trs_created_date",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.trs_created_date"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionSearch:AFVK:v1|526f0e58d5454270aca67c481a99066f|acf1d258656b47358f9b6d8a5a12cea8"
-      }
-    ],
-    "controlName": "trs_created_date"
-  },
-  "f2138b56e9f04f25b97ae414d73963e4": {
-    "source": "dr_account",
-    "target": "debtor_account_no",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionSearch:AFVK:v1|526f0e58d5454270aca67c481a99066f|f2138b56e9f04f25b97ae414d73963e4"
-      }
-    ],
-    "controlName": "debtor_account_no"
-  },
-  "02ea918896784a32a595a828d70e2d9f": {
-    "source": "dr_name",
-    "target": "debtor_name",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_name"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionSearch:AFVK:v1|526f0e58d5454270aca67c481a99066f|02ea918896784a32a595a828d70e2d9f"
-      }
-    ],
-    "controlName": "debtor_name"
-  },
-  "33aedd45e57047308cb6e699151ca692": {
-    "source": "cr_account",
-    "target": "creditor_account_no",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionSearch:AFVK:v1|526f0e58d5454270aca67c481a99066f|33aedd45e57047308cb6e699151ca692"
-      }
-    ],
-    "controlName": "creditor_account_no"
-  },
-  "6467c1c317e34e8fa69079e3b48703d2": {
-    "source": "cr_currency",
-    "target": "payment_currency",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.cr_currency",
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:forexCurrencyDropDownDfd:AFVK:v1|5550064328cc444a9297f6c7ee1cf577|properties.currency_code"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionSearch:AFVK:v1|526f0e58d5454270aca67c481a99066f|6467c1c317e34e8fa69079e3b48703d2"
-      },
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:forexCurrencyDropDownDfd:AFVK:v1|5550064328cc444a9297f6c7ee1cf577|properties.currency_code"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionSearch:AFVK:v1|526f0e58d5454270aca67c481a99066f|6467c1c317e34e8fa69079e3b48703d2|value"
-      },
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:forexCurrencyDropDownDfd:AFVK:v1|5550064328cc444a9297f6c7ee1cf577|properties.currency_code"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionSearch:AFVK:v1|526f0e58d5454270aca67c481a99066f|6467c1c317e34e8fa69079e3b48703d2|text"
-      }
-    ],
-    "controlName": "payment_currency"
-  },
-  "9a3236945d3940fa946c124e7c7042b1": {
-    "source": "dr_amount",
-    "target": "payment_amount",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.dr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionSearch:AFVK:v1|526f0e58d5454270aca67c481a99066f|9a3236945d3940fa946c124e7c7042b1"
-      }
-    ],
-    "controlName": "payment_amount"
-  },
-  "145647b72a0f4d5baea6bcf29cb29c9f": {
-    "source": "vgphstm_uuid",
-    "target": "uuid",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.vgphstm_uuid"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionSearch:AFVK:v1|526f0e58d5454270aca67c481a99066f|145647b72a0f4d5baea6bcf29cb29c9f"
-      }
-    ],
-    "controlName": "uuid"
-  },
-  "d9a26bb02dd843dbabb84b9db334bd75": {
-    "source": "trs_status",
-    "target": "status",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.trs_status"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionSearch:AFVK:v1|526f0e58d5454270aca67c481a99066f|d9a26bb02dd843dbabb84b9db334bd75"
-      }
-    ],
-    "controlName": "status"
-  },
-  "dc33c0c2e07c4e309c21861a311b9220": {
-    "source": "bottom_divider",
-    "target": "bottom_divider",
-    "controlName": "bottom_divider"
-  },
-  "b7e783cb935e4e2c99233c9b3460e695": {
-    "source": "search",
-    "target": "search",
-    "controlName": "search"
-  },
-  "b9986785ff9446e2b718d7866dbeddfa": {
-    "source": "clear",
-    "target": "clear",
-    "controlName": "clear"
-  },
-  "main_group9066f": [
-    "top_divider",
-    "trs_created_date",
-    "dr_account",
-    "dr_name",
-    "cr_account",
-    "cr_currency",
-    "dr_amount",
-    "vgphstm_uuid",
-    "trs_status",
-    "bottom_divider",
-    "search",
-    "clear"
-  ],
-  "9b8e4edd435448ab98f68a59ea29df1d": {
-    "source": "url",
-    "target": "documentviewer",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:documentListDfd:AFVK:v1|73dd53f1be3447e3a58f80f3186b3266|properties.url"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|2f07f01a54904a4c93e25f47cda01c61|9b8e4edd435448ab98f68a59ea29df1d"
-      }
-    ],
-    "controlName": "documentviewer"
-  },
-  "overallgroup01c61": [
-    "url"
-  ],
-  "controlgroupda197": [],
-  "control_tab_groupbc3e2": [],
-  "81fd4695b5644dd8b8863c6eb6a31ce1": {
-    "source": "scan",
-    "target": "scan",
-    "controlName": "scan"
-  },
-  "8561ae7dd8c84f67ba2cb9e7fa4f14e0": {
-    "source": "folderscan",
-    "target": "folderscan",
-    "controlName": "folderScan"
-  },
-  "0ac0ff5de1474cdc93561e6622df2390": {
+  "0f8f7fd491ce4714853a3661642445f0": {
     "source": "save",
     "target": "save",
     "controlName": "save"
   },
-  "1606eaecab464786b4cc3669d5a2bf72": {
-    "source": "cancel",
-    "target": "cancel",
-    "controlName": "cancel"
+  "edc5ab3fa9ef4e3a8861e11c4b4423b5": {
+    "source": "edit",
+    "target": "edit",
+    "controlName": "edit"
   },
-  "f15c003da4df4213bd3f5535607ed7a9": {
-    "source": "update",
-    "target": "update",
-    "controlName": "update"
-  },
-  "13296ded9e0e4d45b1456729e6d3ad2e": {
-    "source": "signature",
-    "target": "signature",
-    "controlName": "signature"
-  },
-  "6b31c6b63ab740dd95c469e837005fe8": {
-    "source": "approve",
-    "target": "approve",
-    "controlName": "approve"
-  },
-  "11921d77b053432681d97490bb7a4797": {
-    "source": "send_to_maker",
-    "target": "send_to_maker",
-    "controlName": "send_to_maker"
-  },
-  "button_group74f3e": [
-    "scan",
-    "folderscan",
+  "group84b9c": [
     "save",
-    "cancel",
-    "update",
-    "signature",
-    "approve",
-    "send_to_maker"
+    "edit"
   ],
-  "rtgs_infofd0aa": [],
-  "allControls71c54": [],
-  "744c6dfa51e643dd920ac55b33a3a458": {
-    "source": "common_info",
-    "target": "common_info",
-    "controlName": "common_info"
+  "a9a5bd755cbc4fbca1d84abf3293c178": {
+    "source": "daily_expense",
+    "target": "daily_expense",
+    "controlName": "daily_expense"
   },
-  "2bd22037690e4c038e1c310720e27abb": {
-    "source": "dr_account",
-    "target": "dr_account",
+  "469416b65d2a47c9a07eff3cb93c83ee": {
+    "source": "expense_name",
+    "target": "expense_name",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.dr_account"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:Group_Array_dsd:AFVK:v1|de2bf16ff1b543958a63ec1f5fde63e7|items.properties.employee_detail.properties.expense_name"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|f2dd7aceaf454c72bdb1327c439f4607|2bd22037690e4c038e1c310720e27abb"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:GroupArray:AFVK:v1|05177fac499640d4bf45a199a95494e0|469416b65d2a47c9a07eff3cb93c83ee"
       }
     ],
-    "controlName": "dr_account"
+    "controlName": "expense_name"
   },
-  "5ade2207705445b0a1cfc28f43184266": {
-    "source": "dr_name",
-    "target": "dr_name",
+  "3b8d8479e3734bb7b76d452b62d0c3ca": {
+    "source": "email_id",
+    "target": "email",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.dr_name"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:Group_Array_dsd:AFVK:v1|de2bf16ff1b543958a63ec1f5fde63e7|items.properties.employee_detail.properties.email_id"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|f2dd7aceaf454c72bdb1327c439f4607|5ade2207705445b0a1cfc28f43184266"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:GroupArray:AFVK:v1|05177fac499640d4bf45a199a95494e0|3b8d8479e3734bb7b76d452b62d0c3ca"
       }
     ],
-    "controlName": "dr_name"
+    "controlName": "email"
   },
-  "9549a13b6e484a73ae4865515e4b386d": {
-    "source": "dr_currency",
-    "target": "base_currency",
+  "bbf5be6f5131438696a9477fcade6e16": {
+    "source": "expense_date",
+    "target": "expense_date",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.dr_currency"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:Group_Array_dsd:AFVK:v1|de2bf16ff1b543958a63ec1f5fde63e7|items.properties.employee_detail.properties.expense_date"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|f2dd7aceaf454c72bdb1327c439f4607|9549a13b6e484a73ae4865515e4b386d"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:GroupArray:AFVK:v1|05177fac499640d4bf45a199a95494e0|bbf5be6f5131438696a9477fcade6e16"
       }
     ],
-    "controlName": "base_currency"
+    "controlName": "expense_date"
   },
-  "ef43257873b2402b995bbd79124b74f7": {
-    "source": "dr_cust_ac_sanc_lmt",
-    "target": "dr_cust_ac_sanc_lmt",
+  "78dae5d535e248a08e9a4f2c15cf03f1": {
+    "source": "claim_category",
+    "target": "claim_category",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.product_basic.properties.dr_cust_ac_sanc_lmt"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:Group_Array_dsd:AFVK:v1|de2bf16ff1b543958a63ec1f5fde63e7|items.properties.employee_detail.properties.claim_category"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|f2dd7aceaf454c72bdb1327c439f4607|ef43257873b2402b995bbd79124b74f7"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:GroupArray:AFVK:v1|05177fac499640d4bf45a199a95494e0|78dae5d535e248a08e9a4f2c15cf03f1|saveTo"
       }
     ],
-    "controlName": "dr_cust_ac_sanc_lmt"
+    "controlName": "claim_category"
   },
-  "ff81fb16b4444da4b89336717f6753dd": {
-    "source": "dr_cust_ac_balance",
-    "target": "dr_cust_ac_balance",
+  "bc4d3d30a6c44ca798c0adba83c49375": {
+    "source": "total_amount",
+    "target": "category_total_amount",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.product_basic.properties.dr_cust_ac_balance"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:Group_Array_dsd:AFVK:v1|de2bf16ff1b543958a63ec1f5fde63e7|items.properties.employee_detail.properties.total_amount"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|f2dd7aceaf454c72bdb1327c439f4607|ff81fb16b4444da4b89336717f6753dd"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:GroupArray:AFVK:v1|05177fac499640d4bf45a199a95494e0|bc4d3d30a6c44ca798c0adba83c49375"
       }
     ],
-    "controlName": "dr_cust_ac_balance"
+    "controlName": "category_total_amount"
   },
-  "commonInfof4607": [
-    "common_info",
-    "dr_account",
-    "dr_name",
-    "dr_currency",
-    "dr_cust_ac_sanc_lmt",
-    "dr_cust_ac_balance"
+  "99cd16a6c78940e0b660561bbc34f1bf": {
+    "source": "receipt_image",
+    "target": "receipt_image",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:Group_Array_dsd:AFVK:v1|de2bf16ff1b543958a63ec1f5fde63e7|items.properties.employee_detail.properties.receipt_image"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:GroupArray:AFVK:v1|05177fac499640d4bf45a199a95494e0|99cd16a6c78940e0b660561bbc34f1bf"
+      }
+    ],
+    "controlName": "receipt_image"
+  },
+  "28dc2bc8f2c4493bb1f6423f7207171e": {
+    "source": "description",
+    "target": "comments",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:Group_Array_dsd:AFVK:v1|de2bf16ff1b543958a63ec1f5fde63e7|items.properties.employee_detail.properties.description"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:GroupArray:AFVK:v1|05177fac499640d4bf45a199a95494e0|28dc2bc8f2c4493bb1f6423f7207171e"
+      }
+    ],
+    "controlName": "comments"
+  },
+  "grouparray494e0": [
+    "daily_expense",
+    "expense_name",
+    "email_id",
+    "expense_date",
+    "claim_category",
+    "total_amount",
+    "receipt_image",
+    "description"
   ],
-  "e23f360473ae46f9939e2be8ab0216f3": {
-    "source": "basic_info",
-    "target": "basic_info",
-    "controlName": "basic_info"
+  "f589b545acc140048df62db4fe464a4c": {
+    "source": "dailyexpense",
+    "target": "dailyexpense",
+    "controlName": "dailyexpense"
   },
-  "9b9f3e4a5e07422194a9c278d5b929e5": {
-    "source": "waive_charges",
-    "target": "waive_charges",
+  "0a202d94f20b43c0b683fa29c60136a1": {
+    "source": "expense_name",
+    "target": "expense_name",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.product_basic.properties.waive_charges"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1|1143fba1b035410d80b91c8996ee6d3a|responses.200.content.application/json.schema.items.properties.expense_name"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|409b134cde0449b5a031a7686df3d198|9b9f3e4a5e07422194a9c278d5b929e5"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Request_form:AFVK:v1|5a69b1d62572431ab2933ca7cf0571d2|0a202d94f20b43c0b683fa29c60136a1"
       }
     ],
-    "controlName": "waive_charges"
+    "controlName": "expense_name"
   },
-  "578d127f6fe44253be91fd1230aa818b": {
-    "source": "cr_account",
-    "target": "cr_account",
+  "5632ff5fd13545eca69e5a335f37e93b": {
+    "source": "expense_date",
+    "target": "expense_date",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.cr_account"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1|1143fba1b035410d80b91c8996ee6d3a|responses.200.content.application/json.schema.items.properties.expense_date"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|409b134cde0449b5a031a7686df3d198|578d127f6fe44253be91fd1230aa818b"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Request_form:AFVK:v1|5a69b1d62572431ab2933ca7cf0571d2|5632ff5fd13545eca69e5a335f37e93b"
       }
     ],
-    "controlName": "cr_account"
+    "controlName": "expense_date"
   },
-  "ed5ab433883844f9b9437c7fa4ba4b34": {
-    "source": "cr_name",
-    "target": "cr_name",
+  "c64559dfb23747c98eba61c497ef1c64": {
+    "source": "claim_category",
+    "target": "claim_category",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.cr_name"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1|1143fba1b035410d80b91c8996ee6d3a|responses.200.content.application/json.schema.items.properties.claim_category"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|409b134cde0449b5a031a7686df3d198|ed5ab433883844f9b9437c7fa4ba4b34"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Request_form:AFVK:v1|5a69b1d62572431ab2933ca7cf0571d2|c64559dfb23747c98eba61c497ef1c64|saveTo"
       }
     ],
-    "controlName": "cr_name"
+    "controlName": "claim_category"
   },
-  "d13bcca95ca04ab3a22ae22bcdf8a2bc": {
-    "source": "cr_bank_code",
-    "target": "cr_bank_code",
+  "5082ebc8ea1a4cab965304fa769395dd": {
+    "source": "category_total_amount",
+    "target": "category_total_amount",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:crBankCodeDropDownDfd:AFVK:v1|b3bcefa5100b40a48d55edfe1b6821cf|properties.bank_name_withsort"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1|1143fba1b035410d80b91c8996ee6d3a|responses.200.content.application/json.schema.items.properties.category_total_amount"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|409b134cde0449b5a031a7686df3d198|d13bcca95ca04ab3a22ae22bcdf8a2bc|value"
-      },
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:crBankCodeDropDownDfd:AFVK:v1|b3bcefa5100b40a48d55edfe1b6821cf|properties.sort_code"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|409b134cde0449b5a031a7686df3d198|d13bcca95ca04ab3a22ae22bcdf8a2bc|text"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Request_form:AFVK:v1|5a69b1d62572431ab2933ca7cf0571d2|5082ebc8ea1a4cab965304fa769395dd"
       }
     ],
-    "controlName": "cr_bank_code"
+    "controlName": "category_total_amount"
   },
-  "eca51347c40c453caca735963ee434eb": {
-    "source": "bank_name",
-    "target": "cr_bank_name",
+  "3fb6d6928dc44258974f28707c4b2aec": {
+    "source": "receipt_image",
+    "target": "receipt_image",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:crBankCodeDropDownDfd:AFVK:v1|b3bcefa5100b40a48d55edfe1b6821cf|properties.bank_name",
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.product_basic.properties.cr_bank_name"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1|1143fba1b035410d80b91c8996ee6d3a|responses.200.content.application/json.schema.items.properties.receipt_image"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|409b134cde0449b5a031a7686df3d198|eca51347c40c453caca735963ee434eb"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Request_form:AFVK:v1|5a69b1d62572431ab2933ca7cf0571d2|3fb6d6928dc44258974f28707c4b2aec"
       }
     ],
-    "controlName": "cr_bank_name"
+    "controlName": "receipt_image"
   },
-  "c22b200afac143a4b305b1dc87c3d26f": {
-    "source": "bic_code",
-    "target": "cr_bank_bic",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:crBankCodeDropDownDfd:AFVK:v1|b3bcefa5100b40a48d55edfe1b6821cf|properties.bic_code",
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.product_basic.properties.cr_bank_bic"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|409b134cde0449b5a031a7686df3d198|c22b200afac143a4b305b1dc87c3d26f"
-      }
-    ],
-    "controlName": "cr_bank_bic"
-  },
-  "0a03463e1db44810a36bb121eba65e0b": {
-    "source": "cr_currency",
-    "target": "forex_currency",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:forexCurrencyDropDownDfd:AFVK:v1|5550064328cc444a9297f6c7ee1cf577|properties.currency_code"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|409b134cde0449b5a031a7686df3d198|0a03463e1db44810a36bb121eba65e0b|text"
-      },
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:forexCurrencyDropDownDfd:AFVK:v1|5550064328cc444a9297f6c7ee1cf577|properties.currency_code"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|409b134cde0449b5a031a7686df3d198|0a03463e1db44810a36bb121eba65e0b|value"
-      },
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.cr_currency"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|409b134cde0449b5a031a7686df3d198|0a03463e1db44810a36bb121eba65e0b|saveTo"
-      }
-    ],
-    "controlName": "forex_currency"
-  },
-  "54d2007379c34ae88098ab09cbb88caf": {
-    "source": "exchange_rate",
-    "target": "exchange_rate",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.product_basic.properties.exchange_rate"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|409b134cde0449b5a031a7686df3d198|54d2007379c34ae88098ab09cbb88caf"
-      }
-    ],
-    "controlName": "exchange_rate"
-  },
-  "5d10ccecea1648d597de15c458de56ad": {
-    "source": "rate_code",
-    "target": "rate_code",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.product_basic.properties.rate_code"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|409b134cde0449b5a031a7686df3d198|5d10ccecea1648d597de15c458de56ad"
-      }
-    ],
-    "controlName": "rate_code"
-  },
-  "033d10c820374a4fa40de84cfeca58a5": {
-    "source": "dr_amount",
-    "target": "forex_amount",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.dr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|409b134cde0449b5a031a7686df3d198|033d10c820374a4fa40de84cfeca58a5"
-      }
-    ],
-    "controlName": "forex_amount"
-  },
-  "43669d503a94467982239c6659b3b226": {
-    "source": "cr_amount",
-    "target": "base_amount",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.cr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|409b134cde0449b5a031a7686df3d198|43669d503a94467982239c6659b3b226"
-      }
-    ],
-    "controlName": "base_amount"
-  },
-  "62b60509a8084b77bfa223a118a82399": {
-    "source": "rate_ref_no",
-    "target": "rate_ref_no",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.product_basic.properties.rate_ref_no"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|409b134cde0449b5a031a7686df3d198|62b60509a8084b77bfa223a118a82399"
-      }
-    ],
-    "controlName": "rate_ref_no"
-  },
-  "b661bda49225438eb99e8b0118ead42a": {
-    "source": "rate_cust_id",
-    "target": "rate_cust_id",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.product_basic.properties.rate_cust_id"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|409b134cde0449b5a031a7686df3d198|b661bda49225438eb99e8b0118ead42a"
-      }
-    ],
-    "controlName": "rate_cust_id"
-  },
-  "basicInfo3d198": [
-    "basic_info",
-    "waive_charges",
-    "cr_account",
-    "cr_name",
-    "cr_bank_code",
-    "cr_bank_code",
-    "bank_name",
-    "bic_code",
-    "forex_currency",
-    "forex_currency",
-    "cr_currency",
-    "exchange_rate",
-    "rate_code",
-    "dr_amount",
-    "cr_amount",
-    "rate_ref_no",
-    "rate_cust_id"
-  ],
-  "91b331fe3ba64e1382dea26580846cb8": {
-    "source": "addtional_info",
-    "target": "addtional_info",
-    "controlName": "addtional_info"
-  },
-  "d66426e83c0345ada00ee349445413bb": {
-    "source": "signature_screen",
-    "target": "signature_screen",
-    "controlName": "signature_screen"
-  },
-  "5d80022ad84947259d615c470dfba5e0": {
-    "source": "remittance_info",
-    "target": "remittance_info",
-    "controlName": "remittance_info"
-  },
-  "28554e1639da4e139f594b56061f63a3": {
-    "source": "additional_reference",
-    "target": "additional_ref",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.product_additional.properties.additional_reference"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|18c17fb7694d4c3a944cddb2c4ed2894|28554e1639da4e139f594b56061f63a3"
-      }
-    ],
-    "controlName": "additional_ref"
-  },
-  "8bccc5cda73e49509e9a95d78bfd7e47": {
-    "source": "customwidget",
-    "target": "customwidget",
-    "controlName": "customwidget"
-  },
-  "d8c63820961a4d69b4213aab865cf6fc": {
-    "source": "vgphstm_uuid",
-    "target": "vgphstm_uuid",
-    "controlName": "vgphstm_uuid"
-  },
-  "additionalInfod2894": [
-    "addtional_info",
-    "signature_screen",
-    "remittance_info",
-    "additional_reference",
-    "customwidget",
-    "vgphstm_uuid"
-  ],
-  "listgroupdcdbd": [],
-  "list_tab_groupd6905": [],
-  "document_list38c6e": [],
-  "512e5f5a301a4512b7d6bf215587c104": {
-    "source": "doc_name",
-    "target": "filename",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:documentListDfd:AFVK:v1|73dd53f1be3447e3a58f80f3186b3266|properties.doc_name"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|0999fb419263477bb8b19cf211256e97|512e5f5a301a4512b7d6bf215587c104"
-      }
-    ],
-    "controlName": "fileName"
-  },
-  "0858bc7ef7374dc9a2ce07224d9f530a": {
-    "source": "action",
-    "target": "action",
-    "controlName": "action"
-  },
-  "docListTable56e97": [
-    "doc_name",
-    "action"
-  ],
-  "validation_listae827": [],
-  "c200c748b79c40a4a2b1a69390c0c0ce": {
-    "source": "error_code",
-    "target": "vldcode",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:errorListDfd:AFVK:v1|e2a1bf0a1d4645618906bff2e32889af|properties.error_code"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|6b332e1a71dd48d3a5b440a432017ec7|c200c748b79c40a4a2b1a69390c0c0ce"
-      }
-    ],
-    "controlName": "vldCode"
-  },
-  "3900d3290ef242ecb243f68c9a72ef16": {
-    "source": "error_desc",
-    "target": "vldreason",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:errorListDfd:AFVK:v1|e2a1bf0a1d4645618906bff2e32889af|properties.error_desc"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|6b332e1a71dd48d3a5b440a432017ec7|3900d3290ef242ecb243f68c9a72ef16"
-      }
-    ],
-    "controlName": "vldReason"
-  },
-  "valdnListTable17ec7": [
-    "error_code",
-    "error_desc"
-  ],
-  "comment_list72944": [],
-  "15d64e2af4994b8ba17e13eb7b011ffa": {
+  "cb380e65e0664bb88c24afbee54e3b5b": {
     "source": "comments",
-    "target": "cmnts",
+    "target": "comments",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:commentListDfd:AFVK:v1|6b56e843346d496cb61d4538ea942742|properties.comments"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1|1143fba1b035410d80b91c8996ee6d3a|responses.200.content.application/json.schema.items.properties.comments"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|bfcb81a3220f484494becea016e02d0e|15d64e2af4994b8ba17e13eb7b011ffa"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Request_form:AFVK:v1|5a69b1d62572431ab2933ca7cf0571d2|cb380e65e0664bb88c24afbee54e3b5b"
       }
     ],
-    "controlName": "cmnts"
+    "controlName": "comments"
   },
-  "cmntListTable02d0e": [
-    "comments"
-  ],
-  "rtgs_lista0a19": [],
-  "rtgs_list_grpcf7d8": [],
-  "rtgs_list_tble_groupab24b": [],
-  "e2eec2717ed64a7ab5228f35ccf5f12f": {
-    "source": "uuid",
-    "target": "tran_id",
+  "f38b4d31dec14814aad1b71e6907e8ff": {
+    "source": "is_comment_enabled",
+    "target": "switch",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transactionListDfd:AFVK:v1|53d25bc41a37484eaad23436c6d3cfe3|properties.uuid"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1|1143fba1b035410d80b91c8996ee6d3a|responses.200.content.application/json.schema.items.properties.is_comment_enabled"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|a736657afc324e0089b1e7744632926a|e2eec2717ed64a7ab5228f35ccf5f12f"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Request_form:AFVK:v1|5a69b1d62572431ab2933ca7cf0571d2|f38b4d31dec14814aad1b71e6907e8ff"
       }
     ],
-    "controlName": "tran_id"
+    "controlName": "switch"
   },
-  "e1942377ef1946adb5fbc18ea7d469c1": {
-    "source": "dr_account",
-    "target": "dr_acnt_no",
+  "d5af046577914a0bbb51c9b79b653e8f": {
+    "source": "manager_comments",
+    "target": "checkbox",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transactionListDfd:AFVK:v1|53d25bc41a37484eaad23436c6d3cfe3|properties.dr_account"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1|1143fba1b035410d80b91c8996ee6d3a|responses.200.content.application/json.schema.items.properties.manager_comments"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|a736657afc324e0089b1e7744632926a|e1942377ef1946adb5fbc18ea7d469c1"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Request_form:AFVK:v1|5a69b1d62572431ab2933ca7cf0571d2|d5af046577914a0bbb51c9b79b653e8f"
       }
     ],
-    "controlName": "dr_acnt_no"
+    "controlName": "checkbox"
   },
-  "b1f631040e6943d2806e28e8efecb409": {
-    "source": "cr_account",
-    "target": "cr_acnt_no",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transactionListDfd:AFVK:v1|53d25bc41a37484eaad23436c6d3cfe3|properties.cr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|a736657afc324e0089b1e7744632926a|b1f631040e6943d2806e28e8efecb409"
-      }
-    ],
-    "controlName": "cr_acnt_no"
-  },
-  "ec5a857a786744c9bb97ba24889ef7a4": {
-    "source": "cr_amount",
-    "target": "amnt",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transactionListDfd:AFVK:v1|53d25bc41a37484eaad23436c6d3cfe3|properties.cr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|a736657afc324e0089b1e7744632926a|ec5a857a786744c9bb97ba24889ef7a4"
-      }
-    ],
-    "controlName": "amnt"
-  },
-  "0dbc0255d8604c7eb2c8741258e24beb": {
-    "source": "cr_bank_code",
-    "target": "cr_bank_code",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transactionListDfd:AFVK:v1|53d25bc41a37484eaad23436c6d3cfe3|properties.cr_bank_code"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|a736657afc324e0089b1e7744632926a|0dbc0255d8604c7eb2c8741258e24beb"
-      }
-    ],
-    "controlName": "cr_bank_code"
-  },
-  "dca0608b363646278066083f132e14cd": {
-    "source": "trs_created_by",
-    "target": "created_by",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transactionListDfd:AFVK:v1|53d25bc41a37484eaad23436c6d3cfe3|properties.trs_created_by"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|a736657afc324e0089b1e7744632926a|dca0608b363646278066083f132e14cd"
-      }
-    ],
-    "controlName": "created_by"
-  },
-  "d21448ee80fc4879adc9c9f970b14669": {
-    "source": "trs_created_date",
-    "target": "created_date",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transactionListDfd:AFVK:v1|53d25bc41a37484eaad23436c6d3cfe3|properties.trs_created_date"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|a736657afc324e0089b1e7744632926a|d21448ee80fc4879adc9c9f970b14669"
-      }
-    ],
-    "controlName": "created_date"
-  },
-  "rtgs_list_table2926a": [
-    "uuid",
-    "dr_account",
-    "cr_account",
-    "cr_amount",
-    "cr_bank_code",
-    "trs_created_by",
-    "trs_created_date"
-  ],
-  "group05462": [],
-  "rtgs_list_tab_grp28533": [],
-  "documnt_list3a31d": [],
-  "1611ed4193cb46519c61eade31706cd7": {
-    "source": "doc_name",
-    "target": "file_name_rtgs_list",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:documentListDfd:AFVK:v1|73dd53f1be3447e3a58f80f3186b3266|properties.doc_name"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|50633997eba74d5a8b6e1d00b0e32147|1611ed4193cb46519c61eade31706cd7"
-      }
-    ],
-    "controlName": "file_name_rtgs_list"
-  },
-  "e3e1602c0c944527a4fa61bf18acf67e": {
-    "source": "action_rtgs_list",
-    "target": "action_rtgs_list",
-    "controlName": "action_rtgs_list"
-  },
-  "rtgs_lst_doc_list_table32147": [
-    "doc_name",
-    "action_rtgs_list"
-  ],
-  "validtn_list10f93": [],
-  "01e9267e04ef4984a5f9b2088baa5e1f": {
-    "source": "error_code",
-    "target": "vld_code_rtgs_lst",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:errorListDfd:AFVK:v1|e2a1bf0a1d4645618906bff2e32889af|properties.error_code"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|a296019fb2344177ad1369a2c3e84666|01e9267e04ef4984a5f9b2088baa5e1f"
-      }
-    ],
-    "controlName": "vld_code_rtgs_lst"
-  },
-  "b22ef5c952e549d480ab8286b11dd73b": {
-    "source": "error_desc",
-    "target": "vld_reason_rtgs_list",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:errorListDfd:AFVK:v1|e2a1bf0a1d4645618906bff2e32889af|properties.error_desc"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|a296019fb2344177ad1369a2c3e84666|b22ef5c952e549d480ab8286b11dd73b"
-      }
-    ],
-    "controlName": "vld_reason_rtgs_list"
-  },
-  "rtgs_list_validtn_table84666": [
-    "error_code",
-    "error_desc"
-  ],
-  "cmnt_liste161c": [],
-  "b1172d9aa1c24944aa0225792ceee03b": {
-    "source": "comments",
-    "target": "cmnts_rtgs_list",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:commentListDfd:AFVK:v1|6b56e843346d496cb61d4538ea942742|properties.comments"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessUi:AFVK:v1|d8f270b65a4145dc8f2f910ce942148d|b1172d9aa1c24944aa0225792ceee03b"
-      }
-    ],
-    "controlName": "cmnts_rtgs_list"
-  },
-  "rtgs_list_cmnts_list2148d": [
-    "comments"
-  ],
-  "a667597928fa461b862b9a2919e9205d": {
-    "source": "text",
-    "target": "text",
-    "controlName": "text"
-  },
-  "56497782ba684d58aa261afcb0720b1a": {
-    "source": "comments",
-    "target": "reasondesc",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:rejectPopupDfd:AFVK:v1|d29b375f45f64a8f903a84281048a662|properties.comments"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:rejectPopUpUi:AFVK:v1|8741182b2ce945e89bbf9d7810f05ff6|56497782ba684d58aa261afcb0720b1a"
-      }
-    ],
-    "controlName": "reasonDesc"
-  },
-  "a6edba7ffe25471692901d458707f45a": {
-    "source": "cancel",
-    "target": "cancel",
-    "controlName": "cancel"
-  },
-  "3773ca523a1849fa92542912ce1599e4": {
-    "source": "continue",
-    "target": "continue",
-    "controlName": "continue"
-  },
-  "overallgroup05ff6": [
-    "text",
+  "group571d2": [
+    "dailyexpense",
+    "expense_name",
+    "expense_date",
+    "claim_category",
+    "category_total_amount",
+    "receipt_image",
     "comments",
-    "cancel",
-    "continue"
+    "is_comment_enabled",
+    "manager_comments"
   ],
-  "52e0965f6799425bb20bc571486e6917": {
-    "source": "divider_top",
-    "target": "divider_top",
-    "controlName": "divider_top"
-  },
-  "11bbb0a954424f15b2985eaf9eb669d7": {
-    "source": "transaction_date_time_label",
-    "target": "transaction_date_time_label",
-    "controlName": "transaction_date_time_label"
-  },
-  "9f72614773b843ec82ecff3ead4f3713": {
-    "source": "status_label",
-    "target": "status_label",
-    "controlName": "status_label"
-  },
-  "19463c7ccb5247b6ae3b3ab88d114856": {
-    "source": "trs_created_date",
-    "target": "transaction_date_time",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:journey:AFVK:v1|0f0ab463021546318f4ee4408eea68c4|properties.trs_created_date"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:tranJourneyDetails:AFVK:v1|21c6b985251b46b2a031d20162ad9a0e|19463c7ccb5247b6ae3b3ab88d114856"
-      }
-    ],
-    "controlName": "transaction_date_time"
-  },
-  "8b8c460c7e6640fb94c823e41cd88bc7": {
-    "source": "trs_status",
-    "target": "status",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:journey:AFVK:v1|0f0ab463021546318f4ee4408eea68c4|properties.trs_status"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:tranJourneyDetails:AFVK:v1|21c6b985251b46b2a031d20162ad9a0e|8b8c460c7e6640fb94c823e41cd88bc7"
-      }
-    ],
-    "controlName": "status"
-  },
-  "874c85b72ae244f4a16367a07cc542e8": {
-    "source": "processed_by_label",
-    "target": "processed_by_label",
-    "controlName": "processed_by_label"
-  },
-  "6c196ff7d7b44258b081b22643b3b1b7": {
-    "source": "debit_account_label",
-    "target": "debit_account_label",
-    "controlName": "debit_account_label"
-  },
-  "8c9f4254f2994622899156eb864d2b69": {
-    "source": "processing_system",
-    "target": "processed_by",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:journey:AFVK:v1|0f0ab463021546318f4ee4408eea68c4|properties.processing_system"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:tranJourneyDetails:AFVK:v1|21c6b985251b46b2a031d20162ad9a0e|8c9f4254f2994622899156eb864d2b69"
-      }
-    ],
-    "controlName": "processed_by"
-  },
-  "d4555b7864b0413881a431279e636b40": {
-    "source": "dr_account",
-    "target": "dr_account",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.product_common.properties.dr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:tranJourneyDetails:AFVK:v1|21c6b985251b46b2a031d20162ad9a0e|d4555b7864b0413881a431279e636b40"
-      }
-    ],
-    "controlName": "dr_account"
-  },
-  "67ac22684ffe4430b21ef3b9e6fe21ba": {
-    "source": "currency_label",
-    "target": "currency_label",
-    "controlName": "currency_label"
-  },
-  "90b2584601e04e658292741211465c7b": {
-    "source": "credit_account_label",
-    "target": "credit_account_label",
-    "controlName": "credit_account_label"
-  },
-  "64b629e9aebf4b31811b6f44e369c8a2": {
-    "source": "dr_currency",
-    "target": "dr_currency",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.product_common.properties.dr_currency"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:tranJourneyDetails:AFVK:v1|21c6b985251b46b2a031d20162ad9a0e|64b629e9aebf4b31811b6f44e369c8a2"
-      }
-    ],
-    "controlName": "dr_currency"
-  },
-  "98e59ea179be4e969da3603b9880d1f4": {
-    "source": "cr_account",
-    "target": "cr_account",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.product_common.properties.cr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:tranJourneyDetails:AFVK:v1|21c6b985251b46b2a031d20162ad9a0e|98e59ea179be4e969da3603b9880d1f4"
-      }
-    ],
-    "controlName": "cr_account"
-  },
-  "bf101c2f597d4dd196e78eaaf62fd725": {
-    "source": "amount_label",
-    "target": "amount_label",
-    "controlName": "amount_label"
-  },
-  "757d1dc579df4feba8cc4522149b1ca9": {
-    "source": "process_status_label",
-    "target": "process_status_label",
-    "controlName": "process_status_label"
-  },
-  "3533306d506748628754d2ef70701416": {
-    "source": "cr_amount",
-    "target": "cr_amount",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transaction:AFVK:v1|c2a320f6a30140a487ed20c46f1763dd|properties.product_common.properties.cr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:tranJourneyDetails:AFVK:v1|21c6b985251b46b2a031d20162ad9a0e|3533306d506748628754d2ef70701416"
-      }
-    ],
-    "controlName": "cr_amount"
-  },
-  "c3eb0d874bfd4ca5abe565fee90500d6": {
-    "source": "trs_process_status",
-    "target": "process_status",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:journey:AFVK:v1|0f0ab463021546318f4ee4408eea68c4|properties.trs_process_status"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:tranJourneyDetails:AFVK:v1|21c6b985251b46b2a031d20162ad9a0e|c3eb0d874bfd4ca5abe565fee90500d6"
-      }
-    ],
-    "controlName": "process_status"
-  },
-  "275a4bc7335e459ea4ea0c317ea8bad5": {
-    "source": "divider_bottom",
-    "target": "divider_bottom",
-    "controlName": "divider_bottom"
-  },
-  "e82feb8c67d5445a847fbef21c9e6a88": {
-    "source": "view_msg_data_btn",
-    "target": "view_msg_data_btn",
-    "controlName": "view_msg_data_btn"
-  },
-  "93e0542e5f2347658e84247e2e19cd8c": {
-    "source": "view_tran_log_btn",
-    "target": "view_tran_log_btn",
-    "controlName": "view_tran_log_btn"
-  },
-  "journey_details_groupd9a0e": [
-    "divider_top",
-    "transaction_date_time_label",
-    "status_label",
-    "trs_created_date",
-    "trs_status",
-    "processed_by_label",
-    "debit_account_label",
-    "processing_system",
-    "dr_account",
-    "currency_label",
-    "credit_account_label",
-    "dr_currency",
-    "cr_account",
-    "amount_label",
-    "process_status_label",
-    "cr_amount",
-    "trs_process_status",
-    "divider_bottom",
-    "view_msg_data_btn",
-    "view_tran_log_btn"
-  ],
-  "2f26410857cd458ba759b331520f46a0": {
-    "source": "divider_top",
-    "target": "divider_top",
-    "controlName": "divider_top"
-  },
-  "d27f594596224ec8be2654b5ae29fe8d": {
-    "source": "message_data",
-    "target": "xmlviewer",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:journey:AFVK:v1|0f0ab463021546318f4ee4408eea68c4|properties.message_data"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:messageDataView:AFVK:v1|548f837ab1014476af45ffa25dd84f25|d27f594596224ec8be2654b5ae29fe8d"
-      }
-    ],
-    "controlName": "xmlviewer"
-  },
-  "ebc728ead8f7404e89a9f37ed106920d": {
-    "source": "divider_bottom",
-    "target": "divider_bottom",
-    "controlName": "divider_bottom"
-  },
-  "941852ad6fce480eaf1b3aaf0ae5e840": {
-    "source": "cancel_btn",
-    "target": "cancel_btn",
-    "controlName": "cancel_btn"
-  },
-  "tran_data_group84f25": [
-    "divider_top",
-    "divider_bottom",
-    "cancel_btn"
-  ],
-  "6ccd47deda5442488c4ae9feac48d071": {
-    "source": "request_data",
-    "target": "req_jsonviewer",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:journey:AFVK:v1|0f0ab463021546318f4ee4408eea68c4|properties.request_data"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:tranDataView:AFVK:v1|359f2639ce6145718dd2f74e0b98d4d7|6ccd47deda5442488c4ae9feac48d071"
-      }
-    ],
-    "controlName": "req_jsonviewer"
-  },
-  "req_data_group8d4d7": [
-    "request_data"
-  ],
-  "6d6a7fba4c3b42ea89cc15aed11dd261": {
-    "source": "response_data",
-    "target": "res_jsonviewer",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:journey:AFVK:v1|0f0ab463021546318f4ee4408eea68c4|properties.response_data"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:tranDataView:AFVK:v1|1ce544d17ea34d5f8d5551f99c99d75a|6d6a7fba4c3b42ea89cc15aed11dd261"
-      }
-    ],
-    "controlName": "res_jsonviewer"
-  },
-  "res_data_group9d75a": [
-    "response_data"
-  ],
-  "overallgroup1218f": [],
-  "controlgroupfbb48": [],
-  "control_tab_group161ff": [],
-  "58e523e35f3f4a4b810d4b3c48a12b6e": {
-    "source": "hold",
-    "target": "hold",
-    "controlName": "hold"
-  },
-  "ce90d09ca0dd491b82c760b9c1293cf0": {
-    "source": "force_pass",
-    "target": "force_pass",
-    "controlName": "force_pass"
-  },
-  "3c826210da8644bfaa0c40da1912a0bf": {
-    "source": "ip_approve",
-    "target": "ip_approve",
-    "controlName": "ip_approve"
-  },
-  "56776d23dd3b372c9ef8b894ff60f9cc": {
-    "source": "return",
-    "target": "return",
-    "controlName": "return"
-  },
-  "66b7db538775088dcdfd056f837568c6": {
-    "source": "cancel",
-    "target": "cancel",
-    "controlName": "cancel"
-  },
-  "button_groupb9855": [
-    "hold",
-    "force_pass",
-    "ip_approve",
-    "return",
-    "cancel"
-  ],
-  "rtgs_info5957a": [],
-  "allControlsb8c72": [],
-  "164de6a055691c9275e08fa4c76e66a9": {
-    "source": "common_info",
-    "target": "common_info",
-    "controlName": "common_info"
-  },
-  "95d7344c656794fc0b8698672dc953ea": {
-    "source": "dr_account",
-    "target": "dr_account",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.dr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|229399c32b1d4a11f4f06811a49d7eda|95d7344c656794fc0b8698672dc953ea"
-      }
-    ],
-    "controlName": "dr_account"
-  },
-  "1a35f11481ef6604d1b9d1c0844d06e2": {
-    "source": "dr_name",
-    "target": "dr_name",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.dr_name"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|229399c32b1d4a11f4f06811a49d7eda|1a35f11481ef6604d1b9d1c0844d06e2"
-      }
-    ],
-    "controlName": "dr_name"
-  },
-  "288a1082ca02bfc45fc5a499edf57d7d": {
-    "source": "dr_currency",
-    "target": "base_currency",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.dr_currency"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|229399c32b1d4a11f4f06811a49d7eda|288a1082ca02bfc45fc5a499edf57d7d"
-      }
-    ],
-    "controlName": "base_currency"
-  },
-  "commonInfod7eda": [
-    "common_info",
-    "dr_account",
-    "dr_name",
-    "dr_currency"
-  ],
-  "f87d2cc3dca4a44daebd8876c79219cf": {
-    "source": "basic_info",
-    "target": "basic_info",
-    "controlName": "basic_info"
-  },
-  "dba3c3598752ad38bbd3dd292a4ddb15": {
-    "source": "cr_account",
-    "target": "cr_account",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.cr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|abf150d5ae6f90069b1723bc4bdffb0a|dba3c3598752ad38bbd3dd292a4ddb15"
-      }
-    ],
-    "controlName": "cr_account"
-  },
-  "c6a3a0892adf4a31ebafd887ee5517b4": {
-    "source": "cr_name",
-    "target": "cr_name",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.cr_name"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|abf150d5ae6f90069b1723bc4bdffb0a|c6a3a0892adf4a31ebafd887ee5517b4"
-      }
-    ],
-    "controlName": "cr_name"
-  },
-  "7589e3b339fcada61ab8e21ad8b9af27": {
-    "source": "cr_bank_code",
-    "target": "cr_bank_code",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:crBankCodeDropDownDfd:AFVK:v1|b3bcefa5100b40a48d55edfe1b6821cf|properties.bank_name_withsort"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|abf150d5ae6f90069b1723bc4bdffb0a|7589e3b339fcada61ab8e21ad8b9af27|value"
-      },
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:crBankCodeDropDownDfd:AFVK:v1|b3bcefa5100b40a48d55edfe1b6821cf|properties.sort_code"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|abf150d5ae6f90069b1723bc4bdffb0a|7589e3b339fcada61ab8e21ad8b9af27|text"
-      }
-    ],
-    "controlName": "cr_bank_code"
-  },
-  "d75fe9e40ca7d39decfe6946bd110f51": {
-    "source": "cr_currency",
-    "target": "forex_currency",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:forexCurrencyDropDownDfd:AFVK:v1|5550064328cc444a9297f6c7ee1cf577|properties.currency_code"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|abf150d5ae6f90069b1723bc4bdffb0a|d75fe9e40ca7d39decfe6946bd110f51|text"
-      },
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:forexCurrencyDropDownDfd:AFVK:v1|5550064328cc444a9297f6c7ee1cf577|properties.currency_code"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|abf150d5ae6f90069b1723bc4bdffb0a|d75fe9e40ca7d39decfe6946bd110f51|value"
-      },
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.cr_currency"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|abf150d5ae6f90069b1723bc4bdffb0a|d75fe9e40ca7d39decfe6946bd110f51|saveTo"
-      }
-    ],
-    "controlName": "forex_currency"
-  },
-  "b68c2d667e361e15d3716e71dda2d477": {
-    "source": "dr_amount",
-    "target": "forex_amount",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.dr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|abf150d5ae6f90069b1723bc4bdffb0a|b68c2d667e361e15d3716e71dda2d477"
-      }
-    ],
-    "controlName": "forex_amount"
-  },
-  "9156fa4b7669e373206b9cfed6b2df6d": {
-    "source": "cr_amount",
-    "target": "base_amount",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:scanSaveProcessDfd:AFVK:v1|2e406af65f3a4e38bfad9e92c2647a4c|properties.cr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|abf150d5ae6f90069b1723bc4bdffb0a|9156fa4b7669e373206b9cfed6b2df6d"
-      }
-    ],
-    "controlName": "base_amount"
-  },
-  "basicInfoffb0a": [
-    "basic_info",
-    "cr_account",
-    "cr_name",
-    "cr_bank_code",
-    "cr_bank_code",
-    "forex_currency",
-    "forex_currency",
-    "cr_currency",
-    "dr_amount",
-    "cr_amount"
-  ],
-  "fc93dd238d1383b50e1387436d6f3fad": {
-    "source": "addtional_info",
-    "target": "addtional_info",
-    "controlName": "addtional_info"
-  },
-  "a70a9400a61a8dd58feecb1a51ded28f": {
-    "source": "signature_screen",
-    "target": "signature_screen",
-    "controlName": "signature_screen"
-  },
-  "94834857091fe8714e3f9159cc20bded": {
-    "source": "remittance_info",
-    "target": "remittance_info",
-    "controlName": "remittance_info"
-  },
-  "7a29a8fbc96fabb12b77c38164e339ed": {
-    "source": "customwidget",
-    "target": "customwidget",
-    "controlName": "customwidget"
-  },
-  "86a56c669d1458aac7ce6538457f9485": {
-    "source": "vgphstm_uuid",
-    "target": "vgphstm_uuid",
-    "controlName": "vgphstm_uuid"
-  },
-  "additionalInfo4baba": [
-    "addtional_info",
-    "signature_screen",
-    "remittance_info",
-    "customwidget",
-    "vgphstm_uuid"
-  ],
-  "listgroup97a7c": [],
-  "list_tab_group6782e": [],
-  "validation_listcc09d": [],
-  "dba8815a93accffe031320b6dd8d6381": {
-    "source": "error_code",
-    "target": "vldcode",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:errorListDfd:AFVK:v1|e2a1bf0a1d4645618906bff2e32889af|properties.error_code"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|350585c031252e28732f2f119b74db84|dba8815a93accffe031320b6dd8d6381"
-      }
-    ],
-    "controlName": "vldCode"
-  },
-  "baccd9a04071f21265556ea3b39fca81": {
-    "source": "error_desc",
-    "target": "vldreason",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:errorListDfd:AFVK:v1|e2a1bf0a1d4645618906bff2e32889af|properties.error_desc"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|350585c031252e28732f2f119b74db84|baccd9a04071f21265556ea3b39fca81"
-      }
-    ],
-    "controlName": "vldReason"
-  },
-  "valdnListTable4db84": [
-    "error_code",
-    "error_desc"
-  ],
-  "comment_listb158b": [],
-  "947c0a4e9477951734ad4086f76a418a": {
-    "source": "comments",
-    "target": "cmnts",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:commentListDfd:AFVK:v1|6b56e843346d496cb61d4538ea942742|properties.comments"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|ac53fbfc1a67cb0563533d6ce2596834|947c0a4e9477951734ad4086f76a418a"
-      }
-    ],
-    "controlName": "cmnts"
-  },
-  "cmntListTable96834": [
-    "comments"
-  ],
-  "rtgs_listf12c6": [],
-  "rtgs_list_grp82cfc": [],
-  "rtgs_list_tble_groupe1ac5": [],
-  "f01403921bded19d581e6fccb1a6705e": {
-    "source": "uuid",
-    "target": "tran_id",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transactionListDfd:AFVK:v1|53d25bc41a37484eaad23436c6d3cfe3|properties.uuid"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|2dd50c83e10eedb8e9f91cb7b56ad2c7|f01403921bded19d581e6fccb1a6705e"
-      }
-    ],
-    "controlName": "tran_id"
-  },
-  "f349f9df259dcf043846a584ee228ad2": {
-    "source": "dr_account",
-    "target": "dr_acnt_no",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transactionListDfd:AFVK:v1|53d25bc41a37484eaad23436c6d3cfe3|properties.dr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|2dd50c83e10eedb8e9f91cb7b56ad2c7|f349f9df259dcf043846a584ee228ad2"
-      }
-    ],
-    "controlName": "dr_acnt_no"
-  },
-  "b41d2e61eb57b06093cfe1d95c458585": {
-    "source": "cr_account",
-    "target": "cr_acnt_no",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transactionListDfd:AFVK:v1|53d25bc41a37484eaad23436c6d3cfe3|properties.cr_account"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|2dd50c83e10eedb8e9f91cb7b56ad2c7|b41d2e61eb57b06093cfe1d95c458585"
-      }
-    ],
-    "controlName": "cr_acnt_no"
-  },
-  "6aa5d31303e5f86789c8e2d54d295ed1": {
-    "source": "cr_amount",
-    "target": "amnt",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transactionListDfd:AFVK:v1|53d25bc41a37484eaad23436c6d3cfe3|properties.cr_amount"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|2dd50c83e10eedb8e9f91cb7b56ad2c7|6aa5d31303e5f86789c8e2d54d295ed1"
-      }
-    ],
-    "controlName": "amnt"
-  },
-  "74bf57133a02f85615433d3ddf801850": {
-    "source": "cr_bank_code",
-    "target": "cr_bank_code",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transactionListDfd:AFVK:v1|53d25bc41a37484eaad23436c6d3cfe3|properties.cr_bank_code"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|2dd50c83e10eedb8e9f91cb7b56ad2c7|74bf57133a02f85615433d3ddf801850"
-      }
-    ],
-    "controlName": "cr_bank_code"
-  },
-  "342e00c6ee8b150cdef8d1cc290b7915": {
-    "source": "trs_created_by",
-    "target": "created_by",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transactionListDfd:AFVK:v1|53d25bc41a37484eaad23436c6d3cfe3|properties.trs_created_by"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|2dd50c83e10eedb8e9f91cb7b56ad2c7|342e00c6ee8b150cdef8d1cc290b7915"
-      }
-    ],
-    "controlName": "created_by"
-  },
-  "3553a44d515468fd5042662abc36b8a8": {
-    "source": "trs_created_date",
-    "target": "created_date",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:transactionListDfd:AFVK:v1|53d25bc41a37484eaad23436c6d3cfe3|properties.trs_created_date"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|2dd50c83e10eedb8e9f91cb7b56ad2c7|3553a44d515468fd5042662abc36b8a8"
-      }
-    ],
-    "controlName": "created_date"
-  },
-  "rtgs_list_tablead2c7": [
-    "uuid",
-    "dr_account",
-    "cr_account",
-    "cr_amount",
-    "cr_bank_code",
-    "trs_created_by",
-    "trs_created_date"
-  ],
-  "group1b1aa": [],
-  "rtgs_list_tab_grp43579": [],
-  "validtn_list3a9a1": [],
-  "cad759e28c3f2650d35980662f2274ca": {
-    "source": "error_code",
-    "target": "vld_code_rtgs_lst",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:errorListDfd:AFVK:v1|e2a1bf0a1d4645618906bff2e32889af|properties.error_code"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|d5e9a4b8e350e8aad037498875a10755|cad759e28c3f2650d35980662f2274ca"
-      }
-    ],
-    "controlName": "vld_code_rtgs_lst"
-  },
-  "56dce118c734b0989f3f19d4494ff18d": {
-    "source": "error_desc",
-    "target": "vld_reason_rtgs_list",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:errorListDfd:AFVK:v1|e2a1bf0a1d4645618906bff2e32889af|properties.error_desc"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|d5e9a4b8e350e8aad037498875a10755|56dce118c734b0989f3f19d4494ff18d"
-      }
-    ],
-    "controlName": "vld_reason_rtgs_list"
-  },
-  "rtgs_list_validtn_table10755": [
-    "error_code",
-    "error_desc"
-  ],
-  "cmnt_list18a3b": [],
-  "5b72b6ce89f0bb33fafda114db7d0091": {
-    "source": "comments",
-    "target": "cmnts_rtgs_list",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:commentListDfd:AFVK:v1|6b56e843346d496cb61d4538ea942742|properties.comments"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:inboundScanProcessUi:AFVK:v1|aa8324302c4cf6d0af7179b8c0a85130|5b72b6ce89f0bb33fafda114db7d0091"
-      }
-    ],
-    "controlName": "cmnts_rtgs_list"
-  },
-  "rtgs_list_cmnts_list85130": [
-    "comments"
-  ],
-  "e009d90307564e498c7e0a387a9574c6": {
-    "source": "text",
-    "target": "text",
-    "controlName": "text"
-  },
-  "9ac6b4981efc4618825c61ea1d96f51c": {
-    "source": "return_reason_dropdown",
-    "target": "return_reason_dropdown",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:returnReasonDfd:AFVK:v1|3ce567bf02174372962095686e0080ad|properties.reason"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:returnReasonPopUpUi:AFVK:v1|da18ab071c7c4d43957d8fd1f9ddd3f6|9ac6b4981efc4618825c61ea1d96f51c|value"
-      },
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:returnReasonDfd:AFVK:v1|3ce567bf02174372962095686e0080ad|properties.reason"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:returnReasonPopUpUi:AFVK:v1|da18ab071c7c4d43957d8fd1f9ddd3f6|9ac6b4981efc4618825c61ea1d96f51c|text"
-      }
-    ],
-    "controlName": "return_reason_dropdown"
-  },
-  "4f587d2e16df4fa78e3221ac589a52fd": {
-    "source": "close",
-    "target": "close",
-    "controlName": "close"
-  },
-  "852df16deea848d183d13a86633be5ab": {
+  "7ad064a4534a45e68842944eacdec42b": {
     "source": "save",
     "target": "save",
     "controlName": "save"
   },
-  "groupdd3f6": [
-    "text",
-    "return_reason_dropdown",
-    "return_reason_dropdown",
-    "close",
+  "group_two6135c": [
     "save"
   ],
-  "simulator_main_group0541e": [],
-  "simulator_tab_groupfd732": [],
-  "op_financial4735b": [],
-  "a2a289723fe043c38da47ef22408fcb1": {
-    "source": "product_code_op",
-    "target": "product_code_op",
-    "controlName": "product_code_op"
-  },
-  "2c33c8c889404f9b9357e82d6e192df8": {
-    "source": "product_code_op_financ",
-    "target": "product_code_op_financ",
-    "controlName": "product_code_op_financ"
-  },
-  "b2306d23a6014996a51b7b4e8ddc2fc6": {
-    "source": "message_type_op",
-    "target": "message_type_op",
-    "controlName": "message_type_op"
-  },
-  "fa2782ed9b6148c5ba4337719c7cbd29": {
-    "source": "message_type_op_financ",
-    "target": "message_type_op_financ",
-    "controlName": "message_type_op_financ"
-  },
-  "9c8040f1ffb34a6ebddbff509879a41b": {
-    "source": "date_op",
-    "target": "date_op",
-    "controlName": "date_op"
-  },
-  "ead507ecc86d4c04b40ebb6203f516b0": {
-    "source": "date_op_fianc",
-    "target": "date_op_fianc",
-    "controlName": "date_op_fianc"
-  },
-  "910a728a350146389d957c2b7974c851": {
-    "source": "uuid_op",
-    "target": "uuid_op",
-    "controlName": "uuid_op"
-  },
-  "0a94d78d7ade40edba6a572c451b7282": {
-    "source": "uuid_op_financ",
-    "target": "uuid_op_financ",
-    "controlName": "uuid_op_financ"
-  },
-  "c29f1625a2fa4bd88deae0d479a98685": {
-    "source": "status_op",
-    "target": "status_op",
-    "controlName": "status_op"
-  },
-  "fdf7ae65a0454f02a682c2b6e02c8de7": {
-    "source": "status_op_financ",
-    "target": "status_op_financ",
-    "controlName": "status_op_financ"
-  },
-  "50c455a3e4eb4b84a7ecc40575e5ba8d": {
-    "source": "reason",
-    "target": "reject_reason_op",
+  "group611f3": [],
+  "c11ff4dfaaac4c768f6a33ddd85eac5c": {
+    "source": "expense_name",
+    "target": "expense_name",
     "mapper": [
       {
         "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:returnReasonDfd:AFVK:v1|3ce567bf02174372962095686e0080ad|properties.reason"
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1|9a6fc4f57c4a4af5b4b9cf040f73876e|items.properties.expense_name"
         ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:simulatorProcessUi:AFVK:v1|1687ee1f949f41fdbe50d7088248a39a|50c455a3e4eb4b84a7ecc40575e5ba8d"
-      },
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:returnReasonDfd:AFVK:v1|3ce567bf02174372962095686e0080ad|properties.reason"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:simulatorProcessUi:AFVK:v1|1687ee1f949f41fdbe50d7088248a39a|50c455a3e4eb4b84a7ecc40575e5ba8d|text"
-      },
-      {
-        "sourceKey": [
-          "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:RTGS:AFK:returnReasonDfd:AFVK:v1|3ce567bf02174372962095686e0080ad|properties.reason"
-        ],
-        "targetKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:simulatorProcessUi:AFVK:v1|1687ee1f949f41fdbe50d7088248a39a|50c455a3e4eb4b84a7ecc40575e5ba8d|value"
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Table:AFVK:v1|3b14a2643a394afe85afafd6b235ca87|c11ff4dfaaac4c768f6a33ddd85eac5c"
       }
     ],
-    "controlName": "reject_reason_op"
+    "controlName": "expense_name"
   },
-  "a361018bff60424e838e95e318013f05": {
-    "source": "rej_reasn_op_financ",
-    "target": "rej_reasn_op_financ",
-    "controlName": "rej_reasn_op_financ"
+  "6945ee7b4ec141099f83cce00bccd65c": {
+    "source": "claim_category",
+    "target": "cetegory",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1|9a6fc4f57c4a4af5b4b9cf040f73876e|items.properties.claim_category"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Table:AFVK:v1|3b14a2643a394afe85afafd6b235ca87|6945ee7b4ec141099f83cce00bccd65c"
+      }
+    ],
+    "controlName": "cetegory"
   },
-  "d747095e02c64729bb337dadb98cf1e2": {
-    "source": "submit_op",
-    "target": "submit_op",
-    "controlName": "submit_op"
-  },
-  "3252eb2ac39a47b2ad63a24e0890c844": {
-    "source": "customwidget",
-    "target": "customwidget",
-    "controlName": "customwidget"
-  },
-  "op_financial_grp8a39a": [
-    "product_code_op",
-    "product_code_op_financ",
-    "message_type_op",
-    "message_type_op_financ",
-    "date_op",
-    "date_op_fianc",
-    "uuid_op",
-    "uuid_op_financ",
-    "status_op",
-    "status_op_financ",
-    "reason",
-    "rej_reasn_op_financ",
-    "submit_op",
-    "customwidget"
+  "table5ca87": [
+    "expense_name",
+    "claim_category"
   ],
-  "op_settlemente399b": [],
-  "3870d2929b8a4e889d8f3bd710f63258": {
-    "source": "op_setl_product_code",
-    "target": "op_setl_product_code",
-    "controlName": "op_setl_product_code"
+  "group9be24": [],
+  "ad736850dc794dc8b93f3b9e6e572935": {
+    "source": "country",
+    "target": "country",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_where:AFVK:v1|54c553a9dce24eccad9519349b15fe53|items.properties.country"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:set_memory_table:AFVK:v1|29eefd9927fc4ddb8b5fa1b207b2f83e|ad736850dc794dc8b93f3b9e6e572935"
+      }
+    ],
+    "controlName": "country"
   },
-  "5137eb4e4e7545ea82667f7b26320fab": {
-    "source": "product_code_setl_op",
-    "target": "product_code_setl_op",
-    "controlName": "product_code_setl_op"
+  "c2ced97e63864c7abdf85d95e0dbf0ec": {
+    "source": "state",
+    "target": "state",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_where:AFVK:v1|54c553a9dce24eccad9519349b15fe53|items.properties.state"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:set_memory_table:AFVK:v1|29eefd9927fc4ddb8b5fa1b207b2f83e|c2ced97e63864c7abdf85d95e0dbf0ec"
+      }
+    ],
+    "controlName": "state"
   },
-  "c3199a623bf9449eb8c4d9538d3a011a": {
-    "source": "msg_type_op_setlmnt",
-    "target": "msg_type_op_setlmnt",
-    "controlName": "msg_type_op_setlmnt"
+  "b9c9b111578840c5bee0e134818058e1": {
+    "source": "button",
+    "target": "button",
+    "controlName": "button"
   },
-  "fa0cd32090dd435fb9bdc56eccc41552": {
-    "source": "op_setl_message_type",
-    "target": "op_setl_message_type",
-    "controlName": "op_setl_message_type"
-  },
-  "30df951483ae460db91edcb9a0b62e49": {
-    "source": "op_setl_date",
-    "target": "op_setl_date",
-    "controlName": "op_setl_date"
-  },
-  "09d0164a2d35496098eb8c65f72af3c2": {
-    "source": "date_op_setlmnt",
-    "target": "date_op_setlmnt",
-    "controlName": "date_op_setlmnt"
-  },
-  "25781927a407432292bf96e7ac3ffbc8": {
-    "source": "uuid_op_setlmnt",
-    "target": "uuid_op_setlmnt",
-    "controlName": "uuid_op_setlmnt"
-  },
-  "cb5576067d924ac9b30bb3d5edf831e5": {
-    "source": "uuid_op_settlmnt",
-    "target": "uuid_op_settlmnt",
-    "controlName": "uuid_op_settlmnt"
-  },
-  "7d600af9bb2a43bcab2164a88f005756": {
-    "source": "op_setlmnt_submit",
-    "target": "op_setlmnt_submit",
-    "controlName": "op_setlmnt_submit"
-  },
-  "op_settlement_grpb706d": [
-    "op_setl_product_code",
-    "product_code_setl_op",
-    "msg_type_op_setlmnt",
-    "op_setl_message_type",
-    "op_setl_date",
-    "date_op_setlmnt",
-    "uuid_op_setlmnt",
-    "uuid_op_settlmnt",
-    "op_setlmnt_submit"
+  "table2f83e": [
+    "country",
+    "state",
+    "button"
   ],
-  "ip_financial66005": [],
-  "7194cd2d8a9c4f22b8bd60b354a5fbb6": {
-    "source": "debtor_info",
-    "target": "debtor_info",
-    "controlName": "debtor_info"
+  "9cc9281c0e8f4d7bb2b31044d207430b": {
+    "source": "state_two",
+    "target": "state_two",
+    "controlName": "state_two"
   },
-  "a99ddd96dbb94d3f9df4b56422250944": {
-    "source": "dr_account",
-    "target": "dr_account",
-    "controlName": "dr_account"
-  },
-  "ff0dc3c764824bc8a946ad28db6e3517": {
-    "source": "dr_account_lbl",
-    "target": "dr_account_lbl",
-    "controlName": "dr_account_lbl"
-  },
-  "da41d5e7821340e18ce167fb6bd2b7b9": {
-    "source": "dr_name_lbl",
-    "target": "dr_name_lbl",
-    "controlName": "dr_name_lbl"
-  },
-  "115c518f17eb411cbe43c627c879810f": {
-    "source": "dr_name",
-    "target": "dr_name",
-    "controlName": "dr_name"
-  },
-  "43135971ad4648cc92148f04d1a81c4c": {
-    "source": "dr_bank_lbl",
-    "target": "dr_bank_lbl",
-    "controlName": "dr_bank_lbl"
-  },
-  "c42a70c93b194e0fbc08b7f9500e5943": {
-    "source": "dr_bank",
-    "target": "dr_bank",
-    "controlName": "dr_bank"
-  },
-  "ip_debtor_dtls8143c": [
-    "debtor_info",
-    "dr_account",
-    "dr_account_lbl",
-    "dr_name_lbl",
-    "dr_name",
-    "dr_bank_lbl",
-    "dr_bank"
+  "table_oneb639c": [
+    "state_two"
   ],
-  "3b5358e5a9a448ee829555759c71146f": {
-    "source": "creditor_info",
-    "target": "creditor_info",
-    "controlName": "creditor_info"
+  "9747e878ad84446ab14c113b7d0659b9": {
+    "source": "name",
+    "target": "combobox",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:chart_data:AFVK:v1|a0e99bd52d2548d78dd167e5fee11919|properties.name"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:combo_dropdown:AFVK:v1|50933b8d5a344889973e1c61e4aa03b5|9747e878ad84446ab14c113b7d0659b9"
+      },
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:chart_data:AFVK:v1|a0e99bd52d2548d78dd167e5fee11919|properties.name"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:combo_dropdown:AFVK:v1|50933b8d5a344889973e1c61e4aa03b5|9747e878ad84446ab14c113b7d0659b9|text"
+      },
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:chart_data:AFVK:v1|a0e99bd52d2548d78dd167e5fee11919|properties.name"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:combo_dropdown:AFVK:v1|50933b8d5a344889973e1c61e4aa03b5|9747e878ad84446ab14c113b7d0659b9|value"
+      }
+    ],
+    "controlName": "combobox",
+    "9747e878ad84446ab14c113b7d0659b9": "name",
+    "text": "name",
+    "value": "name"
   },
-  "5711ffd6f24a4880bb3d5db643bb0c70": {
-    "source": "cr_account",
-    "target": "cr_account",
-    "controlName": "cr_account"
+  "ac2e049ec1104ac6b649ab574b9e8dd8": {
+    "source": "name",
+    "target": "card",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:chart_data:AFVK:v1|a0e99bd52d2548d78dd167e5fee11919|properties.name"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:combo_dropdown:AFVK:v1|50933b8d5a344889973e1c61e4aa03b5|ac2e049ec1104ac6b649ab574b9e8dd8"
+      }
+    ],
+    "controlName": "card"
   },
-  "8d7f1f35625343dda0d4340ab4109825": {
-    "source": "cr_account_lbl",
-    "target": "cr_account_lbl",
-    "controlName": "cr_account_lbl"
-  },
-  "7e4c2c50f0ff4bc09017b7d1f2989142": {
-    "source": "cr_name",
-    "target": "cr_name",
-    "controlName": "cr_name"
-  },
-  "8619ab3fe4694e10829332ad1caa2539": {
-    "source": "cr_name_lbl",
-    "target": "cr_name_lbl",
-    "controlName": "cr_name_lbl"
-  },
-  "2e291be1d3304d83918b4451f84e46ca": {
-    "source": "cr_bank",
-    "target": "cr_bank",
-    "controlName": "cr_bank"
-  },
-  "95f380c200984a2696406f9d2d6e07fc": {
-    "source": "cr_bank_lbl",
-    "target": "cr_bank_lbl",
-    "controlName": "cr_bank_lbl"
-  },
-  "4a3d90d4616845898020465e4c08a1f0": {
-    "source": "rtgs_account",
-    "target": "rtgs_account",
-    "controlName": "rtgs_account"
-  },
-  "2255ae3842fb42658bbbf26f20eccdfc": {
-    "source": "rtgs_acnt_lbl",
-    "target": "rtgs_acnt_lbl",
-    "controlName": "rtgs_acnt_lbl"
-  },
-  "ip_creditor_dtls1ade4": [
-    "creditor_info",
-    "cr_account",
-    "cr_account_lbl",
-    "cr_name",
-    "cr_name_lbl",
-    "cr_bank",
-    "cr_bank_lbl",
-    "rtgs_account",
-    "rtgs_acnt_lbl"
+  "groupa03b5": [
+    "name",
+    "name"
   ],
-  "379d90c5d9f744bb8ff2826541c0041b": {
-    "source": "payment_info",
-    "target": "payment_info",
-    "controlName": "payment_info"
+  "00fa6117f04a4e2ab4bc61669c2e2c19": {
+    "source": "setmemoryvalues",
+    "target": "setmemoryvalues",
+    "controlName": "setmemoryvalues"
   },
-  "0d31ff81d675419483ab3a7feab52580": {
-    "source": "currency",
-    "target": "currency",
-    "controlName": "currency"
+  "2e156b9646f74ae788355dcf1e662a91": {
+    "source": "state",
+    "target": "state",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_db_node:AFVK:v1|8aae72de42924fabb9fce364c41b4c78|items.properties.state"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:setMemoryValuesevent:AFVK:v1|60be8cd69d4042008332e39ed7bdf36a|2e156b9646f74ae788355dcf1e662a91|text"
+      },
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_db_node:AFVK:v1|8aae72de42924fabb9fce364c41b4c78|items.properties.state"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:setMemoryValuesevent:AFVK:v1|60be8cd69d4042008332e39ed7bdf36a|2e156b9646f74ae788355dcf1e662a91|value"
+      }
+    ],
+    "controlName": "state"
   },
-  "c94085f8f71442fdb036c3ffebe99714": {
-    "source": "currency_lbl",
-    "target": "currency_lbl",
-    "controlName": "currency_lbl"
+  "2694e5f7d2ef4abbbacffbf1ad524376": {
+    "source": "state_two",
+    "target": "state_two",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_db_node:AFVK:v1|8aae72de42924fabb9fce364c41b4c78|items.properties.state"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:setMemoryValuesevent:AFVK:v1|60be8cd69d4042008332e39ed7bdf36a|2694e5f7d2ef4abbbacffbf1ad524376|text"
+      },
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_db_node:AFVK:v1|8aae72de42924fabb9fce364c41b4c78|items.properties.state"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:setMemoryValuesevent:AFVK:v1|60be8cd69d4042008332e39ed7bdf36a|2694e5f7d2ef4abbbacffbf1ad524376|value"
+      }
+    ],
+    "controlName": "state_two"
   },
-  "641c2dd86b6348dca6a5cca638a07414": {
-    "source": "amount",
-    "target": "amount",
-    "controlName": "amount"
+  "5056b81d370c44c3b65c20df0e3625d4": {
+    "source": "country",
+    "target": "country",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_db_node:AFVK:v1|8aae72de42924fabb9fce364c41b4c78|items.properties.country"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:setMemoryValuesevent:AFVK:v1|60be8cd69d4042008332e39ed7bdf36a|5056b81d370c44c3b65c20df0e3625d4"
+      }
+    ],
+    "controlName": "country"
   },
-  "b94ad2523de14d60bd0bd69542dc3248": {
-    "source": "amount_lbl",
-    "target": "amount_lbl",
-    "controlName": "amount_lbl"
+  "22aa80e83c9d4bc5b4ca1755bfd86330": {
+    "source": "country",
+    "target": "textinput",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_db_node:AFVK:v1|8aae72de42924fabb9fce364c41b4c78|items.properties.country"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:setMemoryValuesevent:AFVK:v1|60be8cd69d4042008332e39ed7bdf36a|22aa80e83c9d4bc5b4ca1755bfd86330"
+      }
+    ],
+    "controlName": "textinput"
   },
-  "payment_dtls30132": [
-    "payment_info",
-    "currency",
-    "currency_lbl",
-    "amount",
-    "amount_lbl"
+  "8edca79fa5fe46e0a4b99874a703a885": {
+    "source": "button",
+    "target": "button",
+    "controlName": "button"
+  },
+  "groupdf36a": [
+    "setmemoryvalues",
+    "state",
+    "state",
+    "state_two",
+    "state_two",
+    "country",
+    "country",
+    "button"
   ],
-  "97e29638991e437389e5f60b10960a69": {
-    "source": "addtional_info",
-    "target": "addtional_info",
-    "controlName": "addtional_info"
+  "6a7cf578d3e246a2b0c604ef0cf2114e": {
+    "source": "country",
+    "target": "country",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_db_node:AFVK:v1|8aae72de42924fabb9fce364c41b4c78|items.properties.country"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:setMemoryValuesevent:AFVK:v1|dc074ef9142b4d079fb88a89e3cd5efd|6a7cf578d3e246a2b0c604ef0cf2114e"
+      }
+    ],
+    "controlName": "country"
   },
-  "a1d3f56f692c496e8db05bdff3cd7394": {
-    "source": "remittance_info",
-    "target": "remittance_info",
-    "controlName": "remittance_info"
+  "edcd5d56a6f54125a5cf16b16e4bbeaf": {
+    "source": "state",
+    "target": "state",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_db_node:AFVK:v1|8aae72de42924fabb9fce364c41b4c78|items.properties.state"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:setMemoryValuesevent:AFVK:v1|dc074ef9142b4d079fb88a89e3cd5efd|edcd5d56a6f54125a5cf16b16e4bbeaf"
+      }
+    ],
+    "controlName": "state"
   },
-  "04c33fea25de469fa41f8faac113a5c2": {
-    "source": "remittance_lbl",
-    "target": "remittance_lbl",
-    "controlName": "remittance_lbl"
+  "0cb7707117da4c93ba745191b376731c": {
+    "source": "city",
+    "target": "city",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_db_node:AFVK:v1|8aae72de42924fabb9fce364c41b4c78|items.properties.city"
+        ],
+        "targetKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:setMemoryValuesevent:AFVK:v1|dc074ef9142b4d079fb88a89e3cd5efd|0cb7707117da4c93ba745191b376731c"
+      }
+    ],
+    "controlName": "city"
   },
-  "addionl_info43014": [
-    "addtional_info",
-    "remittance_info",
-    "remittance_lbl"
-  ],
-  "4eac108c38eb441db340aabdde898bbf": {
-    "source": "submit_ip",
-    "target": "submit_ip",
-    "controlName": "submit_ip"
+  "044a1f7e53834dfc953f705123a31b79": {
+    "source": "button_one",
+    "target": "button_one",
+    "controlName": "button_one"
   },
-  "button_grp7b9b7": [
-    "submit_ip"
+  "tabled5efd": [
+    "country",
+    "state",
+    "city",
+    "button_one"
   ]
 }

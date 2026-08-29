@@ -1,0 +1,384 @@
+
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+   schemas   = ["ct001_ta"]
+}
+
+generator client {
+provider = "prisma-client-js"
+}
+
+model claims {
+claim_id  Int @default(autoincrement())
+employee_id  Int? 
+employee_name  String? 
+department_name  String? 
+employee_grade  String? 
+receipt_image  String? 
+total_amount  Int? 
+from_date  DateTime? 
+to_date  DateTime? 
+email  String? 
+claim_category  String? 
+comments  String? 
+expense_date  DateTime? 
+is_comment_enabled  Boolean? 
+expense_name  String? 
+manager_comments  String? 
+expense_description  String? 
+expense_amount  Int? 
+category_total_amount  Int? 
+claim_expense_type  String? 
+name  String? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
+trs_app_code  String @default("00000") @db.VarChar(length: 16)
+trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 32)
+trs_version  String?  @db.VarChar(length: 16)
+claims_detail   claims_detail[]    
+
+@@id([claim_id])
+@@schema("ct001_ta")
+}
+
+
+model claims_detail {
+claim_detail_id  Int @default(autoincrement())
+expense_category  String? 
+expense_description  String? 
+expense_date  DateTime? 
+expense_amount  Int? 
+name  String? 
+attachment  String? 
+claim_category  String? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
+trs_app_code  String @default("00000") @db.VarChar(length: 16)
+trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 32)
+trs_version  String?  @db.VarChar(length: 16)
+claim_id   Int? 
+claims   claims?  @relation(fields: [claim_id], references: [claim_id])  
+
+@@id([claim_detail_id])
+@@schema("ct001_ta")
+}
+
+
+model codedescription {
+ccdid  Int @default(autoincrement())
+cdcategory  String? 
+clientcode  String? 
+code  String? 
+description  String? 
+sortorder  Int? 
+parentcode  String? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
+trs_app_code  String @default("00000") @db.VarChar(length: 16)
+trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 32)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([ccdid])
+@@schema("ct001_ta")
+}
+
+
+model users {
+user_id  BigInt @default(autoincrement())
+name  String? 
+trs_created_date  DateTime? 
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String?  @db.VarChar(length: 16)
+trs_app_code  String?  @db.VarChar(length: 16)
+trs_product_code  String?  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([user_id])
+@@schema("ct001_ta")
+}
+
+
+model employee_details {
+id  Int @default(autoincrement())
+name  String? 
+email  String? 
+address  Json? 
+category_total_amount  Int? 
+claim_category  String[] 
+url  String[] 
+expense_date  DateTime? 
+trs_created_date  DateTime? @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String? @default("00000") @db.VarChar(length: 16)
+trs_app_code  String? @default("00000") @db.VarChar(length: 16)
+trs_product_code  String? @default("00000_00000") @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 32)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([id])
+@@schema("ct001_ta")
+}
+
+
+model employee_expense_claims {
+detail_id  Int @default(autoincrement())
+employee_detail  Json? 
+trs_created_date  DateTime? @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String? @default("00000") @db.VarChar(length: 16)
+trs_app_code  String? @default("00000") @db.VarChar(length: 16)
+trs_product_code  String? @default("00000_00000") @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 32)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([detail_id])
+@@schema("ct001_ta")
+}
+
+
+model communication {
+common_id  Int 
+from  String? 
+to  String? 
+username  String? 
+subject  String? 
+body  String? 
+to_email  String[] 
+cc_email  String[] 
+bcc_email  String[] 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
+trs_app_code  String @default("00000") @db.VarChar(length: 16)
+trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 32)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([common_id])
+@@schema("ct001_ta")
+}
+
+
+model combo_table {
+my_id  Int @default(autoincrement())
+country  String? 
+state  String? 
+city  String? 
+country_code  String? 
+state_code  String? 
+trs_created_date  DateTime? @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String? @default("00000") @db.VarChar(length: 16)
+trs_app_code  String? @default("00000") @db.VarChar(length: 16)
+trs_product_code  String? @default("00000_00000") @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 32)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([my_id])
+@@schema("ct001_ta")
+}
+
+
+model test_erd {
+id  BigInt 
+emp_id  Int? 
+name  String? 
+email  String? 
+trs_created_date  DateTime? @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String? @default("00000") @db.VarChar(length: 16)
+trs_app_code  String? @default("00000") @db.VarChar(length: 16)
+trs_product_code  String? @default("00000_00000") @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 32)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([id])
+@@schema("ct001_ta")
+}
+
+
+model dynamic_table {
+rtp_identifier_id  Int 
+rtp_identifier  Json? 
+trs_created_date  DateTime? @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String? @default("00000") @db.VarChar(length: 16)
+trs_app_code  String? @default("00000") @db.VarChar(length: 16)
+trs_product_code  String? @default("00000_00000") @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 32)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([rtp_identifier_id])
+@@schema("ct001_ta")
+}
+
+

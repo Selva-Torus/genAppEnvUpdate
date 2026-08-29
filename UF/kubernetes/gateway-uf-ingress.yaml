@@ -1,20 +1,20 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: ct005-rtgs-uf-generator-httproute
-  namespace: ct005-rtgs-uf-v1
+  name: ct001-ta-uf-generator-httproute
+  namespace: ct001-ta-uf-v1
 spec:
   parentRefs:
-    - name: tgaprod-gw
+    - name: tgatest-gw
       namespace: kgateway-system
       sectionName: https
   hostnames:
-    - "tgaprod910.toruslowcode.com"
+    - "tgatest910.toruslowcode.com"
   rules:
     - matches:
         - path:
             type: PathPrefix
-            value: /ct005/gss/rtgs/v1
+            value: /ct001/tam/ta/v1
       backendRefs:
-        - name: ct005-rtgs-uf-generator
+        - name: ct001-ta-uf-generator
           port: 443

@@ -1,44 +1,13 @@
 
 [
   {
-    "view_all_tablec9e87": {
-      "outbound_or_inbound5e076": false,
-      "search0e695": false
+    "table3c3b1": {
+      "barchartcf891": false
     }
   },
   {
-    "failure_queue_tablea476f": {
-      "outbound_or_inbound5e076": false,
-      "search0e695": false
-    }
-  },
-  {
-    "success_queue_table63aae": {
-      "outbound_or_inbound5e076": false,
-      "search0e695": false
-    }
-  },
-  {
-    "return_queue_table267f0": {
-      "outbound_or_inbound5e076": false,
-      "search0e695": false
-    }
-  },
-  {
-    "operational_pending_table0a253": {
-      "outbound_or_inbound5e076": false,
-      "search0e695": false
-    }
-  },
-  {
-    "technical_pending_table84f30": {
-      "outbound_or_inbound5e076": false,
-      "search0e695": false
-    }
-  },
-  {
-    "closeHandler0e695": {
-      "search0e695": false
+    "carde8dd8": {
+      "combobox659b9": false
     }
   }
 ]

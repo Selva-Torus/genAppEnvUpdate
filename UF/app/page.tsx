@@ -35,7 +35,7 @@ export default function HomePage() {
 
   return (
     <>
-      <LoginForm logo=""   loginType="standard"   image="torus/9.1/CT005/resources/images/Login 1.png" appTenantList={appTenantList}/>
+      <LoginForm logo="torus/9.1/CT001/resources/images/data 1.png"   loginType="leftAligned"   image="torus/9.1/CT001/resources/images/ChatGPT Image May 6, 2026, 01_54_44 PM.png" appTenantList={appTenantList}/>
     </>
   )
 }

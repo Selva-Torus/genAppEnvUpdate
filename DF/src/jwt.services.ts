@@ -54,10 +54,11 @@ export class JwtServices {
         throw new Error('Invalid or expired token');
       }
 
-      const isActive = await this.isSessionActive(claims.sid);
-      if (!isActive) {
-        throw new Error('Invalid or expired token');
-      }
+      // Auth token verification on the basis of application session list bypassed
+      // const isActive = await this.isSessionActive(claims.sid);
+      // if (!isActive) {
+      //  throw new Error('Invalid or expired token');
+      // }
 
       return claims;
     } catch (error) {

@@ -43,16 +43,16 @@ const LayoutDecider = ({
   const { borderColor, bgColor } : { borderColor: string; bgColor: string } = useTheme()
   const { brandColor, hoverColor, selectionColor } : { brandColor: string; hoverColor: string; selectionColor: string } = branding;
   const encryptionFlagApp: boolean = false;    
-  const encryptionDpd: string = "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:RTGS:AFK:RTGS_DPD:AFVK:v1";
+  const encryptionDpd: string = "CK:CT001:FNGK:AF:FNK:CDF-DPD:CATK:TAM:AFGK:TA:AFK:Test_DPD:AFVK:v1";
   const encryptionMethod: string = "";
   const { encAppFalg, setEncAppFalg }  = useContext(TotalContext) as TotalContextProps;
-  const logo: string = ""
-  const appLogo: string = "torus/9.1/CT005/resources/images/White global payment hub.png"
-  const appName: string = "RTGS"
+  const logo: string = "torus/9.1/CT001/resources/images/data 1.png"
+  const appLogo: string = "torus/9.1/CT001/resources/images/BG 4.png"
+  const appName: string = "TestApplication"
   const toast: Function = useInfoMsg()
   const [loading, setLoading] = useState<boolean>(true)
   const [updatedNavData, setUpdatedNavData] = useState<MenuItem[]>([])
-  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT005:AFGK:GSS:AFK:RTGS:AFVK:v1:bldc"
+  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT001:AFGK:TAM:AFK:TA:AFVK:v1:bldc"
   const [rawNavData, setRawNavData] = useState<MenuItem[] | null>(null);
   const navData: MenuItem[] = [
   {
@@ -80,11 +80,11 @@ const LayoutDecider = ({
     "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
   },
   {
-    "menuGroupLabel": "Transactions",
+    "menuGroupLabel": "Menu Item 3",
     "screenDetails": [
       {
-        "name": "transactions",
-        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:transactionProduct:AFVK:v1",
+        "name": "menu item 3",
+        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:ad_search_table:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false
       }
@@ -92,16 +92,94 @@ const LayoutDecider = ({
     "items": []
   },
   {
-    "menuGroupLabel": "Simulator",
+    "menuGroupLabel": "barchart",
     "screenDetails": [
       {
-        "name": "simulator",
-        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:RTGS:AFK:simulatorProcessUi:AFVK:v1",
+        "name": "barchart",
+        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:chart:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false
       }
     ],
     "items": []
+  },
+  {
+    "menuGroupLabel": "grouparray",
+    "screenDetails": [
+      {
+        "name": "grouparray",
+        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:GroupArray:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      }
+    ],
+    "items": []
+  },
+  {
+    "menuGroupLabel": "Request Form",
+    "screenDetails": [
+      {
+        "name": "request form",
+        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Request_form:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
+  },
+  {
+    "menuGroupLabel": "Table",
+    "screenDetails": [
+      {
+        "name": "table",
+        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Table:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/resources/icons/layers-minimalistic-svgrepo-com.svg"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/resources/icons/layers-minimalistic-svgrepo-com.svg"
+  },
+  {
+    "menuGroupLabel": "set table",
+    "screenDetails": [
+      {
+        "name": "set table",
+        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:set_memory_table:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      }
+    ],
+    "items": []
+  },
+  {
+    "menuGroupLabel": "combodrop",
+    "screenDetails": [
+      {
+        "name": "combodrop",
+        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:combo_dropdown:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      }
+    ],
+    "items": []
+  },
+  {
+    "menuGroupLabel": "set_memory",
+    "screenDetails": [
+      {
+        "name": "set_memory",
+        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:setMemoryValuesevent:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/resources/icons/admin-svgrepo-com.svg"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/resources/icons/admin-svgrepo-com.svg"
   }
 ]
   const decodedTokenObj: DecodedToken = decodeToken(token)
@@ -176,12 +254,12 @@ const LayoutDecider = ({
     return ''
   }, [navigationStyles, mode, sidebarStyle])
 
-  async function logout(): Promise<void> {
-    localStorage.clear()
-    sessionStorage.clear()
-    deleteAllCookies()
-    window.location.href = '/'
-  }
+  const logout = () => {
+    localStorage.clear();
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+    const from = encodeURIComponent(`${basePath}/`);
+    window.location.href = `${basePath}/next-api/auth/logout?from=${from}`;
+  };
 
 
   const processMenuItems = async (
@@ -235,6 +313,11 @@ const LayoutDecider = ({
    setRawNavData(res.data); // Set the raw data into state
     } catch (error) {
    console.error("Failed to fetch nav data:", error);
+   if (axios.isAxiosError(error) && error.response?.status === 401) {
+      toast('session expired', 'danger')
+      logout();
+      return;
+    }
    toast('Failed to load navigation data', 'danger');
    setLoading(false);
     }
@@ -281,8 +364,13 @@ const LayoutDecider = ({
       }
     } catch (err: any) {
       console.error(err)
-      toast('user lack access to any screen', 'danger')
-      logout()
+     if (axios.isAxiosError(err) && err.response?.status === 401) {
+      toast('session expired', 'danger')
+      logout();
+      return;
+    }
+      toast('Failed to fetch User Details', 'danger')
+      setLoading(false)
     }
   }
 
@@ -378,27 +466,7 @@ const LayoutDecider = ({
     name: string
     'gridColumn'?: string
     'gridRow'?: string
-  }[] =[
-  {
-    "name": "app logo",
-    "gridColumn": "1/3"
-  },
-  {
-    "name": "menu items",
-    "gridColumn": "3/8",
-    "gridRow": "1/6"
-  },
-  {
-    "name": "profile",
-    "gridColumn": "12/13",
-    "gridRow": "12/13"
-  },
-  {
-    "name": "opr matrix",
-    "gridColumn": "9/12",
-    "gridRow": "6/9"
-  }
-]
+  }[] =[]
 
    if (loading == true){
     return (<div className='flex w-[100vw] h-[100vh] bg-slate-200 justify-center items-center '><span>Loading...</span></div>);

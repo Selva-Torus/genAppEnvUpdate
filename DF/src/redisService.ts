@@ -1,30 +1,14 @@
-import { Injectable, Inject, OnModuleInit } from '@nestjs/common';
-// import { CACHE_MANAGER } from '@nestjs/cache-manager';
-// import { Cache } from 'cache-manager';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import Redis from 'ioredis';
 import { getRedisConnectionOptions, getRedisClient } from './redis.config';
-import { Client } from 'pg';
 import 'dotenv/config';
-import { Db, MongoClient } from 'mongodb';
-const _ = require("lodash")
 import { Queue, QueueOptions } from 'bullmq';
-// import { connectToMongo, connectToRedis, getDb, getRedis,connectPG } from './mongoClient';
-// import { queueMongoOperation } from './mongoQueue-dynamic';
-
-let db: Db;
-//let pgClient: Client | null = null;
-//let pgConnecting: Promise<Client> | null = null;
-//let pgConfig: { connectionString: string; application_name: string } | null = null;
 
 @Injectable()
 export class RedisService implements OnModuleInit {
   private readonly BATCH_SIZE = 10000
   private queues: Map<string, Queue> = new Map();
   private redis: Redis;
-
-  constructor(
-    // @Inject(CACHE_MANAGER) private cacheManager: Cache
-  ) {}
 
   onModuleInit() {
     // Shared across every module that registers RedisService as a provider —
@@ -35,14 +19,14 @@ export class RedisService implements OnModuleInit {
 
 
   //Retrieves JSON data from Redis
-   /**
-   * Retrieves JSON data from Redis.
-   * @param key The key used to identify the JSON data in Redis.
-   * @returns The JSON data retrieved from Redis.
-   * @throws {Error} If there is an error retrieving the JSON data.
-   */
+  /**
+  * Retrieves JSON data from Redis.
+  * @param key The key used to identify the JSON data in Redis.
+  * @returns The JSON data retrieved from Redis.
+  * @throws {Error} If there is an error retrieving the JSON data.
+  */
 
-    getQueue(queueName: string, key: string, value: any): void {
+  getQueue(queueName: string, key: string, value: any): void {
     const jobId = key?.split(':').join('');
 
     let queue = this.queues.get(queueName);
@@ -78,11 +62,11 @@ export class RedisService implements OnModuleInit {
     ).catch(console.error);
   }
 
-    async getJsonData(key: string, collectionName: string) {
+  async getJsonData(key: string, collectionName: string) {
     try {
       let returnValue: any;
-      
-      if(key && collectionName){
+
+      if (key && collectionName) {
         const parts = key.split(":");
         const requiredMarkers = ["CK", "FNGK", "FNK", "CATK", "AFGK", "AFK", "AFVK"];
         requiredMarkers.forEach(marker => {
@@ -91,15 +75,15 @@ export class RedisService implements OnModuleInit {
             throw new Error(`Invalid Redis key`);
           }
         });
-        let redisResult = await this.redis.call('JSON.GET', key);    
+        let redisResult = await this.redis.call('JSON.GET', key);
         if (redisResult) {
           returnValue = redisResult;
-        }else{
-          if(key.includes(':FNGK:AFP:FNK:PF-PFD:'))
-           returnValue = await this.getpgData(key)
+        } else {
+          if (key.includes(':FNGK:AFP:FNK:PF-PFD:'))
+            returnValue = await this.getpgData(key)
         }
-        
-      }else{
+
+      } else {
         throw 'key/client not found'
       }
       return returnValue;
@@ -108,18 +92,18 @@ export class RedisService implements OnModuleInit {
     }
   }
 
-  
-   /**
-   * Retrieves JSON data from Redis with a specified path.
-   * @param key The key used to identify the JSON data in Redis.
-   * @param path The path to the specific JSON value within the JSON data.
-   * @returns The JSON value at the specified path.
-   * @throws {Error} If there is an error retrieving the JSON value.
+
+  /**
+  * Retrieves JSON data from Redis with a specified path.
+  * @param key The key used to identify the JSON data in Redis.
+  * @param path The path to the specific JSON value within the JSON data.
+  * @returns The JSON value at the specified path.
+  * @throws {Error} If there is an error retrieving the JSON value.
 +   */
-   async getJsonDataWithPath(key: string, path:any,collectionName: string) {
+  async getJsonDataWithPath(key: string, path: any, collectionName: string) {
     try {
       let returnValue: any;
-      if(collectionName){
+      if (collectionName) {
         const parts = key.split(":");
         const requiredMarkers = ["CK", "FNGK", "FNK", "CATK", "AFGK", "AFK", "AFVK"];
         requiredMarkers.forEach(marker => {
@@ -141,10 +125,10 @@ export class RedisService implements OnModuleInit {
         // }
 
         // if (!returnValue) {
-          let redisResult = await this.redis.call('JSON.GET', key, path);
-          if (redisResult) {
-            returnValue = redisResult;
-          } 
+        let redisResult = await this.redis.call('JSON.GET', key, path);
+        if (redisResult) {
+          returnValue = redisResult;
+        }
         // }
       } else {
         throw 'client not found';
@@ -155,21 +139,21 @@ export class RedisService implements OnModuleInit {
     }
   }
 
-  async AppendJsonArr(key: string, value: any,collectionName:string, path?: string) {
+  async AppendJsonArr(key: string, value: any, collectionName: string, path?: string) {
     try {
-      if(path){
-        var request = await this.redis.call('JSON.ARRAPPEND', key, '$.'+path, value)
-      }else{
+      if (path) {
+        var request = await this.redis.call('JSON.ARRAPPEND', key, '$.' + path, value)
+      } else {
         var request = await this.redis.call('JSON.ARRAPPEND', key, '$', value)
       }
-      
+
       return request;
 
     } catch (error) {
       throw error
     }
   }
-  
+
 
   //To store JSON data in redis
   /**
@@ -180,47 +164,47 @@ export class RedisService implements OnModuleInit {
    * @returns A string indicating that the value was stored.
    * @throws {Error} If there is an error storing the JSON data.
    */
-    async setJsonData(key: string, value: any, loginId: string, path?: string) { 
+  async setJsonData(key: string, value: any, loginId: string, path?: string) {
     try {
-      if (!loginId || !key || !value) throw "loginId/key/value not found";  
-            
-        const parts = key.split(":");
-        const requiredMarkers = ["CK", "FNGK", "FNK", "CATK", "AFGK", "AFK", "AFVK"];
-        requiredMarkers.forEach(marker => {
-          const idx = parts.indexOf(marker);
-          if (idx === -1 || !parts[idx + 1] || parts[idx + 1] === "undefined" || parts.length <= 14) {
-            throw new Error(`Invalid Redis key`);
-          }
-        });
-        
-        let pg_response
-         const defpath = path ? `.${path}` : "$";
-         pg_response = await this.redis.call("JSON.SET", key, defpath, value);
-        
-          if(pg_response == 'Value Stored' || pg_response == 'OK'){
-           let valuejson = await this.redis.call('JSON.GET', key)
-        if(key.includes(':FNGK:AFP:FNK:PF-PFD:'))
-          this.getQueue(`AFP-PERSISTENCE`,key,valuejson);
+      if (!loginId || !key || !value) throw "loginId/key/value not found";
+
+      const parts = key.split(":");
+      const requiredMarkers = ["CK", "FNGK", "FNK", "CATK", "AFGK", "AFK", "AFVK"];
+      requiredMarkers.forEach(marker => {
+        const idx = parts.indexOf(marker);
+        if (idx === -1 || !parts[idx + 1] || parts[idx + 1] === "undefined" || parts.length <= 14) {
+          throw new Error(`Invalid Redis key`);
         }
-        if(pg_response)
-          return 'Value Stored'
-              
-            
+      });
+
+      let pg_response
+      const defpath = path ? `.${path}` : "$";
+      pg_response = await this.redis.call("JSON.SET", key, defpath, value);
+
+      if (pg_response == 'Value Stored' || pg_response == 'OK') {
+        let valuejson = await this.redis.call('JSON.GET', key)
+        if (key.includes(':FNGK:AFP:FNK:PF-PFD:'))
+          this.getQueue(`AFP-PERSISTENCE`, key, valuejson);
+      }
+      if (pg_response)
+        return 'Value Stored'
+
+
     } catch (error) {
-      console.log('error',error);
-          
+      console.log('error', error);
+
       throw error;
     }
   }
 
-  async setIfNotExist(key:string,value:any,ttl:any){
+  async setIfNotExist(key: string, value: any, ttl: any) {
     try {
       return await this.redis.set(key, value, 'PX', ttl, 'NX');
     } catch (error) {
       throw error;
     }
   }
-  
+
   async setJsonDataBatch(
     operations: Array<{ key: string; value: any; path?: string }>,
     collectionName: string
@@ -298,32 +282,32 @@ export class RedisService implements OnModuleInit {
   }
 
   //To store Stream data in redis
- /**
-   * Stores stream data in Redis.
-   * @param streamName The name of the Redis stream.
-   * @param key The key used to identify the stream data.
-   * @param strValue The stream data to be stored.
-   * @returns The ID of the added message.
-   * @throws {Error} If there is an error storing the stream data.
-   */
+  /**
+    * Stores stream data in Redis.
+    * @param streamName The name of the Redis stream.
+    * @param key The key used to identify the stream data.
+    * @param strValue The stream data to be stored.
+    * @returns The ID of the added message.
+    * @throws {Error} If there is an error storing the stream data.
+    */
 
   async setStreamData(streamName: string, key: string, strValue: any) {
-    try {   
-      streamName = streamName?.trim()  
-      if(streamName && streamName != '' && key && strValue) {
+    try {
+      streamName = streamName?.trim()
+      if (streamName && streamName != '' && key && strValue) {
         var result = await this.redis.xadd(streamName, '*', key, strValue);
-       if(result){     
-        await this.redis.call('EXPIRE', key, 86400);
-       } 
-      return result;
+        if (result) {
+          await this.redis.call('EXPIRE', key, 86400);
+        }
+        return result;
       }
-      
+
     } catch (error) {
       throw error;
     }
   }
 
-  async hset(hashName,field, value){
+  async hset(hashName, field, value) {
     try {
       return await this.redis.hset(hashName, field, value)
     } catch (error) {
@@ -331,9 +315,9 @@ export class RedisService implements OnModuleInit {
     }
   }
 
-  async hget(hashName,field){
+  async hget(hashName, field) {
     try {
-      return await this.redis.hget(hashName,field);
+      return await this.redis.hget(hashName, field);
     } catch (error) {
       throw error
     }
@@ -346,18 +330,18 @@ export class RedisService implements OnModuleInit {
    * @throws {Error} If there is an error executing the EXISTS command.
    */
 
-  async exist(key,collectionName: string) {
+  async exist(key, collectionName: string) {
     try {
-     
-      if(collectionName){ 
+
+      if (collectionName) {
         let redisResult = await this.redis.call('EXISTS', key);
-        if(redisResult){
+        if (redisResult) {
           return redisResult;
-        }else{
-         // return await this.isExist(key)
+        } else {
+          // return await this.isExist(key)
         }
-       
-      }else{
+
+      } else {
         throw 'client not found'
       }
     } catch (error) {
@@ -366,54 +350,50 @@ export class RedisService implements OnModuleInit {
   }
 
 
-  async quit(){
-     await this.redis.quit();
+  async quit() {
+    await this.redis.quit();
   }
- 
-   /**
-   * Retrieves stream data from Redis.
-   * @param streamName The name of the Redis stream.
-   * @returns An array of messages in the stream.
-   * @throws {Error} If there is an error retrieving the stream data.
-   */
-  
+
+  /**
+  * Retrieves stream data from Redis.
+  * @param streamName The name of the Redis stream.
+  * @returns An array of messages in the stream.
+  * @throws {Error} If there is an error retrieving the stream data.
+  */
+
   async getStreamData(streamName) {
     try {
       var messages = await this.redis.xread('STREAMS', streamName, 0);     
-      if(messages && messages != null){
-        return messages;        
-      }else{
-        return await this.convertStreamStruct(streamName)
-      }
+      return messages;      
     } catch (error) {
       throw error;
     }
   }
 
 
-   /**
-   * Retrieves stream data from Redis using XRANGE command.
-   * 
-   * @param {string} streamName - The name of the Redis stream.
-   * @returns {Promise<string[][]>} - An array of messages in the stream.
-   * @throws {Error} - If there is an error retrieving the stream data.
-   */
+  /**
+  * Retrieves stream data from Redis using XRANGE command.
+  * 
+  * @param {string} streamName - The name of the Redis stream.
+  * @returns {Promise<string[][]>} - An array of messages in the stream.
+  * @throws {Error} - If there is an error retrieving the stream data.
+  */
 
-   async getStreamRange(streamName,end?,start?){
+  async getStreamRange(streamName, end?, start?) {
     try {
       let messages;
-      if(start && !end) 
+      if (start && !end)
         end = '+'
-      if(end && !start)
+      if (end && !start)
         start = '-'
-       if(end && start){
-       messages = await this.redis.call('XRANGE', streamName, start, end);
-       }else
-         messages = await this.redis.call('XRANGE', streamName, '-', '+');
+      if (end && start) {
+        messages = await this.redis.call('XRANGE', streamName, start, end);
+      } else
+        messages = await this.redis.call('XRANGE', streamName, '-', '+');
       // if(messages?.length == 0){    
       //   return await this.convertStreamRangeStruct(streamName)
       // }else{
-        return messages;
+      return messages;
       // }
     } catch (error) {
       throw error;
@@ -428,19 +408,19 @@ export class RedisService implements OnModuleInit {
    * @returns {Promise<string[][]>} - An array of messages in the stream.
    * @throws {Error} - If there is an error retrieving the stream data.
    */
-   async getStreamRevRange(streamName, end?,start?,count?) {
-    try {    
-      if(end && start){
-        var messages = await this.redis.xrevrange(streamName,end, start,'COUNT',count);
-      }else{
-        var messages = await this.redis.xrevrange(streamName,'+', '-', 'COUNT',count);
+  async getStreamRevRange(streamName, end?, start?, count?) {
+    try {
+      if (end && start) {
+        var messages = await this.redis.xrevrange(streamName, end, start, 'COUNT', count);
+      } else {
+        var messages = await this.redis.xrevrange(streamName, '+', '-', 'COUNT', count);
       }
       return messages;
     } catch (error) {
       throw error;
     }
   }
-  
+
   //Retrieves stream data from Redis with count
   /**
    * Retrieves stream data from Redis with count.
@@ -474,7 +454,7 @@ export class RedisService implements OnModuleInit {
    * @returns {Promise<string>} - A promise that resolves to a string indicating the consumer group was created.
    * @throws {Error} - If there is an error creating the consumer group.
   */
-    async createConsumerGroup(streamName, groupName) {
+  async createConsumerGroup(streamName, groupName) {
     try {
       // Check if the consumer group already exists
       const grpInfo: any[] = await (this.redis.xinfo('GROUPS', streamName) as Promise<any>).catch(() => []);
@@ -496,7 +476,7 @@ export class RedisService implements OnModuleInit {
       }
 
       return `consumerGroup ${groupName} already exists`;
-    } catch (error:any) {
+    } catch (error: any) {
       // If error is BUSYGROUP, the group already exists - this is okay
       if (error.message && error.message.includes('BUSYGROUP')) {
         return `consumerGroup ${groupName} already exists`;
@@ -538,13 +518,13 @@ export class RedisService implements OnModuleInit {
    * @throws {Error} - If there is an error reading the messages.
    */
   async readConsumerGroup(streamName, groupName, consumerName) {
-    try {     
+    try {
       var res = [];
-      var result = await this.redis.xreadgroup('GROUP',groupName,consumerName,'STREAMS',streamName,'>');
-      
+      var result = await this.redis.xreadgroup('GROUP', groupName, consumerName, 'STREAMS', streamName, '>');
+
       if (result) {
         result.forEach(([key, message]) => {
-          message.forEach(([messageId, data]) => {           
+          message.forEach(([messageId, data]) => {
             var obj = {};
             obj['msgid'] = messageId;
             obj['data'] = data;
@@ -578,8 +558,8 @@ export class RedisService implements OnModuleInit {
   }
 
   async deleteWithEntryId(streamName, msgId) {
-    try {      
-      return await this.redis.call('XDEL',streamName,msgId) 
+    try {
+      return await this.redis.call('XDEL', streamName, msgId)
     } catch (error) {
       throw error;
     }
@@ -587,12 +567,12 @@ export class RedisService implements OnModuleInit {
 
 
 
-   /**
-   * Retrieves information about a consumer group in Redis.
-   * @param {string} groupName - The name of the consumer group.
-   * @returns {Promise<Array>} - A promise that resolves to an array of information about the consumer group.
-   * @throws {Error} - If there is an error retrieving the information.
-   */
+  /**
+  * Retrieves information about a consumer group in Redis.
+  * @param {string} groupName - The name of the consumer group.
+  * @returns {Promise<Array>} - A promise that resolves to an array of information about the consumer group.
+  * @throws {Error} - If there is an error retrieving the information.
+  */
   async getInfoGrp(groupName): Promise<any> {
     try {
       let result = await this.redis.xinfo('GROUPS', groupName);
@@ -609,41 +589,41 @@ export class RedisService implements OnModuleInit {
    * @returns {Promise<Array>} - A promise that resolves to an array of keys that match the pattern.
    * @throws {Error} - If there is an error retrieving the keys.
    */
-  
-  async getKeys(key: string , collectionName: string, isKeySuffix = false) {
+
+  async getKeys(key: string, collectionName: string, isKeySuffix = false) {
     try {
-       let redisKey
-       
-       if (key && collectionName) {
-         if (key.endsWith(':')) redisKey = isKeySuffix ? '*:' + key : key + '*';
-         else redisKey = isKeySuffix ? '*:' + key : key + ':*';
+      let redisKey
 
-         const parts = key.split(':').map((p) => p.trim());
-         const KeyrequiredMarkers = [
-           'CK',
-           'FNGK',
-           'FNK',
-           'CATK',
-           'AFGK',
-           'AFK',
-           'AFVK',
-         ];
-         KeyrequiredMarkers.forEach((marker) => {
-           const idx = parts.indexOf(marker);
-           if (parts[idx + 1] === 'undefined' || parts[idx + 1] === '') {
-             throw new Error(`Invalid Redis key`);
-           }
-         });
+      if (key && collectionName) {
+        if (key.endsWith(':')) redisKey = isKeySuffix ? '*:' + key : key + '*';
+        else redisKey = isKeySuffix ? '*:' + key : key + ':*';
 
-         let keys = await this.redis.keys(redisKey);
-         if (keys?.length > 0) {
-           return keys;
-         } else {
-           //return await this.getpgKeys(redisKey);            
-         }
-       } else {
-         throw 'key/client not found';
-       }
+        const parts = key.split(':').map((p) => p.trim());
+        const KeyrequiredMarkers = [
+          'CK',
+          'FNGK',
+          'FNK',
+          'CATK',
+          'AFGK',
+          'AFK',
+          'AFVK',
+        ];
+        KeyrequiredMarkers.forEach((marker) => {
+          const idx = parts.indexOf(marker);
+          if (parts[idx + 1] === 'undefined' || parts[idx + 1] === '') {
+            throw new Error(`Invalid Redis key`);
+          }
+        });
+
+        let keys = await this.redis.keys(redisKey);
+        if (keys?.length > 0) {
+          return keys;
+        } else {
+          //return await this.getpgKeys(redisKey);            
+        }
+      } else {
+        throw 'key/client not found';
+      }
     } catch (error) {
       throw error;
     }
@@ -651,38 +631,38 @@ export class RedisService implements OnModuleInit {
 
 
   async scanKeys(pattern) {
-    try {    
+    try {
       let cursor = '0';
       const allKeys = [];
-    
+
       do {
-        const [nextCursor, keys] = await this.redis.scan(cursor,'MATCH',pattern,'COUNT',100);     
+        const [nextCursor, keys] = await this.redis.scan(cursor, 'MATCH', pattern, 'COUNT', 100);
         cursor = nextCursor;
         allKeys.push(...keys);
       } while (cursor !== '0');
-    
+
       return allKeys;
     } catch (error) {
       throw error
     }
   }
-  
+
   /**
    * Deletes a key in Redis.
    * @param {string} key - The key to delete.
    * @returns {Promise<void>} - A promise that resolves when the key is deleted.
    * @throws {Error} - If there is an error deleting the key.
    */
-  async deleteKey(key: any,collectionName: string) {
-    try {     
-      if(key && collectionName){     
-        var response = await this.redis.del(key); 
-        if(response){
-         // await this.deletePgKey(key)
+  async deleteKey(key: any, collectionName: string) {
+    try {
+      if (key && collectionName) {
+        var response = await this.redis.del(key);
+        if (response) {
+          // await this.deletePgKey(key)
           return response
         }
-      }else{
-       throw 'client not found'
+      } else {
+        throw 'client not found'
       }
     } catch (error) {
       throw error;
@@ -707,7 +687,7 @@ export class RedisService implements OnModuleInit {
     }
   }
 
-  async renameKey(oldKey, newKey,client) {
+  async renameKey(oldKey, newKey, client) {
     try {
       // Update CACHE_MANAGER - move cached value from old key to new key
       // let cachedResult = await this.cacheManager.get<string>(oldKey);
@@ -732,23 +712,18 @@ export class RedisService implements OnModuleInit {
     } catch (error) {
       throw error;
     }
-  }  
+  }
 
   async getstreamKey(key: string) {
     try {
-      let keys
-       keys = await this.redis.keys(key); 
-      if(keys?.length == 0){
-        keys = await this.getDocumentKeys(key)
-      }
-      return keys;
+      return await this.redis.keys(key); 
     } catch (error) {
       throw error;
     }
   }
 
 
-   async sethash(records,key,logicCenter:boolean){
+  async sethash(records, key, logicCenter?: boolean) {
     try {
       const totalBatches = Math.ceil(records.length / this.BATCH_SIZE);
       let storedCount = 0;
@@ -763,7 +738,7 @@ export class RedisService implements OnModuleInit {
         batch.forEach((record, index) => {
           const globalIndex = start + index;
           pipeline.hset(
-            key+':'+batchNum,
+            key + ':' + batchNum,
             globalIndex.toString(),
             JSON.stringify(record)
           );
@@ -771,454 +746,39 @@ export class RedisService implements OnModuleInit {
         await pipeline.exec();
       }
 
-      await this.redis.set( key+':total', records.length);
-      await this.redis.set(key+':batches', totalBatches);  
-      if(logicCenter)   
-      this.getQueue(`AFP-PERSISTENCE`,key,JSON.stringify(records));
+      await this.redis.set(key + ':total', records.length);
+      await this.redis.set(key + ':batches', totalBatches);
+      if (logicCenter)
+        this.getQueue(`AFP-PERSISTENCE`, key, JSON.stringify(records));
     } catch (error) {
       throw error
     }
   }
 
 
-    async getAllRecordshash(key): Promise<any[]> {
-   //const total = parseInt(await this.redis.get('records:total') || '0');
-    const totalBatches = parseInt(await this.redis.get(key+':batches') || '0'); 
+  async getAllRecordshash(key): Promise<any[]> {
+    //const total = parseInt(await this.redis.get('records:total') || '0');
+    const totalBatches = parseInt(await this.redis.get(key + ':batches') || '0');
     // if (total === 0) {
     //   return [];
     // }    
-    const allRecords: any[] = [];    
+    const allRecords: any[] = [];
     for (let batchNum = 0; batchNum < totalBatches; batchNum++) {
       const batchData: Record<string, string> = await this.redis.hgetall(
-       key+':'+batchNum
-      );      
-      const batchRecords = Object.values(batchData).map(value => 
+        key + ':' + batchNum
+      );
+      const batchRecords = Object.values(batchData).map(value =>
         JSON.parse(value)
-      );      
+      );
       allRecords.push(...batchRecords);
       console.log(`Loaded batch ${batchNum + 1}/${totalBatches}`);
     }
-    
+
     return allRecords;
   }
 
- 
-  //------------------------ MONGO DB ----------------------------//
 
-  async setDocument(collectionName: string, key: string, value: any,path?:any,filter?:object){
-    try {
-      if(key && collectionName){
-        let collection;
-        if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
-          collection = db.collection('TORUS_AMDKEYS'); 
-        else
-          collection = db.collection(collectionName+'_AMDKEYS');
- 
-        let customId:any = { _id:key}
-      
-        let customVal:any = { $set: { value } }      
-      
-        if(filter)    
-          customId = Object.assign(customId,filter) 
-
-        if(path){
-          if(path.includes('[') && path.includes(']')){ 
-            path = path.replace(']', '');
-            path = path.replace('[', '');
-          }
-          path = 'value.'+path
-          customVal = { $set: { [path]:value } }
-        }
-      
-        var result = await collection.findOneAndUpdate(customId,customVal,{ upsert: true, returnDocument: 'after' })
-    
-        if (result) {
-          return result
-        } else {
-          return 0
-        }
-      }else{
-        throw 'key/client not found'
-      }      
-    } catch (error) {
-      throw error
-    }
-  }  
-
-  async getDocumentKeys(collectionName: string, key?: string){
-    try {
-      if (!collectionName) throw 'client not found';
-      let collection;
-      let result
-      if (key) {
-        if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
-          collection = db.collection('TORUS_AMDKEYS'); 
-        else
-          collection = db.collection(collectionName+'_AMDKEYS');
-
-        const parts = key.split(":").map(p => p.trim());
-        const KeyrequiredMarkers = ["CK", "FNGK", "FNK", "CATK", "AFGK", "AFK", "AFVK"];
-        KeyrequiredMarkers.forEach(marker => {
-          const idx = parts.indexOf(marker);
-          if (parts[idx + 1] === "undefined" || parts[idx + 1] === '') {
-            throw new Error(`Invalid Redis key: missing value for ${marker}`);
-          }
-        });
-      
-        if (key.includes(':*:')) {
-          key = key.replaceAll(':*', '.*?')
-        }
-        result = await collection.find({ _id: { $regex: (`${key}`) } }).toArray();
-      }
-      else {
-        collection = db.collection(collectionName);
-        result = await collection.find().toArray();
-      }  
-        
-      let arrID=[]
-      if (result && result.length>0) {       
-        const arrID: string[] = [];
-        const requiredMarkers = ["CK", "FNGK", "FNK", "CATK", "AFGK", "AFK", "AFVK"];
-        for (const item of result) {
-          const _id = item?._id;
-          if (!_id || typeof _id !== "string") continue;
-
-          const parts = _id.split(":").map(p => p.trim());         
-        
-          let isValid = true;  
-          for (const marker of requiredMarkers) {
-            const idx = parts.indexOf(marker);
-            const next = parts[idx + 1];  
-            if (idx === -1 ||next === undefined ||next === null ||next.trim?.() === "" ||next.toLowerCase?.() === "undefined" || parts.length <= 14) {
-              isValid = false;
-              await this.deleteKey(_id,collectionName)
-              break;
-            }
-          }
-
-          if (isValid && !arrID.includes(_id)) {
-            arrID.push(_id);
-          }                  
-        }
-        return arrID
-      } else {
-        return arrID
-      }
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async getDocument(collectionName: string, key: string, path?:any,filter?:object){
-    try {
-      if(!collectionName)  throw 'client not found'
-      let collection;
-      if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
-        collection = db.collection('TORUS_AMDKEYS'); 
-      else
-        collection = db.collection(collectionName+'_AMDKEYS');
-     
-      const parts = key.split(":").map(p => p.trim());
-      const KeyrequiredMarkers = ["CK", "FNGK", "FNK", "CATK", "AFGK", "AFK", "AFVK"];
-      KeyrequiredMarkers.forEach(marker => {
-        const idx = parts.indexOf(marker);
-        if (parts[idx + 1] === "undefined" || parts[idx + 1] === '' || parts.length <= 14) {
-          throw new Error(`Invalid Redis key: missing value for ${marker}`);
-        }
-      });
-
-      // ✅ PERFORMANCE FIX: Use exact match instead of case-insensitive regex
-      // Regex queries with 'i' flag can't use indexes efficiently and cause 10-30 second delays
-      let customId:any = {
-        _id: key  // Exact match - uses index, completes in milliseconds
-      }
-
-      var result = await collection.find(customId).toArray();  
-     // console.log(1,JSON.stringify(result));     
-      if (result?.length>0) { 
-        const arrID: string[] = [];
-        const requiredMarkers = ["CK", "FNGK", "FNK", "CATK", "AFGK", "AFK", "AFVK"];
-        for (const item of result) {
-          const _id = item?._id;
-          if (!_id || typeof _id !== "string") continue;
-          const parts = _id.split(":").map(p => p.trim());  
-          let isValid = true;  
-          for (const marker of requiredMarkers) {
-            const idx = parts.indexOf(marker);
-            const next = parts[idx + 1];  
-            if (idx === -1 ||next === undefined ||next === null ||next.trim?.() === "" ||next.toLowerCase?.() === "undefined" || parts.length <= 14) {
-              isValid = false;
-              await this.deleteKey(_id,collectionName)
-              break;
-            }
-          }
-
-          if (isValid) {//&& !arrID.includes(_id)
-            arrID.push(item);
-          }                  
-        }       
-        
-        if(arrID.length>0) result = arrID
-              
-        if(path){   
-          return await _.get(result?.[0],'value'+path)         
-        }
-        return result
-      } else {
-        return 0
-      }
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async getCollection(collectionName: string){
-    try {     
-      const collection = db.collection(collectionName+'_AMDKEYS'); 
-      var result = await collection.find().toArray();  
-       
-      if (result?.length>0) { 
-        return result
-      } else {
-        return 0
-      }
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async listCollections(collectionName?:string){
-    try {
-      let collections = []
-      let collectionList = await db.listCollections().toArray();
-      collectionList.forEach(collection => {
-        if(collectionName){
-          if(collection.name.includes(collectionName)){
-            collections.push(collection.name);
-          }
-        }else{
-          collections.push(collection.name);
-        }
-      });
-      if(collections.length > 0){
-        return collections
-      }else{
-        return 0
-      }
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async existsDocument(collectionName: string, key: string){
-    try {  
-      if(!collectionName) throw 'client not found'    
-      let collection;
-      if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
-        collection = db.collection('TORUS_AMDKEYS'); 
-      else
-        collection = db.collection(collectionName+'_AMDKEYS');
-
-      let customId:any = {_id:key}  
-     
-      var result = await collection.findOne(customId,{ projection: { _id: 1 } })   
-       
-      if (result) {
-        return result
-      } else {
-        return 0
-      }
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async appendDocumentData(collectionName: string, key: string,AppendValue:any){
-    try {
-      if(!collectionName)  throw 'client not found'
-       let collection;
-      if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
-        collection = db.collection('TORUS_AMDKEYS'); 
-      else
-        collection = db.collection(collectionName+'_AMDKEYS');
-
-      let customId:any = {_id:key}
-
-      var result:any = await collection.find(customId).toArray()
-     
-      if(result?.length>0){                
-        let pushQry = { $push: { ['value'] : AppendValue } }               
-        return await collection.updateOne(customId, pushQry);             
-      }else{  
-        return await this.setDocument(collectionName,key,[AppendValue])
-      }
-
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async appendStreamDocument(collectionName: string, key: string,AppendValue:any){
-    try {
-      const collection:any = db.collection(collectionName); 
-      let customId:any = {_id:key}
-
-      var result:any = await collection.find(customId).toArray()
-     
-      if(result?.length>0){                
-        let pushQry = { $push: { ['value'] : AppendValue } }
-               
-        return await collection.updateOne(customId, pushQry);
-             
-      }else{  
-        return await this.setStreamDocument(collectionName,key,[AppendValue])
-      }
-
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async setStreamDocument(collectionName: string, key: string, value: any,path?:any,filter?:object){
-    try {
-     
-      const collection = db.collection(collectionName);
- 
-      let customId:any = { _id:key}
-     
-      let customVal:any = { $set: { value } }      
-     
-      if(filter)    
-        customId = Object.assign(customId,filter) 
-
-      if(path){
-        if(path.includes('[') && path.includes(']')){ 
-          path = path.replace(']', '');
-          path = path.replace('[', '');
-        }
-        path = 'value.'+path
-        customVal = { $set: { [path]:value } }
-      }
-     
-      var result = await collection.findOneAndUpdate(customId,customVal,{ upsert: true, returnDocument: 'after' })
-   
-      if (result) {
-        return result
-      } else {
-        return 0
-      }
-    } catch (error) {
-      throw error
-    }
-  }  
-
-  async convertStreamStruct(collectionName){
-    try {   
-    const collection = db.collection(collectionName); 
-    let docs: any =  await collection.find().toArray();  
-      
-    let FinalArr = [];  
-    
-    if (docs?.length > 0) {
-      let EntryIdArr = []
-      for (let d = 0; d < docs.length; d++) {
-        let singleDoc = docs[d];
-        let singleDocId = singleDoc._id;
-        let singleDocValArr = singleDoc.value;
-
-       
-        for(let v = 0; v < singleDocValArr.length; v++){
-          let fieldKeyArr = [];
-          let EntryId = singleDocValArr[v].EntryId
-          delete singleDocValArr[v].EntryId
-      
-          await this.redis.xadd(collectionName, EntryId, singleDocId, JSON.stringify(singleDocValArr[v]));
-
-          fieldKeyArr.push(EntryId,[singleDocId,JSON.stringify(singleDocValArr[v])]);
-        
-          EntryIdArr.push(fieldKeyArr);
-        }      
-
-      }
-      FinalArr.push([collectionName,EntryIdArr]);
-      return FinalArr
-     
-    }
-
-    } catch (error) {
-      throw error
-    }
-  }
-
-   async convertStreamRangeStruct(collectionName){
-    try {   
-    const collection = db.collection(collectionName); 
-    let docs: any =  await collection.find().toArray(); 
-    
-    if (docs?.length > 0) {
-      let EntryIdArr = []
-      for (let d = 0; d < docs.length; d++) {
-        let singleDoc = docs[d];
-        let singleDocId = singleDoc._id;
-        let singleDocValArr = singleDoc.value;
-
-       
-        for(let v = 0; v < singleDocValArr.length; v++){
-          let fieldKeyArr = [];
-          let EntryId = singleDocValArr[v].EntryId
-          delete singleDocValArr[v].EntryId
-      
-          await this.redis.xadd(collectionName, EntryId, singleDocId, JSON.stringify(singleDocValArr[v]));
-
-          fieldKeyArr.push(EntryId,[singleDocId,JSON.stringify(singleDocValArr[v])]);
-        
-          EntryIdArr.push(fieldKeyArr);
-        }      
-       
-      }     
-      return EntryIdArr
-     
-    }
-
-    } catch (error) {
-      throw error
-    }
-  }
-   
-
- async renameDocumentId(collectionName: string,oldId: string,newId: string): Promise<string> {
-  try {    
-    const collection = db.collection<any>(collectionName +'_AMDKEYS');    
-    const doc = await collection.findOne({ _id: oldId });
-    if (!doc) {
-      throw (`_id "${oldId}" not found`);
-    }    
-    doc._id = newId;
-    await collection.insertOne(doc);  
-    return newId;
-  } catch (error) {
-    throw error
-  }
-}
-
-
-async deleteDocument(collectionName:string,key:any){
-  try{
-    if(!collectionName) throw 'client not found'
-      let collection;
-      if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
-        collection = db.collection('TORUS_AMDKEYS'); 
-      else
-        collection = db.collection(collectionName+'_AMDKEYS');
-
-      let res = await collection.deleteOne({_id:key} )
-      return res;
-  }catch(err){
-    throw err;
-  }
-}
-
-async select(db: number) {
+  async select(db: number) {
     return this.redis.select(db);
   }
 
@@ -1250,7 +810,7 @@ async select(db: number) {
     return this.redis.del(key);
   }
 
-  
+
 
   async hgetall(key: string) {
     return this.redis.hgetall(key);
@@ -1304,7 +864,7 @@ async select(db: number) {
 
 
   async connectPG() {
-    try {      
+    try {
       const { Client } = require('pg');
       let pgClient
       if (pgClient && pgClient._connected) {
@@ -1314,50 +874,50 @@ async select(db: number) {
         connectionString: process.env.PG_URL,
         application_name: 'AFP-Service',
       });
-  
+
       await pgClient.connect();
       console.log('PG connected');
-      
+
       return pgClient;
 
     } catch (error) {
       throw error
     }
   }
-  
-  async setPgData(key: string, value:any,path?): Promise<any> {
+
+  async setPgData(key: string, value: any, path?): Promise<any> {
     let pgClient
     try {
       pgClient = await this.connectPG();
       const DbSchema = process.env.PG_SCHEMANAME;
       if (!DbSchema || !pgClient) throw ('pgClient/schema not found')
       let tableName
-      if(key){
-        if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+      if (key) {
+        if (key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
           tableName = 'amd_node_registry'
-         else if(key.includes(':FNGK:AFP:'))
+        else if (key.includes(':FNGK:AFP:'))
           tableName = 'tam_app_process_dtl'
         else
           tableName = 'amd_registry'
-      }       
-     let query,result;
+      }
+      let query, result;
       const keys = key.split(':');
-      if (keys.length <= 14) throw ('Invalid key')            
-       
-        const values = [
-          key,
-          keys[1],
-          keys[3],
-          keys[5],
-          keys[7],
-          keys[9],
-          keys[11],
-          keys[13],
-          keys[14],
-          value
-        ]      
-       
-       let  existquery = `
+      if (keys.length <= 14) throw ('Invalid key')
+
+      const values = [
+        key,
+        keys[1],
+        keys[3],
+        keys[5],
+        keys[7],
+        keys[9],
+        keys[11],
+        keys[13],
+        keys[14],
+        value
+      ]
+
+      let existquery = `
         SELECT EXISTS (
           SELECT 1
           FROM "${DbSchema}".${tableName}
@@ -1365,71 +925,71 @@ async select(db: number) {
         ) AS exists
       `;
       let existresult = await pgClient.query(existquery, [key]);
-    
-      if(existresult.rows[0].exists){        
-         query = `
+
+      if (existresult.rows[0].exists) {
+        query = `
            UPDATE "${DbSchema}".${tableName} SET
             data = $2,
             trs_modified_by = '',
             trs_modified_date = CURRENT_TIMESTAMP where full_key = $1
-        `;      
-        result = await pgClient.query(query, [key,value]);      
-      }else{        
-         query = `INSERT INTO "${DbSchema}".${tableName}
+        `;
+        result = await pgClient.query(query, [key, value]);
+      } else {
+        query = `INSERT INTO "${DbSchema}".${tableName}
           (full_key, ck_code, fngk_code, fnk_code, catk_code, afgk_code, 
           afk_code, afvk_code, afsk_code, data, trs_created_by, trs_created_date, trs_modified_by, trs_modified_date)
           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, '', CURRENT_TIMESTAMP, '', CURRENT_TIMESTAMP)         
           `
-          result = await pgClient.query(query, values);       
+        result = await pgClient.query(query, values);
       }
-         let audit_query = `
+      let audit_query = `
           INSERT INTO "${DbSchema}".amd_registry_auditlogs
           (full_key, ck_code, fngk_code, fnk_code, catk_code, afgk_code, 
           afk_code, afvk_code, afsk_code, data, trs_created_by, trs_created_date, trs_modified_by, trs_modified_date)
           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, '', CURRENT_TIMESTAMP, '', CURRENT_TIMESTAMP)        
-        `;      
-       
-        await pgClient.query(audit_query, values);        
-        await pgClient.end();
-        if (result.rowCount > 0) 
-          return 'OK';
+        `;
+
+      await pgClient.query(audit_query, values);
+      await pgClient.end();
+      if (result.rowCount > 0)
+        return 'OK';
     } catch (error) {
       if (pgClient && pgClient._connected) {
         await pgClient.end();
-      }     
+      }
       throw error;
     }
   }
 
-  async getpgData(key){ 
-    let pgClient   
+  async getpgData(key) {
+    let pgClient
     try {
       pgClient = await this.connectPG();
       let DbSchema = process.env.PG_SCHEMANAME;
       if (!DbSchema || !pgClient) throw ('pgClient/schema not found')
       let tableName
-      if(key){
-        if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+      if (key) {
+        if (key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
           tableName = 'amd_node_registry'
-        else if(key.includes(':FNGK:AFP:'))
+        else if (key.includes(':FNGK:AFP:'))
           tableName = 'tam_app_process_dtl'
-        else 
+        else
           tableName = 'amd_registry'
-      }     
+      }
       const query = `        
         SELECT data
         FROM "${DbSchema}".${tableName}
         WHERE full_key = $1        
       `;
-      
-      const result = await pgClient.query(query, [key]);      
-        
+
+      const result = await pgClient.query(query, [key]);
+
       await pgClient.end();
       if (!result?.rows[0]?.data) return null
       return result.rows[0].data
     } catch (error) {
-      console.log('error',error);
-      
+      console.log('error', error);
+
       if (pgClient && pgClient._connected) {
         await pgClient.end();
       }
@@ -1437,16 +997,16 @@ async select(db: number) {
     }
   }
 
-    async getpgKeys(key){    
+  async getpgKeys(key) {
     let pgClient
     try {
       pgClient = await this.connectPG();
-      let DbSchema = process.env.PG_SCHEMANAME;     
+      let DbSchema = process.env.PG_SCHEMANAME;
 
       if (!DbSchema || !pgClient) throw ('pgClient/schema not found')
       let tableName
-      if(key){
-        if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+      if (key) {
+        if (key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
           tableName = 'amd_node_registry'
         else
           tableName = 'amd_registry'
@@ -1463,29 +1023,29 @@ async select(db: number) {
         AFVK: 'afvk_code'
       };
       function parseKey(key) {
-          const parts = key.split(':');
-          const result = {};
+        const parts = key.split(':');
+        const result = {};
 
-          for (let i = 0; i < parts.length - 1; i += 2) {
-              result[parts[i]] = parts[i + 1];
-          }
+        for (let i = 0; i < parts.length - 1; i += 2) {
+          result[parts[i]] = parts[i + 1];
+        }
 
-          return result;
+        return result;
       }
       const values = parseKey(key);
       const params = [];
 
       Object.entries(mapping).forEach(([k, column]) => {
         if (values[k] && values[k] !== '*') {
-            params.push(values[k]);
-            conditions.push(`${column} = $${params.length}`);
+          params.push(values[k]);
+          conditions.push(`${column} = $${params.length}`);
         }
       });
 
       let result = await pgClient.query(`SELECT full_key from "${DbSchema}".${tableName} where ${conditions.join(' AND ')}`, params)
 
       await pgClient.end();
-      let allApiKeys = result?.rows?.map(row => row.full_key) || [] 
+      let allApiKeys = result?.rows?.map(row => row.full_key) || []
       return allApiKeys
     } catch (error) {
       if (pgClient && pgClient._connected) {
@@ -1495,15 +1055,15 @@ async select(db: number) {
     }
   }
 
-  async isExist(key){
+  async isExist(key) {
     let pgClient
     try {
       pgClient = await this.connectPG();
       let DbSchema = process.env.PG_SCHEMANAME;
       if (!DbSchema || !pgClient) throw ('pgClient/schema not found')
       let tableName
-      if(key){
-        if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+      if (key) {
+        if (key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
           tableName = 'amd_node_registry'
         else
           tableName = 'amd_registry'
@@ -1517,7 +1077,7 @@ async select(db: number) {
         ) AS exists
       `;
       const result = await pgClient.query(query, [key]);
-      await pgClient.end();      
+      await pgClient.end();
       if (!result.rows[0].exists) return 0
       return 1
     } catch (error) {
@@ -1528,15 +1088,15 @@ async select(db: number) {
     }
   }
 
-  async deletePgKey(key){
+  async deletePgKey(key) {
     let pgClient
     try {
       pgClient = await this.connectPG();
       let DbSchema = process.env.PG_SCHEMANAME;
       if (!DbSchema || !pgClient) throw ('pgClient/schema not found')
       let tableName
-      if(key){
-        if(key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+      if (key) {
+        if (key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
           tableName = 'amd_node_registry'
         else
           tableName = 'amd_registry'
@@ -1547,7 +1107,7 @@ async select(db: number) {
       `;
 
       const result = await pgClient.query(query, [key]);
-      await pgClient.end();     
+      await pgClient.end();
       if (!result?.rowCount) return 0
       return 1
     } catch (error) {
@@ -1557,8 +1117,5 @@ async select(db: number) {
       throw error
     }
   }
-  
-  
+
 }
-
-

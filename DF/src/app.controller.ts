@@ -1,3 +1,4 @@
+
 import { Controller, Get, Body,Post, Delete, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CommonService } from 'src/common.Service';
@@ -15,9 +16,8 @@ export class AppController {
   @Public()
   getHello(): string {
     return this.appService.getHello();
-  }
+  }   
 
-  
   
     @Post('expLog')
     async getExceplogs(@Body() input): Promise<any> { 
@@ -94,6 +94,7 @@ export class AppController {
       }
       return result
     }
+
 
      @ApiOperation({
     summary: 'Transform process log',
