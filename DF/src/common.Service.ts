@@ -1552,8 +1552,8 @@ export class CommonService{
         
         if(typeof key != 'string')
         key = 'commonError'
-         tenant=tenant || "CT001"
-        app=app ||  "TA"
+         tenant=tenant || "CT005"
+        app=app ||  "VGPH"
         await this.redisService.setStreamData(tenant+'-'+app+'-TSL',key,JSON.stringify(logs))    
         return logs
 

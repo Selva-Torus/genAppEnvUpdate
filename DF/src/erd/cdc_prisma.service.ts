@@ -11,7 +11,7 @@ export class CdcPrismaService extends PrismaClient implements OnModuleDestroy {
     // Postgres doesn't support it — see db-ssl.util.ts). Override with
     // PG_SSL_MODE=require/verify-full once the DB is TLS-capable.
     applyPgSslMode(url, 'PG_SSL_MODE');
-    url.searchParams.set('application_name', 'cdc_ct001_tam_ta_v1_df');
+    url.searchParams.set('application_name', 'cdc_ct005_gss_vgph_v1_df');
     // lazy: true — Prisma will NOT open a connection until the first query
     super({ datasources: { db: { url: url.toString() } } });
   }

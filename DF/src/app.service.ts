@@ -31,7 +31,6 @@ export class AppService {
       return;
     }
     let preParedData:any=await this.dataPrep(this.swaggerDocument)
-    await this.triggerFuntionExecute()
     if(Object.keys(preParedData).includes('erdWithData'))
       {
       let endPointData : any = {};
@@ -40,9 +39,9 @@ export class AppService {
       endPointData.type =  "json";
       let res =  await this.ufservice.getEndPoints(endPointData);
       erdDatas.endpoint = res;
-      erdDatas.tenant =  "CT001";
-      erdDatas.domain = "TAM";
-      erdDatas.collection = "TestApplication";
+      erdDatas.tenant =  "CT005";
+      erdDatas.domain = "GSS";
+      erdDatas.collection = "VGPH";
       erdDatas.data = preParedData?.erdWithData||{}
       erdDatas.fabric = 'API-APIPD';
       erdDatas.loginId = this.loginId;

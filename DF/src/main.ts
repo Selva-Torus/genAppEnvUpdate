@@ -25,7 +25,7 @@ async function bootstrap() {
 
   let configData = null;
   try {
-    const redisResult:any = await redis.call('JSON.GET', "CK:CT001:FNGK:AF:FNK:CDF-DPD:CATK:TAM:AFGK:TA:AFK:Test_DPD:AFVK:v1:NDP");
+    const redisResult:any = await redis.call('JSON.GET', "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:VGPH:AFK:VGPH_DPD:AFVK:v1:NDP");
     if (redisResult) {
       const parsed = JSON.parse(redisResult);
       const rootKey = Object.keys(parsed)[0];
@@ -80,7 +80,7 @@ async function bootstrap() {
   // componentId...) that whitelist mode would silently strip. Add those once DTOs are
   // fully decorated.
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
-  await app.init()
+  await app.init();
   const envData = app.get(EnvData);
 
   if (!configData) {
@@ -148,7 +148,7 @@ async function bootstrap() {
     { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 
     'JWT-auth',
     )
-    .addServer('https://tgatest910.toruslowcode.com/ct001/tam/ta/v1/api','Production Server')
+    .addServer('https://tgatest910.toruslowcode.com/ct005/gss/vgph/v1/api','Production Server')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   const appService = app.get(AppService);

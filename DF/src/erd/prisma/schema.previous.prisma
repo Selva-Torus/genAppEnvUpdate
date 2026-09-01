@@ -3,7 +3,7 @@
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-   schemas   = ["ct001_ta"]
+   schemas   = ["ct005_vgph"]
 }
 
 generator client {

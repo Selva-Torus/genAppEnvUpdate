@@ -96,10 +96,10 @@ export const Modal: React.FC<ModalProps> = ({
   const [modalId] = useState(() => ++nextModalId);
 
   useLayoutEffect(() => {
-    if (shouldRender && !openModalIds.includes(modalId)) {
+    if (phase === "visible" && !openModalIds.includes(modalId)) {
       openModalIds = [...openModalIds, modalId];
       notifyModalStackListeners();
-    } else if (!shouldRender && openModalIds.includes(modalId)) {
+    } else if (phase === "closing" && openModalIds.includes(modalId)) {
       openModalIds = openModalIds.filter((id) => id !== modalId);
       notifyModalStackListeners();
     }
@@ -109,7 +109,7 @@ export const Modal: React.FC<ModalProps> = ({
         notifyModalStackListeners();
       }
     };
-  }, [shouldRender, modalId]);
+  }, [phase, modalId]);
 
   // True only for whichever modal is currently the most-recently-opened one
   // still mounted -- re-evaluated live via the subscription, so if it closes,

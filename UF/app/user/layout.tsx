@@ -19,8 +19,7 @@ export default function RootLayout({
         <ThemeWrapper>
           <LayoutDecider
             mode='detached' 
-            navigationStyles='vertical' 
-            sidebarStyle='compact'
+            navigationStyles='horizontal' 
           >
             <main className ="h-full w-full">{children}</main>
             <ToastContainer />

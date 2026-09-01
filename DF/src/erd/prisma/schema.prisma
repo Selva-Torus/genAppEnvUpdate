@@ -3,35 +3,31 @@
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-   schemas   = ["ct001_ta"]
+   schemas   = ["ct005_vgph"]
 }
 
 generator client {
 provider = "prisma-client-js"
 }
 
-model claims {
-claim_id  Int @default(autoincrement())
-employee_id  Int? 
-employee_name  String? 
-department_name  String? 
-employee_grade  String? 
-receipt_image  String? 
-total_amount  Int? 
-from_date  DateTime? 
-to_date  DateTime? 
-email  String? 
-claim_category  String? 
-comments  String? 
-expense_date  DateTime? 
-is_comment_enabled  Boolean? 
-expense_name  String? 
-manager_comments  String? 
-expense_description  String? 
-expense_amount  Int? 
-category_total_amount  Int? 
-claim_expense_type  String? 
-name  String? 
+model vgph_source_main {
+vgphsm_id  BigInt @default(autoincrement())
+direction  direction_vgph_source_main
+process_type  process_type_vgph_source_main
+tran_category  String  @db.VarChar(length: 16)
+source_category  String?  @db.VarChar(length: 8)
+source_reference  String?  @db.VarChar(length: 32)
+source_name  String?  @db.VarChar(length: 128)
+channel_name  String?  @db.VarChar(length: 16)
+channel_reference  String?  @db.VarChar(length: 16)
+product_basic  Json? 
+product_additional  Json? 
+request_data  Json? 
+response_data  Json? 
+total_count  Int? 
+total_amount  Float? 
+currency  String?  @db.VarChar(length: 3)
+uuid  String  @db.VarChar(length: 64)
 trs_created_date  DateTime @default(now())
 trs_created_by  String?  @db.VarChar(length: 64)
 trs_modified_date  DateTime? 
@@ -48,29 +44,81 @@ trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
 trs_sub_org_code  String?  @db.VarChar(length: 16)
 trs_locked_by  String?  @db.VarChar(length: 64)
 trs_locked_time  DateTime? 
-trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
-trs_app_code  String @default("00000") @db.VarChar(length: 16)
-trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
 trs_event_process_status  String?  @db.VarChar(length: 64)
 trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
+trs_token_id  String?  @db.VarChar(length: 64)
 trs_version  String?  @db.VarChar(length: 16)
-claims_detail   claims_detail[]    
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
 
-@@id([claim_id])
-@@schema("ct001_ta")
+@@id([vgphsm_id, trs_tenant_id, trs_app_code, trs_product_code])
+@@unique(fields: [uuid, trs_tenant_id, trs_app_code, trs_product_code], map: "vgph_source_main_uuid_ukey")
+@@index([product_basic], type: Gin, name: "idx_vgphsm_product_basic")
+@@index([product_additional], type: Gin, name: "idx_vgphsm_product_additional")
+@@index([request_data], type: Gin, name: "idx_vgphsm_request_data")
+@@index([response_data], type: Gin, name: "idx_vgphsm_response_data")
+@@schema("ct005_vgph")
 }
 
+enum direction_vgph_source_main{
+    OUTBOUND
+    INBOUND
+@@schema("ct005_vgph")
+}
+enum process_type_vgph_source_main{
+    OP
+    IR
+    IP
+    OR
+@@schema("ct005_vgph")
+}
 
-model claims_detail {
-claim_detail_id  Int @default(autoincrement())
-expense_category  String? 
-expense_description  String? 
-expense_date  DateTime? 
-expense_amount  Int? 
-name  String? 
-attachment  String? 
-claim_category  String? 
+model vgph_source_tran_main {
+vgphstm_id  BigInt @default(autoincrement())
+parent_vgphstm_uuid  String?  @db.VarChar(length: 64)
+direction  direction_vgph_source_tran_main
+process_type  process_type_vgph_source_tran_main
+tran_category  String  @db.VarChar(length: 16)
+message_code  String?  @db.VarChar(length: 16)
+channel_name  String?  @db.VarChar(length: 16)
+channel_reference  String?  @db.VarChar(length: 16)
+tran_date  DateTime 
+tran_reference  String?  @db.VarChar(length: 16)
+tran_seq_no  String  @db.VarChar(length: 16)
+value_date  DateTime 
+settlement_date  DateTime? 
+dr_account  String?  @db.VarChar(length: 32)
+dr_bank_code_type  String?  @db.VarChar(length: 16)
+dr_bank_code  String?  @db.VarChar(length: 32)
+dr_name  String?  @db.VarChar(length: 64)
+dr_amount  Float? 
+dr_currency  String?  @db.VarChar(length: 3)
+cr_account  String?  @db.VarChar(length: 32)
+cr_bank_code_type  String?  @db.VarChar(length: 16)
+cr_bank_code  String?  @db.VarChar(length: 32)
+cr_name  String?  @db.VarChar(length: 64)
+cr_amount  Float? 
+cr_currency  String?  @db.VarChar(length: 3)
+remittance_info  String?  @db.VarChar(length: 512)
+product_basic  Json? 
+product_additional  Json? 
+charge_type  charge_type_vgph_source_tran_main?
+uuid  String  @db.VarChar(length: 64)
+vgphsm_uuid  String  @db.VarChar(length: 64)
+vgphntm_uuid  String?  @db.VarChar(length: 64)
+vgphsm_id  BigInt? 
+prctm_id  BigInt? 
+source_content  String? 
 trs_created_date  DateTime @default(now())
 trs_created_by  String?  @db.VarChar(length: 64)
 trs_modified_date  DateTime? 
@@ -87,29 +135,73 @@ trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
 trs_sub_org_code  String?  @db.VarChar(length: 16)
 trs_locked_by  String?  @db.VarChar(length: 64)
 trs_locked_time  DateTime? 
-trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
-trs_app_code  String @default("00000") @db.VarChar(length: 16)
-trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
 trs_event_process_status  String?  @db.VarChar(length: 64)
 trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
+trs_token_id  String?  @db.VarChar(length: 64)
 trs_version  String?  @db.VarChar(length: 16)
-claim_id   Int? 
-claims   claims?  @relation(fields: [claim_id], references: [claim_id])  
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
 
-@@id([claim_detail_id])
-@@schema("ct001_ta")
+@@id([vgphstm_id, trs_tenant_id, trs_app_code, trs_product_code])
+@@unique(fields: [uuid, trs_tenant_id, trs_app_code, trs_product_code], map: "vgph_source_tran_main_uuid_ukey")
+@@index([trs_created_date], type: BTree, name: "idx_vgphstm_trs_created_date")
+@@index([uuid], type: BTree, name: "idx_vgphstm_uuid")
+@@index([product_basic], type: Gin, name: "idx_vgphstm_product_basic")
+@@index([product_additional], type: Gin, name: "idx_vgphstm_product_additional")
+@@index([tran_date], type: BTree, name: "idx_vgphstm_tran_date")
+@@index([dr_account], type: BTree, name: "idx_vgphstm_dr_account")
+@@index([cr_account], type: BTree, name: "idx_vgphstm_cr_account")
+@@index([channel_name], type: BTree, name: "idx_vgphstm_channel_name")
+@@index([trs_process_status], type: BTree, name: "idx_vgphstm_trs_process_status")
+@@index([trs_status], type: BTree, name: "idx_vgphstm_trs_status")
+@@index([message_code], type: BTree, name: "idx_vgphstm_message_code")
+@@index([direction], type: BTree, name: "idx_vgphstm_direction")
+@@schema("ct005_vgph")
 }
 
+enum direction_vgph_source_tran_main{
+    OUTBOUND
+    INBOUND
+@@schema("ct005_vgph")
+}
+enum process_type_vgph_source_tran_main{
+    OP
+    IR
+    IP
+    OR
+@@schema("ct005_vgph")
+}
+enum charge_type_vgph_source_tran_main{
+    SHA
+    OUR
+    BEN
+    SLEV
+@@schema("ct005_vgph")
+}
 
-model codedescription {
-ccdid  Int @default(autoincrement())
-cdcategory  String? 
-clientcode  String? 
-code  String? 
-description  String? 
-sortorder  Int? 
-parentcode  String? 
+model vgph_tran_dtl_main {
+vgphtdm_id  BigInt @default(autoincrement())
+direction  direction_vgph_tran_dtl_main
+process_type  process_type_vgph_tran_dtl_main
+tran_category  String  @db.VarChar(length: 16)
+flow_code  String  @db.VarChar(length: 128)
+step_code  String?  @db.VarChar(length: 128)
+product_basic  Json? 
+product_additional  Json? 
+process_data  Json? 
+vgphstm_uuid  String?  @db.VarChar(length: 64)
+vgphstm_id  BigInt? 
+vgphntm_uuid  String?  @db.VarChar(length: 64)
 trs_created_date  DateTime @default(now())
 trs_created_by  String?  @db.VarChar(length: 64)
 trs_modified_date  DateTime? 
@@ -126,23 +218,78 @@ trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
 trs_sub_org_code  String?  @db.VarChar(length: 16)
 trs_locked_by  String?  @db.VarChar(length: 64)
 trs_locked_time  DateTime? 
-trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
-trs_app_code  String @default("00000") @db.VarChar(length: 16)
-trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
 trs_event_process_status  String?  @db.VarChar(length: 64)
 trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
+trs_token_id  String?  @db.VarChar(length: 64)
 trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
 
-@@id([ccdid])
-@@schema("ct001_ta")
+@@id([vgphtdm_id, trs_tenant_id, trs_app_code, trs_product_code])
+@@index([product_basic], type: Gin, name: "idx_vgphtdm_product_basic")
+@@index([product_additional], type: Gin, name: "idx_vgphtdm_product_additional")
+@@index([process_data], type: Gin, name: "idx_vgphtdm_process_data")
+@@schema("ct005_vgph")
 }
 
+enum direction_vgph_tran_dtl_main{
+    OUTBOUND
+    INBOUND
+@@schema("ct005_vgph")
+}
+enum process_type_vgph_tran_dtl_main{
+    OP
+    IR
+    IP
+    OR
+@@schema("ct005_vgph")
+}
 
-model users {
-user_id  BigInt @default(autoincrement())
-name  String? 
-trs_created_date  DateTime? 
+model vgph_tran_log_main {
+vgphtlm_id  BigInt @default(autoincrement())
+direction  direction_vgph_tran_log_main
+process_type  process_type_vgph_tran_log_main
+tran_category  String  @db.VarChar(length: 16)
+process_category  String  @db.VarChar(length: 32)
+processing_system  String  @db.VarChar(length: 32)
+message_code  String?  @db.VarChar(length: 16)
+flow_code  String?  @db.VarChar(length: 128)
+step_code  String?  @db.VarChar(length: 128)
+task_start_time  DateTime 
+task_end_time  DateTime 
+source_data  Json? 
+request_data  Json? 
+response_data  Json? 
+message_data  String? 
+process_start_time  DateTime 
+process_end_time  DateTime 
+retry_flag  String?  @db.VarChar(length: 1)
+retry_count  Int? 
+manual_context  String?  @db.VarChar(length: 32)
+action_context  String?  @db.VarChar(length: 32)
+result  String?  @db.VarChar(length: 32)
+action  String?  @db.VarChar(length: 32)
+version  String?  @db.VarChar(length: 16)
+vgphstm_uuid  String?  @db.VarChar(length: 64)
+vgphsts_uuid  String?  @db.VarChar(length: 64)
+vgphntm_uuid  String?  @db.VarChar(length: 64)
+prctm_id  Int? 
+prcts_id  Int? 
+comments  String?  @db.VarChar(length: 256)
+tran_tokenid  String?  @db.VarChar(length: 128)
+tran_dtl_tokenid  String?  @db.VarChar(length: 128)
+vgphstm_id  BigInt? 
+trs_created_date  DateTime @default(now())
 trs_created_by  String?  @db.VarChar(length: 64)
 trs_modified_date  DateTime? 
 trs_modified_by  String?  @db.VarChar(length: 64)
@@ -158,99 +305,171 @@ trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
 trs_sub_org_code  String?  @db.VarChar(length: 16)
 trs_locked_by  String?  @db.VarChar(length: 64)
 trs_locked_time  DateTime? 
-trs_tenant_id  String?  @db.VarChar(length: 16)
-trs_app_code  String?  @db.VarChar(length: 16)
-trs_product_code  String?  @db.VarChar(length: 16)
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([vgphtlm_id, trs_tenant_id, trs_app_code, trs_product_code])
+@@index([vgphstm_uuid], type: BTree, name: "idx_vgphtlm_vgphstm_uuid")
+@@index([trs_created_date], type: BTree, name: "idx_vgphtlm_trs_created_date")
+@@schema("ct005_vgph")
+}
+
+enum direction_vgph_tran_log_main{
+    OUTBOUND
+    INBOUND
+@@schema("ct005_vgph")
+}
+enum process_type_vgph_tran_log_main{
+    OP
+    IR
+    IP
+    OR
+@@schema("ct005_vgph")
+}
+
+model vgph_tran_error_log_main {
+vgphtelm_id  BigInt @default(autoincrement())
+direction  direction_vgph_tran_error_log_main
+process_type  process_type_vgph_tran_error_log_main
+tran_category  String  @db.VarChar(length: 16)
+error_cateogry  String?  @db.VarChar(length: 16)
+error_code  String?  @db.VarChar(length: 16)
+error_desc  String?  @db.VarChar(length: 1024)
+error_data  Json? 
+vgphstm_uuid  String?  @db.VarChar(length: 64)
+vgphsts_uuid  String?  @db.VarChar(length: 64)
+vgphntm_uuid  String?  @db.VarChar(length: 64)
+vgphstm_id  BigInt? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([vgphtelm_id, trs_tenant_id, trs_app_code, trs_product_code])
+@@index([error_data], type: Gin, name: "idx_vgphtelm_error_data")
+@@schema("ct005_vgph")
+}
+
+enum direction_vgph_tran_error_log_main{
+    OUTBOUND
+    INBOUND
+@@schema("ct005_vgph")
+}
+enum process_type_vgph_tran_error_log_main{
+    OP
+    IR
+    IP
+    OR
+@@schema("ct005_vgph")
+}
+
+model vgph_destination_main {
+vgphdm_id  BigInt @default(autoincrement())
+direction  direction_vgph_destination_main
+process_type  process_type_vgph_destination_main
+tran_category  String  @db.VarChar(length: 16)
+message_code  String?  @db.VarChar(length: 16)
+destination_category  String?  @db.VarChar(length: 16)
+destination_reference  String?  @db.VarChar(length: 32)
+destination_name  String?  @db.VarChar(length: 128)
+destination_parent_name  String?  @db.VarChar(length: 32)
+destionation_status  String?  @db.VarChar(length: 16)
+uuid  String?  @db.VarChar(length: 64)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
 trs_event_process_status  String?  @db.VarChar(length: 64)
 trs_event_status  String?  @db.VarChar(length: 64)
 trs_token_id  String?  @db.VarChar(length: 64)
 trs_version  String?  @db.VarChar(length: 16)
 
-@@id([user_id])
-@@schema("ct001_ta")
+@@id([vgphdm_id, trs_tenant_id, trs_app_code, trs_product_code])
+@@unique(fields: [uuid, trs_tenant_id, trs_app_code, trs_product_code], map: "vgph_destination_main_uuid_ukey")
+@@schema("ct005_vgph")
 }
 
-
-model employee_details {
-id  Int @default(autoincrement())
-name  String? 
-email  String? 
-address  Json? 
-category_total_amount  Int? 
-claim_category  String[] 
-url  String[] 
-expense_date  DateTime? 
-trs_created_date  DateTime? @default(now())
-trs_created_by  String?  @db.VarChar(length: 64)
-trs_modified_date  DateTime? 
-trs_modified_by  String?  @db.VarChar(length: 64)
-trs_process_id  String?  @db.VarChar(length: 64)
-trs_access_profile  String?  @db.VarChar(length: 32)
-trs_org_grp_code  String?  @db.VarChar(length: 16)
-trs_org_code  String?  @db.VarChar(length: 16)
-trs_role_grp_code  String?  @db.VarChar(length: 64)
-trs_role_code  String?  @db.VarChar(length: 64)
-trs_ps_grp_code  String?  @db.VarChar(length: 64)
-trs_ps_code  String?  @db.VarChar(length: 64)
-trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
-trs_sub_org_code  String?  @db.VarChar(length: 16)
-trs_locked_by  String?  @db.VarChar(length: 64)
-trs_locked_time  DateTime? 
-trs_tenant_id  String? @default("00000") @db.VarChar(length: 16)
-trs_app_code  String? @default("00000") @db.VarChar(length: 16)
-trs_product_code  String? @default("00000_00000") @db.VarChar(length: 16)
-trs_event_process_status  String?  @db.VarChar(length: 64)
-trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
-trs_version  String?  @db.VarChar(length: 16)
-
-@@id([id])
-@@schema("ct001_ta")
+enum direction_vgph_destination_main{
+    OUTBOUND
+    INBOUND
+@@schema("ct005_vgph")
+}
+enum process_type_vgph_destination_main{
+    OP
+    IR
+    IP
+    OR
+@@schema("ct005_vgph")
 }
 
-
-model employee_expense_claims {
-detail_id  Int @default(autoincrement())
-employee_detail  Json? 
-trs_created_date  DateTime? @default(now())
-trs_created_by  String?  @db.VarChar(length: 64)
-trs_modified_date  DateTime? 
-trs_modified_by  String?  @db.VarChar(length: 64)
-trs_process_id  String?  @db.VarChar(length: 64)
-trs_access_profile  String?  @db.VarChar(length: 32)
-trs_org_grp_code  String?  @db.VarChar(length: 16)
-trs_org_code  String?  @db.VarChar(length: 16)
-trs_role_grp_code  String?  @db.VarChar(length: 64)
-trs_role_code  String?  @db.VarChar(length: 64)
-trs_ps_grp_code  String?  @db.VarChar(length: 64)
-trs_ps_code  String?  @db.VarChar(length: 64)
-trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
-trs_sub_org_code  String?  @db.VarChar(length: 16)
-trs_locked_by  String?  @db.VarChar(length: 64)
-trs_locked_time  DateTime? 
-trs_tenant_id  String? @default("00000") @db.VarChar(length: 16)
-trs_app_code  String? @default("00000") @db.VarChar(length: 16)
-trs_product_code  String? @default("00000_00000") @db.VarChar(length: 16)
-trs_event_process_status  String?  @db.VarChar(length: 64)
-trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
-trs_version  String?  @db.VarChar(length: 16)
-
-@@id([detail_id])
-@@schema("ct001_ta")
-}
-
-
-model communication {
-common_id  Int 
-from  String? 
-to  String? 
-username  String? 
-subject  String? 
-body  String? 
-to_email  String[] 
-cc_email  String[] 
-bcc_email  String[] 
+model vgph_destination_tran_main {
+vgphdtm_id  BigInt @default(autoincrement())
+direction  direction_vgph_destination_tran_main
+process_type  process_type_vgph_destination_tran_main
+tran_category  String  @db.VarChar(length: 16)
+vgphdm_uuid  String  @db.VarChar(length: 64)
+vgphstm_uuid  String?  @db.VarChar(length: 64)
+vgphstm_id  BigInt? 
+vgphdm_id  BigInt? 
+destination_content  String? 
+vgphntm_uuid  String?  @db.VarChar(length: 64)
 trs_created_date  DateTime @default(now())
 trs_created_by  String?  @db.VarChar(length: 64)
 trs_modified_date  DateTime? 
@@ -267,27 +486,47 @@ trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
 trs_sub_org_code  String?  @db.VarChar(length: 16)
 trs_locked_by  String?  @db.VarChar(length: 64)
 trs_locked_time  DateTime? 
-trs_tenant_id  String @default("00000") @db.VarChar(length: 16)
-trs_app_code  String @default("00000") @db.VarChar(length: 16)
-trs_product_code  String @default("00000_00000") @db.VarChar(length: 16)
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
 trs_event_process_status  String?  @db.VarChar(length: 64)
 trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
+trs_token_id  String?  @db.VarChar(length: 64)
 trs_version  String?  @db.VarChar(length: 16)
 
-@@id([common_id])
-@@schema("ct001_ta")
+@@id([vgphdtm_id, trs_tenant_id, trs_app_code, trs_product_code])
+@@schema("ct005_vgph")
 }
 
+enum direction_vgph_destination_tran_main{
+    OUTBOUND
+    INBOUND
+@@schema("ct005_vgph")
+}
+enum process_type_vgph_destination_tran_main{
+    OP
+    IR
+    IP
+    OR
+@@schema("ct005_vgph")
+}
 
-model combo_table {
-my_id  Int @default(autoincrement())
-country  String? 
-state  String? 
-city  String? 
-country_code  String? 
-state_code  String? 
-trs_created_date  DateTime? @default(now())
+model vgph_nf_tran_main {
+vgphntm_id  BigInt @default(autoincrement())
+vgphstm_uuid  String?  @db.VarChar(length: 64)
+uuid  String  @db.VarChar(length: 64)
+direction  direction_vgph_nf_tran_main
+process_type  process_type_vgph_nf_tran_main
+tran_category  String  @db.VarChar(length: 16)
+message_code  String?  @db.VarChar(length: 16)
+channel_name  String?  @db.VarChar(length: 16)
+channel_reference  String?  @db.VarChar(length: 16)
+tran_date  DateTime 
+product_common  Json? 
+product_basic  Json? 
+product_additional  Json? 
+vgphsm_uuid  String?  @db.VarChar(length: 64)
+trs_created_date  DateTime @default(now())
 trs_created_by  String?  @db.VarChar(length: 64)
 trs_modified_date  DateTime? 
 trs_modified_by  String?  @db.VarChar(length: 64)
@@ -303,25 +542,66 @@ trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
 trs_sub_org_code  String?  @db.VarChar(length: 16)
 trs_locked_by  String?  @db.VarChar(length: 64)
 trs_locked_time  DateTime? 
-trs_tenant_id  String? @default("00000") @db.VarChar(length: 16)
-trs_app_code  String? @default("00000") @db.VarChar(length: 16)
-trs_product_code  String? @default("00000_00000") @db.VarChar(length: 16)
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
 trs_event_process_status  String?  @db.VarChar(length: 64)
 trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
+trs_token_id  String?  @db.VarChar(length: 64)
 trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
 
-@@id([my_id])
-@@schema("ct001_ta")
+@@id([vgphntm_id])
+@@unique(fields: [uuid], map: "vgph_nf_tran_main_uuid_ukey")
+@@index([product_common], type: Gin, name: "idx_vgphnftm_product_common")
+@@index([product_basic], type: Gin, name: "idx_vgphnftm_product_basic")
+@@index([product_additional], type: Gin, name: "idx_vgphnftm_product_additional")
+@@index([trs_created_date], type: BTree, name: "idx_vgphnftm_trs_created_date")
+@@index([uuid], type: BTree, name: "idx_vgphnftm_uuid")
+@@index([channel_name], type: BTree, name: "idx_vgphnftm_channel_name")
+@@index([vgphstm_uuid], type: BTree, name: "idx_vgphnftm_vgphstm_uuid")
+@@index([message_code], type: BTree, name: "idx_vgphnftm_message_code")
+@@index([trs_process_status], type: BTree, name: "idx_vgphnftm_trs_process_status")
+@@index([trs_status], type: BTree, name: "idx_vgphnftm_trs_status")
+@@index([direction], type: BTree, name: "idx_vgphnftm_direction")
+@@schema("ct005_vgph")
 }
 
+enum direction_vgph_nf_tran_main{
+    OUTBOUND
+    INBOUND
+@@schema("ct005_vgph")
+}
+enum process_type_vgph_nf_tran_main{
+    OP
+    IR
+    IP
+    OR
+@@schema("ct005_vgph")
+}
 
-model test_erd {
-id  BigInt 
-emp_id  Int? 
-name  String? 
-email  String? 
-trs_created_date  DateTime? @default(now())
+model vgph_process_exception_main {
+vgphpem_id  BigInt @default(autoincrement())
+vgphstm_uuid  String?  @db.VarChar(length: 64)
+vgphsts_uuid  String?  @db.VarChar(length: 64)
+vgphntm_uuid  String?  @db.VarChar(length: 64)
+direction  direction_vgph_process_exception_main?
+process_type  process_type_vgph_process_exception_main?
+tran_category  String?  @db.VarChar(length: 16)
+process_code  String?  @db.VarChar(length: 128)
+exception_cateogry  String?  @db.VarChar(length: 16)
+exception_data  Json? 
+start_date  DateTime? 
+end_date  DateTime? 
+trs_created_date  DateTime @default(now())
 trs_created_by  String?  @db.VarChar(length: 64)
 trs_modified_date  DateTime? 
 trs_modified_by  String?  @db.VarChar(length: 64)
@@ -337,23 +617,46 @@ trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
 trs_sub_org_code  String?  @db.VarChar(length: 16)
 trs_locked_by  String?  @db.VarChar(length: 64)
 trs_locked_time  DateTime? 
-trs_tenant_id  String? @default("00000") @db.VarChar(length: 16)
-trs_app_code  String? @default("00000") @db.VarChar(length: 16)
-trs_product_code  String? @default("00000_00000") @db.VarChar(length: 16)
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
 trs_event_process_status  String?  @db.VarChar(length: 64)
 trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
+trs_token_id  String?  @db.VarChar(length: 64)
 trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
 
-@@id([id])
-@@schema("ct001_ta")
+@@id([vgphpem_id])
+@@index([exception_data], type: Gin, name: "idx_vgphpem_exception_data")
+@@schema("ct005_vgph")
 }
 
+enum direction_vgph_process_exception_main{
+    INBOUND
+    OUTBOUND
+@@schema("ct005_vgph")
+}
+enum process_type_vgph_process_exception_main{
+    OP
+    IR
+    IP
+    OR
+@@schema("ct005_vgph")
+}
 
-model dynamic_table {
-rtp_identifier_id  Int 
-rtp_identifier  Json? 
-trs_created_date  DateTime? @default(now())
+model vgph_temp_main {
+vgphtm_id  BigInt @default(autoincrement())
+prctm_uuid  String?  @db.VarChar(length: 64)
+data_json  Json 
+trs_created_date  DateTime @default(now())
 trs_created_by  String?  @db.VarChar(length: 64)
 trs_modified_date  DateTime? 
 trs_modified_by  String?  @db.VarChar(length: 64)
@@ -369,16 +672,2500 @@ trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
 trs_sub_org_code  String?  @db.VarChar(length: 16)
 trs_locked_by  String?  @db.VarChar(length: 64)
 trs_locked_time  DateTime? 
-trs_tenant_id  String? @default("00000") @db.VarChar(length: 16)
-trs_app_code  String? @default("00000") @db.VarChar(length: 16)
-trs_product_code  String? @default("00000_00000") @db.VarChar(length: 16)
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
 trs_event_process_status  String?  @db.VarChar(length: 64)
 trs_event_status  String?  @db.VarChar(length: 64)
-trs_token_id  String?  @db.VarChar(length: 32)
+trs_token_id  String?  @db.VarChar(length: 64)
 trs_version  String?  @db.VarChar(length: 16)
 
-@@id([rtp_identifier_id])
-@@schema("ct001_ta")
+@@id([vgphtm_id])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_trn_secure_token {
+vgphtst_id  BigInt @default(autoincrement())
+token_id  String?  @db.VarChar(length: 128)
+token_data  Json? 
+encryption_key_id  String?  @db.VarChar(length: 64)
+setup_code  String?  @db.VarChar(length: 128)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphtst_id])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_charge_tran {
+vgphct_id  BigInt @default(autoincrement())
+charge_group  String?  @db.VarChar(length: 32)
+charge_description  String?  @db.VarChar(length: 128)
+currency  String  @db.VarChar(length: 3)
+vgphsm_uuid  String?  @db.VarChar(length: 64)
+vgphss_uuid  String?  @db.VarChar(length: 64)
+vgphstm_uuid  String?  @db.VarChar(length: 64)
+vgphsts_uuid  String?  @db.VarChar(length: 64)
+charge_code  String  @db.VarChar(length: 64)
+charge_amount  Float 
+charge_additional  Json? 
+charge_dr_gl_account  String?  @db.VarChar(length: 32)
+charge_cr_gl_account  String?  @db.VarChar(length: 32)
+vat_flag  String?  @db.VarChar(length: 1)
+vat_amount  Float? 
+vat_dr_gl_account  String?  @db.VarChar(length: 32)
+vat_cr_gl_account  String?  @db.VarChar(length: 32)
+posted_flag  String?  @db.VarChar(length: 1)
+posted_date  DateTime? 
+invoice_generation_flag  String?  @db.VarChar(length: 1)
+invoice_id  String?  @db.VarChar(length: 32)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphct_id])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_source_corporate {
+vgphsc_id  BigInt @default(autoincrement())
+uuid  String?  @db.VarChar(length: 64)
+source_category  String?  @db.VarChar(length: 8)
+source_reference  String?  @db.VarChar(length: 32)
+source_name  String?  @db.VarChar(length: 64)
+channel_name  String?  @db.VarChar(length: 16)
+channel_reference  String?  @db.VarChar(length: 16)
+product_basic  Json? 
+product_additional  Json? 
+request_data  Json? 
+response_data  Json? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphsc_id])
+@@unique(fields: [uuid], map: "vgph_source_corporate_uuid_ukey")
+@@schema("ct005_vgph")
+}
+
+
+model vgph_corporate {
+vgphc_id  BigInt @default(autoincrement())
+vgphsc_uuid  String  @db.VarChar(length: 64)
+uuid  String?  @db.VarChar(length: 64)
+charge_code  String?  @db.VarChar(length: 64)
+account_number  String?  @db.VarChar(length: 32)
+name  String?  @db.VarChar(length: 128)
+type  String?  @db.VarChar(length: 32)
+inception_date  DateTime? 
+mobile_number  String?  @db.VarChar(length: 32)
+email  String?  @db.VarChar(length: 64)
+address1  String?  @db.VarChar(length: 64)
+address2  String?  @db.VarChar(length: 64)
+address3  String?  @db.VarChar(length: 64)
+address4  String?  @db.VarChar(length: 64)
+country  String?  @db.VarChar(length: 32)
+zip  String?  @db.VarChar(length: 16)
+state  String?  @db.VarChar(length: 32)
+city  String?  @db.VarChar(length: 32)
+reference_id  String?  @db.VarChar(length: 32)
+landline_no  String?  @db.VarChar(length: 32)
+is_active  String?  @db.VarChar(length: 1)
+product_basic  Json? 
+product_additional  Json? 
+contacts  Json? 
+request_data  Json? 
+response_data  Json? 
+compliance_data  Json? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphc_id])
+@@unique(fields: [uuid], map: "vgph_corporate_uuid_ukey")
+@@schema("ct005_vgph")
+}
+
+
+model vgph_source_employee {
+vgphse_id  BigInt @default(autoincrement())
+vgphsc_uuid  String  @db.VarChar(length: 64)
+uuid  String?  @db.VarChar(length: 64)
+source_category  String?  @db.VarChar(length: 8)
+source_reference  String?  @db.VarChar(length: 32)
+source_name  String?  @db.VarChar(length: 64)
+channel_name  String?  @db.VarChar(length: 16)
+channel_reference  String?  @db.VarChar(length: 16)
+product_basic  Json? 
+product_additional  Json? 
+request_data  Json? 
+response_data  Json? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphse_id])
+@@unique(fields: [uuid], map: "vgph_source_employee_uuid_ukey")
+@@schema("ct005_vgph")
+}
+
+
+model vgph_employee {
+vgphe_id  BigInt @default(autoincrement())
+vgphse_uuid  String  @db.VarChar(length: 64)
+vgphsc_uuid  String  @db.VarChar(length: 64)
+uuid  String?  @db.VarChar(length: 64)
+name  String?  @db.VarChar(length: 128)
+mobile_number  String?  @db.VarChar(length: 16)
+address1  String?  @db.VarChar(length: 64)
+address2  String?  @db.VarChar(length: 64)
+address3  String?  @db.VarChar(length: 64)
+address4  String?  @db.VarChar(length: 64)
+zip  String?  @db.VarChar(length: 16)
+state  String?  @db.VarChar(length: 32)
+city  String?  @db.VarChar(length: 32)
+dob  DateTime? 
+gender  String?  @db.VarChar(length: 16)
+nationality  String?  @db.VarChar(length: 16)
+first_name  String?  @db.VarChar(length: 64)
+last_name  String?  @db.VarChar(length: 64)
+country  String?  @db.VarChar(length: 3)
+email  String?  @db.VarChar(length: 64)
+reference_id  String?  @db.VarChar(length: 32)
+is_active  String?  @db.VarChar(length: 1)
+product_basic  Json? 
+product_additional  Json? 
+kyc  Json? 
+card  Json? 
+request_data  Json? 
+response_data  Json? 
+compliance_data  Json? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphe_id])
+@@unique(fields: [uuid], map: "vgph_employee_uuid_ukey")
+@@schema("ct005_vgph")
+}
+
+
+model vgph_source_si {
+vgphssi_id  BigInt @default(autoincrement())
+uuid  String?  @db.VarChar(length: 64)
+direction  direction_vgph_source_si
+process_type  process_type_vgph_source_si
+tran_category  String?  @db.VarChar(length: 16)
+source_category  String?  @db.VarChar(length: 8)
+source_reference  String?  @db.VarChar(length: 32)
+source_name  String?  @db.VarChar(length: 64)
+channel_name  String?  @db.VarChar(length: 16)
+channel_reference  String?  @db.VarChar(length: 16)
+product_basic  Json? 
+product_additional  Json? 
+request_data  Json? 
+response_data  Json? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphssi_id])
+@@unique(fields: [uuid], map: "vgph_source_si_uuid_ukey")
+@@schema("ct005_vgph")
+}
+
+enum direction_vgph_source_si{
+    OUTBOUND
+    INBOUND
+@@schema("ct005_vgph")
+}
+enum process_type_vgph_source_si{
+    OP
+    IR
+    IP
+    OR
+@@schema("ct005_vgph")
+}
+
+model vgph_si {
+vgphsi_id  BigInt @default(autoincrement())
+vgphssi_uuid  String  @db.VarChar(length: 64)
+uuid  String?  @db.VarChar(length: 64)
+direction  direction_vgph_si
+process_type  process_type_vgph_si
+tran_category  tran_category_vgph_si?
+message_code  String?  @db.VarChar(length: 16)
+channel_name  String?  @db.VarChar(length: 16)
+channel_reference  String?  @db.VarChar(length: 16)
+tran_date  DateTime? 
+tran_reference  String?  @db.VarChar(length: 16)
+tran_seq_no  String?  @db.VarChar(length: 16)
+value_date  DateTime? 
+settlement_date  DateTime? 
+dr_account  String?  @db.VarChar(length: 32)
+dr_bank_code_type  dr_bank_code_type_vgph_si?
+dr_bank_code  String?  @db.VarChar(length: 32)
+dr_name  String?  @db.VarChar(length: 64)
+dr_currency  String?  @db.VarChar(length: 3)
+cr_account  String?  @db.VarChar(length: 32)
+cr_bank_code_type  cr_bank_code_type_vgph_si?
+cr_bank_code  String?  @db.VarChar(length: 32)
+cr_name  String?  @db.VarChar(length: 64)
+cr_currency  String?  @db.VarChar(length: 3)
+clr_house_type  String?  @db.VarChar(length: 16)
+min_amount  Float? 
+max_amount  Float? 
+frequency  String?  @db.VarChar(length: 16)
+start_date  DateTime? 
+end_date  DateTime? 
+next_pull_date  DateTime? 
+is_active  String?  @db.VarChar(length: 1)
+product_basic  Json? 
+product_additional  Json? 
+request_data  Json? 
+response_data  Json? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphsi_id])
+@@unique(fields: [uuid], map: "vgph_si_uuid_ukey")
+@@schema("ct005_vgph")
+}
+
+enum direction_vgph_si{
+    OUTBOUND
+    INBOUND
+@@schema("ct005_vgph")
+}
+enum process_type_vgph_si{
+    OP
+    IR
+    IP
+    OR
+@@schema("ct005_vgph")
+}
+enum tran_category_vgph_si{
+    Financial
+    Non_Financial
+@@schema("ct005_vgph")
+}
+enum dr_bank_code_type_vgph_si{
+    IFSC
+    BIC
+    IBAN
+@@schema("ct005_vgph")
+}
+enum cr_bank_code_type_vgph_si{
+    IFSC
+    BIC
+    IBAN
+@@schema("ct005_vgph")
+}
+
+model vgph_corporate_relationship {
+vgphcr_id  BigInt @default(autoincrement())
+parent_company  String?  @db.VarChar(length: 64)
+company  String?  @db.VarChar(length: 64)
+branch  String?  @db.VarChar(length: 64)
+parent_company_process_flag  String?  @db.VarChar(length: 1)
+company_process_flag  String?  @db.VarChar(length: 1)
+branch_process_flag  String?  @db.VarChar(length: 1)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphcr_id])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_corporate_relationship_exception {
+vgphcre_id  BigInt @default(autoincrement())
+processing_period  String?  @db.VarChar(length: 32)
+parent_company  String?  @db.VarChar(length: 64)
+company  String?  @db.VarChar(length: 64)
+branch  String?  @db.VarChar(length: 64)
+parent_company_process_flag  String?  @db.VarChar(length: 1)
+company_process_flag  String?  @db.VarChar(length: 1)
+branch_process_flag  String?  @db.VarChar(length: 1)
+processing_file_id  String?  @db.VarChar(length: 256)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphcre_id])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_cob_error_log {
+vgphcel_id  BigInt @default(autoincrement())
+direction  String  @db.VarChar(length: 32)
+process_type  String  @db.VarChar(length: 16)
+error_code  String?  @db.VarChar(length: 16)
+error_desc  String?  @db.VarChar(length: 1024)
+error_data  Json? 
+vgphe_uuid  String?  @db.VarChar(length: 64)
+vgphc_uuid  String?  @db.VarChar(length: 64)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphcel_id])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_participant_bank {
+vgphpb_id  BigInt @default(autoincrement())
+bank_name  String  @db.VarChar(length: 128)
+bank_short_code  String?  @db.VarChar(length: 16)
+sort_code  String?  @db.VarChar(length: 16)
+clearing_sort_code  String?  @db.VarChar(length: 16)
+bic_code  String?  @db.VarChar(length: 11)
+iban_code  String?  @db.VarChar(length: 32)
+ifsc  String?  @db.VarChar(length: 11)
+country_code  String?  @db.VarChar(length: 2)
+address_1  String?  @db.VarChar(length: 128)
+address_2  String?  @db.VarChar(length: 128)
+city  String?  @db.VarChar(length: 64)
+state_code  String?  @db.VarChar(length: 64)
+zip_code  String?  @db.VarChar(length: 16)
+is_active  String  @db.VarChar(length: 1)
+email_id  String?  @db.VarChar(length: 64)
+contact_no  String?  @db.VarChar(length: 32)
+is_small_bank  String  @db.VarChar(length: 1)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphpb_id])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_participant_branch {
+vgphpbr_id  BigInt @default(autoincrement())
+country_code  String  @db.VarChar(length: 2)
+bank_name  String?  @db.VarChar(length: 128)
+branch_name  String?  @db.VarChar(length: 128)
+sort_code  String?  @db.VarChar(length: 16)
+ifsc  String?  @db.VarChar(length: 11)
+address_1  String?  @db.VarChar(length: 128)
+address_2  String?  @db.VarChar(length: 128)
+city  String?  @db.VarChar(length: 64)
+state_code  String?  @db.VarChar(length: 64)
+zip_code  String?  @db.VarChar(length: 16)
+is_active  String?  @db.VarChar(length: 1)
+email_id  String?  @db.VarChar(length: 64)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphpbr_id])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_correspondent_bank {
+vgphcb_id  BigInt @default(autoincrement())
+currency  String  @db.VarChar(length: 3)
+correspondent_bank_name  String  @db.VarChar(length: 128)
+city  String?  @db.VarChar(length: 64)
+country  String  @db.VarChar(length: 64)
+swift_bic  String  @db.VarChar(length: 32)
+comment  String?  @db.VarChar(length: 512)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphcb_id])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_correspondent_exception {
+vgphce_id  BigInt @default(autoincrement())
+customer_name  String?  @db.VarChar(length: 128)
+customer_cif  String?  @db.VarChar(length: 32)
+currency  String?  @db.VarChar(length: 3)
+swift_bic  String?  @db.VarChar(length: 32)
+nostro_account  String?  @db.VarChar(length: 32)
+comment  String?  @db.VarChar(length: 512)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphce_id])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_correspondent_nostro {
+vgphcn_id  BigInt @default(autoincrement())
+currency  String?  @db.VarChar(length: 3)
+correspondent_bank_name  String?  @db.VarChar(length: 128)
+process_type  String?  @db.VarChar(length: 64)
+nostro_account  String?  @db.VarChar(length: 32)
+comment  String?  @db.VarChar(length: 512)
+charge_amount  Float? 
+vat_amount  Float? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphcn_id])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_holiday {
+vgph_hid  BigInt @default(autoincrement())
+code  String  @db.VarChar(length: 16)
+holiday_date  DateTime 
+description  String?  @db.VarChar(length: 128)
+holiday_flag  String  @db.VarChar(length: 1)
+additional_info  Json? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgph_hid])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_clearing_holiday {
+vgph_chid  BigInt @default(autoincrement())
+currency  String?  @db.VarChar(length: 3)
+holiday_code  String?  @db.VarChar(length: 8)
+holiday_date  DateTime? 
+description  String?  @db.VarChar(length: 128)
+holiday_flag  String?  @db.VarChar(length: 1)
+additional_info  Json? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgph_chid])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_clearing_session {
+vgph_csid  BigInt @default(autoincrement())
+direction  direction_vgph_clearing_session?
+process_type  process_type_vgph_clearing_session?
+name  String?  @db.VarChar(length: 32)
+currency  String?  @db.VarChar(length: 3)
+processing_day  processing_day_vgph_clearing_session
+session_info  Json? 
+start_date  DateTime? 
+end_date  DateTime? 
+rule_code  String? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgph_csid])
+@@schema("ct005_vgph")
+}
+
+enum direction_vgph_clearing_session{
+    OUTBOUND
+    INBOUND
+@@schema("ct005_vgph")
+}
+enum process_type_vgph_clearing_session{
+    OP
+    IR
+    IP
+    OR
+@@schema("ct005_vgph")
+}
+enum processing_day_vgph_clearing_session{
+    same_buz_day
+    next_buz_day
+@@schema("ct005_vgph")
+}
+
+model vgph_participant_bank_status {
+vgphbpbs_id  BigInt @default(autoincrement())
+bank_name  String  @db.VarChar(length: 128)
+bank_code  String?  @db.VarChar(length: 16)
+bank_short_code  String?  @db.VarChar(length: 16)
+bic_code  String?  @db.VarChar(length: 16)
+availability_flag  String?  @db.VarChar(length: 1)
+from_date_time  DateTime 
+to_date_time  DateTime 
+status_code  String?  @db.VarChar(length: 32)
+send_receive  String?  @db.VarChar(length: 1)
+receive_only  String?  @db.VarChar(length: 1)
+request_for_pay  String?  @db.VarChar(length: 1)
+rct_subscription  String?  @db.VarChar(length: 1)
+bct_subscription  String?  @db.VarChar(length: 1)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphbpbs_id])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_charge_setup {
+vgphcs_id  BigInt @default(autoincrement())
+process_category  String?  @db.VarChar(length: 64)
+charge_category  String?  @db.VarChar(length: 32)
+charge_code  String?  @db.VarChar(length: 64)
+charge_name  String  @db.VarChar(length: 128)
+currency  String  @db.VarChar(length: 3)
+processing_system  String?  @db.VarChar(length: 32)
+charge_type  String  @db.VarChar(length: 16)
+charge_amount  Float? 
+min_charge_amt  Float? 
+max_charge_amt  Float? 
+vat_flag  String?  @db.VarChar(length: 1)
+vat_percentage  Float? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphcs_id])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_charge_config {
+vgphcc_id  BigInt @default(autoincrement())
+channel_name  String?  @db.VarChar(length: 64)
+cust_segment  String?  @db.VarChar(length: 16)
+customer_type  String?  @db.VarChar(length: 16)
+cif_number  String?  @db.VarChar(length: 16)
+customer_account_no  String?  @db.VarChar(length: 32)
+message_code  String?  @db.VarChar(length: 16)
+charge_code  String?  @db.VarChar(length: 16)
+charge_borne_by  String?  @db.VarChar(length: 8)
+charge_gl_ac_no  String?  @db.VarChar(length: 32)
+vat_gl_ac_no  String?  @db.VarChar(length: 32)
+start_active_date  DateTime 
+end_active_date  DateTime 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphcc_id])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_charge_invoice {
+vgphci_id  BigInt @default(autoincrement())
+customer_account_no  String?  @db.VarChar(length: 32)
+charge_group  String?  @db.VarChar(length: 32)
+charge_description  String?  @db.VarChar(length: 64)
+invoice_id  String?  @db.VarChar(length: 32)
+invoice_date  DateTime 
+invoice_detail  Json? 
+tran_from_date  DateTime? 
+tran_to_date  DateTime? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphci_id])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_beneficiary {
+vgphb_id  BigInt @default(autoincrement())
+beneficiary_category  String  @db.VarChar(length: 32)
+beneficiary_id  String  @db.VarChar(length: 64)
+beneficiary_common  Json? 
+beneficiary_address  Json? 
+beneficiary_bank  Json? 
+beneficiary_identity  Json? 
+beneficiary_compliance  Json? 
+beneficiary_preference  Json? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphb_id])
+@@schema("ct005_vgph")
+}
+
+
+model vgph_account_beneficiary {
+vgphab_id  BigInt @default(autoincrement())
+account  String  @db.VarChar(length: 32)
+beneficiary_id  String  @db.VarChar(length: 64)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphab_id])
+@@unique(fields: [account, beneficiary_id], map: "vgphab_acc_benef_id_ukey")
+@@schema("ct005_vgph")
+}
+
+
+model vgph_source_staging {
+vgphss_id  BigInt @default(autoincrement())
+direction  direction_vgph_source_staging
+process_type  process_type_vgph_source_staging
+tran_category  String  @db.VarChar(length: 16)
+source_category  String?  @db.VarChar(length: 8)
+source_reference  String?  @db.VarChar(length: 32)
+source_name  String?  @db.VarChar(length: 128)
+channel_name  String?  @db.VarChar(length: 16)
+channel_reference  String?  @db.VarChar(length: 16)
+product_basic  Json? 
+product_additional  Json? 
+request_data  Json? 
+response_data  Json? 
+total_count  Int? 
+total_amount  Float? 
+currency  String?  @db.VarChar(length: 3)
+uuid  String?  @db.VarChar(length: 64)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([vgphss_id, trs_tenant_id, trs_app_code, trs_product_code])
+@@unique(fields: [uuid, trs_tenant_id, trs_app_code, trs_product_code], map: "vgph_source_staging_uuid_ukey")
+@@index([product_basic], type: Gin, name: "idx_vgphss_product_basic")
+@@index([product_additional], type: Gin, name: "idx_vgphss_product_additional")
+@@index([request_data], type: Gin, name: "idx_vgphss_request_data")
+@@index([response_data], type: Gin, name: "idx_vgphss_response_data")
+@@index([trs_created_date], type: BTree, name: "idx_vgphss_trs_created_date")
+@@index([uuid], type: BTree, name: "idx_vgphss_uuid")
+@@index([direction], type: BTree, name: "idx_vgphss_direction")
+@@index([trs_process_status], type: BTree, name: "idx_vgphss_trs_process_status")
+@@index([trs_status], type: BTree, name: "idx_vgphss_trs_status")
+@@schema("ct005_vgph")
+}
+
+enum direction_vgph_source_staging{
+    OUTBOUND
+    INBOUND
+@@schema("ct005_vgph")
+}
+enum process_type_vgph_source_staging{
+    OP
+    IR
+    IP
+    OR
+@@schema("ct005_vgph")
+}
+
+model vgph_source_tran_staging {
+vgphsts_id  BigInt @default(autoincrement())
+parent_vgphsts_uuid  String?  @db.VarChar(length: 64)
+direction  direction_vgph_source_tran_staging
+process_type  process_type_vgph_source_tran_staging
+tran_category  String  @db.VarChar(length: 16)
+message_code  String?  @db.VarChar(length: 16)
+channel_name  String?  @db.VarChar(length: 16)
+channel_reference  String?  @db.VarChar(length: 16)
+tran_date  DateTime 
+product_basic  Json? 
+product_additional  Json? 
+uuid  String?  @db.VarChar(length: 64)
+vgphss_uuid  String  @db.VarChar(length: 64)
+product_common  Json? 
+vgphss_id  BigInt? 
+prcts_id  BigInt? 
+source_content  String? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([vgphsts_id, trs_tenant_id, trs_app_code, trs_product_code])
+@@unique(fields: [uuid, trs_tenant_id, trs_app_code, trs_product_code], map: "vgph_source_tran_staging_uuid_ukey")
+@@index([product_basic], type: Gin, name: "idx_vgphsts_product_basic")
+@@index([product_additional], type: Gin, name: "idx_vgphsts_product_additional")
+@@index([product_common], type: Gin, name: "idx_vgphsts_product_common")
+@@index([trs_created_date], type: BTree, name: "idx_vgphsts_trs_created_date")
+@@index([direction], type: BTree, name: "idx_vgphsts_direction")
+@@index([vgphss_uuid], type: BTree, name: "idx_vgphsts_vgphss_uuid")
+@@schema("ct005_vgph")
+}
+
+enum direction_vgph_source_tran_staging{
+    OUTBOUND
+    INBOUND
+@@schema("ct005_vgph")
+}
+enum process_type_vgph_source_tran_staging{
+    OP
+    IR
+    IP
+    OR
+@@schema("ct005_vgph")
+}
+
+model vgph_tran_dtl_staging {
+vgphtds_id  BigInt @default(autoincrement())
+direction  direction_vgph_tran_dtl_staging
+process_type  process_type_vgph_tran_dtl_staging
+tran_category  String  @db.VarChar(length: 16)
+flow_code  String  @db.VarChar(length: 128)
+step_code  String?  @db.VarChar(length: 128)
+product_basic  Json? 
+product_additional  Json? 
+process_data  Json? 
+vgphsts_uuid  String  @db.VarChar(length: 64)
+vgphsts_id  BigInt? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([vgphtds_id, trs_tenant_id, trs_app_code, trs_product_code])
+@@index([product_basic], type: Gin, name: "idx_vgphtds_product_basic")
+@@index([product_additional], type: Gin, name: "idx_vgphtds_product_additional")
+@@index([process_data], type: Gin, name: "idx_vgphtds_process_data")
+@@schema("ct005_vgph")
+}
+
+enum direction_vgph_tran_dtl_staging{
+    OUTBOUND
+    INBOUND
+@@schema("ct005_vgph")
+}
+enum process_type_vgph_tran_dtl_staging{
+    OP
+    IR
+    IP
+    OR
+@@schema("ct005_vgph")
+}
+
+model vgph_destination_staging {
+vgphds_id  BigInt @default(autoincrement())
+direction  direction_vgph_destination_staging
+process_type  process_type_vgph_destination_staging
+tran_category  String  @db.VarChar(length: 16)
+message_code  String?  @db.VarChar(length: 16)
+destination_category  String?  @db.VarChar(length: 16)
+destination_reference  String?  @db.VarChar(length: 32)
+destination_name  String?  @db.VarChar(length: 128)
+destination_parent_name  String?  @db.VarChar(length: 32)
+destionation_status  String?  @db.VarChar(length: 16)
+uuid  String?  @db.VarChar(length: 64)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphds_id, trs_tenant_id, trs_app_code, trs_product_code])
+@@unique(fields: [uuid, trs_tenant_id, trs_app_code, trs_product_code], map: "vgph_destination_staging_uuid_ukey")
+@@schema("ct005_vgph")
+}
+
+enum direction_vgph_destination_staging{
+    OUTBOUND
+    INBOUND
+@@schema("ct005_vgph")
+}
+enum process_type_vgph_destination_staging{
+    OP
+    IR
+    IP
+    OR
+@@schema("ct005_vgph")
+}
+
+model vgph_destination_tran_staging {
+vgphdts_id  BigInt @default(autoincrement())
+direction  direction_vgph_destination_tran_staging
+process_type  process_type_vgph_destination_tran_staging
+tran_category  String  @db.VarChar(length: 16)
+vgphds_uuid  String  @db.VarChar(length: 64)
+vgphsts_uuid  String  @db.VarChar(length: 64)
+vgphsts_id  BigInt? 
+vgphds_id  BigInt? 
+destination_content  String? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphdts_id, trs_tenant_id, trs_app_code, trs_product_code])
+@@schema("ct005_vgph")
+}
+
+enum direction_vgph_destination_tran_staging{
+    OUTBOUND
+    INBOUND
+@@schema("ct005_vgph")
+}
+enum process_type_vgph_destination_tran_staging{
+    OP
+    IR
+    IP
+    OR
+@@schema("ct005_vgph")
+}
+
+model vgph_temp_staging {
+vgphtsid  BigInt @default(autoincrement())
+prcts_uuid  String?  @db.VarChar(length: 64)
+data_json  Json 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([vgphtsid])
+@@schema("ct005_vgph")
+}
+
+
+model wps_mohre_api_calls {
+wpsm_id  BigInt @default(autoincrement())
+process_name  String?  @db.VarChar(length: 64)
+processing_system  String?  @db.VarChar(length: 64)
+response_code  String?  @db.VarChar(length: 64)
+employer_mol_number  String?  @db.VarChar(length: 64)
+employee_mol_numberadditional_info  String?  @db.VarChar(length: 64)
+additional_info  String?  @db.VarChar(length: 1024)
+employer_reg_id  String?  @db.VarChar(length: 64)
+employer_eid  String?  @db.VarChar(length: 64)
+service_req  Json? 
+service_resp  Json? 
+service_req_encr  String?  @db.VarChar(length: 80000)
+service_resp_encr  String?  @db.VarChar(length: 80000)
+client_req  Json? 
+client_resp  Json? 
+employer_unified_number  String?  @db.VarChar(length: 16)
+employee_unified_number  String?  @db.VarChar(length: 16)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([wpsm_id])
+@@schema("ct005_vgph")
+}
+
+
+model wps_mohre_employee_dtl {
+wpsmed_id  BigInt @default(autoincrement())
+wpsmac_id  BigInt? 
+employer_mol_number  String?  @db.VarChar(length: 64)
+employee_mol_number  String?  @db.VarChar(length: 64)
+employer_reg_id  String?  @db.VarChar(length: 64)
+employer_eid  String?  @db.VarChar(length: 64)
+mohre_reg_status  String?  @db.VarChar(length: 1024)
+employee_card_number  String?  @db.VarChar(length: 32)
+employee_unified_number  String?  @db.VarChar(length: 16)
+employee_eid  String?  @db.VarChar(length: 32)
+employee_is_active  String?  @db.VarChar(length: 16)
+employee_passport_number  String?  @db.VarChar(length: 32)
+employee_name  String?  @db.VarChar(length: 128)
+employee_name_ar  String?  @db.VarChar(length: 128)
+total_salary  Decimal?   @db.Decimal(19,2)
+status_date  DateTime? 
+employee_iban  String?  @db.VarChar(length: 32)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([wpsmed_id])
+@@schema("ct005_vgph")
+}
+
+
+model wps_mohre_salary_dtl {
+wpsmsd_id  BigInt @default(autoincrement())
+wpsmac_id  BigInt? 
+employer_eid  String?  @db.VarChar(length: 64)
+employer_mol_number  String?  @db.VarChar(length: 64)
+employer_reg_id  String?  @db.VarChar(length: 64)
+employee_eid  String?  @db.VarChar(length: 64)
+employee_mol_number  String?  @db.VarChar(length: 64)
+employee_unified_number  String?  @db.VarChar(length: 16)
+fixed_income  Decimal?   @db.Decimal(19,2)
+variable_income  Decimal?   @db.Decimal(19,2)
+total_leaves  Int? 
+salary_type  String?  @db.VarChar(length: 64)
+employee_passport_number  String?  @db.VarChar(length: 16)
+from_date  DateTime? 
+to_date  DateTime? 
+agent_code  String?  @db.VarChar(length: 32)
+salary_year  String?  @db.VarChar(length: 8)
+salary_payment_date  String?  @db.VarChar(length: 16)
+total_benefits  Decimal?   @db.Decimal(19,2)
+total_deductions  Decimal?   @db.Decimal(19,2)
+total_allowance  Decimal?   @db.Decimal(19,2)
+total_incentives  Decimal?   @db.Decimal(19,2)
+days_paid  Int? 
+total_salary  Decimal?   @db.Decimal(19,2)
+is_inside_country  String?  @db.VarChar(length: 8)
+period  String?  @db.VarChar(length: 32)
+remarks  String?  @db.VarChar(length: 2048)
+allowance  Json? 
+deduction  Json? 
+incentives  Json? 
+benefits  Json? 
+channel_code  String?  @db.VarChar(length: 16)
+employee_iban  String?  @db.VarChar(length: 32)
+process_name  String?  @db.VarChar(length: 64)
+employer_name  String?  @db.VarChar(length: 128)
+employee_name  String?  @db.VarChar(length: 128)
+net_pay  Decimal?   @db.Decimal(19,2)
+bonus  Decimal?   @db.Decimal(19,2)
+sif_name  String?  @db.VarChar(length: 512)
+sal_tran_ref_number  String?  @db.VarChar(length: 64)
+work_permit_number  String?  @db.VarChar(length: 64)
+wps_status  String?  @db.VarChar(length: 64)
+employee_count  Int? 
+refund_amount  Decimal?   @db.Decimal(19,2)
+refund_reason  String?  @db.VarChar(length: 64)
+refund_tran_ref_no  String?  @db.VarChar(length: 64)
+refund_tran_date  DateTime? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+
+@@id([wpsmsd_id])
+@@schema("ct005_vgph")
+}
+
+
+model npss_customer_proxy {
+npsscp_id  BigInt @default(autoincrement())
+product_code  String?  @db.VarChar(length: 16)
+bankuserid  String  @db.VarChar(length: 16)
+group_code  String?  @db.VarChar(length: 5)
+bank_code  String?  @db.VarChar(length: 5)
+customer_name  String  @db.VarChar(length: 50)
+surname  String  @db.VarChar(length: 50)
+mobile  String  @db.VarChar(length: 30)
+proxy_type  String?  @db.VarChar(length: 50)
+proxy_value  String?  @db.VarChar(length: 50)
+email  String?  @db.VarChar(length: 50)
+document_id  String?  @db.VarChar(length: 50)
+exhf_id  Int? 
+channel_id  String?  @db.VarChar(length: 128)
+channel_refno  String?  @db.VarChar(length: 128)
+channel_userid  String?  @db.VarChar(length: 128)
+channel_product  String?  @db.VarChar(length: 128)
+channel_sub_product  String?  @db.VarChar(length: 128)
+channel_tran_code  String?  @db.VarChar(length: 3)
+operation_date  String?  @db.VarChar(length: 64)
+operation_type  String?  @db.VarChar(length: 3)
+optout  String?  @db.VarChar(length: 1)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([npsscp_id])
+@@schema("ct005_vgph")
+}
+
+
+model npss_customer_accounts {
+npssca_id  BigInt @default(autoincrement())
+npsscp_id  Int 
+product_code  String?  @db.VarChar(length: 16)
+bankuserid  String  @db.VarChar(length: 16)
+iban  String  @db.VarChar(length: 35)
+currency  String?  @db.VarChar(length: 3)
+instant_payment  String?  @db.VarChar(length: 5)
+default_account  String?  @db.VarChar(length: 5)
+exhf_id  Int? 
+account_id  String?  @db.VarChar(length: 64)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([npssca_id])
+@@schema("ct005_vgph")
+}
+
+
+model npss_customer_appid {
+npsscapp_id  BigInt @default(autoincrement())
+npsscp_id  Int? 
+mobile  String  @db.VarChar(length: 30)
+appid  String  @db.VarChar(length: 64)
+source_type  String?  @db.VarChar(length: 32)
+appid_status  String?  @db.VarChar(length: 8)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([npsscapp_id])
+@@schema("ct005_vgph")
+}
+
+
+model npss_merchant_proxy {
+npssmp_id  BigInt @default(autoincrement())
+product_code  String?  @db.VarChar(length: 16)
+bankuserid  String  @db.VarChar(length: 16)
+group_code  String?  @db.VarChar(length: 5)
+bank_code  String?  @db.VarChar(length: 5)
+merchant_tag  String?  @db.VarChar(length: 8)
+merchant_name  String?  @db.VarChar(length: 50)
+surname  String?  @db.VarChar(length: 50)
+denomination  String  @db.VarChar(length: 100)
+vat_number  String  @db.VarChar(length: 20)
+mcc  String  @db.VarChar(length: 4)
+mobile  String  @db.VarChar(length: 30)
+proxy_type  String?  @db.VarChar(length: 50)
+proxy_value  String?  @db.VarChar(length: 50)
+email  String?  @db.VarChar(length: 50)
+document_id  String?  @db.VarChar(length: 50)
+channel_name  String?  @db.VarChar(length: 100)
+logo  String?  @db.VarChar(length: 4000)
+exhf_id  Int? 
+channel_id  String?  @db.VarChar(length: 128)
+channel_refno  String?  @db.VarChar(length: 128)
+channel_userid  String?  @db.VarChar(length: 128)
+channel_product  String?  @db.VarChar(length: 128)
+channel_sub_product  String?  @db.VarChar(length: 128)
+channel_tran_code  String?  @db.VarChar(length: 3)
+operation_date  String?  @db.VarChar(length: 64)
+operation_type  String?  @db.VarChar(length: 3)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([npssmp_id])
+@@schema("ct005_vgph")
+}
+
+
+model npss_merchant_appid {
+npssmapp_id  BigInt @default(autoincrement())
+npssmp_id  Int? 
+mobile  String  @db.VarChar(length: 30)
+appid  String  @db.VarChar(length: 64)
+source_type  String?  @db.VarChar(length: 32)
+appid_status  String?  @db.VarChar(length: 8)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([npssmapp_id])
+@@schema("ct005_vgph")
+}
+
+
+model npss_merchant_accounts {
+npssma_id  BigInt @default(autoincrement())
+npssmp_id  Int 
+product_code  String?  @db.VarChar(length: 16)
+bankuserid  String  @db.VarChar(length: 16)
+iban  String  @db.VarChar(length: 35)
+currency  String?  @db.VarChar(length: 3)
+default_account  String?  @db.VarChar(length: 5)
+exhf_id  Int? 
+account_id  String?  @db.VarChar(length: 64)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([npssma_id])
+@@schema("ct005_vgph")
+}
+
+
+model npss_merchant_shops {
+npssms_id  BigInt @default(autoincrement())
+npssmp_id  Int 
+product_code  String?  @db.VarChar(length: 16)
+bankuserid  String  @db.VarChar(length: 16)
+shop_name  String  @db.VarChar(length: 100)
+shop_mid  String?  @db.VarChar(length: 8)
+shop_id  String?  @db.VarChar(length: 16)
+shop_type  String  @db.VarChar(length: 30)
+shop_mcc  String?  @db.VarChar(length: 4)
+shop_iban  String?  @db.VarChar(length: 35)
+building  String?  @db.VarChar(length: 50)
+street  String?  @db.VarChar(length: 50)
+city  String?  @db.VarChar(length: 50)
+postal_code  String?  @db.VarChar(length: 10)
+county  String?  @db.VarChar(length: 50)
+country  String?  @db.VarChar(length: 50)
+exhf_id  Int? 
+shop_account_id  String?  @db.VarChar(length: 64)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([npssms_id])
+@@schema("ct005_vgph")
+}
+
+
+model npss_merchant_cashdesk {
+npssmc_id  BigInt @default(autoincrement())
+npssms_id  Int 
+product_code  String?  @db.VarChar(length: 16)
+bankuserid  String  @db.VarChar(length: 16)
+cashdesk_overlay_id  String?  @db.VarChar(length: 30)
+cashdesk_id  String  @db.VarChar(length: 16)
+exhf_id  Int? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([npssmc_id])
+@@schema("ct005_vgph")
+}
+
+
+model npss_sm_process_log {
+npsssmpl_id  BigInt @default(autoincrement())
+bankuserid  String  @db.VarChar(length: 16)
+process_name  String?  @db.VarChar(length: 64)
+processing_system  String?  @db.VarChar(length: 64)
+result_code  String?  @db.VarChar(length: 64)
+result  String?  @db.VarChar(length: 5)
+result_message  String?  @db.VarChar(length: 100)
+result_x_request_id  String?  @db.VarChar(length: 100)
+process_ref_no  String?  @db.VarChar(length: 64)
+request_data_json  String?  @db.VarChar(length: 80000)
+response_data_json  String?  @db.VarChar(length: 80000)
+channel_id  String?  @db.VarChar(length: 128)
+channel_refno  String?  @db.VarChar(length: 128)
+channel_userid  String?  @db.VarChar(length: 128)
+channel_product  String?  @db.VarChar(length: 128)
+channel_sub_product  String?  @db.VarChar(length: 128)
+channel_tran_code  String?  @db.VarChar(length: 3)
+reject_reason_code  String?  @db.VarChar(length: 16)
+reject_reason  String?  @db.VarChar(length: 256)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([npsssmpl_id])
+@@schema("ct005_vgph")
+}
+
+
+model npss_core_api_process_log {
+npsscapl_id  BigInt @default(autoincrement())
+process_name  String?  @db.VarChar(length: 64)
+processing_system  String?  @db.VarChar(length: 64)
+response_code  String?  @db.VarChar(length: 64)
+process_ref_no  String?  @db.VarChar(length: 64)
+request_data_json  String?  @db.VarChar(length: 80000)
+response_data_json  String?  @db.VarChar(length: 80000)
+currency  String?  @db.VarChar(length: 3)
+accountholderbic  String?  @db.VarChar(length: 32)
+accountnumber  String?  @db.VarChar(length: 32)
+datasource  String?  @db.VarChar(length: 64)
+senderbic  String?  @db.VarChar(length: 32)
+fromdate  DateTime? 
+todate  DateTime? 
+reftype  String?  @db.VarChar(length: 64)
+ref  String?  @db.VarChar(length: 64)
+datetime  DateTime? 
+cyclenumber  String?  @db.VarChar(length: 32)
+pl_status  String?  @db.VarChar(length: 256)
+fromtime  String?  @db.VarChar(length: 16)
+totime  String?  @db.VarChar(length: 16)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([npsscapl_id])
+@@schema("ct005_vgph")
+}
+
+
+model npss_camt_account_report {
+ncar_id  BigInt @default(autoincrement())
+header_msg_id  String?  @db.VarChar(length: 35)
+report_id  String?  @db.VarChar(length: 35)
+rpt_created_datetime  String?  @db.VarChar(length: 35)
+iban  String?  @db.VarChar(length: 35)
+account_currency  String?  @db.VarChar(length: 3)
+account_name  String?  @db.VarChar(length: 70)
+bic  String?  @db.VarChar(length: 35)
+balance_type_code  String?  @db.VarChar(length: 35)
+balance_amount  Decimal?   @db.Decimal(18,2)
+cr_dr_indicator  String?  @db.VarChar(length: 35)
+rpt_bal_datetime  String?  @db.VarChar(length: 35)
+message_data  String?  @db.VarChar(length: 80000)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([ncar_id])
+@@schema("ct005_vgph")
+}
+
+
+model npss_camt_acc_crdr_ntfn {
+ncacn_id  BigInt @default(autoincrement())
+header_msg_id  String?  @db.VarChar(length: 35)
+notification_id  String?  @db.VarChar(length: 35)
+ntfn_created_datetime  String?  @db.VarChar(length: 35)
+iban  String?  @db.VarChar(length: 35)
+currency  String?  @db.VarChar(length: 3)
+limit_amount  Decimal?   @db.Decimal(18,2)
+cr_dr_indicator  String?  @db.VarChar(length: 35)
+ntfn_status  String?  @db.VarChar(length: 35)
+booking_datetime  String?  @db.VarChar(length: 35)
+end_to_end_id  String?  @db.VarChar(length: 35)
+message_data  String?  @db.VarChar(length: 80000)
+ntfn_account_id  String?  @db.VarChar(length: 34)
+account_type_code  String?  @db.VarChar(length: 35)
+bank_tran_code  String?  @db.VarChar(length: 32)
+bank_domain_code  String?  @db.VarChar(length: 4)
+bank_tran_prop_code  String?  @db.VarChar(length: 35)
+dbtr_acct_id  String?  @db.VarChar(length: 35)
+cdtr_acct_id  String?  @db.VarChar(length: 35)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([ncacn_id])
+@@schema("ct005_vgph")
+}
+
+
+model npss_camt_acc_stmt {
+ncas_id  BigInt @default(autoincrement())
+hdr_msg_id  String?  @db.VarChar(length: 64)
+hdr_created_date_time  DateTime? 
+hdr_msg_rcpt  String?  @db.VarChar(length: 64)
+hdr_msg_rcpt_name  String?  @db.VarChar(length: 256)
+hdr_msg_rcpt_id  String?  @db.VarChar(length: 64)
+hdr_msg_rcpt_orgid  String?  @db.VarChar(length: 64)
+hdr_msg_rcpt_org_bic  String?  @db.VarChar(length: 64)
+hdr_msg_pgnb  Int? 
+hdr_msg_last_pg_ind  String?  @db.VarChar(length: 8)
+hdr_msg_addtlinf  String?  @db.VarChar(length: 512)
+stmt_id  String?  @db.VarChar(length: 64)
+stmt_sequence_number  String?  @db.VarChar(length: 64)
+stmt_created_date_time  DateTime? 
+stmt_from_to_date_time  DateTime? 
+stmt_to_date_time  DateTime? 
+stmt_copy_dup_ind  String?  @db.VarChar(length: 16)
+acct_id  String?  @db.VarChar(length: 32)
+svcr_acct_id  String?  @db.VarChar(length: 32)
+instn_acct_id  String?  @db.VarChar(length: 64)
+parent_acct_id  String?  @db.VarChar(length: 256)
+parent_svcr_acct_id  String?  @db.VarChar(length: 64)
+parent_inst_acct_id  String?  @db.VarChar(length: 32)
+balance_type  String?  @db.VarChar(length: 64)
+balance_type_code_prop  String?  @db.VarChar(length: 64)
+balance_type_prop  String?  @db.VarChar(length: 64)
+balance_amount  Decimal?   @db.Decimal(19,2)
+balance_crdb_ind  String?  @db.VarChar(length: 16)
+stmt_bal_date  DateTime? 
+stmt_bal_date_time  DateTime? 
+balance_type_prop_1  String?  @db.VarChar(length: 64)
+balance_cur_1  String?  @db.VarChar(length: 32)
+balance_amount_1  Decimal?   @db.Decimal(19,2)
+balance_crdb_ind_1  String?  @db.VarChar(length: 16)
+stmt_bal_date_1  DateTime? 
+stmt_bal_date_time_1  DateTime? 
+count_indv_entries  String?  @db.VarChar(length: 16)
+sum_indv_entries  Decimal?   @db.Decimal(19,2)
+count_net_entries  String?  @db.VarChar(length: 16)
+sum_net_entries  Decimal?   @db.Decimal(19,2)
+net_crdb_ind  String?  @db.VarChar(length: 32)
+tot_cr_entries  String?  @db.VarChar(length: 32)
+sum_cr_entries  Decimal?   @db.Decimal(19,2)
+tot_db_entries  String?  @db.VarChar(length: 32)
+sum_db_entries  Decimal?   @db.Decimal(19,2)
+entry_ref  String?  @db.VarChar(length: 64)
+entry_amount  Decimal?   @db.Decimal(19,2)
+entry_crdb_ind  String?  @db.VarChar(length: 32)
+entry_status  String?  @db.VarChar(length: 32)
+entry_bk_date  DateTime? 
+entry_bk_date_time  DateTime? 
+value_date  DateTime? 
+value_date_time  DateTime? 
+acct_serv_ref  String?  @db.VarChar(length: 64)
+bank_code_prop  String?  @db.VarChar(length: 64)
+orig_amount  Decimal?   @db.Decimal(19,2)
+instd_amount  Decimal?   @db.Decimal(19,2)
+txn_amount  Decimal?   @db.Decimal(19,2)
+batch_msg_id  String?  @db.VarChar(length: 64)
+batch_txn_count  Int? 
+batch_tot_amount  Decimal?   @db.Decimal(19,2)
+batch_crdb_ind  String?  @db.VarChar(length: 32)
+payment_info_id  String?  @db.VarChar(length: 64)
+txn_ref_msgid  String?  @db.VarChar(length: 64)
+txn_accsvc_ref  String?  @db.VarChar(length: 64)
+payment_info_instd_id  String?  @db.VarChar(length: 64)
+payment_info_ete_id  String?  @db.VarChar(length: 64)
+uetr  String?  @db.VarChar(length: 64)
+txn_id  String?  @db.VarChar(length: 64)
+mandate_id  String?  @db.VarChar(length: 64)
+cheque_number  String?  @db.VarChar(length: 64)
+clr_system_ref  String?  @db.VarChar(length: 64)
+cash_txn_amount  Decimal?   @db.Decimal(19,2)
+txn_crdb_ind  String?  @db.VarChar(length: 64)
+instructing_agent_id  String?  @db.VarChar(length: 64)
+instructing_fin_inst_id  String?  @db.VarChar(length: 64)
+instructing_fin_inst_bic  String?  @db.VarChar(length: 32)
+instructed_agent_id  String?  @db.VarChar(length: 64)
+instructed_fin_inst_id  String?  @db.VarChar(length: 64)
+instructed_fin_inst_bic  String?  @db.VarChar(length: 32)
+dbtr_id  String?  @db.VarChar(length: 64)
+dbtr_bic  String?  @db.VarChar(length: 32)
+cdtr_id  String?  @db.VarChar(length: 64)
+cdtr_bic  String?  @db.VarChar(length: 32)
+message_data  String?  @db.VarChar(length: 80000)
+entry_ref_cur  String?  @db.VarChar(length: 32)
+instd_cur  String?  @db.VarChar(length: 32)
+txn_cur  String?  @db.VarChar(length: 32)
+balance_cur  String?  @db.VarChar(length: 32)
+batch_cur  String?  @db.VarChar(length: 32)
+txn_dtls_cur  String?  @db.VarChar(length: 32)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([ncas_id])
+@@schema("ct005_vgph")
+}
+
+
+model npss_fe_api_logs {
+nal_id  BigInt @default(autoincrement())
+api_name  String?  @db.VarChar(length: 128)
+x_req_id  String?  @db.VarChar(length: 128)
+ref_no  String?  @db.VarChar(length: 128)
+process_date  String?  @db.VarChar(length: 64)
+request_data_json  String?  @db.VarChar(length: 80000)
+response_data_json  String?  @db.VarChar(length: 80000)
+processing_system  String?  @db.VarChar(length: 32)
+channel_id  String?  @db.VarChar(length: 16)
+cdtr_iban  String?  @db.VarChar(length: 23)
+response_code  String?  @db.VarChar(length: 16)
+additional_info  String?  @db.VarChar(length: 128)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+trs_prev_process_code  String?  @db.VarChar(length: 128)
+trs_prev_status  String?  @db.VarChar(length: 64)
+trs_prev_process_status  String?  @db.VarChar(length: 32)
+trs_process_code  String?  @db.VarChar(length: 128)
+trs_status  String?  @db.VarChar(length: 64)
+trs_process_status  String?  @db.VarChar(length: 32)
+trs_next_process_code  String?  @db.VarChar(length: 128)
+trs_next_status  String?  @db.VarChar(length: 64)
+trs_next_process_status  String?  @db.VarChar(length: 32)
+
+@@id([nal_id])
+@@schema("ct005_vgph")
 }
 
 

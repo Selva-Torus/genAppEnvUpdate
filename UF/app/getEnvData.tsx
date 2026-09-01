@@ -1,5 +1,5 @@
 let data:any ={
-  "Test_DPD": {
+  "VGPH_DPD": {
     "encryptionType": {
       "name": "encryptionType",
       "_type": "select",

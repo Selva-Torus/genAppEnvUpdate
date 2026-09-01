@@ -14,14 +14,22 @@ import { ConfigService } from "@nestjs/config";
 import { ScheduleModule } from '@nestjs/schedule';
 import { ErdModule } from './erd/erd.module';
 import { CdcPrismaService } from './erd/cdc_prisma.service';
-import { DFadvance_searchModule } from './dfd/DFadvance_search/v1/DFadvance_search.module';    
-import { DFcombo_dfdModule } from './dfd/DFcombo_dfd/v1/DFcombo_dfd.module';    
-import { DFGroup_Array_dsdModule } from './dfd/DFGroup_Array_dsd/v1/DFGroup_Array_dsd.module';    
-import { DFclaims_dfdModule } from './dfd/DFclaims_dfd/v1/DFclaims_dfd.module';    
-import { DFset_whereModule } from './dfd/DFset_where/v1/DFset_where.module';    
-import { DFchart_dataModule } from './dfd/DFchart_data/v1/DFchart_data.module';    
-import { DFset_db_nodeModule } from './dfd/DFset_db_node/v1/DFset_db_node.module';    
-import { Request_form_default_eventModule } from './pfd/Request_form_default_event/v1/Request_form_default_event.module';    
+import { DFcomboCurrencySearchModule } from './dfd/DFcomboCurrencySearch/v1/DFcomboCurrencySearch.module';    
+import { DFtransactionModule } from './dfd/DFtransaction/v1/DFtransaction.module';    
+import { DFprocessStatusComboSearchModule } from './dfd/DFprocessStatusComboSearch/v1/DFprocessStatusComboSearch.module';    
+import { DFchannelComboSearchModule } from './dfd/DFchannelComboSearch/v1/DFchannelComboSearch.module';    
+import { DFjourneyModule } from './dfd/DFjourney/v1/DFjourney.module';    
+import { DFproductDashboardModule } from './dfd/DFproductDashboard/v1/DFproductDashboard.module';    
+import { DFchannelDashboardModule } from './dfd/DFchannelDashboard/v1/DFchannelDashboard.module';    
+import { DFcurrencyDashboardModule } from './dfd/DFcurrencyDashboard/v1/DFcurrencyDashboard.module';    
+import { DFonlineOfflineDashboardModule } from './dfd/DFonlineOfflineDashboard/v1/DFonlineOfflineDashboard.module';    
+import { DFprocessCategoryDashboardModule } from './dfd/DFprocessCategoryDashboard/v1/DFprocessCategoryDashboard.module';    
+import { DFtransactionCountVphDashboardModule } from './dfd/DFtransactionCountVphDashboard/v1/DFtransactionCountVphDashboard.module';    
+import { DFchannelCountVphDashboardModule } from './dfd/DFchannelCountVphDashboard/v1/DFchannelCountVphDashboard.module';    
+import { DFchannelChartDashboardModule } from './dfd/DFchannelChartDashboard/v1/DFchannelChartDashboard.module';    
+import { DFproductChartDashboardModule } from './dfd/DFproductChartDashboard/v1/DFproductChartDashboard.module';    
+import { DFonlineOfflineCountVPHDashboardModule } from './dfd/DFonlineOfflineCountVPHDashboard/v1/DFonlineOfflineCountVPHDashboard.module';    
+import { changeStatusTranUpdateLogInsertModule } from './pfd/changeStatusTranUpdateLogInsert/v1/changeStatusTranUpdateLogInsert.module';    
 import { EncryptInterceptor } from './encryptInterceptor';
 import { DecryptInterceptor } from './decryptInterceptor';
 import { APP_INTERCEPTOR, APP_GUARD } from '@nestjs/core';
@@ -47,7 +55,7 @@ import { getRedisConnectionOptions } from './redis.config';
       { name: 'default', ttl: 60_000, limit: 120 },
     ],
   }),
-  ScheduleModule.forRoot(),UfModule,TeModule,EnvDataModule,DFadvance_searchModule,DFcombo_dfdModule,DFGroup_Array_dsdModule,DFclaims_dfdModule,DFset_whereModule,DFchart_dataModule,DFset_db_nodeModule,Request_form_default_eventModule,ErdModule,], 
+  ScheduleModule.forRoot(),UfModule,TeModule,EnvDataModule,DFcomboCurrencySearchModule,DFtransactionModule,DFprocessStatusComboSearchModule,DFchannelComboSearchModule,DFjourneyModule,DFproductDashboardModule,DFchannelDashboardModule,DFcurrencyDashboardModule,DFonlineOfflineDashboardModule,DFprocessCategoryDashboardModule,DFtransactionCountVphDashboardModule,DFchannelCountVphDashboardModule,DFchannelChartDashboardModule,DFproductChartDashboardModule,DFonlineOfflineCountVPHDashboardModule,changeStatusTranUpdateLogInsertModule,ErdModule,], 
   controllers: [AppController],
   providers: [AppService,CommonService,RuleService,CodeService,JwtService,JwtServices,RedisService,ConfigService,EnvData,PersistenceService,SwaggerGuard, {
       provide: APP_INTERCEPTOR,

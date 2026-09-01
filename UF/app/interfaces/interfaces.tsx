@@ -48,6 +48,7 @@ export interface api_paginationDto{
     dpdKey?:string;
     method?:string;
     filterData?:any[];
+    sortingDetails?:any;
   }
 export interface uf_paginationDataFilterDto{
     data?:any;

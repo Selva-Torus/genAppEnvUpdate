@@ -1,8 +1,8 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: ct001-ta-uf-generator-httproute
-  namespace: ct001-ta-uf-v1
+  name: ct005-vgph-uf-generator-httproute
+  namespace: ct005-vgph-uf-v1
 spec:
   parentRefs:
     - name: tgatest-gw
@@ -14,7 +14,7 @@ spec:
     - matches:
         - path:
             type: PathPrefix
-            value: /ct001/tam/ta/v1
+            value: /ct005/gss/vgph/v1
       backendRefs:
-        - name: ct001-ta-uf-generator
+        - name: ct005-vgph-uf-generator
           port: 443

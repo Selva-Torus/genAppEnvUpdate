@@ -30,10 +30,10 @@ AxiosService.interceptors.request.use(
       delete config.data.method
       let ciphertext : any;
       if(method == "vault"){
-        const wrapped = await localEncrypt({ value: config.data, context: "ct001_tam_ta_v1" })
+        const wrapped = await localEncrypt({ value: config.data, context: "ct005_gss_vgph_v1" })
         ciphertext = await encryptData(dpdKey, wrapped)
       }else{
-        ciphertext = await clientEncrypt(dpdKey, method, config.data, "ct001_tam_ta_v1")
+        ciphertext = await clientEncrypt(dpdKey, method, config.data, "ct005_gss_vgph_v1")
       }
       if(method == "AESGCM" || method == "AESCTR"){
         // clientEncrypt now generates a fresh random IV per call instead of
@@ -64,7 +64,7 @@ AxiosService.interceptors.response.use(
         let vault = await decryptData(response.data, dpdKey)
         response.data = await localDecrypt(vault)
       }else{
-        response.data = await clientDecrypt(dpdKey, method, response.data, "ct001_tam_ta_v1")
+        response.data = await clientDecrypt(dpdKey, method, response.data, "ct005_gss_vgph_v1")
       }
     }
     return response

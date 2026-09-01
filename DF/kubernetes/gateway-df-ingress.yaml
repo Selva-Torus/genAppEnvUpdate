@@ -1,8 +1,8 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: ct001-ta-df-generator-httproute
-  namespace: ct001-ta-df-v1
+  name: ct005-vgph-df-generator-httproute
+  namespace: ct005-vgph-df-v1
 spec:
   parentRefs:
     - name: tgatest-gw
@@ -14,7 +14,7 @@ spec:
     - matches:
         - path:
             type: PathPrefix
-            value: /ct001/tam/ta/v1/api/
+            value: /ct005/gss/vgph/v1/api/
       filters:
         - type: URLRewrite
           urlRewrite:
@@ -22,12 +22,12 @@ spec:
               type: ReplacePrefixMatch
               replacePrefixMatch: /
       backendRefs:
-        - name: ct001-ta-df-generator
+        - name: ct005-vgph-df-generator
           port: 443   
     - matches:
         - path:
             type: Exact
-            value: /ct001/tam/ta/v1/api     
+            value: /ct005/gss/vgph/v1/api     
       filters:
         - type: URLRewrite
           urlRewrite:
@@ -35,5 +35,5 @@ spec:
               type: ReplaceFullPath
               replaceFullPath: /
       backendRefs:
-        - name: ct001-ta-df-generator
+        - name: ct005-vgph-df-generator
           port: 443

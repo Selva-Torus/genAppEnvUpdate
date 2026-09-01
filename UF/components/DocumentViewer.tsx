@@ -20,7 +20,7 @@ import { Document, Page, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
 import * as mammoth from 'mammoth'
-import * as XLSX from "@e965/xlsx";
+import * as XLSX from '@e965/xlsx'
 import Image from 'next/image'
 import DOMPurify from 'dompurify'
 
@@ -108,7 +108,10 @@ const DocViewer: React.FC<DocViewerProps> = ({
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const contentRef = useRef<HTMLDivElement>(null)
 
-  const isWordDoc = isWordType(currentFileType) || isWordUrl(currentUrl)
+  const isWordDoc =
+    isWordType(currentFileType) ||
+    isWordUrl(currentUrl) ||
+    isWordUrl(currentFileName)
   const [wordHtml, setWordHtml] = useState('')
   const [wordLoading, setWordLoading] = useState(false)
   const [wordError, setWordError] = useState('')
@@ -142,7 +145,10 @@ const DocViewer: React.FC<DocViewerProps> = ({
     }
   }, [isWordDoc, currentUrl])
 
-  const isExcelDoc = isExcelType(currentFileType) || isExcelUrl(currentUrl)
+  const isExcelDoc =
+    isExcelType(currentFileType) ||
+    isExcelUrl(currentUrl) ||
+    isExcelUrl(currentFileName)
   const [workbook, setWorkbook] = useState<XLSX.WorkBook | null>(null)
   const [activeSheet, setActiveSheet] = useState('')
   const [excelLoading, setExcelLoading] = useState(false)

@@ -126,124 +126,246 @@ export async function dfdRefreshContext(dfdkey:any,setState:any,page:any,count:a
 export function useHandleDfdRefresh(){
 
 
-    const {dfd_advance_search_v1Props,setdfd_advance_search_v1Props} = useContext(TotalContext) as TotalContextProps;
-    const {dfd_combo_dfd_v1Props,setdfd_combo_dfd_v1Props} = useContext(TotalContext) as TotalContextProps;
-    const {dfd_group_array_dsd_v1Props,setdfd_group_array_dsd_v1Props} = useContext(TotalContext) as TotalContextProps;
-    const {dfd_claims_dfd_v1Props,setdfd_claims_dfd_v1Props} = useContext(TotalContext) as TotalContextProps;
-    const {dfd_set_where_v1Props,setdfd_set_where_v1Props} = useContext(TotalContext) as TotalContextProps;
-    const {dfd_chart_data_v1Props,setdfd_chart_data_v1Props} = useContext(TotalContext) as TotalContextProps;
-    const {dfd_set_db_node_v1Props,setdfd_set_db_node_v1Props} = useContext(TotalContext) as TotalContextProps;
+    const {dfd_transaction_v1Props,setdfd_transaction_v1Props} = useContext(TotalContext) as TotalContextProps;
+    const {dfd_combocurrencysearch_v1Props,setdfd_combocurrencysearch_v1Props} = useContext(TotalContext) as TotalContextProps;
+    const {dfd_channelcombosearch_v1Props,setdfd_channelcombosearch_v1Props} = useContext(TotalContext) as TotalContextProps;
+    const {dfd_processstatuscombosearch_v1Props,setdfd_processstatuscombosearch_v1Props} = useContext(TotalContext) as TotalContextProps;
+    const {dfd_journey_v1Props,setdfd_journey_v1Props} = useContext(TotalContext) as TotalContextProps;
+    const {dfd_productdashboard_v1Props,setdfd_productdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+    const {dfd_channeldashboard_v1Props,setdfd_channeldashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+    const {dfd_currencydashboard_v1Props,setdfd_currencydashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+    const {dfd_processcategorydashboard_v1Props,setdfd_processcategorydashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+    const {dfd_onlineofflinedashboard_v1Props,setdfd_onlineofflinedashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+    const {dfd_transactioncountvphdashboard_v1Props,setdfd_transactioncountvphdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+    const {dfd_channelcountvphdashboard_v1Props,setdfd_channelcountvphdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+    const {dfd_onlineofflinecountvphdashboard_v1Props,setdfd_onlineofflinecountvphdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+    const {dfd_channelchartdashboard_v1Props,setdfd_channelchartdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+    const {dfd_productchartdashboard_v1Props,setdfd_productchartdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
     const toast=useInfoMsg();
     const { token } = useGlobal();
 
     return (nodename:any,page:any=1,count:any=10,dpdEncryption:any) => {
-            if("country0de1c"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:advance_search:AFVK:v1",setdfd_advance_search_v1Props,page,count,dpdEncryption,toast,token);
+            if("product_code_view_allb0df6"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("state64484"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:advance_search:AFVK:v1",setdfd_advance_search_v1Props,page,count,dpdEncryption,toast,token);
+            if("channel_name_view_all33724"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("city6c663"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:advance_search:AFVK:v1",setdfd_advance_search_v1Props,page,count,dpdEncryption,toast,token);
+            if("uuid_view_allc0a46"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("advancesearchf4a44"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:advance_search:AFVK:v1",setdfd_advance_search_v1Props,page,count,dpdEncryption,toast,token);
+            if("dr_account_view_all54da6"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("barchartcf891"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:combo_dfd:AFVK:v1",setdfd_combo_dfd_v1Props,page,count,dpdEncryption,toast,token);
+            if("dr_amount_view_all88d6b"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("countryf4ab0"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:combo_dfd:AFVK:v1",setdfd_combo_dfd_v1Props,page,count,dpdEncryption,toast,token);
+            if("cr_account_view_alld4b39"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("state015fd"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:combo_dfd:AFVK:v1",setdfd_combo_dfd_v1Props,page,count,dpdEncryption,toast,token);
+            if("cr_Amount_view_all19d14"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("cityfc3b9"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:combo_dfd:AFVK:v1",setdfd_combo_dfd_v1Props,page,count,dpdEncryption,toast,token);
+            if("remittance_info_view_all82afd"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("expense_namec83ee"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:Group_Array_dsd:AFVK:v1",setdfd_group_array_dsd_v1Props,page,count,dpdEncryption,toast,token);
+            if("product_code_failure_queue12297"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("email0c3ca"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:Group_Array_dsd:AFVK:v1",setdfd_group_array_dsd_v1Props,page,count,dpdEncryption,toast,token);
+            if("channel_name_failure_queue42953"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("expense_datee6e16"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:Group_Array_dsd:AFVK:v1",setdfd_group_array_dsd_v1Props,page,count,dpdEncryption,toast,token);
+            if("uuid_failure_queue03c86"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("claim_categoryf03f1"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:Group_Array_dsd:AFVK:v1",setdfd_group_array_dsd_v1Props,page,count,dpdEncryption,toast,token);
+            if("dr_account_failure_queuef9d2d"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("category_total_amount49375"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:Group_Array_dsd:AFVK:v1",setdfd_group_array_dsd_v1Props,page,count,dpdEncryption,toast,token);
+            if("dr_amount_failure_queue95d4e"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("receipt_image4f1bf"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:Group_Array_dsd:AFVK:v1",setdfd_group_array_dsd_v1Props,page,count,dpdEncryption,toast,token);
+            if("cr_account_failure_queuea7246"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("comments7171e"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:Group_Array_dsd:AFVK:v1",setdfd_group_array_dsd_v1Props,page,count,dpdEncryption,toast,token);
+            if("cr_Amount_failure_queue57c4d"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("expense_name136a1"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1",setdfd_claims_dfd_v1Props,page,count,dpdEncryption,toast,token);
+            if("remittance_info_failure_queue09d7a"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("expense_date7e93b"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1",setdfd_claims_dfd_v1Props,page,count,dpdEncryption,toast,token);
+            if("product_code_success_queue7c209"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("claim_categoryf1c64"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1",setdfd_claims_dfd_v1Props,page,count,dpdEncryption,toast,token);
+            if("channel_name_success_queueeddaf"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("category_total_amount395dd"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1",setdfd_claims_dfd_v1Props,page,count,dpdEncryption,toast,token);
+            if("uuid_success_queuec805b"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("receipt_imageb2aec"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1",setdfd_claims_dfd_v1Props,page,count,dpdEncryption,toast,token);
+            if("dr_account_operational_pending10a49"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("commentse3b5b"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1",setdfd_claims_dfd_v1Props,page,count,dpdEncryption,toast,token);
+            if("dr_amount_success_queueda254"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("switch7e8ff"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1",setdfd_claims_dfd_v1Props,page,count,dpdEncryption,toast,token);
+            if("cr_account_success_queue60480"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("checkbox53e8f"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1",setdfd_claims_dfd_v1Props,page,count,dpdEncryption,toast,token);
+            if("cr_Amount_success_queueb80d4"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("expense_nameeac5c"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1",setdfd_claims_dfd_v1Props,page,count,dpdEncryption,toast,token);
+            if("remittance_info_success_queue2f950"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("cetegorycd65c"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:claims_dfd:AFVK:v1",setdfd_claims_dfd_v1Props,page,count,dpdEncryption,toast,token);
+            if("product_code_return_queuee5e11"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("country72935"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_where:AFVK:v1",setdfd_set_where_v1Props,page,count,dpdEncryption,toast,token);
+            if("channel_name_return_queuebdabb"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("statebf0ec"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_where:AFVK:v1",setdfd_set_where_v1Props,page,count,dpdEncryption,toast,token);
+            if("uuid_return_queue958c9"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("combobox659b9"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:chart_data:AFVK:v1",setdfd_chart_data_v1Props,page,count,dpdEncryption,toast,token);
+            if("dr_account_return_queuee94b2"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("carde8dd8"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:chart_data:AFVK:v1",setdfd_chart_data_v1Props,page,count,dpdEncryption,toast,token);
+            if("dr_amount_return_queue2f324"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("state62a91"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_db_node:AFVK:v1",setdfd_set_db_node_v1Props,page,count,dpdEncryption,toast,token);
+            if("cr_account_return_queue21a57"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("state_two24376"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_db_node:AFVK:v1",setdfd_set_db_node_v1Props,page,count,dpdEncryption,toast,token);
+            if("cr_Amount_return_queue13fec"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("country625d4"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_db_node:AFVK:v1",setdfd_set_db_node_v1Props,page,count,dpdEncryption,toast,token);
+            if("remittance_info_return_queuef37f7"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("textinput86330"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_db_node:AFVK:v1",setdfd_set_db_node_v1Props,page,count,dpdEncryption,toast,token);
+            if("trs_created_date2cea8"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("country2114e"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_db_node:AFVK:v1",setdfd_set_db_node_v1Props,page,count,dpdEncryption,toast,token);
+            if("debtor_account_no963e4"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("statebbeaf"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_db_node:AFVK:v1",setdfd_set_db_node_v1Props,page,count,dpdEncryption,toast,token);
+            if("debtor_namee2d9f"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("city6731c"==nodename){
-                dfdRefreshContext("CK:CT001:FNGK:AF:FNK:DF-DFD:CATK:TAM:AFGK:TA:AFK:set_db_node:AFVK:v1",setdfd_set_db_node_v1Props,page,count,dpdEncryption,toast,token);
+            if("creditor_account_noca692"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("payment_currency703d2"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:comboCurrencySearch:AFVK:v1",setdfd_combocurrencysearch_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("payment_amount042b1"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("uuid29c9f"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("channel26e83"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:channelComboSearch:AFVK:v1",setdfd_channelcombosearch_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("processstatus134a1"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:processStatusComboSearch:AFVK:v1",setdfd_processstatuscombosearch_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("status4bd75"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("tran_journey1602a"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:journey:AFVK:v1",setdfd_journey_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("transaction_date_time14856"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("status88bc7"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:journey:AFVK:v1",setdfd_journey_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("processed_byd2b69"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:journey:AFVK:v1",setdfd_journey_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("debit_account36b40"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("currency9c8a2"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("credit_account0d1f4"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("amount01416"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("transaction_reference500d6"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("xmlviewer9fe8d"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:journey:AFVK:v1",setdfd_journey_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("req_jsonviewerc80ab"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:journey:AFVK:v1",setdfd_journey_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("res_jsonviewer9d6d1"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:journey:AFVK:v1",setdfd_journey_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("product_combobox7ef64"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:productDashboard:AFVK:v1",setdfd_productdashboard_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("channel_combobox95649"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:channelDashboard:AFVK:v1",setdfd_channeldashboard_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("currency_comboboxfbbfc"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:currencyDashboard:AFVK:v1",setdfd_currencydashboard_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("process_category_comboboxbb731"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:processCategoryDashboard:AFVK:v1",setdfd_processcategorydashboard_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("offline_online_combobox88add"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:onlineOfflineDashboard:AFVK:v1",setdfd_onlineofflinedashboard_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("transaction_countc3fd5"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transactionCountVphDashboard:AFVK:v1",setdfd_transactioncountvphdashboard_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("total_amount94c0b"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:channelCountVphDashboard:AFVK:v1",setdfd_channelcountvphdashboard_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("online_offline_process41265"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:onlineOfflineCountVPHDashboard:AFVK:v1",setdfd_onlineofflinecountvphdashboard_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("barchart84262"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:channelChartDashboard:AFVK:v1",setdfd_channelchartdashboard_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("piechart9dde7"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:productChartDashboard:AFVK:v1",setdfd_productchartdashboard_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("value_date26f4c"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("dr_accounte2a30"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("dr_name59632"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("dr_currency39803"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("dr_amountc3a1f"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("cr_accountcf8bb"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("cr_name8be31"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("cr_currency5fe15"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("cr_amounta66de"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("uuid9822d"==nodename){
+                dfdRefreshContext("CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",setdfd_transaction_v1Props,page,count,dpdEncryption,toast,token);
             }
     };
 }

@@ -38,7 +38,7 @@ export class TeController {
 
 
     // Handle regular event emission
-      if (!pfdto.upId) {
+      if (!pfdto.upId || pfdto.upId.length == 0 || pfdto.upId.every(id => id == null)) {
       let result:any,resArr = []
       if(Array.isArray(pfdto.data) && pfdto.data.length>0){      
         if(pfdto.data.length == 1){
