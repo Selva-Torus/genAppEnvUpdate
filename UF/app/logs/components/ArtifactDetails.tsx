@@ -206,25 +206,6 @@ const Artifactdetails = ({ nodeData, setNodeData }: Nodedataprops) => {
     }
   }
 
-  function formatDate(inputDateStr: string) {
-    if (!inputDateStr) return '-'
-
-    const [datePart, timePart] = inputDateStr.split('T')
-    const [, month, day] = datePart.split('-')
-
-    const monthName = new Date(
-      Date.UTC(2000, Number(month) - 1, Number(day))
-    ).toLocaleString('en-US', {
-      month: 'long',
-      timeZone: 'UTC'
-    })
-
-    // Remove milliseconds (.422) and Z
-    const formattedTime = timePart.substring(0, 8)
-
-    return `${monthName} ${Number(day)}, ${formattedTime}`
-  }
-
   const handleGetFinishingTime = (nodeTime: string) => {
     // Ensure 'time' is a string array
     if (Array.isArray(time) && time.every(item => typeof item === 'string')) {
@@ -234,13 +215,13 @@ const Artifactdetails = ({ nodeData, setNodeData }: Nodedataprops) => {
           new Date(time[currentIndex + 1]).getMilliseconds() -
           new Date(nodeTime).getMilliseconds()
         return {
-          endTime: formatDate(time[currentIndex + 1]),
+          endTime: time[currentIndex + 1],
           processingTime: `${timeDifference}ms`
         }
       } else {
         return status.toLowerCase() === 'success'
           ? {
-              endTime: formatDate(time[time.length - 1]),
+              endTime: time[time.length - 1],
               processingTime: 'Process completed successfully'
             }
           : {
@@ -386,7 +367,7 @@ const Artifactdetails = ({ nodeData, setNodeData }: Nodedataprops) => {
                   <div className='flex flex-col gap-2'>
                     <Text className='text-nowrap text-end'>Process started at</Text>
                     <Text color='secondary' className='text-nowrap'>
-                      {formatDate(selectedNode?.time)}
+                      {selectedNode?.time}
                     </Text>
                   </div>
                   <div className='flex flex-col gap-2 py-2'>

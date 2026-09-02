@@ -30,7 +30,7 @@ export class AbilitiesGuard implements CanActivate {
     }
 
     const request: any = context.switchToHttp().getRequest();
-    const dfKey:string = 'CK:CT005:FNGK:AF:FNK:API-ERD:CATK:GSS:AFGK:VGPH:AFK:NPSS_ERD:AFVK:v1';
+    const dfKey:string = 'CK:CT003:FNGK:AF:FNK:API-MSD:CATK:Trs:AFGK:TOB:AFK:TOB_LFI_Consents:AFVK:v1';
     const source: string = 'redis';
     const target: string = 'redis';
     const artifact : string = dfKey.split(':')[11];

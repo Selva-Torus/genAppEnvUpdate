@@ -1,5 +1,5 @@
 /* {
-  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT005:AFGK:GSS:AFK:VGPH:AFVK:v1:bldc",
+  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT003:AFGK:Trs:AFK:TOB:AFVK:v1:bldc",
   "ufKey": "Logs Screen",
   "screenName": "logs",
   "screenLabel": "logs",
@@ -29,57 +29,59 @@
       "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
     },
     {
-      "menuGroupLabel": "My Transaction",
+      "menuGroup": "dashboards",
+      "menuGroupLabel": "DashBoards",
       "screenDetails": [
         {
-          "name": "my transaction",
-          "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",
+          "name": "api usage",
+          "label": "Api Usage",
+          "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:TOB:AFK:apiUsageDashboard:AFVK:v1",
           "restrictedAccessProfile": [],
-          "static": false
-        }
-      ],
-      "items": []
-    },
-    {
-      "menuGroupLabel": "Dashboard",
-      "screenDetails": [
+          "static": false,
+          "icon": "/torus/9.1/CT003/resources/images/api (1).png"
+        },
         {
-          "name": "dashboard",
-          "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:globalDashboard:AFVK:v1",
+          "name": "monetization",
+          "label": "Monetization",
+          "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:TOB:AFK:monetizationDashboard:AFVK:v1",
           "restrictedAccessProfile": [],
-          "static": false
+          "static": false,
+          "icon": "/torus/9.1/CT003/resources/images/money-income.png"
         }
       ],
-      "items": []
+      "items": [],
+      "icon": "/torus/9.1/CT003/resources/images/dashboard-panel (2).png"
     }
   ],
   "setupData": {
     "appInfo": {
-      "code": "VGPH",
-      "logo": "torus/9.1/CT005/resources/images/Blue Logo.png",
-      "name": "VGPH",
-      "appLogo": "torus/9.1/CT005/resources/images/White global payment hub.png",
-      "accessUrl": "https://tgaprod910.toruslowcode.com/ct005/gss/vgph/v1",
+      "name": "TOB",
+      "code": "TOB",
+      "needAutoDbPush": true,
       "encryption": {
         "type": ""
       },
-      "lastBuildOn": "2026-08-10T10:02:59.252Z",
-      "lastBuildVersion": "v1",
-      "applicationUniqueId": "ae093d5d-f44a-444b-afab-9476f31e7dca",
-      "deploymentArtifactKey": "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:VGPH:AFK:VGPH_DPD:AFVK:v1",
-      "needAutoDbPush": false,
-      "appGrpName": "GSS",
-      "appGrpCode": "GSS",
-      "fusionAuthAppClientSecret": "AKE3Mkrdhezw9vln9mTV-Wnb8WVEivZ3BY0KTxqtmbc"
+      "applicationUniqueId": "8291f326-206b-4e4e-89a6-01d9e96c6ca3",
+      "deploymentArtifactKey": "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:Trs:AFGK:TOB:AFK:Tob_dpd:AFVK:v1",
+      "appGrpName": "Torus",
+      "appGrpCode": "Trs",
+      "fusionAuthAppClientSecret": "gwSeq2xTYs-W7GmxpL9Gbr5vtZeto3RrkzR1S1TyIbU"
     },
-    "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT005:AFK:PROFILE:AFVK:v1:appearance",
-    "selectedPresetKey": "default",
-    "appBackgroundImage": "torus/9.1/CT005/resources/images/Home.png",
+    "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT003:AFK:PROFILE:AFVK:v1:appearance",
+    "selectedPresetKey": "1781968481809",
+    "group-bg-color": "#ffffff",
+    "fontSize": {
+      "preferredVw": "1",
+      "minPx": "12",
+      "maxPx": "16"
+    },
     "direction": "LTR",
-    "brandColor": "#0737c9",
-    "selectionColor": "#579eff",
-    "hoverColor": "#d5eeff",
-    "borderRadius": "m",
+    "brandColor": "#0736C4",
+    "selectionColor": "#0736C4",
+    "hoverColor": "#F1F2F7",
+    "borderRadius": "s",
+    "topbarColor": "#ffffff",
+    "menubarColor": "#ffffff",
     "sidebarStyle": "",
     "navigationStyles": "horizontal",
     "theme": "light",
@@ -89,13 +91,13 @@
       "direction": "LTR",
       "theme": "light",
       "brandColors": {
-        "primary": "#0025dd",
-        "secondary": "#000e51",
+        "primary": "#062684",
+        "secondary": "#dad7d7",
         "tertiary": "#000000"
       },
       "accentColors": {
-        "accentOne": "#f4f5ff",
-        "accentTwo": "#ffffff"
+        "accentOne": "#fafafa",
+        "accentTwo": "#646464"
       },
       "utilityColors": {
         "lightMode": {
@@ -132,42 +134,34 @@
       "navigationStyle": "Bottom Navigation",
       "drawerStyle": ""
     },
+    "page-bg-color": "#ffffff",
     "language": "English",
-    "fontFamily": [
-      {
-        "label": "Inter",
-        "fontUrl": "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&d…"
-      }
-    ],
-    "text-body-font": "Inter",
-    "text-header-font": "Inter",
-    "text-display-font": "Inter",
-    "name": "default",
-    "fontSize": {
-      "minPx": "6",
-      "preferredVw": "0.85",
-      "maxPx": "12"
-    }
+    "name": "VOB",
+    "appBackgroundImage": "",
+    "fontFamily": [],
+    "text-body-font": "",
+    "text-header-font": "",
+    "text-display-font": ""
   },
-  "setupKey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT005:AFGK:GSS:AFK:VGPH:AFVK:v1:appearance",
+  "setupKey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT003:AFGK:Trs:AFK:TOB:AFVK:v1:appearance",
   "allKeys": [
-    "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",
-    "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:globalDashboard:AFVK:v1"
+    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:TOB:AFK:apiUsageDashboard:AFVK:v1",
+    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:TOB:AFK:monetizationDashboard:AFVK:v1"
   ],
   "loginDetails": {
-    "firstName": "Sam",
-    "lastName": "M",
+    "firstName": "sam",
+    "lastName": "m",
     "loginId": "sam",
-    "email": "samm@gsstvl.com",
+    "email": "samm@torus.tech",
     "mobile": "",
     "status": "active",
     "accessProfile": [
-      "Dev Team"
+      "Manager"
     ],
-    "accessExpires": "2028-06-07",
-    "dateAdded": "2026-03-09T11:01:57.190Z",
+    "accessExpires": "",
+    "dateAdded": "2026-05-11T09:16:47.790Z",
     "profile": "",
-    "userUniqueId": "7f0f7b07-155a-4c52-b3b6-df722f11757e",
+    "userUniqueId": "a4c35166-cc3c-464f-97fb-38c247a35864",
     "touring": {
       "isneedTouring": false,
       "touringData": {
@@ -176,72 +170,89 @@
           "isSkipped": true,
           "completed": false,
           "notVisited": []
+        },
+        "/control-center/company-profile": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "/control-center/tenant": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "/control-center/account-profile": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "/home": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
         }
       }
     },
-    "lastActive": "2026-09-01T07:14:19.663Z",
-    "client": "CT005",
-    "users": "samSam M",
-    "noOfProductsService": 0,
-    "edit": ""
+    "users": "samsam m",
+    "lastActive": "2026-09-02T05:01:19.736Z",
+    "edit": "",
+    "client": "CT003",
+    "noOfProductsService": 0
   },
   "webOnBoarding": {
     "navBarStyle": {
-      "activeItems": [
+      "activeItems": [],
+      "deletedItems": [
+        {
+          "name": "logo",
+          "gridColumn": "1/2"
+        },
         {
           "name": "app logo",
-          "gridColumn": "1/3"
+          "gridColumn": "2/4"
         },
         {
           "name": "menu items",
-          "gridColumn": "3/8",
+          "gridColumn": "4/9",
           "gridRow": "1/6"
-        },
-        {
-          "name": "profile",
-          "gridColumn": "12/13",
-          "gridRow": "12/13"
         },
         {
           "name": "opr matrix",
           "gridColumn": "9/12",
           "gridRow": "6/9"
-        }
-      ],
-      "deletedItems": [
+        },
         {
-          "name": "logo",
-          "gridColumn": "1/2"
+          "name": "profile",
+          "gridColumn": "12/13",
+          "gridRow": "12/13"
         }
       ]
     },
-    "landingScreen": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1",
-    "loginType": "standard",
-    "image": "torus/9.1/CT005/resources/images/Login 1.png",
-    "menuBgColor": "#0736C4",
-    "menuTextColor": "#ffffff",
-    "menuSelectionBgColor": "#ffffff",
-    "menuSelectionTextColor": "#0736C4"
+    "landingScreen": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:TOB:AFK:apiUsageDashboard:AFVK:v1",
+    "loginType": "rightAligned"
   },
   "allKeyswithScreenNames": [
     {
-      "screenName": "my transaction",
-      "screensName": "my_transaction-v1",
-      "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1"
+      "screenName": "api usage",
+      "screensName": "api_usage-v1",
+      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:TOB:AFK:apiUsageDashboard:AFVK:v1"
     },
     {
-      "screenName": "dashboard",
-      "screensName": "dashboard-v1",
-      "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:globalDashboard:AFVK:v1"
+      "screenName": "monetization",
+      "screensName": "monetization-v1",
+      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:TOB:AFK:monetizationDashboard:AFVK:v1"
     }
   ],
-  "deploymentArtifactKey": "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:VGPH:AFK:VGPH_DPD:AFVK:v1",
-  "appGroupDesc": "GSS",
+  "deploymentArtifactKey": "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:Trs:AFGK:TOB:AFK:tob_dpd:AFVK:v1",
+  "appGroupDesc": "Torus",
   "logType": "dfs",
-  "appDesc": "VGPH",
-  "appLogo": "torus/9.1/CT005/resources/images/White global payment hub.png",
+  "appDesc": "TOB",
   "isOld": true,
-  "clientCode": "CT005"
+  "clientCode": "CT003"
 } */
 import './globals.css';
 import type { Metadata } from 'next';
@@ -256,8 +267,8 @@ import { cookies } from 'next/headers';
 import { COOKIE_PREFIX } from '@/lib/cookies';
 
 export const metadata: Metadata = {
-  title: 'VGPH',
-  description: 'VGPH Generated by Torus'
+  title: 'TOB',
+  description: 'TOB Generated by Torus'
 }
 
 export default async function RootLayout({

@@ -13,23 +13,23 @@ import { TeModule } from './Torus/v1/te/te.module';
 import { ConfigService } from "@nestjs/config";
 import { ScheduleModule } from '@nestjs/schedule';
 import { ErdModule } from './erd/erd.module';
-import { CdcPrismaService } from './erd/cdc_prisma.service';
-import { DFcomboCurrencySearchModule } from './dfd/DFcomboCurrencySearch/v1/DFcomboCurrencySearch.module';    
-import { DFtransactionModule } from './dfd/DFtransaction/v1/DFtransaction.module';    
-import { DFprocessStatusComboSearchModule } from './dfd/DFprocessStatusComboSearch/v1/DFprocessStatusComboSearch.module';    
-import { DFchannelComboSearchModule } from './dfd/DFchannelComboSearch/v1/DFchannelComboSearch.module';    
-import { DFjourneyModule } from './dfd/DFjourney/v1/DFjourney.module';    
-import { DFproductDashboardModule } from './dfd/DFproductDashboard/v1/DFproductDashboard.module';    
-import { DFchannelDashboardModule } from './dfd/DFchannelDashboard/v1/DFchannelDashboard.module';    
-import { DFcurrencyDashboardModule } from './dfd/DFcurrencyDashboard/v1/DFcurrencyDashboard.module';    
-import { DFonlineOfflineDashboardModule } from './dfd/DFonlineOfflineDashboard/v1/DFonlineOfflineDashboard.module';    
-import { DFprocessCategoryDashboardModule } from './dfd/DFprocessCategoryDashboard/v1/DFprocessCategoryDashboard.module';    
-import { DFtransactionCountVphDashboardModule } from './dfd/DFtransactionCountVphDashboard/v1/DFtransactionCountVphDashboard.module';    
-import { DFchannelCountVphDashboardModule } from './dfd/DFchannelCountVphDashboard/v1/DFchannelCountVphDashboard.module';    
-import { DFchannelChartDashboardModule } from './dfd/DFchannelChartDashboard/v1/DFchannelChartDashboard.module';    
-import { DFproductChartDashboardModule } from './dfd/DFproductChartDashboard/v1/DFproductChartDashboard.module';    
-import { DFonlineOfflineCountVPHDashboardModule } from './dfd/DFonlineOfflineCountVPHDashboard/v1/DFonlineOfflineCountVPHDashboard.module';    
-import { changeStatusTranUpdateLogInsertModule } from './pfd/changeStatusTranUpdateLogInsert/v1/changeStatusTranUpdateLogInsert.module';    
+import { APITOB_Consent_Event_OperationModule } from './apiInt/APITOB_Consent_Event_Operation/v1/APITOB_Consent_Event_Operation.module';    
+import { DFTOB_Consent_Request_CA_DFDModule } from './dfd/DFTOB_Consent_Request_CA_DFD/v1/DFTOB_Consent_Request_CA_DFD.module';    
+import { DFMongo_TotalCalls_DFDModule } from './dfd/DFMongo_TotalCalls_DFD/v1/DFMongo_TotalCalls_DFD.module';    
+import { DFMongo_API_Repository_DFDModule } from './dfd/DFMongo_API_Repository_DFD/v1/DFMongo_API_Repository_DFD.module';    
+import { DFMongoDB_API_Process_Logs_DFDModule } from './dfd/DFMongoDB_API_Process_Logs_DFD/v1/DFMongoDB_API_Process_Logs_DFD.module';    
+import { DFMongo_Pie_Chart_DFDModule } from './dfd/DFMongo_Pie_Chart_DFD/v1/DFMongo_Pie_Chart_DFD.module';    
+import { DFMongo_LineChart_DFDModule } from './dfd/DFMongo_LineChart_DFD/v1/DFMongo_LineChart_DFD.module';    
+import { DFTOB_Consents_Request_DFDModule } from './dfd/DFTOB_Consents_Request_DFD/v1/DFTOB_Consents_Request_DFD.module';    
+import { DFMongoDB_MainDashboard_DFDModule } from './dfd/DFMongoDB_MainDashboard_DFD/v1/DFMongoDB_MainDashboard_DFD.module';    
+import { DFTOB_Total_Used_API_DFDModule } from './dfd/DFTOB_Total_Used_API_DFD/v1/DFTOB_Total_Used_API_DFD.module';    
+import { DFTOB_MZDSH_TotalCards_DFDModule } from './dfd/DFTOB_MZDSH_TotalCards_DFD/v1/DFTOB_MZDSH_TotalCards_DFD.module';    
+import { DFTOB_MZDSH_Group_BarChart_DFDModule } from './dfd/DFTOB_MZDSH_Group_BarChart_DFD/v1/DFTOB_MZDSH_Group_BarChart_DFD.module';    
+import { DFTOB_MZDSH_PieChart_DFDModule } from './dfd/DFTOB_MZDSH_PieChart_DFD/v1/DFTOB_MZDSH_PieChart_DFD.module';    
+import { DFTOB_MZDSH_BarChart_OverageCharges_DFDModule } from './dfd/DFTOB_MZDSH_BarChart_OverageCharges_DFD/v1/DFTOB_MZDSH_BarChart_OverageCharges_DFD.module';    
+import { DFTOB_MZDSH_PricingTierTable_DFDModule } from './dfd/DFTOB_MZDSH_PricingTierTable_DFD/v1/DFTOB_MZDSH_PricingTierTable_DFD.module';    
+import { DFTOB_MZDSH_InVoice_Table_DFDModule } from './dfd/DFTOB_MZDSH_InVoice_Table_DFD/v1/DFTOB_MZDSH_InVoice_Table_DFD.module';    
+import { TOB_Consent_Event_OperationModule } from './pfd/TOB_Consent_Event_Operation/v1/TOB_Consent_Event_Operation.module';    
 import { EncryptInterceptor } from './encryptInterceptor';
 import { DecryptInterceptor } from './decryptInterceptor';
 import { APP_INTERCEPTOR, APP_GUARD } from '@nestjs/core';
@@ -55,7 +55,7 @@ import { getRedisConnectionOptions } from './redis.config';
       { name: 'default', ttl: 60_000, limit: 120 },
     ],
   }),
-  ScheduleModule.forRoot(),UfModule,TeModule,EnvDataModule,DFcomboCurrencySearchModule,DFtransactionModule,DFprocessStatusComboSearchModule,DFchannelComboSearchModule,DFjourneyModule,DFproductDashboardModule,DFchannelDashboardModule,DFcurrencyDashboardModule,DFonlineOfflineDashboardModule,DFprocessCategoryDashboardModule,DFtransactionCountVphDashboardModule,DFchannelCountVphDashboardModule,DFchannelChartDashboardModule,DFproductChartDashboardModule,DFonlineOfflineCountVPHDashboardModule,changeStatusTranUpdateLogInsertModule,ErdModule,], 
+  ScheduleModule.forRoot(),UfModule,TeModule,EnvDataModule,APITOB_Consent_Event_OperationModule,DFTOB_Consent_Request_CA_DFDModule,DFMongo_TotalCalls_DFDModule,DFMongo_API_Repository_DFDModule,DFMongoDB_API_Process_Logs_DFDModule,DFMongo_Pie_Chart_DFDModule,DFMongo_LineChart_DFDModule,DFTOB_Consents_Request_DFDModule,DFMongoDB_MainDashboard_DFDModule,DFTOB_Total_Used_API_DFDModule,DFTOB_MZDSH_TotalCards_DFDModule,DFTOB_MZDSH_Group_BarChart_DFDModule,DFTOB_MZDSH_PieChart_DFDModule,DFTOB_MZDSH_BarChart_OverageCharges_DFDModule,DFTOB_MZDSH_PricingTierTable_DFDModule,DFTOB_MZDSH_InVoice_Table_DFDModule,TOB_Consent_Event_OperationModule,ErdModule,], 
   controllers: [AppController],
   providers: [AppService,CommonService,RuleService,CodeService,JwtService,JwtServices,RedisService,ConfigService,EnvData,PersistenceService,SwaggerGuard, {
       provide: APP_INTERCEPTOR,
@@ -64,7 +64,7 @@ import { getRedisConnectionOptions } from './redis.config';
     { provide: APP_INTERCEPTOR, useClass: DecryptInterceptor },
     { provide: APP_GUARD, useClass: AuthGuard },
     { provide: APP_GUARD, useClass: ThrottlerGuard
-    },CdcPrismaService],
+    }],
 })
 export class AppModule implements NestModule {
   configure() {}

@@ -1,14 +1,14 @@
 pipeline {
     agent {
-        label 'slave-32'
+        label 'slave-195'
     }
     tools {
         jdk 'jdk17' 
         nodejs 'Node20.0.0'
     }
     environment {
-        DOCKERHUB_USERNAME = "192.168.2.34:5000"
-        APP_NAME = "ct005-vgph-df-v1"
+        DOCKERHUB_USERNAME = "192.168.2.164:5000"
+        APP_NAME = "ct003-tob-df-v1"
         IMAGE_NAME = "${DOCKERHUB_USERNAME}/${APP_NAME}"
         GITHUB_CREDENTIALS = "GIT_HUB_PAT"
         IMAGE_TAG = "${BUILD_NUMBER}"
@@ -29,20 +29,20 @@ pipeline {
             steps {
                 git branch: 'master',
                     credentialsId: "${GITHUB_CREDENTIALS}",
-                    url: 'https://github.com/TorusDev2023/Claims4UF.git'
+                    url: 'https://github.com/Torus9x/Torus9xVOB.git'
             }
         }
 
-        stage('Detect Changes in ct005 App') {
+        stage('Detect Changes in ct003 App') {
             steps {
                 script {
                     def diff = sh(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim()
-                    if (diff.split('\n').any { it.startsWith('apps/CT005/GSS/VGPH/v1/Nest-df/') }) {
+                    if (diff.split('\n').any { it.startsWith('apps/CT003/Trs/TOB/v1/Nest-df/') }) {
                         env.NEST_DF_CHANGED = "true"
-                        echo "Changes detected in apps/CT005/GSS/VGPH/v1/Nest-df"
+                        echo "Changes detected in apps/CT003/Trs/TOB/v1/Nest-df"
                     } else {
                         env.NEST_DF_CHANGED = "false"
-                        echo "No changes in apps/CT005/GSS/VGPH/v1/Nest-df. Skipping build and deployment stages."
+                        echo "No changes in apps/CT003/Trs/TOB/v1/Nest-df. Skipping build and deployment stages."
                     }
                 }
             }
@@ -62,8 +62,8 @@ pipeline {
                         --no-cache \
                         --build-arg BUILDKIT_INLINE_CACHE=1 \
                         --tag ${IMAGE_NAME}:${IMAGE_TAG} \
-                        --file apps/CT005/GSS/VGPH/v1/Nest-df/Dockerfile \
-                        apps/CT005/GSS/VGPH/v1/Nest-df \
+                        --file apps/CT003/Trs/TOB/v1/Nest-df/Dockerfile \
+                        apps/CT003/Trs/TOB/v1/Nest-df \
                         --push
                     """              
                 }
@@ -76,14 +76,14 @@ pipeline {
             }
             steps {
                 script {
-                    sh "sed -i 's/docker_tag/${IMAGE_TAG}/g' apps/CT005/GSS/VGPH/v1/Nest-df/kubernetes/deploymentservice.yaml"
+                    sh "sed -i 's/docker_tag/${IMAGE_TAG}/g' apps/CT003/Trs/TOB/v1/Nest-df/kubernetes/deploymentservice.yaml"
                     sh """
                     sed -i 's|docker_tag|${IMAGE_TAG}|g' \
-                    apps/CT005/GSS/VGPH/v1/Nest-df/kubernetes/deploymentservice.yaml
+                    apps/CT003/Trs/TOB/v1/Nest-df/kubernetes/deploymentservice.yaml
 
                     echo "=============================="
                     echo "Deployment Image"
-                    grep image: apps/CT005/GSS/VGPH/v1/Nest-df/kubernetes/deploymentservice.yaml
+                    grep image: apps/CT003/Trs/TOB/v1/Nest-df/kubernetes/deploymentservice.yaml
                     """
                 }
             }
@@ -95,10 +95,10 @@ pipeline {
             }
             steps {
                 script {
-                    withKubeConfig(credentialsId: 'kubernetes-32', serverUrl: 'https://lb.kubesphere.local:6443') {
-                        sh "kubectl get ns ct005-vgph-df-v1 || kubectl create ns ct005-vgph-df-v1"
-                        sh "kubectl apply -f apps/CT005/GSS/VGPH/v1/Nest-df/kubernetes/deploymentservice.yaml"
-                        sh "kubectl apply -f apps/CT005/GSS/VGPH/v1/Nest-df/kubernetes/gateway-df-ingress.yaml"                      
+                    withKubeConfig(credentialsId: 'kubernetes-195', serverUrl: 'https://lb.kubesphere.local:6443') {
+                        sh "kubectl get ns ct003-tob-df-v1 || kubectl create ns ct003-tob-df-v1"
+                        sh "kubectl apply -f apps/CT003/Trs/TOB/v1/Nest-df/kubernetes/deploymentservice.yaml"
+                        sh "kubectl apply -f apps/CT003/Trs/TOB/v1/Nest-df/kubernetes/gateway-df-ingress.yaml"                      
                     }
                 }
             }

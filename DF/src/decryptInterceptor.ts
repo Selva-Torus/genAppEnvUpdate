@@ -40,7 +40,7 @@ export class DecryptInterceptor implements NestInterceptor {
         dpdKey,
         method,
         req.body,
-        'ct005_gss_vgph_v1',
+        'ct003_trs_tob_v1',
       );
       decryptedData = decryptedData.replace(/[\x00-\x1F\x7F]+/g, '').trim();
 

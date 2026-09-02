@@ -6,7 +6,6 @@ import axios from 'axios';
 import * as fs from 'fs';
 import { UfService } from './Torus/v1/uf/uf.service';
 import { CommonService } from './common.Service';
-import { CdcPrismaService } from './erd/cdc_prisma.service';
 import { SwaggerGuard } from './swagger.guard';
 @Injectable()
 export class AppService {
@@ -17,7 +16,6 @@ export class AppService {
   constructor(private readonly ufservice: UfService,
   private readonly swaggerGuard: SwaggerGuard,
   private readonly commonService: CommonService,
-    private readonly triggerSqlQueries:CdcPrismaService
   ) {}
 
   setSwaggerDocument(document: any): void {
@@ -39,9 +37,9 @@ export class AppService {
       endPointData.type =  "json";
       let res =  await this.ufservice.getEndPoints(endPointData);
       erdDatas.endpoint = res;
-      erdDatas.tenant =  "CT005";
-      erdDatas.domain = "GSS";
-      erdDatas.collection = "VGPH";
+      erdDatas.tenant =  "CT003";
+      erdDatas.domain = "Torus";
+      erdDatas.collection = "TOB";
       erdDatas.data = preParedData?.erdWithData||{}
       erdDatas.fabric = 'API-APIPD';
       erdDatas.loginId = this.loginId;
@@ -54,19 +52,6 @@ export class AppService {
       await this.ufservice.createApiCollection(erdDatas,this.clientcode);
       console.info('Swagger upload to API Fabric completed successfully.');
       }
-  }
-  async triggerFuntionExecute(isLocal:string='prod'){
-    const migrationsDir = isLocal === 'dev'
-      ? './src/erd/prisma/migrations'
-      : './dist/prisma/migrations';
-       const migrationsFile = `${migrationsDir}/allTriggers.sql`;
-    if (!fs.existsSync(migrationsFile)) {
-      console.warn(`${migrationsFile} not found — skipping trigger function execution.`);
-      return;
-    }
-    let migrationSql_trigger = await fs.readFileSync(migrationsFile, 'utf-8'); 
-    await this.triggerSqlQueries.$executeRawUnsafe(migrationSql_trigger);
-    console.info('trigger queries executed');
   }
 
   getHello(): string {

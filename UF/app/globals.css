@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&d…');  
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 
@@ -26,11 +25,10 @@
 /* CSS Variables for Typography - These will be set dynamically by setUpKey.tsx */
 :root {
   --g-font-family-sans: "Inter", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  --g-font-family-Inter:"Inter", sans-serif;
-  --font-body:var(--g-font-family-Inter);
-  --font-header:var(--g-font-family-Inter);  
-  --font-display:var(--g-font-family-Inter);  
-  --font-size-base: clamp(6px, 0.85vw, 12px);
+  --font-body:var(--g-font-family-sans);
+  --font-header:var(--g-font-family-monospace);  
+  --font-display:var(--g-font-family-sans);  
+  --font-size-base: clamp(12px, 1vw, 16px);
 
 }
 

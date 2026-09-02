@@ -681,13 +681,16 @@ export class TeService{
                                 }
                                 //if(logicCenter){
                                   // OPTIMIZATION: Keep parallel delete operations for performance
-                                  let keys = await this.redisService.getKeys(dstkey+ tokenDecode.loginId + '_DS_Object',client)
+                                  let ds_obj_key = logicCenter? `${dstkey}${tokenDecode.loginId}_DS_Object`:`${dstkey}${pfdto.upId}:${tokenDecode.loginId}_DS_Object`
+                                  let keys = await this.redisService.getKeys(ds_obj_key,client)
+                                  //let keys = await this.redisService.getKeys(dstkey+ tokenDecode.loginId + '_DS_Object',client)
                                   if(keys && keys.length > 0){
                                     await Promise.all(keys.map(key =>
                                       this.redisService.deleteKey(key, client)
                                     ));
                                   }
-                                  await this.redisService.sethash(obj['data'],dstkey+ tokenDecode.loginId + '_DS_Object',logicCenter)
+                                  //await this.redisService.sethash(obj['data'],dstkey+ tokenDecode.loginId + '_DS_Object',logicCenter)
+                                  await this.redisService.sethash(obj['data'],ds_obj_key,logicCenter)
                                // }    
                                 
                                // OPTIMIZATION: Parallelize cleanup operations with concurrency limiting

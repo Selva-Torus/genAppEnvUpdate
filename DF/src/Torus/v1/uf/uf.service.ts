@@ -310,7 +310,7 @@ getConfig(): FusionAuthConfig {
 
  async insertDocToVgphSourceTranDocMain(category: string, doc_name: string, url: string, size?: number, doc_group?: string): Promise<any> {
     try {
-      const insertUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments`;
+      const insertUrl = `${process.env.APP_MANAGER_URL}/ct003/attachments`;
       //const vgphstm_uuid = uuid();
       const currentDate = new Date().toISOString().slice(0, 19) + '+00:00';
 
@@ -338,7 +338,7 @@ getConfig(): FusionAuthConfig {
 
   async getUrlByVgphstdmId(vgphstdm_id: any): Promise<string> {
     try {
-      const getUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments/${vgphstdm_id}`;
+      const getUrl = `${process.env.APP_MANAGER_URL}/ct003/attachments/${vgphstdm_id}`;
 
       const response = await axios.get(getUrl, {
         headers: {
@@ -905,17 +905,28 @@ getConfig(): FusionAuthConfig {
           payload['sortingDetails'] = sortingDetails;
         }
           
-       await this.commonService.postCall(
-              //process.env.BE_URL + '/te/eventEmitter',
-              this.envData.getBeUrl() + '/te/eventEmitter',            
-              payload,
-              requestConfig,
-            );
-            let tokenDecode = await this.jwtService.verifyToken(token);           
-            if(!tokenDecode?.loginId) throw 'loginId not found'
-            //return await this.redisService.getAllRecordshash(key + tokenDecode.loginId+'_DS_Object') 
-           let data =  await this.redisService.getAllRecordshash(key + tokenDecode.loginId+'_DS_Object') 
-          return { records: data, totalRecords: Number(data?.[0]?.total_records) || data.length } 
+        let event_response = await this.commonService.postCall(
+          //process.env.BE_URL + '/te/eventEmitter',
+          this.envData.getBeUrl() + '/te/eventEmitter',            
+          payload,
+          requestConfig,
+        );
+        let data = []
+        if(event_response?.status == 'Success' && event_response?.statusCode == 201){
+          let upid = event_response?.result?.upId
+          let tokenDecode = await this.jwtService.verifyToken(token);           
+          if(!tokenDecode?.loginId) throw 'loginId not found'
+         
+          data = await this.redisService.getAllRecordshash(`${key}${upid}:${tokenDecode.loginId}_DS_Object`)  
+          let keys = await this.redisService.getKeys(`${key}${upid}:${tokenDecode.loginId}_DS_Object`,process.env.CLIENTCODE)
+        
+          if(keys && keys.length > 0){
+            await Promise.all(keys.map(key =>
+              this.redisService.deleteKey(key, process.env.CLIENTCODE,)
+            ));
+          }  
+        }
+        return { records: data, totalRecords: Number(data?.[0]?.total_records) || data.length } 
       
        
     } catch (err:any) {     
@@ -8371,11 +8382,10 @@ getConfig(): FusionAuthConfig {
               if (USER && date && CK && FNGK && FNK && CATK && AFGK && AFK && AFVK) {
                 const path = `${USER}:${date}:${CK}:${FNGK}:${FNK}:${CATK}:${AFGK}:${AFK}:${AFVK}:${upid}`;    
                 
-                await this.structuredPrcLogsToPostgres(streamName,path,CK,FNK,CATK,AFGK,upid,USER,DateAndTime)
-               
                 res = await this.commonService.seaWeeduploadFile(JSON.stringify(result[i]), bucketName, streamName, path);                
                
                 if(res?.status == 201){
+                  await this.structuredPrcLogsToPostgres(streamName,path,CK,FNK,CATK,AFGK,upid,USER,DateAndTime)
                   await this.redisService.ackMessage(streamName,groupName,msgid);
                   await this.redisService.deleteWithEntryId(streamName,msgid)   
                   let isStreamExist = await this.redisService.getStreamRange(streamName)
@@ -8616,7 +8626,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct005_vgph';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : '';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8675,7 +8685,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct005_vgph';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : '';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8745,7 +8755,7 @@ getConfig(): FusionAuthConfig {
       );
 
       for (const lock of locks.rows) {
-        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : 'ct005_vgph';
+        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : '';
         await client.query(
           `UPDATE ${recordSchema}."${lock.table_name}"
            SET trs_locked_by = NULL, trs_locked_time = NULL

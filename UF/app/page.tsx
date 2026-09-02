@@ -35,7 +35,7 @@ export default function HomePage() {
 
   return (
     <>
-      <LoginForm logo="torus/9.1/CT005/resources/images/Blue Logo.png"   loginType="standard"   image="torus/9.1/CT005/resources/images/Login 1.png" appTenantList={appTenantList}/>
+      <LoginForm logo=""   loginType="rightAligned"   image="" appTenantList={appTenantList}/>
     </>
   )
 }

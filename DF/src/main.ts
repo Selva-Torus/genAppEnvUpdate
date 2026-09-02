@@ -7,7 +7,6 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import helmet from '@fastify/helmet';
 import * as fs from 'fs';
 import multipart from '@fastify/multipart'; 
-import { BigIntInterceptor } from './bigint.interceptor';
 import { AppService } from './app.service';
 import { EnvData } from './envData/envData.service';
 //import { envData as mongoClientEnvData } from './mongoClient';
@@ -25,7 +24,7 @@ async function bootstrap() {
 
   let configData = null;
   try {
-    const redisResult:any = await redis.call('JSON.GET', "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:VGPH:AFK:VGPH_DPD:AFVK:v1:NDP");
+    const redisResult:any = await redis.call('JSON.GET', "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:Trs:AFGK:TOB:AFK:tob_dpd:AFVK:v1:NDP");
     if (redisResult) {
       const parsed = JSON.parse(redisResult);
       const rootKey = Object.keys(parsed)[0];
@@ -70,8 +69,6 @@ async function bootstrap() {
     AppModule,
     fastifyAdapter,
   );
-    // Global interceptor for BigInt serialization
-  app.useGlobalInterceptors(new BigIntInterceptor());
   // Global validation for any @Body()/@Param()/@Query() typed with a DTO class.
   // transform:true applies existing class-validator decorators (e.g. @IsNotEmpty on
   // OrchestrationDto.key) app-wide instead of only on the ERD controllers.
@@ -148,7 +145,7 @@ async function bootstrap() {
     { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 
     'JWT-auth',
     )
-    .addServer('https://tgatest910.toruslowcode.com/ct005/gss/vgph/v1/api','Production Server')
+    .addServer('https://tgaprod910.toruslowcode.com/ct003/trs/tob/v1/api','Production Server')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   const appService = app.get(AppService);

@@ -39,7 +39,7 @@ const ContextSelector = () => {
   const tp_ps: any = getCookie('tp_ps')
   const toast = useInfoMsg()
   const baseUrl: any = process.env.NEXT_PUBLIC_API_BASE_URL
-  const appName = 'VGPH'
+  const appName = 'TOB'
   const [accessProfiles, setAccessProfiles] = useState<any[]>([])
   const router = useRouter()
   const [loading, setLoading] = useState(false)
@@ -55,18 +55,18 @@ const ContextSelector = () => {
   const [selectedRole, setSelectedRole] = useState<Record<string, string>>({})
   const [orgGrpData, setOrgGrpData] = useState<any>([])
   const [isPending, startTransition] = useTransition();  
-  let landingScreen:string = 'CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1';
+  let landingScreen:string = 'CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:TOB:AFK:apiUsageDashboard:AFVK:v1';
   let screenDetails: any = {
            keys:[
   {
-    "screenName": "my transaction",
-    "screensName": "my_transaction-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:transaction:AFVK:v1"
+    "screenName": "api usage",
+    "screensName": "api_usage-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:TOB:AFK:apiUsageDashboard:AFVK:v1"
   },
   {
-    "screenName": "dashboard",
-    "screensName": "dashboard-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:VGPH:AFK:globalDashboard:AFVK:v1"
+    "screenName": "monetization",
+    "screensName": "monetization-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:TOB:AFK:monetizationDashboard:AFVK:v1"
   }
 ]
   }
@@ -310,30 +310,10 @@ const ContextSelector = () => {
     name: string
     'gridColumn'?: string
     'gridRow'?: string
-  }[] = [
-  {
-    "name": "app logo",
-    "gridColumn": "1/3"
-  },
-  {
-    "name": "menu items",
-    "gridColumn": "3/8",
-    "gridRow": "1/6"
-  },
-  {
-    "name": "profile",
-    "gridColumn": "12/13",
-    "gridRow": "12/13"
-  },
-  {
-    "name": "opr matrix",
-    "gridColumn": "9/12",
-    "gridRow": "6/9"
-  }
-]
+  }[] = []
 
-  const logo: string = "torus/9.1/CT005/resources/images/Blue Logo.png"
-  const appLogo: string = "torus/9.1/CT005/resources/images/White global payment hub.png"
+  const logo: string = ""
+  const appLogo: string = ""
 
   return (
     <div className='h-full w-full  bg-cover bg-center'>
