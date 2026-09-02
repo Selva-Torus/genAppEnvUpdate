@@ -28,6 +28,7 @@ export class AppService {
       console.warn('Swagger document not set — skipping Swagger upload to API Fabric.');
       return;
     }
+    return
     let preParedData:any=await this.dataPrep(this.swaggerDocument)
     if(Object.keys(preParedData).includes('erdWithData'))
       {

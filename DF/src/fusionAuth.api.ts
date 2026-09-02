@@ -183,10 +183,10 @@ export const FusionAuthUserDeletion = async (fusionAuthBaseUrl: string, fusionAu
   await fetch(
     `${fusionAuthBaseUrl}/api/user/${userId}?hardDelete=true`,
     {
-      method: 'DELETE',
-      headers: {
-        Authorization: fusionAuthApiKey,
-      },
+    method: 'DELETE',
+    headers: {
+      Authorization: fusionAuthApiKey,
+    },
     },
   );
 };
@@ -207,22 +207,22 @@ export const FusionAuthUserCreation = async (
   const userResponse = await fetch(
     `${fusionAuthBaseUrl}/api/user/${userId}`,
     {
-      method: methjodName,
-      headers: {
-        Authorization: fusionAuthApiKey,
-        'Content-Type': 'application/json',
-        'X-FusionAuth-TenantId': tenantId,
+    method: methjodName,
+    headers: {
+      Authorization: fusionAuthApiKey,
+      'Content-Type': 'application/json',
+      'X-FusionAuth-TenantId': tenantId,
+    },
+    body: JSON.stringify({
+      user: {
+        firstName: firstName,
+        lastName: lastName,
+        username: userName,
+        phoneNumber: mobile,
+        email: email,
+        password: password,
       },
-      body: JSON.stringify({
-        user: {
-          firstName: firstName,
-          lastName: lastName,
-          username: userName,
-          phoneNumber: mobile,
-          email: email,
-          password: password,
-        },
-      }),
+    }),
     },
   );
 
@@ -354,17 +354,17 @@ export const FusionAuthUserEdition = async (
   const userResponse = await fetch(
     `${fusionAuthBaseUrl}/api/user/${userId}`,
     {
-      method: 'PATCH',
-      headers: {
-        Authorization: fusionAuthApiKey,
-        'Content-Type': 'application/json',
+    method: 'PATCH',
+    headers: {
+      Authorization: fusionAuthApiKey,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      user: {
+        firstName: firstName,
+        lastName: lastName,
       },
-      body: JSON.stringify({
-        user: {
-          firstName: firstName,
-          lastName: lastName,
-        },
-      }),
+    }),
     },
   );
 
@@ -382,11 +382,11 @@ export const FusionAuthUserGet = async (
   const userResponse = await fetch(
     `${fusionAuthBaseUrl}/api/user/${userId}`,
     {
-      method: 'GET',
-      headers: {
-        Authorization: fusionAuthApiKey,
-        'Content-Type': 'application/json',
-      },
+    method: 'GET',
+    headers: {
+      Authorization: fusionAuthApiKey,
+      'Content-Type': 'application/json',
+    },
     },
   );
 
@@ -505,4 +505,37 @@ export const handleFusionAuthUserRegistrationForTokenLambda = async (
   } catch (error) {
     throw error
   }
-}
+};
+
+export const introspectFAToken = async ({
+  fusionAuthBaseUrl,
+  fusionAuthTenantId,
+  fusionAuthApplicationId,
+  token,
+}: {
+  fusionAuthBaseUrl: string;
+  fusionAuthTenantId: string;
+  fusionAuthApplicationId: string;
+  token: string;
+}) => {
+  try {
+    const res = await fetch(`${fusionAuthBaseUrl}/oauth2/introspect`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-FusionAuth-TenantId': fusionAuthTenantId,
+      },
+      body: new URLSearchParams({
+        token,
+        client_id: fusionAuthApplicationId,
+      }).toString(),
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return {
+      active: false,
+      error: error instanceof Error ? error.message : String(error),
+    };
+  }
+};
