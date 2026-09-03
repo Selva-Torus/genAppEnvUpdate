@@ -1,4 +1,6 @@
 import { HttpException, Injectable,HttpStatus,InternalServerErrorException,ConflictException,BadRequestException } from '@nestjs/common';
+import { Createamr_checklist_statusDto } from './dto/Createamr_checklist_status.dto';
+import { Updateamr_checklist_statusDto } from './dto/Updateamr_checklist_status.dto';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma.service';
 import { CdcPrismaService } from '../cdc_prisma.service'; 
@@ -427,6 +429,9 @@ export class amr_checklist_statusService {
   }
 
  async findAllmethod(queryDto: any, limit:number, selectColumns:any, token:any, authContext?: any) {
+  if (!authContext?.tenant) {
+     throw new ForbiddenException('Tenant claim is missing from the token');
+   }
     try {
       let queryCondition:any ={}
       let queryValue:any = {}
@@ -551,11 +556,7 @@ export class amr_checklist_statusService {
       if(trs_version){ 
         query.trs_version = { [queryCondition['trs_version']]: trs_version };
       }
-      // Scope by the verified caller's own tenant (when available) — this
-      // previously let a caller filter/list rows across every tenant.
-      if (authContext?.tenant) {
-        query.trs_tenant_id = authContext.tenant;
-      }
+      query.trs_tenant_id = authContext.tenant;
       const skip = (page - 1) * limit;
       if (Object.keys(query).length > 0) {
         const banks = await this.prismaService.withConnection(() =>
@@ -630,10 +631,11 @@ export class amr_checklist_statusService {
   }
 
   async findOne(checklist_status_id:number,token : string,detokenize?: string,detokenizeData?: any,authContext?: any) {
+    if (!authContext?.tenant) {
+      throw new ForbiddenException('Tenant claim is missing from the token');
+    }
     try{
-      // Scope by the verified caller's own tenant (when available) so one
-      // tenant can no longer read another tenant's row by walking doc_instance_id.
-      const tenantFilter = authContext?.tenant ? { trs_tenant_id: authContext.tenant } : {};
+      const tenantFilter = { trs_tenant_id: authContext.tenant };
       const res = await this.prismaService.withConnection(() =>
       this.prismaService.amr_checklist_status.findMany({ 
       where: {checklist_status_id, ...tenantFilter },
@@ -688,10 +690,11 @@ export class amr_checklist_statusService {
 
   async findAll(token : string,authContext?: any,detokenize?: string,detokenizeData?: any
 ) {
+    if (!authContext?.tenant) {
+      throw new ForbiddenException('Tenant claim is missing from the token');
+    }
     try{
-      // Scope by the verified caller's own tenant (when available) — this
-      // previously returned every tenant's rows unconditionally.
-      const whereClause: any = authContext?.tenant ? { trs_tenant_id: authContext.tenant } : {};
+      const whereClause: any = { trs_tenant_id: authContext.tenant };
       const res = await this.prismaService.withConnection(() =>
       this.prismaService.amr_checklist_status.findMany({ 
       where: whereClause,
@@ -755,15 +758,12 @@ export class amr_checklist_statusService {
     }
     }
     
-  async create(createamr_checklist_statusDto: Prisma.amr_checklist_statusCreateInput,token:string,detokenize:string,detokenizeData?: any,authContext?: any) {
+  async create(createamr_checklist_statusDto: Createamr_checklist_statusDto,token:string,detokenize:string,detokenizeData?: any,authContext?: any) {
+    if (!authContext?.tenant) {
+      throw new ForbiddenException('Tenant claim is missing from the token');
+    }
     try{
-      // Stamp the record with the verified caller's own tenant instead of
-      // trusting whatever trs_tenant_id the request body supplied — closes
-      // the write-side of the tenant-isolation gap (a caller could otherwise
-      // create a row tagged as belonging to a different tenant).
-      if (authContext?.tenant) {
-        (createamr_checklist_statusDto as any).trs_tenant_id = authContext.tenant;
-      }
+      (createamr_checklist_statusDto as any).trs_tenant_id = authContext.tenant;
 
       const dataSchema:any =  v.object({
             is_complete :  v.optional(v.boolean()), 
@@ -989,17 +989,16 @@ export class amr_checklist_statusService {
    * @param token - Auth token
    */
   async createMaster(
-    createamr_checklist_statusDto: Prisma.amr_checklist_statusCreateInput,
+    createamr_checklist_statusDto: Createamr_checklist_statusDto,
     userInfo: { role: string; username: string; remarks?: string,approvalStatus?:string, approvalId?: string },
     token: string,
     authContext?: any,
   ) {
+    if (!authContext?.tenant) {
+      throw new ForbiddenException('Tenant claim is missing from the token');
+    }
     try {
-      // See create() above — stamp the caller's own verified tenant rather
-      // than trusting the request body's trs_tenant_id.
-      if (authContext?.tenant) {
-        (createamr_checklist_statusDto as any).trs_tenant_id = authContext.tenant;
-      }
+      (createamr_checklist_statusDto as any).trs_tenant_id = authContext.tenant;
       const workflowRole = userInfo.role?.toUpperCase();
       const approvalStatus = userInfo.approvalStatus?.toUpperCase();
 
@@ -1256,20 +1255,19 @@ export class amr_checklist_statusService {
     }
   }
 
-  async update(checklist_status_id:number, updateamr_checklist_statusDto: Prisma.amr_checklist_statusUpdateInput,token:string, detokenize:string,detokenizeData?: any,authContext?: any) {   
+  async update(checklist_status_id:number, updateamr_checklist_statusDto: Updateamr_checklist_statusDto,token:string, detokenize:string,detokenizeData?: any,authContext?: any) {   
+    if (!authContext?.tenant) {
+      throw new ForbiddenException('Tenant claim is missing from the token');
+    }
     try{
-      // Ownership check — a caller must not be able to update a row that
-      // belongs to a different tenant just by knowing its doc_instance_id.
-      if (authContext?.tenant) {
-        const owned = await this.prismaService.withConnection(() =>
-          this.prismaService.amr_checklist_status.findFirst({
-            where: {checklist_status_id, trs_tenant_id: authContext.tenant },
-            select: {checklist_status_id:true, },
-          }),
-        );
-        if (!owned) {
-          throw new CustomException('Record not found', HttpStatus.NOT_FOUND);
-        }
+      const owned = await this.prismaService.withConnection(() =>
+        this.prismaService.amr_checklist_status.findFirst({
+          where: {checklist_status_id, trs_tenant_id: authContext.tenant },
+          select: {checklist_status_id:true, },
+        }),
+      );
+      if (!owned) {
+        throw new CustomException('Record not found', HttpStatus.NOT_FOUND);
       }
 
       const dataSchema:any =  v.object({
@@ -1444,12 +1442,17 @@ export class amr_checklist_statusService {
    */
   async updateMaster(
 checklist_status_id:number,
-    updateamr_checklist_statusDto: Prisma.amr_checklist_statusUpdateInput,
+    updateamr_checklist_statusDto: Updateamr_checklist_statusDto,
     userInfo: { role: string; username: string; remarks?: string,approvalStatus?:string },
     token:string,
     authContext?: any,
   ) {
     try {
+      // Fail closed when the JWT has no tenant claim — without a verified
+      // tenant we cannot prove ownership of the record being changed.
+      if (!authContext?.tenant) {
+        throw new ForbiddenException('Tenant claim is missing from the token');
+      }
       const workflowRole = userInfo.role?.toUpperCase();
       const updateMaster_id =checklist_status_id;
 
@@ -1473,14 +1476,12 @@ checklist_status_id:number,
         // target row still exists in its pre-change state until approved,
         // so its current tenant is checkable here even though the pending
         // change payload itself isn't.
-        if (authContext?.tenant) {
-          const targetRecord = await this.prismaService.amr_checklist_status.findUnique({
-            where: { checklist_status_id: updateMaster_id },
-            select: { trs_tenant_id: true },
-          });
-          if (targetRecord && targetRecord.trs_tenant_id !== authContext.tenant) {
-            throw new ForbiddenException('Record belongs to a different tenant');
-          }
+        const targetRecord = await this.prismaService.amr_checklist_status.findUnique({
+          where: { checklist_status_id: updateMaster_id },
+          select: { trs_tenant_id: true },
+        });
+        if (targetRecord && targetRecord.trs_tenant_id !== authContext.tenant) {
+          throw new ForbiddenException('Record belongs to a different tenant');
         }
 
         // Call approve_change(approval_id, checker_id, checker_remarks)
@@ -1707,7 +1708,13 @@ checklist_status_id:number,
 
   async remove(checklist_status_id:number,token : string, detokenize: string,detokenizeData?: any,authContext?: any) {
     try{
-    const tenantFilter = authContext?.tenant ? { trs_tenant_id: authContext.tenant } : {};
+    // Fail closed when the JWT has no tenant claim — without a verified
+    // tenant we cannot scope the deletion to the caller's own rows.
+    if (!authContext?.tenant) {
+      throw new ForbiddenException('Tenant claim is missing from the token');
+    }
+    const tenantFilter = { trs_tenant_id: authContext.tenant };
+
     const toDelete = await this.prismaService.withConnection(() =>
       this.prismaService.amr_checklist_status.findMany({
       where: {checklist_status_id ,...tenantFilter},
@@ -1784,6 +1791,11 @@ checklist_status_id:number,
     authContext?: any,
   ) {
     try {
+      // Fail closed when the JWT has no tenant claim — without a verified
+      // tenant we cannot prove ownership of the record being changed.
+      if (!authContext?.tenant) {
+        throw new ForbiddenException('Tenant claim is missing from the token');
+      }
       const workflowRole = userInfo.role?.toUpperCase();
       const deleteMaster_id =checklist_status_id;
 
@@ -1806,14 +1818,12 @@ checklist_status_id:number,
         // Close the tenant-blindness half of R2: the pending change's
         // target row still exists in its pre-change state until approved,
         // so its current tenant is checkable here.
-        if (authContext?.tenant) {
-          const targetRecord = await this.prismaService.amr_checklist_status.findUnique({
-            where: { checklist_status_id: deleteMaster_id },
-            select: { trs_tenant_id: true },
-          });
-          if (targetRecord && targetRecord.trs_tenant_id !== authContext.tenant) {
-            throw new ForbiddenException('Record belongs to a different tenant');
-          }
+        const targetRecord = await this.prismaService.amr_checklist_status.findUnique({
+          where: { checklist_status_id: deleteMaster_id },
+          select: { trs_tenant_id: true },
+        });
+        if (targetRecord && targetRecord.trs_tenant_id !== authContext.tenant) {
+          throw new ForbiddenException('Record belongs to a different tenant');
         }
 
         // Call approve_change(approval_id, checker_id, checker_remarks)

@@ -348,6 +348,7 @@ export class DynamicFlowService {
                         if (!referenceKey)
                            throw new CustomException('Reference key not found', 404);
 
+                        await this.CommonService.assertConnectorTenant(referenceKey, pfdto?.authContext?.tenant);
                         let ApiConfig: any = JSON.parse(await this.redisService.getJsonData(referenceKey, collectionName));
 
                         if (!ApiConfig || Object.keys(ApiConfig).length == 0)
@@ -377,6 +378,7 @@ export class DynamicFlowService {
                             let apiName = customConfigPro?.apiConfigName?.subSelection?.value;
                             //if(!dpdKey || !apiName) throw new CustomException('DPD Key/Api Name not found', 404);
                             if(dpdKey && apiName){
+                                await this.CommonService.assertConnectorTenant(dpdKey, pfdto?.authContext?.tenant);
                                 let dpdValue:any =  JSON.parse(await this.redisService.getJsonData(dpdKey+'NDP', collectionName));
                                 if(!dpdValue) throw new CustomException('DPD value not found', 404); //|| Object.keys(dpdValue).length == 0
                                                                
@@ -1297,7 +1299,7 @@ export class DynamicFlowService {
                         savepoint: rollbackConfig?.savePoint,
                         data: apichildResult,
                         pfs:pfjson
-                    }
+                    }, pfdto?.authContext?.tenant
                     );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
@@ -1366,7 +1368,7 @@ export class DynamicFlowService {
                     let customConfig = ndp[poNode[j]?.nodeId]
                     rollbackConfig = ndp[poNode[j]?.nodeId]
                     let client, oprname, manualQuery,rule
-                    let dbconfig = await this.CommonService.dbconfig(customConfig, collectionName)
+                    let dbconfig = await this.CommonService.dbconfig(customConfig, collectionName, pfdto?.authContext?.tenant)
                     client = dbconfig?.client
                     let nodeVersion = customConfig?.nodeVersion;
                     if (nodeVersion?.toLowerCase() == 'v1') {
@@ -1898,30 +1900,20 @@ export class DynamicFlowService {
                         nodename: rollbackConfig?.nodeName,
                         savepoint: rollbackConfig?.savePoint,
                         data: dbres
-                    }
+                    }, pfdto?.authContext?.tenant
                     );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
             }
 
-            //surreal db node
+             //surreal db node
             if (nodeType == 'surrealdbnode' && poNode[j].nodeId == nodeId) {
               let db;
 
               try {
                 this.logger.log(
                   `${poNode[j]?.nodeName}, surrealdbnode started`,
-                );
-                // Q19 remediation: same gate as the outputnode/dbnode
-                    // branches — ndp/poNode is caller-supplied with no
-                    // server-side validation of its shape, and this branch
-                    // resolves and connects to a real database using
-                    // whichever connector the caller-controlled dpdkey
-                    // points at. Refuse to run without a verified identity
-                    // attached by AuthGuard.canActivateRpc().
-                    if (!pfdto?.authContext) {
-                        throw new CustomException('Unauthorized: mongo-db-node event carries no verified identity', 401);
-                    }
+                );               
 
                 const namespace = process.env.SURREAL_NAMESPACE!;
                 const database = process.env.SURREAL_DATABASE!;
@@ -1959,9 +1951,6 @@ export class DynamicFlowService {
 
                   }
                 }
-                if(manualQuery)
-                    manualQuery = manualQuery.replace(/[;\s]+$/, '');
-
                  if(pfo?.length>0){
                         for(let a=0;a< pfo.length;a++){
                             if(poNode[j]?.nodeId == pfo[a].nodeId){
@@ -2321,6 +2310,7 @@ export class DynamicFlowService {
                 if (db) { await db.close(); }
               }
             }
+            
 
             //mongo db node
             if (nodeType == 'mongo-dbnode' && poNode[j].nodeId == nodeId) {
@@ -2340,7 +2330,7 @@ export class DynamicFlowService {
                     let customConfig = ndp[poNode[j]?.nodeId]
                     rollbackConfig = ndp[poNode[j]?.nodeId]
                     let collnName, manualQryType, manualQry, sessionfilterParams, mongoQry, mongodbUrl, filterParams;
-                    let mongodbconfig = await this.CommonService.mongodbconfig(customConfig, collectionName)
+                    let mongodbconfig = await this.CommonService.mongodbconfig(customConfig, collectionName, pfdto?.authContext?.tenant)
                     mongodbUrl = mongodbconfig?.mongodbUrl
                     manualQry = mongodbconfig?.manualQry
                     manualQryType = mongodbconfig?.manualQryType
@@ -2551,7 +2541,7 @@ export class DynamicFlowService {
                         nodename: rollbackConfig?.nodeName,
                         savepoint: rollbackConfig?.savePoint,
                         data: mongoDbarr
-                    }
+                    }, pfdto?.authContext?.tenant
                     );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 } finally {
@@ -2580,7 +2570,7 @@ export class DynamicFlowService {
                         let oprname, streamName, fromStreamid, toStreamid, apikey, responseNodeName, fieldName, isStatic, consumerName, consumerGroupName, useAsConsumer, entryId, rollback, sessionfilterParams, startOfToday, endOfToday, storageType, ConsumerBasedOnJob;
                         rollbackConfig = ndp[poNode[j]?.nodeId]
                         let customConfig = ndp[poNode[j]?.nodeId]
-                        let sconf = await this.CommonService.streamConfig(customConfig, collectionName)
+                        let sconf = await this.CommonService.streamConfig(customConfig, collectionName, pfdto?.authContext?.tenant)
                         isStatic = sconf?.isStatic
                         oprname = sconf?.oprname
                         responseNodeName = sconf?.responseNodeName
@@ -3001,7 +2991,7 @@ export class DynamicFlowService {
                         nodename: rollbackConfig?.nodeName,
                         savepoint: rollbackConfig?.savePoint,
                         data: streamArr
-                    }
+                    }, pfdto?.authContext?.tenant
                     );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
@@ -3129,6 +3119,7 @@ export class DynamicFlowService {
 
                 if (storageType?.toLowerCase() == 'external') {
                     if (!dpdkey) throw new CustomException('DPD key not found', 404);
+                    await this.CommonService.assertConnectorTenant(dpdkey, pfdto?.authContext?.tenant);
                     // let extdata = JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName));
                     let extdata:any =  Object.values(JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName)))[0];      
                     let dpdData      
@@ -3339,7 +3330,7 @@ export class DynamicFlowService {
                     let customConfig = ndp[poNode[j]?.nodeId]
                     rollbackConfig = ndp[poNode[j]?.nodeId]
                     let oprname, oprkey, fileFolderPath, fileType, fileName, apikey, responseNodeName, seaWeedConfig, rollback, isStatic, sessionfilterParams;
-                    let fconf = await this.CommonService.fileConfig(customConfig, collectionName)
+                    let fconf = await this.CommonService.fileConfig(customConfig, collectionName, pfdto?.authContext?.tenant)
                     seaWeedConfig = fconf?.seaWeedConfig
                     oprname = fconf?.oprname
                     apikey = fconf?.apikey
@@ -3589,7 +3580,7 @@ export class DynamicFlowService {
                         nodename: rollbackConfig?.nodeName,
                         savepoint: rollbackConfig?.savePoint,
                         data: fileres
-                    }
+                    }, pfdto?.authContext?.tenant
                     );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
@@ -3929,6 +3920,14 @@ export class DynamicFlowService {
             if (nodeType == 'datasetschemanode' && poNode[j].nodeId == nodeId) {
                 try {
                     this.logger.log('DataSetSchema Node Started');
+                    // Q19-class remediation: this branch can resolve a
+                    // caller-controlled apiKey into another tenant's
+                    // decrypted dataset schema/credentials. Refuse to run
+                    // without a verified identity attached by
+                    // AuthGuard.canActivateRpc().
+                    if (!pfdto?.authContext) {
+                        throw new CustomException('Unauthorized: datasetschema-node event carries no verified identity', 401);
+                    }
                     let schemaRes = {}
                     let customConfig = ndp[poNode[j]?.nodeId]
                     let referenceKey = customConfig?.apiKey
@@ -3962,6 +3961,7 @@ export class DynamicFlowService {
                             }
                         }
 
+                        await this.CommonService.assertConnectorTenant(referenceKey, pfdto?.authContext?.tenant);
                         let apiConfig = JSON.parse(await this.redisService.getJsonData(referenceKey, collectionName))
                         apiConfig = Object.values(apiConfig)[0]
                         if (internalEdges && internalEdges.hasOwnProperty(poNode[j]?.nodeId)) {
@@ -5061,6 +5061,14 @@ export class DynamicFlowService {
             if (nodeType == 'jsonparsernode' && poNode[j].nodeId == nodeId) {
                 try {
                     this.logger.log('jsonparsernode Node Started');
+                    // Q19-class remediation: this branch can resolve a
+                    // caller-controlled apiKey into another tenant's
+                    // decrypted JSON-parser schema/credentials. Refuse to
+                    // run without a verified identity attached by
+                    // AuthGuard.canActivateRpc().
+                    if (!pfdto?.authContext) {
+                        throw new CustomException('Unauthorized: jsonparser-node event carries no verified identity', 401);
+                    }
                     let customConfig = ndp[poNode[j]?.nodeId]
                     let referenceKey = customConfig?.apiKey;
                     let nodeVersion = customConfig?.nodeVersion;
@@ -5069,6 +5077,7 @@ export class DynamicFlowService {
                     if (!referenceKey)
                         throw new CustomException('Reference key not found', 404);
                     let apikeyfabric = await this.CommonService.splitcommonkey(referenceKey, 'FNK')
+                    await this.CommonService.assertConnectorTenant(referenceKey, pfdto?.authContext?.tenant);
                     let ApiConfig: any = JSON.parse(await this.redisService.getJsonData(referenceKey, collectionName));
 
                     if (!ApiConfig || Object.keys(ApiConfig).length == 0)
@@ -5742,7 +5751,7 @@ export class DynamicFlowService {
                     let mapobj = {}, params, customConfig, procedurequery, client, executecommand
                     customConfig = ndp[poNode[j]?.nodeId]
                     rollbackConfig = ndp[poNode[j]?.nodeId]
-                    let prcConf = await this.CommonService.procedureConfig(customConfig, collectionName)
+                    let prcConf = await this.CommonService.procedureConfig(customConfig, collectionName, pfdto?.authContext?.tenant)
                     client = prcConf?.client
                     procedurequery = prcConf?.procedurequery
                     params = prcConf?.params
@@ -5864,7 +5873,7 @@ export class DynamicFlowService {
                         nodename: rollbackConfig?.nodeName,
                         savepoint: rollbackConfig?.savePoint,
                         data: status
-                    }
+                    }, pfdto?.authContext?.tenant
                     );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
@@ -5886,7 +5895,7 @@ export class DynamicFlowService {
                     let mapobj = {}, params, customConfig, procedurequery, client, executecommand
                     customConfig = ndp[poNode[j].nodeId]
                     rollbackConfig = ndp[poNode[j].nodeId]
-                    let prcConf = await this.CommonService.procedureConfig(customConfig, collectionName)
+                    let prcConf = await this.CommonService.procedureConfig(customConfig, collectionName, pfdto?.authContext?.tenant)
                     client = prcConf.client
                     procedurequery = prcConf.procedurequery
                     params = prcConf.params
@@ -5996,7 +6005,7 @@ export class DynamicFlowService {
                         nodename: rollbackConfig?.nodeName,
                         savepoint: rollbackConfig?.savePoint,
                         data: status
-                    }
+                    }, pfdto?.authContext?.tenant
                     );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
@@ -6018,7 +6027,7 @@ export class DynamicFlowService {
                     let mapobj = {}, params, customConfig, procedurequery, client, dbType, executecommand
                     customConfig = ndp[poNode[j]?.nodeId]
                     rollbackConfig = ndp[poNode[j]?.nodeId]
-                    let funConf = await this.CommonService.procedureConfig(customConfig, collectionName)
+                    let funConf = await this.CommonService.procedureConfig(customConfig, collectionName, pfdto?.authContext?.tenant)
                     client = funConf?.client
                     procedurequery = funConf?.procedurequery
                     params = funConf?.params
@@ -6186,7 +6195,7 @@ export class DynamicFlowService {
                         nodename: rollbackConfig?.nodeName,
                         savepoint: rollbackConfig?.savePoint,
                         data: status
-                    }
+                    }, pfdto?.authContext?.tenant
                     );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
@@ -6210,6 +6219,7 @@ export class DynamicFlowService {
                     dpdkey = customConfig?.data?.pro?.dpdKey?.value
                     if(!dpdkey) throw new CustomException('DPD key not found',404);
                     communicationType = customConfig?.data?.pro?.channels?.value
+                    await this.CommonService.assertConnectorTenant(dpdkey, pfdto?.authContext?.tenant);
                     let extdata:any =  Object.values(JSON.parse(await this.redisService.getJsonData(dpdkey, collectionName)))[0];  
                     if(!extdata)  throw new CustomException('DPD value not found',404);                      
                     dpdData = decrypt(extdata)  

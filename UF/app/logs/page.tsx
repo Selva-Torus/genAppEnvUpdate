@@ -11,7 +11,6 @@ import { useRouter } from 'next/navigation'
 import { useGlobal } from '@/context/GlobalContext'
 
 const ParentComponent = () => {
-  console.log("🚀 ~ TgService ~ codeGeneration ~ setupData:")
   const [searchTerm, setSearchTerm] = useState('')
   const [activeTab, setActiveTab] = useState<'process' | 'torus'>('process')
   const [nodeData, setNodeData] = useState(null)
@@ -99,7 +98,6 @@ const ParentComponent = () => {
         payload['dpdKey'] = encAppFalg.dpd;
         payload['method'] = 'vault';
       }
-      console.log('Fetching data...', payload)
       setLoading(true)
       const response = await AxiosService.post(
         `/${activeTab === 'torus' ? 'expLog' : 'prcLog'}`,
@@ -239,7 +237,6 @@ const ParentComponent = () => {
       }
       setLoading(false)
     } catch (error: any) {
-      if (error?.code !== 'ERR_CANCELED') {
         setLoading(false)
         setJsonViewerData({})
         setJsonData(prevData => ({
@@ -250,9 +247,6 @@ const ParentComponent = () => {
           totalDocuments: 0,
           totalPages: 0
         }))
-      }
-
-      console.error('Error fetching data:', error)
     }
   }
   useEffect(() => {

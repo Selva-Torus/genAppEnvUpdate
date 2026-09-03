@@ -4446,6 +4446,8 @@ getConfig(): FusionAuthConfig {
         let payload: any;
         try {
           payload = await this.jwtService.verifyToken(token);
+          console.log(payload, "payload");
+          
         } catch (e) {
           payload = null;
         }
@@ -5294,16 +5296,6 @@ getConfig(): FusionAuthConfig {
     const salt = randomBytes(SALT_LENGTH).toString('hex');
     const hash = scryptSync(password, salt, KEY_LENGTH).toString('hex');
     return `${salt}:${hash}`;
-  }
-
-  // static screen's apis
-  async getTenantUser() {
-    try {
-      const res = await this.query(`select * from ${schemaName}.tam_tenant_user tu where tenant_code=$1 and trs_tenant_id=$1` , [tenant])
-      return res || [];
-    } catch (err: any) {
-      throw new UnauthorizedException('Invalid tenant key');
-    }
   }
 
   async getAppSecurityData() {

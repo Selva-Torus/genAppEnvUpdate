@@ -891,16 +891,6 @@
             }
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/logoutDto"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Returns a list of all payments made by users.",
@@ -1154,11 +1144,11 @@
       }
     },
     "/UF/getResetPasswordOtp": {
-      "get": {
+      "post": {
         "operationId": "UfController_getResetPasswordOtp",
         "parameters": [],
         "responses": {
-          "200": {
+          "201": {
             "description": ""
           }
         },
@@ -1168,11 +1158,11 @@
       }
     },
     "/UF/verifyOtp": {
-      "get": {
+      "post": {
         "operationId": "UfController_verifyOtp",
         "parameters": [],
         "responses": {
-          "200": {
+          "201": {
             "description": ""
           }
         },
@@ -9617,35 +9607,11 @@
           }
         },
         "required": [
-          "client",
           "username",
-          "password",
           "type",
           "dpdKey",
           "method",
           "ufClientType"
-        ]
-      },
-      "logoutDto": {
-        "type": "object",
-        "properties": {
-          "key": {
-            "type": "string",
-            "description": "key"
-          },
-          "dpdKey": {
-            "type": "string",
-            "description": "dpdKey"
-          },
-          "method": {
-            "type": "string",
-            "description": "method"
-          }
-        },
-        "required": [
-          "key",
-          "dpdKey",
-          "method"
         ]
       },
       "pageDto": {

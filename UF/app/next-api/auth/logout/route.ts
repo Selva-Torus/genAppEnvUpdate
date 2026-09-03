@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   // just FusionAuth/browser cleanup and was never enforcing anything.
   if (token) {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/UF/logout`, {
+      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/UF/logout`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

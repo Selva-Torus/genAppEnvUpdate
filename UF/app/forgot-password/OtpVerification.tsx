@@ -174,7 +174,7 @@ const OtpVerification = ({
             >
               Set New Password
             </Text>
-            <span color='secondary' className='flex w-[12vw] text-center text-[.7vw]'>
+           <span color='secondary' className='flex w-[12vw] text-center text-[.7vw]'>
               Your new password must be different from previous used passwords
             </span>
           </div>

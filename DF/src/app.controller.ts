@@ -1,26 +1,30 @@
-import { Controller, Get, Body,Post, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Body, Post, Delete, Query, Req, ForbiddenException } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CommonService } from 'src/common.Service';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PrcLogInputDto, LogOutputDto,ExpLogInputDto, ProcessLogResponseDto, RawProcessLogInputDto  } from './dto';
 import { UfService } from './Torus/v1/uf/uf.service';
 import { Public } from './public.decorator';
-
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService,private readonly apiService:CommonService,
   private readonly ufService:UfService) {}
-
   @Get()
   @Public()
   getHello(): string {
     return this.appService.getHello();
   }
 
-  
-  
     @Post('expLog')
-    async getExceplogs(@Body() input): Promise<any> { 
+    async getExceplogs(@Body() input, @Req() req: any): Promise<any> {
+   
+      const authContext = req.authContext;
+      const isAdmin = !!authContext?.isAppAdmin;
+
+      if (!isAdmin) {
+        input.user = [authContext.loginId];
+      }
+    
       const { dpdKey,method } = input;
       let result:any = await this.ufService.getseaWeedProcessExpLogs(input,'-TSL')
       if(dpdKey && method){
@@ -31,7 +35,15 @@ export class AppController {
     }
   
     @Post('prcLog')
-    async getProcessLog(@Body() input): Promise<any> {     
+    async getProcessLog(@Body() input, @Req() req: any): Promise<any> {
+   
+      const authContext = req.authContext;
+      const isAdmin = !!authContext?.isAppAdmin;
+
+      if (!isAdmin) {
+        input.user = [authContext.loginId];
+      }
+
       const { dpdKey,method } = input;
       let result:any = await this.ufService.getseaWeedProcessExpLogs(input,'-TPL');
       if(dpdKey && method){
@@ -40,7 +52,6 @@ export class AppController {
       }
       return result
     }
-
 
      @ApiOperation({
       summary: 'Set Process log in DFS',      
@@ -59,7 +70,6 @@ export class AppController {
       return await this.apiService.SetPrcExpLogs(input.streamname,input.data)
     }
 
-
     @ApiOperation({
       summary: 'Set Exception log in DFS',      
     })
@@ -76,9 +86,14 @@ export class AppController {
     async setExpLog(@Body() input){
       return await this.apiService.SetPrcExpLogs(input.streamname,input.data)
     }
-
      @Delete('dropLog')
-    async deleteLog(@Query() input): Promise<any> {
+    async deleteLog(@Query() input, @Req() req: any): Promise<any> {
+   
+      const authContext = req.authContext;
+      if (!authContext?.isAppAdmin) {
+        throw new ForbiddenException('Only admins can delete logs');
+      }
+
       const { dpdKey,method } = input;
       console.log("input",input)
       let result:any
@@ -94,7 +109,6 @@ export class AppController {
       }
       return result
     }
-
      @ApiOperation({
     summary: 'Transform process log',
     description:
@@ -119,10 +133,8 @@ export class AppController {
   transform(@Body() rawInput: any):  Promise<any> {
     return this.apiService.transform(rawInput);
   }
-
   @Post('logiccenter')
   async getLogicCenterValue(@Body() input): Promise<any> {      
     return await this.apiService.getLogicCenterValue(input?.key)  
   }
-
 }

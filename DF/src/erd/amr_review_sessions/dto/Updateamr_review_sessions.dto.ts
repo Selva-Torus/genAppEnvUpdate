@@ -119,51 +119,20 @@ export class  Updateamr_review_sessionsDto {
         @ApiPropertyOptional()
         @IsOptional()
         trs_version?: string;
-
-
-
-
         @ApiProperty({
             type: `integer`,
             format: `int32`,
         })
         attorney_id: number;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         @ApiProperty({
             type: `integer`,
             format: `int32`,
         })
         reason_id: number;
-
-
-
-
-
-
         @ApiProperty({
             type: `integer`,
             format: `int32`,
         })
         account_id: number;
-
-
-
 }
 

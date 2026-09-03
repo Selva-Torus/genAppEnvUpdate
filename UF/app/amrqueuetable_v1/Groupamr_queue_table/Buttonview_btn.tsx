@@ -453,6 +453,17 @@ const Buttonview_btn = ({ mainData,lockedData,setLockedData,primaryTableData, se
         }
       }
     ]
+  },
+  {
+    "key": "CK:CT006:FNGK:AF:FNK:DF-DFD:CATK:LAP:AFGK:LAP:AFK:amrChecklistStatus:AFVK:v1",
+    "nodeBasedData": [
+      {
+        "nodeId": "401380fb5b984554a4210c053168c928",
+        "object": {
+          "properties.account_id": "a77bb1cbcfac46c59cf0979384f4eec9"
+        }
+      }
+    ]
   }
 ];
     let filterData32 = await getFilterProps(filterProps32,mainData);
