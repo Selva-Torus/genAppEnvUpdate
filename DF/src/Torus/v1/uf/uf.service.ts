@@ -80,6 +80,7 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
        idleTimeoutMillis: 30000,       // close idle connections after 30s
        connectionTimeoutMillis: 30000,  // fail fast if can't connect in 5s
        allowExitOnIdle: false,         // keep pool alive
+       keepAlive: true,
      });
     // // 🔑 Key: handle pool-level errors so they don't crash the process
      this.pool.on('error', (err, client) => {
@@ -99,6 +100,7 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
       client.release();
     } catch (err: any) {
       console.error('Failed to connect to PostgreSQL:', err.message);
+      await this.pool.end();
       throw err;
     }
   }
@@ -112,14 +114,29 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
 
   async query<T = any>(text: string, params?: any[]): Promise<T[]> {
     const client = await this.pool.connect();
+
+    const onClientError = (err: any) => {
+      console.error('PG client error while checked out:', err.message);
+    };
+    client.on('error', onClientError);
+
     try {
       const result = await client.query(text, params);
       return result.rows;
     } catch (err: any) {
       console.error('Query error:', err.message);
+
+      if (
+        err?.message?.includes('Connection terminated') ||
+        err?.code === 'ECONNRESET' ||
+        err?.code === '57P01' // admin_shutdown
+      ) {
+        throw new BadGatewayException('Database connection timed out. Please try again.');
+      }
       throw err;
     } finally {
-      client.release(); // always release back to pool
+      client.removeListener('error', onClientError);
+      client.release();
     }
   }
 
@@ -308,7 +325,7 @@ getConfig(): FusionAuthConfig {
     }
   }
 
- async insertDocToVgphSourceTranDocMain(category: string, doc_name: string, url: string, size?: number, doc_group?: string): Promise<any> {
+ async insertDocToVgphSourceTranDocMain(category: string, doc_name: string, url: string, size?: number, doc_group?: string, userName?: string): Promise<any> {
     try {
       const insertUrl = `${process.env.APP_MANAGER_URL}/ct003/attachments`;
       //const vgphstm_uuid = uuid();
@@ -320,6 +337,7 @@ getConfig(): FusionAuthConfig {
         doc_name: doc_name,
         doc_size: `${Math.ceil((size ?? 0) / 1024)}`,
         url: url,
+        trs_created_by: userName,
         trs_created_date: currentDate,
         trs_modified_date: currentDate
       };
@@ -336,7 +354,7 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-  async getUrlByVgphstdmId(vgphstdm_id: any): Promise<string> {
+  async getUrlByVgphstdmId(vgphstdm_id: any): Promise<{ url: string; additionalData: any }> {
     try {
       const getUrl = `${process.env.APP_MANAGER_URL}/ct003/attachments/${vgphstdm_id}`;
 
@@ -346,7 +364,7 @@ getConfig(): FusionAuthConfig {
         },
       });
 
-      return response.data.data.url;
+      return { url: response.data.data.url, additionalData: response.data.data };
     } catch (error) {
       throw error;
     }
@@ -400,7 +418,8 @@ getConfig(): FusionAuthConfig {
     folderPath?: string,
     filename?: string,
     enableEncryption?: string,
-    doc_group?: string
+    doc_group?: string,
+    loginId?: string
   ): Promise<string> {
     try {
       const SAFE_SEGMENT = /^[a-zA-Z0-9._-]+$/;
@@ -533,7 +552,7 @@ getConfig(): FusionAuthConfig {
 
       if (uploadResponse.status === 201) {
         const storagePath = `${bucket}/${subFolder}/${fileName}`;
-        const attachmentId = await this.insertDocToVgphSourceTranDocMain("front", fileName, storagePath, file.size, doc_group);
+        const attachmentId = await this.insertDocToVgphSourceTranDocMain("front", fileName, storagePath, file.size, doc_group, loginId);
         return `${attachmentId}`;
       } else {
         throw new ConflictException(
@@ -4665,7 +4684,6 @@ getConfig(): FusionAuthConfig {
 
    async introspectToken(headers: any, key: string, tokens: string) {
     try {
-
       const { authorization } = headers;
       if (!authorization || typeof authorization !== 'string') {
         await this.commonService.errorLog(
@@ -4764,7 +4782,63 @@ getConfig(): FusionAuthConfig {
         throw new UnauthorizedException('Session not available');
       }
 
-      if (currentSession['refreshTokenId']) {
+      if(!payload?.exp){
+        await this.commonService.errorLog(
+          'Technical',
+          'AK',
+          'Fatal',
+          'TG075',
+          'Session not available',
+          key,
+          tokens,
+        );
+        throw new UnauthorizedException('Session not available');
+      }
+
+      const now = Math.floor(Date.now() / 1000);
+      const remainingSeconds = payload.exp - now;
+
+      const tokenData = {
+        loginId: payload.loginId ?? undefined,
+        isAppAdmin: payload.isAppAdmin ?? undefined,
+        tenant: payload.tenant ?? undefined,
+        type: payload.type ?? undefined,
+        ag: payload.ag ?? undefined,
+        app: payload.app ?? undefined,
+        dap: payload.dap ?? undefined,
+        client: payload.client ?? undefined,
+        userCode: payload?.userCode ?? undefined,
+        selectedAccessProfile: payload.selectedAccessProfile ?? undefined,
+        orgGrpCode: payload.orgGrpCode ?? undefined,
+        orgCode: payload.orgCode ?? undefined,
+        orgGrpName: payload.orgGrpName ?? undefined,
+        orgName: payload.orgName ?? undefined,
+        roleGrpCode: payload.roleGrpCode ?? undefined,
+        roleCode: payload.roleCode ?? undefined,
+        roleGrpName: payload.roleGrpName ?? undefined,
+        roleName: payload.roleName ?? undefined,
+        psGrpCode: payload.psGrpCode ?? undefined,
+        psCode: payload.psCode ?? undefined,
+        psGrpName: payload.psGrpName ?? undefined,
+        psName: payload.psName ?? undefined,
+        subOrgGrpCode: payload.subOrgGrpCode ?? undefined,
+        subOrgCode: payload.subOrgCode ?? undefined,
+        subOrgGrpName: payload.subOrgGrpName ?? undefined,
+        subOrgName: payload.subOrgName ?? undefined,
+        tenantId: payload.tenantId ?? undefined,
+      };
+
+      if (remainingSeconds <= 600 && remainingSeconds > 0) {
+        const config = this.getConfig();
+        await handleFusionAuthUserRegistrationForTokenLambda(
+          payload.tid,
+          payload.applicationId,
+          config.fusionAuthApiKey,
+          config.fusionAuthBaseUrl,
+          payload.sub,
+          tokenData
+        )
+
         const value = await this.fusionAuthVerifyRefreshToken(
           refreshToken,
           payload?.tenantId,
@@ -8382,7 +8456,7 @@ getConfig(): FusionAuthConfig {
               if (USER && date && CK && FNGK && FNK && CATK && AFGK && AFK && AFVK) {
                 const path = `${USER}:${date}:${CK}:${FNGK}:${FNK}:${CATK}:${AFGK}:${AFK}:${AFVK}:${upid}`;    
                 
-                res = await this.commonService.seaWeeduploadFile(JSON.stringify(result[i]), bucketName, streamName, path);                
+                res = await this.commonService.seaWeeduploadFile(JSON.stringify(result[i]), bucketName, streamName, path,upid);                
                
                 if(res?.status == 201){
                   await this.structuredPrcLogsToPostgres(streamName,path,CK,FNK,CATK,AFGK,upid,USER,DateAndTime)
@@ -8626,7 +8700,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : '';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct003_tag';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8685,7 +8759,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : '';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct003_tag';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8755,7 +8829,7 @@ getConfig(): FusionAuthConfig {
       );
 
       for (const lock of locks.rows) {
-        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : '';
+        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : 'ct003_tag';
         await client.query(
           `UPDATE ${recordSchema}."${lock.table_name}"
            SET trs_locked_by = NULL, trs_locked_time = NULL

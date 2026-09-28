@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef, useCallback, useEffect } from 'react'
+import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react'
 import { CSSProperties } from 'react'
 import { LuRefreshCcw } from 'react-icons/lu'
 import { useGlobal } from '@/context/GlobalContext'
@@ -13,7 +13,8 @@ import {
   MdFirstPage,
   MdLastPage,
   MdNavigateBefore,
-  MdNavigateNext
+  MdNavigateNext,
+  MdInfoOutline
 } from 'react-icons/md'
 import { IoMdAdd, IoMdRemove } from 'react-icons/io'
 import { Document, Page, pdfjs } from 'react-pdf'
@@ -23,14 +24,41 @@ import * as mammoth from 'mammoth'
 import * as XLSX from '@e965/xlsx'
 import Image from 'next/image'
 import DOMPurify from 'dompurify'
+import DocumentInformation, {
+  DocumentDetail,
+  UploadStatus,
+  formatBytes
+} from './DocumentInformation'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
+
+export type AttachmentAdditionalData = {
+  attachment_id?: number | string | null
+  reference_id?: string | number | null
+  reference_type?: string | null
+  category?: string | null
+  doc_type?: string | null
+  doc_group?: string | null
+  doc_name?: string | null
+  url?: string | null
+  doc_size?: number | null
+  trs_created_date?: string | null
+  trs_created_by?: string | null
+  trs_modified_date?: string | null
+  trs_modified_by?: string | null
+  [key: string]: unknown
+}
 
 export type FileItem = {
   url: string
   fileName: string
   fileType: string
   originalId?: string
+  /** Raw metadata for this attachment — powers the Document Information modal */
+  additionalData?: AttachmentAdditionalData
+  /** Upload state, when the viewer is shown while an upload is still running */
+  uploadStatus?: UploadStatus
+  uploadedBytes?: number
 }
 
 type toolbarPosition = 'top' | 'bottom' | 'left' | 'right'
@@ -49,6 +77,11 @@ interface DocViewerProps {
   onDownload?: (file: FileItem) => void
   currentUrlIndex?: number
   onUrlIndexChange?: (index: number) => void
+  onSelectIndex?: (index: number) => void
+  needDocumentInfo?: boolean
+  docSizeUnit?: 'B' | 'KB' | 'MB'
+  onDocumentInfoOpen?: (file: FileItem, index: number) => void
+  getDocumentDetails?: (file: FileItem) => DocumentDetail[]
 }
 
 /* ---------- helpers ---------- */
@@ -71,6 +104,40 @@ const isExcelType = (type?: string) =>
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 const isExcelUrl = (url?: string) => !!url && /\.xlsx?$/i.test(url)
 
+const MONTHS = [
+  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+]
+
+/** "2026-09-16T04:48:08.000Z" -> "16 Sep 2026, 10:18 AM" (viewer's local time) */
+const formatDateTime = (value?: string | null): string => {
+  if (!value) return '—'
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return '—'
+  const hours24 = date.getHours()
+  const hours12 = hours24 % 12 === 0 ? 12 : hours24 % 12
+  const minutes = String(date.getMinutes()).padStart(2, '0')
+  const meridiem = hours24 < 12 ? 'AM' : 'PM'
+  return `${String(date.getDate()).padStart(2, '0')} ${
+    MONTHS[date.getMonth()]
+  } ${date.getFullYear()}, ${hours12}:${minutes} ${meridiem}`
+}
+
+/** "image/jpeg" -> "JPEG"; falls back to the filename extension */
+const prettyFileType = (fileType?: string, fileName?: string): string => {
+  const subtype = fileType?.split('/')[1]
+  if (subtype) {
+    const cleaned = subtype.split('.').pop() || subtype
+    if (cleaned === 'jpeg') return 'JPEG'
+    if (cleaned.length <= 5) return cleaned.toUpperCase()
+  }
+  const ext = fileName?.split('.').pop()
+  return ext ? ext.toUpperCase() : '—'
+}
+
+const emptyToDash = (value?: string | number | null): string =>
+  value === null || value === undefined || value === '' ? '—' : String(value)
+
 /* ---------- component ---------- */
 const DocViewer: React.FC<DocViewerProps> = ({
   files = [],
@@ -84,7 +151,12 @@ const DocViewer: React.FC<DocViewerProps> = ({
   needTooltip = false,
   onDownload,
   currentUrlIndex,
-  onUrlIndexChange
+  onUrlIndexChange,
+  onSelectIndex,
+  needDocumentInfo = true,
+  docSizeUnit = 'KB',
+  onDocumentInfoOpen,
+  getDocumentDetails
 }) => {
   const { theme } = useGlobal()
 
@@ -107,6 +179,10 @@ const DocViewer: React.FC<DocViewerProps> = ({
   const [isDragging, setIsDragging] = useState(false)
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const contentRef = useRef<HTMLDivElement>(null)
+
+  /* ---------- document information modal ---------- */
+  const [isInfoOpen, setIsInfoOpen] = useState(false)
+  const [infoAnchor, setInfoAnchor] = useState<DOMRect | null>(null)
 
   const isWordDoc =
     isWordType(currentFileType) ||
@@ -196,6 +272,8 @@ const DocViewer: React.FC<DocViewerProps> = ({
   useEffect(() => {
     setNumPages(0)
     setPdfPageNumber(1)
+    setIsInfoOpen(false)
+    setInfoAnchor(null)
   }, [currentUrl])
 
   const navigate = (newIndex: number) => {
@@ -206,6 +284,16 @@ const DocViewer: React.FC<DocViewerProps> = ({
       resetZoomAndPosition()
     }
   }
+
+  // Fire onSelectIndex whenever the effective index actually changes, no
+  // matter what caused it (prev/next click, an external currentUrlIndex
+  // update, or just the initial file being selected) — not only when
+  // navigate() is called from the prev/next buttons.
+  useEffect(() => {
+    if (files.length > 0) {
+      onSelectIndex?.(activeIndex)
+    }
+  }, [activeIndex, files.length])
 
   const goToPrevious = () => {
     if (!isFirst) navigate(activeIndex - 1)
@@ -318,6 +406,55 @@ const DocViewer: React.FC<DocViewerProps> = ({
 
   /* ---------- derived flags ---------- */
   const isVertical = toolbarPosition === 'left' || toolbarPosition === 'right'
+  const isPdfDoc = isPdfType(currentFileType) || isPdf(currentUrl)
+  const isImageDoc = isImageType(currentFileType) || isImage(currentUrl)
+
+  /* ---------- document information details ---------- */
+  const meta = currentFile?.additionalData
+
+  // doc_size arrives as a plain number with no unit in the payload, so the
+  // caller declares the unit rather than the viewer guessing from magnitude.
+  const totalBytes = useMemo(() => {
+    const raw = meta?.doc_size
+    if (raw === null || raw === undefined) return 0
+    const value = Number(raw)
+    if (docSizeUnit === 'MB') return value * 1024 * 1024
+    if (docSizeUnit === 'KB') return value * 1024
+    return value
+  }, [meta?.doc_size, docSizeUnit])
+
+  const documentDetails: DocumentDetail[] = useMemo(() => {
+    if (!currentFile) return []
+    if (getDocumentDetails) return getDocumentDetails(currentFile)
+
+    return [
+      { label: 'File Name', value: meta?.doc_name || currentFileName },
+      { label: 'File Type', value: prettyFileType(currentFileType, currentFileName) },
+      { label: 'File Size', value: totalBytes > 0 ? formatBytes(totalBytes) : '—' },
+      { label: 'Uploaded by', value: emptyToDash(meta?.trs_created_by) },
+      { label: 'Uploaded Date', value: formatDateTime(meta?.trs_created_date) },
+      { label: 'Document Category', value: emptyToDash(meta?.category) },
+      { label: 'Pages', value: isPdfDoc ? numPages || '—' : 1 }
+    ]
+  }, [
+    currentFile,
+    getDocumentDetails,
+    meta,
+    currentFileName,
+    currentFileType,
+    totalBytes,
+    isPdfDoc,
+    numPages
+  ])
+
+  const openDocumentInfo = (e?: React.MouseEvent<HTMLButtonElement>) => {
+    if (!currentFile) return
+    onDocumentInfoOpen?.(currentFile, activeIndex)
+    if (e && e.currentTarget) {
+      setInfoAnchor(e.currentTarget.getBoundingClientRect())
+    }
+    setIsInfoOpen(true)
+  }
 
   const navBtnBase =
     'flex h-8 w-8 md:h-9 md:w-9 lg:h-10 lg:w-10 items-center justify-center rounded bg-gray-200 text-slate-900 hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50'
@@ -366,6 +503,18 @@ const DocViewer: React.FC<DocViewerProps> = ({
       >
         <LuRefreshCcw className='h-4 w-4 md:h-5 md:w-5' />
       </button>
+
+      {needDocumentInfo && files.length > 0 && !!currentFile && (
+        <button
+          onClick={openDocumentInfo}
+          className={navBtnBase}
+          title='Document information'
+          aria-haspopup='dialog'
+          aria-expanded={isInfoOpen}
+        >
+          <MdInfoOutline className='h-5 w-5 md:h-6 md:w-6' />
+        </button>
+      )}
     </div>
   )
 
@@ -428,7 +577,7 @@ const DocViewer: React.FC<DocViewerProps> = ({
       )
     }
 
-    if (isImageType(currentFileType) || isImage(currentUrl)) {
+    if (isImageDoc) {
       return (
         <div
           ref={contentRef}
@@ -446,6 +595,7 @@ const DocViewer: React.FC<DocViewerProps> = ({
             className='h-full w-full select-none object-contain'
             style={transformStyle}
             draggable={false}
+            unoptimized
           />
         </div>
       )
@@ -548,7 +698,7 @@ const DocViewer: React.FC<DocViewerProps> = ({
       )
     }
 
-    if (isPdfType(currentFileType) || isPdf(currentUrl)) {
+    if (isPdfDoc) {
       return (
         <div
           ref={contentRef}
@@ -659,7 +809,7 @@ const DocViewer: React.FC<DocViewerProps> = ({
 
   const viewerElement = (
     <div
-      className={`flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden bg-white dark:bg-black ${className}`}
+      className={`relative flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden bg-white dark:bg-black ${className}`}
       style={style}
     >
       {/* ── TOP ── filename + controls inline on same row */}
@@ -672,6 +822,18 @@ const DocViewer: React.FC<DocViewerProps> = ({
             {zoomControls}
             {fileNavControls}
           </div>
+          {currentFile && (
+            <DocumentInformation
+              open={isInfoOpen}
+              onClose={() => setIsInfoOpen(false)}
+              anchor={infoAnchor}
+              fileName={meta?.doc_name || currentFileName}
+              totalBytes={totalBytes}
+              uploadedBytes={currentFile.uploadedBytes}
+              status={currentFile.uploadStatus ?? 'completed'}
+              details={documentDetails}
+            />
+          )}
         </div>
       )}
 
@@ -708,7 +870,7 @@ const DocViewer: React.FC<DocViewerProps> = ({
             toolbarPosition === 'left' ? 'flex-row' : 'flex-row-reverse'
           }`}
         >
-          {/* Sidebar — zoom + filenav only */}
+          {/* Sidebar — zoom + info + filenav only */}
           <div
             className={`flex shrink-0 flex-col gap-2 bg-white px-2 py-3 shadow dark:bg-gray-800 ${positionClass}`}
           >

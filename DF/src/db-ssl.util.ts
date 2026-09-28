@@ -19,6 +19,14 @@ export function applyPgSslMode(url: URL, modeEnvVar: string, defaultMode: string
   url.searchParams.set('sslmode', mode);
 }
 
+
+export function applyMongoSslMode(url: URL, modeEnvVar: string): void {
+  if (url.searchParams.has('tls') || url.searchParams.has('ssl')) return;
+  const mode = process.env[modeEnvVar];
+  if (!mode || mode === 'false' || mode === 'disable') return;
+  url.searchParams.set('tls', 'true');
+}
+
 // ---------------------------------------------------------------------------
 // Flow-engine connectors (dbconfig()/mongodbconfig()/procedureConfig() in
 // common.Service.ts) — dynamically-resolved, per-tenant external

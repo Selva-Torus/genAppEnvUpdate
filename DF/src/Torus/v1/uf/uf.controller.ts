@@ -961,6 +961,9 @@ export class UfController {
       }
       const parts: any = req.parts();
       const fields: any = {};
+      const token: string = req.headers.authorization.split(' ')[1]
+      const decodedToken: any = await this.jwtService.verifyToken(token);
+      const loginId = decodedToken.loginId;
       const files: Array<{
         filename: string;
         mimetype: string;
@@ -999,6 +1002,7 @@ export class UfController {
           filename || file.filename,
           enableEncryption,
           file?.doc_group || '',
+          loginId
         );
         imageUrls.push(imageUrl);
       }

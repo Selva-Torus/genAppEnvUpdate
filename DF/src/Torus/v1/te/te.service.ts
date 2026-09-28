@@ -50,11 +50,11 @@ export class TeService{
        }
        let client = process.env.CLIENTCODE;
        if (!client) throw new CustomException('client not found', 404);
-       if (currentFabric == 'PF-PFD' || currentFabric == 'PF-SCDL') {
+       if (['PF-PFD','PF-SFD','PF-SCDL','PF-ESD','PF-EFD'].includes(currentFabric)) {
          sourceId = pfdto?.sourceId
        }
        let d_Pfs, d_Po, d_Pfo;
-       if (currentFabric == 'PF-PFD' || currentFabric == 'PF-SFD' || currentFabric == 'PF-SCDL') {
+       if (['PF-PFD','PF-SFD','PF-SCDL','PF-ESD','PF-EFD'].includes(currentFabric)) {
          d_Pfs = 'PFS';
          d_Po = 'PO';
          d_Pfo = 'PFO';
@@ -63,7 +63,7 @@ export class TeService{
          d_Po = 'DO';
          d_Pfo = 'DFO';
        }
-       if (currentFabric == 'PF-PFD' && (!pfdto.data || pfdto.data.length == 0 || Object.keys(pfdto.data).length == 0))
+       if ((['PF-PFD','PF-SFD','PF-SCDL','PF-ESD','PF-EFD'].includes(currentFabric)) && (!pfdto.data || pfdto.data.length == 0 || Object.keys(pfdto.data).length == 0))
          throw new CustomException('Data not found', 404);
        let tokenDecode: any;
        try {
@@ -97,7 +97,6 @@ export class TeService{
       }
       if(pfdto?.data?.['trs_version'])
         pfdto['trs_version'] = pfdto?.data['trs_version']
-      //if(logicCenter || currentFabric == 'PF-PFD')
       
        dstkey = processedKey.replace('DF-DFD', 'DF-DST');
        refflag = pfdto.refreshFlag ? pfdto.refreshFlag : 'N';
@@ -131,7 +130,7 @@ export class TeService{
            }
          }
          if (poNode[e].nodeType != 'startnode' && poNode[e].nodeType != 'endnode' && poNode[e].nodeType != 'schedulernode' && poNode[e].nodeType != 'intervalnode' && poNode[e].nodeType != 'listenernode') {
-           if (currentFabric == 'PF-PFD' || currentFabric == 'PF-SFD' || currentFabric == 'PF-SCDL') {
+           if (['PF-PFD','PF-SFD','PF-SCDL','PF-ESD','PF-EFD'].includes(currentFabric)) {
              if (poNode[e].events.length > 0) {
                for (let k = 0; k < poNode[e].events.length; k++) {
                  if (!poNode[e].events[k].source.status) {
@@ -152,7 +151,7 @@ export class TeService{
         throw new CustomException(`${pfdto.nodeName} Node Invalid nodeId`, 400);
        }
       if (pfdto.upId) {
-         if (pfdto.nodeId == poNode[1].nodeId && currentFabric == 'PF-PFD') {
+         if (pfdto.nodeId == poNode[1].nodeId && (['PF-PFD','PF-SFD','PF-SCDL','PF-ESD','PF-EFD'].includes(currentFabric))) {
            pfdto.upId = null;
          }
         pid = pfdto.upId;
@@ -233,7 +232,7 @@ export class TeService{
           this.logger.log('Human Task node started');
           if (pfdto.upId) {
             let nodedetails = await this.securityService.getNodeSecurityTemplate(node, poNode[i].nodeName);
-            if (nodedetails?.status == '200') {
+            //if (nodedetails?.status == '200') {
               if (!sourceId) {
                 srcStatus = poNode[i].events[0].source.status.trim();
                 if (pfdto.event == null && event == srcStatus) {
@@ -324,9 +323,9 @@ export class TeService{
                 pfdto.nodeName = null;
                 invalidEventFlg++;
               }
-            } else {
-              throw nodedetails;
-            }
+           // } else {
+              //throw nodedetails;
+           // }
           } else {
             throw new CustomException('Process Id not found', 400);
           }
@@ -344,7 +343,7 @@ export class TeService{
             srcQueue = poNode[i].events.sourceQueue;
             if (!event) event = pfdto.event
           }
-          if (currentFabric == 'PF-PFD' || currentFabric == 'PF-SFD' || currentFabric == 'PF-SCDL') {
+          if (['PF-PFD','PF-SFD','PF-SCDL','PF-ESD','PF-EFD'].includes(currentFabric)) {
             if (!pfdto.data) {
               // pfdto.data = JSON.parse(await this.redisService.getJsonDataWithPath(processedKey + pfdto.upId + ':NPV:' + poNode[i].nodeName + '.PRO', '.request', client));
               pfdto.data = eventResponse?.data
@@ -412,7 +411,7 @@ export class TeService{
               srcQueue = poNode[i].events?.sourceQueue
               if (!event) event = pfdto.event
             }
-            if (currentFabric == 'PF-PFD' || currentFabric == 'PF-SFD' || currentFabric == 'PF-SCDL') {
+            if (['PF-PFD','PF-SFD','PF-SCDL','PF-ESD','PF-EFD'].includes(currentFabric)) {
               if (!pfdto.data) {
                 // pfdto.data = JSON.parse(await this.redisService.getJsonDataWithPath(processedKey + pfdto.upId + ':NPV:' + poNode[i].nodeName + '.PRO', '.request', client))
                 pfdto.data = eventResponse?.data
@@ -590,10 +589,9 @@ export class TeService{
           }
         } else {
           this.logger.log(`${poNode[i].nodeType} started`);
-          if (pfdto.upId) { 
-            //if(logicCenter || currentFabric == 'PF-PFD')          
+          if (pfdto.upId) {                   
             let nodedetails = await this.securityService.getNodeSecurityTemplate(node, poNode[i].nodeName);                
-            if (nodedetails?.status == '200' ) {              
+            //if (nodedetails?.status == '200' ) {              
             if (poNode[i].nodeId == pfdto.nodeId) { 
                 if (poNode[i].nodeType != 'endnode') {
                   if (Array.isArray(poNode[i].events)) {
@@ -631,7 +629,7 @@ export class TeService{
                             if (!srcQueue) srcQueue = staticQueue;
                            // await this.redisService.setStreamData(srcQueue, 'TASK - ' + pfdto.upId, JSON.stringify({ PID: pfdto.upId, TID: pfdto.nodeId, EVENT: 'ProcessCompleted' }));
                             await this.CommonService.getTPL(processedKey, pfdto.upId, poNode[i], 'Success', '',pfdto.token, currentFabric);
-                            if (currentFabric == 'PF-PFD' || currentFabric == 'PF-SFD' || currentFabric == 'PF-SCDL') {
+                            if (['PF-PFD','PF-SFD','PF-SCDL','PF-ESD','PF-EFD'].includes(currentFabric)) {
                              if(Array.isArray(pfresponse?.data) && pfresponse?.data.length>0 && currentFabric == 'PF-SFD')
                               pfresponse = pfresponse.data && pfresponse.data[0]?.[pfjson[pfs].nodeName] || pfresponse.data[0]?.[pfjson[pfs].nodeName] == ''? pfresponse.data[0][pfjson[pfs].nodeName] : pfresponse.data[0];
                               else
@@ -828,6 +826,9 @@ export class TeService{
                         new PoEvent(pfdto, event, pfjson, pfo, poJson, Ndp, refflag, page, count)
                       ))
                       
+                      if(Array.isArray(eventResponse) && eventResponse.length == 0)
+                        return { statusCode: 201, message: 'Success', key: pfdto.key, upId: pfdto.upId, event: event, result:eventResponse};
+
                       if (eventResponse.data && pfdto.nodeType == 'apinode' && eventResponse?.method == 'post') {
                         //prevres[poNode[i].nodeId] = JSON.parse(await this.redisService.getJsonDataWithPath(processedKey + pfdto.upId + ':NPV:' + poNode[i].nodeName + '.PRO', '.response', client))
                         prevres = JSON.parse(await this.redisService.getJsonDataWithPath(processedKey + pfdto.upId + ':NPV:' + poNode[i].nodeName + '.PRO', '.response', client))
@@ -864,9 +865,9 @@ export class TeService{
                 pfdto.nodeType = null;
                 pfdto.nodeName = null;
               }
-            } else {
-              throw nodedetails;
-            }
+           // } else {
+             // throw nodedetails;
+           // }
           } else {
             throw new CustomException('Process Id not found', 404);
           }
@@ -1014,36 +1015,7 @@ export class TeService{
   } 
 
 
-     // pfPreProcessor
-  // async pfPreProcessor(processedKey, pfjson, upId, fabric) {   
-  //   //this.logger.log(`Pf PreProcessor started for upId: ${upId}`);
-  //   try {
-  //     let client = process.env.CLIENTCODE;
-
-  //     // ✅ PERFORMANCE FIX: Use Redis Pipeline for batch operations
-  //     // Collect all operations into batch format
-  //     const operations = pfjson
-  //       .filter(node => node.nodeType !== 'startnode' && node.nodeType !== 'endnode')
-  //       .map(node => {
-  //         // Determine placeholder based on fabric
-  //         const placeholder = fabric === 'DF-DFD'
-  //           ? { request: {}, response: {}, exception: {}, event: {}, customResponse: {} }
-  //           : { request: {}, response: {}, exception: {}, event: {}, ifo: {}, code: {} };
-
-  //         return {
-  //           key: processedKey + upId + ':NPV:' + node.nodeName + '.PRO',
-  //           value: JSON.stringify(placeholder)
-  //         };
-  //       });
-
-  //     // Execute all operations in a single Redis pipeline (100-200x faster!)     
-  //     await this.redisService.setJsonDataBatch(operations, client);     
-  //     return 'Success';
-  //   } catch (error) {      
-  //     throw error;
-  //   }
-  // }
-
+  // pfPreProcessor
   async pfPreProcessor(processedKey, pfjson, upId, fabric) {
     this.logger.log('Pf PreProcessor started!');
     try {
@@ -1058,6 +1030,8 @@ export class TeService{
             placeholder = { request: {},response: {}, exception: {}, event: {}, customResponse: {}};            
           } else {
             placeholder = {request: {}, response: {}, exception: {}, event: {}, ifo: {}, code: {}, rollback:{}};
+            if(['PF-EFD','PF-ESD'].includes(fabric))
+              await this.redisService.setJsonData(processedKey + upId + ':NPV:' + pfjson[i].nodeName + '.PST',JSON.stringify(placeholder), client);
           }          
           await this.redisService.setJsonData(processedKey + upId + ':NPV:' + pfjson[i].nodeName + '.PRO',JSON.stringify(placeholder), client);
 
@@ -1096,33 +1070,33 @@ export class TeService{
             ufname = ((keyname[1] + keyname[5] + keyname[7] + keyname[9] + keyname[11] + keyname[13]).replace(/[-_]/g, '')).replace(/\s+/g, '');
             sourceId = poNode.events[e].id.replaceAll('-', '')
           }
-          if (pfdto.nodeType == 'humantasknode') {
+          if (['humantasknode','ste_humantasknode'].includes(pfdto.nodeType)) {
             if (hsourceid) {
               if (pfdto.event == poNode.events[e].source.status.trim() && hsourceid == handlerId) {
-                srcStatus = poNode.events[e].source.status
-                targetStatus = poNode.events[e].success.status
-                srcQueue = poNode.events[e].source.queue
-                targetQueue = poNode.events[e].success.queue;
-                failureQueue = poNode.events[e].failure.queue
-                failureTargetStatus = poNode.events[e].failure.status
+                srcStatus = poNode?.events[e]?.source?.status
+                targetStatus = poNode?.events[e]?.success?.status
+                srcQueue = poNode?.events[e]?.source?.queue
+                targetQueue = poNode?.events[e]?.success?.queue;
+                failureQueue = poNode?.events[e]?.failure?.queue
+                failureTargetStatus = poNode?.events[e]?.failure?.status
                 break;
               }
             } else {
-              srcStatus = poNode.events[e].source.status
-              targetStatus = poNode.events[e].success.status
-              srcQueue = poNode.events[e].source.queue
-              targetQueue = poNode.events[e].success.queue;
-              failureQueue = poNode.events[e].failure.queue
-              failureTargetStatus = poNode.events[e].failure.status
+               srcStatus = poNode?.events[e]?.source?.status
+              targetStatus = poNode?.events[e]?.success?.status
+              srcQueue = poNode?.events[e]?.source?.queue
+              targetQueue = poNode?.events[e]?.success?.queue;
+              failureQueue = poNode?.events[e]?.failure?.queue
+              failureTargetStatus = poNode?.events[e]?.failure?.status
             }
 
           } else {
-            srcStatus = poNode.events[e].source.status.trim()
-            targetStatus = poNode.events[e].success.status.trim()
-            srcQueue = poNode.events[e].source.queue
-            targetQueue = poNode.events[e].success.queue;
-            failureQueue = poNode.events[e].failure.queue
-            failureTargetStatus = poNode.events[e].failure.status
+            srcStatus = poNode?.events[e]?.source?.status?.trim()
+            targetStatus = poNode?.events[e]?.success?.status?.trim()
+            srcQueue = poNode?.events[e]?.source?.queue
+            targetQueue = poNode?.events[e]?.success?.queue;
+            failureQueue = poNode?.events[e]?.failure?.queue
+            failureTargetStatus = poNode?.events[e]?.failure?.status
           }
 
         }

@@ -1,0 +1,64 @@
+'use client'
+
+
+import React, { useContext,useEffect } from 'react';
+import { Text } from '@/components/Text';
+import { TotalContext, TotalContextProps } from '@/app/globalContext';
+import { AxiosService } from "@/app/components/axiosService";
+import { codeExecution } from '@/app/utils/codeExecution';
+import { deleteAllCookies } from '@/app/components/cookieMgment';
+import { useGlobal } from '@/context/GlobalContext'
+import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,PaginationData,AllowedGroupNode,ActionDetails } from "@/types/global";
+import i18n from '@/app/components/i18n';
+
+const Textasset_version_id = ({encryptionFlagCompData,isDynamic,item,index,setIsProcessing}:any) => {
+  const { token } = useGlobal();
+  const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
+  const keyset:any=i18n.keyset("language");
+  const encryptionFlagCont: boolean = encryptionFlagCompData.flag || false ;
+  let encryptionDpd: string = "";
+  encryptionDpd = encryptionDpd !=='' ? encryptionDpd: encryptionFlagCompData.dpd
+  let encryptionMethod: string = "";
+  encryptionMethod  = encryptionMethod !=='' ? encryptionMethod: encryptionFlagCompData.method;
+  /////////////
+   //another screen
+  const {overall_group1505e, setoverall_group1505e}= useContext(TotalContext) as TotalContextProps;
+  const {overall_group1505eProps, setoverall_group1505eProps}= useContext(TotalContext) as TotalContextProps;
+  const {action_details_group51bc6, setaction_details_group51bc6}= useContext(TotalContext) as TotalContextProps;
+  const {action_details_group51bc6Props, setaction_details_group51bc6Props}= useContext(TotalContext) as TotalContextProps;
+  const {action_detail_group32126, setaction_detail_group32126}= useContext(TotalContext) as TotalContextProps;
+  const {action_detail_group32126Props, setaction_detail_group32126Props}= useContext(TotalContext) as TotalContextProps;
+  const {risk_conf_group60f7c, setrisk_conf_group60f7c}= useContext(TotalContext) as TotalContextProps;
+  const {risk_conf_group60f7cProps, setrisk_conf_group60f7cProps}= useContext(TotalContext) as TotalContextProps;
+  const {asset_version_id8a7e5, setasset_version_id8a7e5}= useContext(TotalContext) as TotalContextProps;
+  const {dynamicactionsae385, setdynamicactionsae385}= useContext(TotalContext) as TotalContextProps;
+  const {dynamicactionsae385Props, setdynamicactionsae385Props}= useContext(TotalContext) as TotalContextProps;
+  const {asset_version_id8a7e5Props, setasset_version_id8a7e5Props} = useContext(TotalContext) as TotalContextProps;
+  //////////////
+
+  const handleMapperValue=async(filterProps?:any,filterFlag?:boolean)=>{
+  }
+
+  useEffect(()=>{
+    handleMapperValue()
+  },[asset_version_id8a7e5?.refresh])
+
+  if (asset_version_id8a7e5?.isHidden) {
+    return <></>
+  }
+
+return (
+  <div className="" style={{gridColumn: `1 / 3`,gridRow: `43 / 44`, gap:``, height: `100%`}} >
+<Text
+  contentAlign={"center"}
+  className=""
+  variant="subheader-3"
+  color="primary"
+>
+      {keyset(isDynamic ? item?.asset_version_id : (action_details_group51bc6?.asset_version_id || ""))}
+</Text>
+  </div>
+  )
+}
+
+export default Textasset_version_id

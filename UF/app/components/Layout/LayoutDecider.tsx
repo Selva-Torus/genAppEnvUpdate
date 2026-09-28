@@ -43,16 +43,16 @@ const LayoutDecider = ({
   const { borderColor, bgColor } : { borderColor: string; bgColor: string } = useTheme()
   const { brandColor, hoverColor, selectionColor } : { brandColor: string; hoverColor: string; selectionColor: string } = branding;
   const encryptionFlagApp: boolean = false;    
-  const encryptionDpd: string = "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:Trs:AFGK:TOB:AFK:tob_dpd:AFVK:v1";
+  const encryptionDpd: string = "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:TAG:AFGK:TAG:AFK:tagDPD:AFVK:v1";
   const encryptionMethod: string = "";
   const { encAppFalg, setEncAppFalg }  = useContext(TotalContext) as TotalContextProps;
   const logo: string = ""
   const appLogo: string = ""
-  const appName: string = "TOB"
+  const appName: string = "Torus AI Governance"
   const toast: Function = useInfoMsg()
   const [loading, setLoading] = useState<boolean>(true)
   const [updatedNavData, setUpdatedNavData] = useState<MenuItem[]>([])
-  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT003:AFGK:Trs:AFK:TOB:AFVK:v1:bldc"
+  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT003:AFGK:TAG:AFK:TAG:AFVK:v1:bldc"
   const [rawNavData, setRawNavData] = useState<MenuItem[] | null>(null);
   const navData: MenuItem[] = [
   {
@@ -80,28 +80,187 @@ const LayoutDecider = ({
     "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
   },
   {
-    "menuGroup": "dashboards",
-    "menuGroupLabel": "DashBoards",
+    "menuGroupLabel": "DashBoard",
     "screenDetails": [
       {
-        "name": "api usage",
-        "label": "Api Usage",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:TOB:AFK:apiUsageDashboard:AFVK:v1",
+        "name": "dashboard",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false,
-        "icon": "/torus/9.1/CT003/resources/images/api (1).png"
-      },
-      {
-        "name": "monetization",
-        "label": "Monetization",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:TOB:AFK:monetizationDashboard:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT003/resources/images/money-income.png"
+        "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
       }
     ],
     "items": [],
-    "icon": "/torus/9.1/CT003/resources/images/dashboard-panel (2).png"
+    "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
+  },
+  {
+    "menuGroup": "registry",
+    "menuGroupLabel": "Registry",
+    "screenDetails": [
+      {
+        "name": "ai registry",
+        "label": "AI Registry",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIRegistry:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      },
+      {
+        "name": "discovery queue",
+        "label": "Discovery Queue",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:discoveryQueue:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      }
+    ],
+    "items": []
+  },
+  {
+    "menuGroup": "evidence",
+    "menuGroupLabel": "Evidence",
+    "screenDetails": [
+      {
+        "name": "evidence packs",
+        "label": "Evidence Packs",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:auditEvidence:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      }
+    ],
+    "items": []
+  },
+  {
+    "menuGroup": "administration",
+    "menuGroupLabel": "Administration",
+    "screenDetails": [],
+    "items": [
+      {
+        "menuGroup": "code set",
+        "menuGroupLabel": "Code Set",
+        "screenDetails": [
+          {
+            "name": "code type",
+            "label": "Code Type",
+            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeTypes:AFVK:v1",
+            "restrictedAccessProfile": [],
+            "static": false
+          },
+          {
+            "name": "code value",
+            "label": "Code Value",
+            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeValue:AFVK:v1",
+            "restrictedAccessProfile": [],
+            "static": false
+          }
+        ],
+        "items": []
+      },
+      {
+        "menuGroup": "integration management",
+        "menuGroupLabel": "Integration Management",
+        "screenDetails": [
+          {
+            "name": "integration source",
+            "label": "Integration Source",
+            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationSource:AFVK:v1",
+            "restrictedAccessProfile": [],
+            "static": false
+          },
+          {
+            "name": "integration run",
+            "label": "Integration Run",
+            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationRun:AFVK:v1",
+            "restrictedAccessProfile": [],
+            "static": false
+          },
+          {
+            "name": "integration field map",
+            "label": "Integration Field Map",
+            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationFieldMap:AFVK:v1",
+            "restrictedAccessProfile": [],
+            "static": false
+          }
+        ],
+        "items": []
+      },
+      {
+        "menuGroup": "risk management",
+        "menuGroupLabel": "Risk Management",
+        "screenDetails": [
+          {
+            "name": "risk rule",
+            "label": "Risk Rule",
+            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:riskRule:AFVK:v1",
+            "restrictedAccessProfile": [],
+            "static": false
+          },
+          {
+            "name": "risk rule condition",
+            "label": "Risk Rule Condition",
+            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:ruleCondition:AFVK:v1",
+            "restrictedAccessProfile": [],
+            "static": false
+          }
+        ],
+        "items": []
+      },
+      {
+        "menuGroup": "certification management",
+        "menuGroupLabel": "Certification Management",
+        "screenDetails": [
+          {
+            "name": "certification template",
+            "label": "Certification Template",
+            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificateTemplate:AFVK:v1",
+            "restrictedAccessProfile": [],
+            "static": false
+          },
+          {
+            "name": "certification template stage",
+            "label": "Certification Template Stage",
+            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificationTemplateStage:AFVK:v1",
+            "restrictedAccessProfile": [],
+            "static": false
+          }
+        ],
+        "items": []
+      }
+    ]
+  },
+  {
+    "menuGroupLabel": "AI Agent Action",
+    "screenDetails": [
+      {
+        "name": "ai agent action",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIAgentAction:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      }
+    ],
+    "items": []
+  },
+  {
+    "menuGroupLabel": "Asset Version",
+    "screenDetails": [
+      {
+        "name": "asset version",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AiAssetVersion:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      }
+    ],
+    "items": []
+  },
+  {
+    "menuGroupLabel": "Asset Dependency",
+    "screenDetails": [
+      {
+        "name": "asset dependency",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AiAssetDependency:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      }
+    ],
+    "items": []
   }
 ]
   const decodedTokenObj: DecodedToken = decodeToken(token)
@@ -388,7 +547,27 @@ const LayoutDecider = ({
     name: string
     'gridColumn'?: string
     'gridRow'?: string
-  }[] =[]
+  }[] =[
+  {
+    "name": "profile",
+    "gridColumn": "12/13",
+    "gridRow": "12/13"
+  },
+  {
+    "name": "opr matrix",
+    "gridColumn": "10/12",
+    "gridRow": "6/9"
+  },
+  {
+    "name": "menu items",
+    "gridColumn": "2/10",
+    "gridRow": "1/6"
+  },
+  {
+    "name": "logo",
+    "gridColumn": "1/2"
+  }
+]
 
    if (loading == true){
     return (<div className='flex w-[100vw] h-[100vh] bg-slate-200 justify-center items-center '><span>Loading...</span></div>);

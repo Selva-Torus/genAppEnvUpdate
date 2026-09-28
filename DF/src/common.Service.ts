@@ -827,18 +827,27 @@ export class CommonService{
      }
     
     
-    async getRuleCodeMapper(currentNode, inputparam,processedKey,fabric ,SessionInfo,controlName? ){       
-      try {       
-        let zenresult
+    async getRuleCodeMapper(currentNode,inputparam,processedKey,fabric,SessionInfo,controlName?){       
+      try {          
+        let zenresult, rule,customCode
         var ResultObj = {}
-        let fieldarr = []
-        let rule = currentNode?.rule
-        let customCode = currentNode?.code   
-      inputparam = JSON.parse(await this.redisService.getJsonData(processedKey+':rule',process.env.CLIENTCODE))
+        let fieldarr = []        
+        if(inputparam['catch'] == true){
+          rule = currentNode?.rule?.pst
+          inputparam = {[currentNode.nodeName]:inputparam['FlowRule']}
+          await this.redisService.setJsonData(processedKey + ':NPV:' + currentNode.nodeName + '.PST',JSON.stringify(inputparam), process.env.CLIENTCODE,'request');
+        }        
+        else{
+          if(['PF-EFD','PF-ESD'].includes(fabric))
+            rule = currentNode?.rule?.pro
+          else 
+            rule = currentNode?.rule
+          customCode = currentNode?.code   
+          inputparam = JSON.parse(await this.redisService.getJsonData(processedKey+':rule',process.env.CLIENTCODE))
+        }          
         if (customCode ) {
-          var customcoderesult = await this.codeService.customCode(processedKey, customCode, inputparam,fabric,SessionInfo)        
-          
-         if(customcoderesult){
+          var customcoderesult = await this.codeService.customCode(processedKey, customCode, inputparam,fabric,SessionInfo) 
+        if(customcoderesult){
             if(inputparam[currentNode.nodeName]) 
               inputparam[currentNode.nodeName] = Object.assign(inputparam[currentNode.nodeName],customcoderesult)
             else
@@ -847,14 +856,13 @@ export class CommonService{
             await this.redisService.setJsonData(processedKey + ':NPV:' +currentNode.nodeName + '.PRO', JSON.stringify(customcoderesult), process.env.CLIENTCODE, 'response',);       
             await this.redisService.setJsonData(processedKey+':rule', JSON.stringify(inputparam), process.env.CLIENTCODE);
           }        
-        }    
-
-         if(rule && Object.keys(rule).length > 0){
+        }  
+        if(rule && Object.keys(rule).length > 0){
           var nodes = rule.nodes             
           if(nodes && nodes.length > 0){
             var gparamreq = {}; 
-             let afpVal,data,sarr = []
-             if(controlName){
+            let afpVal,data,sarr = []
+            if(controlName){
                 inputparam = Object.assign(inputparam,{controlName:controlName})
               } 
                 gparamreq = { session: SessionInfo, ...inputparam }
@@ -863,16 +871,18 @@ export class CommonService{
                     return null;
                   }
                   return value;
-                }));               
+                }));                
               var goruleres = await this.ruleEngine.goRule(rule,gparamreq)
               if(Object.keys(goruleres.result).length > 0){
                 //zenresult = goruleres.result.output
-                 zenresult = goruleres.result
+                zenresult = goruleres.result
               }else{
                 throw `Rule doesn't matched with this value ${data}`
               }                         
           }     
         } 
+        if(inputparam['catch'] == true && zenresult)
+          await this.redisService.setJsonData(processedKey + ':NPV:' + currentNode.nodeName + '.PST',JSON.stringify(zenresult), process.env.CLIENTCODE,'response');
       
       if(zenresult)
         ResultObj['rule'] = zenresult
@@ -1545,7 +1555,8 @@ export class CommonService{
         let logs = {}
         logs['sessionInfo'] = sessionInfo
         if(key){
-          if(fabric == 'PF-PFD' || fabric == 'DF-DFD' || fabric == 'PF-SFD' || fabric == 'PF-SCDL')
+          //if(fabric == 'PF-PFD' || fabric == 'DF-DFD' || fabric == 'PF-SFD' || fabric == 'PF-SCDL')
+          if(['PF-PFD','DF-DFD','PF-SFD','PF-SCDL','PF-ESD','PF-EFD'].includes(fabric))
             logs['processInfo'] = this.redactSensitiveFields(prcdet)
           }
         logs['errorDetails'] = errorDetails
@@ -1553,7 +1564,7 @@ export class CommonService{
         if(typeof key != 'string')
         key = 'commonError'
          tenant=tenant || "CT003"
-        app=app ||  "TOB"
+        app=app ||  "TAG"
         await this.redisService.setStreamData(tenant+'-'+app+'-TSL',key,JSON.stringify(logs))    
         return logs
 
@@ -1602,8 +1613,8 @@ export class CommonService{
   data: any,
   bucketName: string,
   folderPath: string,
-  filename: string
-  
+  filename: string,
+  upid?:string
 ) {
   try {
      let client = folderPath.split('-')[0]
@@ -1624,6 +1635,7 @@ export class CommonService{
       : data;
 
     let combinedData: any[] = [];
+    let existingJson
 
     // Try to fetch existing file
         try {
@@ -1634,7 +1646,8 @@ export class CommonService{
         password: this.envData.getSeaweedPassword()//process.env.SEAWEED_PASSWORD
       }
     });
-      const existingJson = existing.data;
+      // const existingJson = existing.data;
+      existingJson = existing.data;
       if(existingJson){
       if (Array.isArray(existingJson)) {
         combinedData = existingJson;
@@ -1653,8 +1666,14 @@ export class CommonService{
         combinedData.push(newJsonData[d]);
       }
       
-    } else {
-       combinedData.push(newJsonData)
+    } else {     
+      if(existingJson){       
+        if(combinedData[0]?.['AFSK']?.[upid] && Array.isArray(combinedData[0]?.['AFSK']?.[upid])){          
+          combinedData[0]?.['AFSK']?.[upid].push(...newJsonData?.['AFSK']?.[upid])
+        }
+      }else{
+        combinedData.push(newJsonData);
+      }
     }
 
     // if (Array.isArray(newJsonData)) {
@@ -1704,20 +1723,41 @@ export class CommonService{
       return Buffer.concat(chunks).toString('utf-8');
     };
 
-  async downloadAndParseFile(client:string,fileName: string): Promise<any> {
+    async downloadAndParseFile(client:string,fileName: string): Promise<any> {
+    const streamUrl = `${this.seaweedOutPutPath}/buckets/torus/9.1/${client}${fileName}`;      
     try {
-      const streamUrl = `${this.seaweedOutPutPath}/buckets/torus/9.1/${client}${fileName}`;    
       assertAllowedOutboundHost(streamUrl);
+     
       const response = await axios.get(streamUrl, { responseType: 'stream',  auth: {
-    username: this.envData.getSeaweedUsername(),//process.env.SEAWEED_USERNAME,
-    password: this.envData.getSeaweedPassword(),//process.env.SEAWEED_PASSWORD
-  } });
+        username: this.envData.getSeaweedUsername(),
+        password: this.envData.getSeaweedPassword(),
+      } });
       const fileContent = await this.streamToString(response.data);
-      const jsonData = JSON.parse(fileContent);
-      return jsonData;
-    } catch (error: any) {
-      console.error('Download error:', error?.response?.status, error?.response?.data || error.message);
-      throw new Error('Failed to download and parse file');
+      return JSON.parse(fileContent);
+
+     } catch (error: any) {
+      let statusCode =
+        error?.response?.status ??
+        error?.status ??
+        400;
+
+      let message =
+        error?.response?.data?.message ??
+        error?.response?.data ??
+        error?.message ??
+        'Some error occurred in downloadAndParseFile';
+
+      if (statusCode === 404) {
+        message = `File not found: ${streamUrl}`;
+      }
+      if (statusCode === 401) {
+        message = `User authentication failed. Invalid username/password combination.`;
+      }
+      
+      throw {
+        statusCode,
+        message,
+      };
     }
   }
 

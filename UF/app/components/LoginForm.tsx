@@ -31,7 +31,7 @@ interface LoginProps {
   appTenantList?: any[]
 }
 
-const LoginForm = ({ logo, appName = "TOB", loginType = "standard", image, appTenantList }: LoginProps) => {
+const LoginForm = ({ logo, appName = "Torus AI Governance", loginType = "standard", image, appTenantList }: LoginProps) => {
   const [formData, setFormData] = useState<Record<string, string>>({
     email: '',
     password: ''
@@ -44,7 +44,7 @@ const LoginForm = ({ logo, appName = "TOB", loginType = "standard", image, appTe
   const { branding } = useGlobal()
   const { brandColor } = branding
   const { bgColor, borderColor, textColor } = useTheme()
-  const onBoardingKey : string = "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:TOB:AFK:apiUsageDashboard:AFVK:v1"
+  const onBoardingKey : string = "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1"
   const tenant = process.env.NEXT_PUBLIC_TENANT_CODE
   const isSaasApp = process.env.NEXT_PUBLIC_IS_SAAS_APPLICATION;
   const [imageandLogoValid, setImageandLogoValid] = useState({
@@ -70,7 +70,7 @@ const LoginForm = ({ logo, appName = "TOB", loginType = "standard", image, appTe
           tenant: tenant,
           username: formData.email,
           password: formData.password,
-          key: "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT003:AFGK:Trs:AFK:TOB:AFVK:v1:bldc",
+          key: "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT003:AFGK:TAG:AFK:TAG:AFVK:v1:bldc",
           ufClientType: 'UFW',
           app_tenant: selectedAppTenant ? appTenantList?.find(item => item.tenant_name == selectedAppTenant)?.tenant_id : undefined,
           app_tenant_id: selectedAppTenant ? appTenantList?.find(item => item.tenant_name == selectedAppTenant)?.at_id : undefined
@@ -100,14 +100,84 @@ const LoginForm = ({ logo, appName = "TOB", loginType = "standard", image, appTe
           let screenDetails: any = {
             keys:[
   {
-    "screenName": "api usage",
-    "screensName": "api_usage-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:TOB:AFK:apiUsageDashboard:AFVK:v1"
+    "screenName": "dashboard",
+    "screensName": "dashboard-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1"
   },
   {
-    "screenName": "monetization",
-    "screensName": "monetization-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:TOB:AFK:monetizationDashboard:AFVK:v1"
+    "screenName": "ai registry",
+    "screensName": "ai_registry-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIRegistry:AFVK:v1"
+  },
+  {
+    "screenName": "discovery queue",
+    "screensName": "discovery_queue-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:discoveryQueue:AFVK:v1"
+  },
+  {
+    "screenName": "evidence packs",
+    "screensName": "evidence_packs-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:auditEvidence:AFVK:v1"
+  },
+  {
+    "screenName": "code type",
+    "screensName": "code_type-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeTypes:AFVK:v1"
+  },
+  {
+    "screenName": "code value",
+    "screensName": "code_value-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeValue:AFVK:v1"
+  },
+  {
+    "screenName": "integration source",
+    "screensName": "integration_source-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationSource:AFVK:v1"
+  },
+  {
+    "screenName": "integration run",
+    "screensName": "integration_run-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationRun:AFVK:v1"
+  },
+  {
+    "screenName": "integration field map",
+    "screensName": "integration_field_map-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationFieldMap:AFVK:v1"
+  },
+  {
+    "screenName": "risk rule",
+    "screensName": "risk_rule-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:riskRule:AFVK:v1"
+  },
+  {
+    "screenName": "risk rule condition",
+    "screensName": "risk_rule_condition-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:ruleCondition:AFVK:v1"
+  },
+  {
+    "screenName": "certification template",
+    "screensName": "certification_template-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificateTemplate:AFVK:v1"
+  },
+  {
+    "screenName": "certification template stage",
+    "screensName": "certification_template_stage-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificationTemplateStage:AFVK:v1"
+  },
+  {
+    "screenName": "ai agent action",
+    "screensName": "ai_agent_action-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIAgentAction:AFVK:v1"
+  },
+  {
+    "screenName": "asset version",
+    "screensName": "asset_version-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AiAssetVersion:AFVK:v1"
+  },
+  {
+    "screenName": "asset dependency",
+    "screensName": "asset_dependency-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AiAssetDependency:AFVK:v1"
   }
 ]
           }

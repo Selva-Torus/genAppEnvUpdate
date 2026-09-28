@@ -183,10 +183,10 @@ export const FusionAuthUserDeletion = async (fusionAuthBaseUrl: string, fusionAu
   await fetch(
     `${fusionAuthBaseUrl}/api/user/${userId}?hardDelete=true`,
     {
-    method: 'DELETE',
-    headers: {
-      Authorization: fusionAuthApiKey,
-    },
+      method: 'DELETE',
+      headers: {
+        Authorization: fusionAuthApiKey,
+      },
     },
   );
 };
@@ -207,22 +207,22 @@ export const FusionAuthUserCreation = async (
   const userResponse = await fetch(
     `${fusionAuthBaseUrl}/api/user/${userId}`,
     {
-    method: methjodName,
-    headers: {
-      Authorization: fusionAuthApiKey,
-      'Content-Type': 'application/json',
-      'X-FusionAuth-TenantId': tenantId,
-    },
-    body: JSON.stringify({
-      user: {
-        firstName: firstName,
-        lastName: lastName,
-        username: userName,
-        phoneNumber: mobile,
-        email: email,
-        password: password,
+      method: methjodName,
+      headers: {
+        Authorization: fusionAuthApiKey,
+        'Content-Type': 'application/json',
+        'X-FusionAuth-TenantId': tenantId,
       },
-    }),
+      body: JSON.stringify({
+        user: {
+          firstName: firstName,
+          lastName: lastName,
+          username: userName,
+          phoneNumber: mobile,
+          email: email,
+          password: password,
+        },
+      }),
     },
   );
 
@@ -354,17 +354,17 @@ export const FusionAuthUserEdition = async (
   const userResponse = await fetch(
     `${fusionAuthBaseUrl}/api/user/${userId}`,
     {
-    method: 'PATCH',
-    headers: {
-      Authorization: fusionAuthApiKey,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      user: {
-        firstName: firstName,
-        lastName: lastName,
+      method: 'PATCH',
+      headers: {
+        Authorization: fusionAuthApiKey,
+        'Content-Type': 'application/json',
       },
-    }),
+      body: JSON.stringify({
+        user: {
+          firstName: firstName,
+          lastName: lastName,
+        },
+      }),
     },
   );
 
@@ -382,11 +382,11 @@ export const FusionAuthUserGet = async (
   const userResponse = await fetch(
     `${fusionAuthBaseUrl}/api/user/${userId}`,
     {
-    method: 'GET',
-    headers: {
-      Authorization: fusionAuthApiKey,
-      'Content-Type': 'application/json',
-    },
+      method: 'GET',
+      headers: {
+        Authorization: fusionAuthApiKey,
+        'Content-Type': 'application/json',
+      },
     },
   );
 

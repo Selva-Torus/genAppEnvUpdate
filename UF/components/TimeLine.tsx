@@ -214,14 +214,17 @@ export const TimeLine: React.FC<TimeLineProps> = ({
       } ${className} ${isHorizontal ? 'overflow-x-auto' : 'overflow-y-auto'}`}
       style={{
         maxHeight: isHorizontal ? undefined : '100%',
-        height: isHorizontal ? undefined : '93%'
+        height: isHorizontal ? undefined : '100%'
       }}
     >
+      {!Array.isArray(steps) || steps.length === 0 ? (
+        <p className='text-center text-gray-500'>No data available</p>
+      ) : (
       <ol
         className={
           isHorizontal
             ? 'relative flex items-start gap-0 pb-4 scrollbar-thin'
-            : 'x scrollbar-none relative'
+            : 'x scrollbar-none relative pb-8 '
         }
         style={isHorizontal ? { scrollBehavior: 'smooth' } : undefined}
       >
@@ -232,6 +235,13 @@ export const TimeLine: React.FC<TimeLineProps> = ({
               icon: null,
               color: '#d1d5db'
             }
+            const prevStatusStyles =
+              idx > 0
+                ? statusMap[steps[idx - 1][status]] || {
+                    icon: null,
+                    color: '#d1d5db'
+                  }
+                : null
             const _dateVal = step[date]
             const _dateDisplay = getDateDisplay(_dateVal)
             const _timeDisplay = getTimeDisplay(_dateVal)
@@ -303,10 +313,18 @@ export const TimeLine: React.FC<TimeLineProps> = ({
                 ) : (
                   <>
                     {/* Vertical Layout */}
-                    <div className='grid w-full grid-cols-[0.50fr_40px_1fr] items-stretch'>
+                    <div className='grid w-full grid-cols-[0.50fr_44px_1fr] items-stretch'>
                       {/* Left Side - Date & Time */}
                       <div
-                        className="flex flex-wrap items-center justify-end gap-x-1 gap-y-1 py-5 leading-none"
+                        className={`flex flex-col items-end justify-center gap-0.5 py-6 leading-none text-xs ${
+                          statusStyles.icon
+                            ? isDark
+                              ? 'text-gray-300'
+                              : 'text-gray-500'
+                            : isDark
+                            ? 'text-gray-500'
+                            : 'text-gray-400'
+                        }`}
                       >
                         <span className="whitespace-nowrap leading-none">
                           {_dateDisplay}
@@ -321,10 +339,14 @@ export const TimeLine: React.FC<TimeLineProps> = ({
                       {/* Timeline */}
                       <div className='relative flex items-center justify-center ml-1'>
                         <span
-                          className='relative z-10 flex h-6 w-6 items-center justify-center rounded-full'
-                          style={{
-                            backgroundColor: statusStyles.color
-                          }}
+                          className={`relative z-10 flex h-6 w-6 items-center justify-center rounded-full ${
+                            statusStyles.icon ? 'shadow-sm' : 'border-2 bg-white'
+                          }`}
+                          style={
+                            statusStyles.icon
+                              ? { backgroundColor: statusStyles.color }
+                              : { borderColor: statusStyles.color }
+                          }
                         >
                           {statusStyles.icon && (
                             <Icon
@@ -336,19 +358,36 @@ export const TimeLine: React.FC<TimeLineProps> = ({
                           )}
                         </span>
 
-                        <div
-                          className='absolute left-1/2 top-0 -translate-x-1/2 w-0.5 z-0'
-                          style={{
-                            backgroundColor: statusStyles.color,
-                            bottom: idx === steps.length - 1 ? '50%' : '0'
-                          }}
-                        />
+                        {idx !== 0 && (
+                          <div
+                            className='absolute left-1/2 top-0 -translate-x-1/2 w-0.5 z-0'
+                            style={{
+                              backgroundColor: prevStatusStyles!.color,
+                              height: '50%'
+                            }}
+                          />
+                        )}
+                        {idx !== steps.length - 1 && (
+                          <div
+                            className='absolute left-1/2 bottom-0 -translate-x-1/2 w-0.5 z-0'
+                            style={{
+                              backgroundColor: statusStyles.color,
+                              height: '50%'
+                            }}
+                          />
+                        )}
                       </div>
 
                       {/* Right Side - Title */}
                       <div
-                        className={`flex items-center py-5 pl-2 ${
-                          isDark ? 'text-gray-200' : 'text-gray-700'
+                        className={`flex items-center py-6 pl-2 ${
+                          statusStyles.icon
+                            ? isDark
+                              ? 'text-gray-100 font-medium'
+                              : 'text-gray-800 font-medium'
+                            : isDark
+                            ? 'text-gray-500'
+                            : 'text-gray-400'
                         }`}
                       >
                         <Text
@@ -380,6 +419,7 @@ export const TimeLine: React.FC<TimeLineProps> = ({
           </li>
         )}
       </ol>
+      )}
     </div>
   )
 

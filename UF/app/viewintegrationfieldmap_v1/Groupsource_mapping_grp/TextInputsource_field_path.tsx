@@ -1,0 +1,316 @@
+'use client'
+
+
+
+
+import React, { useState,useContext,useEffect, useRef } from 'react'
+import { useInfoMsg } from "@/app/components/infoMsgHandler";
+import { TotalContext, TotalContextProps } from '@/app/globalContext';
+import { Modal } from "@/components/Modal";
+import { Text } from "@/components/Text";
+import { TextInput } from '@/components/TextInput';
+import { uf_getPFDetailsDto,uf_initiatePfDto,te_eventEmitterDto,uf_ifoDto,te_updateDto, te_refreshDto } from '@/app/interfaces/interfaces';
+import i18n from '@/app/components/i18n';
+import decodeToken from '@/app/components/decodeToken';
+import {commonSepareteDataFromTheObject, eventFunction } from '@/app/utils/eventFunction';
+import { eventDecisionTable } from '@/app/utils/evaluateDecisionTable';
+import { codeExecution } from '@/app/utils/codeExecution';
+import { AxiosService } from '@/app/components/axiosService';
+import { useGlobal } from '@/context/GlobalContext'
+import { useRouter } from 'next/navigation';
+import UOmapperData from '@/context/dfdmapperContolnames.json'
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { eventBus } from '@/app/eventBus';
+import { getFilterProps,getRouteScreenDetails } from '@/app/utils/assemblerKeys';
+import { getGroupOrchestrationData, getControlOrchestrationData } from '@/app/utils/Orchestration';
+import { useHandleDfdRefresh } from '@/context/dfdRefreshContext';
+import { nullFilter } from '@/app/utils/nullDataFilter';
+import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,PaginationData,AllowedGroupNode,ActionDetails } from "@/types/global";
+import * as v from 'valibot';
+///////////////
+////////////
+
+const TextInputsource_field_path = ({lockedData,setLockedData,checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFlagCompData,setIsProcessing,controlData}:any) => {  
+  const { token } = useGlobal();
+  const {globalState , setGlobalState} = useContext(TotalContext) as TotalContextProps;
+  const {validateRefetch , setValidateRefetch} = useContext(TotalContext) as TotalContextProps;
+  const {validate , setValidate} = useContext(TotalContext) as TotalContextProps;
+  const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
+  const {memoryVariables, setMemoryVariables} = useContext(TotalContext) as TotalContextProps;
+  const {refresh, setRefresh} = useContext(TotalContext) as TotalContextProps;
+  const handleDfdRefresh = useHandleDfdRefresh();
+  const allState:any = useContext(TotalContext) as TotalContextProps
+  const actionDetails : any = {
+  "action": {
+    "lock": {
+      "lockMode": "",
+      "name": "",
+      "ttl": ""
+    },
+    "stateTransition": {
+      "sourceQueue": "",
+      "sourceStatus": "",
+      "targetQueue": "",
+      "targetStatus": ""
+    },
+    "pagination": {
+      "page": "1",
+      "count": "10"
+    },
+    "encryption": {
+      "isEnabled": false,
+      "selectedDpd": "",
+      "encryptionMethod": ""
+    },
+    "events": {}
+  },
+  "code": "",
+  "rule": {},
+  "events": {},
+  "mapper": [],
+  "dfdKey": "undefined:"
+}
+  const decodedTokenObj:any = decodeToken(token);
+  const [isRequredData,setIsRequredData]=useState<boolean>(false)
+  const toast : Function = useInfoMsg()
+  const keyset : Function = i18n.keyset("language");
+  const [allCode,setAllCode]=useState<string>("");
+  let schemaArray :string[] =[];
+  const [dynamicStateandType,setDynamicStateandType]=useState<Record<string, any>>({name:'source_field_path',type:"text"})
+  const routes: AppRouterInstance = useRouter()
+  const [showProfileAsModalOpen, setShowProfileAsModalOpen] = React.useState<boolean>(false);
+  const [showElementAsPopupOpen, setShowElementAsPopupOpen] = React.useState<boolean>(false);
+  const encryptionFlagCont: boolean = encryptionFlagCompData?.flag || false;
+  let encryptionDpd: string = "";
+  encryptionDpd = encryptionDpd !=='' ? encryptionDpd: encryptionFlagCompData?.dpd;
+  let encryptionMethod: string = "";
+  encryptionMethod  = encryptionMethod !=='' ? encryptionMethod: encryptionFlagCompData?.method;
+   //another screen
+  const {add_field_map_grp74a39, setadd_field_map_grp74a39}= useContext(TotalContext) as TotalContextProps;
+  const {add_field_map_grp74a39Props, setadd_field_map_grp74a39Props}= useContext(TotalContext) as TotalContextProps;
+  const {source_mapping_grp99571, setsource_mapping_grp99571}= useContext(TotalContext) as TotalContextProps;
+  const {source_mapping_grp99571Props, setsource_mapping_grp99571Props}= useContext(TotalContext) as TotalContextProps;
+  const {source_mappinga7849, setsource_mappinga7849}= useContext(TotalContext) as TotalContextProps;
+  const {integration_source_id29da1, setintegration_source_id29da1}= useContext(TotalContext) as TotalContextProps;
+  const {source_field_path92a77, setsource_field_path92a77}= useContext(TotalContext) as TotalContextProps;
+  const {target_mapping_grp841a3, settarget_mapping_grp841a3}= useContext(TotalContext) as TotalContextProps;
+  const {target_mapping_grp841a3Props, settarget_mapping_grp841a3Props}= useContext(TotalContext) as TotalContextProps;
+  const {transformation_grp75a9a, settransformation_grp75a9a}= useContext(TotalContext) as TotalContextProps;
+  const {transformation_grp75a9aProps, settransformation_grp75a9aProps}= useContext(TotalContext) as TotalContextProps;
+  const {field_rules_grp2cb2f, setfield_rules_grp2cb2f}= useContext(TotalContext) as TotalContextProps;
+  const {field_rules_grp2cb2fProps, setfield_rules_grp2cb2fProps}= useContext(TotalContext) as TotalContextProps;
+  
+
+  // Validation  
+    const [error, setError] = useState<string>('');
+  schemaArray = [] ;
+    function SourceIdFilter(eventProperty:any,matchingSequence?:string){
+    let ans : any[] = [];
+    let id : string = "";
+    if(eventProperty.name=='saveHandler' && eventProperty.sequence == matchingSequence)
+    {
+      return [eventProperty.id]
+    }
+    if(eventProperty.name=='eventEmitter' && eventProperty.sequence == matchingSequence)
+    {
+      return [eventProperty.id]
+    }
+    for(let i=0;i<eventProperty?.children?.length;i++)
+    {
+      let temp:any=SourceIdFilter(eventProperty?.children[i],matchingSequence)
+      if(temp.length)
+      {
+        ans.push(eventProperty?.children[i].id)
+        id=id+"|"+eventProperty?.children[i].id
+        ans.push(...temp)
+      }
+    }
+    return ans
+  }
+  const handleChange = async(e: any) => {
+      let validate:any;    
+      setError('');
+      setValidate((pre:any)=>({...pre,viewIntegrationFieldMap_v1:{...pre?.viewIntegrationFieldMap_v1,source_field_path:undefined}}));
+    if(dynamicStateandType.type=="number"){
+    setsource_mapping_grp99571((prev: any) => ({ ...prev, source_field_path: +e.target.value }));
+    }
+    else{
+    setsource_mapping_grp99571((prev: any) => ({ ...prev, source_field_path: e.target.value }));
+    }
+    const newInputValue = dynamicStateandType.type=="number" ? +e.target.value : e.target.value;
+    let code:string=allCode;
+     if (code != '') {
+      let codeStates: any = {};
+        codeStates['add_field_map_grp'] = add_field_map_grp74a39,
+        codeStates['setadd_field_map_grp'] = setadd_field_map_grp74a39,
+        codeStates['add_field_map_grp74a39'] = add_field_map_grp74a39Props,
+        codeStates['setadd_field_map_grp74a39'] = setadd_field_map_grp74a39Props,
+        codeStates['source_mapping_grp'] = source_mapping_grp99571,
+        codeStates['setsource_mapping_grp'] = setsource_mapping_grp99571,
+        codeStates['source_mapping_grp99571'] = source_mapping_grp99571Props,
+        codeStates['setsource_mapping_grp99571'] = setsource_mapping_grp99571Props,
+        codeStates['source_mapping'] = source_mappinga7849,
+        codeStates['setsource_mapping'] = setsource_mappinga7849,
+        codeStates['integration_source_id'] = integration_source_id29da1,
+        codeStates['setintegration_source_id'] = setintegration_source_id29da1,
+        codeStates['source_field_path'] = source_field_path92a77,
+        codeStates['setsource_field_path'] = setsource_field_path92a77,
+        codeStates['target_mapping_grp'] = target_mapping_grp841a3,
+        codeStates['settarget_mapping_grp'] = settarget_mapping_grp841a3,
+        codeStates['target_mapping_grp841a3'] = target_mapping_grp841a3Props,
+        codeStates['settarget_mapping_grp841a3'] = settarget_mapping_grp841a3Props,
+        codeStates['transformation_grp'] = transformation_grp75a9a,
+        codeStates['settransformation_grp'] = settransformation_grp75a9a,
+        codeStates['transformation_grp75a9a'] = transformation_grp75a9aProps,
+        codeStates['settransformation_grp75a9a'] = settransformation_grp75a9aProps,
+        codeStates['field_rules_grp'] = field_rules_grp2cb2f,
+        codeStates['setfield_rules_grp'] = setfield_rules_grp2cb2f,
+        codeStates['field_rules_grp2cb2f'] = field_rules_grp2cb2fProps,
+        codeStates['setfield_rules_grp2cb2f'] = setfield_rules_grp2cb2fProps,
+    codeExecution(code,codeStates);
+    }  
+     try{
+      setIsProcessing(true);
+        let copyFormhandlerData :any = {}
+
+    }catch (err: any) {
+      setIsProcessing(false);
+      if(typeof err == 'string')
+        toast(err, 'danger');
+      else
+        toast(err?.response?.data?.errorDetails?.message, 'danger');
+    }finally{
+      setIsProcessing(false);
+    }
+  }
+
+  const handleValidate=async (e?:any) => {
+      let validate:any
+  }
+  const handleBlur=async (e?:any) => {
+      let validate:any
+
+    try{
+      setIsProcessing(true);
+        let copyFormhandlerData :any = {}
+
+    }catch (err: any) {
+      setIsProcessing(false);
+      if(typeof err == 'string')
+        toast(err, 'danger');
+      else
+        toast(err?.response?.data?.errorDetails?.message, 'danger');
+    }finally{
+      setIsProcessing(false);
+    }
+  }
+  const handleMapperValue=async()=>{
+    try{
+      const orchestrationData:any = getControlOrchestrationData(
+        controlData,
+        "6003179fb28c9e921238af30b9399571",
+        "e9d1a74e73988a7d7f8722a7f8f92a77"
+      );
+      // const orchestrationData: any = await AxiosService.post(
+      //   '/UF/Orchestration',
+      //   {
+      //     key: "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:viewIntegrationFieldMap:AFVK:v1",
+      //     componentId: "6003179fb28c9e921238af30b9399571",
+      //     controlId: "e9d1a74e73988a7d7f8722a7f8f92a77",
+      //     isTable: false,
+      //     from:"TextInputsource_field_path",
+      //     accessProfile:accessProfile
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`
+      //     }
+      //   }
+      // )
+      // if(orchestrationData?.data?.error == true){
+       
+      //   return
+      // }
+      setAllCode(orchestrationData?.data?.code);
+      if (orchestrationData?.data?.dataType ==='integer' || orchestrationData?.data?.dataType ==='number') {
+        setDynamicStateandType({name:'source_field_path', type: 'number'});
+      }
+      // if(orchestrationData?.data?.schemaData?.at(0)?.nodeType=='apinode'){
+      // if(orchestrationData?.data?.schemaData?.at(0)?.schema.responses["200"].content["application/json"].schema.items.properties){
+      //   let type:any={name:'source_field_path',type:'text'};
+      //   type={
+      //     name:'source_field_path',
+      //     type: orchestrationData?.data?.schemaData?.at(0)?.schema.responses["200"].content["application/json"].schema.items.properties.source_field_path.type == 'string' ? 'text' : orchestrationData?.data?.schemaData?.at(0)?.schema.responses["200"].content["application/json"].schema.items.properties.source_field_path.type =='integer' ? 'number' : orchestrationData?.data?.schemaData?.at(0)?.schema.responses["200"].content["application/json"].schema.items.properties.source_field_path.type
+      //   }
+      //   setDynamicStateandType(type);
+      // }
+      // }else if(orchestrationData?.data?.schemaData?.at(0)?.nodeType=='dbnode'){
+      //   if(orchestrationData?.data?.schemaData?.at(0)?.schema.properties){
+      //   let type:any={name:'source_field_path',type:'text'};
+      //   type={
+      //     name:'source_field_path',
+      //     type: orchestrationData?.data?.schemaData?.at(0)?.schema.properties.source_field_path.type == 'string' ? 'text' : orchestrationData?.data?.schemaData?.at(0)?.schema.properties.source_field_path.type =='integer' ? 'number' : orchestrationData?.data?.schemaData?.at(0)?.schema.properties.source_field_path.type
+      //   }
+      //   setDynamicStateandType(type);
+      // }
+      // }
+    }
+    catch(err)
+    {
+      console.log(err);
+    }
+  }
+  const source_mapping_grp99571Ref = useRef<any>(source_mapping_grp99571);
+  useEffect(() => { source_mapping_grp99571Ref.current = source_mapping_grp99571; }, [source_mapping_grp99571]);
+  useEffect(()=>{
+      handleMapperValue();
+      if(validateRefetch.init!=0)
+        handleValidate();
+    const handlerChange = (id:any) => {
+      if (id === "e9d1a74e73988a7d7f8722a7f8f92a77") {
+        handleChange({target:{value:source_mapping_grp99571Ref?.current?.source_field_path||""}});
+      }
+    };
+    const handlerBlur = (id:any) => {
+      if (id === "e9d1a74e73988a7d7f8722a7f8f92a77") {
+        handleBlur({target:{value:source_mapping_grp99571Ref?.current?.source_field_path||""}});
+      }
+    };
+    eventBus.on("triggerElement|onChange", handlerChange);
+    eventBus.on("triggerElement|onBlur", handlerBlur);
+    return () => {
+      eventBus.off("triggerElement|onChange", handlerChange);
+      eventBus.off("triggerElement|onBlur", handlerBlur);
+    };
+  },[validateRefetch.value])
+  if (source_field_path92a77?.isHidden) {
+    return <></>
+  }
+  return (   
+    <div  
+      style={{gridColumn: `13 / 25`,gridRow: `12 / 23`, gap:``, height: `100%`, overflow: 'auto', display: 'flex', flexDirection: 'column'}} >
+      <div style={{ flex: 1, minHeight: 0 }}>
+      <TextInput
+        require={isRequredData}
+        className=""
+        label={keyset("")}
+        onChange= {handleChange}
+        onBlur={handleBlur}
+        itsHaveCurrency={false}
+        type={dynamicStateandType.type}
+        value={source_mapping_grp99571?.source_field_path||""}
+         disabled= {source_field_path92a77?.isDisabled ? true : false}
+        pin='brick-brick'     
+        view='normal'
+        contentAlign={"left"}
+        headerPosition='top'
+        headerText="Source Field Path"
+      errorMessage={error}
+        validationState={validate?.viewIntegrationFieldMap_v1?.source_field_path ? "invalid" : undefined}
+      />
+      </div>
+    </div> 
+  )
+}
+
+export default TextInputsource_field_path

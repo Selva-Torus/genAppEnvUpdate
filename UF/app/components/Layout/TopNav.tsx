@@ -17,7 +17,7 @@ import { useTheme } from '@/hooks/useTheme'
 import Popup from '@/components/Popup'
 import { LogoutIcon, RotateIcon, SettingsIcon } from '../../utils/svgApplications'
 import clsx from 'clsx'
-import { OrgStructure, ProdStructure, RoleStructure } from '../svgApplication'
+import { DownArrow, OrgStructure, ProdStructure, RoleStructure } from '../svgApplication'
 import { isLightColor } from '../utils'
 import Image from "next/image";
 import { AxiosService } from '@/app/components/axiosService'
@@ -142,7 +142,7 @@ const TopNav = ({
 //  async function logout() {
 //    localStorage.clear()
 //    deleteAllCookies()
-//    window.location.href = '/ct003/trs/tob/v1'
+//    window.location.href = '/ct003/tag/tag/v1'
 //  }
 
   async function logout() {
@@ -299,11 +299,12 @@ const TopNav = ({
                       <button
                         {...props}
                         className={twMerge(
-                            'px-[1vw] py-[0.5vh] !text-nowrap rounded-[1vw] hover:bg-[var(--hover-color)] text-fsbase'
+                            'flex gap-[.5vw] items-center px-[.5vw] py-[0.5vh] !text-nowrap rounded-[1vw] hover:bg-[var(--hover-color)] text-fsbase'
                           )}
-                        style={getMenuStyle(selected)} 
+                        style={getMenuStyle(selected)}
                       >
                         {menu.menuGroupLabel}
+                        <DownArrow fill={selected ? brandTextColor : "black"} height='.4vw' width='.4vw' />
                       </button>
                     )}
                     key={index}

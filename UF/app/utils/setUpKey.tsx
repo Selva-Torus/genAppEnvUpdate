@@ -63,11 +63,11 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
   const [data, setData] = useState<SetupKeyData | null>(null);
   const { token } = useGlobal();
   const encryptionFlagApp: boolean = true;
-  const encryptionDpd: string = "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:Trs:AFGK:TOB:AFK:tob_dpd:AFVK:v1";
+  const encryptionDpd: string = "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:TAG:AFGK:TAG:AFK:tagDPD:AFVK:v1";
   const encryptionMethod: string = "";
   const fetchSetupKey = async () => {
     try {
-      let setUpKeyDto:any = {key:"CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT003:AFGK:Trs:AFK:TOB:AFVK:v1:appearance"
+      let setUpKeyDto:any = {key:"CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT003:AFGK:TAG:AFK:TAG:AFVK:v1:appearance"
 };
       if (encryptionFlagApp) {
         setUpKeyDto["dpdKey"] = encryptionDpd;

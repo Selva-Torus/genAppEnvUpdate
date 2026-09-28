@@ -8,8 +8,8 @@ export class EnvData {
   private config: any = null;
   private isLoaded: boolean = false;
   private readonly TENANT_NAME: string = 'ct003';
-  private readonly APP_GROUP_NAME: string = 'trs';
-  private readonly APP_NAME: string = 'tob';
+  private readonly APP_GROUP_NAME: string = 'tag';
+  private readonly APP_NAME: string = 'tag';
   private readonly VERSION: string = 'v1';
 
   constructor() {

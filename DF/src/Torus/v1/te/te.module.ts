@@ -33,7 +33,7 @@ import { EnvData } from 'src/envData/envData.service';
     ],
     controllers: [TeController],
     providers: [TeService, RedisService, CommonService,SecurityService,RuleService,JwtService,JwtServices,CodeService,LockService,ConfigService,DynamicFlowService,EnvData,],
-    exports:[DynamicFlowService]
+    exports:[DynamicFlowService,]
 })
   export class TeModule implements NestModule
   {

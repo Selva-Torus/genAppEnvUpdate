@@ -258,8 +258,9 @@ export class readAPIDTO {
       @IsString()
       parentUpId?:string
       @IsOptional()
-      @IsString()
-      ssKey?:string
+      @IsArray()
+      @IsString({ each: true })
+      ssKey?:string[]
       @IsOptional()
       @IsString()
       controlName?:string
@@ -1297,8 +1298,9 @@ export class teSaveDto {
 
   @ApiPropertyOptional({ description: 'ssKey' })
   @IsOptional()
-  @IsString()
-  ssKey?: string;
+  @IsArray()
+  @IsString({ each: true })
+  ssKey?: string[];
 
   @ApiPropertyOptional({ description: 'controlName' })
   @IsOptional()

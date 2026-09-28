@@ -90,6 +90,7 @@ export interface te_eventEmitterDto {
   childTables?:string[];
   childTableData?:any[];
   ssKey?:string[];
+  tableName?:string;
 }
 export interface uf_ifoDto{
   dpdKey?:string;

@@ -876,7 +876,7 @@ export class RedisService implements OnModuleInit {
       });
 
       await pgClient.connect();
-      console.log('PG connected');
+      //console.log('PG connected');
 
       return pgClient;
 
@@ -986,7 +986,10 @@ export class RedisService implements OnModuleInit {
 
       await pgClient.end();
       if (!result?.rows[0]?.data) return null
-      return result.rows[0].data
+       if(typeof(result.rows[0].data) == 'string')
+       return result.rows[0].data
+        else
+         return JSON.stringify(result.rows[0].data)
     } catch (error) {
       console.log('error', error);
 

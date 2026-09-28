@@ -780,7 +780,7 @@ export class DynamicFlowService {
                                                             requestConfig['httpsAgent'] = httpAgent
                                                         }
                                                     }
-                                                     requestBody = Object.assign({headers:requestConfig?.headers},{apiUrl})
+                                                     requestBody = Object.assign({url:apiUrl,headers:requestConfig?.headers},{apiUrl})
                                                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(requestBody), collectionName, 'request');
                                                     apiResult = await this.executeApiCall(methodName, apiUrl, requestConfig)
 
@@ -792,7 +792,8 @@ export class DynamicFlowService {
                                                         else{
                                                             await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(apiUrl), collectionName, 'request');
                                                             await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(apiResult), collectionName, 'response');
-                                                            return apiResult
+                                                            return apiResult?.result;
+                                                            // return { status: 200, targetStatus: targetStatus, data: apiResult };
                                                         }
                                                     } else {
                                                         throw apiResult;
@@ -937,7 +938,7 @@ export class DynamicFlowService {
                                                                     }
                                                                 }
                                                             }
-                                                                requestBody = Object.assign({headers:requestConfig?.headers},mapObj)
+                                                                requestBody = Object.assign({url:apiUrl,headers:requestConfig?.headers},mapObj)
                                                                 await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(requestBody), collectionName, 'request');
                                                                 apiResult = await this.executeApiCall(methodName, apiUrl, requestConfig, mapObj)
                                                                 
@@ -1048,7 +1049,7 @@ export class DynamicFlowService {
                                                                     let beforeUpdate = await this.executeApiCall(methodName, serverUrl + tempEndpoint, requestConfig)
                                                                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(beforeUpdate), collectionName, 'rollback')
                                                                 }
-                                                                 requestBody = Object.assign({headers:requestConfig?.headers},mapObj)
+                                                                 requestBody = Object.assign({url:serverUrl + tempEndpoint,headers:requestConfig?.headers},mapObj)
                                                                 await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(requestBody), collectionName, 'request');
                                                                 apiResult = await this.executeApiCall(methodName, serverUrl + tempEndpoint, requestConfig, mapObj)
                                                                 if (apiResult.statusCode == 201 || apiResult.statusCode == 200) {
@@ -1078,7 +1079,7 @@ export class DynamicFlowService {
                                                                     let beforeUpdate = await this.executeApiCall(methodName, serverUrl + tempEndpoint, requestConfig)
                                                                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j]?.nodeName + '.PRO', JSON.stringify(beforeUpdate), collectionName, 'rollback')
                                                                 }
-                                                                 requestBody = Object.assign({headers:requestConfig?.headers},mapObj)
+                                                                 requestBody = Object.assign({url:serverUrl + tempEndpoint,headers:requestConfig?.headers},mapObj)
                                                                 await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(requestBody), collectionName, 'request');
                                                                 apiResult = await this.executeApiCall(methodName, serverUrl + tempEndpoint, requestConfig, mapObj)
                                                             }
@@ -1100,6 +1101,8 @@ export class DynamicFlowService {
                                                             }else{
                                                                 throw error
                                                             }
+                                                        }else{
+                                                            throw error
                                                         }
                                                     }
 
@@ -1258,7 +1261,7 @@ export class DynamicFlowService {
                                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(EncapiResult?.result), collectionName, 'response',);
                                     await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, EncryptedRqst, EncapiResult?.result,);
                                 } else {
-                                    if (apichildResult?.length>0 || Object.keys(apichildResult).length>0) {
+                                    if (apichildResult && (apichildResult?.length>0 || Object.keys(apichildResult).length>0)) {
                                         if(Array.isArray(apichildResult))
                                         apichildResult = apichildResult.flat()
                                         await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(apichildResult), collectionName, 'response',);

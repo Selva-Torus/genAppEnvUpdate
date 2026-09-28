@@ -123,10 +123,15 @@ const DocumentUploader = ({
   }
 
   React.useEffect(() => {
-    if (Array.isArray(value) && value.length > 0) {
-      setFiles(value)
+    if (Array.isArray(value)) {  // for refresh selected documents when this component inside a groupArray
+      setFiles(prev => {
+        const isSame =
+          prev.length === value.length &&
+          prev.every((f: any, i: number) => f.file === value[i]?.file)
+        return isSame ? prev : value
+      })
     } else if (value === '' || value === null || value === undefined) {
-      setFiles([])
+      setFiles(prev => (prev.length === 0 ? prev : []))
     } else if (typeof value === 'string') {
       // Only fetch if it's a valid URL, otherwise it's likely a file ID from backend
       if (isValidUrl(value)) {

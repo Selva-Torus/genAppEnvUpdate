@@ -2,16 +2,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ct003-tob-df-generator
-  namespace: ct003-tob-df-v1
+  name: ct003-tag-df-generator
+  namespace: ct003-tag-df-v1
   labels:
-    app: ct003-tob-df-generator
+    app: ct003-tag-df-generator
 spec:
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: ct003-tob-df-generator
+      app: ct003-tag-df-generator
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -20,32 +20,28 @@ spec:
   template:
     metadata:
       labels:
-        app: ct003-tob-df-generator
+        app: ct003-tag-df-generator
     spec:
       containers:
-      - name: ct003-tob-df-generator-backend-container
-        image: 192.168.2.164:5000/ct003-tob-df-v1:docker_tag
+      - name: ct003-tag-df-generator-backend-container
+        image: 192.168.2.164:5000/ct003-tag-df-v1:docker_tag
         imagePullPolicy: IfNotPresent
         ports:
         - name: http
           containerPort: 3000
-        env:
-        - name: redis_host
-          value: "192.168.2.192"
-        - name: redis_port
-          value: "32055"
+        
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: ct003-tob-df-generator
-  namespace: ct003-tob-df-v1
+  name: ct003-tag-df-generator
+  namespace: ct003-tag-df-v1
   labels:
-    app: ct003-tob-df-generator
+    app: ct003-tag-df-generator
 spec:
   selector:
-    app: ct003-tob-df-generator
+    app: ct003-tag-df-generator
   ports:
     - name: http
       protocol: TCP

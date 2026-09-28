@@ -1,559 +1,1115 @@
+
+
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+   schemas   = ["ct003_tag"]
 }
 
 generator client {
 provider = "prisma-client-js"
 }
-model tob_api_repository {
-  id  String @id @default(auto()) @map("_id") @db.ObjectId 
-  apiname    String?        
-  version    String?        
-  release_date    DateTime?      
-  api_category    String?        
-  server_url    String?        
-  status    String?        
-  api_resourcepath    String?        
 
-  tob_api_process_logs   tob_api_process_logs[]    
-  trs_created_date    DateTime     @default(now())  
-  trs_created_by    String?       
-  trs_modified_date    DateTime     @updatedAt  
-  trs_modified_by    String?              
-  trs_process_id    String?
-  trs_access_profile    String?
-  trs_org_grp_code    String?
-  trs_org_code    String?
-  trs_role_grp_code    String?
-  trs_role_code    String?
-  trs_ps_grp_code    String?
-  trs_ps_code     String?
-  trs_sub_org_grp_code    String?
-  trs_sub_org_code    String?
-  trs_locked_by    String?
-  trs_locked_time    DateTime?
-  trs_tenant_id    String @default("00000")
-  trs_app_code     String @default("00000")
-  trs_product_code String @default("00000_00000")
-  trs_event_process_status String?
-  trs_event_status         String? 
+model ai_asset {
+ai_asset_id  BigInt @default(autoincrement())
+asset_code  String? 
+asset_name  String? 
+asset_type_code  String? 
+short_description  String? 
+use_case_code  String? 
+business_unit_id  BigInt? 
+business_owner_id  BigInt? 
+technical_owner_id  BigInt? 
+vendor_name  String? 
+is_third_party  Boolean? 
+hosting_location  String? 
+risk_tier_code  String? 
+risk_tier_source  String? 
+criticality_code  String? 
+lifecycle_status_code  String? 
+is_customer_facing  Boolean? 
+is_automated_decision  Boolean? 
+current_certification_id  BigInt? 
+cert_expiry_date  DateTime? 
+discovery_source_code  String? 
+integration_source_id  BigInt? 
+external_reference  String? 
+first_discovered_on  DateTime? 
+last_seen_on  DateTime? 
+go_live_date  DateTime? 
+retirement_date  DateTime? 
+current_version_no  Int? 
+is_active  Boolean? 
+business_unit_name  String? 
+business_owner_name  String? 
+business_owner_job_title  String? 
+technical_owner_name  String? 
+technical_owner_job_title  String? 
+business_purpose  String? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+ai_asset_model   ai_asset_model?    
+ai_asset_version   ai_asset_version[]    
+ai_asset_tier_assessment   ai_asset_tier_assessment[]    
+ai_asset_data_class   ai_asset_data_class[]    
+ai_asset_dependency   ai_asset_dependency[]    
+ai_agent_control   ai_agent_control?    
+audit_event   audit_event[]    
+certification   certification[]    
+evidence_export   evidence_export[]    
+evidence_item   evidence_item[]    
 
-  @@map("ct003_tob.tob_api_repository")
-  
+@@id([ai_asset_id])
+@@schema("ct003_tag")
 }
-model tob_consent_request {
-  id  String @id @default(auto()) @map("_id") @db.ObjectId 
-  ids    String?        
-  consentgroupid    String?        
-  requesturl    String?        
-  consenttype    String?        
-  status    String?        
-  request    tob_consent_req? 
-  consentbody    tob_consentbody? 
-  authorizationchannel  authorizationchannel_tob_consent_request?    
-  interactionid    String?        
-  tpp    tob_tpp? 
-  updatedat    Int?       
-  parid    String?        
-  rartype    String?        
-  standardversion    String?        
-  psuidentifiers    tob_psuidentifiers? 
-  accountids    String[]      
-  connecttoken    String?        
-  account_id    String?        
-
-  tob_api_process_logs   tob_api_process_logs[]    
-  trs_created_date    DateTime     @default(now())  
-  trs_created_by    String?       
-  trs_modified_date    DateTime     @updatedAt  
-  trs_modified_by    String?              
-  trs_process_id    String?
-  trs_access_profile    String?
-  trs_org_grp_code    String?
-  trs_org_code    String?
-  trs_role_grp_code    String?
-  trs_role_code    String?
-  trs_ps_grp_code    String?
-  trs_ps_code     String?
-  trs_sub_org_grp_code    String?
-  trs_sub_org_code    String?
-  trs_locked_by    String?
-  trs_locked_time    DateTime?
-  trs_tenant_id    String @default("00000")
-  trs_app_code     String @default("00000")
-  trs_product_code String @default("00000_00000")
-  trs_event_process_status String?
-  trs_event_status         String? 
-
-  @@map("ct003_tob.tob_consent_request")
-  
-}
-model tob_api_process_logs {
-  id  String @id @default(auto()) @map("_id") @db.ObjectId 
-  apiendpoint    String?        
-  requestdata    Json?      
-  responsedata    Json?      
-  apiname    String?        
-
-  tob_api_repositoryid String? @db.ObjectId
-  tob_api_repository   tob_api_repository?   @relation(fields: [tob_api_repositoryid], references: [id])   
-  tob_consent_requestid String? @db.ObjectId
-  tob_consent_request   tob_consent_request?   @relation(fields: [tob_consent_requestid], references: [id])   
-  trs_created_date    DateTime     @default(now())  
-  trs_created_by    String?       
-  trs_modified_date    DateTime     @updatedAt  
-  trs_modified_by    String?              
-  trs_process_id    String?
-  trs_access_profile    String?
-  trs_org_grp_code    String?
-  trs_org_code    String?
-  trs_role_grp_code    String?
-  trs_role_code    String?
-  trs_ps_grp_code    String?
-  trs_ps_code     String?
-  trs_sub_org_grp_code    String?
-  trs_sub_org_code    String?
-  trs_locked_by    String?
-  trs_locked_time    DateTime?
-  trs_tenant_id    String @default("00000")
-  trs_app_code     String @default("00000")
-  trs_product_code String @default("00000_00000")
-  trs_event_process_status String?
-  trs_event_status         String? 
-
-  @@map("ct003_tob.tob_api_process_logs")
-  
-}
-model tob_pricing_master {
-  id  String @id @default(auto()) @map("_id") @db.ObjectId 
-  pricing_id    Int       
-  tier_name    String?        
-  api_call_min    Int?       
-  api_call_max    Int?       
-  monthly_fee    Float?      
-  price_per_call    Float?      
-  overage_price_per_call    Float?      
-  tpp_limit    Int?       
-  currency    String?        
-  status    String?        
-
-  trs_created_date    DateTime     @default(now())  
-  trs_created_by    String?       
-  trs_modified_date    DateTime     @updatedAt  
-  trs_modified_by    String?              
-  trs_process_id    String?
-  trs_access_profile    String?
-  trs_org_grp_code    String?
-  trs_org_code    String?
-  trs_role_grp_code    String?
-  trs_role_code    String?
-  trs_ps_grp_code    String?
-  trs_ps_code     String?
-  trs_sub_org_grp_code    String?
-  trs_sub_org_code    String?
-  trs_locked_by    String?
-  trs_locked_time    DateTime?
-  trs_tenant_id    String @default("00000")
-  trs_app_code     String @default("00000")
-  trs_product_code String @default("00000_00000")
-  trs_event_process_status String?
-  trs_event_status         String? 
-
-  @@map("ct003_tob.tob_pricing_master")
-  
-}
-model tob_tpp_registry {
-  id  String @id @default(auto()) @map("_id") @db.ObjectId 
-  tpp_id    String        
-  tpp_name    String?        
-  legal_name    String?        
-  client_id    String?        
-  org_id    String?        
-  software_statement_id    String?        
-  pricing_id    String?        
-  tier_name    String?        
-  status    String?        
-  onboarding_date    DateTime?      
-  directory_record_url    String?        
-  jwks_url    String?        
-  redirect_uris    String?        
-  logo_uri    String?        
-  contact_email    String?        
-  is_large_corporate    Boolean?      
-  country    String?        
-  billing_currency    Int?       
-  api_roles  api_roles_tob_tpp_registry?    
-
-  trs_created_date    DateTime     @default(now())  
-  trs_created_by    String?       
-  trs_modified_date    DateTime     @updatedAt  
-  trs_modified_by    String?              
-  trs_process_id    String?
-  trs_access_profile    String?
-  trs_org_grp_code    String?
-  trs_org_code    String?
-  trs_role_grp_code    String?
-  trs_role_code    String?
-  trs_ps_grp_code    String?
-  trs_ps_code     String?
-  trs_sub_org_grp_code    String?
-  trs_sub_org_code    String?
-  trs_locked_by    String?
-  trs_locked_time    DateTime?
-  trs_tenant_id    String @default("00000")
-  trs_app_code     String @default("00000")
-  trs_product_code String @default("00000_00000")
-  trs_event_process_status String?
-  trs_event_status         String? 
-
-  @@map("ct003_tob.tob_tpp_registry")
-  
-}
-model tob_tpp_api_pricing {
-  id  String @id @default(auto()) @map("_id") @db.ObjectId 
-  record_id    String        
-  tpp_id    String?        
-  tpp_name    String?        
-  api_type    String?        
-  api_name    String?        
-  total_calls    Int?       
-  successful_calls    Int?       
-  billable_calls    Int?       
-  pricing_id    String?        
-  base_fee    Float?      
-  usage_charge    Float?      
-  overage_charge    Float?      
-  total_charge    Float?      
-  billing_month    DateTime?      
-  currency    String?        
-
-  trs_created_date    DateTime     @default(now())  
-  trs_created_by    String?       
-  trs_modified_date    DateTime     @updatedAt  
-  trs_modified_by    String?              
-  trs_process_id    String?
-  trs_access_profile    String?
-  trs_org_grp_code    String?
-  trs_org_code    String?
-  trs_role_grp_code    String?
-  trs_role_code    String?
-  trs_ps_grp_code    String?
-  trs_ps_code     String?
-  trs_sub_org_grp_code    String?
-  trs_sub_org_code    String?
-  trs_locked_by    String?
-  trs_locked_time    DateTime?
-  trs_tenant_id    String @default("00000")
-  trs_app_code     String @default("00000")
-  trs_product_code String @default("00000_00000")
-  trs_event_process_status String?
-  trs_event_status         String? 
-
-  @@map("ct003_tob.tob_tpp_api_pricing")
-  
-}
-model tob_tpp_invoice_payments {
-  id  String @id @default(auto()) @map("_id") @db.ObjectId 
-  invoice_payment_id    String        
-  invoice_id    String?        
-  invoice_number    String?        
-  tpp_id    String?        
-  tpp_name    String?        
-  invoice_date    DateTime?      
-  invoice_amount    Float?      
-  payment_date    DateTime?      
-  paid_amount    Float?      
-  pending_amount    Float?      
-  payment_method    String?        
-  payment_reference    String?        
-  payment_status    String?        
-  currency    String?        
-  notes    String?        
-
-  trs_created_date    DateTime     @default(now())  
-  trs_created_by    String?       
-  trs_modified_date    DateTime     @updatedAt  
-  trs_modified_by    String?              
-  trs_process_id    String?
-  trs_access_profile    String?
-  trs_org_grp_code    String?
-  trs_org_code    String?
-  trs_role_grp_code    String?
-  trs_role_code    String?
-  trs_ps_grp_code    String?
-  trs_ps_code     String?
-  trs_sub_org_grp_code    String?
-  trs_sub_org_code    String?
-  trs_locked_by    String?
-  trs_locked_time    DateTime?
-  trs_tenant_id    String @default("00000")
-  trs_app_code     String @default("00000")
-  trs_product_code String @default("00000_00000")
-  trs_event_process_status String?
-  trs_event_status         String? 
-
-  @@map("ct003_tob.tob_tpp_invoice_payments")
-  
-}
-model tob_revenue_summary {
-  id  String @id @default(auto()) @map("_id") @db.ObjectId 
-  summary_id    String        
-  org_code    String?        
-  summary_month    DateTime?      
-  total_revenue    Float?      
-  ytd_revenue    Float?      
-  invoices_raised    Int?       
-  invoices_settled    Int?       
-  invoices_pending    Int?       
-  active_tpp_count    Int?       
-  avg_revenue_per_tpp    Float?      
-  mom_growth_pct    Float?      
-  currency    String?        
-  revenue_by_api_type    revenue_api_type? 
-
-  trs_created_date    DateTime     @default(now())  
-  trs_created_by    String?       
-  trs_modified_date    DateTime     @updatedAt  
-  trs_modified_by    String?              
-  trs_process_id    String?
-  trs_access_profile    String?
-  trs_org_grp_code    String?
-  trs_org_code    String?
-  trs_role_grp_code    String?
-  trs_role_code    String?
-  trs_ps_grp_code    String?
-  trs_ps_code     String?
-  trs_sub_org_grp_code    String?
-  trs_sub_org_code    String?
-  trs_locked_by    String?
-  trs_locked_time    DateTime?
-  trs_tenant_id    String @default("00000")
-  trs_app_code     String @default("00000")
-  trs_product_code String @default("00000_00000")
-  trs_event_process_status String?
-  trs_event_status         String? 
-
-  @@map("ct003_tob.tob_revenue_summary")
-  
-}
-type tob_consent_req{
-  type    String?      
-  consent    tob_request_consent      
-  subscription    tob_subscription_consentreq      
-  }
-type tob_request_consent{
-  baseconsentid    String?      
-  expirationdatetime    DateTime?      
-  transactionfromdatetime    DateTime?      
-  transactiontodatetime    DateTime?      
-  accounttype  accounttype_tob_request_consent[]    
-  accountsubtype  accountsubtype_tob_request_consent[]    
-  onbehalfof    tob_request_onbehalfof      
-  consentid    String?      
-  permissions  permissions_tob_request_consent[]    
-  openfinancebilling    tob_openfinance_billing      
-  }
-type tob_request_onbehalfof{
-  tradingname    String?      
-  legalname    String?      
-  identifiertype  identifiertype_tob_request_onbehalfof?    
-  identifier    String?      
-  }
-type tob_openfinance_billing{
-  usertype  usertype_tob_openfinance_billing?    
-  purpose  purpose_tob_openfinance_billing?    
-  }
-type tob_subscription_consentreq{
-  webhook    tob_subscription_webhook      
-  }
-type tob_subscription_webhook{
-  url    String?      
-  isactive    Boolean?      
-  }
-type tob_consentbody{
-  data    tob_ctbody_data      
-  meta    tob_conbody_multipleauth      
-  subscription    tob_subscription_consentbody      
-  }
-type tob_ctbody_data{
-  baseconsentid    String?      
-  expirationdatetime    String?      
-  transactionfromdatetime    String?      
-  transactiontodatetime    String?      
-  accounttype  accounttype_tob_ctbody_data[]    
-  accountsubtype  accountsubtype_tob_ctbody_data[]    
-  onbehalfof    tob_ctbody_onbehalfof      
-  status  status_tob_ctbody_data?    
-  purpose  purpose_tob_ctbody_data[]    
-  revokedby  revokedby_tob_ctbody_data?    
-  openfinancebilling    tob_ctbody_openfinancebilling      
-  creationdatetime    String?      
-  consentid    String?      
-  permissions  permissions_tob_ctbody_data[]    
-  }
-type tob_conbody_multipleauth{
-  multipleauthorizers    tob_multiauth      
-  }
-type tob_subscription_consentbody{
-  webhook    tob_sub_webhook      
-  }
-type tob_sub_webhook{
-  url    String?      
-  isactive    Boolean?      
-  }
-type tob_multiauth{
-  totalrequired    Int?      
-  authorizations    tob_multiauth_totalreq[]      
-  }
-type tob_multiauth_totalreq{
-  authorizerid    String?      
-  authorizertype    String?      
-  authorizationdate    DateTime?      
-  authorizationstatus  authorizationstatus_tob_multiauth_totalreq?    
-  }
-type tob_ctbody_onbehalfof{
-  tradingname    String?      
-  legalname    String?      
-  identifiertype  identifiertype_tob_ctbody_onbehalfof?    
-  identifier    String?      
-  }
-type tob_ctbody_openfinancebilling{
-  islargecorporate    Boolean?      
-  usertype  usertype_tob_ctbody_openfinancebilling?    
-  purpose  purpose_tob_ctbody_openfinancebilling?    
-  }
-type tob_tpp{
-  clientid    String      
-  tppid    String?      
-  tppname    String?      
-  softwarestatementid    String?      
-  directoryrecord    String?      
-  decodedssa    tob_decodedssa      
-  orgid    String?      
-  }
-type tob_decodedssa{
-  redirect_uris    String[]      
-  client_name    String?      
-  client_uri    String?      
-  logo_uri    String?      
-  jwks_uri    String?      
-  client_id    String?      
-  roles    String[]      
-  sector_identifier_uri    String?      
-  application_type    String?      
-  organisation_id    String?      
-  }
-type tob_psuidentifiers{
-  userid    String?      
-  }
-type revenue_api_type{
-  aisp    Float?      
-  pisp    Float?      
-  cbpii    Float?      
-  }
 
 
-enum authorizationchannel_tob_consent_request{
-    App
-    Web
+model ai_asset_model {
+asset_model_id  BigInt @default(autoincrement())
+model_name  String? 
+model_version  String? 
+model_family_code  String? 
+model_provider  String? 
+training_source  String? 
+grounding_source  String? 
+uses_rag  Boolean 
+vector_store_name  String? 
+last_validated_on  DateTime? 
+next_validation_due  DateTime? 
+is_active  Boolean 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+ai_asset_id   BigInt?  @unique
+ai_asset   ai_asset? @relation(fields: [ai_asset_id], references: [ai_asset_id])  
+
+@@id([asset_model_id])
+@@schema("ct003_tag")
 }
-enum api_roles_tob_tpp_registry{
-    AIS
-    PIS
+
+
+model ai_asset_version {
+asset_version_id  BigInt @default(autoincrement())
+version_no  Int 
+valid_from  DateTime 
+valid_to  DateTime? 
+change_reason  String?  @db.VarChar(length: 400)
+change_type_code  String?  @db.VarChar(length: 50)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+ai_asset_id   BigInt? 
+ai_asset   ai_asset?  @relation(fields: [ai_asset_id], references: [ai_asset_id])  
+
+@@id([asset_version_id])
+@@schema("ct003_tag")
 }
-enum accounttype_tob_request_consent{
-    Retail
-    SME
-    Corporate
+
+
+model ai_asset_tier_assessment {
+tier_assessment_id  BigInt @default(autoincrement())
+assessed_tier_code  String 
+matched_rule_id  BigInt? 
+assessment_type  String 
+previous_tier_code  String? 
+justification  String? 
+approved_by_user_id  BigInt? 
+evaluation_trace  String? 
+assessed_by  String 
+assessed_on  DateTime 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+ai_asset_id   BigInt? 
+ai_asset   ai_asset?  @relation(fields: [ai_asset_id], references: [ai_asset_id])  
+
+@@id([tier_assessment_id])
+@@schema("ct003_tag")
 }
-enum accountsubtype_tob_request_consent{
-    CurrentAccount
-    Savings
+
+
+model ai_asset_data_class {
+asset_data_class_id  BigInt @default(autoincrement())
+data_class_code  String  @db.VarChar(length: 50)
+is_primary  Boolean 
+notes  String?  @db.VarChar(length: 300)
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+ai_asset_id   BigInt? 
+ai_asset   ai_asset?  @relation(fields: [ai_asset_id], references: [ai_asset_id])  
+
+@@id([asset_data_class_id])
+@@schema("ct003_tag")
 }
-enum permissions_tob_request_consent{
-    ReadAccountsBasic
-    ReadParty
-    ReadBalances
-    ReadAccountsDetail
-    ReadProduct
-    ReadDirectDebits
+
+
+model ai_asset_dependency {
+dependency_id  BigInt @default(autoincrement())
+dependency_type_code  String 
+dependency_name  String 
+related_asset_id  BigInt? 
+direction  String @default("&#39;UPSTREAM&#39;::character varying") @db.VarChar(length: 20)
+is_critical  Boolean 
+notes  String? 
+is_active  Boolean 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+ai_asset_id   BigInt? 
+ai_asset   ai_asset?  @relation(fields: [ai_asset_id], references: [ai_asset_id])  
+
+@@id([dependency_id])
+@@schema("ct003_tag")
 }
-enum identifiertype_tob_request_onbehalfof{
-    Other
+
+
+model ai_agent_control {
+agent_control_id  BigInt @default(autoincrement())
+agent_identity_ref  String? 
+identity_provider  String? 
+authority_level_code  String 
+requires_human_approval  Boolean 
+approval_threshold_amt  Int? 
+approval_threshold_ccy  String? 
+max_actions_per_day  Int? 
+kill_switch_state_code  String 
+kill_switch_updated_by  String? 
+kill_switch_updated_on  DateTime? 
+segregation_notes  String? 
+is_active  Boolean 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+ai_asset_id   BigInt?  @unique
+ai_asset   ai_asset? @relation(fields: [ai_asset_id], references: [ai_asset_id])  
+ai_agent_action   ai_agent_action[]    
+
+@@id([agent_control_id])
+@@schema("ct003_tag")
 }
-enum usertype_tob_openfinance_billing{
-    Retail
-    SME
-    Corporate
+
+
+model ai_agent_action {
+agent_action_id  BigInt @default(autoincrement())
+action_name  String 
+target_system  String? 
+tool_or_api  String? 
+is_permitted  Boolean 
+is_high_risk  Boolean 
+approval_required  Boolean 
+limit_description  String? 
+is_active  Boolean 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+agent_control_id   BigInt? 
+ai_agent_control   ai_agent_control?  @relation(fields: [agent_control_id], references: [agent_control_id])  
+
+@@id([agent_action_id])
+@@schema("ct003_tag")
 }
-enum purpose_tob_openfinance_billing{
-    AccountAggregation
-    RiskAssessment
-    TaxFiling
-    Onboarding
-    Verification
-    QuoteComparison
-    BudgetingAnalysis
-    FinancialAdvice
-    AuditReconciliation
+
+
+model audit_event {
+audit_event_id  BigInt @default(autoincrement())
+event_timestamp  DateTime 
+event_type_code  String 
+entity_name  String 
+entity_id  BigInt? 
+actor_user_id  BigInt? 
+actor_login  String? 
+actor_role_code  String? 
+action_summary  String? 
+old_value_json  Json? 
+new_value_json  Json? 
+source_ip  String? 
+session_ref  String? 
+correlation_ref  String? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+ai_asset_id   BigInt? 
+ai_asset   ai_asset?  @relation(fields: [ai_asset_id], references: [ai_asset_id])  
+
+@@id([audit_event_id])
+@@schema("ct003_tag")
 }
-enum accounttype_tob_ctbody_data{
-    Retail
-    SME
+
+
+model cert_template {
+cert_template_id  BigInt 
+template_code  String 
+template_name  String 
+applies_tier_code  String 
+applies_use_case  String? 
+applies_asset_type  String? 
+validity_months  Int 
+template_version  Int 
+effective_from  DateTime 
+effective_to  DateTime? 
+is_active  Boolean 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+cert_template_stage   cert_template_stage[]    
+certification   certification[]    
+
+@@id([cert_template_id])
+@@schema("ct003_tag")
 }
-enum accountsubtype_tob_ctbody_data{
-    CurrentAccount
-    Savings
+
+
+model cert_template_stage {
+template_stage_id  BigInt @default(autoincrement())
+stage_sequence  Int 
+stage_type_code  String 
+stage_name  String 
+approver_role_id  BigInt 
+is_mandatory  Boolean 
+evidence_required  Boolean 
+min_evidence_count  Int 
+sla_days  Int 
+guidance_text  String? 
+is_active  Boolean 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+cert_template_id   BigInt? 
+cert_template   cert_template?  @relation(fields: [cert_template_id], references: [cert_template_id])  
+certification_stage   certification_stage[]    
+
+@@id([template_stage_id])
+@@schema("ct003_tag")
 }
-enum status_tob_ctbody_data{
-    Authorized
-    Rejected
-    Revoked
-    Expired
-    Consumed
-    Suspended
+
+
+model certification {
+certification_id  BigInt @default(autoincrement())
+cert_code  String 
+tier_at_initiation  String 
+cert_status_code  String 
+initiated_by_user_id  BigInt 
+initiated_on  DateTime 
+completed_on  DateTime? 
+effective_date  DateTime? 
+expiry_date  DateTime? 
+is_recertification  Boolean 
+supersedes_cert_id  BigInt? 
+current_stage_seq  Int? 
+overall_decision  String? 
+is_active  Boolean? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+ai_asset_id   BigInt? 
+ai_asset   ai_asset?  @relation(fields: [ai_asset_id], references: [ai_asset_id])  
+cert_template_id   BigInt? 
+cert_template   cert_template?  @relation(fields: [cert_template_id], references: [cert_template_id])  
+certification_stage   certification_stage[]    
+
+@@id([certification_id])
+@@schema("ct003_tag")
 }
-enum purpose_tob_ctbody_data{
-    Account_Aggregation
-    Personal_Finance_Manager
-    Other
+
+
+model certification_condition {
+cert_condition_id  BigInt @default(autoincrement())
+condition_text  String 
+due_date  DateTime? 
+status_code  String 
+closed_on  DateTime? 
+closure_comment  String? 
+is_active  Boolean 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+cert_stage_id   BigInt? 
+certification_stage   certification_stage?  @relation(fields: [cert_stage_id], references: [cert_stage_id])  
+
+@@id([cert_condition_id])
+@@schema("ct003_tag")
 }
-enum revokedby_tob_ctbody_data{
-    LFI
-    TPP
-    LFIInitiatedByUser
-    TPPInitiatedByUser
+
+
+model certification_stage {
+cert_stage_id  BigInt @default(autoincrement())
+stage_sequence  Int 
+stage_type_code  String 
+stage_name  String 
+assigned_role_id  BigInt 
+assigned_user_id  BigInt? 
+stage_status_code  String 
+decision_code  String? 
+decision_comment  String? 
+decided_by_user_id  BigInt? 
+decided_on  DateTime? 
+due_on  DateTime? 
+opened_on  DateTime? 
+evidence_count  Int 
+is_active  Boolean 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+template_stage_id   BigInt? 
+cert_template_stage   cert_template_stage?  @relation(fields: [template_stage_id], references: [template_stage_id])  
+certification_id   BigInt? 
+certification   certification?  @relation(fields: [certification_id], references: [certification_id])  
+certification_condition   certification_condition[]    
+
+@@id([cert_stage_id])
+@@schema("ct003_tag")
 }
-enum permissions_tob_ctbody_data{
-    ReadAccountsBasic
-    ReadAccountsDetail
-    ReadBalances
-    ReadParty
-    ReadProduct
-    ReadDirectDebits
+
+
+model discovery_staging {
+staging_id  BigInt @default(autoincrement())
+external_reference  String 
+raw_payload  String? 
+proposed_name  String? 
+proposed_type_code  String? 
+proposed_bu_id  BigInt? 
+proposed_vendor  String? 
+match_status_code  String? 
+matched_asset_id  BigInt? 
+match_confidence  Int? 
+review_status_code  String 
+reviewed_by_user_id  BigInt? 
+reviewed_on  DateTime? 
+review_comment  String? 
+proposed_bu_name  String? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+integration_run_id   BigInt? 
+integration_run   integration_run?  @relation(fields: [integration_run_id], references: [integration_run_id])  
+integration_source_id   BigInt? 
+integration_source   integration_source?  @relation(fields: [integration_source_id], references: [integration_source_id])  
+
+@@id([staging_id])
+@@schema("ct003_tag")
 }
-enum authorizationstatus_tob_multiauth_totalreq{
-    Pending
-    Approved
-    Rejected
+
+
+model evidence_export {
+export_id  BigInt @default(autoincrement())
+export_code  String 
+export_format_code  String 
+as_at_timestamp  DateTime 
+sections_included  String 
+requested_by_user_id  BigInt 
+requested_on  DateTime 
+completed_on  DateTime? 
+export_status_code  String 
+storage_reference  String? 
+file_hash_sha256  String? 
+page_count  Int? 
+purpose_note  String? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+ai_asset_id   BigInt? 
+ai_asset   ai_asset?  @relation(fields: [ai_asset_id], references: [ai_asset_id])  
+evidence_export_item   evidence_export_item[]    
+
+@@id([export_id])
+@@schema("ct003_tag")
 }
-enum identifiertype_tob_ctbody_onbehalfof{
-    Other
+
+
+model evidence_export_item {
+export_item_id  BigInt @default(autoincrement())
+section_name  String 
+source_entity  String 
+source_record_id  BigInt? 
+source_version_no  Int? 
+item_hash_sha256  String? 
+sequence_no  Int 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+export_id   BigInt? 
+evidence_export   evidence_export?  @relation(fields: [export_id], references: [export_id])  
+
+@@id([export_item_id])
+@@schema("ct003_tag")
 }
-enum usertype_tob_ctbody_openfinancebilling{
-    Retail
-    SME
-    Corporate
+
+
+model evidence_item {
+evidence_id  BigInt @default(autoincrement())
+owner_entity  String? 
+owner_id  BigInt? 
+evidence_type_code  String? 
+title  String? 
+description  String? 
+file_name  String? 
+file_mime_type  String? 
+file_size_bytes  BigInt? 
+storage_reference  String? 
+file_hash_sha256  String? 
+external_url  String? 
+uploaded_by_user_id  BigInt? 
+uploaded_on  DateTime? 
+is_active  Boolean? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+ai_asset_id   BigInt? 
+ai_asset   ai_asset?  @relation(fields: [ai_asset_id], references: [ai_asset_id])  
+
+@@id([evidence_id])
+@@schema("ct003_tag")
 }
-enum purpose_tob_ctbody_openfinancebilling{
-    AccountAggregation
-    RiskAssessment
-    TaxFiling
-    Onboarding
-    Verification
-    QuoteComparison
-    BudgetingAnalysis
-    FinancialAdvice
-    AuditReconciliation
+
+
+model integration_field_map {
+field_map_id  BigInt @default(autoincrement())
+source_field_path  String? 
+target_entity  String? 
+target_attribute  String? 
+transform_rule  String? 
+default_value  String? 
+is_key_field  Boolean? 
+is_mandatory  Boolean? 
+is_active  Boolean? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+integration_source_id   BigInt? 
+integration_source   integration_source?  @relation(fields: [integration_source_id], references: [integration_source_id])  
+
+@@id([field_map_id])
+@@schema("ct003_tag")
 }
+
+
+model integration_run {
+integration_run_id  BigInt @default(autoincrement())
+run_trigger_code  String? 
+started_on  DateTime? 
+ended_on  DateTime? 
+run_status_code  String? 
+records_read  Int? 
+records_new  Int? 
+records_updated  Int? 
+records_rejected  Int? 
+error_summary  String? 
+triggered_by  String? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+discovery_staging   discovery_staging[]    
+integration_source_id   BigInt? 
+integration_source   integration_source?  @relation(fields: [integration_source_id], references: [integration_source_id])  
+
+@@id([integration_run_id])
+@@schema("ct003_tag")
+}
+
+
+model integration_source {
+integration_source_id  BigInt @default(autoincrement())
+source_code  String? 
+source_name  String? 
+source_category_code  String? 
+connector_type_code  String? 
+base_url  String? 
+auth_method_code  String? 
+credential_ref  String? 
+schedule_cron  String? 
+timeout_seconds  String? 
+retry_limit  Int? 
+is_enabled  Boolean? 
+last_run_on  DateTime? 
+last_run_status  String? 
+owner_user_id  BigInt? 
+is_active  Boolean? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+discovery_staging   discovery_staging[]    
+integration_field_map   integration_field_map[]    
+integration_run   integration_run[]    
+
+@@id([integration_source_id])
+@@schema("ct003_tag")
+}
+
+
+model risk_rule {
+risk_rule_id  BigInt @default(autoincrement())
+rule_code  String? 
+rule_name  String? 
+description  String? 
+result_tier_code  String? 
+priority_order  Int? 
+match_mode  String? 
+effective_from  DateTime? 
+effective_to  DateTime? 
+is_active  Boolean? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+risk_rule_condition   risk_rule_condition[]    
+
+@@id([risk_rule_id])
+@@schema("ct003_tag")
+}
+
+
+model risk_rule_condition {
+rule_condition_id  BigInt @default(autoincrement())
+attribute_name  String? 
+operator_code  String? 
+compare_value  String? 
+sequence_no  Int? 
+is_active  Boolean? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+risk_rule_id   BigInt? 
+risk_rule   risk_rule?  @relation(fields: [risk_rule_id], references: [risk_rule_id])  
+
+@@id([rule_condition_id])
+@@schema("ct003_tag")
+}
+
+
+model sys_code_type {
+code_type_id  BigInt @default(autoincrement())
+code_type  String? 
+description  String? 
+is_system  Boolean? 
+is_active  Boolean? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+sys_code_value   sys_code_value[]    
+
+@@id([code_type_id])
+@@schema("ct003_tag")
+}
+
+
+model sys_code_value {
+code_value_id  BigInt @default(autoincrement())
+code  String? 
+display_name  String? 
+description  String? 
+sort_order  Int? 
+colour_hint  String? 
+numeric_weight  Int? 
+is_active  Boolean? 
+trs_created_date  DateTime @default(now())
+trs_created_by  String?  @db.VarChar(length: 64)
+trs_modified_date  DateTime? 
+trs_modified_by  String?  @db.VarChar(length: 64)
+trs_process_id  String?  @db.VarChar(length: 64)
+trs_access_profile  String?  @db.VarChar(length: 32)
+trs_org_grp_code  String?  @db.VarChar(length: 16)
+trs_org_code  String?  @db.VarChar(length: 16)
+trs_role_grp_code  String?  @db.VarChar(length: 64)
+trs_role_code  String?  @db.VarChar(length: 64)
+trs_ps_grp_code  String?  @db.VarChar(length: 64)
+trs_ps_code  String?  @db.VarChar(length: 64)
+trs_sub_org_grp_code  String?  @db.VarChar(length: 16)
+trs_sub_org_code  String?  @db.VarChar(length: 16)
+trs_locked_by  String?  @db.VarChar(length: 64)
+trs_locked_time  DateTime? 
+trs_tenant_id  String  @db.VarChar(length: 16)
+trs_app_code  String  @db.VarChar(length: 16)
+trs_product_code  String  @db.VarChar(length: 16)
+trs_event_process_status  String?  @db.VarChar(length: 64)
+trs_event_status  String?  @db.VarChar(length: 64)
+trs_token_id  String?  @db.VarChar(length: 64)
+trs_version  String?  @db.VarChar(length: 16)
+code_type_id   BigInt? 
+sys_code_type   sys_code_type?  @relation(fields: [code_type_id], references: [code_type_id])  
+
+@@id([code_value_id])
+@@schema("ct003_tag")
+}
+
+
