@@ -88,21 +88,6 @@ const Groupgroup = ({lockedData={},setLockedData,primaryTableData={},tableData=[
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "DEV_AT": {
-    "allowedControls": [
-      "integrationrun_text",
-      "ref_btn",
-      "search_btn",
-      "new_run_btn"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "group",
-      "integration_run"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
   "Executive": {
     "allowedControls": [
       "integrationrun_text",

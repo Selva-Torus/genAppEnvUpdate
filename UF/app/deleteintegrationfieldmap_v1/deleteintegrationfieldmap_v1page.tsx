@@ -27,9 +27,6 @@ export default function PageDeleteintegrationfieldmapV1({ onReady }: { onReady?:
   "Auditor": {
     "blockedGroups": []
   },
-  "DEV_AT": {
-    "blockedGroups": []
-  },
   "Executive": {
     "blockedGroups": []
   },

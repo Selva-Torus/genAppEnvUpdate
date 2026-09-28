@@ -55,7 +55,127 @@ const Groupsource_mapping_grp = ({lockedData={},setLockedData,primaryTableData={
     "method":encryptionMethod
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
-  const securityData:any={};
+  const securityData:any={
+  "AI Product Owner": {
+    "allowedControls": [
+      "source_mapping",
+      "integration_source_id",
+      "source_field_path"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "add_field_map_grp",
+      "source_mapping_grp",
+      "target_mapping_grp",
+      "transformation_grp",
+      "field_rules_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Auditor": {
+    "allowedControls": [
+      "source_mapping",
+      "integration_source_id",
+      "source_field_path"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "add_field_map_grp",
+      "source_mapping_grp",
+      "target_mapping_grp",
+      "transformation_grp",
+      "field_rules_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Executive": {
+    "allowedControls": [
+      "source_mapping",
+      "integration_source_id",
+      "source_field_path"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "add_field_map_grp",
+      "source_mapping_grp",
+      "target_mapping_grp",
+      "transformation_grp",
+      "field_rules_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "FinOps / Operation": {
+    "allowedControls": [
+      "source_mapping",
+      "integration_source_id",
+      "source_field_path"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "add_field_map_grp",
+      "source_mapping_grp",
+      "target_mapping_grp",
+      "transformation_grp",
+      "field_rules_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Model RIsk / Compliance": {
+    "allowedControls": [
+      "source_mapping",
+      "integration_source_id",
+      "source_field_path"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "add_field_map_grp",
+      "source_mapping_grp",
+      "target_mapping_grp",
+      "transformation_grp",
+      "field_rules_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Platform Administrator": {
+    "allowedControls": [
+      "source_mapping",
+      "integration_source_id",
+      "source_field_path"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "add_field_map_grp",
+      "source_mapping_grp",
+      "target_mapping_grp",
+      "transformation_grp",
+      "field_rules_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Security (CISO Office)": {
+    "allowedControls": [
+      "source_mapping",
+      "integration_source_id",
+      "source_field_path"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "add_field_map_grp",
+      "source_mapping_grp",
+      "target_mapping_grp",
+      "transformation_grp",
+      "field_rules_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  }
+};
   const prevRefreshRef = useRef(false);
   const handleOnloadCalledRef = useRef(false);
   const securityCheckPromiseRef = useRef<Promise<any> | null>(null);

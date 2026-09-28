@@ -27,9 +27,6 @@ export default function PageDeletecodevalueV1({ onReady }: { onReady?: () => voi
   "Auditor": {
     "blockedGroups": []
   },
-  "DEV_AT": {
-    "blockedGroups": []
-  },
   "Executive": {
     "blockedGroups": []
   },

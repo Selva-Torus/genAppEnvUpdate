@@ -124,33 +124,6 @@ const Groupinegration_run_group = ({lockedData={},setLockedData,primaryTableData
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "DEV_AT": {
-    "allowedControls": [
-      "delete_header_text",
-      "divider_1",
-      "del_run_id",
-      "integration_run_id",
-      "del_intergration_sorucename",
-      "integration_source_name",
-      "run_trigger_code",
-      "del_trigger",
-      "del_start_on",
-      "stared_on",
-      "del_status",
-      "run_status_code",
-      "del_action",
-      "divider_2",
-      "integration_run_id_text",
-      "cancel_btn",
-      "del_btn"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "inegration_run_group"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
   "Executive": {
     "allowedControls": [
       "delete_header_text",

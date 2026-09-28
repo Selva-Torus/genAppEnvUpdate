@@ -5435,9 +5435,10 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "business_unit_name",
             "business_unit_name",
             "business_owner_name",
-            "business_owner_name",
+            "business_owner_job_title",
             "business_owner_job_title",
             "technical_owner_name",
+            "technical_owner_job_title",
             "technical_owner_job_title",
       ]
       }) 
@@ -30025,9 +30026,10 @@ const GlobalContext = ({children} : {children: React.ReactNode}) => {
             "business_unit_name",
             "business_unit_name",
             "business_owner_name",
-            "business_owner_name",
+            "business_owner_job_title",
             "business_owner_job_title",
             "technical_owner_name",
+            "technical_owner_job_title",
             "technical_owner_job_title",
       ]
       }) 

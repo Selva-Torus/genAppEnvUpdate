@@ -94,26 +94,6 @@ const Groupintegration_field_map_table = ({lockedData={},setLockedData,primaryTa
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "DEV_AT": {
-    "allowedControls": [
-      "field_map_id",
-      "source_field_path",
-      "target_entity",
-      "target_attribute",
-      "transform_rule",
-      "is_active",
-      "view_btn",
-      "edit_btn",
-      "del_btn"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "integration_field_map_grp",
-      "integration_field_map_table"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
   "Executive": {
     "allowedControls": [
       "field_map_id",

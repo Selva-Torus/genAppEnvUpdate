@@ -58,7 +58,141 @@ const Grouptemplate_detail_group = ({lockedData={},setLockedData,primaryTableDat
     "method":encryptionMethod
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
-  const securityData:any={};
+  const securityData:any={
+  "AI Product Owner": {
+    "allowedControls": [
+      "text",
+      "template_name",
+      "template_code",
+      "template_version",
+      "applies_tier_code",
+      "applies_use_case",
+      "applies_asset_type"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "template_detail_group",
+      "additional_info_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Auditor": {
+    "allowedControls": [
+      "text",
+      "template_name",
+      "template_code",
+      "template_version",
+      "applies_tier_code",
+      "applies_use_case",
+      "applies_asset_type"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "template_detail_group",
+      "additional_info_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Executive": {
+    "allowedControls": [
+      "text",
+      "template_name",
+      "template_code",
+      "template_version",
+      "applies_tier_code",
+      "applies_use_case",
+      "applies_asset_type"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "template_detail_group",
+      "additional_info_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "FinOps / Operation": {
+    "allowedControls": [
+      "text",
+      "template_name",
+      "template_code",
+      "template_version",
+      "applies_tier_code",
+      "applies_use_case",
+      "applies_asset_type"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "template_detail_group",
+      "additional_info_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Model RIsk / Compliance": {
+    "allowedControls": [
+      "text",
+      "template_name",
+      "template_code",
+      "template_version",
+      "applies_tier_code",
+      "applies_use_case",
+      "applies_asset_type"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "template_detail_group",
+      "additional_info_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Platform Administrator": {
+    "allowedControls": [
+      "text",
+      "template_name",
+      "template_code",
+      "template_version",
+      "applies_tier_code",
+      "applies_use_case",
+      "applies_asset_type"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "template_detail_group",
+      "additional_info_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Security (CISO Office)": {
+    "allowedControls": [
+      "text",
+      "template_name",
+      "template_code",
+      "template_version",
+      "applies_tier_code",
+      "applies_use_case",
+      "applies_asset_type"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "template_detail_group",
+      "additional_info_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  }
+};
   const prevRefreshRef = useRef(false);
   const handleOnloadCalledRef = useRef(false);
   const securityCheckPromiseRef = useRef<Promise<any> | null>(null);

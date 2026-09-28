@@ -59,6 +59,7 @@ const Dropdownbusiness_owner_job_title = ({lockedData,setLockedData,checkToAdd,s
   const decodedTokenObj: any = decodeToken(token);
   const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
   const {memoryVariables, setMemoryVariables} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_businessownercombo_v1Props, setdfd_businessownercombo_v1Props} = useContext(TotalContext) as TotalContextProps; 
   const { validate, setValidate } = useContext(
     TotalContext
   ) as TotalContextProps

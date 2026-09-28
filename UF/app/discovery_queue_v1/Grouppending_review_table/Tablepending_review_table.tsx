@@ -220,7 +220,99 @@ const Tablepending_review_table = ({ headerButtonsRenders=()=>{return<></>},head
   const {discoveryqueue_v1Props, setdiscoveryqueue_v1Props} = useContext(TotalContext) as TotalContextProps;
   const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps
   const [translatedColumns,setTranslatedColumns]= useState<any>([])
-  const securityData:any={}
+  const securityData:any={
+  "AI Product Owner": {
+    "allowedControls": [
+      "proposed_name",
+      "external_reference",
+      "source_code",
+      "proposed_type_code",
+      "suggested_unit",
+      "match_status_code",
+      "confirm"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Auditor": {
+    "allowedControls": [
+      "proposed_name",
+      "external_reference",
+      "source_code",
+      "proposed_type_code",
+      "suggested_unit",
+      "match_status_code",
+      "confirm"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Executive": {
+    "allowedControls": [
+      "proposed_name",
+      "external_reference",
+      "source_code",
+      "proposed_type_code",
+      "suggested_unit",
+      "match_status_code",
+      "confirm"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "FinOps / Operation": {
+    "allowedControls": [
+      "proposed_name",
+      "external_reference",
+      "source_code",
+      "proposed_type_code",
+      "suggested_unit",
+      "match_status_code",
+      "confirm"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Model RIsk / Compliance": {
+    "allowedControls": [
+      "proposed_name",
+      "external_reference",
+      "source_code",
+      "proposed_type_code",
+      "suggested_unit",
+      "match_status_code",
+      "confirm"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Platform Administrator": {
+    "allowedControls": [
+      "proposed_name",
+      "external_reference",
+      "source_code",
+      "proposed_type_code",
+      "suggested_unit",
+      "match_status_code",
+      "confirm"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Security (CISO Office)": {
+    "allowedControls": [
+      "proposed_name",
+      "external_reference",
+      "source_code",
+      "proposed_type_code",
+      "suggested_unit",
+      "match_status_code",
+      "confirm"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  }
+}
   const encryptionFlagCont: boolean = encryptionFlagCompData.flag || false ;
   let encryptionDpd: string = "";
   encryptionDpd = encryptionDpd !=='' ? encryptionDpd: encryptionFlagCompData.dpd

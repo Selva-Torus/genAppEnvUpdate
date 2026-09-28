@@ -100,29 +100,6 @@ const Groupintegration_source = ({lockedData={},setLockedData,primaryTableData={
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "DEV_AT": {
-    "allowedControls": [
-      "integration_source_id",
-      "source_code",
-      "source_name",
-      "source_category_code",
-      "connector_type_code",
-      "auth_method_code",
-      "last_run_at",
-      "view_btn",
-      "edit_btn",
-      "delete_btn",
-      "last_run_status"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "overall_ai_asset_registry",
-      "integration_group",
-      "integration_source"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
   "Executive": {
     "allowedControls": [
       "integration_source_id",

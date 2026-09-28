@@ -27,9 +27,6 @@ export default function PageIntegrationSourceV1({ onReady }: { onReady?: () => v
   "Auditor": {
     "blockedGroups": []
   },
-  "DEV_AT": {
-    "blockedGroups": []
-  },
   "Executive": {
     "blockedGroups": []
   },

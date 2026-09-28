@@ -57,7 +57,106 @@ const Groupadd_group = ({lockedData={},setLockedData,primaryTableData={},tableDa
     "method":encryptionMethod
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
-  const securityData:any={};
+  const securityData:any={
+  "AI Product Owner": {
+    "allowedControls": [],
+    "allowedGroups": [
+      "canvas",
+      "add_group",
+      "source_details_grp",
+      "connect_group",
+      "scheduler_retry_grp",
+      "ownership_ststus_grp",
+      "last_run_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Auditor": {
+    "allowedControls": [],
+    "allowedGroups": [
+      "canvas",
+      "add_group",
+      "source_details_grp",
+      "connect_group",
+      "scheduler_retry_grp",
+      "ownership_ststus_grp",
+      "last_run_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Executive": {
+    "allowedControls": [],
+    "allowedGroups": [
+      "canvas",
+      "add_group",
+      "source_details_grp",
+      "connect_group",
+      "scheduler_retry_grp",
+      "ownership_ststus_grp",
+      "last_run_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "FinOps / Operation": {
+    "allowedControls": [],
+    "allowedGroups": [
+      "canvas",
+      "add_group",
+      "source_details_grp",
+      "connect_group",
+      "scheduler_retry_grp",
+      "ownership_ststus_grp",
+      "last_run_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Model RIsk / Compliance": {
+    "allowedControls": [],
+    "allowedGroups": [
+      "canvas",
+      "add_group",
+      "source_details_grp",
+      "connect_group",
+      "scheduler_retry_grp",
+      "ownership_ststus_grp",
+      "last_run_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Platform Administrator": {
+    "allowedControls": [],
+    "allowedGroups": [
+      "canvas",
+      "add_group",
+      "source_details_grp",
+      "connect_group",
+      "scheduler_retry_grp",
+      "ownership_ststus_grp",
+      "last_run_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Security (CISO Office)": {
+    "allowedControls": [],
+    "allowedGroups": [
+      "canvas",
+      "add_group",
+      "source_details_grp",
+      "connect_group",
+      "scheduler_retry_grp",
+      "ownership_ststus_grp",
+      "last_run_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  }
+};
   const prevRefreshRef = useRef(false);
   const handleOnloadCalledRef = useRef(false);
   const securityCheckPromiseRef = useRef<Promise<any> | null>(null);

@@ -233,7 +233,10 @@ export function useHandleDfdRefresh(){
             if("business_unit_namedc698"==nodename){
                 dfdRefreshContext("CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:businessUnitCombo:AFVK:v1",setdfd_businessunitcombo_v1Props,page,count,dpdEncryption,toast,token);
             }
-            if("business_owner_namedae55"==nodename){
+            if("business_owner_job_title3ca37"==nodename){
+                dfdRefreshContext("CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:businessOwnerCombo:AFVK:v1",setdfd_businessownercombo_v1Props,page,count,dpdEncryption,toast,token);
+            }
+            if("technical_owner_job_title5bb64"==nodename){
                 dfdRefreshContext("CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:businessOwnerCombo:AFVK:v1",setdfd_businessownercombo_v1Props,page,count,dpdEncryption,toast,token);
             }
             if("vendor_name42147"==nodename){

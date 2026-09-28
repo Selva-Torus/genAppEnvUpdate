@@ -634,7 +634,7 @@
       },
       {
         "sourceKey": [
-          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:businessUnitCombo:AFVK:v1|1c6753133ca647a1bdb14b959b47ee42|responses.200.content.application/json.schema.items.properties.orgCode"
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:businessUnitCombo:AFVK:v1|1c6753133ca647a1bdb14b959b47ee42|responses.200.content.application/json.schema.items.properties.orgName"
         ],
         "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:registerAIAsset:AFVK:v1|c18bc18c1da4401985df71e1cedf52d5|bff954abe86e45df9705ac16afadc698|text"
       }
@@ -644,25 +644,25 @@
   "c51e9f79e44b49ecbc75ce110f9dae55": {
     "source": "business_owner_name",
     "target": "business_owner_name",
-    "mapper": [
-      {
-        "sourceKey": [
-          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:businessOwnerCombo:AFVK:v1|c6850586cb8b1e808db0f83801a8cc88|responses.200.content.application/json.schema.items.properties.loginId"
-        ],
-        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:registerAIAsset:AFVK:v1|c18bc18c1da4401985df71e1cedf52d5|c51e9f79e44b49ecbc75ce110f9dae55|text"
-      },
-      {
-        "sourceKey": [
-          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:businessOwnerCombo:AFVK:v1|c6850586cb8b1e808db0f83801a8cc88|responses.200.content.application/json.schema.items.properties.loginId"
-        ],
-        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:registerAIAsset:AFVK:v1|c18bc18c1da4401985df71e1cedf52d5|c51e9f79e44b49ecbc75ce110f9dae55|value"
-      }
-    ],
     "controlName": "business_owner_name"
   },
   "f3ddbccdbb924739b179901794a3ca37": {
     "source": "business_owner_job_title",
     "target": "business_owner_job_title",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:businessOwnerCombo:AFVK:v1|c6850586cb8b1e808db0f83801a8cc88|responses.200.content.application/json.schema.items.properties.user_additional_details"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:registerAIAsset:AFVK:v1|c18bc18c1da4401985df71e1cedf52d5|f3ddbccdbb924739b179901794a3ca37|text"
+      },
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:businessOwnerCombo:AFVK:v1|c6850586cb8b1e808db0f83801a8cc88|responses.200.content.application/json.schema.items.properties.user_additional_details"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:registerAIAsset:AFVK:v1|c18bc18c1da4401985df71e1cedf52d5|f3ddbccdbb924739b179901794a3ca37|value"
+      }
+    ],
     "controlName": "business_owner_job_title"
   },
   "ac4916a0e36b4010b11b906410114230": {
@@ -673,6 +673,20 @@
   "bd6143d01f8f4040857fba37c875bb64": {
     "source": "technical_owner_job_title",
     "target": "technical_owner_job_title",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:businessOwnerCombo:AFVK:v1|c6850586cb8b1e808db0f83801a8cc88|responses.200.content.application/json.schema.items.properties.user_additional_details"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:registerAIAsset:AFVK:v1|c18bc18c1da4401985df71e1cedf52d5|bd6143d01f8f4040857fba37c875bb64|text"
+      },
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:businessOwnerCombo:AFVK:v1|c6850586cb8b1e808db0f83801a8cc88|responses.200.content.application/json.schema.items.properties.user_additional_details"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:registerAIAsset:AFVK:v1|c18bc18c1da4401985df71e1cedf52d5|bd6143d01f8f4040857fba37c875bb64|value"
+      }
+    ],
     "controlName": "technical_owner_job_title"
   },
   "ownership_groupf52d5": [
@@ -680,9 +694,10 @@
     "business_unit_name",
     "business_unit_name",
     "business_owner_name",
-    "business_owner_name",
+    "business_owner_job_title",
     "business_owner_job_title",
     "technical_owner_name",
+    "technical_owner_job_title",
     "technical_owner_job_title"
   ],
   "7dcc6206ba864f7281611929b5cd389b": {

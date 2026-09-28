@@ -76,17 +76,6 @@ const Groupgroup = ({lockedData={},setLockedData,primaryTableData={},tableData=[
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "DEV_AT": {
-    "allowedControls": [
-      "advancesearch"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "group"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
   "Executive": {
     "allowedControls": [
       "advancesearch"

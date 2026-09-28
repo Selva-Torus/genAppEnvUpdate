@@ -88,21 +88,6 @@ const Groupintegration_field_map_grp = ({lockedData={},setLockedData,primaryTabl
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "DEV_AT": {
-    "allowedControls": [
-      "integration_field_map",
-      "ref_btn",
-      "search_btn",
-      "new_integration_field_map"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "integration_field_map_grp",
-      "integration_field_map_table"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
   "Executive": {
     "allowedControls": [
       "integration_field_map",

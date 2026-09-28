@@ -358,7 +358,7 @@ const LayoutDecider = ({
         for (const screen of newItem.screenDetails) {
           if (screen.static) validScreens.push(screen)
           if (screen.key && !screen.static) {
-            const isValid: boolean = screen.restrictedAccessProfile.includes(user) ? false : true
+            const isValid: boolean = screen?.restrictedAccessProfile?.includes(user) ? false : true
             if (isValid) validScreens.push(screen)
           }
         }

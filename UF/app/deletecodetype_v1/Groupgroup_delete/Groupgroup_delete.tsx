@@ -121,32 +121,6 @@ const Groupgroup_delete = ({lockedData={},setLockedData,primaryTableData={},tabl
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "DEV_AT": {
-    "allowedControls": [
-      "delete_heading_text",
-      "divider_s",
-      "del_code_type_id",
-      "code_type_id",
-      "del_code_type",
-      "code_type",
-      "description_type",
-      "description",
-      "system_code_type",
-      "is_system",
-      "is_active",
-      "active_type",
-      "confo_text",
-      "divider",
-      "cancel_button",
-      "ok_button"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "group_delete"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
   "Executive": {
     "allowedControls": [
       "delete_heading_text",

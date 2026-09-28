@@ -55,7 +55,113 @@ const Groupcode_type_information = ({lockedData={},setLockedData,primaryTableDat
     "method":encryptionMethod
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
-  const securityData:any={};
+  const securityData:any={
+  "AI Product Owner": {
+    "allowedControls": [
+      "code_type",
+      "description",
+      "is_system",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "code_type_information"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Auditor": {
+    "allowedControls": [
+      "code_type",
+      "description",
+      "is_system",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "code_type_information"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Executive": {
+    "allowedControls": [
+      "code_type",
+      "description",
+      "is_system",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "code_type_information"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "FinOps / Operation": {
+    "allowedControls": [
+      "code_type",
+      "description",
+      "is_system",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "code_type_information"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Model RIsk / Compliance": {
+    "allowedControls": [
+      "code_type",
+      "description",
+      "is_system",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "code_type_information"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Platform Administrator": {
+    "allowedControls": [
+      "code_type",
+      "description",
+      "is_system",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "code_type_information"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Security (CISO Office)": {
+    "allowedControls": [
+      "code_type",
+      "description",
+      "is_system",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "code_type_information"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  }
+};
   const prevRefreshRef = useRef(false);
   const handleOnloadCalledRef = useRef(false);
   const securityCheckPromiseRef = useRef<Promise<any> | null>(null);

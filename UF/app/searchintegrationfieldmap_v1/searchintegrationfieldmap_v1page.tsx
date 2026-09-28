@@ -27,9 +27,6 @@ export default function PageSearchintegrationfieldmapV1({ onReady }: { onReady?:
   "Auditor": {
     "blockedGroups": []
   },
-  "DEV_AT": {
-    "blockedGroups": []
-  },
   "Executive": {
     "blockedGroups": []
   },

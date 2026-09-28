@@ -53,7 +53,85 @@ const Groupadvance_search_grp = ({lockedData={},setLockedData,primaryTableData={
     "method":encryptionMethod
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
-  const securityData:any={};
+  const securityData:any={
+  "AI Product Owner": {
+    "allowedControls": [
+      "advancesearch"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "advance_search_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Auditor": {
+    "allowedControls": [
+      "advancesearch"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "advance_search_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Executive": {
+    "allowedControls": [
+      "advancesearch"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "advance_search_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "FinOps / Operation": {
+    "allowedControls": [
+      "advancesearch"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "advance_search_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Model RIsk / Compliance": {
+    "allowedControls": [
+      "advancesearch"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "advance_search_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Platform Administrator": {
+    "allowedControls": [
+      "advancesearch"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "advance_search_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Security (CISO Office)": {
+    "allowedControls": [
+      "advancesearch"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "advance_search_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  }
+};
   const prevRefreshRef = useRef(false);
   const handleOnloadCalledRef = useRef(false);
   const securityCheckPromiseRef = useRef<Promise<any> | null>(null);

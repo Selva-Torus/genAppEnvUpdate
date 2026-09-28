@@ -54,7 +54,127 @@ const Grouprejecte_on_ingest_group = ({lockedData={},setLockedData,primaryTableD
     "method":encryptionMethod
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
-  const securityData:any={};
+  const securityData:any={
+  "AI Product Owner": {
+    "allowedControls": [
+      "rejected_on_ingest_card"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "overall_discovery_queue_group",
+      "discovery_queue_text_group",
+      "awaiting_review_group",
+      "possible_duplicate_group",
+      "rejecte_on_ingest_group",
+      "pending_review_group",
+      "pending_review_table"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Auditor": {
+    "allowedControls": [
+      "rejected_on_ingest_card"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "overall_discovery_queue_group",
+      "discovery_queue_text_group",
+      "awaiting_review_group",
+      "possible_duplicate_group",
+      "rejecte_on_ingest_group",
+      "pending_review_group",
+      "pending_review_table"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Executive": {
+    "allowedControls": [
+      "rejected_on_ingest_card"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "overall_discovery_queue_group",
+      "discovery_queue_text_group",
+      "awaiting_review_group",
+      "possible_duplicate_group",
+      "rejecte_on_ingest_group",
+      "pending_review_group",
+      "pending_review_table"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "FinOps / Operation": {
+    "allowedControls": [
+      "rejected_on_ingest_card"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "overall_discovery_queue_group",
+      "discovery_queue_text_group",
+      "awaiting_review_group",
+      "possible_duplicate_group",
+      "rejecte_on_ingest_group",
+      "pending_review_group",
+      "pending_review_table"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Model RIsk / Compliance": {
+    "allowedControls": [
+      "rejected_on_ingest_card"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "overall_discovery_queue_group",
+      "discovery_queue_text_group",
+      "awaiting_review_group",
+      "possible_duplicate_group",
+      "rejecte_on_ingest_group",
+      "pending_review_group",
+      "pending_review_table"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Platform Administrator": {
+    "allowedControls": [
+      "rejected_on_ingest_card"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "overall_discovery_queue_group",
+      "discovery_queue_text_group",
+      "awaiting_review_group",
+      "possible_duplicate_group",
+      "rejecte_on_ingest_group",
+      "pending_review_group",
+      "pending_review_table"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Security (CISO Office)": {
+    "allowedControls": [
+      "rejected_on_ingest_card"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "overall_discovery_queue_group",
+      "discovery_queue_text_group",
+      "awaiting_review_group",
+      "possible_duplicate_group",
+      "rejecte_on_ingest_group",
+      "pending_review_group",
+      "pending_review_table"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  }
+};
   const prevRefreshRef = useRef(false);
   const handleOnloadCalledRef = useRef(false);
   const securityCheckPromiseRef = useRef<Promise<any> | null>(null);

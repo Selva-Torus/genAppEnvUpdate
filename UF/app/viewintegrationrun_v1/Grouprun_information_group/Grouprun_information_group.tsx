@@ -55,7 +55,134 @@ const Grouprun_information_group = ({lockedData={},setLockedData,primaryTableDat
     "method":encryptionMethod
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
-  const securityData:any={};
+  const securityData:any={
+  "AI Product Owner": {
+    "allowedControls": [
+      "run_information_text",
+      "integration_sorce",
+      "run_trigger_code",
+      "triggered_by"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "inegration_run_group",
+      "run_information_group",
+      "timeandstatus_group",
+      "record_group",
+      "error_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Auditor": {
+    "allowedControls": [
+      "run_information_text",
+      "integration_sorce",
+      "run_trigger_code",
+      "triggered_by"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "inegration_run_group",
+      "run_information_group",
+      "timeandstatus_group",
+      "record_group",
+      "error_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Executive": {
+    "allowedControls": [
+      "run_information_text",
+      "integration_sorce",
+      "run_trigger_code",
+      "triggered_by"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "inegration_run_group",
+      "run_information_group",
+      "timeandstatus_group",
+      "record_group",
+      "error_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "FinOps / Operation": {
+    "allowedControls": [
+      "run_information_text",
+      "integration_sorce",
+      "run_trigger_code",
+      "triggered_by"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "inegration_run_group",
+      "run_information_group",
+      "timeandstatus_group",
+      "record_group",
+      "error_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Model RIsk / Compliance": {
+    "allowedControls": [
+      "run_information_text",
+      "integration_sorce",
+      "run_trigger_code",
+      "triggered_by"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "inegration_run_group",
+      "run_information_group",
+      "timeandstatus_group",
+      "record_group",
+      "error_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Platform Administrator": {
+    "allowedControls": [
+      "run_information_text",
+      "integration_sorce",
+      "run_trigger_code",
+      "triggered_by"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "inegration_run_group",
+      "run_information_group",
+      "timeandstatus_group",
+      "record_group",
+      "error_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Security (CISO Office)": {
+    "allowedControls": [
+      "run_information_text",
+      "integration_sorce",
+      "run_trigger_code",
+      "triggered_by"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "inegration_run_group",
+      "run_information_group",
+      "timeandstatus_group",
+      "record_group",
+      "error_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  }
+};
   const prevRefreshRef = useRef(false);
   const handleOnloadCalledRef = useRef(false);
   const securityCheckPromiseRef = useRef<Promise<any> | null>(null);

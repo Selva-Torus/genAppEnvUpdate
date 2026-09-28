@@ -55,7 +55,127 @@ const Grouptransformation_grp = ({lockedData={},setLockedData,primaryTableData={
     "method":encryptionMethod
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
-  const securityData:any={};
+  const securityData:any={
+  "AI Product Owner": {
+    "allowedControls": [
+      "transformation_text",
+      "transform_rule",
+      "default_value"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "add_field_map_grp",
+      "source_mapping_grp",
+      "target_mapping_grp",
+      "transformation_grp",
+      "field_rules_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Auditor": {
+    "allowedControls": [
+      "transformation_text",
+      "transform_rule",
+      "default_value"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "add_field_map_grp",
+      "source_mapping_grp",
+      "target_mapping_grp",
+      "transformation_grp",
+      "field_rules_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Executive": {
+    "allowedControls": [
+      "transformation_text",
+      "transform_rule",
+      "default_value"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "add_field_map_grp",
+      "source_mapping_grp",
+      "target_mapping_grp",
+      "transformation_grp",
+      "field_rules_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "FinOps / Operation": {
+    "allowedControls": [
+      "transformation_text",
+      "transform_rule",
+      "default_value"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "add_field_map_grp",
+      "source_mapping_grp",
+      "target_mapping_grp",
+      "transformation_grp",
+      "field_rules_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Model RIsk / Compliance": {
+    "allowedControls": [
+      "transformation_text",
+      "transform_rule",
+      "default_value"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "add_field_map_grp",
+      "source_mapping_grp",
+      "target_mapping_grp",
+      "transformation_grp",
+      "field_rules_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Platform Administrator": {
+    "allowedControls": [
+      "transformation_text",
+      "transform_rule",
+      "default_value"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "add_field_map_grp",
+      "source_mapping_grp",
+      "target_mapping_grp",
+      "transformation_grp",
+      "field_rules_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Security (CISO Office)": {
+    "allowedControls": [
+      "transformation_text",
+      "transform_rule",
+      "default_value"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "add_field_map_grp",
+      "source_mapping_grp",
+      "target_mapping_grp",
+      "transformation_grp",
+      "field_rules_grp"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  }
+};
   const prevRefreshRef = useRef(false);
   const handleOnloadCalledRef = useRef(false);
   const securityCheckPromiseRef = useRef<Promise<any> | null>(null);

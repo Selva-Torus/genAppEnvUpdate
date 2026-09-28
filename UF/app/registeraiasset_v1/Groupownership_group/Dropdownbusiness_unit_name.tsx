@@ -132,7 +132,7 @@ const Dropdownbusiness_unit_name = ({lockedData,setLockedData,checkToAdd,setChec
 
   const getDropdownData = async(value?:any, page: number = 1, skipAutoSet: boolean = false)=>{
     let mapperValue: string =  `orgName`
-    let mapperText: string =  `orgCode`
+    let mapperText: string =  `orgName`
     bindtranValue = value;
     let searchFilterData: Record<string, any> ={};
     //copySourceValue
@@ -269,9 +269,9 @@ const Dropdownbusiness_unit_name = ({lockedData,setLockedData,checkToAdd,setChec
     let tempValue:any=""
     if(ownership_groupf52d5.business_unit_name){
       if(Array.isArray(dfd_businessunitcombo_v1Props)){
-        if(dfd_businessunitcombo_v1Props?.find((item: any) => item.orgCode === ownership_groupf52d5.business_unit_name)){
-          setdropdownValue([dfd_businessunitcombo_v1Props?.find((item: any) => item.orgCode === ownership_groupf52d5.business_unit_name)?.orgName])
-          tempValue=dfd_businessunitcombo_v1Props?.find((item: any) => item.orgCode === ownership_groupf52d5.business_unit_name)?.orgName
+        if(dfd_businessunitcombo_v1Props?.find((item: any) => item.orgName === ownership_groupf52d5.business_unit_name)){
+          setdropdownValue([dfd_businessunitcombo_v1Props?.find((item: any) => item.orgName === ownership_groupf52d5.business_unit_name)?.orgName])
+          tempValue=dfd_businessunitcombo_v1Props?.find((item: any) => item.orgName === ownership_groupf52d5.business_unit_name)?.orgName
         }else{
           setdropdownValue([ownership_groupf52d5.business_unit_name])
           tempValue=ownership_groupf52d5.business_unit_name
@@ -284,7 +284,7 @@ const Dropdownbusiness_unit_name = ({lockedData,setLockedData,checkToAdd,setChec
           key:dstKey,
           page:currentPage,
           count:PAGE_SIZE,
-          searchFilter:{orgCode:ownership_groupf52d5.business_unit_name}
+          searchFilter:{orgName:ownership_groupf52d5.business_unit_name}
         },
         {
           headers: {
@@ -297,9 +297,9 @@ const Dropdownbusiness_unit_name = ({lockedData,setLockedData,checkToAdd,setChec
         toast(api_paginationData?.data?.errorDetails?.message, 'danger')
         return
       }
-      if(api_paginationData?.data?.records?.find((item: any) => item.orgCode === ownership_groupf52d5.business_unit_name)){
-        setdropdownValue([api_paginationData?.data?.records?.find((item: any) => item.orgCode === ownership_groupf52d5.business_unit_name)?.orgName ])
-        tempValue=api_paginationData?.data?.records?.find((item: any) => item.orgCode === ownership_groupf52d5.business_unit_name)?.orgName
+      if(api_paginationData?.data?.records?.find((item: any) => item.orgName === ownership_groupf52d5.business_unit_name)){
+        setdropdownValue([api_paginationData?.data?.records?.find((item: any) => item.orgName === ownership_groupf52d5.business_unit_name)?.orgName ])
+        tempValue=api_paginationData?.data?.records?.find((item: any) => item.orgName === ownership_groupf52d5.business_unit_name)?.orgName
       }else{
         setdropdownValue([ownership_groupf52d5.business_unit_name])
         tempValue=ownership_groupf52d5.business_unit_name
@@ -355,11 +355,10 @@ const Dropdownbusiness_unit_name = ({lockedData,setLockedData,checkToAdd,setChec
     setValidate((pre:any)=>({...pre,registerAIAsset_v1:{...pre?.registerAIAsset_v1,business_unit_name:undefined}}));
    
     //dynamic 
-    let selectedObj=dfData?.find((items:any)=>(items?.orgCode==getMapperDetailsBindValues[value] && items?.orgName==value)) || {}
+    let selectedObj=dfData?.find((items:any)=>(items?.orgName==getMapperDetailsBindValues[value] && items?.orgName==value)) || {}
     selected.current={
       ...selectedObj||{},
-      orgName:value,
-      orgCode:getMapperDetailsBindValues[value]
+      orgName:getMapperDetailsBindValues[value]
     }
     customecode = allCode
     if (customecode != '') {

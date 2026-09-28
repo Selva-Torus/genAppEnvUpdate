@@ -56,7 +56,141 @@ const Grouprecord_group = ({lockedData={},setLockedData,primaryTableData={},tabl
     "method":encryptionMethod
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
-  const securityData:any={};
+  const securityData:any={
+  "AI Product Owner": {
+    "allowedControls": [
+      "record_counts",
+      "records_read",
+      "records_new",
+      "records_updated",
+      "records_rejected"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "inegration_run_group",
+      "run_information_group",
+      "timeandstatus_group",
+      "record_group",
+      "error_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Auditor": {
+    "allowedControls": [
+      "record_counts",
+      "records_read",
+      "records_new",
+      "records_updated",
+      "records_rejected"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "inegration_run_group",
+      "run_information_group",
+      "timeandstatus_group",
+      "record_group",
+      "error_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Executive": {
+    "allowedControls": [
+      "record_counts",
+      "records_read",
+      "records_new",
+      "records_updated",
+      "records_rejected"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "inegration_run_group",
+      "run_information_group",
+      "timeandstatus_group",
+      "record_group",
+      "error_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "FinOps / Operation": {
+    "allowedControls": [
+      "record_counts",
+      "records_read",
+      "records_new",
+      "records_updated",
+      "records_rejected"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "inegration_run_group",
+      "run_information_group",
+      "timeandstatus_group",
+      "record_group",
+      "error_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Model RIsk / Compliance": {
+    "allowedControls": [
+      "record_counts",
+      "records_read",
+      "records_new",
+      "records_updated",
+      "records_rejected"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "inegration_run_group",
+      "run_information_group",
+      "timeandstatus_group",
+      "record_group",
+      "error_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Platform Administrator": {
+    "allowedControls": [
+      "record_counts",
+      "records_read",
+      "records_new",
+      "records_updated",
+      "records_rejected"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "inegration_run_group",
+      "run_information_group",
+      "timeandstatus_group",
+      "record_group",
+      "error_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Security (CISO Office)": {
+    "allowedControls": [
+      "record_counts",
+      "records_read",
+      "records_new",
+      "records_updated",
+      "records_rejected"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "inegration_run_group",
+      "run_information_group",
+      "timeandstatus_group",
+      "record_group",
+      "error_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  }
+};
   const prevRefreshRef = useRef(false);
   const handleOnloadCalledRef = useRef(false);
   const securityCheckPromiseRef = useRef<Promise<any> | null>(null);

@@ -11,9 +11,5 @@ export class DFbusinessUnitComboController {
         async businessUnitCombo_1c6753133ca647a1bdb14b959b47ee42_RequestInitiated(input: PoEvent) { 
            return await this.dynamicFlowService.DynamicFlowProcess(input)
         }       
-           @EventPattern('businessUnitCombo_3c8f3a093b0c496a9ff45d43b9dad3f0_RequestInitiated') 
-        async businessUnitCombo_3c8f3a093b0c496a9ff45d43b9dad3f0_RequestInitiated(input: PoEvent) { 
-           return await this.dynamicFlowService.DynamicFlowProcess(input)
-        }       
     
 }

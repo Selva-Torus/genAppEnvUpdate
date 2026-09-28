@@ -112,29 +112,6 @@ const Groupdel_group = ({lockedData={},setLockedData,primaryTableData={},tableDa
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "DEV_AT": {
-    "allowedControls": [
-      "delete_heading_txt",
-      "del_divider_1",
-      "asset_name_text",
-      "asset_name",
-      "model_name_text",
-      "model_name",
-      "model_version_text",
-      "model_version",
-      "text",
-      "del_divider_2",
-      "asset_model_id",
-      "del_cancel_btn",
-      "del_okl_btn"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "del_group"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
   "Executive": {
     "allowedControls": [
       "delete_heading_txt",

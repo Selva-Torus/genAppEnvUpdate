@@ -76,17 +76,6 @@ const Groupoverall_ai_asset_registry = ({lockedData={},setLockedData,primaryTabl
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "DEV_AT": {
-    "allowedControls": [],
-    "allowedGroups": [
-      "canvas",
-      "overall_ai_asset_registry",
-      "integration_group",
-      "integration_source"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
   "Executive": {
     "allowedControls": [],
     "allowedGroups": [

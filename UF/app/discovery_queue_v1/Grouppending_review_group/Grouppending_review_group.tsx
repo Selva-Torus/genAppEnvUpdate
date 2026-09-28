@@ -57,7 +57,141 @@ const Grouppending_review_group = ({lockedData={},setLockedData,primaryTableData
     "method":encryptionMethod
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
-  const securityData:any={};
+  const securityData:any={
+  "AI Product Owner": {
+    "allowedControls": [
+      "pending_review_text",
+      "confirm_selected_button",
+      "dismiss_selected_button"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "overall_discovery_queue_group",
+      "discovery_queue_text_group",
+      "awaiting_review_group",
+      "possible_duplicate_group",
+      "rejecte_on_ingest_group",
+      "pending_review_group",
+      "pending_review_table"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Auditor": {
+    "allowedControls": [
+      "pending_review_text",
+      "confirm_selected_button",
+      "dismiss_selected_button"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "overall_discovery_queue_group",
+      "discovery_queue_text_group",
+      "awaiting_review_group",
+      "possible_duplicate_group",
+      "rejecte_on_ingest_group",
+      "pending_review_group",
+      "pending_review_table"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Executive": {
+    "allowedControls": [
+      "pending_review_text",
+      "confirm_selected_button",
+      "dismiss_selected_button"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "overall_discovery_queue_group",
+      "discovery_queue_text_group",
+      "awaiting_review_group",
+      "possible_duplicate_group",
+      "rejecte_on_ingest_group",
+      "pending_review_group",
+      "pending_review_table"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "FinOps / Operation": {
+    "allowedControls": [
+      "pending_review_text",
+      "confirm_selected_button",
+      "dismiss_selected_button"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "overall_discovery_queue_group",
+      "discovery_queue_text_group",
+      "awaiting_review_group",
+      "possible_duplicate_group",
+      "rejecte_on_ingest_group",
+      "pending_review_group",
+      "pending_review_table"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Model RIsk / Compliance": {
+    "allowedControls": [
+      "pending_review_text",
+      "confirm_selected_button",
+      "dismiss_selected_button"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "overall_discovery_queue_group",
+      "discovery_queue_text_group",
+      "awaiting_review_group",
+      "possible_duplicate_group",
+      "rejecte_on_ingest_group",
+      "pending_review_group",
+      "pending_review_table"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Platform Administrator": {
+    "allowedControls": [
+      "pending_review_text",
+      "confirm_selected_button",
+      "dismiss_selected_button"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "overall_discovery_queue_group",
+      "discovery_queue_text_group",
+      "awaiting_review_group",
+      "possible_duplicate_group",
+      "rejecte_on_ingest_group",
+      "pending_review_group",
+      "pending_review_table"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Security (CISO Office)": {
+    "allowedControls": [
+      "pending_review_text",
+      "confirm_selected_button",
+      "dismiss_selected_button"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "overall_discovery_queue_group",
+      "discovery_queue_text_group",
+      "awaiting_review_group",
+      "possible_duplicate_group",
+      "rejecte_on_ingest_group",
+      "pending_review_group",
+      "pending_review_table"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  }
+};
   const prevRefreshRef = useRef(false);
   const handleOnloadCalledRef = useRef(false);
   const securityCheckPromiseRef = useRef<Promise<any> | null>(null);

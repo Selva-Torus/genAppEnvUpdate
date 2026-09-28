@@ -33,7 +33,7 @@ const ContextSelector = () => {
     []
   )
   const [navigationStyles] = useState<'vertical' | 'horizontal'>("horizontal");
-  const { userDetails, setUserDetails , setMatchedAccessProfileData } = useContext(
+  const { userDetails, setUserDetails , setMatchedAccessProfileData, setLockedData } = useContext(
     TotalContext
   ) as TotalContextProps
   const tp_ps: any = getCookie('tp_ps')
@@ -175,10 +175,29 @@ const ContextSelector = () => {
   };
 
   useEffect(() => {
-    orpsData()
-    userDetailsData()
     introspect()
   }, [])
+
+  useEffect(() => {
+    if (token) {
+      orpsData()
+      userDetailsData()
+      releaseAllLocks()
+    }
+  }, [token])
+
+  const releaseAllLocks = async () => {
+    try {
+      if (token) {
+        await AxiosService.post('/UF/release-all-locks', null, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+      }
+    } catch (error) {
+      // ignore error, proceed
+    }
+    setLockedData({})
+  }
 
   const userDetailsData = async () => {
     try {

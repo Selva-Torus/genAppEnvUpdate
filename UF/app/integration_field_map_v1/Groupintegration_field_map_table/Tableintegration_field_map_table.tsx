@@ -323,21 +323,6 @@ const Tableintegration_field_map_table = ({ headerButtonsRenders=()=>{return<></
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "DEV_AT": {
-    "allowedControls": [
-      "field_map_id",
-      "source_field_path",
-      "target_entity",
-      "target_attribute",
-      "transform_rule",
-      "is_active",
-      "view_btn",
-      "edit_btn",
-      "del_btn"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
   "Executive": {
     "allowedControls": [
       "field_map_id",

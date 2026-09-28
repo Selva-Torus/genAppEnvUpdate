@@ -339,22 +339,6 @@ const Tableintegration_run = ({ headerButtonsRenders=()=>{return<></>},headerPos
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "DEV_AT": {
-    "allowedControls": [
-      "integration_id",
-      "run_trigger_code",
-      "started_on",
-      "ended_on",
-      "run_status_code",
-      "records_read",
-      "records_rejected",
-      "view_btn",
-      "edit_btn",
-      "delete_btn"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
   "Executive": {
     "allowedControls": [
       "integration_id",

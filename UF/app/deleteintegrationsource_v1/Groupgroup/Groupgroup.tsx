@@ -121,32 +121,6 @@ const Groupgroup = ({lockedData={},setLockedData,primaryTableData={},tableData=[
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "DEV_AT": {
-    "allowedControls": [
-      "delete_heading_text",
-      "div_1",
-      "source_id",
-      "integration_source_id",
-      "source_code",
-      "integration_source_code",
-      "source_name",
-      "integration_source_name",
-      "connector_type",
-      "integration_connector_type",
-      "status",
-      "is_active",
-      "text",
-      "divider_2",
-      "cancel_btn",
-      "delete_btn"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "group"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
   "Executive": {
     "allowedControls": [
       "delete_heading_text",

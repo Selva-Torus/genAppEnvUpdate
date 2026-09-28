@@ -54,7 +54,99 @@ const Groupgroup = ({lockedData={},setLockedData,primaryTableData={},tableData=[
     "method":encryptionMethod
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
-  const securityData:any={};
+  const securityData:any={
+  "AI Product Owner": {
+    "allowedControls": [
+      "template_stage_id"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "stage_details_group",
+      "evidence_configuration_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Auditor": {
+    "allowedControls": [
+      "template_stage_id"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "stage_details_group",
+      "evidence_configuration_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Executive": {
+    "allowedControls": [
+      "template_stage_id"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "stage_details_group",
+      "evidence_configuration_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "FinOps / Operation": {
+    "allowedControls": [
+      "template_stage_id"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "stage_details_group",
+      "evidence_configuration_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Model RIsk / Compliance": {
+    "allowedControls": [
+      "template_stage_id"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "stage_details_group",
+      "evidence_configuration_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Platform Administrator": {
+    "allowedControls": [
+      "template_stage_id"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "stage_details_group",
+      "evidence_configuration_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Security (CISO Office)": {
+    "allowedControls": [
+      "template_stage_id"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "stage_details_group",
+      "evidence_configuration_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  }
+};
   const prevRefreshRef = useRef(false);
   const handleOnloadCalledRef = useRef(false);
   const securityCheckPromiseRef = useRef<Promise<any> | null>(null);

@@ -60,7 +60,33 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
     localization:any
   }
 
+  const defaultSetupData: SetupKeyData = {
+    direction: 'LTR',
+    layoutMode: 'default',
+    navigationStyles: 'horizontal',
+    sidebarStyle: 'default',
+    brandColor: '#00BFFF',
+    hoverColor: '#00BFFF',
+    selectionColor: '#00BFFF',
+    menubarColor: '#ffffff',
+    topbarColor: '#ffffff',
+    borderRadius: 's',
+    fontSize: {
+      preferredVw: '0.9',
+      minPx: '13',
+      maxPx: '18',
+    },
+    language: 'English',
+    theme: 'light',
+    'page-bg-color': '#ffffff',
+    'group-bg-color': '#ffffff',
+    appBackgroundImage: undefined,
+    localization: {},
+  };
+
+
   const [data, setData] = useState<SetupKeyData | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const { token } = useGlobal();
   const encryptionFlagApp: boolean = true;
   const encryptionDpd: string = "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:TAG:AFGK:TAG:AFK:tagDPD:AFVK:v1";
@@ -79,9 +105,16 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         }});
-      setData(response?.data);
+      if (response?.data && typeof response.data === 'object' && Object.keys(response.data).length > 0) {
+        setData({ ...defaultSetupData, ...response.data });
+      } else {
+        setData(defaultSetupData);
+      }
     } catch (error) {
-      console.error(error);
+      console.warn("Could not load appearance setup key, falling back to defaults:", error);
+      setData(defaultSetupData);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -100,14 +133,17 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
       const language = languageMap[data?.language] || 'en';
       const dateDisplayData=data?.localization?.datetime?.display||{}
       const currencyDisplayData=data?.localization?.currency?.display||{}
-      const bgImage = `url("${process.env.NEXT_PUBLIC_FTP_OUTPUT_HOST}/${data['appBackgroundImage']}")`;
+      
       // Set CSS variables for legacy components
       document.documentElement.style.setProperty('--brand-color', brandColor);
       document.documentElement.style.setProperty('--selection-color', selectionColor);
       document.documentElement.style.setProperty('--hover-color', hoverColor);
       document.documentElement.style.setProperty('--border-radius', borderRadius);
       document.documentElement.style.setProperty('--font-size-base', fontSizeClamp);
-      document.documentElement.style.setProperty('--app-bg-image', bgImage);
+      if (data['appBackgroundImage']) {
+        const bgImage = `url("${process.env.NEXT_PUBLIC_FTP_OUTPUT_HOST}/${data['appBackgroundImage']}")`;
+        document.documentElement.style.setProperty('--app-bg-image', bgImage);
+      }
       // document.documentElement.style.setProperty('--page-bg-color', data['page-bg-color']);
       // document.documentElement.style.setProperty('--group-bg-color', data['group-bg-color']);
 
@@ -198,7 +234,7 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  if (!data) return <div className='flex w-[100vw] h-[100vh] bg-slate-200 justify-center items-center '><span>Loading...</span></div>;
+  if (loading && !data) return <div className='flex w-[100vw] h-[100vh] bg-slate-200 justify-center items-center '><span>Loading...</span></div>;
 
 
   return <div>{children}</div>;

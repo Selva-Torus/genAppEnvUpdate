@@ -90,22 +90,6 @@ const Groupintegration_group = ({lockedData={},setLockedData,primaryTableData={}
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "DEV_AT": {
-    "allowedControls": [
-      "refresh_button",
-      "search",
-      "new_source",
-      "text"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "overall_ai_asset_registry",
-      "integration_group",
-      "integration_source"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
   "Executive": {
     "allowedControls": [
       "refresh_button",

@@ -96,27 +96,6 @@ const Groupintegration_run = ({lockedData={},setLockedData,primaryTableData={},t
     "blockedControls": [],
     "readOnlyControls": []
   },
-  "DEV_AT": {
-    "allowedControls": [
-      "integration_id",
-      "run_trigger_code",
-      "started_on",
-      "ended_on",
-      "run_status_code",
-      "records_read",
-      "records_rejected",
-      "view_btn",
-      "edit_btn",
-      "delete_btn"
-    ],
-    "allowedGroups": [
-      "canvas",
-      "group",
-      "integration_run"
-    ],
-    "blockedControls": [],
-    "readOnlyControls": []
-  },
   "Executive": {
     "allowedControls": [
       "integration_id",

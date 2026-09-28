@@ -20,7 +20,29 @@ export default function PageViewcodetypesV1({ onReady }: { onReady?: () => void 
   const { isDark, isHighContrast, bgStyle, textStyle } : { isDark: boolean; isHighContrast: boolean; bgStyle: string; textStyle: string } = useTheme();
   const [initialLoad, setInitialLoad] = useState<boolean>(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const securityData : SecurityData = {};
+  const securityData : SecurityData = {
+  "AI Product Owner": {
+    "blockedGroups": []
+  },
+  "Auditor": {
+    "blockedGroups": []
+  },
+  "Executive": {
+    "blockedGroups": []
+  },
+  "FinOps / Operation": {
+    "blockedGroups": []
+  },
+  "Model RIsk / Compliance": {
+    "blockedGroups": []
+  },
+  "Platform Administrator": {
+    "blockedGroups": []
+  },
+  "Security (CISO Office)": {
+    "blockedGroups": []
+  }
+};
   let code : string = "";
   const routes : AppRouterInstance = useRouter();
   const toast : Function = useInfoMsg();

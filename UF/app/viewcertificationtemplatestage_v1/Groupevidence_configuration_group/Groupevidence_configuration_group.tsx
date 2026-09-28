@@ -57,7 +57,134 @@ const Groupevidence_configuration_group = ({lockedData={},setLockedData,primaryT
     "method":encryptionMethod
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
-  const securityData:any={};
+  const securityData:any={
+  "AI Product Owner": {
+    "allowedControls": [
+      "text_2",
+      "min_evidence_count",
+      "is_mandatory",
+      "evidence_required",
+      "guidance_text",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "stage_details_group",
+      "evidence_configuration_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Auditor": {
+    "allowedControls": [
+      "text_2",
+      "min_evidence_count",
+      "is_mandatory",
+      "evidence_required",
+      "guidance_text",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "stage_details_group",
+      "evidence_configuration_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Executive": {
+    "allowedControls": [
+      "text_2",
+      "min_evidence_count",
+      "is_mandatory",
+      "evidence_required",
+      "guidance_text",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "stage_details_group",
+      "evidence_configuration_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "FinOps / Operation": {
+    "allowedControls": [
+      "text_2",
+      "min_evidence_count",
+      "is_mandatory",
+      "evidence_required",
+      "guidance_text",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "stage_details_group",
+      "evidence_configuration_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Model RIsk / Compliance": {
+    "allowedControls": [
+      "text_2",
+      "min_evidence_count",
+      "is_mandatory",
+      "evidence_required",
+      "guidance_text",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "stage_details_group",
+      "evidence_configuration_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Platform Administrator": {
+    "allowedControls": [
+      "text_2",
+      "min_evidence_count",
+      "is_mandatory",
+      "evidence_required",
+      "guidance_text",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "stage_details_group",
+      "evidence_configuration_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Security (CISO Office)": {
+    "allowedControls": [
+      "text_2",
+      "min_evidence_count",
+      "is_mandatory",
+      "evidence_required",
+      "guidance_text",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "stage_details_group",
+      "evidence_configuration_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  }
+};
   const prevRefreshRef = useRef(false);
   const handleOnloadCalledRef = useRef(false);
   const securityCheckPromiseRef = useRef<Promise<any> | null>(null);

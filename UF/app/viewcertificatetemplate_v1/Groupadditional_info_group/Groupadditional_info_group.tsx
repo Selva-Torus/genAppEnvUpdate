@@ -56,7 +56,127 @@ const Groupadditional_info_group = ({lockedData={},setLockedData,primaryTableDat
     "method":encryptionMethod
   };
   const [showFlag, setShowFlag] = React.useState<string>("");
-  const securityData:any={};
+  const securityData:any={
+  "AI Product Owner": {
+    "allowedControls": [
+      "text_2",
+      "validity_months",
+      "effective_from",
+      "effective_to",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "template_detail_group",
+      "additional_info_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Auditor": {
+    "allowedControls": [
+      "text_2",
+      "validity_months",
+      "effective_from",
+      "effective_to",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "template_detail_group",
+      "additional_info_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Executive": {
+    "allowedControls": [
+      "text_2",
+      "validity_months",
+      "effective_from",
+      "effective_to",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "template_detail_group",
+      "additional_info_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "FinOps / Operation": {
+    "allowedControls": [
+      "text_2",
+      "validity_months",
+      "effective_from",
+      "effective_to",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "template_detail_group",
+      "additional_info_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Model RIsk / Compliance": {
+    "allowedControls": [
+      "text_2",
+      "validity_months",
+      "effective_from",
+      "effective_to",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "template_detail_group",
+      "additional_info_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Platform Administrator": {
+    "allowedControls": [
+      "text_2",
+      "validity_months",
+      "effective_from",
+      "effective_to",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "template_detail_group",
+      "additional_info_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  },
+  "Security (CISO Office)": {
+    "allowedControls": [
+      "text_2",
+      "validity_months",
+      "effective_from",
+      "effective_to",
+      "is_active"
+    ],
+    "allowedGroups": [
+      "canvas",
+      "group",
+      "template_detail_group",
+      "additional_info_group"
+    ],
+    "blockedControls": [],
+    "readOnlyControls": []
+  }
+};
   const prevRefreshRef = useRef(false);
   const handleOnloadCalledRef = useRef(false);
   const securityCheckPromiseRef = useRef<Promise<any> | null>(null);

@@ -23,7 +23,6 @@ export default async function RootLayout({
 }) {
   const cookieStore = await cookies()
   const tokenParam = cookieStore.get(`${COOKIE_PREFIX}_token`)?.value
-  console.log(tokenParam , "token param from layout");
 
   return (
   <GlobalProvider tokenParam={tokenParam ?? ""}>

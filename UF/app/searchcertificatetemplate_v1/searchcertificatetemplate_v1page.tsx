@@ -27,9 +27,6 @@ export default function PageSearchcertificatetemplateV1({ onReady }: { onReady?:
   "Auditor": {
     "blockedGroups": []
   },
-  "DEV_AT": {
-    "blockedGroups": []
-  },
   "Executive": {
     "blockedGroups": []
   },
