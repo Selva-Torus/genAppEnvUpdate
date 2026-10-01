@@ -14,24 +14,8 @@ import { ConfigService } from "@nestjs/config";
 import { ScheduleModule } from '@nestjs/schedule';
 import { ErdModule } from './erd/erd.module';
 import { CdcPrismaService } from './erd/cdc_prisma.service';
-import { DFamrQueueDashboardModule } from './dfd/DFamrQueueDashboard/v1/DFamrQueueDashboard.module';    
-import { DFaddCaseModule } from './dfd/DFaddCase/v1/DFaddCase.module';    
-import { DFdocTypeNameComboModule } from './dfd/DFdocTypeNameCombo/v1/DFdocTypeNameCombo.module';    
-import { DFattorneysComboModule } from './dfd/DFattorneysCombo/v1/DFattorneysCombo.module';    
-import { DFpriorityComboModule } from './dfd/DFpriorityCombo/v1/DFpriorityCombo.module';    
-import { DFstatusComboModule } from './dfd/DFstatusCombo/v1/DFstatusCombo.module';    
-import { DFamrChecklistComboModule } from './dfd/DFamrChecklistCombo/v1/DFamrChecklistCombo.module';    
-import { DFDocTableModule } from './dfd/DFDocTable/v1/DFDocTable.module';    
-import { DFamrChecklistStatusModule } from './dfd/DFamrChecklistStatus/v1/DFamrChecklistStatus.module';    
-import { DFvenueSpecialRulesModule } from './dfd/DFvenueSpecialRules/v1/DFvenueSpecialRules.module';    
-import { DFvenueSurerealDBModule } from './dfd/DFvenueSurerealDB/v1/DFvenueSurerealDB.module';    
-import { DFspecialRulesSurerealDBModule } from './dfd/DFspecialRulesSurerealDB/v1/DFspecialRulesSurerealDB.module';    
-import { DFpendingFilingsDashboardModule } from './dfd/DFpendingFilingsDashboard/v1/DFpendingFilingsDashboard.module';    
-import { DFcardsDashboardModule } from './dfd/DFcardsDashboard/v1/DFcardsDashboard.module';    
-import { DFreportCaseModule } from './dfd/DFreportCase/v1/DFreportCase.module';    
-import { addCaseModifyModule } from './pfd/addCaseModify/v1/addCaseModify.module';    
-import { addCaseModule } from './pfd/addCase/v1/addCase.module';    
-import { addCaseApprovalModule } from './pfd/addCaseApproval/v1/addCaseApproval.module';    
+import { DFjsonb_dfdModule } from './dfd/DFjsonb_dfd/v1/DFjsonb_dfd.module';    
+import { PFPJsonB_PFModule } from './pfd/PFPJsonB_PF/v1/PFPJsonB_PF.module';    
 import { EncryptInterceptor } from './encryptInterceptor';
 import { DecryptInterceptor } from './decryptInterceptor';
 import { APP_INTERCEPTOR, APP_GUARD } from '@nestjs/core';
@@ -43,32 +27,30 @@ import { PersistenceService } from './persistence.service';
 import { SwaggerGuard } from './swagger.guard';
 import { AuthGuard } from './auth.guard';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { getRedisConnectionOptions } from './redis.config';
 
 
 @Module({
   imports: [
     BullModule.forRoot({
-      connection: {
-        host: process.env.HOST,
-        port: parseInt(process.env.PORT)       
-      },
+      connection: getRedisConnectionOptions(),
     }),
   CacheModule.register({isGlobal:true}),
    ThrottlerModule.forRoot({
     throttlers: [
-      { name: 'default', ttl: 60_000, limit: 120 },
+      { name: 'default', ttl: 10_000, limit: 120 }
     ],
   }),
-  ScheduleModule.forRoot(),UfModule,TeModule,EnvDataModule,DFamrQueueDashboardModule,DFaddCaseModule,DFdocTypeNameComboModule,DFattorneysComboModule,DFpriorityComboModule,DFstatusComboModule,DFamrChecklistComboModule,DFDocTableModule,DFamrChecklistStatusModule,DFvenueSpecialRulesModule,DFvenueSurerealDBModule,DFspecialRulesSurerealDBModule,DFpendingFilingsDashboardModule,DFcardsDashboardModule,DFreportCaseModule,addCaseModifyModule,addCaseModule,addCaseApprovalModule,ErdModule,], 
+  ScheduleModule.forRoot(),UfModule,TeModule,EnvDataModule,DFjsonb_dfdModule,PFPJsonB_PFModule,ErdModule,], 
   controllers: [AppController],
-  providers: [AppService,CommonService,RuleService,CodeService,JwtService,JwtServices,RedisService,ConfigService,EnvData,PersistenceService,SwaggerGuard,{
+  providers: [AppService,CommonService,RuleService,CodeService,JwtService,JwtServices,RedisService,ConfigService,EnvData,PersistenceService,SwaggerGuard, {
       provide: APP_INTERCEPTOR,
       useClass: EncryptInterceptor,
     },
     { provide: APP_INTERCEPTOR, useClass: DecryptInterceptor },
     { provide: APP_GUARD, useClass: AuthGuard },
     { provide: APP_GUARD, useClass: ThrottlerGuard
-    },CdcPrismaService ],
+    },CdcPrismaService],
 })
 export class AppModule implements NestModule {
   configure() {}

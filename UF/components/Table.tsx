@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useGlobal } from "@/context/GlobalContext";
 import { Icon } from "./Icon";
 import { getBorderRadiusClass } from "@/app/utils/branding";
-import { BiSort } from "react-icons/bi";
+import { BiSort, BiSortUp, BiSortDown } from "react-icons/bi";
 import { twMerge } from "tailwind-merge";
 import { useTheme } from "@/hooks/useTheme";
 import { Pagination } from "./Pagination";
@@ -65,6 +65,7 @@ interface TableProps {
   data?: Record<string, string | number | boolean | null>[];
   columns?: ColumnType[];
   onRowClick?: (row: any, index: any) => void;
+  onSort?: (columnId: string, direction: "asc" | "desc") => void;
   className?: string;
   renderRowActions?: (props: RenderRowActionsProps) => React.ReactNode | Promise<React.ReactNode>;
   primaryKey?: string;
@@ -107,6 +108,7 @@ export const Table: React.FC<TableProps> = ({
   data = [],
   columns = [],
   onRowClick,
+  onSort,
   className = "",
   renderRowActions,
   primaryKey="",
@@ -178,15 +180,15 @@ export const Table: React.FC<TableProps> = ({
     }
   };
 
+  // Sorting itself is not done here - clicking a header just toggles
+  // asc/desc for that column and reports it via onSort. The caller is
+  // responsible for sorting and passing the result back in as `data`.
   const handleSort = (columnId: string) => {
-    if (tableSorting) {
-      if (sortColumn === columnId) {
-        setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-      } else {
-        setSortColumn(columnId);
-        setSortDirection("asc");
-      }
-    }
+    if (!tableSorting) return;
+    const newDirection = sortColumn === columnId && sortDirection === "asc" ? "desc" : "asc";
+    setSortColumn(columnId);
+    setSortDirection(newDirection);
+    onSort?.(columnId, newDirection);
   };
 
   const handleColumnToggle = (columnId: string) => {
@@ -216,47 +218,9 @@ export const Table: React.FC<TableProps> = ({
         )
       : data
   ), [data, search, searchTerm]);
-  const sortedData = useMemo(() => (
-
-    sortColumn
-      ? [...filteredData].sort((a, b) => {
-          const aVal = a[sortColumn];
-          const bVal = b[sortColumn];
-
-          // Handle null/undefined values
-          if (aVal == null && bVal == null) return 0;
-          if (aVal == null) return 1;  // Push nulls to end
-          if (bVal == null) return -1;
-
-          let comparison;
-
-          // Numeric comparison when both values are numbers (or numeric strings)
-          const aNum = typeof aVal === "number" ? aVal : Number(aVal);
-          const bNum = typeof bVal === "number" ? bVal : Number(bVal);
-          const bothNumeric =
-            !Number.isNaN(aNum) &&
-            !Number.isNaN(bNum) &&
-            String(aVal).trim() !== "" &&
-            String(bVal).trim() !== "";
-
-          if (bothNumeric) {
-            comparison = aNum - bNum;
-          } else {
-            // Fall back to case-insensitive string comparison
-            comparison = String(aVal).localeCompare(String(bVal), undefined, {
-              numeric: true,
-              sensitivity: "base",
-            });
-          }
-
-          return sortDirection === "asc" ? comparison : -comparison;
-        })
-      : filteredData
-
-  ), [filteredData, sortColumn, sortDirection]);
-
-  // Use all sorted data without pagination
-  const displayData = sortedData;
+  // Sorting is owned by the caller - it passes already-sorted rows via the
+  // `data` prop, so this component just displays filteredData as-is.
+  const displayData = filteredData;
 
   const handleSelectAllRows = () => {
     if (!onSelectionChange) return;
@@ -374,9 +338,13 @@ export const Table: React.FC<TableProps> = ({
 };
   const convertToformat=(data:any)=>{
     const isISODate = typeof data === 'string' && /^\d{4}-\d{2}-\d{2}(T|$)/.test(data);
+
     if(isISODate)
       return formatDateDisplay(data.split("T")[0])
 
+    if(typeof data == 'boolean')
+      return data.toString()
+      
     return data
   }
 
@@ -578,14 +546,14 @@ export const Table: React.FC<TableProps> = ({
                      ${column?.className}
                   `}
                 >
-      
+                  <div className={`component-header-text flex items-center gap-2 whitespace-nowrap ${column.align === 'right' ? 'justify-end' : column.align === 'center' ? 'justify-center' : ''}`}>
                     {column.name}
-                    {tableSorting && sortColumn === column.id && (
-                      <BiSort
-                        size={14}
-                      />
+                    {tableSorting && (
+                      sortColumn === column.id
+                        ? (sortDirection === "asc" ? <BiSortUp size={14} /> : <BiSortDown size={14} />)
+                        : <BiSort size={14} className="opacity-40" />
                     )}
-           
+                  </div>
                 </th>
               )
                 }
@@ -603,14 +571,14 @@ export const Table: React.FC<TableProps> = ({
                     ${column?.className}
                   `}
                 >
-
+                  <div className={`component-header-text flex items-center gap-2 whitespace-nowrap ${column.align === 'right' ? 'justify-end' : column.align === 'center' ? 'justify-center' : ''}`}>
                     {column.name}
-                    {tableSorting && sortColumn === column.id && (
-                      <BiSort
-                        size={14}
-                      />
+                    {tableSorting && (
+                      sortColumn === column.id
+                        ? (sortDirection === "asc" ? <BiSortUp size={14} /> : <BiSortDown size={14} />)
+                        : <BiSort size={14} className="opacity-40" />
                     )}
-
+                  </div>
                 </th>
               )
                 }

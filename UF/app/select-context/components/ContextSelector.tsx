@@ -27,19 +27,20 @@ import { hexWithOpacity } from '@/app/components/utils'
 import { BiPackage } from 'react-icons/bi'
 import { RiUserShared2Line } from 'react-icons/ri'
 import clsx from 'clsx'
+import { logout } from "@/app/components/utils";
 
 const ContextSelector = () => {
   const [selectedAccessProfile, setSelectedAccessProfile] = useState<string[]>(
     []
   )
   const [navigationStyles] = useState<'vertical' | 'horizontal'>("vertical");
-  const { userDetails, setUserDetails , setMatchedAccessProfileData } = useContext(
+  const { userDetails, setUserDetails , setMatchedAccessProfileData, setLockedData } = useContext(
     TotalContext
   ) as TotalContextProps
   const tp_ps: any = getCookie('tp_ps')
   const toast = useInfoMsg()
   const baseUrl: any = process.env.NEXT_PUBLIC_API_BASE_URL
-  const appName = 'LAP'
+  const appName = 'TestApplication'
   const [accessProfiles, setAccessProfiles] = useState<any[]>([])
   const router = useRouter()
   const [loading, setLoading] = useState(false)
@@ -55,58 +56,18 @@ const ContextSelector = () => {
   const [selectedRole, setSelectedRole] = useState<Record<string, string>>({})
   const [orgGrpData, setOrgGrpData] = useState<any>([])
   const [isPending, startTransition] = useTransition();  
-  let landingScreen:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1';
+  let landingScreen:string = 'Logs Screen';
   let screenDetails: any = {
            keys:[
   {
-    "screenName": "dashboard",
-    "screensName": "dashboard-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
+    "screenName": "jsonb",
+    "screensName": "jsonb-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Jsonb:AFVK:v1"
   },
   {
-    "screenName": "report",
-    "screensName": "report-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1"
-  },
-  {
-    "screenName": "filing packages",
-    "screensName": "filing_packages-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-  },
-  {
-    "screenName": "submissions hub",
-    "screensName": "submissions_hub-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-  },
-  {
-    "screenName": "service tracking",
-    "screensName": "service_tracking-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-  },
-  {
-    "screenName": "judgments",
-    "screensName": "judgments-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-  },
-  {
-    "screenName": "enforcement",
-    "screensName": "enforcement-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-  },
-  {
-    "screenName": "kill-switch control",
-    "screensName": "kill-switch_control-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-  },
-  {
-    "screenName": "compliance",
-    "screensName": "compliance-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-  },
-  {
-    "screenName": "analytics",
-    "screensName": "analytics-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+    "screenName": "jsonb table",
+    "screensName": "jsonb_table-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:JsonB_Tbale:AFVK:v1"
   }
 ]
   }
@@ -130,25 +91,36 @@ const ContextSelector = () => {
     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
     const res = await fetch(`${basePath}/next-api/auth/introspect?key=context-selector`)
     if (!res.ok) {
-      logout()
+      logout(token)
       return
     }
     router.refresh()
   }
 
-  const logout = () => {
-    localStorage.clear();
-    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-    const from = encodeURIComponent(`${basePath}/`);
-
-    window.location.href = `${basePath}/next-api/auth/logout?from=${from}`;
-  };
-
   useEffect(() => {
-    orpsData()
-    userDetailsData()
     introspect()
   }, [])
+
+  useEffect(() => {
+    if (token) {
+      orpsData()
+      userDetailsData()
+      releaseAllLocks()
+    }
+  }, [token])
+
+  const releaseAllLocks = async () => {
+    try {
+      if (token) {
+        await AxiosService.post('/UF/release-all-locks', null, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+      }
+    } catch (error) {
+      // ignore error, proceed
+    }
+    setLockedData({})
+  }
 
   const userDetailsData = async () => {
     try {
@@ -317,8 +289,12 @@ const ContextSelector = () => {
         router.refresh()
         // here we have to set the default authentication route
         setLoading(false)
+      }  else {
+      setLoading(false)
+      toast('Error Fetching AccessToken', 'danger')
       }
     } catch (error) {
+      setLoading(false)
       toast('Error Fetching AccessToken', 'danger')
     }
   }
@@ -352,8 +328,8 @@ const ContextSelector = () => {
     'gridRow'?: string
   }[] = []
 
-  const logo: string = ""
-  const appLogo: string = ""
+  const logo: string = "torus/9.1/CT001/resources/images/data 1.png"
+  const appLogo: string = "torus/9.1/CT001/resources/images/BG 4.png"
 
   return (
     <div className='h-full w-full  bg-cover bg-center'>

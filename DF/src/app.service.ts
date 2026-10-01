@@ -1,7 +1,7 @@
 
 
 
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable} from '@nestjs/common';
 import axios from 'axios';
 import * as fs from 'fs';
 import { UfService } from './Torus/v1/uf/uf.service';
@@ -9,23 +9,28 @@ import { CommonService } from './common.Service';
 import { CdcPrismaService } from './erd/cdc_prisma.service';
 import { SwaggerGuard } from './swagger.guard';
 @Injectable()
-export class AppService implements OnModuleInit{
+export class AppService {
   private readonly apiUrl = process.env.API_URL;
   private readonly clientcode = process.env.CLIENTCODE;
   private readonly loginId = process.env.LOGINID;
+  private swaggerDocument: any = null;
   constructor(private readonly ufservice: UfService,
   private readonly swaggerGuard: SwaggerGuard,
   private readonly commonService: CommonService,
-  private readonly triggerSqlQueries:CdcPrismaService
+    private readonly triggerSqlQueries:CdcPrismaService
   ) {}
 
-  async onModuleInit() {
+  setSwaggerDocument(document: any): void {
+    this.swaggerDocument = document;
+  }
+
+   async initSwaggerUpload() {
     console.info('Starting Swagger upload to API Fabric...');
-    if (!fs.existsSync('./swagger.json')) {
-      console.warn('swagger.json not found at project root — skipping Swagger upload to API Fabric.');
+    if (!this.swaggerDocument) {
+      console.warn('Swagger document not set — skipping Swagger upload to API Fabric.');
       return;
     }
-    let preParedData:any=await this.dataPrep(JSON.parse(fs.readFileSync('./swagger.json', 'utf-8')))
+    let preParedData:any=await this.dataPrep(this.swaggerDocument)
     await this.triggerFuntionExecute()
     if(Object.keys(preParedData).includes('erdWithData'))
       {
@@ -35,9 +40,9 @@ export class AppService implements OnModuleInit{
       endPointData.type =  "json";
       let res =  await this.ufservice.getEndPoints(endPointData);
       erdDatas.endpoint = res;
-      erdDatas.tenant =  "CT006";
-      erdDatas.domain = "Legal Automation Platform";
-      erdDatas.collection = "LAP";
+      erdDatas.tenant =  "CT001";
+      erdDatas.domain = "TAM";
+      erdDatas.collection = "TestApplication";
       erdDatas.data = preParedData?.erdWithData||{}
       erdDatas.fabric = 'API-APIPD';
       erdDatas.loginId = this.loginId;
@@ -55,7 +60,7 @@ export class AppService implements OnModuleInit{
     const migrationsDir = isLocal === 'dev'
       ? './src/erd/prisma/migrations'
       : './dist/prisma/migrations';
-       const migrationsFile = `${migrationsDir}/triggerFuctions.sql`;
+       const migrationsFile = `${migrationsDir}/allTriggers.sql`;
     if (!fs.existsSync(migrationsFile)) {
       console.warn(`${migrationsFile} not found — skipping trigger function execution.`);
       return;

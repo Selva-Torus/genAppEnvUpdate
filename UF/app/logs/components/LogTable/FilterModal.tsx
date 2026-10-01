@@ -32,7 +32,8 @@ const FilterModal = ({
   setUser,
   activeTab,
   localSortOrder,
-  setLocalSortOrder
+  setLocalSortOrder,
+  setJsonData
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
   range: any
@@ -44,6 +45,7 @@ const FilterModal = ({
   activeTab: string
   localSortOrder: string
   setLocalSortOrder: React.Dispatch<React.SetStateAction<string>>
+  setJsonData: React.Dispatch<React.SetStateAction<any>>
 }) => {
   const [isDateRangeOpen, setDateRangeOpen] = useState(false)
   const [selectedDateRange, setSelectedDateRange] = useState<any>(range)
@@ -101,6 +103,9 @@ const FilterModal = ({
     setFabrics(selectedKeys);
     setUser(selectedUsers);
     setOpen(false);
+    setJsonData((prev: any) => ({
+      ...prev, page: 1
+    }))
   };
 
   const getOrgAndUserData = async () => {

@@ -83,7 +83,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [loadTick, setLoadTick] = useState(0);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
-  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const buttonRef = useRef<HTMLInputElement | null>(null);
   const highlightedItemRef = useRef<HTMLDivElement | null>(null);
   // Mousedown fires just before focus, so a click sets this flag right
   // before handleTriggerFocus would otherwise run -- lets that handler
@@ -164,7 +164,17 @@ export const Combobox: React.FC<ComboboxProps> = ({
 
   const triggerRef = useRef<HTMLDivElement>(null); // outer wrapper (kept for CommonHeaderAndTooltip sizing + click outside)
   const panelRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const [panelStyle, setPanelStyle] = useState<React.CSSProperties>({});
+
+  // Focus the search input manually (instead of the native `autoFocus`
+  // attribute) with preventScroll: true. autoFocus fires while the portaled
+  // panel is still unpositioned (before the layout effect below gives it
+  // `position: fixed` near the trigger), so the browser's default
+  // scroll-into-view would jump the whole page down to reach it.
+  useEffect(() => {
+    if (isOpen) searchInputRef.current?.focus({ preventScroll: true });
+  }, [isOpen]);
 
   useLayoutEffect(() => {
     if (!isOpen) return;
@@ -396,42 +406,48 @@ export const Combobox: React.FC<ComboboxProps> = ({
       className={`relative flex ${getContentAlignClass()} w-full h-full ${className}`}
       tabIndex={-1}
     >
-      <button
-        ref={buttonRef}
-        type="button"
-        onClick={handleOpen}
-        onKeyDown={handleKeyDown}
-        onMouseDown={() => { pointerInteractionRef.current = true; }}
-        onFocus={handleTriggerFocus}
-        disabled={disabled}
-        className={`
-          w-full px-4 py-2 border-2 flex items-center justify-between
-          ${getBorderColor()}
-          ${isDark ? "bg-gray-800 text-white" : "bg-white text-black"}
-          ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
-          transition-colors focus:outline-none
-        `}
-        style={{
-          borderRadius: "var(--border-radius)",
-          borderColor: validationState === "none" && isOpen ? branding.selectionColor : undefined,
-        }}
-        onMouseEnter={(e) => {
-          if (!disabled && validationState === "none" && !isOpen)
-            e.currentTarget.style.borderColor = branding.hoverColor;
-        }}
-        onMouseLeave={(e) => {
-          if (!disabled && validationState === "none" && !isOpen)
-            e.currentTarget.style.borderColor = "";
-        }}
-      >
-        <span className={`w-4/5 truncate ${getTextAlignClass()} ${(isArray ? selectedArray.length === 0 : !value) ? (isDark ? "text-gray-500" : "text-gray-400") : ""}`}>
-          {isArray
-            ? selectedArray.length > 0 ? `${selectedArray.length} selected` : placeholder
-            : (value as string) || placeholder}
-        </span>
-        <div className="flex items-center gap-1">
+      <div className="relative w-full h-full">
+        <input
+          ref={buttonRef}
+          type="text"
+          readOnly
+          role="combobox"
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
+          value={isArray ? (selectedArray.length > 0 ? `${selectedArray.length} selected` : "") : ((value as string) || "")}
+          placeholder={placeholder}
+          disabled={disabled}
+          onClick={handleOpen}
+          onKeyDown={handleKeyDown}
+          onMouseDown={() => { pointerInteractionRef.current = true; }}
+          onFocus={handleTriggerFocus}
+          className={`
+            w-full h-full px-4 py-2
+            ${(isArray ? selectedArray.length > 0 : !!value) && !disabled ? "pr-16" : "pr-10"}
+            border-2 ${getTextAlignClass()}
+            ${getBorderColor()}
+            ${isDark ? "bg-gray-800 text-white placeholder-gray-500" : "bg-white text-black placeholder-gray-400"}
+            ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+            transition-colors focus:outline-none
+            ${className}
+          `}
+          style={{
+            borderRadius: "var(--border-radius)",
+            borderColor: validationState === "none" && isOpen ? branding.selectionColor : undefined,
+          }}
+          onMouseEnter={(e) => {
+            if (!disabled && validationState === "none" && !isOpen)
+              e.currentTarget.style.borderColor = branding.hoverColor;
+          }}
+          onMouseLeave={(e) => {
+            if (!disabled && validationState === "none" && !isOpen)
+              e.currentTarget.style.borderColor = "";
+          }}
+        />
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
           {(isArray ? selectedArray.length > 0 : !!value) && !disabled && (
-            <span
+            <button
+              type="button"
               onMouseDown={(e) => e.stopPropagation()}
               onClick={(e) => {
                 e.stopPropagation();
@@ -443,28 +459,35 @@ export const Combobox: React.FC<ComboboxProps> = ({
                 }
                 onBlur?.("")
               }}
-              className={`p-0.5 rounded transition-colors cursor-pointer ${isDark ? "hover:bg-gray-600" : "hover:bg-gray-200"}`}
+              className={`p-1 rounded transition-colors cursor-pointer ${isDark ? "hover:bg-gray-600" : "hover:bg-gray-200"}`}
               style={{ borderRadius: "var(--border-radius)" }}
             >
               <Icon data="IoIosClose" fillContainer={false} />
-            </span>
+            </button>
           )}
-          <Icon data={isOpen ? "IoIosArrowUp" : "IoIosArrowDown"} fillContainer={false} />
+          <button
+            type="button"
+            onClick={() => !disabled && handleOpen()}
+            disabled={disabled}
+            className="p-1 cursor-pointer"
+          >
+            <Icon data={isOpen ? "IoIosArrowUp" : "IoIosArrowDown"} fillContainer={false} />
+          </button>
         </div>
-      </button>
+      </div>
 
       {mounted && isOpen && createPortal(
         <div
           ref={panelRef}
           className={`overflow-y-auto border-2 shadow-lg ${isDark ? "bg-gray-800 border-gray-600" : "bg-white border-gray-300"}`}
-          style={panelStyle}
+          style={{ maxHeight: panelStyle.maxHeight ?? 240, ...panelStyle }}
           onMouseDown={(e) => e.stopPropagation()}
           onScroll={handleListScroll}
           onWheel={handleListWheel}
         >
           <div className="px-2 pt-2 pb-1 sticky top-0" style={{ background: isDark ? "#1f2937" : "#fff" }}>
             <input
-              autoFocus
+              ref={searchInputRef}
               type="text"
               value={search}
               onChange={(e) => {
@@ -479,7 +502,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
               onMouseDown={(e) => e.stopPropagation()}
               onKeyDown={handleKeyDown}
               placeholder="Search..."
-              className={`w-full px-3 py-1 border focus:outline-none  ${isDark ? "bg-gray-700 text-white border-gray-500 placeholder-gray-400" : "bg-white text-black border-gray-300 placeholder-gray-400"}`}
+              className={`w-full px-4 py-2 border focus:outline-none  ${isDark ? "bg-gray-700 text-white border-gray-500 placeholder-gray-400" : "bg-white text-black border-gray-300 placeholder-gray-400"} ${className}`}
               style={{ borderRadius: "var(--border-radius)" }}
             />
           </div>
@@ -494,7 +517,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
                   isSelected
                     ? "text-white"
                     : isDark ? "text-gray-200 hover:[background-color:var(--hover-color)]" : "text-gray-700 hover:[background-color:var(--hover-color)]"
-                }`}
+                } ${className}`}
                 style={{
                   backgroundColor: isSelected
                     ? branding.selectionColor

@@ -9,6 +9,7 @@ import Artifactdetails from './components/ArtifactDetails'
 import { TotalContext, TotalContextProps } from '../globalContext'
 import { useRouter } from 'next/navigation'
 import { useGlobal } from '@/context/GlobalContext'
+import { logout } from "@/app/components/utils";  
 
 const ParentComponent = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -16,12 +17,12 @@ const ParentComponent = () => {
   const [nodeData, setNodeData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [app, setApp] = useState({
-    code: 'LAP',
-    name: 'LAP'
+    code: 'TA',
+    name: 'TestApplication'
   })
   const [appGroup, setappGroup] = useState({
-    code: 'LAP',
-    name: 'Legal Automation Platform'
+    code: 'TAM',
+    name: 'TAM'
   })
   const { token } = useGlobal();
   const decodedToken: any = decodeToken(token)
@@ -48,7 +49,7 @@ const ParentComponent = () => {
   const [ fabrics , setFabrics ] = useState<Array<string>>([])
   const [jsonViewerData, setJsonViewerData] = useState({})
   const router = useRouter()
-  let landingScreen:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1';
+  let landingScreen:string = 'Logs Screen';
   const encryptionFlagApp: boolean = false;    
   const [jsonData, setJsonData] = useState({
     data: [],
@@ -74,7 +75,7 @@ const ParentComponent = () => {
   }
   let payload:any = useMemo(() => {
     return {
-      tenant: 'CT006',
+      tenant: 'CT001',
        fabric: fabrics.length > 0 ? fabrics.flatMap((prefix: any) =>
             suffixes[prefix]
               ? suffixes[prefix].map((suffix: any) => `${prefix}-${suffix}`)
@@ -98,6 +99,7 @@ const ParentComponent = () => {
         payload['dpdKey'] = encAppFalg.dpd;
         payload['method'] = 'vault';
       }
+
       setLoading(true)
       const response = await AxiosService.post(
         `/${activeTab === 'torus' ? 'expLog' : 'prcLog'}`,
@@ -249,6 +251,7 @@ const ParentComponent = () => {
         }))
     }
   }
+  
   useEffect(() => {
     const controller = new AbortController()
     const signal = controller.signal
@@ -267,20 +270,13 @@ const ParentComponent = () => {
       limit: newPageSize
     }))
   }
- 
-  const logout = () => {
-    localStorage.clear();
-    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-    const from = encodeURIComponent(`${basePath}/`);
-    window.location.href = `${basePath}/next-api/auth/logout?from=${from}`;
-  };
 
    const securityCheck = async () => {
      try {
      const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
      const res = await fetch(`${basePath}/next-api/auth/introspect?key=Logs Screen`)
      if (!res.ok) {
-       logout()
+       logout(token)
        return
      }
      router.refresh()
@@ -290,7 +286,7 @@ const ParentComponent = () => {
      }
        
      } catch (err: any) {
-       logout()
+       logout(token)
      }
    }
  
@@ -308,6 +304,7 @@ const ParentComponent = () => {
         <TableHeader
           loading={loading}
           jsonData={jsonData}
+          setJsonData={setJsonData}
           onPageChange={handlePageChange}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}

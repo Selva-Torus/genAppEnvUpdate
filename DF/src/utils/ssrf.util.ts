@@ -36,8 +36,10 @@ export function assertAllowedOutboundHost(url: string): void {
 // infrastructure (cloud metadata, RFC1918 ranges, etc.) regardless of whether
 // an operator has configured OUTBOUND_HOST_ALLOWLIST. It covers:
 //   - RFC1918 private ranges + loopback/link-local/CGNAT/multicast/reserved IPv4
-//   - IPv6 loopback/link-local/unique-local/multicast + IPv4-mapped/NAT64/6to4
-//     embedded-IPv4 addresses, decoded and re-checked against the IPv4 rules
+//   - IPv6 loopback/link-local/unique-local/multicast + IPv4-mapped/NAT64/6to4/
+//     Teredo embedded-IPv4 addresses, decoded and re-checked against the IPv4
+//     rules (Teredo's client address is XOR-obfuscated per RFC 4380 and is
+//     un-obfuscated before checking)
 //   - alternate IPv4 literal encodings (decimal/octal/hex/short form) — these
 //     are normalized to dotted-decimal by the WHATWG URL parser before this
 //     ever runs, so `new URL(x).hostname` is always the canonical form
@@ -125,10 +127,23 @@ function isPrivateOrReservedIPv6(ip: string): boolean {
     const v4 = Number(val & 0xffffffffn);
     return [24, 16, 8, 0].map(s => (v4 >>> s) & 0xff).join('.');
   };
+  // Extracts a 32-bit IPv4 chunk starting `bitOffset` bits from the MSB,
+  // optionally XOR-obfuscated (Teredo obfuscates its embedded addresses).
+  const ipv4At = (bitOffset: number, xorObfuscated = false) => {
+    const shift = BigInt(128 - bitOffset - 32);
+    let chunk = Number((val >> shift) & 0xffffffffn);
+    if (xorObfuscated) chunk = (~chunk) >>> 0;
+    return [24, 16, 8, 0].map(s => (chunk >>> s) & 0xff).join('.');
+  };
   if (val === 0n) return true; // ::  (unspecified)
   if (val === 1n) return true; // ::1 (loopback)
   if (inRange('00000000000000000000ffff00000000', 96)) return isPrivateOrReservedIPv4(embeddedIPv4()); // ::ffff:a.b.c.d
   if (inRange('0064ff9b000000000000000000000000', 96)) return isPrivateOrReservedIPv4(embeddedIPv4()); // 64:ff9b::/96 (NAT64)
+  if (inRange('20020000000000000000000000000000', 16)) return isPrivateOrReservedIPv4(ipv4At(16)); // 2002::/16 (6to4), embeds IPv4 in bits 16-47
+  if (inRange('20010000000000000000000000000000', 32)) {
+    // Teredo (2001::/32): bits 32-63 = server IPv4 (plain), bits 96-127 = client IPv4 (XORed with 0xFFFFFFFF)
+    return isPrivateOrReservedIPv4(ipv4At(32)) || isPrivateOrReservedIPv4(ipv4At(96, true));
+  }
   if (inRange('fc000000000000000000000000000000', 7)) return true;  // fc00::/7 (unique local)
   if (inRange('fe800000000000000000000000000000', 10)) return true; // fe80::/10 (link-local)
   if (inRange('ff000000000000000000000000000000', 8)) return true;  // ff00::/8 (multicast)

@@ -30,7 +30,7 @@ export class AbilitiesGuard implements CanActivate {
     }
 
     const request: any = context.switchToHttp().getRequest();
-    const dfKey:string = 'CK:CT006:FNGK:AF:FNK:API-ERD:CATK:LAP:AFGK:LAP:AFK:lapERD:AFVK:v1';
+    const dfKey:string = 'CK:CT001:FNGK:AF:FNK:API-ERD:CATK:TAM:AFGK:TA:AFK:jsonb_erd:AFVK:v1';
     const source: string = 'redis';
     const target: string = 'redis';
     const artifact : string = dfKey.split(':')[11];
@@ -41,7 +41,7 @@ export class AbilitiesGuard implements CanActivate {
     const token: string = authHeader.split(' ')[1];
     // Verified (signature + expiry checked), not a bare decode — a forged
     // token must no longer be able to drive an authorization decision here.
-    const decodedToken: any = this.jwtService.verifyToken(token);
+    const decodedToken: any = await this.jwtService.verifyToken(token);
     decodedToken.template = 'T1';
 
     const DO: any = await this.TGCommonService.readAPI(dfKey + ':DO',process.env.clientCode,token);

@@ -20,9 +20,7 @@ import * as XLSX from '@e965/xlsx';
 const _ = require("lodash")
 import * as crypto from 'crypto';
 import { Queue,QueueEvents } from 'bullmq';
-import { EventEmitterProcessor } from "./event-emitter.processor";
-import { ListenerService } from "./listener.service";
-import { CompressionTypes, EachMessagePayload } from 'kafkajs';
+import { Kafka, Producer, Consumer, CompressionTypes, EachMessagePayload } from 'kafkajs';
 import { EnvData } from "src/envData/envData.service";
 import { decrypt } from "src/decrypt";
 import * as https from 'https';
@@ -32,6 +30,7 @@ import { format } from "date-fns";
 import * as nodemailer from 'nodemailer';
 import { runInSandbox } from "src/sandbox";
 import { Surreal, Table, RecordId } from 'surrealdb';
+import { getRedisConnectionOptions } from "src/redis.config";
 
 type MappingValue = string | { sourcePath: string; arrayMap: Record< string, string> };
 type MappingConfig = Record< string, MappingValue>;
@@ -43,19 +42,28 @@ interface ArrayMapConfig {
 @Injectable()
 export class DynamicFlowService {
     private ajv = new Ajv();  
-    private transporter
+    private transporters = new Map< string, nodemailer.Transporter>();
     private statickeyword = ['get', 'post', 'patch', '200', '201', '202', '204', '400', '401', '403', '404', '500','requestBody', '*/*', 'responses', 'content', 'application/json', 'application/xml', 'text/plain', 'application/jwt', 'application/json; charset=utf-8', 'schema', 'properties', 'allOf', 'oneOf', 'inputschema', 'outputschema',];//"parameters",
     private numberArr: string[] = Array.from({ length: 101 }, (_, i) => i.toString());  
-    private ruleParams={}
+    private kafka: Kafka;
+    private producer: Producer;
+    private consumers: Map<string, Consumer> = new Map();
     constructor(
-    private readonly redisService:RedisService,
-    private readonly listenerService:ListenerService,
+    private readonly redisService:RedisService,    
     private readonly jwtService:JwtServices,  
     private readonly CommonService: CommonService,
     private readonly lockservice: LockService,
-    private readonly envData:EnvData,
-    @Inject(forwardRef(() => EventEmitterProcessor)) private readonly processor: EventEmitterProcessor
+    private readonly envData:EnvData,    
    ){}
+    private getKafkaInstance(): Kafka {
+        if (!this.kafka) {
+            this.kafka = new Kafka({
+                clientId: this.envData.getKafkaClientId(),
+                brokers: [this.envData.getKafkaBroker()],
+            });
+        }
+        return this.kafka;
+    }
    private readonly logger = new Logger(DynamicFlowService.name)
  
 
@@ -111,7 +119,9 @@ export class DynamicFlowService {
         let nodeType = pfdto.nodeType
         let nodeName = pfdto.nodeName
         let parentUpId = pfdto.parentUpId
+        let sortingDetails = pfdto?.sortingDetails
         let collectionName = process.env.CLIENTCODE;
+        let enableBulk = pfdto.enableBulk
 
         let offset = (page - 1) * count;
         
@@ -179,10 +189,9 @@ export class DynamicFlowService {
             //HumanTaskNode
             if (nodeType == 'humantasknode' && poNode[j].nodeId == nodeId) {
                 try {
-                    this.logger.log('HumanTask node Started');
-                    //this.ruleParams[nodeName] = Array.isArray(inputparam)?inputparam[0]:inputparam
+                    this.logger.log('HumanTask node Started');                   
                     await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(inputparam)?inputparam[0]:inputparam),collectionName,nodeName);
-                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                     if (RCMresult) {
                         zenresult = RCMresult.rule
                         customcoderesult = RCMresult.code
@@ -243,7 +252,7 @@ export class DynamicFlowService {
                     }
                     inputparam =  Array.isArray(inputparam) && inputparam.length == 1?inputparam[0]:inputparam
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(inputparam), collectionName, 'response',);
-                    await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: inputparam, response: inputparam } }),);
+                    //await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: inputparam, response: inputparam } }),);
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(pfdto.sourceId), collectionName, 'sourceid',);
                     await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, inputparam, inputparam,);
                      inputparam = { [nodeName]: inputparam }
@@ -263,7 +272,7 @@ export class DynamicFlowService {
                     }
                     let decisionRes
                       
-                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                     
                     if (RCMresult) {
                         let ruleRes = RCMresult.rule//.output;
@@ -281,7 +290,7 @@ export class DynamicFlowService {
                             }
                         }
                         decisionRes = { zenresult }
-                        await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: zenresult, data: { request: inputparam, response: zenresult } }),);
+                        //await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: zenresult, data: { request: inputparam, response: zenresult } }),);
                         await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, inputparam, { zenresult });
                     }
                     if (customcoderesult && customcoderesult != undefined && customcoderesult != null) {
@@ -295,8 +304,7 @@ export class DynamicFlowService {
 
                     if (decisionRes) {
                         await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(decisionRes), collectionName, 'response',);
-                    }
-                    //this.ruleParams[nodeName] = decisionRes
+                    }                   
                     await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(decisionRes)?decisionRes[0]:decisionRes),collectionName,nodeName);
 
                     this.logger.log('Decision node completed');
@@ -309,12 +317,7 @@ export class DynamicFlowService {
               //Api Node
              if ((nodeType == 'apinode' || nodeType == 'googlefileapinode') && poNode[j].nodeId == nodeId) {
                 let lock: any, rollbackConfig, apichildResult: any = [],requestBody
-                try {
-                    if (currentFabric == 'PF-SCDL' && poNode[j]?.nodeId == poNode[1].nodeId) {
-                        let firstnode = await this.listenerService.firstProcessor(pfdto, event, pfjson, poJson, pfo, ndp, currentFabric, flag, page, count, filterData, lockDetails, childtable, logicCenter, true)
-                        return { status: firstnode.status, targetStatus: firstnode.targetStatus, data: firstnode.data, }
-                    }
-                    else {
+                try {                   
                         this.logger.log(`${poNode[j].nodeName} Api node Started`);
                         // Q19-class remediation: this branch can resolve a
                         // caller-controlled dpdKey into another tenant's
@@ -473,7 +476,7 @@ export class DynamicFlowService {
                             let rulejson: any = Object.values(ruleConfig)[0];
                             let rulecheck:any
                             if(flag)                 
-                            rulecheck = await this.CommonService.getRuleCodeMapper(rulejson, this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                            rulecheck = await this.CommonService.getRuleCodeMapper(rulejson,{}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                             else
                             rulecheck= await this.CommonService.ruleCheck(rulejson?.rule,{session:SessionInfo})  
                             return rulecheck;
@@ -495,7 +498,7 @@ export class DynamicFlowService {
                             encCredentials = await this.CommonService.checkEncryption(poNode[j]);
                             
                             if (currentFabric == 'PF-PFD' || currentFabric == 'PF-SFD' || currentFabric == 'PF-SCDL') {
-                                RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                                RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                                 if (RCMresult) {
                                     zenresult = RCMresult.rule;
                                     customcoderesult = RCMresult.code;
@@ -511,6 +514,34 @@ export class DynamicFlowService {
 
                             ifoObj = await this.ifoAssign(poJson?.internalMappingNodes, poNode[j].nodeId,sobj,zenresult,processedKey + upId,inputparam,pfdto)
 
+                            if(currentFabric == 'PF-PFD' && enableBulk){
+                                const requestConfig: AxiosRequestConfig = {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`,
+                                    },timeout: 300000 
+                                };
+                                let apiUrl = serverUrl + endPoint
+                                let apiResult = await this.executeApiCall(methodName, apiUrl, requestConfig, inputparam)
+                                if (apiResult) {
+                                    if (apiResult.statusCode == 201 || apiResult.statusCode == 200) {
+                                        apiResult = apiResult?.result;
+                                    } else {
+                                        throw apiResult;
+                                    }
+                                    let assigndata = await this.assign(apiResult, ifoObj, codeObj, inputparam, nodeName, {})
+                                    apichildResult.push(assigndata.apiResult)
+                                    if (apichildResult && (apichildResult?.length>0 || Object.keys(apichildResult).length>0)) {
+                                        if(Array.isArray(apichildResult))
+                                        apichildResult = apichildResult.flat()
+                                        await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(apichildResult), collectionName, 'response',);
+                                        await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, requestBody, apichildResult);
+                                        apires = apichildResult;    
+                                                                            
+                                        await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(apichildResult)?apichildResult[0]:apichildResult),collectionName,nodeName);
+                                    }
+                                }
+                            }else{
+                            
                             let childInsertArr, textobj, mapObj = {}, tempQryVal = []
                             if (internalEdges && internalEdges.hasOwnProperty(poNode[j].nodeId)) {
                                 let currentNodeEdge = internalEdges[poNode[j].nodeId];
@@ -608,7 +639,7 @@ export class DynamicFlowService {
                                             }                                                    
                                             let postres = await this.executeApiCall(methodName, apiUrl, requestConfig)
                                             if (flag != 'N' && postres?.result?.length == 0 && logicCenter) {
-                                                await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: apiUrl, response: postres } }));
+                                                //await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: apiUrl, response: postres } }));
                                                 await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(apiUrl), collectionName, 'request');
                                                 await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(postres?.result), collectionName, 'response');
                                                 return {
@@ -712,10 +743,9 @@ export class DynamicFlowService {
                                     }
                                     
                                     inputparam = await this.assignToInputParam(inputparam, nodeName, apires)
-                                    if (!inputparam || inputparam?.length == 0) {
-                                        //this.ruleParams[nodeName] = apires
+                                    if (!inputparam || inputparam?.length == 0) {                                        
                                         await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(apires), collectionName, 'customResponse',);
-                                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                                     }
                                     if (RCMresult) {
                                         zenresult = RCMresult.rule;
@@ -730,7 +760,7 @@ export class DynamicFlowService {
 
                                 }
                                 if (upId) {
-                                    await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: inputparam, response: apires } }),);
+                                    //await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: inputparam, response: apires } }),);
                                     if (apires)
                                         await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, apiUrl, apires,);
                                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(apiUrl), collectionName, 'request',);
@@ -779,7 +809,7 @@ export class DynamicFlowService {
                                                             requestConfig['httpsAgent'] = httpAgent
                                                         }
                                                     }
-                                                     requestBody = Object.assign({headers:requestConfig?.headers},{apiUrl})
+                                                     requestBody = Object.assign({url:apiUrl,headers:requestConfig?.headers},{apiUrl})
                                                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(requestBody), collectionName, 'request');
                                                     apiResult = await this.executeApiCall(methodName, apiUrl, requestConfig)
 
@@ -791,12 +821,13 @@ export class DynamicFlowService {
                                                         else{
                                                             await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(apiUrl), collectionName, 'request');
                                                             await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(apiResult), collectionName, 'response');
-                                                            return apiResult
+                                                            return apiResult?.result;
+                                                            // return { status: 200, targetStatus: targetStatus, data: apiResult };
                                                         }
                                                     } else {
                                                         throw apiResult;
                                                     }
-                                                     RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                                                     RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],{}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                                                     if (RCMresult) {
                                                         zenresult = RCMresult?.rule;
                                                         customcoderesult = RCMresult?.code;
@@ -936,7 +967,7 @@ export class DynamicFlowService {
                                                                     }
                                                                 }
                                                             }
-                                                                requestBody = Object.assign({headers:requestConfig?.headers},mapObj)
+                                                                requestBody = Object.assign({url:apiUrl,headers:requestConfig?.headers},mapObj)
                                                                 await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(requestBody), collectionName, 'request');
                                                                 apiResult = await this.executeApiCall(methodName, apiUrl, requestConfig, mapObj)
                                                                 
@@ -1047,7 +1078,7 @@ export class DynamicFlowService {
                                                                     let beforeUpdate = await this.executeApiCall(methodName, serverUrl + tempEndpoint, requestConfig)
                                                                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(beforeUpdate), collectionName, 'rollback')
                                                                 }
-                                                                 requestBody = Object.assign({headers:requestConfig?.headers},mapObj)
+                                                                 requestBody = Object.assign({url:serverUrl + tempEndpoint,headers:requestConfig?.headers},mapObj)
                                                                 await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(requestBody), collectionName, 'request');
                                                                 apiResult = await this.executeApiCall(methodName, serverUrl + tempEndpoint, requestConfig, mapObj)
                                                                 if (apiResult.statusCode == 201 || apiResult.statusCode == 200) {
@@ -1077,7 +1108,7 @@ export class DynamicFlowService {
                                                                     let beforeUpdate = await this.executeApiCall(methodName, serverUrl + tempEndpoint, requestConfig)
                                                                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j]?.nodeName + '.PRO', JSON.stringify(beforeUpdate), collectionName, 'rollback')
                                                                 }
-                                                                 requestBody = Object.assign({headers:requestConfig?.headers},mapObj)
+                                                                 requestBody = Object.assign({url:serverUrl + tempEndpoint,headers:requestConfig?.headers},mapObj)
                                                                 await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(requestBody), collectionName, 'request');
                                                                 apiResult = await this.executeApiCall(methodName, serverUrl + tempEndpoint, requestConfig, mapObj)
                                                             }
@@ -1099,6 +1130,8 @@ export class DynamicFlowService {
                                                             }else{
                                                                 throw error
                                                             }
+                                                        }else{
+                                                            throw error
                                                         }
                                                     }
 
@@ -1184,7 +1217,7 @@ export class DynamicFlowService {
                                         } else {
                                             throw apiResult;
                                         }
-                                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],{}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                                         if (RCMresult) {
                                             zenresult = RCMresult?.rule;
                                             customcoderesult = RCMresult?.code;
@@ -1251,27 +1284,25 @@ export class DynamicFlowService {
                                 }
                                 if(childInsertArr?.length == 1 && methodName != 'get')
                                     apichildResult = apichildResult[0]
-                                await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: inputparam, response: apichildResult } }));
-                                await this.redisService.setStreamData(targetQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: inputparam, response: apichildResult } }),);
+                                //await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: inputparam, response: apichildResult } }));
+                                //await this.redisService.setStreamData(targetQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: inputparam, response: apichildResult } }),);
                                 if (EncapiResult?.result) {
                                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(EncapiResult?.result), collectionName, 'response',);
                                     await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, EncryptedRqst, EncapiResult?.result,);
                                 } else {
-                                    if (apichildResult?.length>0 || Object.keys(apichildResult).length>0) {
+                                    if (apichildResult && (apichildResult?.length>0 || Object.keys(apichildResult).length>0)) {
                                         if(Array.isArray(apichildResult))
                                         apichildResult = apichildResult.flat()
                                         await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(apichildResult), collectionName, 'response',);
                                         await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, requestBody, apichildResult);
-                                        apires = apichildResult;
-                                        //this.ruleParams[nodeName] = Array.isArray(apichildResult)?apichildResult[0]:apichildResult
+                                        apires = apichildResult;                                        
                                         await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(apichildResult)?apichildResult[0]:apichildResult),collectionName,nodeName);
                                     } else if(apiResult && ((Array.isArray(apiResult) && apiResult.length > 0) || (!Array.isArray(apiResult) && typeof apiResult === 'object' && Object.keys(apiResult).length > 0))) {
                                          if(Array.isArray(apiResult))
                                         apiResult = apiResult.flat()
                                         await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(apiResult), collectionName, 'response',);
                                         await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, requestBody, apiResult,);
-                                        apires = apiResult;
-                                        //this.ruleParams[nodeName] = Array.isArray(apiResult)?apiResult[0]:apiResult 
+                                        apires = apiResult;                                       
                                         await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(apiResult)?apiResult[0]:apiResult),collectionName,nodeName);                                       
                                     }else{
                                         if(['patch','put'].includes(methodName))
@@ -1282,6 +1313,7 @@ export class DynamicFlowService {
                                     
                                 }
                             }
+                            }
                         }
                        
                         
@@ -1290,7 +1322,7 @@ export class DynamicFlowService {
                             return { status: 200, targetStatus: targetStatus, data: inputparam,method:methodName};
                         else
                             return { status: 200, targetStatus: targetStatus, data: apires };
-                    }
+                    
                 } catch (error) {                     
                     await this.CommonService.checkRollBack(ndp, collectionName, 'rollback', {
                         key: processedKey + upId,
@@ -1310,7 +1342,7 @@ export class DynamicFlowService {
                 try {
                     this.logger.log('Automation Node Started');
                     
-                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                     if (RCMresult) {
                         zenresult = RCMresult?.rule;
                         customcoderesult = RCMresult?.code;
@@ -1335,8 +1367,7 @@ export class DynamicFlowService {
                     }
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(res), collectionName, 'response');
                     if (res)
-                        await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, inputparam, res);                          
-                    //this.ruleParams[nodeName] = Array.isArray(res) ? res[0] : res
+                        await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, inputparam, res);
                     await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(res)?res[0]:res),collectionName,nodeName);
                     this.logger.log('Automation node completed');
                     return { status: 200, targetStatus: targetStatus };
@@ -1348,11 +1379,7 @@ export class DynamicFlowService {
            //DB Node
              if (nodeType == 'dbnode' && poNode[j].nodeId == nodeId) {
                 let rollbackConfig, dbres: any
-                try {
-                     if (currentFabric == 'PF-SCDL' && poNode[j]?.nodeId == poNode[1].nodeId) {
-                        let firstnode = await this.listenerService.firstProcessor(pfdto, event, pfjson, poJson, pfo, ndp, currentFabric, flag, page, count, filterData, lockDetails, childtable, logicCenter, true)
-                        return { status: firstnode.status, targetStatus: firstnode.targetStatus, data: firstnode.data, }
-                    }else{
+                try {                    
                     this.logger.log('DB node Started');
                     // Q19 remediation: same gate as the outputnode branch —
                     // ndp/poNode is caller-supplied with no server-side
@@ -1372,7 +1399,7 @@ export class DynamicFlowService {
                     client = dbconfig?.client
                     let nodeVersion = customConfig?.nodeVersion;
                     if (nodeVersion?.toLowerCase() == 'v1') {
-                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                         let queryName
                         let ruleRes = RCMresult?.rule                        
                         if(ruleRes && typeof ruleRes == 'object'){
@@ -1404,7 +1431,7 @@ export class DynamicFlowService {
                             if (!ruleConfig || Object.keys(ruleConfig).length == 0)
                                 throw new CustomException(pfjson[j].nodeName +' Reference key value not found', 404);
                             let rulejson: any = Object.values(ruleConfig)[0];
-                            //let rulecheck:any = await this.CommonService.getRuleCodeMapper(rulejson, this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                            //let rulecheck:any = await this.CommonService.getRuleCodeMapper(rulejson, {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                            let rulecheck:any = await this.CommonService.ruleCheck(rulejson?.rule,{session:SessionInfo})
                             return rulecheck;
                            }                                               
@@ -1566,14 +1593,28 @@ export class DynamicFlowService {
                             if (qry.endsWith(';')) {
                                 qry = qry.slice(0, -1);
                             }
-                             if (page && count) {
+
+                            let s_order,s_by
+                            if(sortingDetails && Object.keys(sortingDetails).length>0){
+                                s_order = Object.keys(sortingDetails)[0]
+                                s_by = Object.values(sortingDetails)[0]
+                                s_by = s_by.toUpperCase()
+                                if(!['DESC','ASC'].includes(s_by)) throw new CustomException('Invalid Sorting Type', 404); 
+                            }
+
+                            if (page && count) {
                                  cleanedQuery = qry.trim();
-                                let cQuery = `WITH base AS (${cleanedQuery}) SELECT *, COUNT(*) OVER() AS total_records FROM base`
+                                 let cQuery
+                                 if(s_order && s_by)
+                                    cQuery = `WITH base AS (${cleanedQuery}) SELECT *, COUNT(*) OVER() AS total_records FROM base ORDER BY ${s_order} ${s_by}`
+                                 else
+                                    cQuery = `WITH base AS (${cleanedQuery}) SELECT *, COUNT(*) OVER() AS total_records FROM base`
+
                                 if (/limit\s+\d+/i.test(cQuery)) 
-                                    qry = cQuery
+                                  qry = cQuery
                                   // throw new Error('LIMIT clause detected. Please do not include it.');                                   
                                 else
-                                qry = `${cQuery} LIMIT ${count} OFFSET ${offset}`;
+                                  qry = `${cQuery} LIMIT ${count} OFFSET ${offset}`;
                             }
 
                            
@@ -1829,12 +1870,11 @@ export class DynamicFlowService {
                      await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(dbres), collectionName, 'response');
                     
                      if (inputparam) {
-                        inputparam = await this.assignToInputParam(inputparam, nodeName, dbres)
-                        //this.ruleParams[nodeName] = Array.isArray(dbres)?dbres[0]:dbres
+                        inputparam = await this.assignToInputParam(inputparam, nodeName, dbres)                       
                         await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(dbres)?dbres[0]:dbres),collectionName,nodeName);
-                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                     } else {   
-                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                     }                    
                     if (RCMresult) {
                         zenresult = RCMresult.rule;
@@ -1891,8 +1931,7 @@ export class DynamicFlowService {
                     if(currentFabric == 'DF-DFD')
                     return { status: 200, targetStatus: targetStatus, data: dbres };
                     else
-                    return { status: 200, targetStatus: targetStatus, data:inputparam };
-                    }
+                    return { status: 200, targetStatus: targetStatus, data:inputparam };                    
                    } catch (error) {                  
                     await this.CommonService.checkRollBack(ndp, collectionName, 'rollback', {
                         key: processedKey + upId,
@@ -2234,12 +2273,11 @@ export class DynamicFlowService {
                 surrealdbres = surrealdbres?.flat()
                 this.logger.log(`SurrealDB record: ${JSON.stringify(result[0])}`);
                 if (inputparam) {
-                        inputparam = await this.assignToInputParam(inputparam, nodeName, surrealdbres)
-                        //this.ruleParams[nodeName] = Array.isArray(dbres)?dbres[0]:dbres
+                        inputparam = await this.assignToInputParam(inputparam, nodeName, surrealdbres)                        
                         await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(surrealdbres)?surrealdbres[0]:surrealdbres),collectionName,nodeName);
-                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                     } else {   
-                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                     }                    
                     if (RCMresult) {
                         zenresult = RCMresult.rule;
@@ -2492,17 +2530,16 @@ export class DynamicFlowService {
                             await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(mongoDbarr), collectionName, 'response');
                             return responseData
                         }
-                    }
+                    }                 
                    
-                    //this.ruleParams[nodeName] = Array.isArray(mongoDbarr)?mongoDbarr[0]:mongoDbarr
                     await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(mongoDbarr)?mongoDbarr[0]:mongoDbarr),collectionName,nodeName);
                     if (inputparam) {
                         
                         inputparam = await this.assignToInputParam(inputparam, nodeName, mongoDbarr)
-                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                     } else {
                         
-                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                     }
                     if (RCMresult) {
                         zenresult = RCMresult?.rule;
@@ -2549,14 +2586,10 @@ export class DynamicFlowService {
                 }
             }
 
-            //Stream Node
+             //Stream Node
             if (nodeType == 'streamnode' && poNode[j].nodeId == nodeId) {
                 let rollbackConfig, streamArr: any = [];
-                try {
-                    if (currentFabric == 'PF-SCDL' && poNode[j]?.nodeId == poNode[1]?.nodeId) {
-                        let firstnode = await this.listenerService.firstProcessor(pfdto, event, pfjson, poJson, pfo, ndp, currentFabric, flag, page, count, filterData, lockDetails, childtable, logicCenter, true)
-                        return { status: firstnode.status, targetStatus: firstnode.targetStatus, data: firstnode.data, }
-                    } else {
+                try {                   
                         this.logger.log(nodeName + 'Stream node Started');
                         // Q19-class remediation: this branch can resolve a
                         // caller-controlled dpdkey into another tenant's
@@ -2634,6 +2667,11 @@ export class DynamicFlowService {
                         if (!isStatic && childInsertArr?.length > 0 && childInsertArr[0]?.streaminfo)
                             delete childInsertArr[0]?.streaminfo
                         if (storageType?.toLowerCase() == 'externel') {
+                            // Every throw below previously skipped redis.disconnect() at
+                            // the end of this block, leaking the external stream-connector
+                            // connection on any error (missing stream, "No Data available",
+                            // etc.) instead of only on the happy path.
+                            try {
                             if (oprname == 'read') {
                                 if (!streamName) {
                                     throw new CustomException('Stream RequestParams were empty', 404);
@@ -2723,7 +2761,9 @@ export class DynamicFlowService {
                                 }
                                 streamArr = { entryId: idarr }
                             }
-                            redis.disconnect();
+                            } finally {
+                                redis?.disconnect();
+                            }
                         } else {
                             if (oprname == 'read') {                               
                                 if (!streamName) throw new CustomException('Stream RequestParams were empty', 404);
@@ -2940,10 +2980,10 @@ export class DynamicFlowService {
                         await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(streamArr)?streamArr[0]:streamArr),collectionName,nodeName);
                         if (inputparam && Object.keys(inputparam).length > 0) {
                                                                                   
-                            RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                            RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                         } else {
                             
-                            RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                            RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                         }
                         if (RCMresult) {
                             zenresult = RCMresult.rule;
@@ -2983,7 +3023,7 @@ export class DynamicFlowService {
                         
                         else
                             return { status: 200, targetStatus: targetStatus, data:streamArr};
-                    }
+                    
                 } catch (error) {
                     await this.CommonService.checkRollBack(ndp, collectionName, 'rollback', {
                         key: processedKey + upId,
@@ -2999,12 +3039,7 @@ export class DynamicFlowService {
 
             //Kafka Node
             if (nodeType == 'kafka_stream_node' && poNode[j].nodeId == nodeId) {
-                try {
-                if(currentFabric == 'PF-SCDL' && poNode[j]?.nodeId == poNode[1]?.nodeId){
-                let firstnode = await this.listenerService.firstProcessor(pfdto, event, pfjson ,poJson,pfo, ndp,currentFabric, flag, page, count, filterData, lockDetails,childtable,logicCenter,true)
-                return {status: firstnode.status,targetStatus: firstnode.targetStatus,data: firstnode.data,}
-                }
-                else{
+                try {                
                 this.logger.log('Kafka Stream first node Started');
                 // Q19-class remediation: this branch can resolve a
                 // caller-controlled dpdkey into another tenant's decrypted
@@ -3152,7 +3187,7 @@ export class DynamicFlowService {
                 // PRODUCE OPERATION
                 if (oprname === 'producer') {
                     try {
-                        const producer = await this.listenerService.getProducer();
+                        const producer = await this.getProducer();
                        
                         
                         // Prepare messages
@@ -3197,7 +3232,7 @@ export class DynamicFlowService {
                 else if (oprname == 'consumer') {
                     if (!groupId)
                     throw new CustomException('Consumer group ID not found', 404);
-                    const consumer = await this.listenerService.getConsumer(groupId);
+                    const consumer = await this.getConsumer(groupId);
                     // const consumer: Consumer = kafka.consumer({
                     // groupId: groupId,
                     // sessionTimeout:  6000,
@@ -3276,8 +3311,7 @@ export class DynamicFlowService {
                     await consumer.disconnect().catch(() => {});
                     throw new CustomException(`Kafka consume error: ${consumerError?.message || consumerError}`, 500);
                     }
-                }
-                //this.ruleParams[nodeName] = Array.isArray(kafkaResultArr)?kafkaResultArr[0]:kafkaResultArr
+                }               
                 await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(kafkaResultArr)?kafkaResultArr[0]:kafkaResultArr),collectionName,nodeName);
                 if (inputparam) {
                     if (Object.keys(inputparam).length > 0) {
@@ -3292,10 +3326,10 @@ export class DynamicFlowService {
                     } else {
                     inputparam = Object.assign(inputparam, { [poNode[j].nodeName]: kafkaResultArr });
                     }
-                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                 } else {
                        
-                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                 }
                 // Store results in Redis
                 await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify({ topic: topicName, operation: oprname }), collectionName, 'request');
@@ -3308,7 +3342,7 @@ export class DynamicFlowService {
                     return { status: 200, targetStatus: targetStatus, data: inputparam };
                 else
                     return { status: 200, targetStatus: targetStatus, data: kafkaResultArr };
-                }} catch (error) {              
+                } catch (error) {              
                 this.logger.error('Kafka Stream first node Failed', error);
                 throw error;
                 }
@@ -3522,16 +3556,15 @@ export class DynamicFlowService {
                         }
                         if(Array.isArray(fileres) && searchFilter?.length>0 && !logicCenter){                                                                  
                             fileres = await this.applyFilters(fileres, searchFilter)                                
-                        }
-                       
-                        //this.ruleParams[nodeName] = Array.isArray(fileres)?fileres[0]:fileres
+                        }                      
+                        
                         await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(fileres)?fileres[0]:fileres),collectionName,nodeName);
                         if (inputparam) {    
                                                
-                            RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                            RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                         } else {
                            
-                            RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                            RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                         }
                         if (RCMresult) {
                             zenresult = RCMresult.rule;
@@ -3586,7 +3619,7 @@ export class DynamicFlowService {
                 }
             }
 
-            //Sub Flow Node
+             //Sub Flow Node
             if (nodeType == 'subflow_node' && poNode[j].nodeId == nodeId) {
                 try {
                     this.logger.log('Sub Flow Node Started');
@@ -3645,91 +3678,7 @@ export class DynamicFlowService {
                         // to statement order, not a deliberate safeguard (M22).
                         await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(this.CommonService.redactSensitiveFields(pfdto)), collectionName, 'request',);
                         
-                        if (currentFabric == 'PF-SCDL') {
-                            pfdto.parentUpId = upId;
-                            let keyParts = key.split(':');
-                            let pfdKeyParts = PfdKey.split(':');
-                            let parentJobName = 'Parent-Flow'//((keyParts[1] + keyParts[5] + keyParts[7] + keyParts[9] + keyParts[11] + keyParts[13]).replace(/[-_]/g, '')).replace(/\s+/g, '');
-                            // let childJobName = `${((pfdKeyParts[1] + pfdKeyParts[5] + pfdKeyParts[7] + pfdKeyParts[9] + pfdKeyParts[11] + pfdKeyParts[13]).replace(/[-_]/g, '')).replace(/\s+/g, '')}-${upId}`; //`ChildFlow-${upId}` 
-                            let childJobName = `Child-Flow-${upId}`
-
-                            this.logger.log(`Creating child job in queue: ${childJobName}`);
-                            this.logger.log(`Parent job: ${parentJobName}, Parent job ID: ${upId}`);
-
-                            // Get the parent queue first to get the qualified name
-                            const parentQueue: Queue = this.listenerService.getQueue(parentJobName);
-
-                            // Get or create the child queue
-                            const childQueue: Queue = this.listenerService.getQueue(childJobName);
-
-                            // Create worker for this queue if not already created
-                            this.processor.createWorker(childJobName);
-
-                            // Get the parent job to verify it exists and get its qualified queue name
-                            const parentJob = await parentQueue.getJob(upId);
-
-                            if (!parentJob) {
-                                throw new Error(`Parent job ${upId} not found in queue ${parentJobName}`);
-                            }
-
-                            this.logger.log(`Parent job found: ${parentJob.id} in queue ${parentJob.queueQualifiedName}`);
-
-                            // Add child job to the queue with correct parent reference
-                            const childJob = await childQueue.add(
-                                `${childJobName}`, // Job name
-                                pfdto, // Job data
-                                {
-                                    parent: {
-                                        id: parentJob.id, // Use parentJob.id to ensure it's a string
-                                        queue: parentJob.queueQualifiedName // CRITICAL: Use queueQualifiedName, not just queue name
-                                    },
-                                    removeOnComplete: false,
-                                    removeOnFail: false,
-                                }
-                            );
-
-                            this.logger.log(`Created child job ${childJob.id} in queue ${childJobName}`);
-
-                            // Wait for the child job to complete and get the result
-                            try {
-                                // Create a QueueEvents instance to listen for job completion
-                                const queueEvents = new QueueEvents(childJobName, {
-                                    connection: {
-                                        sentinels: [
-                                        {
-                                        host: process.env.REDIS_SENTINEL_HOST,
-                                        port: Number(process.env.REDIS_SENTINEL_PORT),
-                                        },      
-                                    ],    
-                                    name: process.env.REDIS_MASTER_NAME,
-                                    username: process.env.REDIS_USERNAME,
-                                    password: process.env.REDIS_PASSWORD, 
-                                    },
-                                });
-
-                                this.logger.log(`Waiting for child job ${childJob.id} to complete...`);
-
-                                // Wait for the job to finish
-                                const result = await childJob.waitUntilFinished(queueEvents);                              
-
-                                this.logger.log(`Child job ${childJob.id} completed with result`);
-
-                                // Clean up
-                                await queueEvents.close();
-
-                                // Format the result to match the expected API response structure
-                                subPoResult = {
-                                    statusCode: 201,
-                                    status: 'Success',
-                                    result: result
-                                };
-
-                            } catch (error) {
-                                this.logger.error(`Child job ${childJob.id} failed: ${error.message}`);
-                                throw error;
-                            }
-
-                        } else {
+                      
                             const requestConfig: AxiosRequestConfig = {
                                 headers: {
                                     Authorization: `Bearer ${token}`,
@@ -3740,7 +3689,7 @@ export class DynamicFlowService {
                             if (!this.envData.getBeUrl()) throw new CustomException('Server Url not found', 404);
                             //subPoResult = await this.executeApiCall('post', process.env.BE_URL + '/te/eventEmitter', requestConfig, pfdto)
                             subPoResult = await this.executeApiCall('post', this.envData.getBeUrl() + '/te/eventEmitter', requestConfig, pfdto)
-                        }
+                       
 
                         if (subPoResult?.statusCode == 201 && subPoResult?.status == 'Success') {
                             if (subPoResult?.result?.message == 'Success') {
@@ -3777,7 +3726,7 @@ export class DynamicFlowService {
                             }
 
                             if (upId) {
-                                await this.redisService.setStreamData(srcQueue, collectionName + 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: pfdto, response: pfExecutedSet }, }),);
+                                //await this.redisService.setStreamData(srcQueue, collectionName + 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: pfdto, response: pfExecutedSet }, }),);
                                 await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, pfdto, subPoResult);
                                 await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(pfExecutedSet), collectionName, 'response',);
                             }
@@ -3837,10 +3786,9 @@ export class DynamicFlowService {
                         // this.ruleParams[nodeName] = Array.isArray(subPoResult) ? {...this.ruleParams , ...subPoResult[0]} : {...this.ruleParams , ...subPoResult}
                         // if (inputparam) {
                         //     inputparam = await this.assignToInputParam(inputparam, nodeName, inputData)
-                        //     RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
-                        // } else {
-                            
-                            RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                        //     RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                        // } else {                            
+                            RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                         // }
                         if (RCMresult) {
                             zenresult = RCMresult?.rule;
@@ -3885,10 +3833,9 @@ export class DynamicFlowService {
             //API input Node
             if (nodeType == 'api_inputnode' && poNode[j].nodeId == nodeId) {
                 try {
-                    this.logger.log('.....api_inputnode Started')
-                    //this.ruleParams[nodeName] = Array.isArray(inputparam)?inputparam[0]:inputparam
+                    this.logger.log('.....api_inputnode Started')                   
                     await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(inputparam)?inputparam[0]:inputparam),collectionName,nodeName);
-                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName)
+                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName)
                     if (RCMresult) {
                         zenresult = RCMresult?.rule
                         customcoderesult = RCMresult?.code
@@ -3904,9 +3851,8 @@ export class DynamicFlowService {
 
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(inputparam), collectionName, 'response')
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(event), collectionName, 'event')
-                    await this.redisService.setStreamData(srcQueue, collectionName + 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: inputparam, response: inputparam } }))
+                    //await this.redisService.setStreamData(srcQueue, collectionName + 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: inputparam, response: inputparam } }))
                     await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, inputparam, { "PID": upId, "TID": nodeId, "EVENT": targetStatus })
-                    //this.ruleParams[nodeName] = Array.isArray(inputparam) ? {...this.ruleParams , ...inputparam[0]} : {...this.ruleParams , ...inputparam}
                     inputparam = { [nodeName]: inputparam }
                     this.logger.log('api_inputnode Completed')
                     return { status: 200, targetStatus: targetStatus, data: inputparam }
@@ -3940,7 +3886,7 @@ export class DynamicFlowService {
                         throw new CustomException('Data not found', 404);
                     }
                     if (customConfig) {                        
-                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName)
+                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName)
                         if (RCMresult) {
                             zenresult = RCMresult?.rule
                             customcoderesult = RCMresult?.code
@@ -4247,8 +4193,7 @@ export class DynamicFlowService {
                                             datasetSchemaRes = currentFilterRes;
                                         }
                                     }
-                                }
-                                //this.ruleParams[nodeName] = Array.isArray(datasetSchemaRes)?datasetSchemaRes[0]:datasetSchemaRes
+                                }                               
                                 await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(datasetSchemaRes) && datasetSchemaRes?.length>0 ?datasetSchemaRes[0]:datasetSchemaRes),collectionName,nodeName);
                                 return { status: 200, targetStatus: targetStatus, data: datasetSchemaRes };
                             }
@@ -4300,7 +4245,7 @@ export class DynamicFlowService {
                             if (!DfExecutedDataSet || DfExecutedDataSet.length == 0) throw new CustomException(`Dataset not found ${DstKey + 'DS_Object'}`, 404)
                         }
                         
-                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName)
+                        RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName)
                         if (RCMresult) {
                             zenresult = RCMresult?.rule
                             customcoderesult = RCMresult?.code
@@ -4333,7 +4278,7 @@ export class DynamicFlowService {
                         }
                         if (keyMergedArr.length == 0) throw new CustomException('Dataset not found', 404)
                         if (upId) {
-                            await this.redisService.setStreamData(srcQueue, collectionName + 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: inputparam, response: keyMergedArr } }))
+                            //await this.redisService.setStreamData(srcQueue, collectionName + 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: inputparam, response: keyMergedArr } }))
                             await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success',targetQueue, token, currentFabric, sourceStatus, { "key": DfdKey }, keyMergedArr)
                             await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify({ "key": DfdKey }), collectionName, 'request')
                             await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(keyMergedArr), collectionName, 'response')
@@ -4548,7 +4493,6 @@ export class DynamicFlowService {
                             }
 
                             await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(rootpatharr ? [finalRes] : finalRes), collectionName, 'response')
-                            //this.ruleParams[nodeName] = Array.isArray(finalRes)?finalRes[0]:finalRes
                             await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(finalRes)?finalRes[0]:finalRes),collectionName,nodeName);
                             this.logger.log('DataSet Node Completed');
                             if (currentFabric == 'DF-DFD')
@@ -4592,7 +4536,7 @@ export class DynamicFlowService {
 
                     let edgesarr
                     
-                    let RCMresult: any = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName)
+                    let RCMresult: any = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName)
                     let customcoderesult, zenresult
                     if (RCMresult) {
                         zenresult = RCMresult?.rule
@@ -5029,30 +4973,15 @@ export class DynamicFlowService {
                     }
 
                     if (upId) {
-                        await this.redisService.setStreamData(srcQueue, collectionName + 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: inputparam, response: finalobj } }))
+                        //await this.redisService.setStreamData(srcQueue, collectionName + 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: inputparam, response: finalobj } }))
                         await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(inputparam), collectionName, 'request')
                         await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(finalobj), collectionName, 'response')
-                    }
-                    //this.ruleParams[nodeName] = Array.isArray(finalobj)?finalobj[0]:finalobj
+                    }                   
                     await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(finalobj)?finalobj[0]:finalobj),collectionName,nodeName);
                     this.logger.log(`Api output node Completed`)
                     return { status: returnStscode, targetStatus: targetStatus, data: finalobj || { description: returnDescription } }
                 } catch (error) {
-                    const redactedError = this.CommonService.redactSensitiveFields(error);
-                    if (failureQueue)
-                        await this.redisService.setStreamData(failureQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: failureTargetStatus, data: { request: inputparam, response: redactedError } }))
-                    if (suspiciousQueue)
-                        await this.redisService.setStreamData(suspiciousQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: failureTargetStatus, data: { request: inputparam, response: redactedError } }))
-                    if (errorQueue)
-                        await this.redisService.setStreamData(errorQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: failureTargetStatus, data: { request: inputparam, response: redactedError } }))
-                    if (error?.response?.data)
-                        throw { statusCode: error.status, message: error.response.data }
-                    else if (error?.response && error?.status)
-                        throw { statusCode: error.status, message: error.response };
-                    else if (error?.message)
-                        throw { statusCode: 404, message: error.message };
-                    else
-                        throw { statusCode: 400, message: error };
+                    await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
             }
            
@@ -5188,7 +5117,7 @@ export class DynamicFlowService {
                             inputparam = await this.assignToInputParam(inputparam, nodeName, mapObj)
                             await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(mapObj), collectionName, 'response');
                             await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', token, targetQueue, currentFabric, sourceStatus, inputparam, inputparam);
-                            await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: inputparam, response: inputparam } }));
+                            //await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: inputparam, response: inputparam } }));
                         }
 
                     } else if (oprname == "flattenJson") {
@@ -5214,7 +5143,6 @@ export class DynamicFlowService {
                     }
                     inputparam = await this.assignToInputParam(inputparam, nodeName, mapObj)
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(mapObj), collectionName, 'response');
-                    //this.ruleParams[nodeName] = Array.isArray(mapObj)?mapObj[0]:mapObj
                     await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(mapObj)?mapObj[0]:mapObj),collectionName,nodeName);
                     RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], inputparam, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                     if (RCMresult) {
@@ -5228,7 +5156,7 @@ export class DynamicFlowService {
                         }
                     }
                     await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', token, targetQueue, currentFabric, sourceStatus, inputparam, inputparam);
-                    await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: inputparam, response: inputparam } }));
+                    //await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: inputparam, response: inputparam } }));
                     
 
                     this.logger.log('jsonparser node completed');
@@ -5319,9 +5247,8 @@ export class DynamicFlowService {
                     const xmlData = json2xml(jsonString, { compact: true, spaces: 4 });
                     inputparam = await this.assignToInputParam(inputparam, nodeName, { json2xmldata: xmlData })
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify({ json2xmldata: xmlData }), collectionName, 'response')
-                    //this.ruleParams[nodeName] = { json2xmldata: xmlData }
-                    await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify({ json2xmldata: xmlData }),collectionName,nodeName);
-                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                   await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify({ json2xmldata: xmlData }),collectionName,nodeName);
+                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                     if (RCMresult) {
                         zenresult = RCMresult?.rule;
                         customcoderesult = RCMresult?.code;
@@ -5332,7 +5259,7 @@ export class DynamicFlowService {
                             await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(codeObj), collectionName, 'code',);
                     }
                     await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, inputparam, inputparam)
-                    await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: inputparam, response: { json2xmldata: xmlData } } }))
+                    //await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: inputparam, response: { json2xmldata: xmlData } } }))
                     
                     this.logger.log('json2xmlnode node completed')
                     return { status: 200, targetStatus: targetStatus, data: inputparam }
@@ -5419,9 +5346,8 @@ export class DynamicFlowService {
                     let jsonData = await parseStringPromise(parsedXml);
                     inputparam = await this.assignToInputParam(inputparam, nodeName, { xml2jsondata: jsonData })
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify({ xml2jsondata: jsonData }), collectionName, 'response')
-                    //this.ruleParams[nodeName] = { xml2jsondata: jsonData }
                     await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify({ xml2jsondata: jsonData }),collectionName,nodeName);
-                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j],  {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                     if (RCMresult) {
                         zenresult = RCMresult?.rule;
                         customcoderesult = RCMresult?.code;
@@ -5432,7 +5358,7 @@ export class DynamicFlowService {
                             await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(codeObj), collectionName, 'code',);
                     }
                     await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, inputparam, inputparam)
-                    await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: inputparam, response: { xml2jsondata: jsonData } } }))
+                    //await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: inputparam, response: { xml2jsondata: jsonData } } }))
                     
 
                     this.logger.log('xml2jsonnode node completed')
@@ -5711,9 +5637,8 @@ export class DynamicFlowService {
                     if (childInsertArr?.length == 0) throw new CustomException(`Mapping was required in ${poNode[j].nodeName}`, 404)
                     inputparam = await this.assignToInputParam(inputparam, nodeName, childInsertArr)
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(childInsertArr), collectionName, 'response')
-                    //this.ruleParams[nodeName] = Array.isArray(childInsertArr)?childInsertArr[0]:childInsertArr
-                    await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(childInsertArr)?childInsertArr[0]:childInsertArr),collectionName,nodeName);
-                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
+                   await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(childInsertArr)?childInsertArr[0]:childInsertArr),collectionName,nodeName);
+                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName);
                     if (RCMresult) {
                         zenresult = RCMresult.rule;
                         customcoderesult = RCMresult.code;
@@ -5724,7 +5649,7 @@ export class DynamicFlowService {
                             await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(codeObj), collectionName, 'code',);
                     }
                     await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, inputparam, childInsertArr)
-                    await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: inputparam, response: childInsertArr } }))
+                    //await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: inputparam, response: childInsertArr } }))
                     
 
                     this.logger.log('xlparsernode node completed')
@@ -5835,7 +5760,7 @@ export class DynamicFlowService {
                     
                     inputparam = await this.assignToInputParam(inputparam, nodeName, status)
                        
-                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName)
+                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName)
                     if (RCMresult) {
                         zenresult = RCMresult.rule
                         customcoderesult = RCMresult.code
@@ -5858,9 +5783,8 @@ export class DynamicFlowService {
                     }
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(status), collectionName, 'response')
                     await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, obj, status)
-                    await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: obj, response: status } }))
-                    //this.ruleParams[nodeName] = Array.isArray(status)?status[0]:status
-                    await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(status)?status[0]:status),collectionName,nodeName);
+                    //await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: obj, response: status } }))
+                   await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(status)?status[0]:status),collectionName,nodeName);
                     this.logger.log('procedureExecution node completed')
                     if (currentFabric == 'PF-PFD')
                         return { status: 200, targetStatus: targetStatus, data: inputparam }
@@ -5968,7 +5892,7 @@ export class DynamicFlowService {
                     
                     inputparam = await this.assignToInputParam(inputparam, nodeName, status)
                     
-                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName)
+                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName)
                     if (RCMresult) {
                         zenresult = RCMresult.rule
                         customcoderesult = RCMresult.code
@@ -5991,7 +5915,7 @@ export class DynamicFlowService {
                     }
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(status), collectionName, 'response')
                     await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, inputparam, inputparam)
-                    await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: inputparam, response: status } }))
+                    //await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: inputparam, response: status } }))
 
                     this.logger.log('Change Status node completed')
                     if (currentFabric == 'PF-PFD')
@@ -6154,7 +6078,7 @@ export class DynamicFlowService {
                     }                   
                     
                     // inputparam = await this.assignToInputParam(inputparam,nodeName,status)
-                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName)
+                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo,pfdto.controlName)
                     if (RCMresult) {
                         zenresult = RCMresult.rule
                         customcoderesult = RCMresult.code
@@ -6179,9 +6103,8 @@ export class DynamicFlowService {
 
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(status), collectionName, 'response')
                     await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, inputparam, inputparam)
-                    await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: inputparam, response: status } }))
-                    //this.ruleParams[nodeName] = Array.isArray(status)?status[0]:status
-                    await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(status)?status[0]:status),collectionName,nodeName);
+                    //await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ "PID": upId, "TID": nodeId, "EVENT": targetStatus, data: { request: inputparam, response: status } }))
+                   await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(status)?status[0]:status),collectionName,nodeName);
                     this.logger.log('functionnode node completed')
                     if (currentFabric == 'PF-PFD' || currentFabric == 'PF-SFD')
                         return { status: 200, targetStatus: targetStatus, data: inputparam }
@@ -6228,7 +6151,7 @@ export class DynamicFlowService {
                         templateKey = customConfig?.data?.pro?.channels?.subSelection?.email?.template?.value
                         if(!templateKey) throw new CustomException('templateKey not found',404)
                     }
-                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], this.ruleParams, processedKey + upId, currentFabric, SessionInfo);
+                    RCMresult = await this.CommonService.getRuleCodeMapper(poNode[j], {}, processedKey + upId, currentFabric, SessionInfo);
                     if (RCMresult) {
                         zenresult = RCMresult?.rule;
                         customcoderesult = RCMresult?.code;
@@ -6298,8 +6221,7 @@ export class DynamicFlowService {
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(sendResponse?.response), collectionName, 'response');
                     if (sendResponse?.response)
                         await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, inputparam, sendResponse?.response);                          
-                    //this.ruleParams[nodeName] = Array.isArray(sendResponse?.response) ? sendResponse?.response[0] : sendResponse?.response
-                    await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(sendResponse?.response)?sendResponse?.response[0]:sendResponse?.response),collectionName,nodeName);
+                        await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(sendResponse?.response)?sendResponse?.response[0]:sendResponse?.response),collectionName,nodeName);
                     this.logger.log('communication node completed');
                     return { status: 200, targetStatus: targetStatus };
                 } catch (error) {                  
@@ -6596,8 +6518,8 @@ export class DynamicFlowService {
 
 
     async sendEmail(to: string | string[],subject: string, html: string, emailConfig:any,cc?: string | string[],bcc?:string | string[]) {
-    this.transporter = this.getTransport(emailConfig);        
-    return this.transporter.sendMail({
+    const transporter = this.getTransport(emailConfig);
+    return transporter.sendMail({
         from: {
         name: emailConfig?.fromName?.value,
         address: emailConfig?.fromAddress?.value,
@@ -6632,11 +6554,14 @@ export class DynamicFlowService {
         });
     }
 
-    private getTransport(emailConfig) {
-  if (!this.transporter) {
-    this.transporter = this.createTransport(emailConfig);
+private getTransport(emailConfig) {
+  const key = `${emailConfig?.smtpHost?.value}:${emailConfig?.smtpPort?.value}:${emailConfig?.smtpUser?.value}`;
+  let transporter = this.transporters.get(key);
+  if (!transporter) {
+    transporter = this.createTransport(emailConfig);
+    this.transporters.set(key, transporter);
   }
-  return this.transporter;
+  return transporter;
     }
 
     async assign(apiResult, ifoObj, codeObj, inputparam, nodeName, mapObj,) {
@@ -8837,11 +8762,14 @@ export class DynamicFlowService {
 
                 for (const key of Object.keys(props)) {
                     let value = data[key];
-                    if (value === 'null') value = null;
-
+                    if (value === 'null') value = null;                    
                     value = unwrapSingleValue(value);
-
-                    const transformed = this.transformBySchema(props[key], value);
+                     let transformed:any
+                     if (value !== null && typeof value === 'object' && !Array.isArray(value) && !props[key]?.['properties']) {
+                        transformed = value;
+                    } else {
+                        transformed = this.transformBySchema(props[key], value);
+                    }
 
                     if (transformed !== undefined && transformed !== null) {
                         result[key] = transformed;
@@ -8951,5 +8879,43 @@ export class DynamicFlowService {
                 }
             });
         });
-    }      
+    }  
+    
+     async getProducer(): Promise<Producer> {
+    if (!this.producer) {
+      this.producer = this.getKafkaInstance().producer({
+        allowAutoTopicCreation: true,
+        maxInFlightRequests: 5,
+        idempotent: true, // Changed to true for better reliability
+        retry: { 
+          retries: 8,
+          initialRetryTime: 100,
+          maxRetryTime: 30000,
+        },
+       // connectionTimeout: 10000,
+        //requestTimeout: 30000,
+      });
+      await this.producer.connect();
+    }
+    return this.producer;
+  }
+
+   // Reuse consumers by groupId
+  async getConsumer(groupId: string): Promise<Consumer> {
+    if (!this.consumers.has(groupId)) {
+      const consumer = this.getKafkaInstance().consumer({
+        groupId: groupId,
+        sessionTimeout: 30000, // Increased from 6000
+        heartbeatInterval: 3000, // Increased from 1500
+        maxWaitTimeInMs: 5000, // Increased from 100
+        retry: { 
+          retries: 0
+        },
+      });
+      await consumer.connect();
+      this.consumers.set(groupId, consumer);
+    }
+    return this.consumers.get(groupId);
+  }
+  
 }

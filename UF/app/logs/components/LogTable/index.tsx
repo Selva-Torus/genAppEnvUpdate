@@ -30,6 +30,7 @@ interface TableHeaderProps {
     totalDocuments: number
     totalPages: number
   }
+  setJsonData: React.Dispatch<React.SetStateAction<any>>
   onPageChange: (page: number, pageSize: number) => void
   searchTerm: string
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>
@@ -51,6 +52,7 @@ interface TableHeaderProps {
 const TableHeader: React.FC<TableHeaderProps> = ({
   loading,
   jsonData,
+  setJsonData,
   onPageChange,
   searchTerm,
   setSearchTerm,
@@ -403,6 +405,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
                     activeTab={activeTab}
                     localSortOrder={localSortOrder}
                     setLocalSortOrder={setLocalSortOrder}
+                    setJsonData={setJsonData}
                   />
                 </Modal>
               </div>

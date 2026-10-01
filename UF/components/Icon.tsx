@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { useGlobal } from "@/context/GlobalContext";
 import { Tooltip } from "./Tooltip";
 import { HeaderPosition, TooltipProps as TooltipPropsType } from "@/types/global";
@@ -10,6 +11,7 @@ import * as ReactIconsFa from "react-icons/fa";
 import * as ReactIconsIo5 from "react-icons/io5";
 import * as ReactIconsRX  from "react-icons/rx";
 import { CommonHeaderAndTooltip } from "./CommonHeaderAndTooltip";
+import { getCdnImage } from "@/app/utils/getAssets";
 
 type ContentAlign = "left" | "center" | "right";
 
@@ -39,6 +41,14 @@ const getIconComponent = (iconName?: string) => {
   if (RxIcon) return RxIcon;
   return null;
 };
+
+// `data` can either be a react-icons component name (e.g. "FaRegUser") or a
+// server-relative/absolute path to an image asset (e.g.
+// "/torus/9.1/CT001/resources/images/xyz.jpg"). Treat it as an image path
+// when it contains a path separator or ends with a known image extension.
+const isImagePath = (data?: string) =>
+  !!data &&
+  (data.includes("/") || /\.(png|jpe?g|gif|webp|bmp|svg|jfif)$/i.test(data));
 
 export const Icon: React.FC<IconProps> = ({
   data,
@@ -71,9 +81,27 @@ export const Icon: React.FC<IconProps> = ({
         return "justify-center items-center";
     }
   };
-  const IconComponent = getIconComponent(data);
+  const isImage = isImagePath(data);
+  const IconComponent = isImage ? null : getIconComponent(data);
 
-  const iconElement = IconComponent ? (
+  const iconElement = isImage ? (
+    <div
+      className={`
+        ${fillContainer ? "w-full h-full" : "flex w-full h-full"}
+        flex items-center justify-center
+      `}
+      onClick={onClick}
+    >
+      <Image
+        src={getCdnImage(data as string)}
+        alt=""
+        width={size || 100}
+        height={size || 100}
+        className={fillContainer ? "h-full w-full object-contain" : ""}
+        style={!fillContainer ? { width: size || "1em", height: size || "1em" } : undefined}
+      />
+    </div>
+  ) : IconComponent ? (
     <div
       className={`
         ${fillContainer ? "w-full h-full" : "flex w-full h-full"}

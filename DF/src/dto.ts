@@ -185,6 +185,8 @@ export class readAPIDTO {
       public flag : string,
       public page?:number,
       public count?:number,
+      public targetQueue?:string,
+      public failureQueue?:string,
       public filterData?:object,
       public lock?:Object,
       public childTable?:any,
@@ -237,7 +239,7 @@ export class readAPIDTO {
       @Type(() => Number)
       @IsInt()
       @Min(1)
-      @Max(10000)
+      //@Max(10000)
       count?:number
       @IsOptional()
       @IsSafeFilterShape()
@@ -256,8 +258,9 @@ export class readAPIDTO {
       @IsString()
       parentUpId?:string
       @IsOptional()
-      @IsString()
-      ssKey?:string
+      @IsArray()
+      @IsString({ each: true })
+      ssKey?:string[]
       @IsOptional()
       @IsString()
       controlName?:string
@@ -272,6 +275,9 @@ export class readAPIDTO {
       @IsOptional()
       @IsString()
       tableName?:string
+      @IsOptional()
+      @IsBoolean()
+      enableBulk?:boolean
     }
   
     export class pageDto {
@@ -287,7 +293,7 @@ export class readAPIDTO {
       @Type(() => Number)
       @IsInt()
       @Min(1)
-      @Max(10000)
+      //@Max(10000)
       count: number
       @IsOptional()
       @IsSafeFilterShape()
@@ -309,6 +315,9 @@ export class readAPIDTO {
       @IsOptional()
       @IsSafeFilterShape()
       filterData?: object
+      @IsOptional()
+      @IsSafeFilterShape()
+      sortingDetails?: object
   }
 
     export class ProcessLogEntryDto {
@@ -1292,8 +1301,9 @@ export class teSaveDto {
 
   @ApiPropertyOptional({ description: 'ssKey' })
   @IsOptional()
-  @IsString()
-  ssKey?: string;
+  @IsArray()
+  @IsString({ each: true })
+  ssKey?: string[];
 
   @ApiPropertyOptional({ description: 'controlName' })
   @IsOptional()

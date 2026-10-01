@@ -15,7 +15,6 @@ import {
   BadRequestException,
   UseGuards
 } from '@nestjs/common';
-import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { Public } from 'src/public.decorator';
 import { UfService } from './uf.service';
 import {
@@ -112,7 +111,7 @@ export class UfController {
     }
     try {
       let result : any = {};
-      result["token"] = await this.appService.getAccessToken(token, selectedCombination , selectedAccessProfile , dap , ufClientType);
+      result["updatedToken"] = await this.appService.getAccessToken(token, selectedCombination , selectedAccessProfile , dap , ufClientType);
       if(dpdKey && method){
         result["dpdKey"] = dpdKey
         result["method"] = method
@@ -155,67 +154,6 @@ export class UfController {
     }
   }
 
-  @Post('upload')
-  @ApiHeader({
-    name: 'Authorization',
-    description: 'Bearer token for authentication',
-    required: true,
-  })
-  
-  async uploadFile(@Req() req: FastifyRequest) {
-      if (!req.isMultipart()) {
-        throw new Error('Request is not multipart');
-      }
-      const parts = req.parts();
-      const fields: Record<string, string> = {};
-      const files: Array<{
-        filename: string;
-        mimetype: string;
-        size: number;
-        buffer: Buffer;
-        doc_group: string;
-      }> = [];
-
-      for await (const part of parts) {
-        if (part.type === 'file') {
-          const buffer = await part.toBuffer();
-          files.push({
-            filename: part.filename,
-            mimetype: part.mimetype,
-            size: buffer.length,
-            buffer,
-            doc_group: fields?.doc_group||""
-          });
-        } else {
-          fields[part.fieldname] = part.value as string;
-        }
-      }
-
-    if (files.length === 0) {
-      throw new BadRequestException('No files uploaded');
-    }
-    const { context, dpdKey, method, enableEncryption, returnType } = fields;
-
-    // Process all files and collect fileIds
-    const fileIds: string[] = [];
-    for (const file of files) {
-      const uploadRes = await this.appService.uploadFile(file, context, enableEncryption, fields.doc_group||"");
-      fileIds.push(uploadRes.fileId);
-    }
-
-    // Return based on returnType: 'string' returns single value, 'string[]' returns array
-    const result: any = {
-      success: true,
-      message: 'file saved',
-      fileId: returnType === 'string[]' ? fileIds : fileIds[0],
-    };
-
-    if (dpdKey && method) {
-      result['dpdKey'] = dpdKey;
-      result['method'] = method;
-    }
-    return result;
-  }
   @Post('download')  
   @ApiHeader({
     name: 'Authorization',
@@ -245,51 +183,6 @@ export class UfController {
     .send(buffer)
   }
   
-  @Post('gridfs')
-  @ApiHeader({
-    name: 'Authorization',
-    description: 'Bearer token for authentication',
-    required: true,
-  })
-  @ApiOperation({
-    summary: 'Download file from MongoDb GridFSBucket',
-    description: 'Download file from the stored MongoDb GridFSBucket on specified path',
-  })
-  async getFile(@Body() body: any,@Res() res: Response) {
-    let { context , id ,enableEncryption } = body
-    const result = await this.appService.getFile(id,context,enableEncryption);
-
-    if (!result || !result.res) {
-      throw new HttpException('File not found', HttpStatus.NOT_FOUND);
-    }
-
-    // Handle multiple files - return as JSON
-    if (result.isMultiple && Array.isArray(result.file) && Array.isArray(result.res)) {
-      const buffers = result.res as Buffer[];
-      const filesData = result.file.map((fileMetadata: any, index: number) => ({
-        filename: fileMetadata?.filename || `file_${index}`,
-        contentType: fileMetadata?.contentType || 'application/octet-stream',
-        data: buffers[index] ? Buffer.from(buffers[index]).toString('base64') : ''
-      }));
-
-      res.header('Content-Type', 'application/json');
-      return res.send({ files: filesData });
-    }
-
-    // Handle single file
-    const fileMetadata: any = Array.isArray(result.file) ? result.file[0] : result.file;
-    const buffer: any = Array.isArray(result.res) ? result.res[0] : result.res;
-    const { contentType, disposition } = sanitizeForFileResponse(fileMetadata?.contentType);
-
-    res
-      .header('Content-Type', contentType)
-      .header('File-Name', fileMetadata?.filename || 'Document')
-      .header('Content-Disposition', `${disposition}; filename="${fileMetadata?.filename || 'file'}"`)
-      .header('Access-Control-Expose-Headers', 'File-Name, Content-Disposition');
-
-    return res.send(buffer);
-  }
-
   @Post('setUpKey')
   @Public()
   @ApiHeader({
@@ -746,8 +639,6 @@ export class UfController {
 
   @Post('signin')
   @Public()
-  @UseGuards(ThrottlerGuard)
-  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   @ApiBody({ type: signinToTorusDto })
   @ApiHeader({
     name: 'Authorization',
@@ -959,6 +850,7 @@ export class UfController {
         input.searchFilter,
         token,
         input.filterData,
+        input.sortingDetails
       );
       if(dpdKey && method){
       result["dpdKey"] = dpdKey
@@ -1069,6 +961,9 @@ export class UfController {
       }
       const parts: any = req.parts();
       const fields: any = {};
+      const token: string = req.headers.authorization.split(' ')[1]
+      const decodedToken: any = await this.jwtService.verifyToken(token);
+      const loginId = decodedToken.loginId;
       const files: Array<{
         filename: string;
         mimetype: string;
@@ -1085,7 +980,7 @@ export class UfController {
             mimetype: part.mimetype,
             size: buffer.length,
             buffer,
-            doc_group: part?.fields?.doc_group?.value||"", // Assuming doc_group is sent as a field in the multipart form
+            doc_group: part?.fields?.doc_group?.value || "",
           });
         } else {
           fields[part.fieldname] = part.value;
@@ -1098,7 +993,6 @@ export class UfController {
 
       const { bucketFolderame, folderPath, enableEncryption, filename = '', returnType } = fields;
 
-    // Process all files and collect imageUrls
       const imageUrls: string[] = [];
       for (const file of files) {
         const imageUrl = await this.appService.uploadImage(
@@ -1108,11 +1002,11 @@ export class UfController {
           filename || file.filename,
           enableEncryption,
           file?.doc_group || '',
+          loginId
         );
         imageUrls.push(imageUrl);
       }
 
-    // Return based on returnType: 'string' returns single value, 'string[]' returns array
       return {
         success: true,
         message: 'file saved',
@@ -1137,8 +1031,6 @@ export class UfController {
 
   @Post('getResetPasswordOtp')
   @Public()
-  @UseGuards(ThrottlerGuard)
-  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   async getResetPasswordOtp(@Body() body: any) {
     const { email, tenantId }  = body;
     return this.appService.getResetPasswordOtp(email, tenantId);
@@ -1146,8 +1038,6 @@ export class UfController {
 
   @Post('verifyOtp')
   @Public()
-  @UseGuards(ThrottlerGuard)
-  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   async verifyOtp(@Body() body: any) {
     const { email, otp, id } = body;
     return this.appService.verifyOtp(email, otp, id);
@@ -1155,8 +1045,6 @@ export class UfController {
 
   @Patch('resetPassword')
   @Public()
-  @UseGuards(ThrottlerGuard)
-  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   async resetPassword(@Body() body: any) {
     const { email, password, app_tenant, tenantId , resetToken } = body;
     return this.appService.resetPassword(email, password, app_tenant, tenantId , resetToken);
@@ -1178,8 +1066,6 @@ export class UfController {
 
   @Post('sso')
   @Public()
-  @UseGuards(ThrottlerGuard)
-  @Throttle({ auth: { limit: 5, ttl: 60_000 } })
   async sso(@Body() body:any) {
     const { token , ufClientType } = body;
     return this.appService.sso(token , ufClientType);
@@ -1230,11 +1116,10 @@ export class UfController {
       throw new BadRequestException(`Invalid lock key: ${dto?.key}`);
     }
   }
-
   @Post('lock')
   async lock(@Body() dto: LockRecordBodyDto, @Req() req: any) {
     const token: string = req.headers.authorization.split(' ')[1]
-    const decodedToken: any = this.jwtService.verifyToken(token);
+    const decodedToken: any = await this.jwtService.verifyToken(token);
     const loginId = decodedToken.loginId;
     dto['userId'] = loginId;
     this.assertValidLockTarget(dto);
@@ -1244,7 +1129,7 @@ export class UfController {
   @Post('unlock')
   async unlock(@Body() dto: LockRecordBodyDto, @Req() req: any) {
     const token: string = req.headers.authorization.split(' ')[1]
-    const decodedToken: any = this.jwtService.verifyToken(token);
+    const decodedToken: any = await this.jwtService.verifyToken(token);
     const loginId = decodedToken.loginId;
     dto['userId'] = loginId;
     this.assertValidLockTarget(dto);
@@ -1254,7 +1139,7 @@ export class UfController {
   @Post('release-all-locks')
   async releaseAllLocks(@Req() req: any) {
     const token: string = req.headers.authorization.split(' ')[1]
-    const decodedToken: any = this.jwtService.verifyToken(token);
+    const decodedToken: any = await this.jwtService.verifyToken(token);
     const loginId = decodedToken.loginId;
     return this.appService.releaseAllLocks(loginId);
   }

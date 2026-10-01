@@ -17,6 +17,7 @@ COPY . .
 RUN npm run build
 RUN mkdir -p dist/prisma \
 && cp src/erd/prisma/schema.prisma dist/prisma/schema.prisma \
+&& cp src/erd/prisma/schema.previous.prisma dist/prisma/schema.previous.prisma \
 && cp -r src/erd/prisma/migrations dist/prisma/migrations
 
 # Stage 2: Final stage - Run the application

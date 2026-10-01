@@ -1,12 +1,17 @@
 
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { applyPgSslMode } from '../db-ssl.util';
 
 @Injectable()
 export class CdcPrismaService extends PrismaClient implements OnModuleDestroy {
   constructor() {
     const url = new URL(process.env.PG_URL);
-    url.searchParams.set('application_name', 'cdc_ct006_lap_lap_v1_df');
+    // M11: negotiate TLS by default (falls back to plaintext if the target
+    // Postgres doesn't support it — see db-ssl.util.ts). Override with
+    // PG_SSL_MODE=require/verify-full once the DB is TLS-capable.
+    applyPgSslMode(url, 'PG_SSL_MODE');
+    url.searchParams.set('application_name', 'cdc_ct001_tam_ta_v1_df');
     // lazy: true — Prisma will NOT open a connection until the first query
     super({ datasources: { db: { url: url.toString() } } });
   }

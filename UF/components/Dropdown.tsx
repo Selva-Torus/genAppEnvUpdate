@@ -302,7 +302,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   const tooltipTitle = isMultiple
     ? selectedValues.join(', ')
     : (selectedValues[0] || '');
-  const showTooltip = disabled;
+  const showTooltip = disabled && tooltipTitle.trim() !== '';
 
   const isDark = theme === "dark" || theme === "dark-hc";
 

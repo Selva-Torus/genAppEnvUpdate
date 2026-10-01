@@ -17,11 +17,12 @@ import { useTheme } from '@/hooks/useTheme'
 import Popup from '@/components/Popup'
 import { LogoutIcon, RotateIcon, SettingsIcon } from '../../utils/svgApplications'
 import clsx from 'clsx'
-import { OrgStructure, ProdStructure, RoleStructure } from '../svgApplication'
+import { DownArrow, OrgStructure, ProdStructure, RoleStructure } from '../svgApplication'
 import { isLightColor } from '../utils'
 import Image from "next/image";
 import { AxiosService } from '@/app/components/axiosService'
 import { useGlobal } from '@/context/GlobalContext'
+import { logout } from "@/app/components/utils";
 
 const TopNav = ({
   navData,
@@ -137,28 +138,6 @@ const TopNav = ({
       }
     }
     return nestedMenu
-  }
-
-//  async function logout() {
-//    localStorage.clear()
-//    deleteAllCookies()
-//    window.location.href = '/ct006/lap/lap/v1'
-//  }
-
-  async function logout() {
-    try {
-      if (token) {
-        await AxiosService.post('/UF/release-all-locks', null, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-      }
-    } catch (e) {
-      // ignore error, proceed with logout
-    }
-    localStorage.clear()
-    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
-    const from = encodeURIComponent(`${basePath}/`)
-    window.location.href = `${basePath}/next-api/auth/logout?from=${from}`
   }
   
   const hasMatchingName = (obj: any, input: string): boolean => {
@@ -299,11 +278,12 @@ const TopNav = ({
                       <button
                         {...props}
                         className={twMerge(
-                            'px-[1vw] py-[0.5vh] !text-nowrap rounded-[1vw] hover:bg-[var(--hover-color)] text-fsbase'
+                            'flex gap-[.5vw] items-center px-[.5vw] py-[0.5vh] !text-nowrap rounded-[1vw] hover:bg-[var(--hover-color)] text-fsbase'
                           )}
-                        style={getMenuStyle(selected)} 
+                        style={getMenuStyle(selected)}
                       >
                         {menu.menuGroupLabel}
+                        <DownArrow fill={selected ? brandTextColor : "black"} height='.4vw' width='.4vw' />
                       </button>
                     )}
                     key={index}
@@ -521,7 +501,7 @@ const TopNav = ({
               </div>
             )}
             <div
-              onClick={logout}
+              onClick={() => logout(token)}
               className='flex cursor-pointer items-center gap-2'
             >
               <LogoutIcon />

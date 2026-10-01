@@ -2,16 +2,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ct006-lap-df-generator
-  namespace: ct006-lap-df-v1
+  name: ct001-ta-df-generator
+  namespace: ct001-ta-df-v1
   labels:
-    app: ct006-lap-df-generator
+    app: ct001-ta-df-generator
 spec:
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: ct006-lap-df-generator
+      app: ct001-ta-df-generator
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -20,32 +20,28 @@ spec:
   template:
     metadata:
       labels:
-        app: ct006-lap-df-generator
+        app: ct001-ta-df-generator
     spec:
       containers:
-      - name: ct006-lap-df-generator-backend-container
-        image: 192.168.2.164:5000/ct006-lap-df-v1:docker_tag
+      - name: ct001-ta-df-generator-backend-container
+        image: 192.168.2.34:5000/ct001-ta-df-v1:docker_tag
         imagePullPolicy: IfNotPresent
         ports:
         - name: http
           containerPort: 3000
-        env:
-        - name: redis_host
-          value: "192.168.2.192"
-        - name: redis_port
-          value: "32055"
+        
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: ct006-lap-df-generator
-  namespace: ct006-lap-df-v1
+  name: ct001-ta-df-generator
+  namespace: ct001-ta-df-v1
   labels:
-    app: ct006-lap-df-generator
+    app: ct001-ta-df-generator
 spec:
   selector:
-    app: ct006-lap-df-generator
+    app: ct001-ta-df-generator
   ports:
     - name: http
       protocol: TCP

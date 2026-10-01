@@ -1,3 +1,4 @@
+
 import { BadGatewayException, HttpException, HttpStatus, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { CommonService } from 'src/common.Service';
 import { RedisService } from 'src/redisService';
@@ -79,6 +80,7 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
        idleTimeoutMillis: 30000,       // close idle connections after 30s
        connectionTimeoutMillis: 30000,  // fail fast if can't connect in 5s
        allowExitOnIdle: false,         // keep pool alive
+       keepAlive: true,
      });
     // // 🔑 Key: handle pool-level errors so they don't crash the process
      this.pool.on('error', (err, client) => {
@@ -98,6 +100,7 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
       client.release();
     } catch (err: any) {
       console.error('Failed to connect to PostgreSQL:', err.message);
+      await this.pool.end();
       throw err;
     }
   }
@@ -111,14 +114,29 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
 
   async query<T = any>(text: string, params?: any[]): Promise<T[]> {
     const client = await this.pool.connect();
+
+    const onClientError = (err: any) => {
+      console.error('PG client error while checked out:', err.message);
+    };
+    client.on('error', onClientError);
+
     try {
       const result = await client.query(text, params);
       return result.rows;
     } catch (err: any) {
       console.error('Query error:', err.message);
+
+      if (
+        err?.message?.includes('Connection terminated') ||
+        err?.code === 'ECONNRESET' ||
+        err?.code === '57P01' // admin_shutdown
+      ) {
+        throw new BadGatewayException('Database connection timed out. Please try again.');
+      }
       throw err;
     } finally {
-      client.release(); // always release back to pool
+      client.removeListener('error', onClientError);
+      client.release();
     }
   }
 
@@ -307,9 +325,9 @@ getConfig(): FusionAuthConfig {
     }
   }
 
- async insertDocToVgphSourceTranDocMain(category: string, doc_name: string, url: string, size?: number, doc_group?: string): Promise<any> {
+ async insertDocToVgphSourceTranDocMain(category: string, doc_name: string, url: string, size?: number, doc_group?: string, userName?: string): Promise<any> {
     try {
-      const insertUrl = `${process.env.APP_MANAGER_URL}/ct006/attachments`;
+      const insertUrl = `${process.env.APP_MANAGER_URL}/ct001/attachments`;
       //const vgphstm_uuid = uuid();
       const currentDate = new Date().toISOString().slice(0, 19) + '+00:00';
 
@@ -319,6 +337,7 @@ getConfig(): FusionAuthConfig {
         doc_name: doc_name,
         doc_size: `${Math.ceil((size ?? 0) / 1024)}`,
         url: url,
+        trs_created_by: userName,
         trs_created_date: currentDate,
         trs_modified_date: currentDate
       };
@@ -335,9 +354,9 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-  async getUrlByVgphstdmId(vgphstdm_id: any): Promise<string> {
+  async getUrlByVgphstdmId(vgphstdm_id: any): Promise<{ url: string; additionalData: any }> {
     try {
-      const getUrl = `${process.env.APP_MANAGER_URL}/ct006/attachments/${vgphstdm_id}`;
+      const getUrl = `${process.env.APP_MANAGER_URL}/ct001/attachments/${vgphstdm_id}`;
 
       const response = await axios.get(getUrl, {
         headers: {
@@ -345,23 +364,9 @@ getConfig(): FusionAuthConfig {
         },
       });
 
-      return response.data.data.url;
+      return { url: response.data.data.url, additionalData: response.data.data };
     } catch (error) {
       throw error;
-    }
-  }
-  
-  async uploadFile(file: { buffer: Buffer; filename: string; mimetype: string; size: number }, context: string, enableEncryption: string, doc_group?: string): Promise<any> {
-    try {
-      const res = await this.commonService.uploadFile(file, context, enableEncryption);
-
-      // Insert the URL into vgph_source_tran_doc_main
-      const vgphstdm_id = await this.insertDocToVgphSourceTranDocMain("front", file.filename, res.fileId,file.size,doc_group);
-
-      res.fileId = `${vgphstdm_id}`;
-      return res;
-    } catch (error) {
-      throw new BadGatewayException(error);
     }
   }
 
@@ -413,25 +418,118 @@ getConfig(): FusionAuthConfig {
     folderPath?: string,
     filename?: string,
     enableEncryption?: string,
-    doc_group?: string
+    doc_group?: string,
+    loginId?: string
   ): Promise<string> {
     try {
-      const fileName = filename || file.filename;
-      const bucket = bucketFoldername || ''; // e.g. 'torus'
-      const subFolder = folderPath || ''; // e.g. 'images'
+      const SAFE_SEGMENT = /^[a-zA-Z0-9._-]+$/;
 
-      const actualBuffer = Buffer.isBuffer(file.buffer)
-        ? file.buffer
-        : Buffer.from((file.buffer as any)?.data || []);
+      const ALLOWED_EXTENSIONS: Record<string, string[]> = {
+        'jpg': ['image/jpeg'],
+        'jpeg': ['image/jpeg'],
+        'png': ['image/png'],
+        'gif': ['image/gif'],
+        'webp': ['image/webp'],
+        'svg': ['image/svg+xml'],
+        'pdf': ['application/pdf'],
+        'doc': ['application/msword'],
+        'docx': ['application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+        'xls': ['application/vnd.ms-excel'],
+        'xlsx': ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
+        'txt': ['text/plain'],
+        'csv': ['text/csv'],
+        'mp4': ['video/mp4'],
+        'mp3': ['audio/mpeg'],
+        'avi': ['video/x-msvideo'],
+        'mov': ['video/quicktime'],
+        'zip': ['application/zip', 'application/x-zip-compressed'],
+        'rar': ['application/vnd.rar', 'application/x-rar-compressed'],
+      };
+
+      const validateBucketFolderName = (value: string): void => {
+        if (value.includes('/') || value.includes('\\')) {
+          throw new BadRequestException('bucketFoldername contains invalid characters');
+        }
+        if (value === '.' || value.includes('..')) {
+          throw new BadRequestException('bucketFoldername contains path traversal');
+        }
+        if (!SAFE_SEGMENT.test(value)) {
+          throw new BadRequestException('bucketFoldername contains unsafe characters');
+        }
+      };
+
+      const validateFolderPath = (value: string): void => {
+        if (value.includes('\\')) {
+          throw new BadRequestException('folderPath contains invalid characters');
+        }
+        if (value.includes('..')) {
+          throw new BadRequestException('folderPath contains path traversal');
+        }
+        for (const segment of value.split('/')) {
+          if (segment === '' || segment === '.') {
+            throw new BadRequestException(`Invalid folderPath segment: "${segment}"`);
+          }
+          if (!SAFE_SEGMENT.test(segment)) {
+            throw new BadRequestException(`folderPath contains unsafe characters in segment: "${segment}"`);
+          }
+        }
+      };
+
+      const validateFilename = (value: string): string => {
+        if (!value) {
+          throw new BadRequestException('Filename is required');
+        }
+        if (value.includes('/') || value.includes('\\')) {
+          throw new BadRequestException('Filename contains invalid characters');
+        }
+        if (value === '.' || value.includes('..')) {
+          throw new BadRequestException('Filename contains path traversal');
+        }
+        const dotIndex = value.lastIndexOf('.');
+        if (dotIndex <= 0 || dotIndex === value.length - 1) {
+          throw new BadRequestException('Filename must have a valid extension');
+        }
+        const ext = value.substring(dotIndex + 1).toLowerCase();
+        if (!ALLOWED_EXTENSIONS[ext]) {
+          throw new BadRequestException(`File extension ".${ext}" is not allowed`);
+        }
+        return ext;
+      };
+
+      const validateMimeType = (mimetype: string, ext: string): void => {
+        const allowedMimes = ALLOWED_EXTENSIONS[ext];
+        if (!allowedMimes) {
+          throw new BadRequestException(`File extension ".${ext}" is not allowed`);
+        }
+        const normalizedMime = mimetype.split(';')[0].trim().toLowerCase();
+        if (!allowedMimes.includes(normalizedMime)) {
+          throw new BadRequestException(
+            `MIME type "${normalizedMime}" is not allowed for extension ".${ext}"`
+          );
+        }
+      };
+
+      const bucket = bucketFoldername || '';
+      const subFolder = folderPath || '';
+      const fileName = filename || file.filename;
+
+      if (bucket) {
+        validateBucketFolderName(bucket);
+      }
+      if (subFolder) {
+        validateFolderPath(subFolder);
+      }
+
+      const ext = validateFilename(fileName);
+      validateMimeType(file.mimetype, ext);
 
       const shouldEncrypt = enableEncryption === 'true';
-
-      const encryptedBuffer = shouldEncrypt
-        ? await this.commonService.aes256ctrEncrypt(actualBuffer)
-        : actualBuffer;
+      const fileBuffer = shouldEncrypt
+        ? await this.commonService.aes256ctrEncrypt(file.buffer)
+        : file.buffer;
 
       const form = new FormData();
-      form.append('file', Readable.from(encryptedBuffer), {
+      form.append('file', Readable.from(fileBuffer), {
         filename: fileName,
         contentType: file.mimetype || 'application/octet-stream',
       });
@@ -440,7 +538,7 @@ getConfig(): FusionAuthConfig {
         /\/$/,
         ''
       )}/buckets/${bucket}/${subFolder}/${fileName}`;
-      const res = await axios.post(uploadUrl, form, {
+      const uploadResponse = await axios.post(uploadUrl, form, {
         headers: {
           Accept: 'application/json',
           ...form.getHeaders(),
@@ -452,13 +550,13 @@ getConfig(): FusionAuthConfig {
         validateStatus: (status) => status < 500,
       });
 
-      if (res.status === 201) {
-        const res = `${bucket}/${subFolder}/${fileName}`;
-        const responce = await this.insertDocToVgphSourceTranDocMain("front",fileName,res,file.size,doc_group);
-        return `${responce}`;
+      if (uploadResponse.status === 201) {
+        const storagePath = `${bucket}/${subFolder}/${fileName}`;
+        const attachmentId = await this.insertDocToVgphSourceTranDocMain("front", fileName, storagePath, file.size, doc_group, loginId);
+        return `${attachmentId}`;
       } else {
         throw new ConflictException(
-          res.data || 'Error occurred while uploading file'
+          uploadResponse.data || 'Error occurred while uploading file'
         );
       }
     } catch (error: any) {
@@ -476,30 +574,6 @@ getConfig(): FusionAuthConfig {
         },
       );
       await this.throwCustomException(error);
-    }
-  }
-
-  async getFile(id: string | string[], context: string,enableEncryption: Boolean) {
-    try {
-      const fileMetadata = await this.commonService.findFileById(id);
-      const buffer = await this.commonService.getFile(id, context,enableEncryption);
-
-      // Handle single file
-      if (!Array.isArray(id)) {
-        return {
-          res: buffer,
-          file: fileMetadata
-        };
-      }
-
-      // Handle multiple files
-      return {
-        res: buffer,
-        file: fileMetadata,
-        isMultiple: true
-      };
-    } catch (error) {
-      throw new BadGatewayException(error);
     }
   }
 
@@ -699,7 +773,8 @@ getConfig(): FusionAuthConfig {
     filter?,
     searchObj?,
     token?: string,
-    filterData?
+    filterData?,
+    sortingDetails?
   ) {
     try {
       
@@ -843,19 +918,34 @@ getConfig(): FusionAuthConfig {
 
       if (Object.keys(filterobj)?.length > 0) {
             payload['filterData'] = [filterobj];
-        }      
+        }
+        
+        if (sortingDetails && Object.keys(sortingDetails)?.length > 0) {
+          payload['sortingDetails'] = sortingDetails;
+        }
           
-       await this.commonService.postCall(
-              //process.env.BE_URL + '/te/eventEmitter',
-              this.envData.getBeUrl() + '/te/eventEmitter',            
-              payload,
-              requestConfig,
-            );
-            let tokenDecode = await this.jwtService.verifyToken(token);           
-            if(!tokenDecode?.loginId) throw 'loginId not found'
-            //return await this.redisService.getAllRecordshash(key + tokenDecode.loginId+'_DS_Object') 
-           let data =  await this.redisService.getAllRecordshash(key + tokenDecode.loginId+'_DS_Object') 
-          return { records: data, totalRecords: Number(data?.[0]?.total_records) || data.length } 
+        let event_response = await this.commonService.postCall(
+          //process.env.BE_URL + '/te/eventEmitter',
+          this.envData.getBeUrl() + '/te/eventEmitter',            
+          payload,
+          requestConfig,
+        );
+        let data = []
+        if(event_response?.status == 'Success' && event_response?.statusCode == 201){
+          let upid = event_response?.result?.upId
+          let tokenDecode = await this.jwtService.verifyToken(token);           
+          if(!tokenDecode?.loginId) throw 'loginId not found'
+         
+          data = await this.redisService.getAllRecordshash(`${key}${upid}:${tokenDecode.loginId}_DS_Object`)  
+          let keys = await this.redisService.getKeys(`${key}${upid}:${tokenDecode.loginId}_DS_Object`,process.env.CLIENTCODE)
+        
+          if(keys && keys.length > 0){
+            await Promise.all(keys.map(key =>
+              this.redisService.deleteKey(key, process.env.CLIENTCODE,)
+            ));
+          }  
+        }
+        return { records: data, totalRecords: Number(data?.[0]?.total_records) || data.length } 
       
        
     } catch (err:any) {     
@@ -950,7 +1040,8 @@ getConfig(): FusionAuthConfig {
     filter?,
     searchObj?,
     token?: string,
-    filterData?
+    filterData?,
+    sortingDetails?
   ) {
     try {
       const tokenDecode = await this.jwtService.verifyToken(token);
@@ -976,7 +1067,8 @@ getConfig(): FusionAuthConfig {
           filter,
           searchObj,
           token,
-          filterData
+          filterData,
+          sortingDetails
         );     
       }
 
@@ -1018,6 +1110,9 @@ getConfig(): FusionAuthConfig {
       page = page || 1;
       const start = count ? (page - 1) * count : 0;
       const end = count ? start + count : data.length;
+
+      if(sortingDetails && Object.keys(sortingDetails).length>0)
+        data = this.sortRecords(data, sortingDetails);
 
       let finalData: any[] = [];
 
@@ -1141,6 +1236,66 @@ getConfig(): FusionAuthConfig {
     }
   }
 
+  private sortRecords(records: any[],sortingDetails: Record< string, 'asc' | 'desc'>): any[] {
+
+  const sortingColumn = Object.keys(sortingDetails)[0];
+  const sortDirection = sortingDetails[sortingColumn];
+
+  if (!sortingColumn || !sortDirection) {
+    return records;
+  }
+
+  return [...records].sort((a, b) => {
+    const valueA = a[sortingColumn];
+    const valueB = b[sortingColumn];
+
+    if (valueA == null && valueB == null) {
+      return 0;
+    }
+
+    if (valueA == null) {
+      return sortDirection === 'asc' ? -1 : 1;
+    }
+
+    if (valueB == null) {
+      return sortDirection === 'asc' ? 1 : -1;
+    }
+
+    let result = 0;
+
+    // Number sorting (including numeric strings)
+    if (
+      !isNaN(Number(valueA)) &&
+      !isNaN(Number(valueB))
+    ) {
+      result = Number(valueA) - Number(valueB);
+    }
+
+    // Date sorting
+    else if (
+      !isNaN(Date.parse(valueA)) &&
+      !isNaN(Date.parse(valueB))
+    ) {
+      result =
+        new Date(valueA).getTime() -
+        new Date(valueB).getTime();
+    }
+
+    // String sorting
+    else {
+      result = String(valueA).localeCompare(
+        String(valueB),
+        undefined,
+        {
+          sensitivity: 'base',
+        }
+      );
+    }
+
+    return sortDirection === 'desc' ? -result : result;
+  });
+}
+
   async filterpagination(start, end, searcharr) {
     try {
       var filArray = [];
@@ -1155,7 +1310,7 @@ getConfig(): FusionAuthConfig {
       }
 
      // return { records: filArray, totalRecords: searcharr.length };
-     return { records: filArray, totalRecords: searcharr?.[0]?.total_records || searcharr.length };
+     return { records: filArray, totalRecords:searcharr?.length };
     } catch (error) {
       throw new BadGatewayException(error);
     }
@@ -2403,8 +2558,17 @@ getConfig(): FusionAuthConfig {
                         let nodeName: string =
                           POdata.mappedData.artifact.node[i].ifo[j].name;
                         nodeName = nodeName.toLocaleLowerCase();
+                        let ifoValue: any =
+                          POdata?.mappedData?.artifact?.node[i]?.ifo[j]?.value;
                         if (nodeName in formData) {
                           filterItems[nodeName] = formData[nodeName];
+                        } else if (ifoValue != undefined && ifoValue !== '') {
+                          if (
+                            filterItems[nodeName] == undefined ||
+                            filterItems[nodeName] === ''
+                          ) {
+                            filterItems[nodeName] = ifoValue;
+                          }
                         }
                       }
                     }
@@ -2482,7 +2646,7 @@ getConfig(): FusionAuthConfig {
           );
           const POdata = POdataKey;
           // return POdata
-           if (POdata) {
+          if (POdata) {
             if (POdata?.mappedData?.artifact?.node?.length) {
               for (let i = 0; i < POdata.mappedData.artifact.node.length; i++) {
                 if (POdata.mappedData.artifact.node[i].nodeId == findingkey) {
@@ -2503,12 +2667,21 @@ getConfig(): FusionAuthConfig {
                           POdata.mappedData.artifact.node[i].ifo[
                             j
                           ].name.toLocaleLowerCase();
+                        let ifoValue: any =
+                          POdata?.mappedData?.artifact?.node[i]?.ifo[j]?.value;
                         if (formData[nodeName] != undefined) {
                           filterItems[nodeName] = formData[nodeName];
-                        } else {
+                        } else if (ifoValue != undefined && ifoValue !== '') {
+                          if (
+                            filterItems[nodeName] == undefined ||
+                            filterItems[nodeName] === ''
+                          ) {
+                            filterItems[nodeName] = ifoValue;
+                          }
+                        } else if (filterItems[nodeName] == undefined) {
                           filterItems[nodeName] = '';
                         }
-                        
+
                       }
                     }
                     if ('trs_version' in formData) {
@@ -2525,34 +2698,32 @@ getConfig(): FusionAuthConfig {
                           '.',
                         )[0];
                       if (NodeId == controlId) {
-                        if("_groupArrays_" in formData){
+                        if ("_groupArrays_" in formData) {
                           formData["_groupArrays_"].forEach((arrayKey: string) => {
-                            formData[arrayKey]?.map((groupArrayItems:any,index:number)=>{
+                            formData[arrayKey]?.map((groupArrayItems: any, index: number) => {
                               let nodeName: string =
                                 POdata.mappedData.artifact.node[i].ifo[
                                   j
                                 ].name.toLocaleLowerCase();
                               if (groupArrayItems[nodeName] != undefined) {
-                                if(!(arrayKey in groupArraysData))
-                                {
-                                  groupArraysData={...groupArraysData,[arrayKey]:[]}
+                                if (!(arrayKey in groupArraysData)) {
+                                  groupArraysData = { ...groupArraysData, [arrayKey]: [] }
                                 }
-                                groupArraysData[arrayKey][index] ={...groupArraysData[arrayKey][index]||{} ,[nodeName]:groupArrayItems[nodeName]};
+                                groupArraysData[arrayKey][index] = { ...groupArraysData[arrayKey][index] || {}, [nodeName]: groupArrayItems[nodeName] };
                               }
                             })
                           });
                         }
-                        
+
                       }
                     }
-                    if('childTables' in formData)
-                    {
-                      formData.childTables.map((eachTable:any)=>{
-                        filterItems[eachTable]=formData[eachTable]
+                    if ('childTables' in formData) {
+                      formData.childTables.map((eachTable: any) => {
+                        filterItems[eachTable] = formData[eachTable]
                       })
                       return filterItems;
-                    }else
-                      return {...filterItems,...groupArraysData};
+                    } else
+                      return { ...filterItems, ...groupArraysData };
                   }
                 }
               }
@@ -4446,8 +4617,6 @@ getConfig(): FusionAuthConfig {
         let payload: any;
         try {
           payload = await this.jwtService.verifyToken(token);
-          console.log(payload, "payload");
-          
         } catch (e) {
           payload = null;
         }
@@ -4515,7 +4684,6 @@ getConfig(): FusionAuthConfig {
 
    async introspectToken(headers: any, key: string, tokens: string) {
     try {
-
       const { authorization } = headers;
       if (!authorization || typeof authorization !== 'string') {
         await this.commonService.errorLog(
@@ -4614,7 +4782,63 @@ getConfig(): FusionAuthConfig {
         throw new UnauthorizedException('Session not available');
       }
 
-      if (currentSession['refreshTokenId']) {
+      if(!payload?.exp){
+        await this.commonService.errorLog(
+          'Technical',
+          'AK',
+          'Fatal',
+          'TG075',
+          'Session not available',
+          key,
+          tokens,
+        );
+        throw new UnauthorizedException('Session not available');
+      }
+
+      const now = Math.floor(Date.now() / 1000);
+      const remainingSeconds = payload.exp - now;
+
+      const tokenData = {
+        loginId: payload.loginId ?? undefined,
+        isAppAdmin: payload.isAppAdmin ?? undefined,
+        tenant: payload.tenant ?? undefined,
+        type: payload.type ?? undefined,
+        ag: payload.ag ?? undefined,
+        app: payload.app ?? undefined,
+        dap: payload.dap ?? undefined,
+        client: payload.client ?? undefined,
+        userCode: payload?.userCode ?? undefined,
+        selectedAccessProfile: payload.selectedAccessProfile ?? undefined,
+        orgGrpCode: payload.orgGrpCode ?? undefined,
+        orgCode: payload.orgCode ?? undefined,
+        orgGrpName: payload.orgGrpName ?? undefined,
+        orgName: payload.orgName ?? undefined,
+        roleGrpCode: payload.roleGrpCode ?? undefined,
+        roleCode: payload.roleCode ?? undefined,
+        roleGrpName: payload.roleGrpName ?? undefined,
+        roleName: payload.roleName ?? undefined,
+        psGrpCode: payload.psGrpCode ?? undefined,
+        psCode: payload.psCode ?? undefined,
+        psGrpName: payload.psGrpName ?? undefined,
+        psName: payload.psName ?? undefined,
+        subOrgGrpCode: payload.subOrgGrpCode ?? undefined,
+        subOrgCode: payload.subOrgCode ?? undefined,
+        subOrgGrpName: payload.subOrgGrpName ?? undefined,
+        subOrgName: payload.subOrgName ?? undefined,
+        tenantId: payload.tenantId ?? undefined,
+      };
+
+      if (remainingSeconds <= 600 && remainingSeconds > 0) {
+        const config = this.getConfig();
+        await handleFusionAuthUserRegistrationForTokenLambda(
+          payload.tid,
+          payload.applicationId,
+          config.fusionAuthApiKey,
+          config.fusionAuthBaseUrl,
+          payload.sub,
+          tokenData
+        )
+
         const value = await this.fusionAuthVerifyRefreshToken(
           refreshToken,
           payload?.tenantId,
@@ -8072,7 +8296,7 @@ getConfig(): FusionAuthConfig {
       await this.throwCustomException(error);
     }
   }
-
+ 
   //___________________________LOGS__________________________________________
 
   @Cron(process.env.MY_CRON)
@@ -8232,11 +8456,10 @@ getConfig(): FusionAuthConfig {
               if (USER && date && CK && FNGK && FNK && CATK && AFGK && AFK && AFVK) {
                 const path = `${USER}:${date}:${CK}:${FNGK}:${FNK}:${CATK}:${AFGK}:${AFK}:${AFVK}:${upid}`;    
                 
-                await this.structuredPrcLogsToPostgres(streamName,path,CK,FNK,CATK,AFGK,upid,USER,DateAndTime)
-               
-                res = await this.commonService.seaWeeduploadFile(JSON.stringify(result[i]), bucketName, streamName, path);                
+                res = await this.commonService.seaWeeduploadFile(JSON.stringify(result[i]), bucketName, streamName, path,upid);                
                
                 if(res?.status == 201){
+                  await this.structuredPrcLogsToPostgres(streamName,path,CK,FNK,CATK,AFGK,upid,USER,DateAndTime)
                   await this.redisService.ackMessage(streamName,groupName,msgid);
                   await this.redisService.deleteWithEntryId(streamName,msgid)   
                   let isStreamExist = await this.redisService.getStreamRange(streamName)
@@ -8477,7 +8700,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct006_lap';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct001_ta';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8536,7 +8759,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct006_lap';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct001_ta';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8606,7 +8829,7 @@ getConfig(): FusionAuthConfig {
       );
 
       for (const lock of locks.rows) {
-        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : 'ct006_lap';
+        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : 'ct001_ta';
         await client.query(
           `UPDATE ${recordSchema}."${lock.table_name}"
            SET trs_locked_by = NULL, trs_locked_time = NULL

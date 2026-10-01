@@ -17,6 +17,7 @@ import { DecodedToken, Branding } from '@/types/global'
 import { useTheme } from '@/hooks/useTheme'
 import { twMerge } from 'tailwind-merge'
 import clsx from 'clsx'
+import { logout } from "@/app/components/utils";  
 
 const LayoutDecider = ({
   mode = 'detached',
@@ -43,15 +44,16 @@ const LayoutDecider = ({
   const { borderColor, bgColor } : { borderColor: string; bgColor: string } = useTheme()
   const { brandColor, hoverColor, selectionColor } : { brandColor: string; hoverColor: string; selectionColor: string } = branding;
   const encryptionFlagApp: boolean = false;    
-  const encryptionDpd: string = "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:LAP:AFGK:LAP:AFK:lapDPD:AFVK:v1";
+  const encryptionDpd: string = "CK:CT001:FNGK:AF:FNK:CDF-DPD:CATK:TAM:AFGK:TA:AFK:Test_DPD:AFVK:v1";
   const encryptionMethod: string = "";
-  const logo: string = ""
-  const appLogo: string = ""
-  const appName: string = "LAP"
+  const { encAppFalg, setEncAppFalg }  = useContext(TotalContext) as TotalContextProps;
+  const logo: string = "torus/9.1/CT001/resources/images/data 1.png"
+  const appLogo: string = "torus/9.1/CT001/resources/images/BG 4.png"
+  const appName: string = "TestApplication"
   const toast: Function = useInfoMsg()
   const [loading, setLoading] = useState<boolean>(true)
   const [updatedNavData, setUpdatedNavData] = useState<MenuItem[]>([])
-  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT006:AFGK:LAP:AFK:LAP:AFVK:v1:bldc"
+  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT001:AFGK:TAM:AFK:TA:AFVK:v1:bldc"
   const [rawNavData, setRawNavData] = useState<MenuItem[] | null>(null);
   const navData: MenuItem[] = [
   {
@@ -64,7 +66,7 @@ const LayoutDecider = ({
         "key": "Logs Screen",
         "restrictedAccessProfile": [],
         "static": true,
-        "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/document-add-svgrepo-com.svg"
+        "icon": "https://tfstests3.toruslowcode.com/torus/9.1/resources/icons/document-add-svgrepo-com.svg"
       },
       {
         "name": "user",
@@ -72,151 +74,39 @@ const LayoutDecider = ({
         "key": "User Screen",
         "restrictedAccessProfile": [],
         "static": true,
-        "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/user-plus-svgrepo-com.svg"
+        "icon": "https://tfstests3.toruslowcode.com/torus/9.1/resources/icons/user-plus-svgrepo-com.svg"
       }
     ],
     "items": [],
-    "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
+    "icon": "https://tfstests3.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
   },
   {
-    "menuGroupLabel": "Dashboard",
+    "menuGroupLabel": "JsonB",
     "screenDetails": [
       {
-        "name": "dashboard",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1",
+        "name": "jsonb",
+        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Jsonb:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/Frame.svg"
+        "icon": "/torus/9.1/resources/icons/align-right-svgrepo-com.svg"
       }
     ],
     "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/Frame.svg"
+    "icon": "/torus/9.1/resources/icons/align-right-svgrepo-com.svg"
   },
   {
-    "menuGroupLabel": "Report",
+    "menuGroupLabel": "Jsonb table",
     "screenDetails": [
       {
-        "name": "report",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1",
+        "name": "jsonb table",
+        "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:JsonB_Tbale:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/report.png"
+        "icon": "/torus/9.1/resources/icons/align-top-svgrepo-com.svg"
       }
     ],
     "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/report.png"
-  },
-  {
-    "menuGroupLabel": "Filing Packages",
-    "screenDetails": [
-      {
-        "name": "filing packages",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/file.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/file.png"
-  },
-  {
-    "menuGroupLabel": "Submissions Hub",
-    "screenDetails": [
-      {
-        "name": "submissions hub",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/telegram.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/telegram.png"
-  },
-  {
-    "menuGroupLabel": "Service Tracking",
-    "screenDetails": [
-      {
-        "name": "service tracking",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/delivery-truck.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/delivery-truck.png"
-  },
-  {
-    "menuGroupLabel": "Judgments",
-    "screenDetails": [
-      {
-        "name": "judgments",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/hammer.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/hammer.png"
-  },
-  {
-    "menuGroupLabel": "Enforcement",
-    "screenDetails": [
-      {
-        "name": "enforcement",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/shield-badge.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/shield-badge.png"
-  },
-  {
-    "menuGroupLabel": "Kill-Switch Control",
-    "screenDetails": [
-      {
-        "name": "kill-switch control",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/warning.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/warning.png"
-  },
-  {
-    "menuGroupLabel": "Compliance",
-    "screenDetails": [
-      {
-        "name": "compliance",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/open-book.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/open-book.png"
-  },
-  {
-    "menuGroupLabel": "Analytics",
-    "screenDetails": [
-      {
-        "name": "analytics",
-        "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT006/resources/images/stacked-bar.png"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT006/resources/images/stacked-bar.png"
+    "icon": "/torus/9.1/resources/icons/align-top-svgrepo-com.svg"
   }
 ]
   const decodedTokenObj: DecodedToken = decodeToken(token)
@@ -236,7 +126,13 @@ const LayoutDecider = ({
     const marginClass: string = mode === 'detached' ? 'm-2' : ''
     const extraClass: string = mode === 'detached' ? 'rounded-md shadow-md' : ''
     const detachedBorder: string = mode === 'detached' ? 'border' : ''
-
+    if(encryptionDpd){
+      setEncAppFalg({
+        flag: encryptionFlagApp,
+        dpd: encryptionDpd,
+        method: encryptionMethod
+      })
+    }
     if (['condensed', 'hoverView'].includes(sidebarStyle)) {
       return `${marginClass} ${widthClass} ${baseClass} ${detachedBorder}  ${extraClass}`.trim()
     }
@@ -285,14 +181,6 @@ const LayoutDecider = ({
     return ''
   }, [navigationStyles, mode, sidebarStyle])
 
-  async function logout(): Promise<void> {
-    localStorage.clear()
-    sessionStorage.clear()
-    deleteAllCookies()
-    window.location.href = '/'
-  }
-
-
   const processMenuItems = async (
     items: MenuItem[],
     accessProfile: string[],
@@ -308,7 +196,7 @@ const LayoutDecider = ({
         for (const screen of newItem.screenDetails) {
           if (screen.static) validScreens.push(screen)
           if (screen.key && !screen.static) {
-            const isValid: boolean = screen.restrictedAccessProfile.includes(user) ? false : true
+            const isValid: boolean = screen?.restrictedAccessProfile?.includes(user) ? false : true
             if (isValid) validScreens.push(screen)
           }
         }
@@ -344,6 +232,11 @@ const LayoutDecider = ({
    setRawNavData(res.data); // Set the raw data into state
     } catch (error) {
    console.error("Failed to fetch nav data:", error);
+   if (axios.isAxiosError(error) && error.response?.status === 401) {
+      toast('session expired', 'danger')
+      logout(token);
+      return;
+    }
    toast('Failed to load navigation data', 'danger');
    setLoading(false);
     }
@@ -386,12 +279,17 @@ const LayoutDecider = ({
         setLoading(false)
       } else {
         toast('user lack access to any screen', 'danger')
-        logout()
+        logout(token)
       }
     } catch (err: any) {
       console.error(err)
-      toast('user lack access to any screen', 'danger')
-      logout()
+     if (axios.isAxiosError(err) && err.response?.status === 401) {
+      toast('session expired', 'danger')
+      logout(token);
+      return;
+    }
+      toast('Failed to fetch User Details', 'danger')
+      setLoading(false)
     }
   }
 
@@ -454,12 +352,12 @@ const LayoutDecider = ({
         setLoading(false)
       } else {
         toast('user lack access to any screen', 'danger')
-        logout()
+        logout(token)
       }
     } catch (err: any) {
       console.error(err)
       toast('user lack access to any screen', 'danger')
-      logout()
+      logout(token)
     }
   }
 

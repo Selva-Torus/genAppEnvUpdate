@@ -99,58 +99,18 @@ export async function GET(request: NextRequest) {
 
     const { token, redirectToORPSelector } = await torusRes.json()
 
-    let screenName:string = 'CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1';
+    let screenName:string = 'Logs Screen';
     let screenDetails: any = {
         keys:[
   {
-    "screenName": "dashboard",
-    "screensName": "dashboard-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
+    "screenName": "jsonb",
+    "screensName": "jsonb-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Jsonb:AFVK:v1"
   },
   {
-    "screenName": "report",
-    "screensName": "report-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1"
-  },
-  {
-    "screenName": "filing packages",
-    "screensName": "filing_packages-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-  },
-  {
-    "screenName": "submissions hub",
-    "screensName": "submissions_hub-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-  },
-  {
-    "screenName": "service tracking",
-    "screensName": "service_tracking-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-  },
-  {
-    "screenName": "judgments",
-    "screensName": "judgments-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-  },
-  {
-    "screenName": "enforcement",
-    "screensName": "enforcement-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-  },
-  {
-    "screenName": "kill-switch control",
-    "screensName": "kill-switch_control-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-  },
-  {
-    "screenName": "compliance",
-    "screensName": "compliance-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-  },
-  {
-    "screenName": "analytics",
-    "screensName": "analytics-v1",
-    "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+    "screenName": "jsonb table",
+    "screensName": "jsonb_table-v1",
+    "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:JsonB_Tbale:AFVK:v1"
   }
 ]
     }

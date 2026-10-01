@@ -505,4 +505,37 @@ export const handleFusionAuthUserRegistrationForTokenLambda = async (
   } catch (error) {
     throw error
   }
-}
+};
+
+export const introspectFAToken = async ({
+  fusionAuthBaseUrl,
+  fusionAuthTenantId,
+  fusionAuthApplicationId,
+  token,
+}: {
+  fusionAuthBaseUrl: string;
+  fusionAuthTenantId: string;
+  fusionAuthApplicationId: string;
+  token: string;
+}) => {
+  try {
+    const res = await fetch(`${fusionAuthBaseUrl}/oauth2/introspect`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-FusionAuth-TenantId': fusionAuthTenantId,
+      },
+      body: new URLSearchParams({
+        token,
+        client_id: fusionAuthApplicationId,
+      }).toString(),
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return {
+      active: false,
+      error: error instanceof Error ? error.message : String(error),
+    };
+  }
+};

@@ -4,8 +4,12 @@ import { RxCross2, RxUpload } from 'react-icons/rx'
 import * as MdIcons from 'react-icons/md'
 import { useGlobal } from '@/context/GlobalContext'
 import { useInfoMsg } from '@/app/components/infoMsgHandler'
+import { HeaderPosition, TooltipProps as TooltipPropsType } from '@/types/global'
+import { CommonHeaderAndTooltip } from './CommonHeaderAndTooltip'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
+
+type ContentAlign = "left" | "center" | "right";
 
 type FilesType = {
   file: File
@@ -32,6 +36,12 @@ type DocumentUploadPanelProps = {
   enableEncryption?: string
   fileNamingPreference?: 'use_system_generated_name' | 'use_original_name'
   singleSelect?: boolean
+  headerText?: string
+  headerPosition?: HeaderPosition
+  tooltipProps?: TooltipPropsType
+  needTooltip?: boolean
+  fillContainer?: boolean
+  contentAlign?: ContentAlign
 }
 
 // ── Icon resolver ─────────────────────────────────────────────────────────────
@@ -55,32 +65,67 @@ const resolveIcon = (iconName: string): MdIconComponent => {
 
 // ── Accept normalizer ─────────────────────────────────────────────────────────
 
+// Mirrors the full set of file types DocumentUploader.tsx recognizes (see its
+// getFileIcon map), so a doc field configured with any of these keys behaves
+// the same way DocumentUploader does for that type.
 const ACCEPT_MAP: Record<string, string[]> = {
-  image: ['image/*'],
+  image: [
+    'image/*',
+    '.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.bmp', '.avif', '.jfif'
+  ],
   pdf: ['.pdf', 'application/pdf'],
+  doc: ['.doc', 'application/msword'],
   docx: [
     '.docx',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     '.doc',
     'application/msword'
   ],
+  xls: ['.xls', 'application/vnd.ms-excel'],
   xlsx: [
     '.xlsx',
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    '.xls',
+    'application/vnd.ms-excel'
+  ],
+  ppt: ['.ppt', 'application/vnd.ms-powerpoint'],
+  pptx: [
+    '.pptx',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    '.ppt',
+    'application/vnd.ms-powerpoint'
   ],
   csv: ['.csv', 'text/csv'],
+  json: ['.json', 'application/json'],
   txt: ['.txt', 'text/plain'],
+  md: ['.md', 'text/markdown'],
+  html: ['.html', '.htm', 'text/html'],
+  css: ['.css', 'text/css'],
+  scss: ['.scss', 'text/x-scss'],
+  zip: ['.zip', 'application/zip', 'application/x-zip-compressed'],
+  rar: ['.rar', 'application/vnd.rar', 'application/x-rar-compressed'],
+  archive: [
+    '.zip', 'application/zip', 'application/x-zip-compressed',
+    '.rar', 'application/vnd.rar', 'application/x-rar-compressed',
+    '.7z', 'application/x-7z-compressed'
+  ],
   any: ['*/*'],
   video: ['video/*'],
   audio: ['audio/*']
 }
 
-const normalizeAccept = (values: string[]): string =>
-  Array.from(
+const normalizeAccept = (values: string[]): string => {
+  if (!values || values.length === 0) return '' // empty = no restriction, accept anything
+  return Array.from(
     new Set(values.flatMap(v => ACCEPT_MAP[v.toLowerCase()] ?? [v]))
   ).join(',')
+}
 
 const isFileAccepted = (file: File, acceptTypes: string[]): boolean => {
+  // No accept types configured for this doc field -> don't restrict, same as
+  // DocumentUploader.tsx which has no type restriction by default.
+  if (!acceptTypes || acceptTypes.length === 0) return true
+
   const resolved = acceptTypes.flatMap(v => ACCEPT_MAP[v.toLowerCase()] ?? [v])
   return resolved.some(type => {
     if (type === '*/*') return true
@@ -101,7 +146,13 @@ const DocumentUploadPanel = ({
   DbType,
   enableEncryption,
   fileNamingPreference = 'use_system_generated_name',
-  singleSelect = false
+  singleSelect = false,
+  headerText,
+  headerPosition = 'top',
+  tooltipProps,
+  needTooltip = false,
+  fillContainer = true,
+  contentAlign = 'center'
 }: DocumentUploadPanelProps) => {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFiles>([])
   const inputRefs = useRef<Record<string, HTMLInputElement | null>>({})
@@ -227,11 +278,28 @@ const handleRemoveFile = (
     ? 'border-red-600/60 bg-gray-800'
     : 'border-red-300 bg-red-50/30'
 
+  const getFillClasses = () => {
+    if (!fillContainer) return ''
+    return 'w-full h-full'
+  }
+
+  const getContentAlignClasses = () => {
+    switch (contentAlign) {
+      case 'left':
+        return 'justify-start'
+      case 'right':
+        return 'justify-end'
+      case 'center':
+      default:
+        return 'justify-center'
+    }
+  }
+
   // ── Render ──────────────────────────────────────────────────────────────────
 
-  return (
+  const panelElement = (
     <div
-      className={`flex flex-col gap-6 rounded-xl p-6 shadow-md ${panelBg} ${className}`}
+      className={`flex flex-col gap-6 rounded-xl p-6 shadow-md ${panelBg} ${getFillClasses()} ${className}`}
     >
       {/* Header */}
       {(title || subtitle) && (
@@ -257,15 +325,21 @@ const handleRemoveFile = (
         </div>
       )}
 
-      {/* 2-column card grid */}
-      <div className='grid grid-cols-2 gap-4'>
+      {/* Card grid: single field fills the panel, multiple fields wrap into 2 columns */}
+      <div
+        className={`
+          grid flex-1 auto-rows-fr gap-4 min-h-0
+          ${(documentfields?.length ?? 0) > 1 ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'}
+          ${getContentAlignClasses()}
+        `}
+      >
         {documentfields?.map(doc => {
           const IconComp = resolveIcon(doc.icon)
           const files = uploadedFiles.filter(item => item.docId === doc.id)
           const hasFiles = files.length > 0
 
           return (
-            <div key={doc.id}>
+            <div key={doc.id} className='h-full'>
               {/* Hidden file input */}
               <input
                 ref={el => {
@@ -281,7 +355,7 @@ const handleRemoveFile = (
               {/* Card */}
               <div
                 className={`
-                  flex min-h-[150px] cursor-pointer flex-col overflow-hidden rounded-lg
+                  flex h-full min-h-[150px] cursor-pointer flex-col overflow-hidden rounded-lg
                   border-2 border-dashed transition-all duration-200
                   ${hasFiles ? cardFilled : cardIdle}
                 `}
@@ -397,6 +471,19 @@ const handleRemoveFile = (
       </div>
 
     </div>
+  )
+
+  return (
+    <CommonHeaderAndTooltip
+      needTooltip={needTooltip}
+      tooltipProps={tooltipProps}
+      headerText={headerText}
+      headerPosition={headerPosition}
+      className={className}
+      fillContainer={fillContainer}
+    >
+      {panelElement}
+    </CommonHeaderAndTooltip>
   )
 }
 

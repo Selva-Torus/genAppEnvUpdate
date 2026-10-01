@@ -1,5 +1,5 @@
 /* {
-  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT006:AFGK:LAP:AFK:LAP:AFVK:v1:bldc",
+  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT001:AFGK:TAM:AFK:TA:AFVK:v1:bldc",
   "ufKey": "Logs Screen",
   "screenName": "logs",
   "screenLabel": "logs",
@@ -14,7 +14,7 @@
           "key": "Logs Screen",
           "restrictedAccessProfile": [],
           "static": true,
-          "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/document-add-svgrepo-com.svg"
+          "icon": "https://tfstests3.toruslowcode.com/torus/9.1/resources/icons/document-add-svgrepo-com.svg"
         },
         {
           "name": "user",
@@ -22,274 +22,232 @@
           "key": "User Screen",
           "restrictedAccessProfile": [],
           "static": true,
-          "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/user-plus-svgrepo-com.svg"
+          "icon": "https://tfstests3.toruslowcode.com/torus/9.1/resources/icons/user-plus-svgrepo-com.svg"
         }
       ],
       "items": [],
-      "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
+      "icon": "https://tfstests3.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
     },
     {
-      "menuGroupLabel": "Dashboard",
+      "menuGroupLabel": "JsonB",
       "screenDetails": [
         {
-          "name": "dashboard",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1",
+          "name": "jsonb",
+          "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Jsonb:AFVK:v1",
           "restrictedAccessProfile": [],
           "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/Frame.svg"
+          "icon": "/torus/9.1/resources/icons/align-right-svgrepo-com.svg"
         }
       ],
       "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/Frame.svg"
+      "icon": "/torus/9.1/resources/icons/align-right-svgrepo-com.svg"
     },
     {
-      "menuGroupLabel": "Report",
+      "menuGroupLabel": "Jsonb table",
       "screenDetails": [
         {
-          "name": "report",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1",
+          "name": "jsonb table",
+          "key": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:JsonB_Tbale:AFVK:v1",
           "restrictedAccessProfile": [],
           "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/report.png"
+          "icon": "/torus/9.1/resources/icons/align-top-svgrepo-com.svg"
         }
       ],
       "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/report.png"
-    },
-    {
-      "menuGroupLabel": "Filing Packages",
-      "screenDetails": [
-        {
-          "name": "filing packages",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/file.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/file.png"
-    },
-    {
-      "menuGroupLabel": "Submissions Hub",
-      "screenDetails": [
-        {
-          "name": "submissions hub",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/telegram.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/telegram.png"
-    },
-    {
-      "menuGroupLabel": "Service Tracking",
-      "screenDetails": [
-        {
-          "name": "service tracking",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/delivery-truck.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/delivery-truck.png"
-    },
-    {
-      "menuGroupLabel": "Judgments",
-      "screenDetails": [
-        {
-          "name": "judgments",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/hammer.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/hammer.png"
-    },
-    {
-      "menuGroupLabel": "Enforcement",
-      "screenDetails": [
-        {
-          "name": "enforcement",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/shield-badge.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/shield-badge.png"
-    },
-    {
-      "menuGroupLabel": "Kill-Switch Control",
-      "screenDetails": [
-        {
-          "name": "kill-switch control",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/warning.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/warning.png"
-    },
-    {
-      "menuGroupLabel": "Compliance",
-      "screenDetails": [
-        {
-          "name": "compliance",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/open-book.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/open-book.png"
-    },
-    {
-      "menuGroupLabel": "Analytics",
-      "screenDetails": [
-        {
-          "name": "analytics",
-          "key": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/CT006/resources/images/stacked-bar.png"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/CT006/resources/images/stacked-bar.png"
+      "icon": "/torus/9.1/resources/icons/align-top-svgrepo-com.svg"
     }
   ],
   "setupData": {
     "appInfo": {
-      "name": "LAP",
-      "needAutoDbPush": true,
-      "code": "LAP",
+      "code": "TA",
+      "logo": "torus/9.1/CT001/resources/images/data 1.png",
+      "name": "TestApplication",
+      "appLogo": "torus/9.1/CT001/resources/images/BG 4.png",
+      "accessUrl": "https://tgaprod910.toruslowcode.com/ct001/tam/ta/v1",
       "encryption": {
         "type": ""
       },
-      "applicationUniqueId": "b273d406-451b-406e-b8b6-65b302a66d71",
-      "deploymentArtifactKey": "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:LAP:AFGK:LAP:AFK:lapDPD:AFVK:v1",
+      "lastBuildOn": "2026-07-06T06:25:37.208Z",
+      "needAutoDbPush": true,
       "lastBuildVersion": "v1",
-      "lastBuildOn": "2026-08-11T11:22:02.589Z",
-      "accessUrl": "https://tgaprod910.toruslowcode.com/ct006/lap/lap/v1",
-      "appGrpName": "Legal Automation Platform",
-      "appGrpCode": "LAP",
-      "fusionAuthAppClientSecret": "NXRGuMfH4-FxN3SRBO7-Nwl3V2Eb0o7tk7FiGREm1W4"
+      "applicationUniqueId": "bf742146-7cc8-42c7-8bb4-f56a8b372bf1",
+      "deploymentArtifactKey": "CK:CT001:FNGK:AF:FNK:CDF-DPD:CATK:TAM:AFGK:TA:AFK:Test_DPD:AFVK:v1",
+      "appGrpName": "TAM",
+      "appGrpCode": "TAM",
+      "fusionAuthAppClientSecret": "QUl-w_71uzVZALrnLs30Ck3a4pkZUV62tRWlQ6MMD80",
+      "localization": {
+        "datetime": {
+          "display": {
+            "date": {
+              "value": "ddd, D MMM YYYY"
+            },
+            "time": {
+              "value": "HH:mm[:ss]"
+            }
+          },
+          "timezone": {
+            "name": {
+              "value": "Asia/Kolkata"
+            },
+            "offset": {
+              "value": "+05:30"
+            },
+            "abbreviation": {
+              "value": "IST"
+            },
+            "is_dst": {
+              "value": false
+            }
+          }
+        },
+        "currency": {
+          "display": {
+            "currency": "",
+            "symbol": "",
+            "decimal_separator": ".",
+            "thousands_separator": ",",
+            "grouping_rules": [
+              3
+            ],
+            "decimal_places": 0
+          },
+          "rounding_rules": {
+            "rule": 3
+          }
+        },
+        "legal_and_compliance": {
+          "privacy": {
+            "regulations": {
+              "GDPR": {
+                "regions": [
+                  "EU",
+                  "EEA",
+                  "UK"
+                ],
+                "consent_required": false,
+                "right_to_erasure": false,
+                "data_portability": false,
+                "dpo_required": false,
+                "breach_notification_hours": 72
+              },
+              "CCPA": {
+                "regions": [
+                  "US-CA"
+                ],
+                "opt_out_sale": false,
+                "right_to_know": false,
+                "right_to_delete": false
+              },
+              "LGPD": {
+                "regions": [
+                  "BR"
+                ],
+                "consent_required": false,
+                "data_subject_rights": false
+              },
+              "PIPL": {
+                "regions": [
+                  "CN"
+                ],
+                "data_localization": false,
+                "cross_border_transfer_restricted": false
+              },
+              "PDPA": {
+                "regions": [
+                  "TH",
+                  "MY",
+                  "SG"
+                ],
+                "consent_required": false
+              }
+            }
+          }
+        }
+      }
     },
-    "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT006:AFK:PROFILE:AFVK:v1:appearance",
-    "selectedPresetKey": "1780467258338",
-    "group-bg-color": "#ffffff",
-    "fontSize": {
-      "minPx": "6",
-      "preferredVw": "0.85",
-      "maxPx": "12"
-    },
-    "direction": "LTR",
-    "brandColor": "#0737c9",
-    "selectionColor": "#579eff",
-    "hoverColor": "#d5eeff",
-    "borderRadius": "xl",
-    "topbarColor": "#ffffff",
-    "menubarColor": "#ffffff",
-    "sidebarStyle": "default",
-    "navigationStyles": "vertical",
+    "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT001:AFK:PROFILE:AFVK:v1:appearance",
+    "selectedPresetKey": "default",
+    "name": "default",
     "theme": "light",
-    "layoutMode": "fluid",
+    "fontSize": {
+      "maxPx": "18",
+      "minPx": "5",
+      "preferredVw": "0.675"
+    },
+    "language": "English",
+    "direction": "LTR",
+    "brandColor": "#4b74f1",
+    "hoverColor": "#0d8aa0",
+    "layoutMode": "detached",
+    "topbarColor": "#ffffff",
+    "borderRadius": "m",
+    "menubarColor": "#ffffff",
+    "sidebarStyle": "compact",
+    "page-bg-color": "#ffffff",
+    "group-bg-color": "#ffffff",
+    "selectionColor": "#41599f",
     "mobileAppearance": {
+      "theme": "light",
+      "fontSize": {
+        "bodyLarge": "16",
+        "bodySmall": "12",
+        "bodyMedium": "14",
+        "labelLarge": "16",
+        "labelSmall": "12",
+        "titleLarge": "20",
+        "titleSmall": "16",
+        "labelMedium": "14",
+        "titleMedium": "18",
+        "displayLarge": "64",
+        "displaySmall": "36",
+        "displayMedium": "44",
+        "headlineLarge": "32",
+        "headlineSmall": "24",
+        "headlineMedium": "28"
+      },
       "language": "English",
       "direction": "LTR",
-      "theme": "light",
+      "fontFamily": "Roboto",
       "brandColors": {
-        "primary": "#4b39ef",
-        "secondary": "#39d2c0",
-        "tertiary": "#ee8b60"
+        "primary": "#1b44e6",
+        "tertiary": "#f8f9fc",
+        "secondary": "#ffffff"
       },
+      "drawerStyle": "",
       "accentColors": {
-        "accentOne": "#4c4b39",
-        "accentTwo": "#4d39d2"
+        "accentOne": "#000000",
+        "accentTwo": "#edeef1"
       },
       "utilityColors": {
-        "lightMode": {
-          "primaryText": "#14181b",
-          "secondaryText": "#57636c",
-          "primaryBackground": "#f1f4f8",
-          "secondaryBackground": "#ffffff"
-        },
         "darkMode": {
           "primaryText": "#ffffff",
           "secondaryText": "#95a1ac",
           "primaryBackground": "#1d2428",
           "secondaryBackground": "#14181b"
+        },
+        "lightMode": {
+          "primaryText": "#14181b",
+          "secondaryText": "#57636c",
+          "primaryBackground": "#f1f4f8",
+          "secondaryBackground": "#ffffff"
         }
       },
-      "fontSize": {
-        "displayLarge": "64",
-        "displayMedium": "44",
-        "displaySmall": "36",
-        "headlineLarge": "32",
-        "headlineMedium": "28",
-        "headlineSmall": "24",
-        "titleLarge": "20",
-        "titleMedium": "18",
-        "titleSmall": "16",
-        "labelLarge": "16",
-        "labelMedium": "14",
-        "labelSmall": "12",
-        "bodyLarge": "16",
-        "bodyMedium": "14",
-        "bodySmall": "12"
-      },
-      "fontFamily": "Roboto",
-      "navigationStyle": "Bottom Navigation",
-      "drawerStyle": ""
+      "navigationStyle": "Bottom Navigation"
     },
-    "page-bg-color": "#ffffff",
-    "language": "English",
-    "name": "ecp_styles",
-    "appBackgroundImage": "",
-    "fontFamily": [
-      {
-        "label": "Google Sans",
-        "fontUrl": "https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Pliant:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-      },
-      {
-        "label": "Inter",
-        "fontUrl": "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-      }
-    ],
-    "text-body-font": "Inter",
-    "text-header-font": "Inter",
-    "text-display-font": "Inter"
+    "navigationStyles": "vertical",
+    "appBackgroundImage": "torus/9.1/CT001/resources/images/vivid-blurred-colorful-wallpaper-background_58702-3883.avif"
   },
-  "setupKey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT006:AFGK:LAP:AFK:LAP:AFVK:v1:appearance",
+  "setupKey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT001:AFGK:TAM:AFK:TA:AFVK:v1:appearance",
   "allKeys": [
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1",
-    "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+    "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Jsonb:AFVK:v1",
+    "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:JsonB_Tbale:AFVK:v1"
   ],
   "loginDetails": {
-    "loginId": "sam",
-    "firstName": "Sam",
-    "lastName": "M",
-    "email": "samm@torus.tech",
-    "mobile": "8190002700",
+    "loginId": "madhu",
+    "firstName": "Madhu",
+    "lastName": "Bala",
+    "email": "madhus@torus.tech",
+    "mobile": "9874563210",
     "2FAFlag": "N",
     "scope": "client_admin",
     "status": "active",
@@ -297,9 +255,9 @@
       "admin"
     ],
     "accessExpires": "",
-    "dateAdded": "2026-05-13T10:46:01.070Z",
+    "dateAdded": "2026-05-05T12:11:42.383Z",
     "isRestricted": false,
-    "userUniqueId": "3701adf2-5a28-4b1d-9388-b8a890bc8085",
+    "userUniqueId": "beaa1b7f-62af-4af7-b0ed-1694b359483b",
     "touring": {
       "isneedTouring": false,
       "touringData": {
@@ -311,14 +269,16 @@
         }
       }
     },
-    "lastActive": "2026-08-13T11:40:15.481Z",
-    "client": "CT006",
-    "users": "samSam M",
-    "profile": "",
-    "noOfProductsService": 0,
-    "edit": ""
+    "lastActive": "2026-10-01T10:55:42.143Z",
+    "client": "CT001",
+    "users": "madhuMadhu Bala",
+    "profile": "torus/9.1/CT001/resources/images/madhu/download.webp",
+    "edit": "",
+    "noOfProductsService": 0
   },
   "webOnBoarding": {
+    "image": "torus/9.1/CT001/resources/images/ChatGPT Image May 6, 2026, 01_54_44 PM.png",
+    "loginType": "leftAligned",
     "navBarStyle": {
       "activeItems": [],
       "deletedItems": [
@@ -332,81 +292,43 @@
         },
         {
           "name": "menu items",
-          "gridColumn": "4/9",
-          "gridRow": "1/6"
+          "gridRow": "1/6",
+          "gridColumn": "4/9"
         },
         {
           "name": "opr matrix",
-          "gridColumn": "9/12",
-          "gridRow": "6/9"
+          "gridRow": "6/9",
+          "gridColumn": "9/12"
         },
         {
           "name": "profile",
-          "gridColumn": "12/13",
-          "gridRow": "12/13"
+          "gridRow": "12/13",
+          "gridColumn": "12/13"
         }
       ]
     },
-    "landingScreen": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
+    "loadingImage": "/torus/9.1/CT001/resources/splashImage/ChatGPT Image May 6, 2026, 01_56_40 PM.png",
+    "landingScreen": "Logs Screen"
   },
   "allKeyswithScreenNames": [
     {
-      "screenName": "dashboard",
-      "screensName": "dashboard-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:newDashboard:AFVK:v1"
+      "screenName": "jsonb",
+      "screensName": "jsonb-v1",
+      "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:Jsonb:AFVK:v1"
     },
     {
-      "screenName": "report",
-      "screensName": "report-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFR:CATK:LAP:AFGK:LAP:AFK:report:AFVK:v1"
-    },
-    {
-      "screenName": "filing packages",
-      "screensName": "filing_packages-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-    },
-    {
-      "screenName": "submissions hub",
-      "screensName": "submissions_hub-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-    },
-    {
-      "screenName": "service tracking",
-      "screensName": "service_tracking-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-    },
-    {
-      "screenName": "judgments",
-      "screensName": "judgments-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-    },
-    {
-      "screenName": "enforcement",
-      "screensName": "enforcement-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-    },
-    {
-      "screenName": "kill-switch control",
-      "screensName": "kill-switch_control-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-    },
-    {
-      "screenName": "compliance",
-      "screensName": "compliance-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
-    },
-    {
-      "screenName": "analytics",
-      "screensName": "analytics-v1",
-      "ufKey": "CK:CT006:FNGK:AF:FNK:UF-UFW:CATK:LAP:AFGK:LAP:AFK:lapTestScreen:AFVK:v1"
+      "screenName": "jsonb table",
+      "screensName": "jsonb_table-v1",
+      "ufKey": "CK:CT001:FNGK:AF:FNK:UF-UFW:CATK:TAM:AFGK:TA:AFK:JsonB_Tbale:AFVK:v1"
     }
   ],
-  "deploymentArtifactKey": "CK:CT006:FNGK:AF:FNK:CDF-DPD:CATK:LAP:AFGK:LAP:AFK:lapDPD:AFVK:v1",
-  "appGroupDesc": "Legal Automation Platform",
+  "deploymentArtifactKey": "CK:CT001:FNGK:AF:FNK:CDF-DPD:CATK:TAM:AFGK:TA:AFK:Test_DPD:AFVK:v1",
+  "appGroupDesc": "TAM",
   "logType": "dfs",
-  "appDesc": "LAP",
+  "appDesc": "TestApplication",
+  "appLogo": "torus/9.1/CT001/resources/images/BG 4.png",
   "isOld": true,
-  "clientCode": "CT006"
+  "clientCode": "CT001"
 } */
 import './globals.css';
 import type { Metadata } from 'next';
@@ -421,8 +343,8 @@ import { cookies } from 'next/headers';
 import { COOKIE_PREFIX } from '@/lib/cookies';
 
 export const metadata: Metadata = {
-  title: 'LAP',
-  description: 'LAP Generated by Torus'
+  title: 'TestApplication',
+  description: 'TestApplication Generated by Torus'
 }
 
 export default async function RootLayout({
@@ -432,7 +354,6 @@ export default async function RootLayout({
 }) {
   const cookieStore = await cookies();
   const tokenParam = cookieStore.get(`${COOKIE_PREFIX}_token`)?.value;
-  console.log(tokenParam , "token param from layout");
 
   return (
     <html lang='en'>

@@ -1,4 +1,5 @@
 
+
 import { BadGatewayException, BadRequestException, HttpStatus, Injectable,Logger } from "@nestjs/common";
 import axios, { AxiosRequestConfig } from 'axios';
 import * as FormData from 'form-data';
@@ -6,23 +7,21 @@ import { readAPIDTO,errorObj } from "./dto";
 import { RuleService } from "./ruleService";
 import { CodeService } from "./codeService";
 import { CustomException } from "./customException";
-import { JwtService } from "@nestjs/jwt";
 import { RedisService } from "./redisService";
 import { format } from 'date-fns';
 import jsonata from "jsonata";
 const vault = require('node-vault');
 import * as crypto from 'crypto';
-import { publicEncrypt,privateDecrypt,generateKeyPairSync  } from 'crypto';
 import * as fs from 'fs';
 import * as stream from 'stream';
 import { Readable } from "stream";
 import path from "path";
 import Redis from 'ioredis';
 import * as pg from "pg";
-import { GridFSBucket } from "mongodb";
 import { MongoClient, ObjectId , Db} from "mongodb";
 import { ConfigService } from "@nestjs/config";
-const NodeRSA = require('node-rsa')
+import { normalizePem } from "src/utils/normalizePem.util";
+import { rsaEncryptChunked, rsaDecryptChunked } from "src/utils/rsaBlockCrypto.util";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { readdir, readFile } from 'fs/promises';
 import { EnvData } from "src/envData/envData.service";
@@ -32,7 +31,7 @@ import * as utc from 'dayjs/plugin/utc';
 import * as timezone from 'dayjs/plugin/timezone';
 import { JwtServices } from "src/jwt.services";
 import { assertAllowedOutboundHost } from "src/utils/ssrf.util";
-
+import { negotiatePgTls, negotiateMongoTls } from "./db-ssl.util";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 const _ = require("lodash")
@@ -65,7 +64,6 @@ export class CommonService{
   private vaultAddr: string;
   private vaultToken: string;
   private vaultKey: string;
-  private bucket: GridFSBucket;
   constructor(private readonly ruleEngine:RuleService,
     private readonly codeService:CodeService,
     private readonly jwtService: JwtServices,
@@ -148,12 +146,13 @@ export class CommonService{
     //const migrationSqlPath = `${migrationsDir}/${latestMigrationFolder}/migration.sql`;
     let migrationSql_baseline = await this.readTextFileSmart(`${migrationsDir}/ddl_changes_baseline.sql`);
     let migrationSql_incremental = await this.readTextFileSmart(`${migrationsDir}/ddl_changes_incremental.sql`);
-    let migrationSql_trigger = await this.readTextFileSmart(`${migrationsDir}/triggerFuctions.sql`);
+    let migrationSql_allTrigger = await this.readTextFileSmart(`${migrationsDir}/allTriggers.sql`);
+    let migrationSql_triggerChanges = await this.readTextFileSmart(`${migrationsDir}/triggerChanges.sql`);
     let overallPrismaSchema = await this.readTextFileSmart(`${prismaSchemaPath}/schema.prisma`);
-    migrationSql_baseline = migrationSql_baseline + migrationSql_trigger;
+    migrationSql_baseline = migrationSql_baseline + migrationSql_allTrigger;
     if (!migrationSql_incremental?.includes('-- This is an empty migration.')&&!migrationSql_incremental?.includes("No DDL changes available")) 
     {
-      migrationSql_incremental = migrationSql_incremental + migrationSql_trigger;
+      migrationSql_incremental = migrationSql_incremental + migrationSql_triggerChanges;
     }
     return { baseline: migrationSql_baseline, incremental: migrationSql_incremental, prismaSchema: overallPrismaSchema };
   }
@@ -181,14 +180,6 @@ export class CommonService{
   }
 
   private readonly logger = new Logger(CommonService.name) 
-  private readonly GRIDFS_BUCKET = 'CT006/LAP/LAP/v1';
-
-  private async getBucket(): Promise<GridFSBucket> {
-    if (!db) {
-      return null;
-    }
-    return new GridFSBucket(db, { bucketName: this.GRIDFS_BUCKET });
-  }
     async encrypt(value: string,context:string): Promise<string> {
         const result = await this.vaultClient.write(`transit/encrypt/${this.encryptionKey}`, {
           plaintext: Buffer.from(value).toString('base64'),
@@ -289,8 +280,10 @@ export class CommonService{
             }else if (encMethod == 'RSA') {
               const publicKey = encryptCredentials.publicKey
               const encryptData = async (data: string) => {
-                const key = new NodeRSA(publicKey)
-                return key.encrypt(data, 'base64') // Encrypted data in base64
+                return rsaEncryptChunked(
+                  normalizePem(publicKey),
+                  Buffer.from(data, 'utf8')
+                ).toString('base64') // Encrypted data in base64
               }
 
               const sensitiveData = value
@@ -373,8 +366,10 @@ export class CommonService{
 
             }else if (encMethod == 'RSA') {
               try{
-              const key = new NodeRSA(encryptCredentials.privateKey);
-              const decrypted = key.decrypt(encryptedData.ciphertext, 'utf8');
+              const decrypted = rsaDecryptChunked(
+                normalizePem(encryptCredentials.privateKey),
+                Buffer.from(encryptedData.ciphertext, 'base64')
+              ).toString('utf8');
 
               return decrypted
               }catch (error) {
@@ -476,74 +471,7 @@ export class CommonService{
       );
       return Buffer.from(res.data.data.plaintext, 'base64');
     }
-
-    async findFileById(id: string | string[]) {
-      // Handle single ID or array of IDs
-      const bucket = await this.getBucket();
-      if (Array.isArray(id)) {
-        const objectIds = id.map(fileId => new ObjectId(fileId));
-        const files = await bucket.find({ _id: { $in: objectIds } }).toArray();
-        return files;
-      } else {
-        const files = await bucket.find({ _id: new ObjectId(id) }).toArray();
-        return files[0];
-      }
-    }
-
-    async uploadFile(file: { buffer: Buffer; filename: string; mimetype: string; size: number },context: string, enableEncryption: string): Promise<any> {
-    //const encrypted = await this.encryptFile(file.buffer, context);
-      let encrypted:Buffer
-      if(enableEncryption === "true" ){
-       encrypted = await this.aes256ctrEncrypt(file.buffer);
-      }else{
-         encrypted = file.buffer;
-      }
-      const bucket = await this.getBucket();
-      const uploadStream = bucket.openUploadStream(file.filename, {
-        metadata: { isEncrypted: enableEncryption },
-        contentType: file.mimetype,
-      });
-      uploadStream.end(encrypted);
-      return { message: 'Encrypted file uploaded successfully', fileId: uploadStream.id.toString() };
-    }
-
-    async getFile(id: string | string[], context: string,enableEncryption: Boolean): Promise<Buffer | Buffer[]> {
-      // Handle array of IDs
-      if (Array.isArray(id)) {
-        const buffers: Buffer[] = [];
-        for (const fileId of id) {
-          const buffer = await this.getSingleFile(fileId, context, enableEncryption);
-          buffers.push(buffer);
-        }
-        return buffers;
-      } else {
-        return this.getSingleFile(id, context, enableEncryption);
-      }
-    }
-
-    private async getSingleFile(id: string, context: string, enableEncryption: Boolean): Promise<Buffer> {
-      let decrypted: Buffer;
-      const chunks: Buffer[] = [];
-      const bucket = await this.getBucket();
-      const downloadStream = bucket.openDownloadStream(new ObjectId(id));
-      return new Promise<Buffer>((resolve, reject) => {
-        downloadStream.on('data', (chunk) => chunks.push(chunk));
-        downloadStream.on('end', async () => {
-          const ciphertext = Buffer.concat(chunks);
-          try {
-            if (enableEncryption) {
-              decrypted = await this.aes256ctrDecrypt(ciphertext);
-            } else {
-              decrypted = ciphertext;
-            }
-            resolve(decrypted);
-          } catch (err:any) {
-            reject(err);
-          }
-        });
-        downloadStream.on('error', reject);
-      });
-    }
+    
     async eventFunction(eventProperty: any) {
         let eventsDetails: any = [];
         const eventDetailsArray: any[] = [];
@@ -899,18 +827,30 @@ export class CommonService{
      }
     
     
-    async getRuleCodeMapper(currentNode, inputparam,processedKey,fabric ,SessionInfo,controlName? ){       
-      try {       
-        let zenresult
+    async getRuleCodeMapper(currentNode,inputparam,processedKey,fabric,SessionInfo,controlName?){       
+      try {          
+        let zenresult, rule,customCode
         var ResultObj = {}
-        let fieldarr = []
-        let rule = currentNode?.rule
-        let customCode = currentNode?.code   
-      inputparam = JSON.parse(await this.redisService.getJsonData(processedKey+':rule',process.env.CLIENTCODE))
+        let fieldarr = []        
+        if(inputparam['catch'] == true){
+          rule = currentNode?.rule?.pst
+          if(inputparam['FlowRule'])
+            inputparam = {[currentNode.nodeName]:inputparam['FlowRule']}
+          else
+            inputparam = JSON.parse(await this.redisService.getJsonData(processedKey+':rule',process.env.CLIENTCODE))
+          await this.redisService.setJsonData(processedKey + ':NPV:' + currentNode.nodeName + '.PST',JSON.stringify(inputparam), process.env.CLIENTCODE,'request');
+        }        
+        else{
+          if(['PF-EFD','PF-ESD'].includes(fabric))
+            rule = currentNode?.rule?.pro
+          else 
+            rule = currentNode?.rule
+          customCode = currentNode?.code   
+          inputparam = JSON.parse(await this.redisService.getJsonData(processedKey+':rule',process.env.CLIENTCODE))
+        }          
         if (customCode ) {
-          var customcoderesult = await this.codeService.customCode(processedKey, customCode, inputparam,fabric,SessionInfo)        
-          
-         if(customcoderesult){
+          var customcoderesult = await this.codeService.customCode(processedKey, customCode, inputparam,fabric,SessionInfo) 
+        if(customcoderesult){
             if(inputparam[currentNode.nodeName]) 
               inputparam[currentNode.nodeName] = Object.assign(inputparam[currentNode.nodeName],customcoderesult)
             else
@@ -919,14 +859,13 @@ export class CommonService{
             await this.redisService.setJsonData(processedKey + ':NPV:' +currentNode.nodeName + '.PRO', JSON.stringify(customcoderesult), process.env.CLIENTCODE, 'response',);       
             await this.redisService.setJsonData(processedKey+':rule', JSON.stringify(inputparam), process.env.CLIENTCODE);
           }        
-        }    
-
-         if(rule && Object.keys(rule).length > 0){
+        }  
+        if(rule && Object.keys(rule).length > 0){
           var nodes = rule.nodes             
           if(nodes && nodes.length > 0){
             var gparamreq = {}; 
-             let afpVal,data,sarr = []
-             if(controlName){
+            let afpVal,data,sarr = []
+            if(controlName){
                 inputparam = Object.assign(inputparam,{controlName:controlName})
               } 
                 gparamreq = { session: SessionInfo, ...inputparam }
@@ -935,16 +874,19 @@ export class CommonService{
                     return null;
                   }
                   return value;
-                }));               
+                }));       
+       
               var goruleres = await this.ruleEngine.goRule(rule,gparamreq)
               if(Object.keys(goruleres.result).length > 0){
                 //zenresult = goruleres.result.output
-                 zenresult = goruleres.result
+                zenresult = goruleres.result
               }else{
                 throw `Rule doesn't matched with this value ${data}`
               }                         
           }     
         } 
+        if(inputparam['catch'] == true && zenresult)
+          await this.redisService.setJsonData(processedKey + ':NPV:' + currentNode.nodeName + '.PST',JSON.stringify(zenresult), process.env.CLIENTCODE,'response');
       
       if(zenresult)
         ResultObj['rule'] = zenresult
@@ -1130,10 +1072,10 @@ export class CommonService{
       }
       const p = Number(page);
       const c = Number(count);
-      const MAX_PAGE_SIZE = 10000;
-      if (!Number.isInteger(p) || !Number.isInteger(c) || p < 1 || c < 1 || c > MAX_PAGE_SIZE) {
-        throw new CustomException('Invalid pagination parameters: page and count must be positive integers', 400);
-      }
+       // const MAX_PAGE_SIZE = 10000;
+      // if (!Number.isInteger(p) || !Number.isInteger(c) || p < 1 || c < 1 || c > MAX_PAGE_SIZE) {
+      //   throw new CustomException('Invalid pagination parameters: page and count must be positive integers', 400);
+      // }
       return { page: p, count: c };
     } 
     
@@ -1539,7 +1481,7 @@ export class CommonService{
      
       if (index !== -1) {   
         return parts[index+1]; 
-      }       
+      }      
     }
 
     async patchCall(url,data,headers){ 
@@ -1617,15 +1559,16 @@ export class CommonService{
         let logs = {}
         logs['sessionInfo'] = sessionInfo
         if(key){
-          if(fabric == 'PF-PFD' || fabric == 'DF-DFD' || fabric == 'PF-SFD' || fabric == 'PF-SCDL')
+          //if(fabric == 'PF-PFD' || fabric == 'DF-DFD' || fabric == 'PF-SFD' || fabric == 'PF-SCDL')
+          if(['PF-PFD','DF-DFD','PF-SFD','PF-SCDL','PF-ESD','PF-EFD'].includes(fabric))
             logs['processInfo'] = this.redactSensitiveFields(prcdet)
           }
         logs['errorDetails'] = errorDetails
         
         if(typeof key != 'string')
         key = 'commonError'
-         tenant=tenant || "CT006"
-        app=app ||  "LAP"
+         tenant=tenant || "CT001"
+        app=app ||  "TA"
         await this.redisService.setStreamData(tenant+'-'+app+'-TSL',key,JSON.stringify(logs))    
         return logs
 
@@ -1670,12 +1613,12 @@ export class CommonService{
 
 
 
- async seaWeeduploadFile(
+  async seaWeeduploadFile(
   data: any,
   bucketName: string,
   folderPath: string,
-  filename: string
-  
+  filename: string,
+  upid?:string
 ) {
   try {
      let client = folderPath.split('-')[0]
@@ -1696,6 +1639,7 @@ export class CommonService{
       : data;
 
     let combinedData: any[] = [];
+    let existingJson
 
     // Try to fetch existing file
         try {
@@ -1706,7 +1650,8 @@ export class CommonService{
         password: this.envData.getSeaweedPassword()//process.env.SEAWEED_PASSWORD
       }
     });
-      const existingJson = existing.data;
+      // const existingJson = existing.data;
+      existingJson = existing.data;
       if(existingJson){
       if (Array.isArray(existingJson)) {
         combinedData = existingJson;
@@ -1725,8 +1670,14 @@ export class CommonService{
         combinedData.push(newJsonData[d]);
       }
       
-    } else {
-       combinedData.push(newJsonData)
+    } else {     
+      if(existingJson){       
+        if(combinedData[0]?.['AFSK']?.[upid] && Array.isArray(combinedData[0]?.['AFSK']?.[upid])){          
+          combinedData[0]?.['AFSK']?.[upid].push(...newJsonData?.['AFSK']?.[upid])
+        }
+      }else{
+        combinedData.push(newJsonData);
+      }
     }
 
     // if (Array.isArray(newJsonData)) {
@@ -1776,20 +1727,41 @@ export class CommonService{
       return Buffer.concat(chunks).toString('utf-8');
     };
 
-  async downloadAndParseFile(client:string,fileName: string): Promise<any> {
+    async downloadAndParseFile(client:string,fileName: string): Promise<any> {
+    const streamUrl = `${this.seaweedOutPutPath}/buckets/torus/9.1/${client}${fileName}`;      
     try {
-      const streamUrl = `${this.seaweedOutPutPath}/buckets/torus/9.1/${client}${fileName}`;    
       assertAllowedOutboundHost(streamUrl);
+     
       const response = await axios.get(streamUrl, { responseType: 'stream',  auth: {
-    username: this.envData.getSeaweedUsername(),//process.env.SEAWEED_USERNAME,
-    password: this.envData.getSeaweedPassword(),//process.env.SEAWEED_PASSWORD
-  } });
+        username: this.envData.getSeaweedUsername(),
+        password: this.envData.getSeaweedPassword(),
+      } });
       const fileContent = await this.streamToString(response.data);
-      const jsonData = JSON.parse(fileContent);
-      return jsonData;
-    } catch (error: any) {
-      console.error('Download error:', error?.response?.status, error?.response?.data || error.message);
-      throw new Error('Failed to download and parse file');
+      return JSON.parse(fileContent);
+
+     } catch (error: any) {
+      let statusCode =
+        error?.response?.status ??
+        error?.status ??
+        400;
+
+      let message =
+        error?.response?.data?.message ??
+        error?.response?.data ??
+        error?.message ??
+        'Some error occurred in downloadAndParseFile';
+
+      if (statusCode === 404) {
+        message = `File not found: ${streamUrl}`;
+      }
+      if (statusCode === 401) {
+        message = `User authentication failed. Invalid username/password combination.`;
+      }
+      
+      throw {
+        statusCode,
+        message,
+      };
     }
   }
 
@@ -2033,8 +2005,6 @@ export class CommonService{
   }
 
 
-
-
   async assertConnectorTenant(dpdkey: string, tenant?: string): Promise<void> {
     const keyTenant = await this.splitcommonkey(dpdkey, 'CK');
     if (!tenant)
@@ -2109,11 +2079,24 @@ export class CommonService{
         
         if (!dbUrl) throw new CustomException('DB url not found', 404);
         if (dbtype && dbtype == 'postgres') {
-          const { Client } = pg;
+           const { Client ,types } = pg;
+          const bigintParser = { getTypeParser: (oid: number, format: string) => {
+          if (oid === 20) return (val: string) => parseInt(val, 10);
+          return types.getTypeParser(oid, format);
+      }};
+          // M11: this connects to a per-tenant external connector whose
+          // TLS-readiness isn't known in advance, and node-postgres has no
+          // "prefer" fallback of its own — so negotiatePgTls() probes the
+          // target first and only requests TLS if the probe confirms it
+          // supports SSL. See db-ssl.util.ts for the full precedence
+          // (explicit sslmode in the URL, then PG_CONNECTOR_SSL_MODE, then
+          // the probe).
+          dbUrl = await negotiatePgTls(dbUrl, 'PG_CONNECTOR_SSL_MODE');
           client = new Client({
             connectionString: dbUrl,  
            // options: `-c search_path=${schemaname}`,
-            application_name: `${process.env.TENANT}_${process.env.APPGROUPCODE}_${process.env.APPCODE}_PFservice`
+            application_name: `${process.env.TENANT}_${process.env.APPGROUPCODE}_${process.env.APPCODE}_PFservice`,
+             types: bigintParser,
           });
         } else if (dbtype == 'mysql') {
           const mysql = require('mysql2/promise');
@@ -2182,7 +2165,10 @@ export class CommonService{
       }
       if (!mongodbUrl)
         throw new CustomException('Mongo DB url not found', 404);    
-
+        // M11: same reasoning as the Postgres connector path above —
+        // negotiateMongoTls() probes the target and only requests tls=true
+        // if the probe confirms it. See db-ssl.util.ts.
+        mongodbUrl = await negotiateMongoTls(mongodbUrl, 'MONGO_CONNECTOR_TLS');
         return {mongodbUrl,manualQryType,manualQry,sessionfilterParams,filterParams,collnName}
       } catch (error) {
         throw error
@@ -2433,6 +2419,9 @@ export class CommonService{
       let client
       if (dbType == 'postgres') {
         const { Client } = pg;
+        // M11: same probe-and-negotiate as dbconfig() — see negotiatePgTls()
+        // in db-ssl.util.ts.
+        dbUrl = await negotiatePgTls(dbUrl, 'PG_CONNECTOR_SSL_MODE');
          client = new Client({
           connectionString: dbUrl,
           application_name: `${process.env.TENANT}_${process.env.APPGROUPCODE}_${process.env.APPCODE}_PFservice`
@@ -2456,7 +2445,7 @@ export class CommonService{
     } catch (error) {
       throw error
     }
-  }  
+  } 
 
   async sessionDecode(token,upId){
     try {
