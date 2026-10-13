@@ -275,6 +275,9 @@ export class readAPIDTO {
       @IsOptional()
       @IsString()
       tableName?:string
+      @IsOptional()
+      @IsBoolean()
+      enableBulk?:boolean
     }
   
     export class pageDto {
@@ -1313,6 +1316,10 @@ export class teSaveDto {
   @Type(() => LockDetailsDto)
   lockDetails?: LockDetailsDto;
 
+  @IsOptional()
+  @IsBoolean()
+  enableBulk?: string;
+  
   @ApiPropertyOptional({ description: 'dpdKey' })
   @IsOptional()
   @IsString()

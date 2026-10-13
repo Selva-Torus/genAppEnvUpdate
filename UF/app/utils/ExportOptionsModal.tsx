@@ -23,6 +23,7 @@ const ExportOptionsModal = ({
   anchorRef,
   fileName = 'exportedData',
   downloadFormats = EXPORT_FORMATS,
+  headerText
 }: {
   open: boolean;
   onClose: () => void;
@@ -30,12 +31,13 @@ const ExportOptionsModal = ({
   anchorRef: React.RefObject<HTMLElement>;
   fileName?: string;
   downloadFormats?: ExportFormat[];
+  headerText?: string;
 }) => {
   const handleExport = (format: ExportFormat) => {
     if (!data?.length) return;
-    if (format === 'CSV') exportJsonToCsv(data, `${fileName}.csv`);
-    if (format === 'XLSX') exportJsonToExcel(data, `${fileName}.xlsx`);
-    if (format === 'PDF') exportJsonToPdf(data, `${fileName}.pdf`);
+    if (format === 'CSV') exportJsonToCsv(data, `${fileName}.csv`,  headerText);
+    if (format === 'XLSX') exportJsonToExcel(data, `${fileName}.xlsx`, headerText);
+    if (format === 'PDF') exportJsonToPdf(data, `${fileName}.pdf`, headerText);
     onClose();
   };
 

@@ -352,6 +352,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab === 'process' ? 'process' : 'torus')
+    setJsonData({ data: [], page: 1, limit: 10, totalDocuments: 0, totalPages: 0 })
     setFabrics([])
   }
 

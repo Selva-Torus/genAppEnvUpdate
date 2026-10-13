@@ -17,6 +17,7 @@ import { DecodedToken, Branding } from '@/types/global'
 import { useTheme } from '@/hooks/useTheme'
 import { twMerge } from 'tailwind-merge'
 import clsx from 'clsx'
+import { logout } from "@/app/components/utils";
 
 const LayoutDecider = ({
   mode = 'detached',
@@ -43,16 +44,16 @@ const LayoutDecider = ({
   const { borderColor, bgColor } : { borderColor: string; bgColor: string } = useTheme()
   const { brandColor, hoverColor, selectionColor } : { brandColor: string; hoverColor: string; selectionColor: string } = branding;
   const encryptionFlagApp: boolean = false;    
-  const encryptionDpd: string = "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:TAG:AFGK:TAG:AFK:tagDPD:AFVK:v1";
+  const encryptionDpd: string = "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:WPS:AFK:WPS_DPD:AFVK:v1";
   const encryptionMethod: string = "";
   const { encAppFalg, setEncAppFalg }  = useContext(TotalContext) as TotalContextProps;
   const logo: string = ""
   const appLogo: string = ""
-  const appName: string = "Torus AI Governance"
+  const appName: string = "WPS"
   const toast: Function = useInfoMsg()
   const [loading, setLoading] = useState<boolean>(true)
   const [updatedNavData, setUpdatedNavData] = useState<MenuItem[]>([])
-  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT003:AFGK:TAG:AFK:TAG:AFVK:v1:bldc"
+  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT005:AFGK:GSS:AFK:WPS:AFVK:v1:bldc"
   const [rawNavData, setRawNavData] = useState<MenuItem[] | null>(null);
   const navData: MenuItem[] = [
   {
@@ -80,34 +81,63 @@ const LayoutDecider = ({
     "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
   },
   {
-    "menuGroupLabel": "DashBoard",
+    "menuGroupLabel": "My Transaction",
     "screenDetails": [
+      {
+        "name": "my transaction",
+        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:transactionProduct:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      }
+    ],
+    "items": []
+  },
+  {
+    "menuGroupLabel": "WPS",
+    "screenDetails": [
+      {
+        "name": "wps",
+        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:wps:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      }
+    ],
+    "items": []
+  },
+  {
+    "menuGroupLabel": "Returns and Refunds",
+    "screenDetails": [
+      {
+        "name": "returns and refunds",
+        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:returnsRefund:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      }
+    ],
+    "items": []
+  },
+  {
+    "menuGroup": "wps payment solutions",
+    "menuGroupLabel": "WPS Payment Solutions",
+    "screenDetails": [
+      {
+        "name": "enquiry",
+        "label": "Enquiry",
+        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:enquiry:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      },
+      {
+        "name": "registration",
+        "label": "Registration",
+        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:registration:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      },
       {
         "name": "dashboard",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
-  },
-  {
-    "menuGroup": "registry",
-    "menuGroupLabel": "Registry",
-    "screenDetails": [
-      {
-        "name": "ai registry",
-        "label": "AI Registry",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIRegistry:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false
-      },
-      {
-        "name": "discovery queue",
-        "label": "Discovery Queue",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:discoveryQueue:AFVK:v1",
+        "label": "Dashboard",
+        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:dashboard:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false
       }
@@ -115,147 +145,20 @@ const LayoutDecider = ({
     "items": []
   },
   {
-    "menuGroup": "evidence",
-    "menuGroupLabel": "Evidence",
+    "menuGroup": "reports",
+    "menuGroupLabel": "Reports",
     "screenDetails": [
       {
-        "name": "evidence packs",
-        "label": "Evidence Packs",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:auditEvidence:AFVK:v1",
+        "name": "sif summary  report",
+        "label": "SIF Summary  Report",
+        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:sifSummaryReport:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false
-      }
-    ],
-    "items": []
-  },
-  {
-    "menuGroup": "administration",
-    "menuGroupLabel": "Administration",
-    "screenDetails": [],
-    "items": [
-      {
-        "menuGroup": "code set",
-        "menuGroupLabel": "Code Set",
-        "screenDetails": [
-          {
-            "name": "code type",
-            "label": "Code Type",
-            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeTypes:AFVK:v1",
-            "restrictedAccessProfile": [],
-            "static": false
-          },
-          {
-            "name": "code value",
-            "label": "Code Value",
-            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeValue:AFVK:v1",
-            "restrictedAccessProfile": [],
-            "static": false
-          }
-        ],
-        "items": []
       },
       {
-        "menuGroup": "integration management",
-        "menuGroupLabel": "Integration Management",
-        "screenDetails": [
-          {
-            "name": "integration source",
-            "label": "Integration Source",
-            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationSource:AFVK:v1",
-            "restrictedAccessProfile": [],
-            "static": false
-          },
-          {
-            "name": "integration run",
-            "label": "Integration Run",
-            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationRun:AFVK:v1",
-            "restrictedAccessProfile": [],
-            "static": false
-          },
-          {
-            "name": "integration field map",
-            "label": "Integration Field Map",
-            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationFieldMap:AFVK:v1",
-            "restrictedAccessProfile": [],
-            "static": false
-          }
-        ],
-        "items": []
-      },
-      {
-        "menuGroup": "risk management",
-        "menuGroupLabel": "Risk Management",
-        "screenDetails": [
-          {
-            "name": "risk rule",
-            "label": "Risk Rule",
-            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:riskRule:AFVK:v1",
-            "restrictedAccessProfile": [],
-            "static": false
-          },
-          {
-            "name": "risk rule condition",
-            "label": "Risk Rule Condition",
-            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:ruleCondition:AFVK:v1",
-            "restrictedAccessProfile": [],
-            "static": false
-          }
-        ],
-        "items": []
-      },
-      {
-        "menuGroup": "certification management",
-        "menuGroupLabel": "Certification Management",
-        "screenDetails": [
-          {
-            "name": "certification template",
-            "label": "Certification Template",
-            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificateTemplate:AFVK:v1",
-            "restrictedAccessProfile": [],
-            "static": false
-          },
-          {
-            "name": "certification template stage",
-            "label": "Certification Template Stage",
-            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificationTemplateStage:AFVK:v1",
-            "restrictedAccessProfile": [],
-            "static": false
-          }
-        ],
-        "items": []
-      }
-    ]
-  },
-  {
-    "menuGroupLabel": "AI Agent Action",
-    "screenDetails": [
-      {
-        "name": "ai agent action",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIAgentAction:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false
-      }
-    ],
-    "items": []
-  },
-  {
-    "menuGroupLabel": "Asset Version",
-    "screenDetails": [
-      {
-        "name": "asset version",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AiAssetVersion:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false
-      }
-    ],
-    "items": []
-  },
-  {
-    "menuGroupLabel": "Asset Dependency",
-    "screenDetails": [
-      {
-        "name": "asset dependency",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AiAssetDependency:AFVK:v1",
+        "name": "pif summary report",
+        "label": "PIF Summary Report",
+        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:pifSummaryReport:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false
       }
@@ -335,14 +238,6 @@ const LayoutDecider = ({
     return ''
   }, [navigationStyles, mode, sidebarStyle])
 
-  const logout = () => {
-    localStorage.clear();
-    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-    const from = encodeURIComponent(`${basePath}/`);
-    window.location.href = `${basePath}/next-api/auth/logout?from=${from}`;
-  };
-
-
   const processMenuItems = async (
     items: MenuItem[],
     accessProfile: string[],
@@ -396,7 +291,7 @@ const LayoutDecider = ({
    console.error("Failed to fetch nav data:", error);
    if (axios.isAxiosError(error) && error.response?.status === 401) {
       toast('session expired', 'danger')
-      logout();
+      logout(token);
       return;
     }
    toast('Failed to load navigation data', 'danger');
@@ -441,13 +336,13 @@ const LayoutDecider = ({
         setLoading(false)
       } else {
         toast('user lack access to any screen', 'danger')
-        logout()
+        logout(token)
       }
     } catch (err: any) {
       console.error(err)
      if (axios.isAxiosError(err) && err.response?.status === 401) {
       toast('session expired', 'danger')
-      logout();
+      logout(token);
       return;
     }
       toast('Failed to fetch User Details', 'danger')
@@ -514,12 +409,12 @@ const LayoutDecider = ({
         setLoading(false)
       } else {
         toast('user lack access to any screen', 'danger')
-        logout()
+        logout(token)
       }
     } catch (err: any) {
       console.error(err)
       toast('user lack access to any screen', 'danger')
-      logout()
+      logout(token)
     }
   }
 
@@ -547,25 +442,26 @@ const LayoutDecider = ({
     name: string
     'gridColumn'?: string
     'gridRow'?: string
+    'gridSize'?: number
   }[] =[
+  {
+    "name": "logo",
+    "gridColumn": "1/2"
+  },
+  {
+    "name": "menu items",
+    "gridColumn": "2/9",
+    "gridRow": "1/6"
+  },
+  {
+    "name": "opr matrix",
+    "gridColumn": "9/12",
+    "gridRow": "6/9"
+  },
   {
     "name": "profile",
     "gridColumn": "12/13",
     "gridRow": "12/13"
-  },
-  {
-    "name": "opr matrix",
-    "gridColumn": "10/12",
-    "gridRow": "6/9"
-  },
-  {
-    "name": "menu items",
-    "gridColumn": "2/10",
-    "gridRow": "1/6"
-  },
-  {
-    "name": "logo",
-    "gridColumn": "1/2"
   }
 ]
 

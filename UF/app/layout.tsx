@@ -1,5 +1,5 @@
 /* {
-  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT003:AFGK:TAG:AFK:TAG:AFVK:v1:bldc",
+  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT005:AFGK:GSS:AFK:WPS:AFVK:v1:bldc",
   "ufKey": "Logs Screen",
   "screenName": "logs",
   "screenLabel": "logs",
@@ -29,34 +29,63 @@
       "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
     },
     {
-      "menuGroupLabel": "DashBoard",
+      "menuGroupLabel": "My Transaction",
       "screenDetails": [
+        {
+          "name": "my transaction",
+          "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:transactionProduct:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false
+        }
+      ],
+      "items": []
+    },
+    {
+      "menuGroupLabel": "WPS",
+      "screenDetails": [
+        {
+          "name": "wps",
+          "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:wps:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false
+        }
+      ],
+      "items": []
+    },
+    {
+      "menuGroupLabel": "Returns and Refunds",
+      "screenDetails": [
+        {
+          "name": "returns and refunds",
+          "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:returnsRefund:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false
+        }
+      ],
+      "items": []
+    },
+    {
+      "menuGroup": "wps payment solutions",
+      "menuGroupLabel": "WPS Payment Solutions",
+      "screenDetails": [
+        {
+          "name": "enquiry",
+          "label": "Enquiry",
+          "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:enquiry:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false
+        },
+        {
+          "name": "registration",
+          "label": "Registration",
+          "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:registration:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false
+        },
         {
           "name": "dashboard",
-          "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false,
-          "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
-        }
-      ],
-      "items": [],
-      "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
-    },
-    {
-      "menuGroup": "registry",
-      "menuGroupLabel": "Registry",
-      "screenDetails": [
-        {
-          "name": "ai registry",
-          "label": "AI Registry",
-          "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIRegistry:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false
-        },
-        {
-          "name": "discovery queue",
-          "label": "Discovery Queue",
-          "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:discoveryQueue:AFVK:v1",
+          "label": "Dashboard",
+          "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:dashboard:AFVK:v1",
           "restrictedAccessProfile": [],
           "static": false
         }
@@ -64,147 +93,20 @@
       "items": []
     },
     {
-      "menuGroup": "evidence",
-      "menuGroupLabel": "Evidence",
+      "menuGroup": "reports",
+      "menuGroupLabel": "Reports",
       "screenDetails": [
         {
-          "name": "evidence packs",
-          "label": "Evidence Packs",
-          "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:auditEvidence:AFVK:v1",
+          "name": "sif summary  report",
+          "label": "SIF Summary  Report",
+          "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:sifSummaryReport:AFVK:v1",
           "restrictedAccessProfile": [],
           "static": false
-        }
-      ],
-      "items": []
-    },
-    {
-      "menuGroup": "administration",
-      "menuGroupLabel": "Administration",
-      "screenDetails": [],
-      "items": [
-        {
-          "menuGroup": "code set",
-          "menuGroupLabel": "Code Set",
-          "screenDetails": [
-            {
-              "name": "code type",
-              "label": "Code Type",
-              "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeTypes:AFVK:v1",
-              "restrictedAccessProfile": [],
-              "static": false
-            },
-            {
-              "name": "code value",
-              "label": "Code Value",
-              "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeValue:AFVK:v1",
-              "restrictedAccessProfile": [],
-              "static": false
-            }
-          ],
-          "items": []
         },
         {
-          "menuGroup": "integration management",
-          "menuGroupLabel": "Integration Management",
-          "screenDetails": [
-            {
-              "name": "integration source",
-              "label": "Integration Source",
-              "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationSource:AFVK:v1",
-              "restrictedAccessProfile": [],
-              "static": false
-            },
-            {
-              "name": "integration run",
-              "label": "Integration Run",
-              "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationRun:AFVK:v1",
-              "restrictedAccessProfile": [],
-              "static": false
-            },
-            {
-              "name": "integration field map",
-              "label": "Integration Field Map",
-              "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationFieldMap:AFVK:v1",
-              "restrictedAccessProfile": [],
-              "static": false
-            }
-          ],
-          "items": []
-        },
-        {
-          "menuGroup": "risk management",
-          "menuGroupLabel": "Risk Management",
-          "screenDetails": [
-            {
-              "name": "risk rule",
-              "label": "Risk Rule",
-              "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:riskRule:AFVK:v1",
-              "restrictedAccessProfile": [],
-              "static": false
-            },
-            {
-              "name": "risk rule condition",
-              "label": "Risk Rule Condition",
-              "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:ruleCondition:AFVK:v1",
-              "restrictedAccessProfile": [],
-              "static": false
-            }
-          ],
-          "items": []
-        },
-        {
-          "menuGroup": "certification management",
-          "menuGroupLabel": "Certification Management",
-          "screenDetails": [
-            {
-              "name": "certification template",
-              "label": "Certification Template",
-              "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificateTemplate:AFVK:v1",
-              "restrictedAccessProfile": [],
-              "static": false
-            },
-            {
-              "name": "certification template stage",
-              "label": "Certification Template Stage",
-              "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificationTemplateStage:AFVK:v1",
-              "restrictedAccessProfile": [],
-              "static": false
-            }
-          ],
-          "items": []
-        }
-      ]
-    },
-    {
-      "menuGroupLabel": "AI Agent Action",
-      "screenDetails": [
-        {
-          "name": "ai agent action",
-          "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIAgentAction:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false
-        }
-      ],
-      "items": []
-    },
-    {
-      "menuGroupLabel": "Asset Version",
-      "screenDetails": [
-        {
-          "name": "asset version",
-          "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AiAssetVersion:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false
-        }
-      ],
-      "items": []
-    },
-    {
-      "menuGroupLabel": "Asset Dependency",
-      "screenDetails": [
-        {
-          "name": "asset dependency",
-          "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AiAssetDependency:AFVK:v1",
+          "name": "pif summary report",
+          "label": "PIF Summary Report",
+          "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:pifSummaryReport:AFVK:v1",
           "restrictedAccessProfile": [],
           "static": false
         }
@@ -213,35 +115,29 @@
     }
   ],
   "setupData": {
+    "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT005:AFK:PROFILE:AFVK:v1:appearance",
+    "selectedPresetKey": "default",
     "appInfo": {
-      "needAutoDbPush": true,
-      "name": "Torus AI Governance",
-      "code": "TAG",
-      "appTenants": [],
-      "applicationUniqueId": "8291f326-206b-4e4e-89a6-01d9e96c6ca3",
-      "deploymentArtifactKey": "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:TAG:AFGK:TAG:AFK:tagDPD:AFVK:v1",
+      "code": "WPS",
+      "name": "WPS",
+      "accessUrl": "https://tgaprod910.toruslowcode.com/ct005/gss/wps/v1",
+      "encryption": {
+        "type": ""
+      },
+      "lastBuildOn": "2026-07-30T05:46:43.107Z",
       "lastBuildVersion": "v1",
-      "lastBuildOn": "2026-09-28T05:30:07.674Z",
-      "accessUrl": "https://tgaprod910.toruslowcode.com/ct003/tag/tag/v1",
-      "appGrpName": "Torus AI Governance",
-      "appGrpCode": "TAG",
-      "fusionAuthAppClientSecret": "gwSeq2xTYs-W7GmxpL9Gbr5vtZeto3RrkzR1S1TyIbU"
+      "applicationUniqueId": "ae093d5d-f44a-444b-afab-9476f31e7dca",
+      "deploymentArtifactKey": "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:WPS:AFK:WPS_DPD:AFVK:v1",
+      "appGrpName": "GSS",
+      "appGrpCode": "GSS",
+      "fusionAuthAppClientSecret": "AKE3Mkrdhezw9vln9mTV-Wnb8WVEivZ3BY0KTxqtmbc"
     },
-    "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT003:AFK:PROFILE:AFVK:v1:appearance",
-    "selectedPresetKey": "1789190852729",
-    "group-bg-color": "#ffffff",
-    "fontSize": {
-      "preferredVw": "1",
-      "minPx": "6",
-      "maxPx": "12"
-    },
+    "appBackgroundImage": "torus/9.1/CT005/resources/images/Home.png",
     "direction": "LTR",
-    "brandColor": "#6462ea",
-    "selectionColor": "#5c8bbc",
-    "hoverColor": "#F1F2F7",
-    "borderRadius": "s",
-    "topbarColor": "#ffffff",
-    "menubarColor": "#ffffff",
+    "brandColor": "#0737c9",
+    "selectionColor": "#579eff",
+    "hoverColor": "#d5eeff",
+    "borderRadius": "m",
     "sidebarStyle": "",
     "navigationStyles": "horizontal",
     "theme": "light",
@@ -251,13 +147,13 @@
       "direction": "LTR",
       "theme": "light",
       "brandColors": {
-        "primary": "#062684",
-        "secondary": "#dad7d7",
+        "primary": "#0025dd",
+        "secondary": "#000e51",
         "tertiary": "#000000"
       },
       "accentColors": {
-        "accentOne": "#fafafa",
-        "accentTwo": "#646464"
+        "accentOne": "#f4f5ff",
+        "accentTwo": "#ffffff"
       },
       "utilityColors": {
         "lightMode": {
@@ -294,53 +190,49 @@
       "navigationStyle": "Bottom Navigation",
       "drawerStyle": ""
     },
-    "page-bg-color": "#ffffff",
     "language": "English",
-    "name": "TAG",
-    "appBackgroundImage": "",
     "fontFamily": [
       {
-        "label": "Google Sans",
-        "fontUrl": "https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        "label": "Inter",
+        "fontUrl": "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&d…"
       }
     ],
-    "text-body-font": "",
-    "text-header-font": "",
-    "text-display-font": ""
+    "text-body-font": "Inter",
+    "text-header-font": "Inter",
+    "text-display-font": "Inter",
+    "name": "default",
+    "fontSize": {
+      "minPx": "6",
+      "preferredVw": "1",
+      "maxPx": "12"
+    }
   },
-  "setupKey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT003:AFGK:TAG:AFK:TAG:AFVK:v1:appearance",
+  "setupKey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT005:AFGK:GSS:AFK:WPS:AFVK:v1:appearance",
   "allKeys": [
-    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1",
-    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIRegistry:AFVK:v1",
-    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:discoveryQueue:AFVK:v1",
-    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:auditEvidence:AFVK:v1",
-    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeTypes:AFVK:v1",
-    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeValue:AFVK:v1",
-    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationSource:AFVK:v1",
-    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationRun:AFVK:v1",
-    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationFieldMap:AFVK:v1",
-    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:riskRule:AFVK:v1",
-    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:ruleCondition:AFVK:v1",
-    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificateTemplate:AFVK:v1",
-    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificationTemplateStage:AFVK:v1",
-    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIAgentAction:AFVK:v1",
-    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AiAssetVersion:AFVK:v1",
-    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AiAssetDependency:AFVK:v1"
+    "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:transactionProduct:AFVK:v1",
+    "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:wps:AFVK:v1",
+    "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:returnsRefund:AFVK:v1",
+    "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:enquiry:AFVK:v1",
+    "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:registration:AFVK:v1",
+    "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:dashboard:AFVK:v1",
+    "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:sifSummaryReport:AFVK:v1",
+    "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:pifSummaryReport:AFVK:v1"
   ],
   "loginDetails": {
-    "firstName": "sam",
-    "lastName": "m",
+    "firstName": "Sam",
+    "lastName": "M",
     "loginId": "sam",
-    "email": "samm@torus.tech",
+    "email": "samm@gsstvl.com",
     "mobile": "",
     "status": "active",
     "accessProfile": [
-      "Manager"
+      "Dev Team",
+      "Testing"
     ],
-    "accessExpires": "",
-    "dateAdded": "2026-05-11T09:16:47.790Z",
+    "accessExpires": "2028-06-07",
+    "dateAdded": "2026-03-09T11:01:57.190Z",
     "profile": "",
-    "userUniqueId": "a4c35166-cc3c-464f-97fb-38c247a35864",
+    "userUniqueId": "7f0f7b07-155a-4c52-b3b6-df722f11757e",
     "touring": {
       "isneedTouring": false,
       "touringData": {
@@ -349,159 +241,95 @@
           "isSkipped": true,
           "completed": false,
           "notVisited": []
-        },
-        "/control-center/company-profile": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/tenant": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/control-center/account-profile": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
-        },
-        "/home": {
-          "stepIndex": 0,
-          "isSkipped": true,
-          "completed": false,
-          "notVisited": []
         }
       }
     },
-    "users": "samsam m",
-    "lastActive": "2026-09-28T11:37:38.228Z",
-    "edit": "",
-    "client": "CT003",
-    "noOfProductsService": 0
+    "lastActive": "2026-10-13T10:54:04.668Z",
+    "client": "CT005",
+    "users": "samSam M",
+    "noOfProductsService": 0,
+    "edit": ""
   },
   "webOnBoarding": {
     "navBarStyle": {
       "activeItems": [
         {
-          "name": "profile",
-          "gridColumn": "12/13",
-          "gridRow": "12/13"
-        },
-        {
-          "name": "opr matrix",
-          "gridColumn": "10/12",
-          "gridRow": "6/9"
+          "name": "logo",
+          "gridColumn": "1/2"
         },
         {
           "name": "menu items",
-          "gridColumn": "2/10",
+          "gridColumn": "2/9",
           "gridRow": "1/6"
         },
         {
-          "name": "logo",
-          "gridColumn": "1/2"
+          "name": "opr matrix",
+          "gridColumn": "9/12",
+          "gridRow": "6/9"
+        },
+        {
+          "name": "profile",
+          "gridColumn": "12/13",
+          "gridRow": "12/13"
         }
       ],
       "deletedItems": [
         {
           "name": "app logo",
-          "gridColumn": "2/4"
+          "gridColumn": "2/3"
         }
       ]
     },
-    "landingScreen": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1"
+    "landingScreen": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:wps:AFVK:v1"
   },
   "allKeyswithScreenNames": [
     {
+      "screenName": "my transaction",
+      "screensName": "my_transaction-v1",
+      "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:transactionProduct:AFVK:v1"
+    },
+    {
+      "screenName": "wps",
+      "screensName": "wps-v1",
+      "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:wps:AFVK:v1"
+    },
+    {
+      "screenName": "returns and refunds",
+      "screensName": "returns_and_refunds-v1",
+      "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:returnsRefund:AFVK:v1"
+    },
+    {
+      "screenName": "enquiry",
+      "screensName": "enquiry-v1",
+      "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:enquiry:AFVK:v1"
+    },
+    {
+      "screenName": "registration",
+      "screensName": "registration-v1",
+      "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:registration:AFVK:v1"
+    },
+    {
       "screenName": "dashboard",
       "screensName": "dashboard-v1",
-      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1"
+      "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:dashboard:AFVK:v1"
     },
     {
-      "screenName": "ai registry",
-      "screensName": "ai_registry-v1",
-      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIRegistry:AFVK:v1"
+      "screenName": "sif summary  report",
+      "screensName": "sif_summary__report-v1",
+      "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:sifSummaryReport:AFVK:v1"
     },
     {
-      "screenName": "discovery queue",
-      "screensName": "discovery_queue-v1",
-      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:discoveryQueue:AFVK:v1"
-    },
-    {
-      "screenName": "evidence packs",
-      "screensName": "evidence_packs-v1",
-      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:auditEvidence:AFVK:v1"
-    },
-    {
-      "screenName": "code type",
-      "screensName": "code_type-v1",
-      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeTypes:AFVK:v1"
-    },
-    {
-      "screenName": "code value",
-      "screensName": "code_value-v1",
-      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeValue:AFVK:v1"
-    },
-    {
-      "screenName": "integration source",
-      "screensName": "integration_source-v1",
-      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationSource:AFVK:v1"
-    },
-    {
-      "screenName": "integration run",
-      "screensName": "integration_run-v1",
-      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationRun:AFVK:v1"
-    },
-    {
-      "screenName": "integration field map",
-      "screensName": "integration_field_map-v1",
-      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:integrationFieldMap:AFVK:v1"
-    },
-    {
-      "screenName": "risk rule",
-      "screensName": "risk_rule-v1",
-      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:riskRule:AFVK:v1"
-    },
-    {
-      "screenName": "risk rule condition",
-      "screensName": "risk_rule_condition-v1",
-      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:ruleCondition:AFVK:v1"
-    },
-    {
-      "screenName": "certification template",
-      "screensName": "certification_template-v1",
-      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificateTemplate:AFVK:v1"
-    },
-    {
-      "screenName": "certification template stage",
-      "screensName": "certification_template_stage-v1",
-      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificationTemplateStage:AFVK:v1"
-    },
-    {
-      "screenName": "ai agent action",
-      "screensName": "ai_agent_action-v1",
-      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIAgentAction:AFVK:v1"
-    },
-    {
-      "screenName": "asset version",
-      "screensName": "asset_version-v1",
-      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AiAssetVersion:AFVK:v1"
-    },
-    {
-      "screenName": "asset dependency",
-      "screensName": "asset_dependency-v1",
-      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AiAssetDependency:AFVK:v1"
+      "screenName": "pif summary report",
+      "screensName": "pif_summary_report-v1",
+      "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:pifSummaryReport:AFVK:v1"
     }
   ],
-  "deploymentArtifactKey": "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:TAG:AFGK:TAG:AFK:tagDPD:AFVK:v1",
-  "appGroupDesc": "Torus AI Governance",
+  "deploymentArtifactKey": "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:WPS:AFK:WPS_DPD:AFVK:v1",
+  "appGroupDesc": "GSS",
   "logType": "dfs",
-  "appDesc": "Torus AI Governance",
+  "appDesc": "WPS",
   "isOld": true,
-  "clientCode": "CT003"
+  "clientCode": "CT005"
 } */
 import './globals.css';
 import type { Metadata } from 'next';
@@ -516,8 +344,8 @@ import { cookies } from 'next/headers';
 import { COOKIE_PREFIX } from '@/lib/cookies';
 
 export const metadata: Metadata = {
-  title: 'Torus AI Governance',
-  description: 'Torus AI Governance Generated by Torus'
+  title: 'WPS',
+  description: 'WPS Generated by Torus'
 }
 
 export default async function RootLayout({

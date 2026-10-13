@@ -1,5 +1,5 @@
 let data:any ={
-  "tagDPD": {
+  "WPS_DPD": {
     "encryptionType": {
       "name": "encryptionType",
       "_type": "select",

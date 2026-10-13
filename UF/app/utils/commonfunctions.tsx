@@ -3,6 +3,7 @@
 import { TotalContext, TotalContextProps } from "@/app/globalContext";
 import { useContext } from "react";
 import * as XLSX from "@e965/xlsx";
+import * as XLSXStyle from 'xlsx-js-style'
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import setSearchfilterEventDetails from "@/context/setSearchfilterEventDetails.json"
@@ -88,15 +89,31 @@ function escapeCsvCell(value: any): string {
   return str;
 }
 
-export function exportJsonToCsv(jsonData: any[], fileName = "data.csv") {
+// ---------------- CSV ----------------
+export function exportJsonToCsv(jsonData: any[], fileName = "data.csv", headerText?: string) {
   if (!jsonData || !jsonData.length) return;
 
   const headers = Object.keys(jsonData[0]);
-  const rows = jsonData.map((row) => headers.map((header) => escapeCsvCell(row[header])).join(","));
-  const csvContent = [headers.join(","), ...rows].join("\r\n");
+  const rows = jsonData.map(row =>
+    headers.map(header => escapeCsvCell(row[header])).join(',')
+  )
 
+  const lines: string[] = []
+  if (headerText) {
+    // CSV can't store alignment, so place the title in the middle column
+    const middleIndex = Math.floor((headers.length - 1) / 2)
+    const titleRow = new Array(headers.length).fill('')
+    titleRow[middleIndex] = escapeCsvCell(headerText)
+    lines.push(titleRow.join(','), '') // title row + blank spacer row
+  }
+  lines.push(headers.join(','), ...rows)
+
+  const csvContent = lines.join('\r\n')
+console.log(lines[0])
   // Prefix with a BOM so Excel opens UTF-8 CSVs without mangling special characters
-  const blob = new Blob(["﻿" + csvContent], { type: "text/csv;charset=utf-8;" });
+  const blob = new Blob(['\uFEFF' + csvContent], {
+    type: 'text/csv;charset=utf-8;'
+  })
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
@@ -107,21 +124,92 @@ export function exportJsonToCsv(jsonData: any[], fileName = "data.csv") {
   URL.revokeObjectURL(url);
 }
 
-export function exportJsonToExcel(jsonData:any, fileName = "data.xlsx") {
-  // Convert JSON to worksheet
-  const worksheet = XLSX.utils.json_to_sheet(jsonData);
+// ---------------- XLSX ----------------
+export function exportJsonToExcel(jsonData: any[],fileName = 'data.xlsx',headerText?: string) {
+  if (!jsonData || !jsonData.length) return
 
-  // Create workbook
-  const workbook = XLSX.utils.book_new();
+  const headers = Object.keys(jsonData[0])
+  const colCount = headers.length
 
-  // Append worksheet
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+  const rows = jsonData.map(row =>
+    headers.map(header => {
+      const value = row[header]
+      if (value === null || value === undefined) return ''
+      return typeof value === 'object' ? JSON.stringify(value) : value
+    })
+  )
 
-  // Download file
-  XLSX.writeFile(workbook, fileName);
+  // Layout: [title], [blank], [column headers], ...data
+  const titleRows = headerText ? [[headerText], []] : []
+  const headerRowIndex = titleRows.length
+  const aoa = [...titleRows, headers, ...rows]
+
+  const worksheet = XLSXStyle.utils.aoa_to_sheet(aoa)
+
+  const thinBorder = {
+    top: { style: 'thin', color: { rgb: '000000' } },
+    bottom: { style: 'thin', color: { rgb: '000000' } },
+    left: { style: 'thin', color: { rgb: '000000' } },
+    right: { style: 'thin', color: { rgb: '000000' } }
+  }
+
+  const titleStyle = {
+    font: { bold: true, sz: 14 },
+    alignment: { horizontal: 'center', vertical: 'center' }
+  }
+
+  const columnHeaderStyle = {
+    font: { bold: true, color: { rgb: 'FFFFFF' } },
+    fill: { patternType: 'solid', fgColor: { rgb: '2980B9' } },
+    alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
+    border: thinBorder
+  }
+
+  const dataCellStyle = {
+    alignment: { vertical: 'center' },
+    border: thinBorder
+  }
+
+  // Title: merge across all columns, bold, centered
+  if (headerText) {
+    worksheet['!merges'] = [
+      { s: { r: 0, c: 0 }, e: { r: 0, c: Math.max(colCount - 1, 0) } }
+    ]
+    worksheet['A1'].s = titleStyle
+  }
+
+  // Column header row + data rows
+  const lastRowIndex = headerRowIndex + rows.length
+  for (let r = headerRowIndex; r <= lastRowIndex; r++) {
+    for (let c = 0; c < colCount; c++) {
+      const cellRef = XLSXStyle.utils.encode_cell({ r, c })
+      if (!worksheet[cellRef]) worksheet[cellRef] = { t: 's', v: '' }
+      worksheet[cellRef].s = r === headerRowIndex ? columnHeaderStyle : dataCellStyle
+    }
+  }
+
+  // Column widths based on content
+  worksheet['!cols'] = headers.map((header, c) => {
+    const maxLen = Math.max(
+      String(header).length,
+      ...rows.map(row => String(row[c] ?? '').length)
+    )
+    return { wch: Math.min(Math.max(maxLen + 2, 10), 50) }
+  })
+
+  // Row heights
+  const rowHeights: { hpt: number }[] = []
+  if (headerText) rowHeights[0] = { hpt: 24 }
+  rowHeights[headerRowIndex] = { hpt: 20 }
+  worksheet['!rows'] = rowHeights
+
+  const workbook = XLSXStyle.utils.book_new()
+  XLSXStyle.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+  XLSXStyle.writeFile(workbook, fileName);
 }
 
-export function exportJsonToPdf(jsonData: any[], fileName = "data.pdf") {
+// ---------------- PDF ----------------
+export function exportJsonToPdf(jsonData: any[], fileName = 'data.pdf', headerText?: string) {
   if (!jsonData || !jsonData.length) return;
 
   const headers = Object.keys(jsonData[0]);
@@ -136,12 +224,6 @@ export function exportJsonToPdf(jsonData: any[], fileName = "data.pdf") {
   const columnCount = headers.length;
   const isWide = columnCount > 6;
 
-  // Instead of forcing wide tables onto a fixed-size sheet (which either
-  // crushes every column into an unreadable sliver, or - with a forced
-  // column split - leaves later pages mostly blank), size the page itself
-  // to the data: give every column enough width to stay legible on ONE
-  // page, and only fall back to splitting columns across pages once that
-  // page would get impractically wide.
   const marginMm = 10;
   const minColWidthMm = 24;
   const maxSinglePageWidthMm = 2000;
@@ -161,6 +243,11 @@ export function exportJsonToPdf(jsonData: any[], fileName = "data.pdf") {
 
   const fontSize = columnCount > 25 ? 7 : 8;
 
+  // Reserve space above the table for the title when one is provided
+  const titleFontSize = 14
+  const titleY = 14
+  const titleSpaceMm = headerText ? 12 : 0
+
   autoTable(doc, {
     head: [headers],
     body: rows,
@@ -171,14 +258,21 @@ export function exportJsonToPdf(jsonData: any[], fileName = "data.pdf") {
       minCellWidth: minColWidthMm - 4,
     },
     headStyles: { fillColor: [41, 128, 185], fontSize },
-    margin: { top: 10, left: marginMm, right: marginMm, bottom: 10 },
+    margin: { top: 10 + titleSpaceMm, left: marginMm, right: marginMm, bottom: 10 },
     theme: "grid",
-    // Only kicks in for extremely wide tables where even a large page
-    // can't fit every column - spills the extras onto additional page
-    // groups, repeating the first column as an anchor.
     horizontalPageBreak: useHorizontalSplit,
     horizontalPageBreakRepeat: useHorizontalSplit ? 0 : undefined,
-  });
+    // Draw the centered title at the top of every page
+    didDrawPage: () => {
+      if (!headerText) return
+      const pageWidth = doc.internal.pageSize.getWidth()
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(titleFontSize)
+      doc.setTextColor(0, 0, 0)
+      doc.text(headerText, pageWidth / 2, titleY, { align: 'center' })
+      doc.setFont('helvetica', 'normal')
+    }
+  })
 
   doc.save(fileName);
 }

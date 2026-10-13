@@ -9,6 +9,7 @@ import Artifactdetails from './components/ArtifactDetails'
 import { TotalContext, TotalContextProps } from '../globalContext'
 import { useRouter } from 'next/navigation'
 import { useGlobal } from '@/context/GlobalContext'
+import { logout } from "@/app/components/utils";
 
 const ParentComponent = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -16,12 +17,12 @@ const ParentComponent = () => {
   const [nodeData, setNodeData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [app, setApp] = useState({
-    code: 'TAG',
-    name: 'Torus AI Governance'
+    code: 'WPS',
+    name: 'WPS'
   })
   const [appGroup, setappGroup] = useState({
-    code: 'TAG',
-    name: 'Torus AI Governance'
+    code: 'GSS',
+    name: 'GSS'
   })
   const { token } = useGlobal();
   const decodedToken: any = decodeToken(token)
@@ -48,7 +49,7 @@ const ParentComponent = () => {
   const [ fabrics , setFabrics ] = useState<Array<string>>([])
   const [jsonViewerData, setJsonViewerData] = useState({})
   const router = useRouter()
-  let landingScreen:string = 'CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1';
+  let landingScreen:string = 'CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:wps:AFVK:v1';
   const encryptionFlagApp: boolean = false;    
   const [jsonData, setJsonData] = useState({
     data: [],
@@ -74,7 +75,7 @@ const ParentComponent = () => {
   }
   let payload:any = useMemo(() => {
     return {
-      tenant: 'CT003',
+      tenant: 'CT005',
        fabric: fabrics.length > 0 ? fabrics.flatMap((prefix: any) =>
             suffixes[prefix]
               ? suffixes[prefix].map((suffix: any) => `${prefix}-${suffix}`)
@@ -269,20 +270,13 @@ const ParentComponent = () => {
       limit: newPageSize
     }))
   }
- 
-  const logout = () => {
-    localStorage.clear();
-    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-    const from = encodeURIComponent(`${basePath}/`);
-    window.location.href = `${basePath}/next-api/auth/logout?from=${from}`;
-  };
 
    const securityCheck = async () => {
      try {
      const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
      const res = await fetch(`${basePath}/next-api/auth/introspect?key=Logs Screen`)
      if (!res.ok) {
-       logout()
+       logout(token)
        return
      }
      router.refresh()
@@ -292,7 +286,7 @@ const ParentComponent = () => {
      }
        
      } catch (err: any) {
-       logout()
+       logout(token)
      }
    }
  

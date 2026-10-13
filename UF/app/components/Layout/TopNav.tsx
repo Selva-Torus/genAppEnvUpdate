@@ -15,13 +15,50 @@ import OPRTopNavSelector from './OPRTopNavSelector'
 import { twMerge } from 'tailwind-merge'
 import { useTheme } from '@/hooks/useTheme'
 import Popup from '@/components/Popup'
-import { LogoutIcon, RotateIcon, SettingsIcon } from '../../utils/svgApplications'
+import { FileGallery, LogoutIcon, RotateIcon, SettingsIcon } from '../../utils/svgApplications'
 import clsx from 'clsx'
 import { DownArrow, OrgStructure, ProdStructure, RoleStructure } from '../svgApplication'
 import { isLightColor } from '../utils'
 import Image from "next/image";
 import { AxiosService } from '@/app/components/axiosService'
 import { useGlobal } from '@/context/GlobalContext'
+import { logout } from "@/app/components/utils";
+
+/*
+ * GRID CONFIG
+ * The nav bar grid is now 24 columns (it was 12 before).
+ * Old saved data has no `gridSize` field and is based on a 12 grid,
+ * so it is scaled x2 here. New data is saved with `gridSize: 24`.
+ * Example: "3/8" -> "5/15", "12/13" -> "23/25"
+ */
+const GRID_COLUMNS = 24
+
+const scaleRange = (range?: string) => {
+  if (!range) return range
+  const [start, end] = range.split('/').map(Number)
+  if (isNaN(start) || isNaN(end)) return range
+  return `${(start - 1) * 2 + 1}/${(end - 1) * 2 + 1}`
+}
+
+type NavBarOrderItem = {
+  name: string
+  gridColumn?: string
+  gridRow?: string
+  gridSize?: number
+}
+
+const normalizeNavBarItems = (items?: NavBarOrderItem[]) => {
+  if (!items?.length) return items
+  return items.map(item => {
+    if (item.gridSize === GRID_COLUMNS) return item
+    return {
+      ...item,
+      gridColumn: scaleRange(item.gridColumn),
+      gridRow: scaleRange(item.gridRow),
+      gridSize: GRID_COLUMNS
+    }
+  })
+}
 
 const TopNav = ({
   navData,
@@ -33,7 +70,7 @@ const TopNav = ({
   logo,
   appLogo,
   userDetails,
-  navBarItemsOrder
+  navBarItemsOrder: navBarItemsOrderProp
 }: {
   navData: MenuStructure
   listMenuItems?: boolean
@@ -44,11 +81,7 @@ const TopNav = ({
   logo?: string
   appLogo?: string
   userDetails: any
-  navBarItemsOrder?: {
-    name: string
-    gridColumn?: string
-    gridRow?: string
-  }[]
+  navBarItemsOrder?: NavBarOrderItem[]
 }) => {
   const router = useRouter()
   const { token } = useGlobal()
@@ -57,7 +90,8 @@ const TopNav = ({
   const selectedAccessProfile = decodedTokenObj?.selectedAccessProfile
   const pathname = usePathname()
   const menuRef = useRef<HTMLDivElement>(null)
-  const { borderColor, isDark , textStyle } = useTheme()
+  const measureRef = useRef<HTMLDivElement>(null)
+  const { borderColor, isDark, textStyle } = useTheme()
   const bgStyle = isDark ? "#1f2937" : "#ffffff"
   const [visibleItems, setVisibleItems] = useState<MenuItem[]>(navData || [])
   const [hiddenItems, setHiddenItems] = useState<MenuItem[]>([])
@@ -71,42 +105,97 @@ const TopNav = ({
   const menuTextColor =""
   const menuSelectionBgColor =""
   const menuSelectionTextColor =""
+  // Always work with the 24 grid version of the saved order
+  const navBarItemsOrder = useMemo(
+    () => normalizeNavBarItems(navBarItemsOrderProp),
+    [navBarItemsOrderProp]
+  )
 
+  /*
+   * OVERFLOW (three dot) CALCULATION
+   * Widths are measured from real (hidden) copies of the menu buttons that
+   * live inside the same container, so they use the exact same rem / font /
+   * padding values as the visible buttons. No hardcoded pixel numbers, so it
+   * stays correct when the screen (and the root font size) shrinks.
+   * A ResizeObserver recalculates whenever the grid cell width changes.
+   */
   useEffect(() => {
+    const container = menuRef.current
+    if (!container) return
+
+    let lastCount = -1
+    const items: MenuItem[] = navData || []
+
     const checkOverflow = () => {
-      if (!menuRef.current) return
-      const containerWidth = menuRef.current.clientWidth
-      let totalWidth = 0
-      let newVisible = []
-      let newHidden = []
+      const measureEl = measureRef.current
+      if (!measureEl || !menuRef.current) return
 
-      for (let menu of navData) {
-        const testElement = document.createElement('div')
-        testElement.style.visibility = 'hidden'
-        testElement.style.position = 'absolute'
-        testElement.style.whiteSpace = 'nowrap'
-        testElement.textContent = menu.menuGroup || menu.screenDetails[0]?.name
-        document.body.appendChild(testElement)
+      const containerStyles = getComputedStyle(container)
+      const available =
+        container.clientWidth -
+        (parseFloat(containerStyles.paddingLeft) || 0) -
+        (parseFloat(containerStyles.paddingRight) || 0)
 
-        const itemWidth = testElement.clientWidth + 120 // Add padding/margin
-        document.body.removeChild(testElement)
+      // gap between the visible list and the three dot button
+      const groupGap = parseFloat(containerStyles.columnGap) || 0
+      // gap between two menu buttons
+      const itemGap = parseFloat(getComputedStyle(measureEl).columnGap) || 0
 
-        if (totalWidth + itemWidth < containerWidth) {
-          newVisible.push(menu)
-          totalWidth += itemWidth
-        } else {
-          newHidden.push(menu)
+      const itemEls = Array.from(
+        measureEl.querySelectorAll('[data-measure-item]')
+      ) as HTMLElement[]
+      const dotsEl = measureEl.querySelector('[data-measure-dots]') as HTMLElement | null
+
+      const widths = itemEls.map(el => el.getBoundingClientRect().width)
+      const dotsWidth = (dotsEl?.getBoundingClientRect().width ?? 36) + groupGap
+
+      const totalAll =
+        widths.reduce((sum, w) => sum + w, 0) +
+        itemGap * Math.max(widths.length - 1, 0)
+
+      let visibleCount = items.length
+
+      if (totalAll > available) {
+        // Reserve space for the three dot button and fit as many as possible
+        const limit = available - dotsWidth
+        let used = 0
+        visibleCount = 0
+        for (let i = 0; i < widths.length; i++) {
+          const next = used + widths[i] + (i > 0 ? itemGap : 0)
+          if (next <= limit) {
+            used = next
+            visibleCount++
+          } else {
+            break
+          }
         }
       }
 
-      setVisibleItems(newVisible)
-      setHiddenItems(newHidden)
+      if (visibleCount === lastCount) return
+      lastCount = visibleCount
+      setVisibleItems(items.slice(0, visibleCount))
+      setHiddenItems(items.slice(visibleCount))
     }
 
     checkOverflow()
+
+    const resizeObserver =
+      typeof ResizeObserver !== 'undefined'
+        ? new ResizeObserver(() => checkOverflow())
+        : null
+    resizeObserver?.observe(container)
     window.addEventListener('resize', checkOverflow)
-    return () => window.removeEventListener('resize', checkOverflow)
-  }, [navData])
+
+    // Re-check once fonts are loaded, as text width changes after that
+    if (typeof document !== 'undefined' && (document as any).fonts?.ready) {
+      ;(document as any).fonts.ready.then(checkOverflow)
+    }
+
+    return () => {
+      resizeObserver?.disconnect()
+      window.removeEventListener('resize', checkOverflow)
+    }
+  }, [navData, navBarItemsOrder, navigationStyles, listMenuItems])
 
   const getNestedMenu = (menu: MenuItem): any => {
     const nestedMenu = []
@@ -119,12 +208,34 @@ const TopNav = ({
           } else {
             router.push(
               '/' +
-                screen.name.replace(/ /g, '_') +
-                '_' +
-                screen.key.split(':').at(-1)
+              screen.name.replace(/ /g, '_') +
+              '_' +
+              screen.key.split(':').at(-1)
             )
           }
-        }
+        },
+        icon: screen.icon ? (
+          <Image
+            className='h-4 w-4 shrink-0 object-contain'
+            width={16}
+            height={16}
+            alt='icon'
+            src={getCdnImage(screen.icon)}
+            style={{
+              filter: isDark
+                ? 'invert(1) sepia(1) hue-rotate(180deg) saturate(3)'
+                : 'unset'
+            }}
+          />
+        ) : (
+          <span className='flex h-4 w-4 shrink-0 items-center justify-center'>
+            <FileGallery
+              height='16'
+              width='16'
+              fill={isDark ? '#ffffff' : '#000000'}
+            />
+          </span>
+        )
       })
     }
 
@@ -132,35 +243,36 @@ const TopNav = ({
       for (const item of menu.items) {
         nestedMenu.push({
           text: item.menuGroupLabel,
-          items: getNestedMenu(item)
+          items: getNestedMenu(item),
+          icon: item.icon ? (
+            <Image
+              className='h-4 w-4 shrink-0 object-contain'
+              width={16}
+              height={16}
+              alt='icon'
+              src={getCdnImage(item.icon)}
+              style={{
+                filter: isDark
+                  ? 'invert(1) sepia(1) hue-rotate(180deg) saturate(3)'
+                  : 'unset'
+              }}
+            />
+          ) : (
+            <span className='flex h-4 w-4 shrink-0 items-center justify-center'>
+              <FileGallery
+                height='16'
+                width='16'
+                fill={isDark ? '#ffffff' : '#000000'}
+              />
+            </span>
+          )
         })
       }
     }
+
     return nestedMenu
   }
 
-//  async function logout() {
-//    localStorage.clear()
-//    deleteAllCookies()
-//    window.location.href = '/ct003/tag/tag/v1'
-//  }
-
-  async function logout() {
-    try {
-      if (token) {
-        await AxiosService.post('/UF/release-all-locks', null, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-      }
-    } catch (e) {
-      // ignore error, proceed with logout
-    }
-    localStorage.clear()
-    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
-    const from = encodeURIComponent(`${basePath}/`)
-    window.location.href = `${basePath}/next-api/auth/logout?from=${from}`
-  }
-  
   const hasMatchingName = (obj: any, input: string): boolean => {
     if (typeof obj !== 'object' || obj === null) return false
 
@@ -191,42 +303,42 @@ const TopNav = ({
       }
       return false
     },
-    [brandColor]
+    [brandColor, navData, pathname]
   )
 
   const getMenuStyle = (selected: boolean): React.CSSProperties => {
-  const style: React.CSSProperties = {}
+    const style: React.CSSProperties = {}
 
-  if (selected) {
-    if (menuSelectionBgColor) {
-      style.backgroundColor = menuSelectionBgColor
+    if (selected) {
+      if (menuSelectionBgColor) {
+        style.backgroundColor = menuSelectionBgColor
+      } else {
+        style.backgroundColor = brandColor
+      }
+
+      if (menuSelectionTextColor) {
+        style.color = menuSelectionTextColor
+      } else {
+        style.color = brandTextColor
+      }
     } else {
-      style.backgroundColor = brandColor
+      if (menuBgColor) {
+        style.backgroundColor = menuBgColor
+      } else {
+        style.backgroundColor = bgStyle
+      }
+
+      if (menuTextColor) {
+        style.color = menuTextColor
+      } else {
+        style.color = textStyle
+      }
     }
 
-    if (menuSelectionTextColor) {
-      style.color = menuSelectionTextColor
-    } else {
-      style.color = brandTextColor
-    }
-  } else {
-    if (menuBgColor) {
-      style.backgroundColor = menuBgColor
-    }else{
-      style.backgroundColor = bgStyle
-    }
-
-    if (menuTextColor) {
-      style.color = menuTextColor
-    }else{
-      style.color = textStyle
-    }
+    return style
   }
 
-  return style
-}
-
-  // Helper function to get grid style for a section
+  // Helper function to get grid style for a section (uses the 24 grid order)
   const getGridStyle: (sectionName: string) => React.CSSProperties = (
     sectionName: string
   ) => {
@@ -240,16 +352,35 @@ const TopNav = ({
 
     return {
       gridColumn: item['gridColumn'],
-      gridRow:  '1'
+      gridRow: '1'
     }
   }
 
-   // Logo section
-  const LogoSection = useCallback(() => (
-    <div className='flex items-center gap-1 min-w-[100px]' style={navigationStyles == 'vertical' ? undefined : getGridStyle('logo')}>
+  /*
+   * NOTE: The sections below are plain JSX elements (not components created
+   * with useCallback). Rendering them as <Section /> made React remount them
+   * on every state change, which closed dropdowns/popups and broke clicks.
+   */
+
+  // Logo section
+  const logoSection = (
+    <div
+      className={clsx(
+        'flex items-center gap-1',
+        // grid layout: stay inside the cell. default layout: do not shrink
+        navBarItemsOrder?.length && navigationStyles !== 'vertical'
+          ? 'min-w-0'
+          : 'shrink-0'
+      )}
+      style={
+        navigationStyles == 'vertical'
+          ? undefined
+          : getGridStyle('logo')
+      }
+    >
       {logo ? (
         <Image
-          className='min-h-[3vh] max-h-[5vh] h-auto w-auto'
+          className='h-auto max-h-[5vh] min-h-[3vh] w-auto max-w-full shrink-0 object-contain'
           width={100}
           height={100}
           src={getCdnImage(logo)}
@@ -258,56 +389,154 @@ const TopNav = ({
       ) : (
         <Logo />
       )}
-      <Text className='text-nowrap text-start font-bold w-full truncate text-[var(--brand-color)]' contentAlign='left'>
-          <span title={appName}>
+
+      <Text
+        className='min-w-0 text-nowrap w-full truncate text-start text-[var(--brand-color)] font-bold'
+        contentAlign='left'
+      >
+        <span title={appName}>
           {appName}
-          </span>
+        </span>
       </Text>
     </div>
-  ) , [logo, appName])
+  )
 
-      const AppLogoSection = useCallback(() => (
-    <div className='flex items-center gap-1' style={navigationStyles == 'vertical' ? undefined : getGridStyle('app logo')}>
+  const appLogoSection = (
+    <div
+      className='flex min-w-0 items-center gap-1'
+      style={navigationStyles == 'vertical' ? undefined : getGridStyle('app logo')}
+    >
       {appLogo && (
         <Image
           width={100}
           height={100}
-          className='min-h-[3vh] max-h-[5vh] h-auto w-auto'
+          className='h-auto max-h-[5vh] min-h-[3vh] w-auto max-w-full object-contain'
           src={getCdnImage(appLogo)}
           alt='appLogo'
         />
       )}
     </div>
-  ), [appLogo])
+  )
 
   // Menu Items section
-  const MenuItemsSection = useCallback(() => (
+  const menuItemsSection = (
     <div
-      className='flex w-full justify-start items-center gap-1 pl-4'
+      className='relative flex w-full min-w-0 items-center justify-start gap-1 pl-3'
       style={getGridStyle('menu items')}
       ref={menuRef}
     >
-      <div className='flex max-w-[62%] items-center gap-[0.5vw]'>
+      {/* Hidden copy of the menu buttons, only used to measure real widths. */}
+      <div
+        ref={measureRef}
+        aria-hidden='true'
+        className='pointer-events-none invisible absolute left-0 top-0 flex h-0 w-max items-center gap-1.5 overflow-hidden whitespace-nowrap'
+      >
+        {(navData || []).map((menu, index) => (
+          <div
+            key={index}
+            data-measure-item
+            className='flex h-9 shrink-0 items-center gap-2 px-3 py-1.5 text-sm font-medium'
+          >
+            <span className='h-4 w-4 shrink-0' />
+            <span className='whitespace-nowrap'>{menu.menuGroupLabel}</span>
+            {menu.menuGroup && <span className='h-4 w-4 shrink-0' />}
+          </div>
+        ))}
+        <div data-measure-dots className='h-9 w-9 shrink-0' />
+      </div>
+
+      {/* Visible menu items. The three-dot button comes right after the last one. */}
+      <div className='flex min-w-0 items-center gap-1.5'>
         {navData &&
           visibleItems.map((menu, index) => {
             if (menu.menuGroup) {
               const selected = isSelectedMenuGroup(menu.menuGroup)
+
               return (
-                <div key={index}>
+                <div
+                  key={index}
+                  className='flex shrink-0 items-center'
+                >
                   <DropdownMenu
                     renderSwitcher={(props: any) => (
                       <button
                         {...props}
                         className={twMerge(
-                            'flex gap-[.5vw] items-center px-[.5vw] py-[0.5vh] !text-nowrap rounded-[1vw] hover:bg-[var(--hover-color)] text-fsbase'
-                          )}
+                          `
+                        group
+                        flex
+                        h-9
+                        shrink-0
+                        items-center
+                        gap-2
+                        rounded-lg
+                        px-3
+                        py-1.5
+                        text-sm
+                        font-medium
+                        !text-nowrap
+                        transition-colors
+                        duration-150
+                        hover:bg-[var(--hover-color)]
+                        focus:outline-none
+                        `
+                        )}
                         style={getMenuStyle(selected)}
                       >
-                        {menu.menuGroupLabel}
-                        <DownArrow fill={selected ? brandTextColor : "black"} height='.4vw' width='.4vw' />
+                        {/* Keep menu icons at a consistent size. */}
+                        <span className='flex h-4 w-4 shrink-0 items-center justify-center'>
+                          {menu.icon ? (
+                            <Image
+                              className='h-4 w-4 shrink-0 object-contain'
+                              width={16}
+                              height={16}
+                              alt='icon'
+                              src={getCdnImage(menu.icon)}
+                              style={{
+                                filter:
+                                  selected || isDark
+                                    ? 'invert(1) sepia(1) hue-rotate(180deg) saturate(3)'
+                                    : 'unset'
+                              }}
+                            />
+                          ) : (
+                            <FileGallery
+                              height='16'
+                              width='16'
+                              fill={
+                                selected
+                                  ? isLightColor(brandColor)
+                                  : isDark
+                                    ? '#fff'
+                                    : '#1C274C'
+                              }
+                            />
+                          )}
+                        </span>
+
+                        {/* Keep the menu label readable and aligned. */}
+                        <span className='whitespace-nowrap'>
+                          {menu.menuGroupLabel}
+                        </span>
+
+                        {/* Keep the dropdown arrow visible and consistent. */}
+                        <span className='flex h-4 w-4 shrink-0 items-center justify-center'>
+                          <DownArrow
+                            fill={
+                              menuSelectionBgColor ?
+                                menuSelectionTextColor :
+                                selected
+                                  ? brandTextColor
+                                  : isDark
+                                    ? '#ffffff'
+                                    : '#1C274C'
+                            }
+                            height='7'
+                            width='7'
+                          />
+                        </span>
                       </button>
                     )}
-                    key={index}
                     items={getNestedMenu(menu)}
                   />
                 </div>
@@ -318,39 +547,153 @@ const TopNav = ({
                 menu.screenDetails[0].name.replace(/ /g, '_') +
                 '_' +
                 menu.screenDetails[0].key.split(':').at(-1)
-              const selected = routingName == pathname  
+              const selected = routingName == pathname
               return (
                 <button
-                 className={twMerge(
-                            'px-[1vw] py-[0.5vh] !text-nowrap rounded-[1vw] hover:bg-[var(--hover-color)] text-fsbase'
-                          )}
+                  className={twMerge(
+                    `
+                  group
+                  flex
+                  h-9
+                  shrink-0
+                  items-center
+                  gap-2
+                  rounded-lg
+                  px-3
+                  py-1.5
+                  text-sm
+                  font-medium
+                  !text-nowrap
+                  transition-colors
+                  duration-150
+                  hover:bg-[var(--hover-color)]
+                  focus:outline-none
+                  `
+                  )}
                   style={getMenuStyle(selected)}
                   key={index}
                   onClick={() => router.push(routingName)}
                 >
-                  {menu.menuGroupLabel}
+                  {/* Keep normal menu icons at the same size as dropdown icons. */}
+                  <span className='flex h-4 w-4 shrink-0 items-center justify-center'>
+                    {menu.icon ? (
+                      <Image
+                        className='h-4 w-4 shrink-0 object-contain'
+                        width={16}
+                        height={16}
+                        alt='icon'
+                        src={getCdnImage(menu.icon)}
+                        style={{
+                          filter:
+                            selected || isDark
+                              ? 'invert(1) sepia(1) hue-rotate(180deg) saturate(3)'
+                              : 'unset'
+                        }}
+                      />
+                    ) : (
+                      <FileGallery
+                        height='16'
+                        width='16'
+                        fill={
+                          selected
+                            ? isLightColor(brandColor)
+                            : isDark
+                              ? '#fff'
+                              : '#1C274C'
+                        }
+                      />
+                    )}
+                  </span>
+
+                  {/* Keep menu text on a single line. */}
+                  <span className='whitespace-nowrap'>
+                    {menu.menuGroupLabel}
+                  </span>
                 </button>
               )
             }
           })}
       </div>
-      <div>
+
+      {/* Three-dot button directly after the last visible menu item. */}
+      <div className='flex shrink-0 items-center'>
         {hiddenItems.length > 0 && (
           <DropdownMenu
             renderSwitcher={(props: any) => (
-              <Button {...props} view='action' className='px-2 rotate-90'>
-                <BsThreeDots />
+              <Button
+                {...props}
+                view='action'
+                className={twMerge(
+                  `
+                !flex
+                h-9
+                w-9
+                shrink-0
+                items-center
+                justify-center
+                rounded-lg
+                p-0
+                text-base
+                hover:bg-[var(--hover-color)]
+                `
+                )}
+              >
+                <BsThreeDots className='h-5 w-5' />
               </Button>
             )}
             items={hiddenItems.map(menu => {
               if (menu.menuGroup) {
                 return {
                   text: menu.menuGroupLabel,
-                  items: getNestedMenu(menu)
+                  items: getNestedMenu(menu),
+                  icon: menu.icon ? (
+                    <Image
+                      className='h-4 w-4 shrink-0 object-contain'
+                      width={16}
+                      height={16}
+                      alt='icon'
+                      src={getCdnImage(menu.icon)}
+                      style={{
+                        filter: isDark
+                          ? 'invert(1) sepia(1) hue-rotate(180deg) saturate(3)'
+                          : 'unset'
+                      }}
+                    />
+                  ) : (
+                    <span className='flex h-4 w-4 shrink-0 items-center justify-center'>
+                      <FileGallery
+                        height='16'
+                        width='16'
+                        fill={isDark ? '#ffffff' : '#000000'}
+                      />
+                    </span>
+                  )
                 }
               } else {
                 return {
                   text: menu.menuGroupLabel,
+                  icon: menu.icon ? (
+                    <Image
+                      className='h-4 w-4 shrink-0 object-contain'
+                      width={16}
+                      height={16}
+                      alt='icon'
+                      src={getCdnImage(menu.icon)}
+                      style={{
+                        filter: isDark
+                          ? 'invert(1) sepia(1) hue-rotate(180deg) saturate(3)'
+                          : 'unset'
+                      }}
+                    />
+                  ) : (
+                    <span className='flex h-4 w-4 shrink-0 items-center justify-center'>
+                      <FileGallery
+                        height='16'
+                        width='16'
+                        fill={isDark ? '#ffffff' : '#000000'}
+                      />
+                    </span>
+                  ),
                   action: () => {
                     if (menu.screenDetails) {
                       const routingName =
@@ -363,17 +706,17 @@ const TopNav = ({
                   }
                 }
               }
-            })}
+            }) as any}
           />
         )}
       </div>
     </div>
-  ) , [visibleItems , hiddenItems])
+  )
 
   // OPR Matrix section
-  const OPRMatrixSection = useCallback(() => (
+  const oprMatrixSection = (
     <div
-      className={clsx('flex w-full justify-end gap-2', {
+      className={clsx('flex w-full min-w-0 justify-end gap-2', {
         hidden: !tp_ps
       })}
       style={getGridStyle('opr matrix')}
@@ -383,15 +726,18 @@ const TopNav = ({
         fullView
       />
     </div>
-  ), [selectedAccessProfile])
+  )
 
   // Profile section
-  const ProfileSection = useCallback(() => (
-    <div style={{...getGridStyle('profile') , justifySelf : 'end'}}>
+  const profileSection = (
+    <div
+      className='flex min-w-0 justify-end'
+      style={{ ...getGridStyle('profile'), justifySelf: 'end' }}
+    >
       <div
         onClick={() => setIsPopoverOpen(prev => !prev)}
         ref={popoverButtonElement}
-        className='h-11 w-12 cursor-pointer rounded-full'
+        className='h-11 w-12 shrink-0 cursor-pointer rounded-full'
       >
         <Avatar
           theme='brand'
@@ -499,16 +845,16 @@ const TopNav = ({
             )}
 
             {pathname !== '/app-hub' && (
-            <div
-              onClick={() => router.push('/app-hub')}
-              className='flex cursor-pointer items-center gap-2'
-            >
-              <RotateIcon fill={isDark ? 'white' : 'black'} />
-               <div>
-                <Text>Switch Application</Text>
-               </div>
-               </div>
-               )}
+              <div
+                onClick={() => router.push('/app-hub')}
+                className='flex cursor-pointer items-center gap-2'
+              >
+                <RotateIcon fill={isDark ? 'white' : 'black'} />
+                <div>
+                  <Text>Switch Application</Text>
+                </div>
+              </div>
+            )}
 
             {pathname !== '/select-context' && pathname !== '/user' && pathname !== '/app-hub' && (
               <div
@@ -522,7 +868,7 @@ const TopNav = ({
               </div>
             )}
             <div
-              onClick={logout}
+              onClick={() => logout(token)}
               className='flex cursor-pointer items-center gap-2'
             >
               <LogoutIcon />
@@ -536,10 +882,10 @@ const TopNav = ({
         </Popup>
       </div>
     </div>
-  ) , [userDetails, isPopoverOpen])
+  )
 
-  // Default layout (without grid)
-    if (
+  // Default layout (without grid) - takes the full width
+  if (
     !navBarItemsOrder ||
     navBarItemsOrder?.length === 0 ||
     navigationStyles === 'vertical'
@@ -548,51 +894,50 @@ const TopNav = ({
       <div
         suppressHydrationWarning
         className={clsx(
-          `flex items-center justify-between p-2 ${
-            mode === 'detached' && navigationStyles == 'vertical' ? 'shadow-md' : ''
+          `flex w-full items-center justify-between gap-6 px-4 py-2 lg:gap-8 ${mode === 'detached' && navigationStyles == 'vertical' ? 'shadow-md' : ''
           }`
         )}
       >
-        <LogoSection />
+        {logoSection}
         {listMenuItems && (
           <>
-            <MenuItemsSection />
-            <OPRMatrixSection />
-            <ProfileSection />
+            {menuItemsSection}
+            {oprMatrixSection}
+            {profileSection}
           </>
         )}
         {
           pathname === '/select-context' || pathname == '/app-hub' ?
-          ( <ProfileSection />) : <></>
+          profileSection : <></>
         }
       </div>
     )
   }
 
-  // Grid layout (with navBarItemsOrder)
+  // Grid layout (with navBarItemsOrder) - 24 columns
   return (
     <div
       suppressHydrationWarning
       className={clsx(
-        `grid items-center px-[1vw] py-[0.5vh] ${mode === 'detached' && navigationStyles == "vertical" ? 'shadow-md' : ''}`
+        `grid w-full items-center px-[1vw] py-[0.5vh] ${mode === 'detached' && navigationStyles == "vertical" ? 'shadow-md' : ''}`
       )}
       style={{
-        gridTemplateColumns: 'repeat(12,  minmax(0, 1fr))',
+        gridTemplateColumns: `repeat(${GRID_COLUMNS}, minmax(0, 1fr))`,
         gap: '0.5rem'
       }}
     >
-      <LogoSection />
-      <AppLogoSection />
+      {logoSection}
+      {appLogoSection}
       {listMenuItems && (
         <>
-          <MenuItemsSection />
-          <OPRMatrixSection />
-          <ProfileSection />
+          {menuItemsSection}
+          {oprMatrixSection}
+          {profileSection}
         </>
       )}
       {
         pathname === '/select-context' || pathname == '/app-hub' ?
-        ( <ProfileSection />) : <></>
+        profileSection : <></>
       }
     </div>
   )

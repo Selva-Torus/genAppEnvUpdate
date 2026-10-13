@@ -1,5 +1,5 @@
 import _ from "lodash";
-
+import { AxiosService } from "./axiosService";
 
 export function isLightColor(hex:string) {
   hex = hex.replace("#", "");
@@ -38,9 +38,18 @@ export function hexWithOpacity(hex: string, opacity: number) {
   return `#${hex}${alpha}`;
 }
 
-export const logout = () => {
-  localStorage.clear();
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-  const from = encodeURIComponent(`${basePath}/`);
-  window.location.href = `${basePath}/next-api/auth/logout?from=${from}`;
-};
+ export async function logout(token: string) {
+    try {
+      if (token) {
+        await AxiosService.post('/UF/release-all-locks', null, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      }
+    } catch (e) {
+      // ignore error, proceed with logout
+    }
+    localStorage.clear()
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+    const from = encodeURIComponent(`${basePath}/`);
+    window.location.href = `${basePath}/next-api/auth/logout?from=${from}`;
+  }

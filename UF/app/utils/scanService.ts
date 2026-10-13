@@ -221,6 +221,7 @@ export async function socketScan(scanInputs: ScanInputs,token:string): Promise<a
                       newImageList.push(scandata)
                     }
                   }
+                  resolve(newImageList) 
                   // Get total count of imagelist
                   if (newImageList.length > 0) {
                     if (scanInputs.SCAN_TYPE !== 'CHEQUE') {
@@ -238,7 +239,7 @@ export async function socketScan(scanInputs: ScanInputs,token:string): Promise<a
                         if (Tran.length) {
                           if (element.imagetypeid === '3') {
                             imageInfoArr.push(element)
-                            console.log('imageInfoArr', imageInfoArr)
+                            console.log('imageInfoArr1', imageInfoArr)
                           } else {
                             const tiffFrontAvail = newImageList.filter(
                               function (x) {
@@ -259,7 +260,7 @@ export async function socketScan(scanInputs: ScanInputs,token:string): Promise<a
                               )
                               if (!isAlreadyExists.length) {
                                 imageInfoArr.push(Tran[0])
-                                console.log('imageInfoArr', imageInfoArr)
+                                console.log('imageInfoArr2', imageInfoArr)
                               }
                             }
                           }
@@ -274,7 +275,7 @@ export async function socketScan(scanInputs: ScanInputs,token:string): Promise<a
                           if (element.IMAGESTATUS == 'PDF') {
                             if (element.DOCNAME?.split('_')[1] === '1') {
                               imageInfoArr.push(element)
-                              console.log('imageInfoArr', imageInfoArr)
+                              console.log('imageInfoArr3', imageInfoArr)
                             }
                           } else {
                             imageInfoArr.push(element)
@@ -337,10 +338,15 @@ export function Rangerscan(scanInputs: ScanInputs): Promise<any> {
           // get response from window service
           wsConn.onmessage = async function (resp) {
             console.log('Ranger scan', resp)
-            const list = resp.data
-            const imageresult = JSON.parse(list)[0]
-            console.log('Image result in rangerscan', imageresult.status)
-            if (imageresult.status == 'CLEAR_IMAGE') {
+            let imageresult: any
+            try {
+              imageresult = JSON.parse(resp.data)[0]
+            } catch (error) {
+              reject(error)
+              return
+            }
+            console.log('Image result in rangerscan', imageresult?.status)
+            if (imageresult?.status == 'CLEAR_IMAGE') {
               if (imagelist.length == 0) {
                 resolve('')
                 return
@@ -348,14 +354,17 @@ export function Rangerscan(scanInputs: ScanInputs): Promise<any> {
             }
             const scnstatus =
               '  Scanner Status : ' +
-              imageresult.status.split('S')[0] +
+              imageresult?.status?.split('S')[0] +
               ' ' +
               'S' +
-              imageresult.status.split('S')[1]
+              imageresult?.status?.split('S')[1]
             setScannerStatus('SUCCESS', scnstatus)
+            // Intermediate statuses (e.g. STARTFEED) - keep waiting for FEEDINGSTOPPED
+            if (imageresult?.status !== 'FEEDINGSTOPPED') return
             try {
-              await Preparescandata(scanInputs, imageresult.status,"")
-              resolve(imageresult)
+              // socketScan resolves with newImageList once the images arrive
+              const preparedData = await Preparescandata(scanInputs, imageresult.status,"")
+              resolve(preparedData)
             } catch (error) {
               reject(error)
             }

@@ -91,6 +91,7 @@ export interface te_eventEmitterDto {
   childTableData?:any[];
   ssKey?:string[];
   tableName?:string;
+  enableBulk?:boolean;
 }
 export interface uf_ifoDto{
   dpdKey?:string;

@@ -649,7 +649,7 @@ export class TeService{
 
                                if(allKeysToDelete.length > 0){
                                  // Delete in chunks of 10 to avoid overwhelming connection pool
-                                 await this.executeInChunks(
+                                  this.executeInChunks(
                                    allKeysToDelete,
                                    (key) => this.redisService.deleteKey(key, client),
                                    10
@@ -683,7 +683,7 @@ export class TeService{
                                   let keys = await this.redisService.getKeys(ds_obj_key,client)
                                   //let keys = await this.redisService.getKeys(dstkey+ tokenDecode.loginId + '_DS_Object',client)
                                   if(keys && keys.length > 0){
-                                    await Promise.all(keys.map(key =>
+                                     Promise.all(keys.map(key =>
                                       this.redisService.deleteKey(key, client)
                                     ));
                                   }
@@ -705,7 +705,7 @@ export class TeService{
 
                                 if(allKeysToDelete.length > 0){
                                   // Delete in chunks of 10 to avoid overwhelming connection pool
-                                  await this.executeInChunks(
+                                   this.executeInChunks(
                                     allKeysToDelete,
                                     (key) => this.redisService.deleteKey(key, client),
                                     10
@@ -1147,7 +1147,8 @@ export class TeService{
         pfdto.childTable = input.childTable 
         pfdto.ssKey =  input.ssKey   
         pfdto.controlName =  input.controlName 
-        pfdto.authContext =  input.authContext 
+        pfdto.authContext =  input.authContext
+        pfdto.enableBulk =  input.enableBulk 
         formdata =  await this.EventEmitter(pfdto)              
       return formdata
   }catch(err){    

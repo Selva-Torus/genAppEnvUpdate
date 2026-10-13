@@ -12,80 +12,52 @@ import { UfModule } from './Torus/v1/uf/uf.module';
 import { TeModule } from './Torus/v1/te/te.module';
 import { ConfigService } from "@nestjs/config";
 import { ScheduleModule } from '@nestjs/schedule';
-import { ErdModule } from './erd/erd.module';
-import { CdcPrismaService } from './erd/cdc_prisma.service';
-import { DFdashboardTableModule } from './dfd/DFdashboardTable/v1/DFdashboardTable.module';    
-import { DFcardMetricsDashboardModule } from './dfd/DFcardMetricsDashboard/v1/DFcardMetricsDashboard.module';    
-import { DFpiechartDashboardModule } from './dfd/DFpiechartDashboard/v1/DFpiechartDashboard.module';    
-import { DFaiRegistryModule } from './dfd/DFaiRegistry/v1/DFaiRegistry.module';    
-import { DFbusinessUnitComboModule } from './dfd/DFbusinessUnitCombo/v1/DFbusinessUnitCombo.module';    
-import { DFbusinessOwnerComboModule } from './dfd/DFbusinessOwnerCombo/v1/DFbusinessOwnerCombo.module';    
-import { DFdataClassListModule } from './dfd/DFdataClassList/v1/DFdataClassList.module';    
-import { DFassetNameComboModule } from './dfd/DFassetNameCombo/v1/DFassetNameCombo.module';    
-import { DFmodelDetailsModule } from './dfd/DFmodelDetails/v1/DFmodelDetails.module';    
-import { DFAIAgentControlModule } from './dfd/DFAIAgentControl/v1/DFAIAgentControl.module';    
-import { DFdiscoveryQueueModule } from './dfd/DFdiscoveryQueue/v1/DFdiscoveryQueue.module';    
-import { DFdiscoveryQueueCardsModule } from './dfd/DFdiscoveryQueueCards/v1/DFdiscoveryQueueCards.module';    
-import { DFassetCodeNameConcatComboModule } from './dfd/DFassetCodeNameConcatCombo/v1/DFassetCodeNameConcatCombo.module';    
-import { DFrecentEvidencePackTableModule } from './dfd/DFrecentEvidencePackTable/v1/DFrecentEvidencePackTable.module';    
-import { DFcodeTypeModule } from './dfd/DFcodeType/v1/DFcodeType.module';    
-import { DFcodeValueModule } from './dfd/DFcodeValue/v1/DFcodeValue.module';    
-import { DFcodeValueComboModule } from './dfd/DFcodeValueCombo/v1/DFcodeValueCombo.module';    
-import { DFintegrationSourceModule } from './dfd/DFintegrationSource/v1/DFintegrationSource.module';    
-import { DFsourceCategoryComboModule } from './dfd/DFsourceCategoryCombo/v1/DFsourceCategoryCombo.module';    
-import { DFintegrationRunModule } from './dfd/DFintegrationRun/v1/DFintegrationRun.module';    
-import { DFintegrationFieldMapModule } from './dfd/DFintegrationFieldMap/v1/DFintegrationFieldMap.module';    
-import { DFfieldMapComboModule } from './dfd/DFfieldMapCombo/v1/DFfieldMapCombo.module';    
-import { DFriskRuleModule } from './dfd/DFriskRule/v1/DFriskRule.module';    
-import { DFriskTierCodeComboModule } from './dfd/DFriskTierCodeCombo/v1/DFriskTierCodeCombo.module';    
-import { DFriskRuleConditionModule } from './dfd/DFriskRuleCondition/v1/DFriskRuleCondition.module';    
-import { DFcertificateTemplateModule } from './dfd/DFcertificateTemplate/v1/DFcertificateTemplate.module';    
-import { DFcertificationStageModule } from './dfd/DFcertificationStage/v1/DFcertificationStage.module';    
-import { DFAIAgentActionModule } from './dfd/DFAIAgentAction/v1/DFAIAgentAction.module';    
-import { DFAIAssetVersionModule } from './dfd/DFAIAssetVersion/v1/DFAIAssetVersion.module';    
-import { DFAIAssetDependTypeComboModule } from './dfd/DFAIAssetDependTypeCombo/v1/DFAIAssetDependTypeCombo.module';    
-import { DFAIAssetDependencyModule } from './dfd/DFAIAssetDependency/v1/DFAIAssetDependency.module';    
-import { PFPAiRegistryModifyModule } from './pfd/PFPAiRegistryModify/v1/PFPAiRegistryModify.module';    
-import { PFPaddAiRegistryModule } from './pfd/PFPaddAiRegistry/v1/PFPaddAiRegistry.module';    
-import { PFPdataClassModifyModule } from './pfd/PFPdataClassModify/v1/PFPdataClassModify.module';    
-import { PFPaddDataClassModule } from './pfd/PFPaddDataClass/v1/PFPaddDataClass.module';    
-import { PFPmodelDetailModifyModule } from './pfd/PFPmodelDetailModify/v1/PFPmodelDetailModify.module';    
-import { PFPaddAIModelModule } from './pfd/PFPaddAIModel/v1/PFPaddAIModel.module';    
-import { PFPagentControlModifyModule } from './pfd/PFPagentControlModify/v1/PFPagentControlModify.module';    
-import { PFPaddAgentControlModule } from './pfd/PFPaddAgentControl/v1/PFPaddAgentControl.module';    
-import { PFPaddEvidencePackModule } from './pfd/PFPaddEvidencePack/v1/PFPaddEvidencePack.module';    
-import { PFPupdateCodeTypeModule } from './pfd/PFPupdateCodeType/v1/PFPupdateCodeType.module';    
-import { PFPaddCodeTypeModule } from './pfd/PFPaddCodeType/v1/PFPaddCodeType.module';    
-import { PFPdeleteCodeTypeModule } from './pfd/PFPdeleteCodeType/v1/PFPdeleteCodeType.module';    
-import { PFPmodifyCodeValueModule } from './pfd/PFPmodifyCodeValue/v1/PFPmodifyCodeValue.module';    
-import { PFPaddCodeValueModule } from './pfd/PFPaddCodeValue/v1/PFPaddCodeValue.module';    
-import { PFPdeleteCodeValueModule } from './pfd/PFPdeleteCodeValue/v1/PFPdeleteCodeValue.module';    
-import { PFPmodifyIntegrationSourceModule } from './pfd/PFPmodifyIntegrationSource/v1/PFPmodifyIntegrationSource.module';    
-import { PFPaddIntegrationSourceModule } from './pfd/PFPaddIntegrationSource/v1/PFPaddIntegrationSource.module';    
-import { PFPdeleteIntegrationSourceModule } from './pfd/PFPdeleteIntegrationSource/v1/PFPdeleteIntegrationSource.module';    
-import { PFPmodifyIntegrationRunModule } from './pfd/PFPmodifyIntegrationRun/v1/PFPmodifyIntegrationRun.module';    
-import { PFPaddIntegrationRunModule } from './pfd/PFPaddIntegrationRun/v1/PFPaddIntegrationRun.module';    
-import { PFPdeleteIntegraionRunModule } from './pfd/PFPdeleteIntegraionRun/v1/PFPdeleteIntegraionRun.module';    
-import { PFPmodifyIntegrationFieldMapModule } from './pfd/PFPmodifyIntegrationFieldMap/v1/PFPmodifyIntegrationFieldMap.module';    
-import { PFPaddIntegrationFieldMapModule } from './pfd/PFPaddIntegrationFieldMap/v1/PFPaddIntegrationFieldMap.module';    
-import { PFPdeleteIntegrationFieldMapModule } from './pfd/PFPdeleteIntegrationFieldMap/v1/PFPdeleteIntegrationFieldMap.module';    
-import { PFPmodifyRiskRuleModule } from './pfd/PFPmodifyRiskRule/v1/PFPmodifyRiskRule.module';    
-import { PFPaddRiskRuleModule } from './pfd/PFPaddRiskRule/v1/PFPaddRiskRule.module';    
-import { PFPmodifyRiskRuleConditionModule } from './pfd/PFPmodifyRiskRuleCondition/v1/PFPmodifyRiskRuleCondition.module';    
-import { PFPaddRiskRuleConditionModule } from './pfd/PFPaddRiskRuleCondition/v1/PFPaddRiskRuleCondition.module';    
-import { PFPdeleteRiskRuleConditionModule } from './pfd/PFPdeleteRiskRuleCondition/v1/PFPdeleteRiskRuleCondition.module';    
-import { PFPmodifyCertificateTemplateModule } from './pfd/PFPmodifyCertificateTemplate/v1/PFPmodifyCertificateTemplate.module';    
-import { PFPaddCertificateTemplateModule } from './pfd/PFPaddCertificateTemplate/v1/PFPaddCertificateTemplate.module';    
-import { PFPdeleteCertificateTemplateModule } from './pfd/PFPdeleteCertificateTemplate/v1/PFPdeleteCertificateTemplate.module';    
-import { PFPmodifyCertificationtemplateStageModule } from './pfd/PFPmodifyCertificationtemplateStage/v1/PFPmodifyCertificationtemplateStage.module';    
-import { PFPaddCertificationTemplateStageModule } from './pfd/PFPaddCertificationTemplateStage/v1/PFPaddCertificationTemplateStage.module';    
-import { PFPdeleteCertificationTemplateStageModule } from './pfd/PFPdeleteCertificationTemplateStage/v1/PFPdeleteCertificationTemplateStage.module';    
-import { PFPmodifyAgentActionModule } from './pfd/PFPmodifyAgentAction/v1/PFPmodifyAgentAction.module';    
-import { PFPaddAgentActionModule } from './pfd/PFPaddAgentAction/v1/PFPaddAgentAction.module';    
-import { PFPmodifyAssetVersionModule } from './pfd/PFPmodifyAssetVersion/v1/PFPmodifyAssetVersion.module';    
-import { PFPaddAssetVersionModule } from './pfd/PFPaddAssetVersion/v1/PFPaddAssetVersion.module';    
-import { PFPmodifyAiAssetDependencyModule } from './pfd/PFPmodifyAiAssetDependency/v1/PFPmodifyAiAssetDependency.module';    
-import { PFPaddAiAssetDependencyModule } from './pfd/PFPaddAiAssetDependency/v1/PFPaddAiAssetDependency.module';    
+import { DFcomboCurrencySearchModule } from './dfd/DFcomboCurrencySearch/v1/DFcomboCurrencySearch.module';    
+import { DFtransactionModule } from './dfd/DFtransaction/v1/DFtransaction.module';    
+import { DFjourneyModule } from './dfd/DFjourney/v1/DFjourney.module';    
+import { DFtranJourneyModule } from './dfd/DFtranJourney/v1/DFtranJourney.module';    
+import { DFemployeeListModule } from './dfd/DFemployeeList/v1/DFemployeeList.module';    
+import { DFwpsNackFailureTransactionListModule } from './dfd/DFwpsNackFailureTransactionList/v1/DFwpsNackFailureTransactionList.module';    
+import { DFsfJourneyViewTransactionModule } from './dfd/DFsfJourneyViewTransaction/v1/DFsfJourneyViewTransaction.module';    
+import { DFsfJourneyListWithCountModule } from './dfd/DFsfJourneyListWithCount/v1/DFsfJourneyListWithCount.module';    
+import { DFwpsNackFailureTransactionList_postingExceptionViewTransactionModule } from './dfd/DFwpsNackFailureTransactionList_postingExceptionViewTransaction/v1/DFwpsNackFailureTransactionList_postingExceptionViewTransaction.module';    
+import { DFwpsNackFailureFileListModule } from './dfd/DFwpsNackFailureFileList/v1/DFwpsNackFailureFileList.module';    
+import { DFwpsFileJourneyModule } from './dfd/DFwpsFileJourney/v1/DFwpsFileJourney.module';    
+import { DFpostingExpectionFileListModule } from './dfd/DFpostingExpectionFileList/v1/DFpostingExpectionFileList.module';    
+import { DFpostingExceptionProcessListModule } from './dfd/DFpostingExceptionProcessList/v1/DFpostingExceptionProcessList.module';    
+import { DFwpsDashboardCompanyStructureComboModule } from './dfd/DFwpsDashboardCompanyStructureCombo/v1/DFwpsDashboardCompanyStructureCombo.module';    
+import { DFwpsDashboardMolNumberComboModule } from './dfd/DFwpsDashboardMolNumberCombo/v1/DFwpsDashboardMolNumberCombo.module';    
+import { DFwpsDashboardSuccessTabModule } from './dfd/DFwpsDashboardSuccessTab/v1/DFwpsDashboardSuccessTab.module';    
+import { DFwpsDashboardFailureTabModule } from './dfd/DFwpsDashboardFailureTab/v1/DFwpsDashboardFailureTab.module';    
+import { DFwpsDashboardSalaryTypeComboModule } from './dfd/DFwpsDashboardSalaryTypeCombo/v1/DFwpsDashboardSalaryTypeCombo.module';    
+import { DFwpsDashboardEmployeesBarchartModule } from './dfd/DFwpsDashboardEmployeesBarchart/v1/DFwpsDashboardEmployeesBarchart.module';    
+import { DFwpsDashboardSalaryProcessBarchartModule } from './dfd/DFwpsDashboardSalaryProcessBarchart/v1/DFwpsDashboardSalaryProcessBarchart.module';    
+import { DFwpsDashboardMyqueueAllModule } from './dfd/DFwpsDashboardMyqueueAll/v1/DFwpsDashboardMyqueueAll.module';    
+import { DFwpsDashboardMonthComboModule } from './dfd/DFwpsDashboardMonthCombo/v1/DFwpsDashboardMonthCombo.module';    
+import { DFwpsDashboardYearComboModule } from './dfd/DFwpsDashboardYearCombo/v1/DFwpsDashboardYearCombo.module';    
+import { DFwpsDashboardSuccessTabNonWpsModule } from './dfd/DFwpsDashboardSuccessTabNonWps/v1/DFwpsDashboardSuccessTabNonWps.module';    
+import { DFwpsDashboardFailureNonWpsTabModule } from './dfd/DFwpsDashboardFailureNonWpsTab/v1/DFwpsDashboardFailureNonWpsTab.module';    
+import { DFwpsDashboardMyqueueActionRequiredModule } from './dfd/DFwpsDashboardMyqueueActionRequired/v1/DFwpsDashboardMyqueueActionRequired.module';    
+import { DFwpsDashboardMyqueueSalaryReturnRefundModule } from './dfd/DFwpsDashboardMyqueueSalaryReturnRefund/v1/DFwpsDashboardMyqueueSalaryReturnRefund.module';    
+import { DFwpsDashboardMyqueueExceptionsModule } from './dfd/DFwpsDashboardMyqueueExceptions/v1/DFwpsDashboardMyqueueExceptions.module';    
+import { DFreturnReasonModule } from './dfd/DFreturnReason/v1/DFreturnReason.module';    
+import { DFreturnAgentfromTransactionListModule } from './dfd/DFreturnAgentfromTransactionList/v1/DFreturnAgentfromTransactionList.module';    
+import { DFrequestReasonModule } from './dfd/DFrequestReason/v1/DFrequestReason.module';    
+import { DFreturnFromAgentFileListModule } from './dfd/DFreturnFromAgentFileList/v1/DFreturnFromAgentFileList.module';    
+import { DFrequestForRefundFileListModule } from './dfd/DFrequestForRefundFileList/v1/DFrequestForRefundFileList.module';    
+import { DFenquiryGetRegEmployerEmployerListModule } from './dfd/DFenquiryGetRegEmployerEmployerList/v1/DFenquiryGetRegEmployerEmployerList.module';    
+import { DFenquiryEmployerSalaryRPTModule } from './dfd/DFenquiryEmployerSalaryRPT/v1/DFenquiryEmployerSalaryRPT.module';    
+import { DFenquiryGetEmployeeModule } from './dfd/DFenquiryGetEmployee/v1/DFenquiryGetEmployee.module';    
+import { DFenquiryViewAllEmployersModule } from './dfd/DFenquiryViewAllEmployers/v1/DFenquiryViewAllEmployers.module';    
+import { DFupdateRegEmployerModule } from './dfd/DFupdateRegEmployer/v1/DFupdateRegEmployer.module';    
+import { DFRegEmployerModule } from './dfd/DFRegEmployer/v1/DFRegEmployer.module';    
+import { DFdashboardViewAllSuccessModule } from './dfd/DFdashboardViewAllSuccess/v1/DFdashboardViewAllSuccess.module';    
+import { DFdashboardViewAllFailureModule } from './dfd/DFdashboardViewAllFailure/v1/DFdashboardViewAllFailure.module';    
+import { DFsifSummaryReportModule } from './dfd/DFsifSummaryReport/v1/DFsifSummaryReport.module';    
+import { DFpifSummaryReportModule } from './dfd/DFpifSummaryReport/v1/DFpifSummaryReport.module';    
+import { PFPchangeStatusTranUpdateLogInsertModule } from './pfd/PFPchangeStatusTranUpdateLogInsert/v1/PFPchangeStatusTranUpdateLogInsert.module';    
+import { PFPwpsFileProcessRetryAlreadyPostedModule } from './pfd/PFPwpsFileProcessRetryAlreadyPosted/v1/PFPwpsFileProcessRetryAlreadyPosted.module';    
+import { PFPwpsReturnAuthorizeProcessModule } from './pfd/PFPwpsReturnAuthorizeProcess/v1/PFPwpsReturnAuthorizeProcess.module';    
 import { EncryptInterceptor } from './encryptInterceptor';
 import { DecryptInterceptor } from './decryptInterceptor';
 import { APP_INTERCEPTOR, APP_GUARD } from '@nestjs/core';
@@ -111,7 +83,7 @@ import { getRedisConnectionOptions } from './redis.config';
       { name: 'default', ttl: 10_000, limit: 120 }
     ],
   }),
-  ScheduleModule.forRoot(),UfModule,TeModule,EnvDataModule,DFdashboardTableModule,DFcardMetricsDashboardModule,DFpiechartDashboardModule,DFaiRegistryModule,DFbusinessUnitComboModule,DFbusinessOwnerComboModule,DFdataClassListModule,DFassetNameComboModule,DFmodelDetailsModule,DFAIAgentControlModule,DFdiscoveryQueueModule,DFdiscoveryQueueCardsModule,DFassetCodeNameConcatComboModule,DFrecentEvidencePackTableModule,DFcodeTypeModule,DFcodeValueModule,DFcodeValueComboModule,DFintegrationSourceModule,DFsourceCategoryComboModule,DFintegrationRunModule,DFintegrationFieldMapModule,DFfieldMapComboModule,DFriskRuleModule,DFriskTierCodeComboModule,DFriskRuleConditionModule,DFcertificateTemplateModule,DFcertificationStageModule,DFAIAgentActionModule,DFAIAssetVersionModule,DFAIAssetDependTypeComboModule,DFAIAssetDependencyModule,PFPAiRegistryModifyModule,PFPaddAiRegistryModule,PFPdataClassModifyModule,PFPaddDataClassModule,PFPmodelDetailModifyModule,PFPaddAIModelModule,PFPagentControlModifyModule,PFPaddAgentControlModule,PFPaddEvidencePackModule,PFPupdateCodeTypeModule,PFPaddCodeTypeModule,PFPdeleteCodeTypeModule,PFPmodifyCodeValueModule,PFPaddCodeValueModule,PFPdeleteCodeValueModule,PFPmodifyIntegrationSourceModule,PFPaddIntegrationSourceModule,PFPdeleteIntegrationSourceModule,PFPmodifyIntegrationRunModule,PFPaddIntegrationRunModule,PFPdeleteIntegraionRunModule,PFPmodifyIntegrationFieldMapModule,PFPaddIntegrationFieldMapModule,PFPdeleteIntegrationFieldMapModule,PFPmodifyRiskRuleModule,PFPaddRiskRuleModule,PFPmodifyRiskRuleConditionModule,PFPaddRiskRuleConditionModule,PFPdeleteRiskRuleConditionModule,PFPmodifyCertificateTemplateModule,PFPaddCertificateTemplateModule,PFPdeleteCertificateTemplateModule,PFPmodifyCertificationtemplateStageModule,PFPaddCertificationTemplateStageModule,PFPdeleteCertificationTemplateStageModule,PFPmodifyAgentActionModule,PFPaddAgentActionModule,PFPmodifyAssetVersionModule,PFPaddAssetVersionModule,PFPmodifyAiAssetDependencyModule,PFPaddAiAssetDependencyModule,ErdModule,], 
+  ScheduleModule.forRoot(),UfModule,TeModule,EnvDataModule,DFcomboCurrencySearchModule,DFtransactionModule,DFjourneyModule,DFtranJourneyModule,DFemployeeListModule,DFwpsNackFailureTransactionListModule,DFsfJourneyViewTransactionModule,DFsfJourneyListWithCountModule,DFwpsNackFailureTransactionList_postingExceptionViewTransactionModule,DFwpsNackFailureFileListModule,DFwpsFileJourneyModule,DFpostingExpectionFileListModule,DFpostingExceptionProcessListModule,DFwpsDashboardCompanyStructureComboModule,DFwpsDashboardMolNumberComboModule,DFwpsDashboardSuccessTabModule,DFwpsDashboardFailureTabModule,DFwpsDashboardSalaryTypeComboModule,DFwpsDashboardEmployeesBarchartModule,DFwpsDashboardSalaryProcessBarchartModule,DFwpsDashboardMyqueueAllModule,DFwpsDashboardMonthComboModule,DFwpsDashboardYearComboModule,DFwpsDashboardSuccessTabNonWpsModule,DFwpsDashboardFailureNonWpsTabModule,DFwpsDashboardMyqueueActionRequiredModule,DFwpsDashboardMyqueueSalaryReturnRefundModule,DFwpsDashboardMyqueueExceptionsModule,DFreturnReasonModule,DFreturnAgentfromTransactionListModule,DFrequestReasonModule,DFreturnFromAgentFileListModule,DFrequestForRefundFileListModule,DFenquiryGetRegEmployerEmployerListModule,DFenquiryEmployerSalaryRPTModule,DFenquiryGetEmployeeModule,DFenquiryViewAllEmployersModule,DFupdateRegEmployerModule,DFRegEmployerModule,DFdashboardViewAllSuccessModule,DFdashboardViewAllFailureModule,DFsifSummaryReportModule,DFpifSummaryReportModule,PFPchangeStatusTranUpdateLogInsertModule,PFPwpsFileProcessRetryAlreadyPostedModule,PFPwpsReturnAuthorizeProcessModule,], 
   controllers: [AppController],
   providers: [AppService,CommonService,RuleService,CodeService,JwtService,JwtServices,RedisService,ConfigService,EnvData,PersistenceService,SwaggerGuard, {
       provide: APP_INTERCEPTOR,
@@ -120,7 +92,7 @@ import { getRedisConnectionOptions } from './redis.config';
     { provide: APP_INTERCEPTOR, useClass: DecryptInterceptor },
     { provide: APP_GUARD, useClass: AuthGuard },
     { provide: APP_GUARD, useClass: ThrottlerGuard
-    },CdcPrismaService],
+    }],
 })
 export class AppModule implements NestModule {
   configure() {}

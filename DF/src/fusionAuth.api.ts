@@ -36,57 +36,6 @@ export const FusionAuthTenantDeletion = async (fusionAuthBaseUrl: string, fusion
   });
 };
 
-export const FusionAuthApplicationCreationWithRole = async (
-  fusionAuthBaseUrl: string,
-  fusionAuthApiKey: string,
-  applicationId: string,
-  tenantId: string,
-  roles: any[],
-  applicationName: string,
-) => {
-  const applicationResponse = await fetch(
-    `${fusionAuthBaseUrl}/api/application/${applicationId}`,
-    {
-      method: 'POST',
-      headers: {
-        Authorization: fusionAuthApiKey,
-        'Content-Type': 'application/json',
-        'X-FusionAuth-TenantId': tenantId,
-      },
-      body: JSON.stringify({
-        application: {
-          id: applicationId,
-          name: applicationName,
-          roles,
-          jwtConfiguration: {
-            enabled: true,
-            timeToLiveInSeconds: process.env.FUSIONAUTH_ACCESSTOKEN_EXPIRY_TIME,
-            refreshTokenTimeToLiveInMinutes:
-              process.env.FUSIONAUTH_REFRESHTOKEN_EXPIRY_TIME,
-            refreshTokenUsagePolicy: 'Reusable',
-          },
-          oauthConfiguration: {
-            generateRefreshTokens: true,
-            refreshTokenTimeToLiveInMinutes:
-              process.env.FUSIONAUTH_REFRESHTOKEN_EXPIRY_TIME,
-            enabledGrants: ['password', 'refresh_token'],
-            clientAuthenticationPolicy: 'NotRequired',
-            clientSecret: null,
-          },
-        },
-      }),
-    },
-  );
-
-  if (!applicationResponse.ok) {
-    const errorText = await applicationResponse.text();
-    throw errorText;
-  }
-
-  const data = await applicationResponse.json();
-  return data;
-};
-
 export const FusionAuthApplicationDeletion = async (fusionAuthBaseUrl: string, fusionAuthApiKey: string, applicationId: string) => {
   await fetch(
     `${fusionAuthBaseUrl}/api/application/${applicationId}?hardDelete=true`,

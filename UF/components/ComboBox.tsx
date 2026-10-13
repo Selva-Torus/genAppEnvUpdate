@@ -10,6 +10,14 @@ import { useInfoMsg } from "@/app/components/infoMsgHandler";
 
 type ContentAlign = "left" | "center" | "right";
 
+// Exact stroke colors - single source of truth for every border state
+const STROKE = {
+  light: "#E5E5E5",
+  dark: "#484848",
+  invalid: "#EF4444",
+  valid: "#10B981",
+} as const;
+
 interface ComboboxProps {
   value: string | string[];
   onChange: (value: Record<string, string> | string[]) => void;
@@ -355,11 +363,12 @@ export const Combobox: React.FC<ComboboxProps> = ({
     }
   };
 
+  const defaultStroke = isDark ? STROKE.dark : STROKE.light;
+
   const getBorderColor = () => {
-    if (validationState === "invalid") return "border-red-500";
-    if (validationState === "valid") return "border-green-500";
-    if (isOpen) return "";
-    return isDark ? "border-gray-600" : "border-gray-300";
+    if (validationState === "invalid") return STROKE.invalid;
+    if (validationState === "valid") return STROKE.valid;
+    return defaultStroke;
   };
 
   const getContentAlignClass = () => {
@@ -424,8 +433,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
           className={`
             w-full h-full px-4 py-2
             ${(isArray ? selectedArray.length > 0 : !!value) && !disabled ? "pr-16" : "pr-10"}
-            border-2 ${getTextAlignClass()}
-            ${getBorderColor()}
+            border ${getTextAlignClass()}
             ${isDark ? "bg-gray-800 text-white placeholder-gray-500" : "bg-white text-black placeholder-gray-400"}
             ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
             transition-colors focus:outline-none
@@ -433,7 +441,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
           `}
           style={{
             borderRadius: "var(--border-radius)",
-            borderColor: validationState === "none" && isOpen ? branding.selectionColor : undefined,
+            borderColor: validationState === "none" && isOpen ? branding.selectionColor : getBorderColor(),
           }}
           onMouseEnter={(e) => {
             if (!disabled && validationState === "none" && !isOpen)
@@ -441,7 +449,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
           }}
           onMouseLeave={(e) => {
             if (!disabled && validationState === "none" && !isOpen)
-              e.currentTarget.style.borderColor = "";
+              e.currentTarget.style.borderColor = getBorderColor();
           }}
         />
         <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
@@ -479,8 +487,8 @@ export const Combobox: React.FC<ComboboxProps> = ({
       {mounted && isOpen && createPortal(
         <div
           ref={panelRef}
-          className={`overflow-y-auto border-2 shadow-lg ${isDark ? "bg-gray-800 border-gray-600" : "bg-white border-gray-300"}`}
-          style={{ maxHeight: panelStyle.maxHeight ?? 240, ...panelStyle }}
+          className={`overflow-y-auto border shadow-lg ${isDark ? "bg-gray-800" : "bg-white"}`}
+          style={{ borderColor: defaultStroke, maxHeight: panelStyle.maxHeight ?? 240, ...panelStyle }}
           onMouseDown={(e) => e.stopPropagation()}
           onScroll={handleListScroll}
           onWheel={handleListWheel}
@@ -502,8 +510,8 @@ export const Combobox: React.FC<ComboboxProps> = ({
               onMouseDown={(e) => e.stopPropagation()}
               onKeyDown={handleKeyDown}
               placeholder="Search..."
-              className={`w-full px-4 py-2 border focus:outline-none  ${isDark ? "bg-gray-700 text-white border-gray-500 placeholder-gray-400" : "bg-white text-black border-gray-300 placeholder-gray-400"} ${className}`}
-              style={{ borderRadius: "var(--border-radius)" }}
+              className={`w-full px-4 py-2 border focus:outline-none  ${isDark ? "bg-gray-700 text-white placeholder-gray-400" : "bg-white text-black placeholder-gray-400"} ${className}`}
+              style={{ borderRadius: "var(--border-radius)", borderColor: defaultStroke }}
             />
           </div>
           {options.map((option, idx) => {

@@ -251,49 +251,64 @@ const Artifactdetails = ({ nodeData, setNodeData }: Nodedataprops) => {
   }
 
   return (
-    <div style={{ backgroundColor: isDark ? "black" : "white" }} className='flex h-full w-full gap-2 overflow-hidden p-2'>
+    <div
+      style={{ backgroundColor: isDark ? 'black' : 'white' }}
+      className='flex h-full w-full gap-[0.5vw] overflow-hidden p-[0.5vw]'
+    >
       <div
         className={twMerge(
-          'flex h-full w-1/3 min-w-[200px] flex-col rounded-lg border px-2 lg:w-1/4',
+          'flex h-full w-1/3 min-w-[12.5vw] flex-col rounded-lg border px-[0.5vw] lg:w-1/4',
           borderColor
         )}
       >
         <div
-          className={twMerge('flex w-full flex-col border-b py-2', borderColor)}
+          className={twMerge(
+            'flex w-full flex-col border-b py-[0.5vw]',
+            borderColor
+          )}
         >
           <div
             onClick={() => setNodeData(null)}
-            className='flex w-full items-center justify-between px-3 py-2'
+            className='flex w-full items-center justify-between px-[0.75vw] py-[0.5vw]'
           >
-            <div className='flex w-2/3 gap-2'>
+            <div className='flex items-center w-2/3 gap-[0.5vw]'>
               <span>
                 <GoArrowLeft
-                  className='cursor-pointer '
+                  className='cursor-pointer'
                   role='button'
                   onClick={() => setNodeData(null)}
                 />
               </span>
-              <Text variant={getFontSizeForSubHeader(branding.fontSize)} className='w-full truncate'>
+
+              <Text
+                variant={getFontSizeForSubHeader(branding.fontSize)}
+                className='w-full truncate'
+              >
                 <span title={artifact.toUpperCase()}>
                   {artifact.toUpperCase()}
                 </span>
               </Text>
             </div>
-            <Text color='brand' className='rounded-xl px-3 text-end'>
+
+            <Text color='brand' className='rounded-[1.25vw] px-[0.75vw] text-end'>
               {version}
             </Text>
           </div>
+
           {processId && (
             <div
-              className={twMerge('flex w-fit rounded-full py-[.4vh] px-[.5vw] gap-[0.3vw] items-center')}
+              className={twMerge(
+                'flex w-fit items-center gap-[0.3vw] rounded-full py-[0.4vh] px-[0.5vw]'
+              )}
               style={{
                 backgroundColor: selectionColor
               }}
             >
               <Text>UID: {processId}</Text>
+
               <Button
                 view='flat'
-                className='!w-4 rounded-md p-1'
+                className='!w-[1vw] rounded-[0.35vw]'
                 onClick={e => {
                   e.stopPropagation()
                   handleCopyToClipboard(processId)
@@ -308,7 +323,7 @@ const Artifactdetails = ({ nodeData, setNodeData }: Nodedataprops) => {
             </div>
           )}
         </div>
-        {/* seperate */}
+
         <RenderNodesInfo
           nodes={nodeData.node}
           selectedNode={selectedNode}
@@ -325,110 +340,157 @@ const Artifactdetails = ({ nodeData, setNodeData }: Nodedataprops) => {
         )}
       >
         <div className='flex h-[99.5%] w-full rounded-lg'>
-          <div className='flex h-full w-[70%] min-w-[400px] flex-col gap-3 p-2 overflow-x-auto'>
-            {/* ── Header ── same 3-column grid as the card */}
+          <div className='flex h-full w-[70%] min-w-[20.8vw] flex-col gap-[0.75vw] overflow-x-auto p-[0.5vw]'>
+
+            {/* Header */}
             <div
               className={twMerge(
-                'grid min-w-[640px] w-full rounded border px-3 py-[1vh]',
+                'grid w-full min-w-[41.7vw] items-center rounded border px-[0.5vw] py-[0.5vw]',
                 borderColor,
                 bgColor
               )}
-              style={{ gridTemplateColumns: '120px 1fr 160px 120px' }}
+              style={{
+                gridTemplateColumns: '6.25vw 15.625vw 1fr 5.2vw'
+              }}
             >
-              <Text className='text-start'>Queue Name</Text>
-              <div /> {/* timeline spacer — intentionally empty */}
-              <Text className='text-center'>Processing Time</Text>
-              <Text className='text-center'>Status</Text>
+              {/* Queue Name */}
+              <Text className='text-start'>
+                Queue Name
+              </Text>
+
+              {/* Timeline spacer */}
+              <div />
+
+              {/* Processing Time */}
+              <Text className='pr-[8vw] text-left'>
+                Processing Time
+              </Text>
+
+              {/* Status */}
+              <Text className='text-center'>
+                Status
+              </Text>
             </div>
 
-            {/* ── Card ── */}
+            {/* Card */}
             <div
               className={twMerge(
-                'grid min-w-[640px] w-full gap-0 rounded-lg border p-3',
+                'grid w-full min-w-[41.7vw] items-start rounded-lg border px-[0.5vw] py-[0.75vh]',
                 borderColor,
                 bgColor
               )}
-              style={{ gridTemplateColumns: '120px 1fr 160px 120px' }}
+              style={{
+                gridTemplateColumns: '6.25vw 15.625vw 1fr 5.2vw'
+              }}
             >
-              {/* Col 1 — Queue name */}
-              <div className='flex items-start pt-3'>
+
+              {/* Queue Name */}
+              <div className='flex items-start pt-[0.5vh]'>
                 <p
-                  className='text-torus-text font-semibold truncate w-full'
+                  className='w-full truncate font-semibold text-torus-text'
                   title={selectedNode?.queue ?? undefined}
                 >
                   {selectedNode?.queue ?? '-'}
                 </p>
               </div>
 
-              {/* Col 2 — Timeline (labels + line + dots) */}
-              <div className='flex items-start gap-0'>
-                {/* Text labels */}
-                <div className='flex flex-col gap-3 mt-3'>
-                  <div className='flex flex-col gap-2'>
-                    <Text className='text-nowrap text-end'>Process started at</Text>
-                    <Text color='secondary' className='text-nowrap'>
+              {/* Timeline */}
+              <div className='relative flex min-h-[12.5vh]'>
+
+                {/* Labels */}
+                <div className='flex w-[7.8vw] flex-col'>
+
+                  {/* Started */}
+                  <div className='flex flex-col gap-[0.25vw]'>
+                    <Text className='whitespace-nowrap text-right'>
+                      Process started at
+                    </Text>
+
+                    <Text
+                      color='secondary'
+                      className='whitespace-nowrap text-right'
+                    >
                       {selectedNode?.time}
                     </Text>
                   </div>
-                  <div className='flex flex-col gap-2 py-2'>
-                    <Text className='text-nowrap text-end'>Finished at</Text>
-                    <Text color='secondary' className='text-nowrap'>
+
+                  {/* Finished */}
+                  <div className='mt-[2.5vh] flex flex-col gap-[0.25vw]'>
+                    <Text className='whitespace-nowrap text-right'>
+                      Finished at
+                    </Text>
+
+                    <Text
+                      color='secondary'
+                      className='whitespace-nowrap text-right'
+                    >
                       {handleGetFinishingTime(selectedNode?.time).endTime}
                     </Text>
                   </div>
+
                 </div>
 
-                {/* Vertical line + dots */}
-                <div className='relative flex flex-col items-center mx-3 self-stretch'>
+                {/* Timeline line + dots */}
+                <div className='relative ml-[0.8vw] flex w-[1vw] justify-center'>
+
+                  {/* Vertical line */}
                   <div
                     style={{ backgroundColor: brandColor }}
-                    className='absolute h-full w-px left-1/2 -translate-x-1/2'
+                    className='absolute bottom-[0.5vh] top-[0.5vh] w-px'
                   />
-                  <div className='relative flex flex-col'>
-                    <div className='flex items-center'>
-                      <div style={{ backgroundColor: brandColor }} className='h-2 w-2 rounded-full' />
-                      <div className='h-20' />
-                    </div>
-                    <div className='flex items-center'>
-                      <div style={{ backgroundColor: brandColor }} className='h-2 w-2 rounded-full' />
-                      <div className='h-16' />
-                    </div>
-                  </div>
+
+                  {/* Start dot */}
+                  <div
+                    style={{ backgroundColor: brandColor }}
+                    className='absolute top-[2vh] h-[0.4vw] w-[0.4vw] translate-x-[0.03vw] rounded-full'
+                  />
+
+                  {/* End dot */}
+                  <div
+                    style={{ backgroundColor: brandColor }}
+                    className='absolute bottom-[2vh] h-[0.4vw] w-[0.4vw] translate-x-[0.03vw] rounded-full'
+                  />
+
                 </div>
               </div>
 
-              {/* Col 3 — Processing time */}
-              <div className='flex items-start justify-center pt-3'>
-                <Text className='text-nowrap'>
-                  {handleGetFinishingTime(selectedNode?.time).processingTime}
-                </Text>
+              {/* Processing Time */}
+              <div
+                title={
+                  handleGetFinishingTime(selectedNode?.time).processingTime
+                }
+                className='min-w-0 truncate pt-[0.5vh] pl-[1vw] text-left'
+              >
+                {handleGetFinishingTime(selectedNode?.time).processingTime}
               </div>
 
-              {/* Col 4 — Status */}
-              <div className='flex items-start justify-center pt-3'>
+              {/* Status */}
+              <div className='flex justify-center pt-[0.5vh]'>
                 <Text
                   className={twMerge(
-                    'rounded-full bg-red-500 px-2 py-1 text-white !w-fit !h-fit',
-                    selectedNode?.status?.toLowerCase() === 'success' && 'bg-green-500'
+                    'h-fit w-fit rounded-full bg-red-500 px-[0.75vw] py-[0.5vh] text-white',
+                    selectedNode?.status?.toLowerCase() === 'success' &&
+                    'bg-green-500'
                   )}
                 >
                   {selectedNode ? selectedNode.status : status}
                 </Text>
               </div>
+
             </div>
           </div>
 
           <hr
             className={twMerge(
-              'h-full w-[0.5px] self-center border',
+              'h-full w-[0.03vw] self-center border',
               borderColor
             )}
           />
 
-          <div className={`flex h-full w-1/2 min-w-[400px] p-3 text-center`}>
+          <div className='flex h-full w-1/2 min-w-[20.8vw] p-[0.75vw] text-center'>
             <div className='w-full'>
               <Tabs
-                security={["request", "response", "exception"]}
+                security={['request', 'response', 'exception']}
                 direction='horizontal'
                 items={[
                   {
@@ -448,28 +510,8 @@ const Artifactdetails = ({ nodeData, setNodeData }: Nodedataprops) => {
                   }
                 ]}
                 onChange={setActiveTab}
-                className={twMerge(' w-full ', borderColor)}
-              ></Tabs>
-              {/* {['request', 'response', 'exception'].map(tabId => (
-                  <div
-                    style={{
-                      display: activeTab === tabId ? 'block' : 'none'
-                    }}
-                    key={tabId}
-                  >
-                    <JsonView
-                      src={
-                        selectedNode?.[tabId] ?? {
-                          data: `no ${tabId} data available`
-                        }
-                      }
-                      theme='atom'
-                      enableClipboard={false}
-                      style={{ fill: '#1A2024' }}
-                      className='g-text g-text_variant_code-2 h-[90%] overflow-scroll'
-                    />
-                  </div>
-                ))} */}
+                className={twMerge('w-full', borderColor)}
+              />
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { usePathname, useRouter } from 'next/navigation'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { deleteAllCookies, getCookie } from '@/app/components/cookieMgment'
 import decodeToken from '@/app/components/decodeToken'
 import { MenuItem, MenuStructure } from '../../interfaces/interfaces'
@@ -25,6 +25,44 @@ import { OrgStructure, ProdStructure, RoleStructure } from '../svgApplication'
 import { Logo } from '../Logo'
 import { AxiosService } from '@/app/components/axiosService'
 import { useGlobal } from '@/context/GlobalContext'
+import { logout } from "@/app/components/utils";
+
+/*
+ * GRID CONFIG
+ * The sidebar grid is now 24 rows (it was 12 before) and the columns
+ * are doubled too (6 -> 12, 12 -> 24).
+ * Old saved data has no `gridSize` field and is based on a 12 grid,
+ * so it is scaled x2 here. New data is saved with `gridSize: 24`.
+ * Example: "1/6" -> "1/11", "12/13" -> "23/25"
+ */
+const GRID_SIZE = 24
+
+const scaleRange = (range?: string) => {
+  if (!range) return range
+  const [start, end] = range.split('/').map(Number)
+  if (isNaN(start) || isNaN(end)) return range
+  return `${(start - 1) * 2 + 1}/${(end - 1) * 2 + 1}`
+}
+
+type NavBarOrderItem = {
+  name: string
+  gridColumn?: string
+  gridRow?: string
+  gridSize?: number
+}
+
+const normalizeNavBarItems = (items?: NavBarOrderItem[]) => {
+  if (!items?.length) return items
+  return items.map(item => {
+    if (item.gridSize === GRID_SIZE) return item
+    return {
+      ...item,
+      gridColumn: scaleRange(item.gridColumn),
+      gridRow: scaleRange(item.gridRow),
+      gridSize: GRID_SIZE
+    }
+  })
+}
 
 const SideNav = ({
   navData,
@@ -35,7 +73,7 @@ const SideNav = ({
   brandColor,
   hoverColor,
   userDetails,
-  navBarItemsOrder,
+  navBarItemsOrder: navBarItemsOrderProp,
   logo,
   appLogo,
   appName
@@ -43,22 +81,18 @@ const SideNav = ({
   navData: MenuStructure
   mode?: 'fluid' | 'closed' | 'detached'
   sidebarStyle:
-    | 'default'
-    | 'compact'
-    | 'condensed'
-    | 'hoverView'
-    | 'fullLayout'
-    | 'hidden'
+  | 'default'
+  | 'compact'
+  | 'condensed'
+  | 'hoverView'
+  | 'fullLayout'
+  | 'hidden'
   fullView: boolean
   setFullView: React.Dispatch<React.SetStateAction<boolean>>
   brandColor: string
   hoverColor: string
   userDetails: any
-  navBarItemsOrder?: {
-    name: string
-    'gridColumn'?: string
-    'gridRow'?: string
-  }[],
+  navBarItemsOrder?: NavBarOrderItem[],
   logo?: string
   appLogo?: string
   appName: string
@@ -71,6 +105,17 @@ const SideNav = ({
   const selectedAccessProfile = decodedTokenObj?.selectedAccessProfile
   const pathname = usePathname()
   const { isDark } = useTheme()
+  // Compact sidebar is a narrow rail (about 5% width): everything must be centered and fit inside it
+  const isCompact = sidebarStyle === 'compact'
+  const handleLogout = useCallback(() => {
+    logout(token)
+  }, [token])
+
+  // Always work with the 24 grid version of the saved order
+  const navBarItemsOrder = useMemo(
+    () => normalizeNavBarItems(navBarItemsOrderProp),
+    [navBarItemsOrderProp]
+  )
 
   const getNestedMenu = (menu: MenuItem): any => {
     const nestedMenu = []
@@ -172,22 +217,6 @@ const SideNav = ({
     } gap-[0.95vh] cursor-pointer items-center`
   }
 
-  async function logout() {
-    try {
-      if (token) {
-        await AxiosService.post('/UF/release-all-locks', null, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-      }
-    } catch (e) {
-      // ignore error, proceed with logout
-    }
-    localStorage.clear()
-    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
-    const from = encodeURIComponent(`${basePath}/`)
-    window.location.href = `${basePath}/next-api/auth/logout?from=${from}`
-  }
-
   const hasMatchingName = (obj: any, input: string): boolean => {
     if (typeof obj !== 'object' || obj === null) return false
     for (const key in obj) {
@@ -235,7 +264,7 @@ const SideNav = ({
     return 'center'
   }, [fullView])
 
-  // Helper function to get grid style for a section
+  // Helper function to get grid style for a section (uses the 24 grid order)
   const getGridStyle: (sectionName: string) => React.CSSProperties = (
     sectionName: string
   ) => {
@@ -252,128 +281,50 @@ const SideNav = ({
     }
   }
 
+  /*
+   * NOTE: The sections below are plain JSX elements (not components created
+   * with useCallback). Rendering them as <Section /> made React remount them
+   * whenever the memoized function changed, which reset dropdown/popup state
+   * (for example the OPR dropdown opened and closed immediately).
+   */
+
   // Menu Items section - with conditional overflow handling
-  const MenuItemsSection = useCallback(() => (
+  const menuItemsSection = (
     <div
-      className={clsx('scrollbar-none col-span-full flex w-full flex-col gap-2 overflow-x-hidden pt-2', {
+      className={clsx('scrollbar-none col-span-full flex w-full flex-col justify-start content-start gap-2 overflow-x-hidden pt-2 [&>*]:h-auto [&>*]:flex-none', {
         'max-h-[70vh] overflow-y-scroll': !navBarItemsOrder?.length,
-        'overflow-y-auto min-h-0': navBarItemsOrder
+        'overflow-y-auto min-h-0': navBarItemsOrder,
       })}
       style={{
         ...getGridStyle('menu items'),
-        alignItems: menuPlacement
+        alignItems: isCompact ? 'center' : menuPlacement
       }}
     >
       {navData &&
         navData.map((menu, index): any => {
           if (menu.menuGroup) {
-            const isSelected = typeof getDropDownStyles(menu.menuGroup,true) == 'boolean';
+            const isSelected = typeof getDropDownStyles(menu.menuGroup, true) == 'boolean';
             return (
               <Tooltip
                 key={index}
                 title={menu.menuGroupLabel}
                 placement='right-start'
               >
-                <div
-                  key={index}
-                  className={twMerge(
-                    `${
-                      sidebarStyle === 'default' || fullView ? 'ml-1.5' : ''
-                    } flex cursor-pointer items-center justify-center gap-2 px-3 py-1 transition delay-150 duration-300 ease-in-out ${
-                      sidebarStyle === 'compact' ||
-                      sidebarStyle === 'hoverView'
-                        ? 'w-full'
-                        : 'w-[98%]'
-                    } rounded-md`
-                  )}
-                  style={
-                    getDropDownStyles(
-                      menu.menuGroup,
-                      false
-                    ) as React.CSSProperties
-                  }
-                >
-                  <DropdownMenu
-                    renderSwitcher={(props: any) => (
-                      <div
-                        {...props}
-                        className={`flex cursor-pointer items-center justify-center bg-transparent`}
-                      >
-                        {fullView ? (
-                          <button
-                            className={clsx('p-[0.3vw] rounded-[0.3vw]' , {
-                            'text-[var(--brand-color)] hover:bg-[var(--hover-color)]' : !isSelected,
-                            'bg-[var(--brand-color)]' : isSelected
+                <DropdownMenu
+                  renderSwitcher={(props: any) => (
+                    <div
+                      {...props}
+                      className={clsx('flex cursor-pointer items-center justify-center bg-transparent', { 'w-full min-w-0': isCompact })}
+                    >
+                      {fullView ? (
+                        <button
+                          className={clsx('p-[0.3vw] rounded-[0.3vw]', isCompact && 'w-full min-w-0 max-w-full', {
+                            'text-[var(--brand-color)] hover:bg-[var(--hover-color)]': !isSelected,
+                            'bg-[var(--brand-color)]': isSelected
                           })}
-                          >
-                            <div className={`${getMenuClassName()} w-[100%]`}>
-                              <div className='flex w-[20%] items-center justify-end'>
-                                {menu.icon ? (
-                                  <Image
-                                    className='h-[2vh] w-[1vw]'
-                                    width={100}
-                                    height={100}
-                                    alt='icon'
-                                    src={getCdnImage(menu.icon)}
-                                    style={{
-                                      filter:
-                                        isSelected || isDark
-                                          ? 'invert(1) sepia(1) hue-rotate(180deg) saturate(3)'
-                                          : 'unset'
-                                    }}
-                                  />
-                                ) : (
-                                  <FileGallery
-                                    height='20'
-                                    width='20'
-                                    fill={
-                                     isSelected
-                                        ? isLightColor(brandColor)
-                                        : isDark
-                                        ? '#fff'
-                                        : '#1C274C'
-                                    }
-                                  />
-                                )}
-                              </div>
-                              <span
-                                style={{
-                                  padding: '0px',
-                                  width: '80%',
-                                  display: 'flex',
-                                  justifyContent: `${
-                                    sidebarStyle === 'condensed'
-                                      ? 'center'
-                                      : 'flex-start'
-                                  }`,
-                                  alignItems: 'center'
-                                }}
-                                className='flex items-center justify-center whitespace-nowrap bg-transparent pl-2 text-center transition-all delay-0 duration-75 ease-in-out'
-                              >
-                                <p
-                                  className={twMerge(
-                                    'w-[110px] truncate font-medium leading-[2vh]',
-                                    fullView && sidebarStyle !== 'condensed'
-                                      ? 'text-start'
-                                      : 'text-center'
-                                  )}
-                                  style={{
-                                    transition: 'all 0.2s ease-in-out'
-                                  }}
-                                >
-                                  {menu.menuGroupLabel}
-                                </p>
-                              </span>
-                            </div>
-                          </button>
-                        ) : (
-                          <button
-                            className={clsx('p-[0.3vw] rounded-[0.3vw]' , {
-                              'text-[var(--brand-color)] hover:bg-[var(--hover-color)]' : !isSelected,
-                              'bg-[var(--brand-color)]' : isSelected
-                            })}
-                          >
-                            <span className='flex items-center'>
+                        >
+                          <div className={`${getMenuClassName()} w-[100%] min-w-0`}>
+                            <div className={clsx('flex items-center', isCompact ? 'w-full justify-center' : 'w-[20%] justify-end')}>
                               {menu.icon ? (
                                 <Image
                                   className='h-[2vh] w-[1vw]'
@@ -396,25 +347,90 @@ const SideNav = ({
                                     isSelected
                                       ? isLightColor(brandColor)
                                       : isDark
-                                      ? '#fff'
-                                      : '#1C274C'
+                                        ? '#fff'
+                                        : '#1C274C'
                                   }
                                 />
                               )}
+                            </div>
+                            <span
+                              style={{
+                                padding: '0px',
+                                width: isCompact ? '100%' : '80%',
+                                display: 'flex',
+                                justifyContent: `${sidebarStyle === 'condensed' || isCompact
+                                  ? 'center'
+                                  : 'flex-start'
+                                  }`,
+                                alignItems: 'center'
+                              }}
+                              className={clsx('flex min-w-0 items-center justify-center whitespace-nowrap bg-transparent text-center transition-all delay-0 duration-75 ease-in-out', { 'pl-2': !isCompact })}
+                            >
+                              <p
+                                className={twMerge(
+                                  isCompact ? 'w-full' : 'w-[110px]',
+                                  'truncate font-medium leading-[2vh]',
+                                  fullView && sidebarStyle !== 'condensed' && !isCompact
+                                    ? 'text-start'
+                                    : 'text-center'
+                                )}
+                                style={{
+                                  transition: 'all 0.2s ease-in-out'
+                                }}
+                              >
+                                {menu.menuGroupLabel}
+                              </p>
                             </span>
-                          </button>
-                        )}
-                      </div>
-                    )}
-                    key={index}
-                    items={getNestedMenu(menu)}
-                    popupProps={{
-                      style: {
-                        position: 'fixed'
-                      }
-                    }}
-                  />
-                </div>
+                          </div>
+                        </button>
+                      ) : (
+                        <button
+                          className={clsx('p-[0.3vw] rounded-[0.3vw]', isCompact && 'w-full min-w-0 max-w-full', {
+                            'text-[var(--brand-color)] hover:bg-[var(--hover-color)]': !isSelected,
+                            'bg-[var(--brand-color)]': isSelected
+                          })}
+                        >
+                          <span className='flex items-center'>
+                            {menu.icon ? (
+                              <Image
+                                className='h-[2vh] w-[1vw]'
+                                width={100}
+                                height={100}
+                                alt='icon'
+                                src={getCdnImage(menu.icon)}
+                                style={{
+                                  filter:
+                                    isSelected || isDark
+                                      ? 'invert(1) sepia(1) hue-rotate(180deg) saturate(3)'
+                                      : 'unset'
+                                }}
+                              />
+                            ) : (
+                              <FileGallery
+                                height='20'
+                                width='20'
+                                fill={
+                                  isSelected
+                                    ? isLightColor(brandColor)
+                                    : isDark
+                                      ? '#fff'
+                                      : '#1C274C'
+                                }
+                              />
+                            )}
+                          </span>
+                        </button>
+                      )}
+                    </div>
+                  )}
+                  key={index}
+                  items={getNestedMenu(menu)}
+                  popupProps={{
+                    style: {
+                      position: 'fixed'
+                    }
+                  }}
+                />
               </Tooltip>
             )
           } else {
@@ -431,9 +447,9 @@ const SideNav = ({
                 placement='right-start'
               >
                 <button
-                  className={clsx('p-[0.3vw] rounded-[0.3vw]' , {
-                    'text-[var(--brand-color)] hover:bg-[var(--hover-color)]' : !isSelected,
-                    'bg-[var(--brand-color)]' : isSelected
+                  className={clsx('p-[0.3vw] rounded-[0.3vw]', isCompact && 'w-full min-w-0 max-w-full', {
+                    'text-[var(--brand-color)] hover:bg-[var(--hover-color)]': !isSelected,
+                    'bg-[var(--brand-color)]': isSelected
                   })}
                 >
                   <div
@@ -445,7 +461,7 @@ const SideNav = ({
                     onClick={() => router.push(routingName)}
                     style={{
                       width: '100%',
-                      justifyContent: fullView ? 'unset' : 'center',
+                      justifyContent: fullView && !isCompact ? 'unset' : 'center',
                       color:
                         routingName == pathname
                           ? `${isLightColor(brandColor)}`
@@ -474,14 +490,14 @@ const SideNav = ({
                           routingName == pathname
                             ? `${isLightColor(brandColor)}`
                             : isDark
-                            ? '#fff'
-                            : '#1C274C'
+                              ? '#fff'
+                              : '#1C274C'
                         }
                       />
                     )}
                     {fullView && (
-                      <div className={clsx('w-[100px] truncate' , {
-                        'text-left' : sidebarStyle !== 'condensed'
+                      <div className={clsx('truncate', isCompact ? 'w-full text-center' : 'w-[100px]', {
+                        'text-left': sidebarStyle !== 'condensed' && !isCompact
                       })} key={index}>
                         {menu.menuGroupLabel}
                       </div>
@@ -493,12 +509,12 @@ const SideNav = ({
           }
         })}
     </div>
-  ), [navData, fullView, brandColor, hoverColor, pathname, isDark])
+  )
 
   // OPR Matrix section
-  const OPRMatrixSection = useCallback(() => (
+  const oprMatrixSection = (
     <div
-      className={clsx('px-0 col-span-full overflow-x-hidden', {
+      className={clsx('px-0 col-span-full flex flex-col justify-start overflow-x-hidden [&>*]:h-auto [&>*]:flex-none', {
         hidden: !tp_ps,
         '': fullView
       })}
@@ -506,23 +522,23 @@ const SideNav = ({
     >
       <OPRTopNavSelector
         selectedAccessProfile={selectedAccessProfile}
-        className='flex-col pb-2 px-[unset] 2xl:px-4'
+        className='flex-col justify-start content-start gap-2 pb-2 px-[unset] 2xl:px-4 [&>*]:h-auto [&>*]:flex-none'
         popupPlacement='right-end'
-        fullView={fullView}
+        fullView={fullView && !isCompact}
       />
     </div>
-  ), [fullView, tp_ps, selectedAccessProfile])
+  )
 
   // Profile section
-  const ProfileSection = useMemo(() => (
+  const profileSection = (
     <div
       style={getGridStyle('profile')}
       className='flex col-span-full items-center justify-center'
     >
-      {fullView ? (
+      {fullView && !isCompact ? (
         <FullViewAvatar
           brandColor={brandColor}
-          logout={logout}
+          logout={handleLogout}
           user={user}
           fullView={fullView}
           userDetails={userDetails}
@@ -531,40 +547,42 @@ const SideNav = ({
       ) : (
         <PartialViewAvatar
           brandColor={brandColor}
-          logout={logout}
+          logout={handleLogout}
           user={user}
           fullView={fullView}
           userDetails={userDetails}
         />
       )}
     </div>
-  ), [fullView, brandColor, logout, user, userDetails, selectedAccessProfile])
+  )
 
-  const LogoSection = useCallback(() => (
-      <div className='flex flex-col w-full items-center justify-center gap-1 pb-[0.5vh]' style={getGridStyle('logo') ? {...getGridStyle('logo') , gridColumn: '1 /8'} : {}}>
-        {logo ? (
-          <Image
-            className='min-h-[3vh] max-h-[5vh] h-auto w-auto'
-            width={100}
-            height={100}
-            src={getCdnImage(logo)}
-            alt='logo'
-          />
-        ) : (
-          <Logo />
-        )}
-          <span 
-            className={clsx("truncate font-semibold text-[var(--brand-color)] text-fsbase" , {
-                "w-[4vw]" : !fullView,
-                "w-[8vw]" : fullView
-              })} 
-          title={appName}>
-          {appName}
-          </span>
-      </div>
-    ) , [logo, appName])
+  const logoSection = (
+    // span all columns so the logo is always centered inside the sidebar
+    <div className='flex flex-col w-full items-center justify-center gap-1 pb-[0.5vh]' style={getGridStyle('logo') ? { ...getGridStyle('logo'), gridColumn: '1 / -1' } : {}}>
+      {logo ? (
+        <Image
+          className='min-h-[3vh] max-h-[5vh] h-auto w-auto'
+          width={100}
+          height={100}
+          src={getCdnImage(logo)}
+          alt='logo'
+        />
+      ) : (
+        <Logo />
+      )}
+      <span
+        className={clsx("truncate font-semibold text-[var(--brand-color)] text-fsbase", {
+          "w-[4vw]": !fullView && !isCompact,
+          "w-[8vw]": fullView && !isCompact,
+          "w-full text-center": isCompact
+        })}
+        title={appName}>
+        {appName}
+      </span>
+    </div>
+  )
 
-  const AppLogoSection = useCallback(() => (
+  const appLogoSection = (
     <div className='flex items-center gap-1 justify-center' style={getGridStyle('app logo')}>
       {appLogo && (
         <Image
@@ -576,7 +594,7 @@ const SideNav = ({
         />
       )}
     </div>
-  ), [appLogo])  
+  )
 
   // Default layout (without grid)
   if (!navBarItemsOrder || navBarItemsOrder?.length === 0) {
@@ -587,35 +605,35 @@ const SideNav = ({
         onMouseLeave={() => sidebarStyle == 'hoverView' && setFullView(false)}
       >
         <div>
-        <LogoSection />
-        <AppLogoSection />
-        <MenuItemsSection />
+          {logoSection}
+          {appLogoSection}
+          {menuItemsSection}
         </div>
         <div className='flex w-full flex-col items-center justify-center'>
-          <OPRMatrixSection />
-          {ProfileSection}
+          {oprMatrixSection}
+          {profileSection}
         </div>
       </div>
     )
   }
 
-  // Grid layout (with navBarItemsOrder)
+  // Grid layout (with navBarItemsOrder) - 24 rows, columns doubled (6 -> 12, 12 -> 24)
   return (
     <div
       className={`grid h-full w-full px-2 py-2 text-center overflow-hidden`}
       style={{
-        gridTemplateRows: 'repeat(12, minmax(0, 1fr))',
-        gridTemplateColumns: `repeat(${sidebarStyle == "compact" ? 6 : sidebarStyle === "hoverView" && fullView ? 12 : 6}, minmax(0, 1fr))`,
+        gridTemplateRows: `repeat(${GRID_SIZE}, minmax(0, 1fr))`,
+        gridTemplateColumns: `repeat(${sidebarStyle == "compact" ? 12 : sidebarStyle === "hoverView" && fullView ? 24 : 12}, minmax(0, 1fr))`,
         gap: '0.5rem'
       }}
       onMouseEnter={() => sidebarStyle == 'hoverView' && setFullView(true)}
       onMouseLeave={() => sidebarStyle == 'hoverView' && setFullView(false)}
     >
-      <LogoSection />
-      <AppLogoSection />
-      <MenuItemsSection />
-      <OPRMatrixSection />
-      {ProfileSection}
+      {logoSection}
+      {appLogoSection}
+      {menuItemsSection}
+      {oprMatrixSection}
+      {profileSection}
     </div>
   )
 }
@@ -641,7 +659,24 @@ const FullViewAvatar = ({
 }) => {
   const router = useRouter()
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-  const popoverButtonElement = useRef(null)
+  const popoverButtonElement = useRef<HTMLDivElement>(null)
+  const popupContentRef = useRef<HTMLDivElement>(null)
+
+  // Close the popup when the user clicks anywhere outside the avatar or the popup content
+  useEffect(() => {
+    if (!isPopoverOpen) return
+
+    const handleOutsideClick = (event: MouseEvent) => {
+      const target = event.target as Node
+      if (popoverButtonElement.current?.contains(target)) return
+      if (popupContentRef.current?.contains(target)) return
+      setIsPopoverOpen(false)
+    }
+
+    document.addEventListener('mousedown', handleOutsideClick, true)
+    return () =>
+      document.removeEventListener('mousedown', handleOutsideClick, true)
+  }, [isPopoverOpen])
   const { borderColor, isDark } = useTheme()
   const pathname = usePathname()
   const { token } = useGlobal();
@@ -677,96 +712,97 @@ const FullViewAvatar = ({
           placement='right'
           hasArrow={false}
         >
-          <div className='flex flex-col items-center gap-1'>
-            <div className='h-11 w-11 rounded-full'>
-              <Avatar
-                theme='brand'
-                view='filled'
-                imageUrl={getCdnImage(userDetails?.profile)}
-                icon='FaRegUser'
-              />
-            </div>
-
-            <Text className='font-medium'>
-              {`${userDetails.firstName} ${userDetails.lastName}`}
-            </Text>
-          </div>
-
-          <hr className={twMerge('mt-1 w-full border', borderColor)} />
-
-          <div className='mt-2 flex flex-col gap-2'>
-            <Text contentAlign='left'>
-              ORGANIZATION MATRIX
-            </Text>
-            <div className='flex items-center gap-1'>
-              <OrgStructure
-                height='20'
-                width='20'
-                fill={isDark ? 'white' : 'black'}
-              />
-              <Text contentAlign='left'>
-                Organization
-              </Text>
-            </div>
-            <Text
-              color='brand'
-              contentAlign='left'
-              className='block w-full truncate text-left'
-            >
-              {decodedTokenObj.orgName}
-            </Text>
-            <div className='flex items-center gap-1'>
-              <ProdStructure
-                height='20'
-                width='20'
-                fill={isDark ? 'white' : 'black'}
-              />
-              <Text contentAlign='left'>
-                Products
-              </Text>
-            </div>
-            <Text
-              color='brand'
-              contentAlign='left'
-              className='block w-full truncate text-left'
-            >
-              {decodedTokenObj.psName}
-            </Text>
-            <div className='flex items-center gap-1'>
-              <RoleStructure
-                height='20'
-                width='20'
-                fill={isDark ? 'white' : 'black'}
-              />
-              <Text contentAlign='left'>
-                Roles
-              </Text>
-            </div>
-            <Text
-              color='brand'
-              contentAlign='left'
-              className='block w-full truncate text-left'
-            >
-              {decodedTokenObj.roleName}
-            </Text>
-          </div>
-
-          <hr className={twMerge('mt-1 w-full border', borderColor)} />
-
-          <div className='flex flex-col gap-2 pt-2'>
-            {pathname !== '/select-context' && (
-              <div
-                onClick={() => router.push('/select-context')}
-                className='flex cursor-pointer items-center gap-2'
-              >
-                <RotateIcon fill={isDark ? 'white' : 'black'} />
-                <div>
-                  <Text>Change Profile</Text>
-                </div>
+          <div ref={popupContentRef}>
+            <div className='flex flex-col items-center gap-1'>
+              <div className='h-11 w-11 rounded-full'>
+                <Avatar
+                  theme='brand'
+                  view='filled'
+                  imageUrl={getCdnImage(userDetails?.profile)}
+                  icon='FaRegUser'
+                />
               </div>
-            )}
 
-            {pathname !== '/app-hub' && <div
+              <Text className='font-medium'>
+                {`${userDetails.firstName} ${userDetails.lastName}`}
+              </Text>
+            </div>
+
+            <hr className={twMerge('mt-1 w-full border', borderColor)} />
+
+            <div className='mt-2 flex flex-col gap-2'>
+              <Text contentAlign='left'>
+                ORGANIZATION MATRIX
+              </Text>
+              <div className='flex items-center gap-1'>
+                <OrgStructure
+                  height='20'
+                  width='20'
+                  fill={isDark ? 'white' : 'black'}
+                />
+                <Text contentAlign='left'>
+                  Organization
+                </Text>
+              </div>
+              <Text
+                color='brand'
+                contentAlign='left'
+                className='block w-full truncate text-left'
+              >
+                {decodedTokenObj.orgName}
+              </Text>
+              <div className='flex items-center gap-1'>
+                <ProdStructure
+                  height='20'
+                  width='20'
+                  fill={isDark ? 'white' : 'black'}
+                />
+                <Text contentAlign='left'>
+                  Products
+                </Text>
+              </div>
+              <Text
+                color='brand'
+                contentAlign='left'
+                className='block w-full truncate text-left'
+              >
+                {decodedTokenObj.psName}
+              </Text>
+              <div className='flex items-center gap-1'>
+                <RoleStructure
+                  height='20'
+                  width='20'
+                  fill={isDark ? 'white' : 'black'}
+                />
+                <Text contentAlign='left'>
+                  Roles
+                </Text>
+              </div>
+              <Text
+                color='brand'
+                contentAlign='left'
+                className='block w-full truncate text-left'
+              >
+                {decodedTokenObj.roleName}
+              </Text>
+            </div>
+
+            <hr className={twMerge('mt-1 w-full border', borderColor)} />
+
+            <div className='flex flex-col gap-2 pt-2'>
+              {pathname !== '/select-context' && (
+                <div
+                  onClick={() => router.push('/select-context')}
+                  className='flex cursor-pointer items-center gap-2'
+                >
+                  <RotateIcon fill={isDark ? 'white' : 'black'} />
+                  <div>
+                    <Text>Change Profile</Text>
+                  </div>
+                </div>
+              )}
+
+              {pathname !== '/app-hub' && <div
                 onClick={() => router.push('/app-hub')}
                 className='flex cursor-pointer items-center gap-2'
               >
@@ -776,26 +812,27 @@ const FullViewAvatar = ({
                 </div>
               </div>}
 
-            {pathname !== '/select-context' && pathname !== '/user' && pathname !== '/app-hub' && (
+              {pathname !== '/select-context' && pathname !== '/user' && pathname !== '/app-hub' && (
+                <div
+                  onClick={() => router.push('/user')}
+                  className='flex cursor-pointer items-center gap-2'
+                >
+                  <SettingsIcon fill={isDark ? 'white' : 'black'} />
+                  <div>
+                    <Text>Settings</Text>
+                  </div>
+                </div>
+              )}
               <div
-                onClick={() => router.push('/user')}
+                onClick={logout}
                 className='flex cursor-pointer items-center gap-2'
               >
-                <SettingsIcon fill={isDark ? 'white' : 'black'} />
+                <LogoutIcon />
                 <div>
-                  <Text>Settings</Text>
+                  <Text className='text-[#F44336]'>
+                    Log out
+                  </Text>
                 </div>
-              </div>
-            )}
-            <div
-              onClick={logout}
-              className='flex cursor-pointer items-center gap-2'
-            >
-              <LogoutIcon />
-              <div>
-                <Text className='text-[#F44336]'>
-                  Log out
-                </Text>
               </div>
             </div>
           </div>
@@ -821,7 +858,24 @@ const PartialViewAvatar = ({
   const router = useRouter()
   const tp_ps = getCookie('tp_ps')
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-  const popoverButtonElement = useRef(null)
+  const popoverButtonElement = useRef<HTMLDivElement>(null)
+  const popupContentRef = useRef<HTMLDivElement>(null)
+
+  // Close the popup when the user clicks anywhere outside the avatar or the popup content
+  useEffect(() => {
+    if (!isPopoverOpen) return
+
+    const handleOutsideClick = (event: MouseEvent) => {
+      const target = event.target as Node
+      if (popoverButtonElement.current?.contains(target)) return
+      if (popupContentRef.current?.contains(target)) return
+      setIsPopoverOpen(false)
+    }
+
+    document.addEventListener('mousedown', handleOutsideClick, true)
+    return () =>
+      document.removeEventListener('mousedown', handleOutsideClick, true)
+  }, [isPopoverOpen])
   const { borderColor, isDark } = useTheme()
   const pathname = usePathname()
   const { token } = useGlobal();
@@ -849,96 +903,97 @@ const PartialViewAvatar = ({
           placement='right'
           hasArrow={false}
         >
-          <div className='flex flex-col items-center gap-1'>
-            <div className='h-11 w-11 rounded-full'>
-              <Avatar
-                theme='brand'
-                view='filled'
-                imageUrl={getCdnImage(userDetails?.profile)}
-                icon='FaRegUser'
-              />
-            </div>
-
-            <Text className='font-medium'>
-              {`${userDetails.firstName} ${userDetails.lastName}`}
-            </Text>
-          </div>
-
-          <hr className={twMerge('mt-1 w-full border', borderColor)} />
-
-          <div className='mt-2 flex flex-col gap-2'>
-            <Text contentAlign='left'>
-              ORGANIZATION MATRIX
-            </Text>
-            <div className='flex items-center gap-1'>
-              <OrgStructure
-                height='20'
-                width='20'
-                fill={isDark ? 'white' : 'black'}
-              />
-              <Text contentAlign='left'>
-                Organization
-              </Text>
-            </div>
-            <Text
-              color='brand'
-              contentAlign='left'
-              className='block w-full truncate text-left'
-            >
-              {decodedTokenObj.orgName}
-            </Text>
-            <div className='flex items-center gap-1'>
-              <ProdStructure
-                height='20'
-                width='20'
-                fill={isDark ? 'white' : 'black'}
-              />
-              <Text contentAlign='left'>
-                Products
-              </Text>
-            </div>
-            <Text
-              color='brand'
-              contentAlign='left'
-              className='block w-full truncate text-left'
-            >
-              {decodedTokenObj.psName}
-            </Text>
-            <div className='flex items-center gap-1'>
-              <RoleStructure
-                height='20'
-                width='20'
-                fill={isDark ? 'white' : 'black'}
-              />
-              <Text contentAlign='left'>
-                Roles
-              </Text>
-            </div>
-            <Text
-              color='brand'
-              contentAlign='left'
-              className='block w-full truncate text-left'
-            >
-              {decodedTokenObj.roleName}
-            </Text>
-          </div>
-
-          <hr className={twMerge('mt-1 w-full border', borderColor)} />
-
-          <div className='flex flex-col gap-2 pt-2'>
-            {pathname !== '/select-context' && (
-              <div
-                onClick={() => router.push('/select-context')}
-                className='flex cursor-pointer items-center gap-2'
-              >
-                <RotateIcon fill={isDark ? 'white' : 'black'} />
-                <div>
-                  <Text>Change Profile</Text>
-                </div>
+          <div ref={popupContentRef}>
+            <div className='flex flex-col items-center gap-1'>
+              <div className='h-11 w-11 rounded-full'>
+                <Avatar
+                  theme='brand'
+                  view='filled'
+                  imageUrl={getCdnImage(userDetails?.profile)}
+                  icon='FaRegUser'
+                />
               </div>
-            )}
 
-            {pathname !== '/app-hub' && <div
+              <Text className='font-medium'>
+                {`${userDetails.firstName} ${userDetails.lastName}`}
+              </Text>
+            </div>
+
+            <hr className={twMerge('mt-1 w-full border', borderColor)} />
+
+            <div className='mt-2 flex flex-col gap-2'>
+              <Text contentAlign='left'>
+                ORGANIZATION MATRIX
+              </Text>
+              <div className='flex items-center gap-1'>
+                <OrgStructure
+                  height='20'
+                  width='20'
+                  fill={isDark ? 'white' : 'black'}
+                />
+                <Text contentAlign='left'>
+                  Organization
+                </Text>
+              </div>
+              <Text
+                color='brand'
+                contentAlign='left'
+                className='block w-full truncate text-left'
+              >
+                {decodedTokenObj.orgName}
+              </Text>
+              <div className='flex items-center gap-1'>
+                <ProdStructure
+                  height='20'
+                  width='20'
+                  fill={isDark ? 'white' : 'black'}
+                />
+                <Text contentAlign='left'>
+                  Products
+                </Text>
+              </div>
+              <Text
+                color='brand'
+                contentAlign='left'
+                className='block w-full truncate text-left'
+              >
+                {decodedTokenObj.psName}
+              </Text>
+              <div className='flex items-center gap-1'>
+                <RoleStructure
+                  height='20'
+                  width='20'
+                  fill={isDark ? 'white' : 'black'}
+                />
+                <Text contentAlign='left'>
+                  Roles
+                </Text>
+              </div>
+              <Text
+                color='brand'
+                contentAlign='left'
+                className='block w-full truncate text-left'
+              >
+                {decodedTokenObj.roleName}
+              </Text>
+            </div>
+
+            <hr className={twMerge('mt-1 w-full border', borderColor)} />
+
+            <div className='flex flex-col gap-2 pt-2'>
+              {pathname !== '/select-context' && (
+                <div
+                  onClick={() => router.push('/select-context')}
+                  className='flex cursor-pointer items-center gap-2'
+                >
+                  <RotateIcon fill={isDark ? 'white' : 'black'} />
+                  <div>
+                    <Text>Change Profile</Text>
+                  </div>
+                </div>
+              )}
+
+              {pathname !== '/app-hub' && <div
                 onClick={() => router.push('/app-hub')}
                 className='flex cursor-pointer items-center gap-2'
               >
@@ -948,26 +1003,27 @@ const PartialViewAvatar = ({
                 </div>
               </div>}
 
-            {pathname !== '/select-context' && pathname !== '/user' && pathname !== '/app-hub' && (
+              {pathname !== '/select-context' && pathname !== '/user' && pathname !== '/app-hub' && (
+                <div
+                  onClick={() => router.push('/user')}
+                  className='flex cursor-pointer items-center gap-2'
+                >
+                  <SettingsIcon fill={isDark ? 'white' : 'black'} />
+                  <div>
+                    <Text>Settings</Text>
+                  </div>
+                </div>
+              )}
               <div
-                onClick={() => router.push('/user')}
+                onClick={logout}
                 className='flex cursor-pointer items-center gap-2'
               >
-                <SettingsIcon fill={isDark ? 'white' : 'black'} />
+                <LogoutIcon />
                 <div>
-                  <Text>Settings</Text>
+                  <Text className='text-[#F44336]'>
+                    Log out
+                  </Text>
                 </div>
-              </div>
-            )}
-            <div
-              onClick={logout}
-              className='flex cursor-pointer items-center gap-2'
-            >
-              <LogoutIcon />
-              <div>
-                <Text className='text-[#F44336]'>
-                  Log out
-                </Text>
               </div>
             </div>
           </div>

@@ -121,6 +121,7 @@ export class DynamicFlowService {
         let parentUpId = pfdto.parentUpId
         let sortingDetails = pfdto?.sortingDetails
         let collectionName = process.env.CLIENTCODE;
+        let enableBulk = pfdto.enableBulk
 
         let offset = (page - 1) * count;
         
@@ -254,7 +255,7 @@ export class DynamicFlowService {
                     //await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: inputparam, response: inputparam } }),);
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(pfdto.sourceId), collectionName, 'sourceid',);
                     await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, inputparam, inputparam,);
-                     inputparam = { [nodeName]: inputparam }
+                    if(!enableBulk) inputparam = { [nodeName]: inputparam }
                     this.logger.log('HumanTask node completed');
                     return { status: 200, targetStatus: targetStatus, data: inputparam };
                 } catch (error) {                    
@@ -513,6 +514,38 @@ export class DynamicFlowService {
 
                             ifoObj = await this.ifoAssign(poJson?.internalMappingNodes, poNode[j].nodeId,sobj,zenresult,processedKey + upId,inputparam,pfdto)
 
+                            if(currentFabric == 'PF-PFD' && enableBulk){
+                                const requestConfig: AxiosRequestConfig = {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`,
+                                    },timeout: 300000 
+                                };
+                                let apiUrl = serverUrl + endPoint
+
+                                requestBody = Object.assign({url:apiUrl,headers:requestConfig?.headers})                               
+                                await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(requestBody), collectionName, 'request');
+                                  
+                                let apiResult = await this.executeApiCall(methodName, apiUrl, requestConfig, inputparam)
+                                if (apiResult) {
+                                    if (apiResult.statusCode == 201 || apiResult.statusCode == 200) {
+                                        apiResult = apiResult?.result;
+                                    } else {
+                                        throw apiResult;
+                                    }
+                                    let assigndata = await this.assign(apiResult, ifoObj, codeObj, inputparam, nodeName, {})
+                                    apichildResult.push(assigndata.apiResult)
+                                    if (apichildResult && (apichildResult?.length>0 || Object.keys(apichildResult).length>0)) {
+                                        if(Array.isArray(apichildResult))
+                                        apichildResult = apichildResult.flat()
+                                        await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(apichildResult), collectionName, 'response',);
+                                        await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, requestBody, apichildResult);
+                                        apires = apichildResult;    
+                                                                            
+                                        await this.redisService.setJsonData(processedKey + upId + ':rule',JSON.stringify(Array.isArray(apichildResult)?apichildResult[0]:apichildResult),collectionName,nodeName);
+                                    }
+                                }
+                            }else{
+                            
                             let childInsertArr, textobj, mapObj = {}, tempQryVal = []
                             if (internalEdges && internalEdges.hasOwnProperty(poNode[j].nodeId)) {
                                 let currentNodeEdge = internalEdges[poNode[j].nodeId];
@@ -1283,6 +1316,7 @@ export class DynamicFlowService {
                                     }
                                     
                                 }
+                            }
                             }
                         }
                        
@@ -6691,16 +6725,16 @@ private getTransport(emailConfig) {
                         let splitkey = item.key.split('|')
                         item.key = splitkey[splitkey.length -1]
                      }
-                        if(item.value)
+                        if(item.value || item.value == true || item.value == false)
                             internalMappedObj[item?.key?.toLowerCase()] = item.value
-                        else if(InputParam?.[item?.key])
+                        else if(InputParam?.[item?.key] || InputParam?.[item?.key] == true || InputParam?.[item?.key] == false)
                             internalMappedObj[item?.key?.toLowerCase()] = InputParam[item.key]
                         else
                             internalMappedObj[item?.key?.toLowerCase()] = ''
                     }else if(!requiredKeys.every((key) => item?.key?.includes(key))){
-                        if(item.value)
+                        if(item.value || item.value == true || item.value == false)
                             internalMappedObj[item?.key?.toLowerCase()] = item?.value
-                        else if(InputParam?.[item?.key])
+                        else if(InputParam?.[item?.key] || InputParam?.[item?.key] == true || InputParam?.[item?.key] == false)
                             internalMappedObj[item?.key?.toLowerCase()] = InputParam[item.key]
                         else
                             internalMappedObj[item?.key?.toLowerCase()] = ''
@@ -8732,11 +8766,14 @@ private getTransport(emailConfig) {
 
                 for (const key of Object.keys(props)) {
                     let value = data[key];
-                    if (value === 'null') value = null;
-
+                    if (value === 'null') value = null;                    
                     value = unwrapSingleValue(value);
-
-                    const transformed = this.transformBySchema(props[key], value);
+                     let transformed:any
+                     if (value !== null && typeof value === 'object' && !Array.isArray(value) && !props[key]?.['properties']) {
+                        transformed = value;
+                    } else {
+                        transformed = this.transformBySchema(props[key], value);
+                    }
 
                     if (transformed !== undefined && transformed !== null) {
                         result[key] = transformed;

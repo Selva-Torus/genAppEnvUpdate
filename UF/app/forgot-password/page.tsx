@@ -27,7 +27,7 @@ const Page = () => {
   return (
     <ForgotPassword
       logo=""  
-      appName="Torus AI Governance"
+      appName="WPS"
       appTenantList={appTenantList}
     />
   )

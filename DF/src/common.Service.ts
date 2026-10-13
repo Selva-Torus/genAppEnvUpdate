@@ -834,7 +834,10 @@ export class CommonService{
         let fieldarr = []        
         if(inputparam['catch'] == true){
           rule = currentNode?.rule?.pst
-          inputparam = {[currentNode.nodeName]:inputparam['FlowRule']}
+          if(inputparam['FlowRule'])
+            inputparam = {[currentNode.nodeName]:inputparam['FlowRule']}
+          else
+            inputparam = JSON.parse(await this.redisService.getJsonData(processedKey+':rule',process.env.CLIENTCODE))
           await this.redisService.setJsonData(processedKey + ':NPV:' + currentNode.nodeName + '.PST',JSON.stringify(inputparam), process.env.CLIENTCODE,'request');
         }        
         else{
@@ -871,7 +874,8 @@ export class CommonService{
                     return null;
                   }
                   return value;
-                }));                
+                }));       
+       
               var goruleres = await this.ruleEngine.goRule(rule,gparamreq)
               if(Object.keys(goruleres.result).length > 0){
                 //zenresult = goruleres.result.output
@@ -1563,8 +1567,8 @@ export class CommonService{
         
         if(typeof key != 'string')
         key = 'commonError'
-         tenant=tenant || "CT003"
-        app=app ||  "TAG"
+         tenant=tenant || "CT005"
+        app=app ||  "WPS"
         await this.redisService.setStreamData(tenant+'-'+app+'-TSL',key,JSON.stringify(logs))    
         return logs
 
