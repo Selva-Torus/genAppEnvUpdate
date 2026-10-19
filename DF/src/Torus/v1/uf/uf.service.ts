@@ -327,7 +327,7 @@ getConfig(): FusionAuthConfig {
 
  async insertDocToVgphSourceTranDocMain(category: string, doc_name: string, url: string, size?: number, doc_group?: string, userName?: string): Promise<any> {
     try {
-      const insertUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments`;
+      const insertUrl = `${process.env.APP_MANAGER_URL}/ct003/attachments`;
       //const vgphstm_uuid = uuid();
       const currentDate = new Date().toISOString().slice(0, 19) + '+00:00';
 
@@ -356,7 +356,7 @@ getConfig(): FusionAuthConfig {
 
   async getUrlByVgphstdmId(vgphstdm_id: any): Promise<{ url: string; additionalData: any }> {
     try {
-      const getUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments/${vgphstdm_id}`;
+      const getUrl = `${process.env.APP_MANAGER_URL}/ct003/attachments/${vgphstdm_id}`;
 
       const response = await axios.get(getUrl, {
         headers: {
@@ -8461,6 +8461,7 @@ getConfig(): FusionAuthConfig {
                 res = await this.commonService.seaWeeduploadFile(JSON.stringify(result[i]), bucketName, streamName, path,upid);                
                
                 if(res?.status == 201){
+                  await this.structuredPrcLogsToPostgres(streamName,path,CK,FNK,CATK,AFGK,upid,USER,DateAndTime)
                   await this.redisService.ackMessage(streamName,groupName,msgid);
                   await this.redisService.deleteWithEntryId(streamName,msgid)   
                   let isStreamExist = await this.redisService.getStreamRange(streamName)
@@ -8468,7 +8469,6 @@ getConfig(): FusionAuthConfig {
                   if(!isStreamExist || isStreamExist.length == 0){
                     await this.redisService.deleteKey(streamName,streamName)
                   }
-                  await this.structuredPrcLogsToPostgres(streamName,path,CK,FNK,CATK,AFGK,AFK,AFVK,upid,USER,DateAndTime)
                 }
               }
             }
@@ -8482,10 +8482,9 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-  async structuredPrcLogsToPostgres(tableName: string,Key:string,tenant:string,fabric:string,appGrp:string,app:string,artifact:string,version:string,upid:string,user:string,date) {  
-    try {    
-      
-      tableName = tableName.toLowerCase()
+  async structuredPrcLogsToPostgres(tableName: string,Key:string,tenant:string,fabric:string,appGrp:string,app:string,upid:string,user:string,date) {  
+    try {         
+       tableName = tableName.toLowerCase()
        await this.query(`CREATE SCHEMA IF NOT EXISTS "processlog"`);
        await this.query(
          `CREATE TABLE IF NOT EXISTS "processlog"."${tableName}" (
@@ -8494,9 +8493,7 @@ getConfig(): FusionAuthConfig {
           ck_code varchar(50) NULL,
           fnk_code varchar(100) NULL,
           ag_code varchar(16) NOT NULL,
-          app_code varchar(16) NOT NULL, 
-          afk_code varchar(16) NOT NULL,    
-          afvk_code varchar(16) NOT NULL,          
+          app_code varchar(16) NOT NULL,         
           upid TEXT,
           user_name TEXT,
           date_and_time TIMESTAMPTZ
@@ -8504,11 +8501,11 @@ getConfig(): FusionAuthConfig {
         CREATE UNIQUE INDEX IF NOT EXISTS "${tableName}_key_idx" ON "processlog"."${tableName}" ("key")
       `);   
      
-      let params = [Key,tenant,fabric,appGrp,app,artifact,version,upid,user,date];
+      let params = [Key,tenant,fabric,appGrp,app,upid,user,date];
 
       let insertquery =
-       `INSERT INTO "processlog"."${tableName}"(key,ck_code,fnk_code,ag_code,app_code,afk_code,afvk_code,upid,user_name,date_and_time)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) ON CONFLICT (key) DO NOTHING RETURNING *`;      
+       `INSERT INTO "processlog"."${tableName}"(key,ck_code,fnk_code,ag_code,app_code,upid,user_name,date_and_time)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8) ON CONFLICT (key) DO NOTHING RETURNING *`;      
 
       const insertRes = await this.query(insertquery, params);
       return insertRes;
@@ -8645,9 +8642,7 @@ getConfig(): FusionAuthConfig {
           ck_code ILIKE $${params.length + 1}         
           OR "fnk_code" ILIKE $${params.length + 1}
           OR "ag_code" ILIKE $${params.length + 1}        
-          OR "app_code" ILIKE $${params.length + 1}
-          OR "afk_code" ILIKE $${params.length + 1} 
-          OR "afvk_code" ILIKE $${params.length + 1}             
+          OR "app_code" ILIKE $${params.length + 1}         
           OR "user_name" ILIKE $${params.length + 1} 
           OR CAST("date_and_time" AS TEXT) ILIKE $${params.length + 1}
           OR "upid" ILIKE $${params.length + 1}
@@ -8707,7 +8702,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct005_vgph';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct003_tag';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8766,7 +8761,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct005_vgph';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct003_tag';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8836,7 +8831,7 @@ getConfig(): FusionAuthConfig {
       );
 
       for (const lock of locks.rows) {
-        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : 'ct005_vgph';
+        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : 'ct003_tag';
         await client.query(
           `UPDATE ${recordSchema}."${lock.table_name}"
            SET trs_locked_by = NULL, trs_locked_time = NULL

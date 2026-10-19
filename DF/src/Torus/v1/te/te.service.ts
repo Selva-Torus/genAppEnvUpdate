@@ -233,7 +233,7 @@ export class TeService{
           if (pfdto.upId) {
             let nodedetails = await this.securityService.getNodeSecurityTemplate(node, poNode[i].nodeName);
             //if (nodedetails?.status == '200') {
-              if (!sourceId) {
+              if (!sourceId && poNode[i].events[0].eventType == 'UEH') {
                 srcStatus = poNode[i].events[0].source.status.trim();
                 if (pfdto.event == null && event == srcStatus) {
                   // OPTIMIZATION: Remove redundant exist() check - get() returns null if not exists
@@ -251,13 +251,19 @@ export class TeService{
                   throw new CustomException('Sourceid not found', 404)
                 }
               }
-              if (pfdto.sourceId) {
-                hlrId = pfdto.sourceId?.split('|')[2];
-                if (hlrId.includes('/')) {
-                  sourceId = hlrId.split('/')[hlrId.split('/').length - 1].replaceAll('.', '');
-                } else {
-                  sourceId = hlrId.replaceAll('.', '');
+              if (pfdto.sourceId || poNode[i].events[0].eventType == 'PEH') {
+                if(pfdto.sourceId){
+                  hlrId = pfdto.sourceId?.split('|')[2];
+                  if (hlrId.includes('/')) {
+                    sourceId = hlrId.split('/')[hlrId.split('/').length - 1].replaceAll('.', '');
+                  } else {
+                    sourceId = hlrId.replaceAll('.', '');
+                  }
+                }else{                  
+                  sourceId = poNode[i].events[0].id
+                  pfdto.sourceId = sourceId
                 }
+                  
               } else {
                 throw new CustomException('sourceId is empty', 404);
               }
@@ -1064,12 +1070,12 @@ export class TeService{
             } else {
               handlerId = sourceid.replaceAll('.', '')
             }
-          }
-          else {
+          }else if(poNode.events[e].eventType == 'PEH'){
             let keyname = pfdto.key.split(':')
-            ufname = ((keyname[1] + keyname[5] + keyname[7] + keyname[9] + keyname[11] + keyname[13]).replace(/[-_]/g, '')).replace(/\s+/g, '');
+            ufname = ((keyname[1] + keyname[5] + keyname[7] + keyname[9] + keyname[11] + keyname[13]).replace(/[-_]/g, '')).replace(/\s+/g, '');            
+            handlerId = poNode.events[e].id
             sourceId = poNode.events[e].id.replaceAll('-', '')
-          }
+          }          
           if (['humantasknode','ste_humantasknode'].includes(pfdto.nodeType)) {
             if (hsourceid) {
               if (pfdto.event == poNode.events[e].source.status.trim() && hsourceid == handlerId) {
@@ -1109,6 +1115,7 @@ export class TeService{
    async savehandler(input,token) {
     try {
       this.logger.log('SaveHandler service started...');
+      
       var formdata;
       if (input.data && input.nodeId && input.nodeName && input.nodeType && input.event) {
         var formdata = await this.TEcall(token,input);
@@ -1147,8 +1154,9 @@ export class TeService{
         pfdto.childTable = input.childTable 
         pfdto.ssKey =  input.ssKey   
         pfdto.controlName =  input.controlName 
-        pfdto.authContext =  input.authContext
-        pfdto.enableBulk =  input.enableBulk 
+        pfdto.authContext =  input.authContext 
+        pfdto.enableBulk =  input.enableBulk
+        pfdto.agentAccess =  input.agentAccess
         formdata =  await this.EventEmitter(pfdto)              
       return formdata
   }catch(err){    

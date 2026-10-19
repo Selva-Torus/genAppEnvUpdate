@@ -35,6 +35,7 @@ interface TabsProps {
   onChange?: (id: any) => void;
   className?: string;
   tabHeaders?: TabItem[];
+  additionalHeaderClassName?: string;
 }
 
 export const Tabs: React.FC<TabsProps> = ({
@@ -53,6 +54,7 @@ export const Tabs: React.FC<TabsProps> = ({
   className = "",
   headerClassName = "",
   tabHeaders=[],
+  additionalHeaderClassName = "",
 }) => {
   const { theme, branding } = useGlobal();
   const [activeTab, setActiveTab] = useState(defaultActiveId || items[0]?.id || "");
@@ -120,6 +122,7 @@ export const Tabs: React.FC<TabsProps> = ({
             p-2
             bg-white
             ${headerAlignment === 'full' ? 'w-full' : 'w-fit'}
+            ${additionalHeaderClassName}
           `}
         >
         {items.map((item) => {

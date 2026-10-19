@@ -1,20 +1,20 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: ct005-wps-uf-generator-httproute
-  namespace: ct005-wps-uf-v1
+  name: ct003-tag-uf-generator-httproute
+  namespace: ct003-tag-uf-v1
 spec:
   parentRefs:
-    - name: bsr3-gw
+    - name: tgaprod-gw
       namespace: kgateway-system
       sectionName: https
   hostnames:
-    - "tgaprod1910.toruslowcode.com"
+    - "tgaprod910.toruslowcode.com"
   rules:
     - matches:
         - path:
             type: PathPrefix
-            value: /ct005/gss/wps/v1
+            value: /ct003/tag/tag/v1
       backendRefs:
-        - name: ct005-wps-uf-generator
+        - name: ct003-tag-uf-generator
           port: 443

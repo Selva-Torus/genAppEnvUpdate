@@ -1,0 +1,127 @@
+'use client'
+
+
+import React, { useContext,useEffect } from 'react';
+import { Text } from '@/components/Text';
+import { TotalContext, TotalContextProps } from '@/app/globalContext';
+import { AxiosService } from "@/app/components/axiosService";
+import { codeExecution } from '@/app/utils/codeExecution';
+import { deleteAllCookies } from '@/app/components/cookieMgment';
+import { useGlobal } from '@/context/GlobalContext'
+import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,PaginationData,AllowedGroupNode,ActionDetails } from "@/types/global";
+import i18n from '@/app/components/i18n';
+
+const Textai_asset_id = ({encryptionFlagCompData,isDynamic,item,index,setIsProcessing}:any) => {
+  const { token } = useGlobal();
+  const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_airegistry_v1Props, setdfd_airegistry_v1Props} = useContext(TotalContext) as TotalContextProps; 
+  const keyset:any=i18n.keyset("language");
+  const encryptionFlagCont: boolean = encryptionFlagCompData.flag || false ;
+  let encryptionDpd: string = "";
+  encryptionDpd = encryptionDpd !=='' ? encryptionDpd: encryptionFlagCompData.dpd
+  let encryptionMethod: string = "";
+  encryptionMethod  = encryptionMethod !=='' ? encryptionMethod: encryptionFlagCompData.method;
+  /////////////
+   //another screen
+  const {del_groupd73cb, setdel_groupd73cb}= useContext(TotalContext) as TotalContextProps;
+  const {del_groupd73cbProps, setdel_groupd73cbProps}= useContext(TotalContext) as TotalContextProps;
+  const {delete_heading_txt74c2d, setdelete_heading_txt74c2d}= useContext(TotalContext) as TotalContextProps;
+  const {del_divider_1258b4, setdel_divider_1258b4}= useContext(TotalContext) as TotalContextProps;
+  const {asset_name_text7fd5e, setasset_name_text7fd5e}= useContext(TotalContext) as TotalContextProps;
+  const {asset_name64b8e, setasset_name64b8e}= useContext(TotalContext) as TotalContextProps;
+  const {asset_code_text333ee, setasset_code_text333ee}= useContext(TotalContext) as TotalContextProps;
+  const {asset_codeabd34, setasset_codeabd34}= useContext(TotalContext) as TotalContextProps;
+  const {asset_type_code_textfadb9, setasset_type_code_textfadb9}= useContext(TotalContext) as TotalContextProps;
+  const {asset_type_code2fd2c, setasset_type_code2fd2c}= useContext(TotalContext) as TotalContextProps;
+  const {risk_tier_code_text398fb, setrisk_tier_code_text398fb}= useContext(TotalContext) as TotalContextProps;
+  const {risk_tier_codea1cf5, setrisk_tier_codea1cf5}= useContext(TotalContext) as TotalContextProps;
+  const {lifecycle_status_code_texte5517, setlifecycle_status_code_texte5517}= useContext(TotalContext) as TotalContextProps;
+  const {lifecycle_status_code21964, setlifecycle_status_code21964}= useContext(TotalContext) as TotalContextProps;
+  const {textb25bd, settextb25bd}= useContext(TotalContext) as TotalContextProps;
+  const {del_divider_25d9ec, setdel_divider_25d9ec}= useContext(TotalContext) as TotalContextProps;
+  const {ai_asset_id005d2, setai_asset_id005d2}= useContext(TotalContext) as TotalContextProps;
+  const {del_cancel_btn0ef33, setdel_cancel_btn0ef33}= useContext(TotalContext) as TotalContextProps;
+  const {del_okl_btn0f4f4, setdel_okl_btn0f4f4}= useContext(TotalContext) as TotalContextProps;
+  const {ai_asset_id005d2Props, setai_asset_id005d2Props} = useContext(TotalContext) as TotalContextProps;
+  //////////////
+
+  const handleMapperValue=async(filterProps?:any,filterFlag?:boolean)=>{
+    try{
+      if ("hasLogicCenter" in dfd_airegistry_v1Props && !dfd_airegistry_v1Props.hasLogicCenter) {
+        let searchFilter: any = {};
+        if (filterProps?.length) {
+          searchFilter = filterProps;
+        }
+        const api_paginationData: any = await AxiosService.post('/UF/pagination',
+          {
+            key: dfd_airegistry_v1Props.dstKey,
+            page: 1,
+            count: 1,
+            filterData: searchFilter
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        setdel_groupd73cb((pre: any) => ({
+          ...pre,
+          ai_asset_id: api_paginationData.data.records?.length > 0
+            ? api_paginationData.data.records[0]?.ai_asset_id
+            : "0"
+        }))
+      }
+      else{
+      if(filterFlag){
+        setdel_groupd73cb((pre: any) => ({
+          ...pre,
+          ai_asset_id: ai_asset_id005d2Props?.filteredData?.length > 0
+            ? ai_asset_id005d2Props?.filteredData[0]?.ai_asset_id
+            : "0"
+        }))
+      }else if(Array.isArray(dfd_airegistry_v1Props) && dfd_airegistry_v1Props && !del_groupd73cb.ai_asset_id){
+        setdel_groupd73cb((pre:any)=>({...pre,ai_asset_id:dfd_airegistry_v1Props[0]?.ai_asset_id}));
+      }
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  useEffect(()=>{
+    handleMapperValue()
+  },[ai_asset_id005d2?.refresh])
+
+  useEffect(() => {
+  if(Array.isArray(dfd_airegistry_v1Props) && !del_groupd73cb.ai_asset_id){
+    setdel_groupd73cb((pre:any)=>({...pre,ai_asset_id:dfd_airegistry_v1Props[0]?.ai_asset_id}));
+  }
+  },[dfd_airegistry_v1Props])
+
+  // setSearchFilters
+  useEffect(() => {
+    if (!ai_asset_id005d2Props?.filterProps) return;
+    handleMapperValue(ai_asset_id005d2Props?.filterProps,ai_asset_id005d2Props?.filterFlag);
+  },[ai_asset_id005d2Props?.filterProps])
+
+  if (ai_asset_id005d2?.isHidden) {
+    return <></>
+  }
+
+return (
+  <div className="" style={{gridColumn: `2 / 4`,gridRow: `49 / 50`, gap:``, height: `100%`}} >
+<Text
+  contentAlign={"center"}
+  className=""
+  variant="subheader-3"
+  color="primary"
+>
+      {keyset("Lorem ipsum dolor sit")}
+</Text>
+  </div>
+  )
+}
+
+export default Textai_asset_id

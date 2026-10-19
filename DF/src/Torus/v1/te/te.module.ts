@@ -19,6 +19,7 @@ import { DynamicFlowService } from "./dynamicFlow.service";
 
 //import { SchedulerModule } from "../scheduler/scheduler.module";
 import { EnvData } from 'src/envData/envData.service';
+import { HttpModule } from "@nestjs/axios";
  
 @Module({
     imports: [      
@@ -29,7 +30,8 @@ import { EnvData } from 'src/envData/envData.service';
           transport: Transport.TCP,
           options: { port: parseInt(process.env.PO_PORT) },
         },
-      ])    
+      ]),    
+      HttpModule
     ],
     controllers: [TeController],
     providers: [TeService, RedisService, CommonService,SecurityService,RuleService,JwtService,JwtServices,CodeService,LockService,ConfigService,DynamicFlowService,EnvData,],

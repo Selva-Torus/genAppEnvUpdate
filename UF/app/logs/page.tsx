@@ -17,12 +17,12 @@ const ParentComponent = () => {
   const [nodeData, setNodeData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [app, setApp] = useState({
-    code: 'WPS',
-    name: 'WPS'
+    code: 'TAG',
+    name: 'TAG'
   })
   const [appGroup, setappGroup] = useState({
-    code: 'GSS',
-    name: 'GSS'
+    code: 'TAG',
+    name: 'Torus AI Governance'
   })
   const { token } = useGlobal();
   const decodedToken: any = decodeToken(token)
@@ -49,7 +49,7 @@ const ParentComponent = () => {
   const [ fabrics , setFabrics ] = useState<Array<string>>([])
   const [jsonViewerData, setJsonViewerData] = useState({})
   const router = useRouter()
-  let landingScreen:string = 'CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:wps:AFVK:v1';
+  let landingScreen:string = 'CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1';
   const encryptionFlagApp: boolean = false;    
   const [jsonData, setJsonData] = useState({
     data: [],
@@ -75,7 +75,7 @@ const ParentComponent = () => {
   }
   let payload:any = useMemo(() => {
     return {
-      tenant: 'CT005',
+      tenant: 'CT003',
        fabric: fabrics.length > 0 ? fabrics.flatMap((prefix: any) =>
             suffixes[prefix]
               ? suffixes[prefix].map((suffix: any) => `${prefix}-${suffix}`)

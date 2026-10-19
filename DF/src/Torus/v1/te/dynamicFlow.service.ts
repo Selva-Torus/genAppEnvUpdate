@@ -31,6 +31,8 @@ import * as nodemailer from 'nodemailer';
 import { runInSandbox } from "src/sandbox";
 import { Surreal, Table, RecordId } from 'surrealdb';
 import { getRedisConnectionOptions } from "src/redis.config";
+import { firstValueFrom } from "rxjs";
+import { HttpService } from '@nestjs/axios'
 
 type MappingValue = string | { sourcePath: string; arrayMap: Record< string, string> };
 type MappingConfig = Record< string, MappingValue>;
@@ -39,9 +41,18 @@ interface ArrayMapConfig {
   arrayMap: Record< string, string>;
 }
 
+
+interface PromptResponse {
+  sessionId: string
+  response: string
+  finished: string
+  resumed: boolean
+}
+
 @Injectable()
 export class DynamicFlowService {
-    private ajv = new Ajv();  
+    private ajv = new Ajv(); 
+    private baseUrl = 'http://192.168.2.250:3080' 
     private transporters = new Map< string, nodemailer.Transporter>();
     private statickeyword = ['get', 'post', 'patch', '200', '201', '202', '204', '400', '401', '403', '404', '500','requestBody', '*/*', 'responses', 'content', 'application/json', 'application/xml', 'text/plain', 'application/jwt', 'application/json; charset=utf-8', 'schema', 'properties', 'allOf', 'oneOf', 'inputschema', 'outputschema',];//"parameters",
     private numberArr: string[] = Array.from({ length: 101 }, (_, i) => i.toString());  
@@ -53,7 +64,8 @@ export class DynamicFlowService {
     private readonly jwtService:JwtServices,  
     private readonly CommonService: CommonService,
     private readonly lockservice: LockService,
-    private readonly envData:EnvData,    
+    private readonly envData:EnvData,   
+      private readonly http : HttpService,   
    ){}
     private getKafkaInstance(): Kafka {
         if (!this.kafka) {
@@ -162,7 +174,7 @@ export class DynamicFlowService {
                 } else if (currentFabric == 'PF-PFD' || currentFabric == 'PF-SFD' || currentFabric == 'PF-SCDL') {
                     if (Array.isArray(poNode[j].events) && poNode[j]?.events?.length > 0) {
                         for (let e = 0; e < poNode[j]?.events?.length; e++) {
-                            if (nodeType == 'humantasknode' ? (event == poNode[j]?.events[e]?.source?.status && pfdto.sourceId == poNode[j]?.events[e]?.sourceId) : event == poNode[j]?.events[e]?.source?.status ){
+                            if (nodeType == 'humantasknode' ? (event == poNode[j]?.events[e]?.source?.status && (pfdto.sourceId == poNode[j]?.events[e]?.sourceId || poNode[j]?.events[e]?.id)) : event == poNode[j]?.events[e]?.source?.status ){
                                 sourceStatus = poNode[j]?.events[e]?.source?.status;
                                 srcQueue = poNode[j]?.events[e]?.source?.queue;
                                 targetStatus = poNode[j]?.events[e]?.success?.status;
@@ -174,7 +186,7 @@ export class DynamicFlowService {
                                 errorStatus = poNode[j]?.events[e]?.error?.status;
                                 errorQueue = poNode[j]?.events[e]?.error?.queue;
                             }
-                        }
+                        } 
                     }
                 }
             }
@@ -185,6 +197,87 @@ export class DynamicFlowService {
             failureQueue = collectionName + '_' + failureQueue + '_ProcessStatus';
             var dfoSchema: any;
             let RCMresult, zenresult, customcoderesult, codeObj = {}, ifoObj={}
+
+
+              // ai-agent-node
+           if ((nodeType == 'ai_agent_node') && poNode[j].nodeId == nodeId){
+                try {
+                    this.logger.log('AI Agent node Started'); 
+                    await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(inputparam), collectionName, 'request',);
+                    //let promptText = inputparam['humantasknode']?.user_prompt//this.buildAgentPromptText(inputparam);
+
+                    if (!token) {
+                        throw new CustomException(`${nodeName}: no auth token found on pfdto`, 401);
+                    }
+                    let aiAgentNodeConfig = ndp[poNode[j]?.nodeId];
+                    let aiAgentConfig: any = aiAgentNodeConfig?.data ?? aiAgentNodeConfig ?? {};
+                    let modelConfig = aiAgentConfig?.model ;
+                    let limitsConfig = aiAgentConfig?.limits ;
+                    let dbConfig = aiAgentConfig?.db ;
+                    let attachments = aiAgentConfig?.attachments ;
+
+
+
+                     let childInsertArr, textobj, mapObj = {}, tempQryVal = []
+                            if (internalEdges && internalEdges.hasOwnProperty(poNode[j].nodeId)) {
+                                let currentNodeEdge = internalEdges[poNode[j].nodeId];                               
+                                    let mappedData = await this.mapEdgeValuesToParams(pfdto, currentNodeEdge, inputparam, processedKey, upId, collectionName,  '', codeObj, pfo, childtable)
+                                    childInsertArr = mappedData.childInsertArr
+                                    tempQryVal = mappedData.tempQryVal
+                                    textobj = mappedData.textobj                                
+                            } 
+                            console.log('childInsertArr', childInsertArr);
+                    if(childInsertArr?.length>0){
+                        for(let i=0;i< childInsertArr.length;i++){
+                             mapObj = childInsertArr[i]
+                        }
+                    }
+                    let systemPrompt = modelConfig?.systemPrompt;
+
+                    console.log('mapObj', mapObj);
+                     if (!mapObj['prompt']) {
+                        throw new CustomException(`${nodeName}: no prompt found on inputparam`, 400);
+                    }
+
+                    let user_propmt = {"content": mapObj['prompt']}
+                    // let email = "demo@bank.test";
+                    // let password = "password123";
+                    let sessionId = pfdto.upId
+                    
+                    const promptText: string = mapObj['prompt'];
+                    const codeMatch = promptText.match(/\b(\d{6})\b/);  
+                    const requestConfig: AxiosRequestConfig = {
+                       headers: {
+                            Authorization: `Bearer ${token}`,
+                        }
+                    }              
+
+                        // await firstValueFrom(
+                        // this.http.post< ToolCallResponse >(`${this.baseUrl}/tools/banking_login`, {
+                        //     arguments: { email, password },
+                        //     sessionId,
+                        // }),
+                        // )
+                      
+                        let  dshdata :any  = await firstValueFrom(
+                            this.http.post<PromptResponse>(`${this.baseUrl}/prompt`, { message:promptText, sessionId },requestConfig),
+                            )
+                            console.log('dshres', dshdata.data);
+                    await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(dshdata.data), collectionName, 'response',);
+
+                    await this.CommonService.getTPL(processedKey, upId, poNode[j], 'Success', targetQueue, token, currentFabric, sourceStatus, user_propmt, dshdata.data,);
+
+                    this.logger.log('AI Agent node Completed');
+                    return {
+                        status: 200,
+                        targetStatus: targetStatus,
+                        data: dshdata.data
+                    };
+                } catch (error) {
+                    console.log('error',error);
+                    await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
+                }
+            }
 
             //HumanTaskNode
             if (nodeType == 'humantasknode' && poNode[j].nodeId == nodeId) {
@@ -1577,7 +1670,8 @@ export class DynamicFlowService {
                    
                     else if (manualQuery) {
                         qry = manualQuery;
-                        const isDML = /^(insert\s+into|update|delete)\b/i.test(qry.trim()); 
+                        //const isDML = /^(insert\s+into|update|delete)\b/i.test(qry.trim()); 
+                        const isDML = /^(?:begin\s*;\s*)?(insert\s+into|update|delete)\b/i.test(qry.trim());
                         if (isDML) {
                             oprname = 'insert'
                             if (mapObj && Object.keys(mapObj).length > 0) {
@@ -1833,8 +1927,15 @@ export class DynamicFlowService {
                    
                     await client.connect();
                     try{
-                    if (qry) qryres = await client.query(qry);                   
-                    if (qryres) dbres = qryres.rows;
+                        if (qry) qryres = await client.query(qry);  
+                                
+                        if (qryres.rows) dbres = qryres.rows
+                        else if(qryres.length >0 ){
+                            dbres = []
+                            for(let item of qryres){                                                        
+                                dbres = dbres.concat(item.rows)
+                            }
+                        }
                     }catch(err){
                         await client.end();
                         throw err;
@@ -8076,8 +8177,10 @@ private getTransport(emailConfig) {
                                         previousHandlerId = previousHandlerId?.sourceid?.split('|').shift() 
                                     
                                      let handlerCheck = true     
-                                    if(connectedType == "humantasknode" && !srcHandle.includes('|gifo|'))
-                                        handlerCheck = srcId == srcSplit[0] || previousHandlerId == srcSplit[0]
+                                    if(!pfdto.agentAccess){
+                                        if(connectedType == "humantasknode" && !srcHandle.includes('|gifo|'))
+                                            handlerCheck = srcId == srcSplit[0] || previousHandlerId == srcSplit[0]
+                                    }
                                    
                                     if (handlerCheck || formedSsKey.includes(srcSplit[0])) {  //|| srcSplit[0].includes(':FNK:UF-UFWS:')     //|| ssKey == srcSplit[0]                                                      
                                         targetVal = targetSplit.includes('HeaderParams') ? targetSplit[1] : targetSplit[targetSplit.length - 1];
@@ -8155,7 +8258,7 @@ private getTransport(emailConfig) {
                                                         return acc;
                                                         }, []);                                                      
                                                     }else{                                                                        
-                                                        if(srcSplit.length == 2 && connectedType == 'humantasknode'){
+                                                        if(srcSplit.length == 2 && connectedType == 'humantasknode' && !pfdto.agentAccess){
                                                             let filterinput = await this.checkData(pfo,inputCollection,srcSplit[0],connectedid,srcSplit[1])                                                          
                                                             _.set(mapObj, targetFilteredVal, filterinput);
                                                         } else if(connectedType == 'humantasknode' && groupArrayName){                                                            
@@ -8245,7 +8348,7 @@ private getTransport(emailConfig) {
                                                 return acc;
                                                 }, []);                                                      
                                             }else{                                                
-                                                if(srcSplit.length == 2 && connectedType == 'humantasknode'){ 
+                                                if(srcSplit.length == 2 && connectedType == 'humantasknode' && !pfdto.agentAccess){ 
                                                     let filterinput = await this.checkData(pfo,inputCollection,srcSplit[0],connectedid,srcSplit[1])                                                    
                                                         _.set(mapObj, targetFilteredVal, filterinput);
                                                 } else if(connectedType == 'humantasknode' && groupArrayName){                                                            

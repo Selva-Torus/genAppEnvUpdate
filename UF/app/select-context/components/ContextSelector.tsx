@@ -40,7 +40,7 @@ const ContextSelector = () => {
   const tp_ps: any = getCookie('tp_ps')
   const toast = useInfoMsg()
   const baseUrl: any = process.env.NEXT_PUBLIC_API_BASE_URL
-  const appName = 'WPS'
+  const appName = 'TAG'
   const [accessProfiles, setAccessProfiles] = useState<any[]>([])
   const router = useRouter()
   const [loading, setLoading] = useState(false)
@@ -56,48 +56,88 @@ const ContextSelector = () => {
   const [selectedRole, setSelectedRole] = useState<Record<string, string>>({})
   const [orgGrpData, setOrgGrpData] = useState<any>([])
   const [isPending, startTransition] = useTransition();  
-  let landingScreen:string = 'CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:wps:AFVK:v1';
+  let landingScreen:string = 'CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1';
   let screenDetails: any = {
            keys:[
   {
-    "screenName": "my transaction",
-    "screensName": "my_transaction-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:transactionProduct:AFVK:v1"
-  },
-  {
-    "screenName": "wps",
-    "screensName": "wps-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:wps:AFVK:v1"
-  },
-  {
-    "screenName": "returns and refunds",
-    "screensName": "returns_and_refunds-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:returnsRefund:AFVK:v1"
-  },
-  {
-    "screenName": "enquiry",
-    "screensName": "enquiry-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:enquiry:AFVK:v1"
-  },
-  {
-    "screenName": "registration",
-    "screensName": "registration-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:registration:AFVK:v1"
-  },
-  {
     "screenName": "dashboard",
     "screensName": "dashboard-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:dashboard:AFVK:v1"
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1"
   },
   {
-    "screenName": "sif summary  report",
-    "screensName": "sif_summary__report-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:sifSummaryReport:AFVK:v1"
+    "screenName": "ai registry",
+    "screensName": "ai_registry-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIRegistry:AFVK:v1"
   },
   {
-    "screenName": "pif summary report",
-    "screensName": "pif_summary_report-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:pifSummaryReport:AFVK:v1"
+    "screenName": "ai passport",
+    "screensName": "ai_passport-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIRegistryView:AFVK:v1"
+  },
+  {
+    "screenName": "discovery queue",
+    "screensName": "discovery_queue-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:discoveryQueue:AFVK:v1"
+  },
+  {
+    "screenName": "risk classification",
+    "screensName": "risk_classification-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:assetList:AFVK:v1"
+  },
+  {
+    "screenName": "certification record",
+    "screensName": "certification_record-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certification:AFVK:v1"
+  },
+  {
+    "screenName": "risk evaluation",
+    "screensName": "risk_evaluation-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:riskAssetList:AFVK:v1"
+  },
+  {
+    "screenName": "certificate stage",
+    "screensName": "certificate_stage-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:assetApproval:AFVK:v1"
+  },
+  {
+    "screenName": "evidence",
+    "screensName": "evidence-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:assetEvidences:AFVK:v1"
+  },
+  {
+    "screenName": "report",
+    "screensName": "report-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFR:CATK:TAG:AFGK:TAG:AFK:evidenceReport:AFVK:v1"
+  },
+  {
+    "screenName": "risk rule",
+    "screensName": "risk_rule-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:riskRule:AFVK:v1"
+  },
+  {
+    "screenName": "risk rule condition",
+    "screensName": "risk_rule_condition-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:ruleCondition:AFVK:v1"
+  },
+  {
+    "screenName": "certification template",
+    "screensName": "certification_template-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificateTemplate:AFVK:v1"
+  },
+  {
+    "screenName": "certification template stage",
+    "screensName": "certification_template_stage-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificationTemplateStage:AFVK:v1"
+  },
+  {
+    "screenName": "code type",
+    "screensName": "code_type-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeTypes:AFVK:v1"
+  },
+  {
+    "screenName": "code value",
+    "screensName": "code_value-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeValue:AFVK:v1"
   }
 ]
   }
@@ -358,13 +398,9 @@ const ContextSelector = () => {
     'gridRow'?: string
   }[] = [
   {
-    "name": "logo",
-    "gridColumn": "1/2"
-  },
-  {
-    "name": "menu items",
-    "gridColumn": "2/9",
-    "gridRow": "1/6"
+    "name": "profile",
+    "gridColumn": "12/13",
+    "gridRow": "12/13"
   },
   {
     "name": "opr matrix",
@@ -372,9 +408,13 @@ const ContextSelector = () => {
     "gridRow": "6/9"
   },
   {
-    "name": "profile",
-    "gridColumn": "12/13",
-    "gridRow": "12/13"
+    "name": "menu items",
+    "gridColumn": "2/9",
+    "gridRow": "1/6"
+  },
+  {
+    "name": "logo",
+    "gridColumn": "1/2"
   }
 ]
 

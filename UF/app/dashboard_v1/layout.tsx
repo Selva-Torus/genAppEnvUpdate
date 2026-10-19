@@ -12,8 +12,8 @@ import { COOKIE_PREFIX } from '@/lib/cookies';
 import { GetSetupKey } from '../utils/setUpKey';
 
 export const metadata: Metadata = {
-  title: 'WPS | WPS Payment Solutions',
-  description: 'Screen generated from Torus metadata key: CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:dashboard:AFVK:v1'
+  title: 'TAG | DashBoard',
+  description: 'Screen generated from Torus metadata key: CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1'
 }
 
 export default async function RootLayout({

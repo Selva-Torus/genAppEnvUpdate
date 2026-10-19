@@ -278,6 +278,9 @@ export class readAPIDTO {
       @IsOptional()
       @IsBoolean()
       enableBulk?:boolean
+      @IsOptional()
+      @IsBoolean()
+      agentAccess?:boolean
     }
   
     export class pageDto {
@@ -1319,6 +1322,10 @@ export class teSaveDto {
   @IsOptional()
   @IsBoolean()
   enableBulk?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  agentAccess?: string;
   
   @ApiPropertyOptional({ description: 'dpdKey' })
   @IsOptional()

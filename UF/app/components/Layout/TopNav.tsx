@@ -338,6 +338,20 @@ const TopNav = ({
     return style
   }
 
+  const getMenuBgColor = (selected: boolean): string => {
+    if (selected) {
+      return menuSelectionBgColor || brandColor;
+    }
+
+    return menuBgColor || bgStyle;
+  };
+
+  const getMenuIconColor = (selected: boolean): string => {
+    const bgColor = getMenuBgColor(selected);
+
+    return isLightColor(bgColor);
+  };
+
   // Helper function to get grid style for a section (uses the 24 grid order)
   const getGridStyle: (sectionName: string) => React.CSSProperties = (
     sectionName: string
@@ -469,7 +483,7 @@ const TopNav = ({
                         shrink-0
                         items-center
                         gap-2
-                        rounded-lg
+                        rounded-[1vw]
                         px-3
                         py-1.5
                         text-sm
@@ -494,9 +508,9 @@ const TopNav = ({
                               src={getCdnImage(menu.icon)}
                               style={{
                                 filter:
-                                  selected || isDark
-                                    ? 'invert(1) sepia(1) hue-rotate(180deg) saturate(3)'
-                                    : 'unset'
+                                  getMenuIconColor(selected) === "#fff"
+                                    ? "brightness(0) invert(1)"
+                                    : "brightness(0)",
                               }}
                             />
                           ) : (
@@ -522,15 +536,7 @@ const TopNav = ({
                         {/* Keep the dropdown arrow visible and consistent. */}
                         <span className='flex h-4 w-4 shrink-0 items-center justify-center'>
                           <DownArrow
-                            fill={
-                              menuSelectionBgColor ?
-                                menuSelectionTextColor :
-                                selected
-                                  ? brandTextColor
-                                  : isDark
-                                    ? '#ffffff'
-                                    : '#1C274C'
-                            }
+                            fill={getMenuStyle(selected).color}
                             height='7'
                             width='7'
                           />
@@ -558,7 +564,7 @@ const TopNav = ({
                   shrink-0
                   items-center
                   gap-2
-                  rounded-lg
+                  rounded-[1vw]
                   px-3
                   py-1.5
                   text-sm
@@ -585,9 +591,9 @@ const TopNav = ({
                         src={getCdnImage(menu.icon)}
                         style={{
                           filter:
-                            selected || isDark
-                              ? 'invert(1) sepia(1) hue-rotate(180deg) saturate(3)'
-                              : 'unset'
+                           getMenuIconColor(selected) === "#fff"
+                                    ? "brightness(0) invert(1)"
+                                    : "brightness(0)",
                         }}
                       />
                     ) : (

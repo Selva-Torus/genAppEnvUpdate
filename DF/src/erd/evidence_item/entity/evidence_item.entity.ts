@@ -1,0 +1,244 @@
+
+import { evidence_item } from '@prisma/client';
+import { IsEnum,IsOptional } from 'class-validator';
+import { ApiProperty,ApiPropertyOptional } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
+
+
+
+export class  evidence_itemEntity implements evidence_item{
+    @ApiProperty({example:"bigint"})
+    evidence_id:bigint;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    owner_entity:string;
+    @ApiPropertyOptional({example:"bigint"})
+    @IsOptional()
+    owner_id:bigint;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    evidence_type_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    title:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    description:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    file_name:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    file_mime_type:string;
+    @ApiPropertyOptional({example:"bigint"})
+    @IsOptional()
+    file_size_bytes:bigint;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    storage_reference:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    file_hash_sha256:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    external_url:string;
+    @ApiPropertyOptional({example:"bigint"})
+    @IsOptional()
+    uploaded_by_user_id:bigint;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiPropertyOptional({example:"datetime"})
+    @IsOptional()
+    uploaded_on:Date;
+    @ApiPropertyOptional({example:"boolean"})
+    @IsOptional()
+    is_active:boolean;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiProperty({example:"datetime"})
+    trs_created_date:Date;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_created_by:string;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiPropertyOptional({example:"datetime"})
+    @IsOptional()
+    trs_modified_date:Date;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_modified_by:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_process_id:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_access_profile:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_org_grp_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_org_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_role_grp_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_role_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_ps_grp_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_ps_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_sub_org_grp_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_sub_org_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_locked_by:string;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiPropertyOptional({example:"datetime"})
+    @IsOptional()
+    trs_locked_time:Date;
+    @ApiProperty({example:"string"})
+    trs_tenant_id:string;
+    @ApiProperty({example:"string"})
+    trs_app_code:string;
+    @ApiProperty({example:"string"})
+    trs_product_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_event_process_status:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_event_status:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_token_id:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_version:string;
+    @ApiProperty({example:"bigint"})
+    ai_asset_id: bigint;
+}
+      
+export class  evidence_item_OnlyParentEntity {
+    @ApiProperty({example:"bigint"})
+    evidence_id:bigint;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    owner_entity:string;
+    @ApiPropertyOptional({example:"bigint"})
+    @IsOptional()
+    owner_id:bigint;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    evidence_type_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    title:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    description:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    file_name:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    file_mime_type:string;
+    @ApiPropertyOptional({example:"bigint"})
+    @IsOptional()
+    file_size_bytes:bigint;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    storage_reference:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    file_hash_sha256:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    external_url:string;
+    @ApiPropertyOptional({example:"bigint"})
+    @IsOptional()
+    uploaded_by_user_id:bigint;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiPropertyOptional({example:"datetime"})
+    @IsOptional()
+    uploaded_on:Date;
+    @ApiPropertyOptional({example:"boolean"})
+    @IsOptional()
+    is_active:boolean;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiProperty({example:"datetime"})
+    trs_created_date:Date;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_created_by:string;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiPropertyOptional({example:"datetime"})
+    @IsOptional()
+    trs_modified_date:Date;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_modified_by:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_process_id:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_access_profile:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_org_grp_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_org_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_role_grp_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_role_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_ps_grp_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_ps_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_sub_org_grp_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_sub_org_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_locked_by:string;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiPropertyOptional({example:"datetime"})
+    @IsOptional()
+    trs_locked_time:Date;
+    @ApiProperty({example:"string"})
+    trs_tenant_id:string;
+    @ApiProperty({example:"string"})
+    trs_app_code:string;
+    @ApiProperty({example:"string"})
+    trs_product_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_event_process_status:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_event_status:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_token_id:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_version:string;
+}
+
+
+export { evidence_item };

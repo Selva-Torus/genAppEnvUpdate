@@ -17,6 +17,7 @@ import {
   MdNavigateBefore,
   MdNavigateNext
 } from 'react-icons/md'
+import { RiDeleteBinLine } from 'react-icons/ri'
 import { useGlobal } from '@/context/GlobalContext'
 import { CommonHeaderAndTooltip } from './CommonHeaderAndTooltip'
 import {
@@ -31,6 +32,7 @@ import * as XLSX from '@e965/xlsx'
 import * as UTIF from 'utif2'
 import Image from 'next/image'
 import DOMPurify from 'dompurify'
+import { ConfirmModal } from './ConfirmModal'
 import DocumentInformation, {
   DocumentDetail,
   UploadStatus,
@@ -100,6 +102,17 @@ interface DocViewerProps {
   hasPreviousTransaction?: boolean
   hasNextTransaction?: boolean
   needDocumentInfo?: boolean
+  /* The viewer never owns the file list, so it cannot remove anything itself.
+   * The delete button appears only when `onDelete` is supplied, and all it does
+   * is report the file the user asked to remove; the owner drops it from the
+   * list and the shorter `files` flows back in. */
+  onDelete?: (file: FileItem, index: number) => void | Promise<void>
+  /** Shows the delete button. Off hides it even when `onDelete` is supplied. */
+  needDelete?: boolean
+  /** Ask before handing the delete to the owner. Off only when it confirms. */
+  needDeleteConfirm?: boolean
+  deleteConfirmTitle?: string
+  deleteConfirmContent?: string
   docSizeUnit?: 'B' | 'KB' | 'MB'
   onDocumentInfoOpen?: (file: FileItem, index: number) => void
   getDocumentDetails?: (file: FileItem) => DocumentDetail[]
@@ -240,6 +253,11 @@ const DocViewer: React.FC<DocViewerProps> = ({
   hasPreviousTransaction = false,
   hasNextTransaction = false,
   needDocumentInfo = true,
+  onDelete,
+  needDelete = false,
+  needDeleteConfirm = true,
+  deleteConfirmTitle = 'Delete document',
+  deleteConfirmContent = 'This document will be removed from the list. Do you want to continue?',
   docSizeUnit = 'KB',
   onDocumentInfoOpen,
   getDocumentDetails
@@ -350,6 +368,10 @@ const DocViewer: React.FC<DocViewerProps> = ({
   /* ---------- document information modal ---------- */
   const [isInfoOpen, setIsInfoOpen] = useState(false)
   const [infoAnchor, setInfoAnchor] = useState<DOMRect | null>(null)
+
+  /* ---------- delete ---------- */
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   /* ---------- dropdown ---------- */
   useEffect(() => {
@@ -941,6 +963,49 @@ const DocViewer: React.FC<DocViewerProps> = ({
     setIsInfoOpen(true)
   }
 
+  const runDelete = async () => {
+    if (!currentFile || !onDelete || !needDelete) {
+      return
+    }
+
+    const originalIdx = files.indexOf(currentFile)
+
+    try {
+      setIsDeleting(true)
+
+      await onDelete(
+        currentFile,
+        originalIdx !== -1 ? originalIdx : activeFilteredIndex
+      )
+
+      /* The owner hands back a list one shorter, which reopens at its first
+       * document — the index the owner will report back through
+       * `currentUrlIndex` anyway. */
+      setFilteredIndex(0)
+
+      resetZoomAndPosition()
+    } finally {
+      setIsDeleting(false)
+    }
+  }
+
+  const handleDeleteClick = () => {
+    runDelete()
+    return
+    if (!currentFile || !onDelete || isDeleting) {
+      return
+    }
+
+    setIsInfoOpen(false)
+
+    if (needDeleteConfirm) {
+      setIsDeleteConfirmOpen(true)
+      return
+    }
+
+    void runDelete()
+  }
+
   /* ---------- Compact button style ---------- */
   const navBtnBase =
     'mx-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-slate-700 shadow-sm transition-colors hover:bg-gray-50 active:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-35 dark:bg-gray-800 dark:text-slate-200 dark:hover:bg-gray-700 dark:disabled:opacity-35'
@@ -1066,6 +1131,29 @@ const DocViewer: React.FC<DocViewerProps> = ({
       </button>
     </div>
   )
+
+  /* ---------- Delete Control ---------- */
+  const canDelete = needDelete && !!onDelete
+
+  const deleteControl = canDelete &&
+    filteredFiles.length > 0 &&
+    !!currentFile && (
+      <div
+        className={`flex shrink-0 items-center gap-0.5 ${
+          isVertical ? 'flex-col' : 'flex-row'
+        }`}
+      >
+        <button
+          onClick={handleDeleteClick}
+          disabled={isDeleting}
+          className={navBtnBase}
+          title='Delete document'
+          aria-label='Delete document'
+        >
+          <RiDeleteBinLine size={18} />
+        </button>
+      </div>
+    )
 
   /* ---------- File Type Filter Dropdown ---------- */
   const formatFilterDropdown = files.length > 0 && (
@@ -1239,30 +1327,30 @@ const DocViewer: React.FC<DocViewerProps> = ({
       )
     }
 
-    if (isImageDoc || isTiffDoc) {
-      return (
-        <div className='flex h-full w-full flex-col overflow-hidden'>
-          <div
-            ref={contentRef}
-            className='min-h-0 w-full flex-1 overflow-hidden'
-            style={{
-              cursor: zoom > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default'
-            }}
-            {...panHandlers}
-          >
-            <Image
+  if (isImageDoc || isTiffDoc) {
+    return (
+      <div className='flex h-full w-full flex-col overflow-hidden'>
+        <div
+          ref={contentRef}
+          className='min-h-0 w-full flex-1 overflow-hidden'
+          style={{
+            cursor: zoom > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default'
+          }}
+          {...panHandlers}
+        >
+          <Image
               src={isTiffDoc ? tiffImageUrl : uvImageUrl || currentUrl}
-              alt='document'
-              width={100}
-              height={100}
-              className='h-full w-full select-none object-contain'
-              style={transformStyle}
-              draggable={false}
-              unoptimized
-            />
-          </div>
+            alt='document'
+            width={100}
+            height={100}
+            className='h-full w-full select-none object-contain'
+            style={transformStyle}
+            draggable={false}
+            unoptimized
+          />
+        </div>
 
-          {isTiffDoc && pageControls}
+        {isTiffDoc && pageControls}
         </div>
       )
     }
@@ -1483,6 +1571,7 @@ const DocViewer: React.FC<DocViewerProps> = ({
           <div className='flex shrink-0 flex-nowrap items-center justify-end gap-0.5'>
             {zoomControls}
             {fileNavControls}
+            {deleteControl}
             {formatFilterDropdown}
           </div>
         </div>
@@ -1514,6 +1603,7 @@ const DocViewer: React.FC<DocViewerProps> = ({
         >
           {zoomControls}
           {fileNavControls}
+          {deleteControl}
           {formatFilterDropdown}
         </div>
       )}
@@ -1530,6 +1620,7 @@ const DocViewer: React.FC<DocViewerProps> = ({
           >
             {zoomControls}
             {fileNavControls}
+            {deleteControl}
             {formatFilterDropdown}
           </div>
 
@@ -1563,6 +1654,17 @@ const DocViewer: React.FC<DocViewerProps> = ({
           uploadedBytes={currentFile.uploadedBytes}
           status={currentFile.uploadStatus ?? 'completed'}
           details={documentDetails}
+        />
+      )}
+
+      {/* Delete confirmation */}
+      {canDelete && needDeleteConfirm && (
+        <ConfirmModal
+          confirmMsg={isDeleteConfirmOpen}
+          setConfirmMsg={setIsDeleteConfirmOpen}
+          confirmMsgTitle={deleteConfirmTitle}
+          confirmMsgContent={deleteConfirmContent}
+          handleConfirm={runDelete}
         />
       )}
     </div>

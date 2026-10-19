@@ -357,7 +357,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   }
 
   return (
-    <div className={`g-root grid h-full grid-cols-12`}>
+    <div className={twMerge(`g-root grid h-full grid-cols-12`, bgColor)}>
       <div className='col-span-12 overflow-hidden'>
         <div className='flex flex-col rounded-md'>
           <div className='flex w-full items-center justify-between p-2'>
@@ -516,7 +516,7 @@ const LogSwitcher = ({
     <div>
       <Tabs
         security={["process" , "torus"]}
-        className={twMerge('', borderColor)}
+        additionalHeaderClassName={twMerge('border rounded-full', borderColor)}
         items={[
           {
             id: 'process',

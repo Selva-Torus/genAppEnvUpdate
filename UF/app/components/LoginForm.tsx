@@ -31,7 +31,7 @@ interface LoginProps {
   appTenantList?: any[]
 }
 
-const LoginForm = ({ logo, appName = "WPS", loginType = "standard", image, appTenantList }: LoginProps) => {
+const LoginForm = ({ logo, appName = "TAG", loginType = "standard", image, appTenantList }: LoginProps) => {
   const [formData, setFormData] = useState<Record<string, string>>({
     email: '',
     password: ''
@@ -44,7 +44,7 @@ const LoginForm = ({ logo, appName = "WPS", loginType = "standard", image, appTe
   const { branding } = useGlobal()
   const { brandColor } = branding
   const { bgColor, borderColor, textColor } = useTheme()
-  const onBoardingKey : string = "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:wps:AFVK:v1"
+  const onBoardingKey : string = "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1"
   const tenant = process.env.NEXT_PUBLIC_TENANT_CODE
   const isSaasApp = process.env.NEXT_PUBLIC_IS_SAAS_APPLICATION;
   const [imageandLogoValid, setImageandLogoValid] = useState({
@@ -70,7 +70,7 @@ const LoginForm = ({ logo, appName = "WPS", loginType = "standard", image, appTe
           tenant: tenant,
           username: formData.email,
           password: formData.password,
-          key: "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT005:AFGK:GSS:AFK:WPS:AFVK:v1:bldc",
+          key: "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT003:AFGK:TAG:AFK:TAG:AFVK:v1:bldc",
           ufClientType: 'UFW',
           app_tenant: selectedAppTenant ? appTenantList?.find(item => item.tenant_name == selectedAppTenant)?.tenant_id : undefined,
           app_tenant_id: selectedAppTenant ? appTenantList?.find(item => item.tenant_name == selectedAppTenant)?.at_id : undefined
@@ -100,44 +100,84 @@ const LoginForm = ({ logo, appName = "WPS", loginType = "standard", image, appTe
           let screenDetails: any = {
             keys:[
   {
-    "screenName": "my transaction",
-    "screensName": "my_transaction-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:transactionProduct:AFVK:v1"
-  },
-  {
-    "screenName": "wps",
-    "screensName": "wps-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:wps:AFVK:v1"
-  },
-  {
-    "screenName": "returns and refunds",
-    "screensName": "returns_and_refunds-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:returnsRefund:AFVK:v1"
-  },
-  {
-    "screenName": "enquiry",
-    "screensName": "enquiry-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:enquiry:AFVK:v1"
-  },
-  {
-    "screenName": "registration",
-    "screensName": "registration-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:registration:AFVK:v1"
-  },
-  {
     "screenName": "dashboard",
     "screensName": "dashboard-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:dashboard:AFVK:v1"
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1"
   },
   {
-    "screenName": "sif summary  report",
-    "screensName": "sif_summary__report-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:sifSummaryReport:AFVK:v1"
+    "screenName": "ai registry",
+    "screensName": "ai_registry-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIRegistry:AFVK:v1"
   },
   {
-    "screenName": "pif summary report",
-    "screensName": "pif_summary_report-v1",
-    "ufKey": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:WPS:AFK:pifSummaryReport:AFVK:v1"
+    "screenName": "ai passport",
+    "screensName": "ai_passport-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIRegistryView:AFVK:v1"
+  },
+  {
+    "screenName": "discovery queue",
+    "screensName": "discovery_queue-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:discoveryQueue:AFVK:v1"
+  },
+  {
+    "screenName": "risk classification",
+    "screensName": "risk_classification-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:assetList:AFVK:v1"
+  },
+  {
+    "screenName": "certification record",
+    "screensName": "certification_record-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certification:AFVK:v1"
+  },
+  {
+    "screenName": "risk evaluation",
+    "screensName": "risk_evaluation-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:riskAssetList:AFVK:v1"
+  },
+  {
+    "screenName": "certificate stage",
+    "screensName": "certificate_stage-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:assetApproval:AFVK:v1"
+  },
+  {
+    "screenName": "evidence",
+    "screensName": "evidence-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:assetEvidences:AFVK:v1"
+  },
+  {
+    "screenName": "report",
+    "screensName": "report-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFR:CATK:TAG:AFGK:TAG:AFK:evidenceReport:AFVK:v1"
+  },
+  {
+    "screenName": "risk rule",
+    "screensName": "risk_rule-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:riskRule:AFVK:v1"
+  },
+  {
+    "screenName": "risk rule condition",
+    "screensName": "risk_rule_condition-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:ruleCondition:AFVK:v1"
+  },
+  {
+    "screenName": "certification template",
+    "screensName": "certification_template-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificateTemplate:AFVK:v1"
+  },
+  {
+    "screenName": "certification template stage",
+    "screensName": "certification_template_stage-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificationTemplateStage:AFVK:v1"
+  },
+  {
+    "screenName": "code type",
+    "screensName": "code_type-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeTypes:AFVK:v1"
+  },
+  {
+    "screenName": "code value",
+    "screensName": "code_value-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeValue:AFVK:v1"
   }
 ]
           }
