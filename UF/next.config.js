@@ -13,7 +13,7 @@ try {
 }
 
 const nextConfig = {
-  basePath: '/ct003/tag/tag/v1',
+  basePath: '/ct010/ag001/a001/v1',
   reactStrictMode: false,
   output: 'standalone',  // Add this line to enable standalone builds,
   eslint: {

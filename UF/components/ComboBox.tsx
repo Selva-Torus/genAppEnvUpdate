@@ -488,7 +488,15 @@ export const Combobox: React.FC<ComboboxProps> = ({
         <div
           ref={panelRef}
           className={`overflow-y-auto border shadow-lg ${isDark ? "bg-gray-800" : "bg-white"}`}
-          style={{ borderColor: defaultStroke, maxHeight: panelStyle.maxHeight ?? 240, ...panelStyle }}
+          style={{
+            borderColor: defaultStroke,
+            maxHeight: panelStyle.maxHeight ?? 240,
+            // Keep the wheel inside the list: without this the leftover delta at
+            // the top/bottom edge chains up to the page and scrolls the screen
+            // behind the open panel.
+            overscrollBehavior: "contain",
+            ...panelStyle,
+          }}
           onMouseDown={(e) => e.stopPropagation()}
           onScroll={handleListScroll}
           onWheel={handleListWheel}

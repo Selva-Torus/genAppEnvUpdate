@@ -25,7 +25,7 @@ async function bootstrap() {
 
   let configData = null;
   try {
-    const redisResult:any = await redis.call('JSON.GET', "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:TAG:AFGK:TAG:AFK:tagDPD:AFVK:v1:NDP");
+    const redisResult:any = await redis.call('JSON.GET', "CK:CT010:FNGK:AF:FNK:CDF-DPD:CATK:AG001:AFGK:A001:AFK:defaultDPD:AFVK:v1:NDP");
     if (redisResult) {
       const parsed = JSON.parse(redisResult);
       const rootKey = Object.keys(parsed)[0];
@@ -148,7 +148,7 @@ async function bootstrap() {
     { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 
     'JWT-auth',
     )
-    .addServer('https://tgaprod910.toruslowcode.com/ct003/tag/tag/v1/api','Production Server')
+    .addServer('https://tgatest910.toruslowcode.com/ct010/ag001/a001/v1/api','Production Server')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   const appService = app.get(AppService);

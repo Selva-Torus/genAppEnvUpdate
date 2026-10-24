@@ -185,6 +185,12 @@ const DocumentUploader = ({
           writable: true,
           enumerable: true
         })
+        // true = freshly browsed/dropped, not uploaded yet; the submitting button sets it to false after uploadimg succeeds
+        Object.defineProperty(renamedFile, 'uploadPending', {
+          value: true,
+          writable: true,
+          enumerable: true
+        })
         return {
           file: renamedFile,
           url: URL.createObjectURL(renamedFile)

@@ -101,10 +101,10 @@ const TopNav = ({
   const brandTextColor = useMemo(() => {
     return isLightColor(brandColor)
   } , [brandColor])
-  const menuBgColor =""
-  const menuTextColor =""
-  const menuSelectionBgColor =""
-  const menuSelectionTextColor =""
+  const menuBgColor ="#F44336"
+  const menuTextColor ="#F44336"
+  const menuSelectionBgColor ="#0736C4"
+  const menuSelectionTextColor ="#0736C4"
   // Always work with the 24 grid version of the saved order
   const navBarItemsOrder = useMemo(
     () => normalizeNavBarItems(navBarItemsOrderProp),

@@ -1135,17 +1135,21 @@ export class TeService{
   async TEcall(token,input){
     try{
     var pfdto:any = new pfDto()
-    var formdata:any
+    var formdata:any 
+    let resArr = []
+    let upidArr = []
     const requestConfig: AxiosRequestConfig = {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       }
-    };      
-        pfdto.key = input.key
+    };    
+    if(Array.isArray(input.data) && input.data?.length>1 && !input.enableBulk){
+      for(let item of input.data){
+         pfdto.key = input.key
         pfdto.upId = input.upId
         pfdto.token = token 
-        pfdto.data = input.data
+        pfdto.data = item
         pfdto.event = input.event
         pfdto.nodeId = input.nodeId         
         pfdto.nodeType = input.nodeType 
@@ -1157,7 +1161,34 @@ export class TeService{
         pfdto.authContext =  input.authContext 
         pfdto.enableBulk =  input.enableBulk
         pfdto.agentAccess =  input.agentAccess
-        formdata =  await this.EventEmitter(pfdto)              
+        formdata = await this.EventEmitter(pfdto)
+        upidArr.push(formdata?.upId)
+        if(Array.isArray(formdata?.data))
+          resArr.push(...formdata?.data)
+         else
+          resArr.push(formdata?.data)
+      }
+         formdata['data'] =  resArr
+         formdata['upId'] =  upidArr  
+    }else{
+      pfdto.key = input.key
+        pfdto.upId = input.upId
+        pfdto.token = token 
+        pfdto.data = input.data
+        pfdto.event = input.event
+        pfdto.nodeId = input.nodeId         
+        pfdto.nodeType = input.nodeType 
+        pfdto.sourceId = input.sourceId
+        pfdto.lock = input.lockDetails      
+        pfdto.childTable = input.childTable 
+        pfdto.ssKey =  input.ssKey   
+        pfdto.controlName =  input.controlName 
+        pfdto.authContext =  input.authContext
+        pfdto.enableBulk =  input.enableBulk
+        pfdto.agentAccess =  input.agentAccess 
+        formdata =  await this.EventEmitter(pfdto)
+    }
+                     
       return formdata
   }catch(err){    
     throw err

@@ -152,15 +152,76 @@ export class JwtServices {
     return fetchPromise;
   }
 
+  async getApplicationTenantFusionauthDetails(app_tenant: string | undefined = undefined) {
+    const config = this.getConfig();
+    const fusionAuthBaseUrl = config.fusionAuthBaseUrl;
+    const fusionAuthApiKey = config.fusionAuthApiKey;
+    let tenantUniqueId = ''
+    let applicationId = '';
+    let fusionAuthApplicationTenantClientSecret = '';
+
+    const possible_FA_tenant_name = `${tenant}-apptenant-${app_tenant}`;
+    // CHECK EXISTENCE OF THE APPLICATION TENANT IN FUSIONAUTH
+    const tenantList = await FusionAuthGetTenantList({
+      name: possible_FA_tenant_name,
+      fusionAuthBaseUrl: fusionAuthBaseUrl,
+      fusionAuthApiKey: fusionAuthApiKey,
+    });
+
+    const isTenantExist = tenantList.find(
+      (a) => a.name == possible_FA_tenant_name,
+    );
+
+    if (isTenantExist.id) {
+      tenantUniqueId = isTenantExist.id
+    } else {
+      return 'Application Tenant does not exist'
+    }
+
+
+    // step 2 => check for application existence , create if not exist and return application id
+    const possibleApplicationNameInFusionAuth = `${app_tenant}-defaultApplication`;
+    const applicationList = await FusionAuthGetApplicationList(
+      tenantUniqueId,
+      {
+        fusionAuthBaseUrl: fusionAuthBaseUrl,
+        fusionAuthApiKey: fusionAuthApiKey,
+        name: possibleApplicationNameInFusionAuth,
+      },
+    )
+
+    const isApplicationExist = applicationList.find(
+      (a) => a.name == possibleApplicationNameInFusionAuth,
+    );
+    if (isApplicationExist.id) {
+      applicationId = isApplicationExist.id;
+      fusionAuthApplicationTenantClientSecret = isApplicationExist.oauthConfiguration.clientSecret;
+    } else {
+      return 'Application does not exist'
+    }
+
+    return {
+      tenantUniqueId,
+      applicationId,
+      fusionAuthApplicationTenantClientSecret
+    }
+  }
+
   // Signature + expiry verified — use this wherever the decoded claims drive
   // an authorization/identity decision. decodeToken() below trusts nothing.
   async verifyToken(token: string): Promise<any> {
     try {
-      if (!this.ApplicationId || !this.TenantUniqueId) {
-        const { applicationId, tenantUniqueId } =
-          await this.getTenantAndApplicationFusionAuthIdSecret();
-        this.ApplicationId = applicationId;
-        this.TenantUniqueId = tenantUniqueId;
+      const unVerifiedClaim = this.decodeToken(token);
+      if (!this.ApplicationId || !this.TenantUniqueId || unVerifiedClaim?.tid !== this.TenantUniqueId) {
+        let data;
+        if(unVerifiedClaim?.tenantId === process.env.TENANT){
+         data = await this.getTenantAndApplicationFusionAuthIdSecret();
+        } else {
+           data = await this.getApplicationTenantFusionauthDetails(unVerifiedClaim?.tenantId);
+        }
+        
+        this.ApplicationId = data?.applicationId;
+        this.TenantUniqueId = data?.tenantUniqueId;
       }
 
       const claims = await this.getClaims(token);

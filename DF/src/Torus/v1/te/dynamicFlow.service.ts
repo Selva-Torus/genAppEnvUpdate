@@ -4343,7 +4343,13 @@ export class DynamicFlowService {
                             DfExecutedDataSet = DfExecutedResult?.result?.dataset?.data
                             }
                         } else if (executionMode == 'refer') {
-                            let DstKey = DfdKey.replace('AF', 'AFP').replace('DF-DFD', 'DF-DST')
+                            // let DstKey = DfdKey.replace('AF', 'AFP').replace('DF-DFD', 'DF-DST')
+                            let dfdFngkKey = await this.CommonService.splitcommonkey(DfdKey, 'FNGK')
+                            let DstKey = DfdKey
+                            if (DfdKey.includes(dfdFngkKey)) {
+                                DstKey = DfdKey.replace(dfdFngkKey, dfdFngkKey + 'P')
+                            }
+                            DstKey = DstKey.replace('DF-DFD', 'DF-DST')
                             // dsObject = JSON.parse(await this.redisService.getJsonData(DstKey + SessionToken.loginId + '_DS_Object', collectionName))
                             let dsObject = await this.redisService.getAllRecordshash(DstKey + SessionToken.loginId+'_DS_Object')
                             DfExecutedDataSet = dsObject

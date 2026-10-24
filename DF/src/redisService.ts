@@ -893,7 +893,12 @@ export class RedisService implements OnModuleInit {
       if (!DbSchema || !pgClient) throw ('pgClient/schema not found')
       let tableName
       if (key) {
-        if (key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+       if (
+  key.includes(':FNGK:AFR:') ||
+  key.includes(':FNGK:AFRS:') ||
+  key.includes(':FNGK:AAFR:') ||
+  key.includes(':FNGK:AAFRS:')
+)
           tableName = 'amd_node_registry'
         else if (key.includes(':FNGK:AFP:'))
           tableName = 'tam_app_process_dtl'
@@ -969,7 +974,12 @@ export class RedisService implements OnModuleInit {
       if (!DbSchema || !pgClient) throw ('pgClient/schema not found')
       let tableName
       if (key) {
-        if (key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+        if (
+  key.includes(':FNGK:AFR:') ||
+  key.includes(':FNGK:AFRS:') ||
+  key.includes(':FNGK:AAFR:') ||
+  key.includes(':FNGK:AAFRS:')
+)
           tableName = 'amd_node_registry'
         else if (key.includes(':FNGK:AFP:'))
           tableName = 'tam_app_process_dtl'
@@ -1009,7 +1019,12 @@ export class RedisService implements OnModuleInit {
       if (!DbSchema || !pgClient) throw ('pgClient/schema not found')
       let tableName
       if (key) {
-        if (key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+        if (
+  key.includes(':FNGK:AFR:') ||
+  key.includes(':FNGK:AFRS:') ||
+  key.includes(':FNGK:AAFR:') ||
+  key.includes(':FNGK:AAFRS:')
+)
           tableName = 'amd_node_registry'
         else
           tableName = 'amd_registry'
@@ -1066,7 +1081,12 @@ export class RedisService implements OnModuleInit {
       if (!DbSchema || !pgClient) throw ('pgClient/schema not found')
       let tableName
       if (key) {
-        if (key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+       if (
+  key.includes(':FNGK:AFR:') ||
+  key.includes(':FNGK:AFRS:') ||
+  key.includes(':FNGK:AAFR:') ||
+  key.includes(':FNGK:AAFRS:')
+)
           tableName = 'amd_node_registry'
         else
           tableName = 'amd_registry'
@@ -1099,7 +1119,12 @@ export class RedisService implements OnModuleInit {
       if (!DbSchema || !pgClient) throw ('pgClient/schema not found')
       let tableName
       if (key) {
-        if (key.includes(':FNGK:AFR:') || key.includes(':FNGK:AFRS:'))
+       if (
+  key.includes(':FNGK:AFR:') ||
+  key.includes(':FNGK:AFRS:') ||
+  key.includes(':FNGK:AAFR:') ||
+  key.includes(':FNGK:AAFRS:')
+)
           tableName = 'amd_node_registry'
         else
           tableName = 'amd_registry'

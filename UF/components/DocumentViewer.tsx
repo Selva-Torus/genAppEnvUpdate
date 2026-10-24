@@ -93,6 +93,11 @@ interface DocViewerProps {
   currentUrlIndex?: number
   onUrlIndexChange?: (index: number) => void
   onSelectIndex?: (index: number) => void
+  /* Asked before every move the toolbar makes, with the index the viewer is
+   * about to show. Returning false - or a promise of it - keeps the current
+   * document on screen, so the owner can refuse the move while its form is
+   * still invalid. Without it navigation behaves as before. */
+  beforeNavigate?: (nextIndex?: number) => boolean | Promise<boolean>
   /* A CHEQUE scan groups its images into transactions and only the current
    * transaction's images are loaded, so the skip buttons step between
    * transactions instead of jumping to the first/last image. The owner holds the
@@ -248,6 +253,7 @@ const DocViewer: React.FC<DocViewerProps> = ({
   currentUrlIndex,
   onUrlIndexChange,
   onSelectIndex,
+  beforeNavigate,
   onPreviousTransaction,
   onNextTransaction,
   hasPreviousTransaction = false,
@@ -409,18 +415,41 @@ const DocViewer: React.FC<DocViewerProps> = ({
   }, [currentUrl])
 
   /* ---------- navigation ---------- */
-  const navigateFiltered = (newFilteredIdx: number) => {
+  /* The guard may be slow, so hold the move until it answers and ignore the
+   * clicks that land while it is still running. */
+  const isGuardRunningRef = useRef(false)
+
+  const allowNavigation = async (nextIndex?: number) => {
+    if (beforeNavigate === undefined) {
+      return true
+    }
+
+    if (isGuardRunningRef.current) {
+      return false
+    }
+
+    isGuardRunningRef.current = true
+
+    try {
+      return (await beforeNavigate(nextIndex)) !== false
+    } finally {
+      isGuardRunningRef.current = false
+    }
+  }
+
+  const navigateFiltered = async (newFilteredIdx: number) => {
+    const targetFile = filteredFiles[newFilteredIdx]
+    const originalIdx = targetFile ? files.indexOf(targetFile) : -1
+
+    if (!(await allowNavigation(originalIdx === -1 ? undefined : originalIdx))) {
+      return
+    }
+
     setFilteredIndex(newFilteredIdx)
     resetZoomAndPosition()
 
-    const targetFile = filteredFiles[newFilteredIdx]
-
-    if (targetFile) {
-      const originalIdx = files.indexOf(targetFile)
-
-      if (onUrlIndexChange !== undefined && originalIdx !== -1) {
-        onUrlIndexChange(originalIdx)
-      }
+    if (targetFile && onUrlIndexChange !== undefined && originalIdx !== -1) {
+      onUrlIndexChange(originalIdx)
     }
   }
 
@@ -466,41 +495,41 @@ const DocViewer: React.FC<DocViewerProps> = ({
   const isTransactionNav =
     scanType === 'CHEQUE' && (!!onPreviousTransaction || !!onNextTransaction)
 
-  const goToFirst = () => {
+  const goToFirst = async () => {
     if (isTransactionNav) {
-      if (hasPreviousTransaction) {
+      if (hasPreviousTransaction && (await allowNavigation())) {
         onPreviousTransaction?.()
       }
       return
     }
 
     if (!isFirst) {
-      navigateFiltered(0)
+      await navigateFiltered(0)
     }
   }
 
-  const goToPrevious = () => {
+  const goToPrevious = async () => {
     if (!isFirst) {
-      navigateFiltered(activeFilteredIndex - 1)
+      await navigateFiltered(activeFilteredIndex - 1)
     }
   }
 
-  const goToNext = () => {
+  const goToNext = async () => {
     if (!isLast) {
-      navigateFiltered(activeFilteredIndex + 1)
+      await navigateFiltered(activeFilteredIndex + 1)
     }
   }
 
-  const goToLast = () => {
+  const goToLast = async () => {
     if (isTransactionNav) {
-      if (hasNextTransaction) {
+      if (hasNextTransaction && (await allowNavigation())) {
         onNextTransaction?.()
       }
       return
     }
 
     if (!isLast && filteredFiles.length > 0) {
-      navigateFiltered(filteredFiles.length - 1)
+      await navigateFiltered(filteredFiles.length - 1)
     }
   }
 

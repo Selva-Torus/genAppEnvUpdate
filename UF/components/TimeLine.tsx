@@ -224,9 +224,13 @@ export const TimeLine: React.FC<TimeLineProps> = ({
         className={
           isHorizontal
             ? 'relative flex items-start gap-0 pb-4 scrollbar-thin'
-            : 'x scrollbar-none relative pb-8 '
+            : 'scrollbar-none relative grid items-stretch pb-8'
         }
-        style={isHorizontal ? { scrollBehavior: 'smooth' } : undefined}
+        style={
+          isHorizontal
+            ? { scrollBehavior: 'smooth' }
+            : { gridTemplateColumns: '0.50fr 44px 1fr' }
+        }
       >
         {Array.isArray(steps) &&
           steps.map((step, idx) => {
@@ -248,10 +252,11 @@ export const TimeLine: React.FC<TimeLineProps> = ({
             return (
               <li
                 key={idx}
+                role={isHorizontal ? undefined : 'listitem'}
                 className={
                   isHorizontal
                     ? 'hover:color-gray-50 relative flex min-w-[200px] cursor-pointer flex-col items-center rounded transition-all duration-200'
-                    : 'relative flex w-full flex-row justify-center'
+                    : 'contents'
                 }
                 onClick={() => onStepClick?.(step, idx)}
               >
@@ -292,10 +297,12 @@ export const TimeLine: React.FC<TimeLineProps> = ({
                       </span>
 
                       {idx !== steps.length - 1 && (
-                        <div
-                          className='absolute left-1/2 top-1/2 h-0.5 w-full -translate-y-1/2'
-                          style={{ backgroundColor: statusStyles.color }}
-                        />
+                        <div className='pointer-events-none absolute inset-y-0 left-1/2 flex w-full items-center'>
+                          <div
+                            className='h-0.5 w-full'
+                            style={{ backgroundColor: statusStyles.color }}
+                          />
+                        </div>
                       )}
                     </div>
 
@@ -313,94 +320,94 @@ export const TimeLine: React.FC<TimeLineProps> = ({
                 ) : (
                   <>
                     {/* Vertical Layout */}
-                    <div className='grid w-full grid-cols-[0.50fr_44px_1fr] items-stretch'>
-                      {/* Left Side - Date & Time */}
-                      <div
-                        className={`flex flex-col items-end justify-center gap-0.5 py-6 leading-none text-xs ${
-                          statusStyles.icon
-                            ? isDark
-                              ? 'text-gray-300'
-                              : 'text-gray-500'
-                            : isDark
-                            ? 'text-gray-500'
-                            : 'text-gray-400'
-                        }`}
-                      >
-                        <span className="whitespace-nowrap leading-none">
-                          {_dateDisplay}
+                    {/* Left Side - Date & Time */}
+                    <div
+                      className={`flex flex-col items-end justify-center gap-0.5 py-6 text-xs leading-none ${
+                        statusStyles.icon
+                          ? isDark
+                            ? 'text-gray-300'
+                            : 'text-gray-500'
+                          : isDark
+                          ? 'text-gray-500'
+                          : 'text-gray-400'
+                      }`}
+                    >
+                      <span className='whitespace-nowrap leading-none'>
+                        {_dateDisplay}
+                      </span>
+                      {_timeDisplay && (
+                        <span className='whitespace-nowrap leading-none'>
+                          {_timeDisplay}
                         </span>
-                        {_timeDisplay && (
-                          <span className="whitespace-nowrap leading-none">
-                            {_timeDisplay}
-                          </span>
-                        )}
-                      </div>
+                      )}
+                    </div>
 
-                      {/* Timeline */}
-                      <div className='relative flex items-center justify-center ml-1'>
-                        <span
-                          className={`relative z-10 flex h-6 w-6 items-center justify-center rounded-full ${
-                            statusStyles.icon ? 'shadow-sm' : 'border-2 bg-white'
-                          }`}
-                          style={
-                            statusStyles.icon
-                              ? { backgroundColor: statusStyles.color }
-                              : { borderColor: statusStyles.color }
-                          }
-                        >
-                          {statusStyles.icon && (
-                            <Icon
-                              data={statusStyles.icon}
-                              size={12}
-                              fillContainer={false}
-                              className='!flex !h-full !w-full !items-center !justify-center text-white'
+                    {/* Timeline */}
+                    <div className='relative ml-1 flex items-center justify-center'>
+                      {/* Connector: centred with flex (exactly like the dot) and
+                          sized with insets + 1px bleed, so halves always meet.
+                          Transforms and 50% heights round off at fractional
+                          browser zoom levels and leave gaps / off-centre lines. */}
+                      <div className='pointer-events-none absolute inset-0 flex justify-center'>
+                        <div className='relative w-0.5'>
+                          {idx !== 0 && (
+                            <div
+                              className='absolute inset-x-0 bottom-1/2 top-0 -mb-px -mt-px'
+                              style={{ backgroundColor: prevStatusStyles!.color }}
                             />
                           )}
-                        </span>
-
-                        {idx !== 0 && (
-                          <div
-                            className='absolute left-1/2 top-0 -translate-x-1/2 w-0.5 z-0'
-                            style={{
-                              backgroundColor: prevStatusStyles!.color,
-                              height: '50%'
-                            }}
-                          />
-                        )}
-                        {idx !== steps.length - 1 && (
-                          <div
-                            className='absolute left-1/2 bottom-0 -translate-x-1/2 w-0.5 z-0'
-                            style={{
-                              backgroundColor: statusStyles.color,
-                              height: '50%'
-                            }}
-                          />
-                        )}
+                          {idx !== steps.length - 1 && (
+                            <div
+                              className='absolute inset-x-0 bottom-0 top-1/2 -mb-px -mt-px'
+                              style={{ backgroundColor: statusStyles.color }}
+                            />
+                          )}
+                        </div>
                       </div>
 
-                      {/* Right Side - Title */}
-                      <div
-                        className={`flex items-center py-6 pl-2 ${
-                          statusStyles.icon
-                            ? isDark
-                              ? 'text-gray-100 font-medium'
-                              : 'text-gray-800 font-medium'
-                            : isDark
-                            ? 'text-gray-500'
-                            : 'text-gray-400'
+                      <span
+                        className={`relative z-10 flex h-6 w-6 items-center justify-center rounded-full ${
+                          statusStyles.icon ? 'shadow-sm' : 'border-2 bg-white'
                         }`}
+                        style={
+                          statusStyles.icon
+                            ? { backgroundColor: statusStyles.color }
+                            : { borderColor: statusStyles.color }
+                        }
                       >
-                        <Text
-                          fillContainer={false}
-                          className='text-left w-full'
-                          style={{
-                            wordBreak: 'keep-all',
-                            textAlign: 'left'
-                          }}
-                        >
-                          {step[title]}
-                        </Text>
-                      </div>
+                        {statusStyles.icon && (
+                          <Icon
+                            data={statusStyles.icon}
+                            size={12}
+                            fillContainer={false}
+                            className='!flex !h-full !w-full !items-center !justify-center text-white'
+                          />
+                        )}
+                      </span>
+                    </div>
+
+                    {/* Right Side - Title */}
+                    <div
+                      className={`flex items-center py-6 pl-2 ${
+                        statusStyles.icon
+                          ? isDark
+                            ? 'text-gray-100 font-medium'
+                            : 'text-gray-800 font-medium'
+                          : isDark
+                          ? 'text-gray-500'
+                          : 'text-gray-400'
+                      }`}
+                    >
+                      <Text
+                        fillContainer={false}
+                        className='w-full text-left'
+                        style={{
+                          wordBreak: 'keep-all',
+                          textAlign: 'left'
+                        }}
+                      >
+                        {step[title]}
+                      </Text>
                     </div>
                   </>
                 )}
@@ -412,7 +419,7 @@ export const TimeLine: React.FC<TimeLineProps> = ({
             className={
               isHorizontal
                 ? 'flex min-w-[100px] items-center justify-center'
-                : 'flex w-full items-center justify-center py-4'
+                : 'col-span-3 flex w-full items-center justify-center py-4'
             }
           >
             <div className='h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-blue-500' />

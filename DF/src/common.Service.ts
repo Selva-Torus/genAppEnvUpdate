@@ -1513,8 +1513,7 @@ export class CommonService{
         if(optnlParams){
           artifact = optnlParams.artifact
           sessionInfo['user'] =  optnlParams.users 
-          
-          key = optnlParams.key?optnlParams.key:`CK:${tenant}:FNGK:AF:FNK:UF-UFW:CATK:${ag}:AFGK:${app}:AFK:${artifact}:AFVK:${afvk}:`        
+          key = optnlParams.key?optnlParams.key:`CK:${tenant}:FNGK:AF:FNK:UF-UFW:CATK:${ag}:AFGK:${app}:AFK:${artifact}:AFVK:${afvk}:`
         }        
         else {          
           artifact = key        
@@ -1531,7 +1530,7 @@ export class CommonService{
           }
         });
         if(keyFlag) { 
-          key = `CK:${tenant}:FNGK:AF:FNK:UF-UFW:CATK:${ag}:AFGK:${app}:AFK:${artifact}:AFVK:${afvk}:`        
+          key = `CK:${tenant}:FNGK:AF:FNK:UF-UFW:CATK:${ag}:AFGK:${app}:AFK:${artifact}:AFVK:${afvk}:` 
         }
         tenant = await this.splitcommonkey(key,'CK')
         app = await this.splitcommonkey(key,'AFGK')
@@ -1567,8 +1566,8 @@ export class CommonService{
         
         if(typeof key != 'string')
         key = 'commonError'
-         tenant=tenant || "CT003"
-        app=app ||  "TAG"
+         tenant=tenant || "CT010"
+        app=app ||  "A001"
         await this.redisService.setStreamData(tenant+'-'+app+'-TSL',key,JSON.stringify(logs))    
         return logs
 

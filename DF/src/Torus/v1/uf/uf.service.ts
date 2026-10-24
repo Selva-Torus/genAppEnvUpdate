@@ -70,7 +70,7 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
   ) {}
     private pool : Pool;
     
-     async onModuleInit() {
+    async onModuleInit() {
       this.pool = new Pool({
        connectionString: process.env.PG_URL,
        application_name: `${tenant}_${ag}_${app}_ufService`,
@@ -81,6 +81,7 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
        connectionTimeoutMillis: 30000,  // fail fast if can't connect in 5s
        allowExitOnIdle: false,         // keep pool alive
        keepAlive: true,
+       keepAliveInitialDelayMillis: 10000, // start TCP keepalive probes after 10s so dead idle connections are detected before reuse
      });
     // // 🔑 Key: handle pool-level errors so they don't crash the process
      this.pool.on('error', (err, client) => {
@@ -112,31 +113,69 @@ export class UfService implements OnModuleInit, OnModuleDestroy {
     }
     }
 
+  private isTransientPgError(err: any): boolean {
+    return (
+      err?.message?.includes('Connection terminated') ||
+      err?.code === 'ECONNRESET' ||
+      err?.code === 'ETIMEDOUT' ||
+      err?.code === 'ECONNREFUSED' ||
+      err?.code === '57P01' // admin_shutdown
+    );
+  }
+
+  private delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   async query<T = any>(text: string, params?: any[]): Promise<T[]> {
-    const client = await this.pool.connect();
+    const maxAttempts = 3;
+    const retryDelayMs = 300;
 
-    const onClientError = (err: any) => {
-      console.error('PG client error while checked out:', err.message);
-    };
-    client.on('error', onClientError);
-
-    try {
-      const result = await client.query(text, params);
-      return result.rows;
-    } catch (err: any) {
-      console.error('Query error:', err.message);
-
-      if (
-        err?.message?.includes('Connection terminated') ||
-        err?.code === 'ECONNRESET' ||
-        err?.code === '57P01' // admin_shutdown
-      ) {
-        throw new BadGatewayException('Database connection timed out. Please try again.');
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      let client;
+      try {
+        client = await this.pool.connect();
+      } catch (err: any) {
+        const transient = this.isTransientPgError(err);
+        console.error('PG connect error:', err.message);
+        if (transient && attempt < maxAttempts) {
+          await this.delay(retryDelayMs * attempt);
+          continue;
+        }
+        throw transient
+          ? new BadGatewayException('Database connection timed out. Please try again.')
+          : err;
       }
-      throw err;
-    } finally {
-      client.removeListener('error', onClientError);
-      client.release();
+
+      const onClientError = (err: any) => {
+        console.error('PG client error while checked out:', err.message);
+      };
+      client.on('error', onClientError);
+
+      let queryError: any;
+      try {
+        const result = await client.query(text, params);
+        return result.rows;
+      } catch (err: any) {
+        queryError = err;
+        console.error('Query error:', err.message);
+      } finally {
+        client.removeListener('error', onClientError);
+        // Passing the error discards the client instead of returning a possibly broken socket to the pool.
+        client.release(queryError);
+      }
+
+      const transient = this.isTransientPgError(queryError);
+      if (transient && attempt < maxAttempts) {
+        await this.delay(retryDelayMs * attempt);
+        continue;
+      }
+      // Retries only happen before/around connection acquisition and on transient errors from
+      // idempotent callers (e.g. structuredPrcLogsToPostgres uses ON CONFLICT DO NOTHING), so
+      // this does not introduce duplicate writes for those paths.
+      throw transient
+        ? new BadGatewayException('Database connection timed out. Please try again.')
+        : queryError;
     }
   }
 
@@ -327,7 +366,7 @@ getConfig(): FusionAuthConfig {
 
  async insertDocToVgphSourceTranDocMain(category: string, doc_name: string, url: string, size?: number, doc_group?: string, userName?: string): Promise<any> {
     try {
-      const insertUrl = `${process.env.APP_MANAGER_URL}/ct003/attachments`;
+      const insertUrl = `${process.env.APP_MANAGER_URL}/ct010/attachments`;
       //const vgphstm_uuid = uuid();
       const currentDate = new Date().toISOString().slice(0, 19) + '+00:00';
 
@@ -356,7 +395,7 @@ getConfig(): FusionAuthConfig {
 
   async getUrlByVgphstdmId(vgphstdm_id: any): Promise<{ url: string; additionalData: any }> {
     try {
-      const getUrl = `${process.env.APP_MANAGER_URL}/ct003/attachments/${vgphstdm_id}`;
+      const getUrl = `${process.env.APP_MANAGER_URL}/ct010/attachments/${vgphstdm_id}`;
 
       const response = await axios.get(getUrl, {
         headers: {
@@ -8702,7 +8741,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct003_tag';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : '';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8761,7 +8800,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct003_tag';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : '';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8831,7 +8870,7 @@ getConfig(): FusionAuthConfig {
       );
 
       for (const lock of locks.rows) {
-        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : 'ct003_tag';
+        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : '';
         await client.query(
           `UPDATE ${recordSchema}."${lock.table_name}"
            SET trs_locked_by = NULL, trs_locked_time = NULL
