@@ -15,6 +15,7 @@ import { isLightColor } from '../utils'
 import Image from "next/image";
 import axios from 'axios'
 import { useGlobal } from '@/context/GlobalContext'
+import { getPublicEnv } from '@/app/components/public-env'
 
 interface Role {
   roleCode: string
@@ -997,7 +998,7 @@ const OPRTopNavSelector = ({
         id: currentSubOrg ? currentSubOrg?.id : currentOrg?.id
       }
 
-     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''; 
+     const basePath = getPublicEnv('NEXT_PUBLIC_BASE_PATH')
      const res = await axios.post(`${basePath}/next-api/auth/get-access-token`, {
           selectedCombination: selectedCombo,
           selectedAccessProfile: matchedAccessProfileData?.accessProfile,

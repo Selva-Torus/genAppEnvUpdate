@@ -14,6 +14,7 @@ import clsx from "clsx";
 import dynamic from 'next/dynamic';
 import { useGlobal } from '@/context/GlobalContext'
 import { logout } from "@/app/components/utils";  
+import { getPublicEnv } from "@/app/components/public-env";
 
 const Groupgroup = dynamic(() => import("./Groupgroup/Groupgroup"), { ssr: false });
 
@@ -121,7 +122,7 @@ export default function PageTestV1({ onReady }: { onReady?: () => void } = {}) {
       await handleArtfactRule(orchestrationData?.artfactPFRule,{...decodedTokenObj},allRuleData)  
     }
     if (token) {
-      const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+      const basePath = getPublicEnv('NEXT_PUBLIC_BASE_PATH');
       const res = await fetch(`${basePath}/next-api/auth/introspect?key=CK:CT010:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:test:AFVK:v1`)
       if (!res.ok) {
         logout(token)

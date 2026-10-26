@@ -1,7 +1,8 @@
 // app/next-api/auth/lib/cookies.ts
+import { getPublicEnv } from '@/app/components/public-env'
 import { NextResponse } from 'next/server'
 
-export const FULL_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+export const FULL_BASE_PATH = getPublicEnv('NEXT_PUBLIC_BASE_PATH');
 
 export const COOKIE_PREFIX = FULL_BASE_PATH.replace(/^\/|\/$/g, '').replace(/\//g, '_')
 

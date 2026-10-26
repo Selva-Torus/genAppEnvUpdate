@@ -15,6 +15,7 @@ import { Text } from '@/components/Text'
 import i18n from '../../components/i18n'
 import { twMerge } from 'tailwind-merge'
 import { getFontSizeForHeader, getFontSizeForSubHeader } from '@/app/utils/branding'
+import { getPublicEnv } from '@/app/components/public-env'
 
 const GeneralSettings = ({ currentLang, setCurrentLang }: {
   currentLang: string
@@ -27,6 +28,7 @@ const GeneralSettings = ({ currentLang, setCurrentLang }: {
   const { branding , token } = useGlobal()
   const { borderColor, theme, setTheme } = useTheme()
   const { brandColor } = branding
+  const tenant = getPublicEnv('NEXT_PUBLIC_TENANT_CODE');
   // const [currentLang, setCurrentLang] = useState(getCookie('cfg_lang')) // 'en'
   const keyset = useMemo(() => {
     return i18n.keyset('language')
@@ -56,7 +58,7 @@ const GeneralSettings = ({ currentLang, setCurrentLang }: {
   ]
 
   const fetchLanguages = async () => {
-    const key = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:${process.env.NEXT_PUBLIC_TENANT_CODE}:AFK:PROFILE:AFVK:v1:tpc`
+    const key = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:${tenant}:AFK:PROFILE:AFVK:v1:tpc`
     const response = await fetchAMDKey(key, token, {})
     if (response.languages && Array.isArray(response['languages'])) {
       const updatedLangResponse = response['languages'].map(({ name, code }: { name: string; code: string }) => ({

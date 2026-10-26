@@ -114,7 +114,7 @@ const FilterModal = ({
     try {
       if (!isAdminUser) return
       const response = await AxiosService.get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/UF/getAppSecurityData`,
+        `/UF/getAppSecurityData`,
         {
           headers: {
             Authorization: `Bearer ${token}`

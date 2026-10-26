@@ -10,6 +10,7 @@ import { TotalContext, TotalContextProps } from '../globalContext'
 import { useRouter } from 'next/navigation'
 import { useGlobal } from '@/context/GlobalContext'
 import { logout } from "@/app/components/utils";
+import { getPublicEnv } from '@/app/components/public-env'
 
 const ParentComponent = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -273,7 +274,7 @@ const ParentComponent = () => {
 
    const securityCheck = async () => {
      try {
-     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+     const basePath = getPublicEnv('NEXT_PUBLIC_BASE_PATH')
      const res = await fetch(`${basePath}/next-api/auth/introspect?key=Logs Screen`)
      if (!res.ok) {
        logout(token)

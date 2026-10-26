@@ -15,6 +15,7 @@ import { Dropdown } from '@/components/Dropdown'
 import i18n from '../components/i18n'
 import clsx from 'clsx'
 import Image from "next/image";
+import { getPublicEnv } from '@/app/components/public-env'
 
 interface Props {
   logo: string
@@ -32,7 +33,7 @@ const ForgotPassword = ({ logo, appName, appTenantList }: Props) => {
   const bgColor = isDark ? 'bg-black' : 'bg-white'
   const { branding } = useGlobal()
   const { brandColor } = branding
-  const isSaasApp = process.env.NEXT_PUBLIC_IS_SAAS_APPLICATION
+  const isSaasApp = getPublicEnv('NEXT_PUBLIC_IS_SAAS_APPLICATION');
   const [selectedAppTenant , setSelectedAppTenant] = useState('')
   const keyset: any = i18n.keyset('language')
   const [otpResetToken, setOtpResetToken] = useState('')

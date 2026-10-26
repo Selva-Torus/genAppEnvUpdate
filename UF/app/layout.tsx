@@ -366,6 +366,7 @@ import { EventBusProvider } from '@/context/EventBusContext';
 import { ThemeWrapper } from '@/components/ThemeWrapper';
 import { cookies } from 'next/headers';
 import { COOKIE_PREFIX } from '@/lib/cookies';
+import { getServerPublicEnv } from './components/public-env';
 
 export const metadata: Metadata = {
   title: 'application',
@@ -379,12 +380,14 @@ export default async function RootLayout({
 }) {
   const cookieStore = await cookies();
   const tokenParam = cookieStore.get(`${COOKIE_PREFIX}_token`)?.value;
+  const publicEnv = getServerPublicEnv();
+
 
   return (
     <html lang='en'>
       <body>
         <GlobalContext>
-          <GlobalProvider tokenParam={tokenParam ?? ""}>
+          <GlobalProvider tokenParam={tokenParam ?? ""} publicEnv={publicEnv}>
             <EventBusProvider>
               <ThemeWrapper>
                   <GetSetupKey>{children}</GetSetupKey>

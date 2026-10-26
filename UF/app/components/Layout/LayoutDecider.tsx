@@ -207,8 +207,8 @@ const LayoutDecider = ({
 
     const getNavData = async(): Promise<void> => {
     try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/UF/getNavbarData`,
+      const res = await AxiosService.post(
+        `/UF/getNavbarData`,
         { key: aKey },
         { headers: { authorization: `Bearer ${token}` } }
       )

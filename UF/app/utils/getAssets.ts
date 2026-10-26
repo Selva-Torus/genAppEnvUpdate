@@ -1,5 +1,7 @@
+import { getPublicEnv } from '@/app/components/public-env'
+
 export const getCdnImage = (imageUrl: string) => {
-  const cdnBase = process.env.NEXT_PUBLIC_FTP_OUTPUT_HOST || "";
+  const cdnBase = getPublicEnv('NEXT_PUBLIC_FTP_OUTPUT_HOST');
   if (!imageUrl) return "";
  
   const cleanBase = cdnBase.replace(/\/$/, ""); // remove trailing slash

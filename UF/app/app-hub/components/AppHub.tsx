@@ -13,6 +13,7 @@ import { Dropdown } from '@/components/Dropdown'
 import { AppHubIcon, SearchIcon } from '@/app/components/svgApplication'
 import clsx from 'clsx'
 import Image from "next/image";
+import { getPublicEnv } from '@/app/components/public-env'
 
 type VersionInfo = {
   version: string
@@ -129,7 +130,8 @@ const AppHub = ({ appList }: { appList: Application[] }) => {
              onClick={() => {
               if (selectedVersion?.accessUrl) {
                 const origin = window.location.href
-                const url = new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}/next-api/sso-init`, window.location.origin)
+                const basePath = getPublicEnv('NEXT_PUBLIC_BASE_PATH')
+                const url = new URL(`${basePath}/next-api/sso-init`, window.location.origin)
                 url.searchParams.set('accessUrl', selectedVersion.accessUrl)
                 url.searchParams.set('origin', origin)
                 url.searchParams.set('token', token)

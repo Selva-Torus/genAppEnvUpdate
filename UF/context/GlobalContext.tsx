@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { Theme, Language, Direction, GlobalProps, Branding, Typography } from "@/types/global";
 import { getCookie, setCookie } from "@/app/components/cookieMgment";
+import { PublicEnv, setClientPublicEnv } from "@/app/components/public-env";
 
 interface GlobalContextType extends GlobalProps {
   setTheme: (theme: Theme) => void;
@@ -15,15 +16,20 @@ interface GlobalContextType extends GlobalProps {
   appBackgroundImage: string | undefined;
   setAppBackgroundImage: (image: string | undefined) => void;
   setDisplayFormat:(data:any)=>void;
+
+  // for taking env from clientside
+  publicEnv: PublicEnv;
 }
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
 
-export const GlobalProvider: React.FC<{ children: ReactNode , tokenParam:string }> = ({
+export const GlobalProvider: React.FC<{ children: ReactNode , tokenParam:string ,  publicEnv: PublicEnv }> = ({
   children,
-  tokenParam
+  tokenParam,
+  publicEnv
 }) => {
   // Initialize theme from cookie or default to "light"
+  setClientPublicEnv(publicEnv);
   const [theme, setThemeState] = useState<Theme>(() => {
     const savedTheme = getCookie('cfg_theme');
     return (savedTheme as Theme) || "light";
@@ -106,6 +112,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode , tokenParam:string 
     <GlobalContext.Provider
       value={{
         token,
+        publicEnv,
         theme,
         language,
         direction,
@@ -136,4 +143,6 @@ export const useGlobal = () => {
   }
   return context;
 };
+
+export const usePublicEnv = () => useGlobal().publicEnv;
  

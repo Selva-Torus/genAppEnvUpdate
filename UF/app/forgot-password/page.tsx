@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import ForgotPassword from './ForgotPassword'
 import { AxiosService } from '../components/axiosService'
+import { getPublicEnv } from '@/app/components/public-env'
 
 const Page = () => {
-  const isSaasApp = process.env.NEXT_PUBLIC_IS_SAAS_APPLICATION
+  const isSaasApp = getPublicEnv('NEXT_PUBLIC_IS_SAAS_APPLICATION');
   const [appTenantList, setAppTenantList] = useState([])
 
   const handleGetAppSubTenants = async () => {

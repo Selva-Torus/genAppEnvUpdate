@@ -5,10 +5,11 @@ import { AxiosService } from './components/axiosService';
 import { deleteCookie, getCookie } from './components/cookieMgment';
 import { useEffect, useState } from 'react';
 import { useInfoMsg } from './components/infoMsgHandler';
+import { getPublicEnv } from '@/app/components/public-env'
 
 export default function HomePage() {
   const toast : Function = useInfoMsg();
-  const isSaasApp = process.env.NEXT_PUBLIC_IS_SAAS_APPLICATION;
+  const isSaasApp = getPublicEnv('NEXT_PUBLIC_IS_SAAS_APPLICATION');
   const [appTenantList , setAppTenantList] = useState([]);
 
   const handleGetAppSubTenants = async () => {

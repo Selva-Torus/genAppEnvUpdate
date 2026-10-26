@@ -28,6 +28,7 @@ import { BiPackage } from 'react-icons/bi'
 import { RiUserShared2Line } from 'react-icons/ri'
 import clsx from 'clsx'
 import { logout } from "@/app/components/utils";
+import { getPublicEnv } from '@/app/components/public-env'
 
 const ContextSelector = () => {
   const [selectedAccessProfile, setSelectedAccessProfile] = useState<string[]>(
@@ -39,7 +40,7 @@ const ContextSelector = () => {
   ) as TotalContextProps
   const tp_ps: any = getCookie('tp_ps')
   const toast = useInfoMsg()
-  const baseUrl: any = process.env.NEXT_PUBLIC_API_BASE_URL
+  const basePath = getPublicEnv('NEXT_PUBLIC_BASE_PATH');
   const appName = 'application'
   const [accessProfiles, setAccessProfiles] = useState<any[]>([])
   const router = useRouter()
@@ -83,7 +84,6 @@ const ContextSelector = () => {
   }
 
   const introspect = async () => {
-    const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
     const res = await fetch(`${basePath}/next-api/auth/introspect?key=context-selector`)
     if (!res.ok) {
       logout(token)
@@ -188,7 +188,7 @@ const ContextSelector = () => {
 
   const orpsData = async () => {
     try {
-      const res = await axios.get(`${baseUrl}/UF/getAccessTemplates`, {
+      const res = await AxiosService.get(`UF/getAccessTemplates`, {
         headers: {
           authorization: `Bearer ${token}`
         }
@@ -255,7 +255,6 @@ const ContextSelector = () => {
     }
     setLoading(true)
     try {
-     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ''; 
      const res = await axios.post(`${basePath}/next-api/auth/get-access-token`, 
         {
           selectedCombination: selectedCombo,

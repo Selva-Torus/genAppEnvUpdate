@@ -22,6 +22,7 @@ import Image from 'next/image'
 import { getCdnImage } from '../utils/getAssets'
 import { getFontSizeForDisplay, getFontSizeForHeader } from '../utils/branding'
 import { Dropdown } from '@/components/Dropdown'
+import { getPublicEnv } from '@/app/components/public-env'
 
 interface LoginProps {
   logo?: string
@@ -38,15 +39,14 @@ const LoginForm = ({ logo, appName = "application", loginType = "standard", imag
   })
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
-  const baseUrl: any = process.env.NEXT_PUBLIC_API_BASE_URL
   const toast = useInfoMsg()
   const router = useRouter()
   const { branding } = useGlobal()
   const { brandColor } = branding
   const { bgColor, borderColor, textColor } = useTheme()
   const onBoardingKey : string = "Logs Screen"
-  const tenant = process.env.NEXT_PUBLIC_TENANT_CODE
-  const isSaasApp = process.env.NEXT_PUBLIC_IS_SAAS_APPLICATION;
+  const tenant = getPublicEnv('NEXT_PUBLIC_TENANT_CODE');
+  const isSaasApp = getPublicEnv('NEXT_PUBLIC_IS_SAAS_APPLICATION');
   const [imageandLogoValid, setImageandLogoValid] = useState({
     image: image ? true : false,
     logo: logo ? true : false
@@ -76,7 +76,7 @@ const LoginForm = ({ logo, appName = "application", loginType = "standard", imag
           app_tenant_id: selectedAppTenant ? appTenantList?.find(item => item.tenant_name == selectedAppTenant)?.at_id : undefined
         }
         const api_signin = await axios.post(
-          `${baseUrl}/UF/signin`,
+          `/UF/signin`,
           api_signinBody,
           {
             validateStatus: () => true

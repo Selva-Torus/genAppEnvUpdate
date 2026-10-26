@@ -7,6 +7,7 @@ import { TotalContext, TotalContextProps } from '@/app/globalContext';
 import { deleteAllCookies,getCookie } from '@/app/components/cookieMgment';
 import { useGlobal } from "@/context/GlobalContext";
 import Image from "next/image";
+import { getPublicEnv } from '@/app/components/public-env'
 const borderRadiusMap = {
   xs: '3px',
   s: '3px',
@@ -91,6 +92,7 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
   const encryptionFlagApp: boolean = true;
   const encryptionDpd: string = "CK:CT010:FNGK:AF:FNK:CDF-DPD:CATK:AG001:AFGK:A001:AFK:defaultDPD:AFVK:v1";
   const encryptionMethod: string = "";
+  const cdnOutputHost = getPublicEnv('NEXT_PUBLIC_FTP_OUTPUT_HOST')
   const fetchSetupKey = async () => {
     try {
       let setUpKeyDto:any = {key:"CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT010:AFGK:AG001:AFK:A001:AFVK:v1:appearance"
@@ -141,7 +143,7 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
       document.documentElement.style.setProperty('--border-radius', borderRadius);
       document.documentElement.style.setProperty('--font-size-base', fontSizeClamp);
       if (data['appBackgroundImage']) {
-        const bgImage = `url("${process.env.NEXT_PUBLIC_FTP_OUTPUT_HOST}/${data['appBackgroundImage']}")`;
+        const bgImage = `url("${cdnOutputHost}/${data['appBackgroundImage']}")`;
         document.documentElement.style.setProperty('--app-bg-image', bgImage);
       }
       // document.documentElement.style.setProperty('--page-bg-color', data['page-bg-color']);
@@ -227,7 +229,7 @@ export const GetSetupKey = ({ children }: { children: React.ReactNode }) => {
 
       // Set background image in global context (full URL)
       const fullBgImageUrl = data['appBackgroundImage']
-        ? `${process.env.NEXT_PUBLIC_FTP_OUTPUT_HOST}/${data['appBackgroundImage']}`
+        ? `${cdnOutputHost}/${data['appBackgroundImage']}`
         : undefined;
       setAppBackgroundImage(fullBgImageUrl);
     }

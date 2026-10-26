@@ -9,10 +9,9 @@ import { decryptData } from '../utils/decrypt'
 import { clientDecrypt } from '../utils/clientDecrypt'
 import { clientEncrypt } from '../utils/clientEncrypt'
 import {localEncrypt, localDecrypt} from '../utils/localCrypto'
-const url = process.env.NEXT_PUBLIC_API_BASE_URL
+import { getPublicEnv } from '@/app/components/public-env'
 
 const AxiosService = axios.create({
-  baseURL: url,
   withCredentials: false,
   headers: {
     'Content-Type': 'application/json'
@@ -21,6 +20,11 @@ const AxiosService = axios.create({
 
 AxiosService.interceptors.request.use(
   async (config) => {
+    const baseURL = getPublicEnv('NEXT_PUBLIC_API_BASE_URL')
+    console.log(baseURL , "baseURL");
+    
+    config.baseURL = baseURL
+
      if (config.data && ['post', 'put', 'patch'].includes(config.method || '') && config.data.dpdKey && config.data.method ) {
       let dpdKey = config.data.dpdKey
       let method = config.data.method

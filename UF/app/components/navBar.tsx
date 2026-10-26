@@ -21,7 +21,6 @@ const Navbar = ({ data }: any) => {
   const { token } = useGlobal();
   const keyset: any = i18n.keyset('language')
   const toast: any = useInfoMsg()
-  const baseUrl: any = process.env.NEXT_PUBLIC_API_BASE_URL
   const { accessProfile, setAccessProfile, encAppFalg } = useContext(
     TotalContext
   ) as TotalContextProps
