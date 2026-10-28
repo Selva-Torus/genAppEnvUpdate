@@ -44,16 +44,16 @@ const LayoutDecider = ({
   const { borderColor, bgColor } : { borderColor: string; bgColor: string } = useTheme()
   const { brandColor, hoverColor, selectionColor } : { brandColor: string; hoverColor: string; selectionColor: string } = branding;
   const encryptionFlagApp: boolean = false;    
-  const encryptionDpd: string = "CK:CT010:FNGK:AF:FNK:CDF-DPD:CATK:AG001:AFGK:A001:AFK:defaultDPD:AFVK:v1";
+  const encryptionDpd: string = "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:Trs:AFGK:RF:AFK:Reimfast_dpd:AFVK:v1";
   const encryptionMethod: string = "";
   const { encAppFalg, setEncAppFalg }  = useContext(TotalContext) as TotalContextProps;
-  const logo: string = "torus/9.1/CT010/resources/images/images (1).jpg"
-  const appLogo: string = "torus/9.1/CT010/resources/images/images.jpg"
-  const appName: string = "application"
+  const logo: string = ""
+  const appLogo: string = ""
+  const appName: string = "Reimfast"
   const toast: Function = useInfoMsg()
   const [loading, setLoading] = useState<boolean>(true)
   const [updatedNavData, setUpdatedNavData] = useState<MenuItem[]>([])
-  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT010:AFGK:AG001:AFK:A001:AFVK:v1:bldc"
+  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT003:AFGK:Trs:AFK:RF:AFVK:v1:bldc"
   const [rawNavData, setRawNavData] = useState<MenuItem[] | null>(null);
   const navData: MenuItem[] = [
   {
@@ -66,7 +66,7 @@ const LayoutDecider = ({
         "key": "Logs Screen",
         "restrictedAccessProfile": [],
         "static": true,
-        "icon": "https://tdps3api.toruslowcode.comtorus/9.1/resources/icons/document-add-svgrepo-com.svg"
+        "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/document-add-svgrepo-com.svg"
       },
       {
         "name": "user",
@@ -74,23 +74,121 @@ const LayoutDecider = ({
         "key": "User Screen",
         "restrictedAccessProfile": [],
         "static": true,
-        "icon": "https://tdps3api.toruslowcode.comtorus/9.1/resources/icons/user-plus-svgrepo-com.svg"
+        "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/user-plus-svgrepo-com.svg"
       }
     ],
     "items": [],
-    "icon": "https://tdps3api.toruslowcode.comtorus/9.1/resources/icons/admin-svgrepo-com.svg"
+    "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
   },
   {
-    "menuGroupLabel": "test",
+    "menuGroupLabel": "User Home Screen",
     "screenDetails": [
       {
-        "name": "test",
-        "key": "CK:CT010:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:test:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false
+        "name": "user home screen",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1",
+        "restrictedAccessProfile": [
+          "Manager"
+        ],
+        "static": false,
+        "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
       }
     ],
-    "items": []
+    "items": [],
+    "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
+  },
+  {
+    "menuGroupLabel": "Manager Home Screen",
+    "screenDetails": [
+      {
+        "name": "manager home screen",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1",
+        "restrictedAccessProfile": [
+          "Employee"
+        ],
+        "static": false,
+        "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
+  },
+  {
+    "menuGroupLabel": "User Daily Expense",
+    "screenDetails": [
+      {
+        "name": "user daily expense",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_User_Table:AFVK:v1",
+        "restrictedAccessProfile": [
+          "Manager"
+        ],
+        "static": false,
+        "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
+  },
+  {
+    "menuGroupLabel": "User Offsite Expense",
+    "screenDetails": [
+      {
+        "name": "user offsite expense",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_User_Table:AFVK:v1",
+        "restrictedAccessProfile": [
+          "Manager"
+        ],
+        "static": false,
+        "icon": "/torus/9.1/resources/icons/flight-plane-svgrepo-com.svg"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/resources/icons/flight-plane-svgrepo-com.svg"
+  },
+  {
+    "menuGroupLabel": "Manager Daily Expense",
+    "screenDetails": [
+      {
+        "name": "manager daily expense",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_Manager_Table:AFVK:v1",
+        "restrictedAccessProfile": [
+          "Employee"
+        ],
+        "static": false,
+        "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
+  },
+  {
+    "menuGroupLabel": "Manager Offsite Expense",
+    "screenDetails": [
+      {
+        "name": "manager offsite expense",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_Manager_Table:AFVK:v1",
+        "restrictedAccessProfile": [
+          "Employee"
+        ],
+        "static": false,
+        "icon": "/torus/9.1/resources/icons/flight-plane-svgrepo-com.svg"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/resources/icons/flight-plane-svgrepo-com.svg"
+  },
+  {
+    "menuGroupLabel": "Report",
+    "screenDetails": [
+      {
+        "name": "report",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/resources/icons/pallete-2-svgrepo-com.svg"
+      }
+    ],
+    "items": [],
+    "icon": "/torus/9.1/resources/icons/pallete-2-svgrepo-com.svg"
   }
 ]
   const decodedTokenObj: DecodedToken = decodeToken(token)
@@ -370,7 +468,33 @@ const LayoutDecider = ({
     'gridColumn'?: string
     'gridRow'?: string
     'gridSize'?: number
-  }[] =[]
+  }[] =[
+  {
+    "name": "logo",
+    "gridSize": 24,
+    "gridRow": "1/2"
+  },
+  {
+    "name": "app logo",
+    "gridSize": 24,
+    "gridRow": "2/3"
+  },
+  {
+    "name": "menu items",
+    "gridRow": "3/21",
+    "gridSize": 24
+  },
+  {
+    "name": "opr matrix",
+    "gridRow": "21/24",
+    "gridSize": 24
+  },
+  {
+    "name": "profile",
+    "gridRow": "24/25",
+    "gridSize": 24
+  }
+]
 
    if (loading == true){
     return (<div className='flex w-[100vw] h-[100vh] bg-slate-200 justify-center items-center '><span>Loading...</span></div>);

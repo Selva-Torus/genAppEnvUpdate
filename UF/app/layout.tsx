@@ -1,5 +1,5 @@
 /* {
-  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT010:AFGK:AG001:AFK:A001:AFVK:v1:bldc",
+  "aKey": "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT003:AFGK:Trs:AFK:RF:AFVK:v1:bldc",
   "ufKey": "Logs Screen",
   "screenName": "logs",
   "screenLabel": "logs",
@@ -14,7 +14,7 @@
           "key": "Logs Screen",
           "restrictedAccessProfile": [],
           "static": true,
-          "icon": "https://tdps3api.toruslowcode.comtorus/9.1/resources/icons/document-add-svgrepo-com.svg"
+          "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/document-add-svgrepo-com.svg"
         },
         {
           "name": "user",
@@ -22,39 +22,144 @@
           "key": "User Screen",
           "restrictedAccessProfile": [],
           "static": true,
-          "icon": "https://tdps3api.toruslowcode.comtorus/9.1/resources/icons/user-plus-svgrepo-com.svg"
+          "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/user-plus-svgrepo-com.svg"
         }
       ],
       "items": [],
-      "icon": "https://tdps3api.toruslowcode.comtorus/9.1/resources/icons/admin-svgrepo-com.svg"
+      "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
     },
     {
-      "menuGroupLabel": "test",
+      "menuGroupLabel": "User Home Screen",
       "screenDetails": [
         {
-          "name": "test",
-          "key": "CK:CT010:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:test:AFVK:v1",
-          "restrictedAccessProfile": [],
-          "static": false
+          "name": "user home screen",
+          "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1",
+          "restrictedAccessProfile": [
+            "Manager"
+          ],
+          "static": false,
+          "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
         }
       ],
-      "items": []
+      "items": [],
+      "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
+    },
+    {
+      "menuGroupLabel": "Manager Home Screen",
+      "screenDetails": [
+        {
+          "name": "manager home screen",
+          "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1",
+          "restrictedAccessProfile": [
+            "Employee"
+          ],
+          "static": false,
+          "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
+    },
+    {
+      "menuGroupLabel": "User Daily Expense",
+      "screenDetails": [
+        {
+          "name": "user daily expense",
+          "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_User_Table:AFVK:v1",
+          "restrictedAccessProfile": [
+            "Manager"
+          ],
+          "static": false,
+          "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
+    },
+    {
+      "menuGroupLabel": "User Offsite Expense",
+      "screenDetails": [
+        {
+          "name": "user offsite expense",
+          "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_User_Table:AFVK:v1",
+          "restrictedAccessProfile": [
+            "Manager"
+          ],
+          "static": false,
+          "icon": "/torus/9.1/resources/icons/flight-plane-svgrepo-com.svg"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/resources/icons/flight-plane-svgrepo-com.svg"
+    },
+    {
+      "menuGroupLabel": "Manager Daily Expense",
+      "screenDetails": [
+        {
+          "name": "manager daily expense",
+          "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_Manager_Table:AFVK:v1",
+          "restrictedAccessProfile": [
+            "Employee"
+          ],
+          "static": false,
+          "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
+    },
+    {
+      "menuGroupLabel": "Manager Offsite Expense",
+      "screenDetails": [
+        {
+          "name": "manager offsite expense",
+          "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_Manager_Table:AFVK:v1",
+          "restrictedAccessProfile": [
+            "Employee"
+          ],
+          "static": false,
+          "icon": "/torus/9.1/resources/icons/flight-plane-svgrepo-com.svg"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/resources/icons/flight-plane-svgrepo-com.svg"
+    },
+    {
+      "menuGroupLabel": "Report",
+      "screenDetails": [
+        {
+          "name": "report",
+          "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1",
+          "restrictedAccessProfile": [],
+          "static": false,
+          "icon": "/torus/9.1/resources/icons/pallete-2-svgrepo-com.svg"
+        }
+      ],
+      "items": [],
+      "icon": "/torus/9.1/resources/icons/pallete-2-svgrepo-com.svg"
     }
   ],
   "setupData": {
-    "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT010:AFK:PROFILE:AFVK:v1:appearance",
-    "selectedPresetKey": "1782129560676",
     "appInfo": {
-      "code": "A001",
-      "name": "application",
-      "accessUrl": "https://tgatest910.toruslowcode.com/ct010/ag001/a001/v1",
+      "name": "Reimfast",
+      "code": "RF",
+      "needAutoDbPush": true,
+      "encryption": {
+        "type": ""
+      },
+      "applicationUniqueId": "8291f326-206b-4e4e-89a6-01d9e96c6ca3",
+      "deploymentArtifactKey": "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:Trs:AFGK:RF:AFK:Reimfast_dpd:AFVK:v1",
+      "lastBuildVersion": "v1",
+      "lastBuildOn": "2026-10-27T04:22:26.481Z",
+      "accessUrl": "https://tgatest910.toruslowcode.com/ct003/trs/rf/v1",
+      "isSaasApplication": true,
       "appTenants": [
         {
-          "at_id": "3",
-          "tenant_id": "test",
-          "tenant_name": "test",
-          "created_at": "2026-07-29T19:02:15.697Z",
-          "trs_created_date": "2026-07-29T19:02:15.697Z",
+          "at_id": "13",
+          "tenant_id": "GSS1",
+          "tenant_name": "GSS",
+          "created_at": "2026-10-24T10:49:49.053Z",
+          "trs_created_date": "2026-10-24T10:49:49.053Z",
           "trs_created_by": null,
           "trs_modified_date": null,
           "trs_modified_by": null,
@@ -70,7 +175,7 @@
           "trs_sub_org_code": null,
           "trs_locked_by": null,
           "trs_locked_time": null,
-          "trs_tenant_id": "CT010",
+          "trs_tenant_id": "CT003",
           "trs_app_code": "00000",
           "trs_product_code": "00000_00000",
           "trs_event_process_status": null,
@@ -88,11 +193,11 @@
           "trs_version": null
         },
         {
-          "at_id": "4",
-          "tenant_id": "test2",
-          "tenant_name": "test2",
-          "created_at": "2026-09-09T10:50:33.248Z",
-          "trs_created_date": "2026-09-09T10:50:33.248Z",
+          "at_id": "14",
+          "tenant_id": "ABC1",
+          "tenant_name": "ABC",
+          "created_at": "2026-10-24T10:49:59.077Z",
+          "trs_created_date": "2026-10-24T10:49:59.077Z",
           "trs_created_by": null,
           "trs_modified_date": null,
           "trs_modified_by": null,
@@ -108,7 +213,7 @@
           "trs_sub_org_code": null,
           "trs_locked_by": null,
           "trs_locked_time": null,
-          "trs_tenant_id": "CT010",
+          "trs_tenant_id": "CT003",
           "trs_app_code": "00000",
           "trs_product_code": "00000_00000",
           "trs_event_process_status": null,
@@ -126,11 +231,11 @@
           "trs_version": null
         },
         {
-          "at_id": "7",
-          "tenant_id": "demo2",
-          "tenant_name": "demo1",
-          "created_at": "2026-10-23T16:23:24.466Z",
-          "trs_created_date": "2026-10-23T16:23:24.466Z",
+          "at_id": "49",
+          "tenant_id": "NPSS1",
+          "tenant_name": "NPSS",
+          "created_at": "2026-10-27T10:46:34.050Z",
+          "trs_created_date": "2026-10-27T10:46:34.050Z",
           "trs_created_by": null,
           "trs_modified_date": null,
           "trs_modified_by": null,
@@ -146,7 +251,7 @@
           "trs_sub_org_code": null,
           "trs_locked_by": null,
           "trs_locked_time": null,
-          "trs_tenant_id": "CT010",
+          "trs_tenant_id": "CT003",
           "trs_app_code": "00000",
           "trs_product_code": "00000_00000",
           "trs_event_process_status": null,
@@ -164,128 +269,110 @@
           "trs_version": null
         }
       ],
-      "encryption": {
-        "type": ""
-      },
-      "lastBuildOn": "2026-10-23T07:40:41.032Z",
-      "needAutoDbPush": false,
-      "lastBuildVersion": "v1",
-      "isSaasApplication": true,
-      "applicationUniqueId": "234f615f-c7eb-465b-8ce9-797e3e083a86",
-      "deploymentArtifactKey": "CK:CT010:FNGK:AF:FNK:CDF-DPD:CATK:AG001:AFGK:A001:AFK:defaultDPD:AFVK:v1",
-      "logo": "torus/9.1/CT010/resources/images/images (1).jpg",
-      "appLogo": "torus/9.1/CT010/resources/images/images.jpg",
-      "appGrpName": "appgroup",
-      "appGrpCode": "AG001",
-      "fusionAuthAppClientSecret": "qpBFuPWkMf9z7fIyIjQ_F_s5tN7wVl0jTgpuSpNlrPA"
+      "appGrpName": "Torus",
+      "appGrpCode": "Trs",
+      "fusionAuthAppClientSecret": "gwSeq2xTYs-W7GmxpL9Gbr5vtZeto3RrkzR1S1TyIbU"
     },
-    "name": "Preset 2",
-    "theme": "light",
-    "fontSize": {
-      "minPx": "5",
-      "preferredVw": "0.675",
-      "maxPx": "18"
-    },
-    "language": "English",
-    "direction": "LTR",
-    "brandColor": "#F44336",
-    "fontFamily": [
-      {
-        "fontUrl": "https://fonts.googleapis.com/css2?family=Diplomata&display=swap",
-        "label": "Diplomata Static"
-      },
-      {
-        "label": "Bebas Neue",
-        "fontUrl": "https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
-      },
-      {
-        "label": "Lobster Two",
-        "fontUrl": "https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-      }
-    ],
-    "hoverColor": "#b2e0dd",
-    "layoutMode": "fluid",
-    "topbarColor": "#ffffff",
-    "borderRadius": "s",
-    "menubarColor": "#ffffff",
-    "sidebarStyle": "",
-    "page-bg-color": "#ffffff",
+    "tenantAppearancekey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:CT003:AFK:PROFILE:AFVK:v1:appearance",
+    "selectedPresetKey": "default",
     "group-bg-color": "#ffffff",
-    "selectionColor": "#2AE38F",
+    "fontSize": {
+      "preferredVw": "1",
+      "minPx": "12",
+      "maxPx": "16"
+    },
+    "direction": "LTR",
+    "brandColor": "#6462ea",
+    "selectionColor": "#5c8bbc",
+    "hoverColor": "#F1F2F7",
+    "borderRadius": "s",
+    "topbarColor": "#ffffff",
+    "menubarColor": "#ffffff",
+    "sidebarStyle": "compact",
+    "navigationStyles": "vertical",
+    "theme": "light",
+    "layoutMode": "detached",
     "mobileAppearance": {
-      "theme": "light",
-      "fontSize": {
-        "bodyLarge": "16",
-        "bodySmall": "12",
-        "bodyMedium": "14",
-        "labelLarge": "16",
-        "labelSmall": "12",
-        "titleLarge": "20",
-        "titleSmall": "16",
-        "labelMedium": "14",
-        "titleMedium": "18",
-        "displayLarge": "64",
-        "displaySmall": "36",
-        "displayMedium": "44",
-        "headlineLarge": "32",
-        "headlineSmall": "24",
-        "headlineMedium": "28"
-      },
       "language": "English",
       "direction": "LTR",
-      "fontFamily": "Roboto",
+      "theme": "light",
       "brandColors": {
-        "primary": "#4b39ef",
-        "tertiary": "#ee8b60",
-        "secondary": "#39d2c0"
+        "primary": "#062684",
+        "secondary": "#dad7d7",
+        "tertiary": "#000000"
       },
-      "drawerStyle": "",
       "accentColors": {
-        "accentOne": "#4c4b39",
-        "accentTwo": "#4d39d2"
+        "accentOne": "#fafafa",
+        "accentTwo": "#646464"
       },
       "utilityColors": {
-        "darkMode": {
-          "primaryText": "#ffffff",
-          "secondaryText": "#95a1ac",
-          "primaryBackground": "#1d2428",
-          "secondaryBackground": "#14181b"
-        },
         "lightMode": {
           "primaryText": "#14181b",
           "secondaryText": "#57636c",
           "primaryBackground": "#f1f4f8",
           "secondaryBackground": "#ffffff"
+        },
+        "darkMode": {
+          "primaryText": "#ffffff",
+          "secondaryText": "#95a1ac",
+          "primaryBackground": "#1d2428",
+          "secondaryBackground": "#14181b"
         }
       },
-      "navigationStyle": "Bottom Navigation"
+      "fontSize": {
+        "displayLarge": "64",
+        "displayMedium": "44",
+        "displaySmall": "36",
+        "headlineLarge": "32",
+        "headlineMedium": "28",
+        "headlineSmall": "24",
+        "titleLarge": "20",
+        "titleMedium": "18",
+        "titleSmall": "16",
+        "labelLarge": "16",
+        "labelMedium": "14",
+        "labelSmall": "12",
+        "bodyLarge": "16",
+        "bodyMedium": "14",
+        "bodySmall": "12"
+      },
+      "fontFamily": "Roboto",
+      "navigationStyle": "Bottom Navigation",
+      "drawerStyle": ""
     },
-    "navigationStyles": "horizontal",
-    "appBackgroundImage": "torus/9.1/CT010/resources/images/simple-background-yixvlrrhdncvb736.jpg",
+    "page-bg-color": "#ffffff",
+    "language": "English",
+    "name": "default",
+    "appBackgroundImage": "",
+    "fontFamily": [],
     "text-body-font": "",
     "text-header-font": "",
     "text-display-font": ""
   },
-  "setupKey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT010:AFGK:AG001:AFK:A001:AFVK:v1:appearance",
+  "setupKey": "CK:TGA:FNGK:SETUP:FNK:SF:CATK:CT003:AFGK:Trs:AFK:RF:AFVK:v1:appearance",
   "allKeys": [
-    "CK:CT010:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:test:AFVK:v1"
+    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1",
+    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1",
+    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_User_Table:AFVK:v1",
+    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_User_Table:AFVK:v1",
+    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_Manager_Table:AFVK:v1",
+    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_Manager_Table:AFVK:v1",
+    "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1"
   ],
   "loginDetails": {
-    "loginId": "selva",
-    "firstName": "selva",
-    "lastName": "kumar",
-    "email": "selvakumarg@torus.tech",
-    "mobile": "8124805539",
-    "2FAFlag": "N",
-    "scope": "client_admin",
+    "firstName": "sam",
+    "lastName": "m",
+    "loginId": "sam",
+    "email": "samm@torus.tech",
+    "mobile": "",
     "status": "active",
     "accessProfile": [
-      "admin"
+      "Manager"
     ],
     "accessExpires": "",
-    "dateAdded": "2026-04-30T06:40:14.128Z",
-    "isRestricted": false,
-    "userUniqueId": "616efdf0-36f7-4ee8-81f2-2409804f2dc1",
+    "dateAdded": "2026-05-11T09:16:47.790Z",
+    "profile": "",
+    "userUniqueId": "a4c35166-cc3c-464f-97fb-38c247a35864",
     "touring": {
       "isneedTouring": false,
       "touringData": {
@@ -294,66 +381,120 @@
           "isSkipped": true,
           "completed": false,
           "notVisited": []
+        },
+        "/control-center/company-profile": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "/control-center/tenant": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "/control-center/account-profile": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
+        },
+        "/home": {
+          "stepIndex": 0,
+          "isSkipped": true,
+          "completed": false,
+          "notVisited": []
         }
       }
     },
-    "lastActive": "2026-10-24T11:00:07.312Z",
-    "client": "CT010",
-    "users": "selvaselva kumar",
-    "profile": "",
-    "noOfProductsService": 0,
-    "edit": ""
+    "users": "samsam m",
+    "lastActive": "2026-10-28T05:44:43.971Z",
+    "edit": "",
+    "client": "CT003",
+    "noOfProductsService": 0
   },
   "webOnBoarding": {
+    "loginType": "standard",
+    "menuBgColor": "#EC407A",
     "navBarStyle": {
-      "activeItems": [],
-      "deletedItems": [
+      "activeItems": [
         {
           "name": "logo",
-          "gridColumn": "1/2"
+          "gridSize": 24,
+          "gridRow": "1/2"
         },
         {
           "name": "app logo",
-          "gridColumn": "2/4"
+          "gridSize": 24,
+          "gridRow": "2/3"
         },
         {
           "name": "menu items",
-          "gridColumn": "4/9",
-          "gridRow": "1/6"
+          "gridRow": "3/21",
+          "gridSize": 24
         },
         {
           "name": "opr matrix",
-          "gridColumn": "9/12",
-          "gridRow": "6/9"
+          "gridRow": "21/24",
+          "gridSize": 24
         },
         {
           "name": "profile",
-          "gridColumn": "12/13",
-          "gridRow": "12/13"
+          "gridRow": "24/25",
+          "gridSize": 24
         }
-      ]
+      ],
+      "deletedItems": []
     },
-    "landingScreen": "Logs Screen",
-    "menuBgColor": "#F44336",
-    "menuTextColor": "#F44336",
-    "menuSelectionColor": "",
-    "menuSelectionBgColor": "#0736C4",
-    "menuSelectionTextColor": "#0736C4"
+    "landingScreen": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1",
+    "menuTextColor": "#2AE38F",
+    "menuSelectionBgColor": "#FFC723",
+    "menuSelectionTextColor": "#00BFFF"
   },
   "allKeyswithScreenNames": [
     {
-      "screenName": "test",
-      "screensName": "test-v1",
-      "ufKey": "CK:CT010:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:test:AFVK:v1"
+      "screenName": "user home screen",
+      "screensName": "user_home_screen-v1",
+      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1"
+    },
+    {
+      "screenName": "manager home screen",
+      "screensName": "manager_home_screen-v1",
+      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1"
+    },
+    {
+      "screenName": "user daily expense",
+      "screensName": "user_daily_expense-v1",
+      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_User_Table:AFVK:v1"
+    },
+    {
+      "screenName": "user offsite expense",
+      "screensName": "user_offsite_expense-v1",
+      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_User_Table:AFVK:v1"
+    },
+    {
+      "screenName": "manager daily expense",
+      "screensName": "manager_daily_expense-v1",
+      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_Manager_Table:AFVK:v1"
+    },
+    {
+      "screenName": "manager offsite expense",
+      "screensName": "manager_offsite_expense-v1",
+      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_Manager_Table:AFVK:v1"
+    },
+    {
+      "screenName": "report",
+      "screensName": "report-v1",
+      "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1"
     }
   ],
-  "deploymentArtifactKey": "CK:CT010:FNGK:AF:FNK:CDF-DPD:CATK:AG001:AFGK:A001:AFK:defaultDPD:AFVK:v1",
-  "appGroupDesc": "appgroup",
+  "deploymentArtifactKey": "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:Trs:AFGK:RF:AFK:Reimfast_dpd:AFVK:v1",
+  "appGroupDesc": "Torus",
   "logType": "dfs",
-  "appDesc": "application",
-  "appLogo": "torus/9.1/CT010/resources/images/images.jpg",
+  "appDesc": "Reimfast",
   "isOld": true,
-  "clientCode": "CT010"
+  "clientCode": "CT003"
 } */
 import './globals.css';
 import type { Metadata } from 'next';
@@ -366,11 +507,11 @@ import { EventBusProvider } from '@/context/EventBusContext';
 import { ThemeWrapper } from '@/components/ThemeWrapper';
 import { cookies } from 'next/headers';
 import { COOKIE_PREFIX } from '@/lib/cookies';
-import { getServerPublicEnv } from './components/public-env';
+import { getServerPublicEnv } from '@/app/components/public-env';
 
 export const metadata: Metadata = {
-  title: 'application',
-  description: 'application Generated by Torus'
+  title: 'Reimfast',
+  description: 'Reimfast Generated by Torus'
 }
 
 export default async function RootLayout({
@@ -381,7 +522,6 @@ export default async function RootLayout({
   const cookieStore = await cookies();
   const tokenParam = cookieStore.get(`${COOKIE_PREFIX}_token`)?.value;
   const publicEnv = getServerPublicEnv();
-
 
   return (
     <html lang='en'>

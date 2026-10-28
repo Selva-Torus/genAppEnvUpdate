@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { AxiosService } from "./axiosService";
-import { getPublicEnv } from "./public-env";
+import { getPublicEnv } from '@/app/components/public-env'
 
 export function isLightColor(hex:string) {
   hex = hex.replace("#", "");

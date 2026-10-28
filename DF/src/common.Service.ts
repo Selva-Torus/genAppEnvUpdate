@@ -1566,8 +1566,8 @@ export class CommonService{
         
         if(typeof key != 'string')
         key = 'commonError'
-         tenant=tenant || "CT010"
-        app=app ||  "A001"
+         tenant=tenant || "CT003"
+        app=app ||  "RF"
         await this.redisService.setStreamData(tenant+'-'+app+'-TSL',key,JSON.stringify(logs))    
         return logs
 
@@ -2456,6 +2456,7 @@ export class CommonService{
           throw new BadRequestException('Invalid or expired token');
         }
         //sobj['session.client'] = SessionToken.client || process.env?.CLIENTCODE
+        sobj['session.tenantId'] = SessionToken?.tenantId || ''
         sobj['session.tenant'] = SessionToken.tenant || process.env?.CLIENTCODE
         sobj['session.orgGrpCode'] = SessionToken.orgGrpCode || process.env?.ORGGRPCODE
         sobj['session.orgCode'] = SessionToken.orgCode || process.env?.ORGCODE
@@ -2479,6 +2480,7 @@ export class CommonService{
         sobj['session.subOrgName'] = SessionToken?.subOrgName || process.env?.SUBORGNAME
 
         //SessionInfo['client'] = SessionToken?.client || process.env?.CLIENTCODE || '';
+         SessionInfo['tenantId'] = SessionToken?.tenantId || '';
         SessionInfo['tenant'] = SessionToken?.tenant || process.env?.CLIENTCODE || '';
         SessionInfo['loginId'] = SessionToken?.loginId || process.env?.LOGINID || '';
         SessionInfo['accessProfile'] = SessionToken?.selectedAccessProfile || process.env?.ACCESSPROFILE || '';
@@ -2491,6 +2493,8 @@ export class CommonService{
         SessionInfo['userCode'] = SessionToken?.userCode || ''
         SessionInfo['subOrgGrpName'] = SessionToken?.subOrgGrpName || process.env?.SUBORGGRPNAME || '';
         SessionInfo['subOrgName'] = SessionToken?.subOrgName || process.env?.SUBORGNAME || '';
+        SessionInfo['subOrgCode'] = SessionToken?.subOrgCode || process.env?.SUBORGCODE || '';
+        SessionInfo['subOrgGrpCode'] = SessionToken?.subOrgGrpCode || process.env?.SUBORGGRPCODE || '';
         SessionInfo['orgGrpCode'] = SessionToken.orgGrpCode || process.env?.ORGGRPCODE || '';
         SessionInfo['orgCode'] = SessionToken.orgCode || process.env?.ORGCODE || '';
         SessionInfo['roleGrpCode'] = SessionToken.roleGrpCode || process.env?.ROLEGRPCODE || '';

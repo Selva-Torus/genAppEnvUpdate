@@ -21,8 +21,6 @@ const AxiosService = axios.create({
 AxiosService.interceptors.request.use(
   async (config) => {
     const baseURL = getPublicEnv('NEXT_PUBLIC_API_BASE_URL')
-    console.log(baseURL , "baseURL");
-    
     config.baseURL = baseURL
 
      if (config.data && ['post', 'put', 'patch'].includes(config.method || '') && config.data.dpdKey && config.data.method ) {
@@ -34,10 +32,10 @@ AxiosService.interceptors.request.use(
       delete config.data.method
       let ciphertext : any;
       if(method == "vault"){
-        const wrapped = await localEncrypt({ value: config.data, context: "ct010_ag001_a001_v1" })
+        const wrapped = await localEncrypt({ value: config.data, context: "ct003_trs_rf_v1" })
         ciphertext = await encryptData(dpdKey, wrapped)
       }else{
-        ciphertext = await clientEncrypt(dpdKey, method, config.data, "ct010_ag001_a001_v1")
+        ciphertext = await clientEncrypt(dpdKey, method, config.data, "ct003_trs_rf_v1")
       }
       if(method == "AESGCM" || method == "AESCTR"){
         // clientEncrypt now generates a fresh random IV per call instead of
@@ -68,7 +66,7 @@ AxiosService.interceptors.response.use(
         let vault = await decryptData(response.data, dpdKey)
         response.data = await localDecrypt(vault)
       }else{
-        response.data = await clientDecrypt(dpdKey, method, response.data, "ct010_ag001_a001_v1")
+        response.data = await clientDecrypt(dpdKey, method, response.data, "ct003_trs_rf_v1")
       }
     }
     return response

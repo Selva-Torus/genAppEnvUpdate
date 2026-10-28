@@ -1,8 +1,8 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: ct010-a001-df-generator-httproute
-  namespace: ct010-a001-df-v1
+  name: ct003-rf-df-generator-httproute
+  namespace: ct003-rf-df-v1
 spec:
   parentRefs:
     - name: tgatest-gw
@@ -14,7 +14,7 @@ spec:
     - matches:
         - path:
             type: PathPrefix
-            value: /ct010/ag001/a001/v1/api/
+            value: /ct003/trs/rf/v1/api/
       filters:
         - type: URLRewrite
           urlRewrite:
@@ -22,7 +22,7 @@ spec:
               type: ReplacePrefixMatch
               replacePrefixMatch: /
       backendRefs:
-        - name: ct010-a001-df-generator
+        - name: ct003-rf-df-generator
           port: 443 
           
       timeouts:
@@ -30,7 +30,7 @@ spec:
     - matches:
         - path:
             type: Exact
-            value: /ct010/ag001/a001/v1/api     
+            value: /ct003/trs/rf/v1/api     
       filters:
         - type: URLRewrite
           urlRewrite:
@@ -38,7 +38,7 @@ spec:
               type: ReplaceFullPath
               replaceFullPath: /
       backendRefs:
-        - name: ct010-a001-df-generator
+        - name: ct003-rf-df-generator
           port: 443
 
       timeouts:

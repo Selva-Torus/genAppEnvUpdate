@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation'
 import decodeToken from '../components/decodeToken'
 import { useGlobal } from '@/context/GlobalContext'
 import { logout } from "@/app/components/utils";
-import { getPublicEnv } from '@/app/components/public-env'
+import { getPublicEnv } from "@/app/components/public-env";
 
 function page() {
   const { token } = useGlobal();
@@ -21,7 +21,7 @@ function page() {
 
   const securityCheck = async () => {
     try {
-    const basePath = getPublicEnv('NEXT_PUBLIC_BASE_PATH')
+    const basePath = getPublicEnv('NEXT_PUBLIC_BASE_PATH');
     const res = await fetch(`${basePath}/next-api/auth/introspect?key=Logs Screen`)
     if (!res.ok) {
       logout(token)

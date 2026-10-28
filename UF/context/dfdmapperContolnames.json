@@ -1,12 +1,1756 @@
 
 {
   "Canvasroot": [],
-  "f1bd0db2c469470ea7d033597b8d4624": {
-    "source": "button",
-    "target": "button",
-    "controlName": "button"
+  "7d5ecb74896b444e93036544256c5971": {
+    "source": "approvedcard",
+    "target": "approvedcard",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:card_data:AFVK:v1|a7caf71c572343c08c193b078fe675b3|properties.approvedcard"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1|0dd5e93ebe734a2da4503278cd0d6690|7d5ecb74896b444e93036544256c5971"
+      }
+    ],
+    "controlName": "approvedcard"
   },
-  "groupd23af": [
-    "button"
+  "539fc83cb8b145f9ad7c45750b1efafa": {
+    "source": "rejectedcard",
+    "target": "rejectedcard",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:card_data:AFVK:v1|a7caf71c572343c08c193b078fe675b3|properties.rejectedcard"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1|0dd5e93ebe734a2da4503278cd0d6690|539fc83cb8b145f9ad7c45750b1efafa"
+      }
+    ],
+    "controlName": "rejectedcard"
+  },
+  "495711d8ddf44734983661c8f9eee3c0": {
+    "source": "pendingcard",
+    "target": "pendingcard",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:card_data:AFVK:v1|a7caf71c572343c08c193b078fe675b3|properties.pendingcard"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1|0dd5e93ebe734a2da4503278cd0d6690|495711d8ddf44734983661c8f9eee3c0"
+      }
+    ],
+    "controlName": "pendingcard"
+  },
+  "10ee33245621462090666ca8c1d798bd": {
+    "source": "dailyexpenses",
+    "target": "dailyexpenses",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:card_data:AFVK:v1|a7caf71c572343c08c193b078fe675b3|properties.dailyexpenses"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1|0dd5e93ebe734a2da4503278cd0d6690|10ee33245621462090666ca8c1d798bd"
+      }
+    ],
+    "controlName": "dailyexpenses"
+  },
+  "8e549b5cd83443d6b3bcf55b8f1cd925": {
+    "source": "offsiteexpenses",
+    "target": "offsiteexpenses",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:card_data:AFVK:v1|a7caf71c572343c08c193b078fe675b3|properties.offsiteexpenses"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1|0dd5e93ebe734a2da4503278cd0d6690|8e549b5cd83443d6b3bcf55b8f1cd925"
+      }
+    ],
+    "controlName": "offsiteexpenses"
+  },
+  "a8c98a3e2f4e495e8d1de4450c7d126f": {
+    "source": "add",
+    "target": "add",
+    "controlName": "add"
+  },
+  "6bc0fbaa83924bb29c69e3c9aea1ab15": {
+    "source": "offsite_add",
+    "target": "offsite_add",
+    "controlName": "offsite_add"
+  },
+  "bb63878d007c49bb9a49b9fc73ea1e3b": {
+    "source": "daily_exp",
+    "target": "daily_exp",
+    "controlName": "daily_exp"
+  },
+  "41e7d160ea9545ae9b12fdb6ccd949f2": {
+    "source": "offsite_exp",
+    "target": "offsite_exp",
+    "controlName": "offsite_exp"
+  },
+  "User_Grpd6690": [
+    "approvedcard",
+    "rejectedcard",
+    "pendingcard",
+    "dailyexpenses",
+    "offsiteexpenses",
+    "add",
+    "offsite_add",
+    "daily_exp",
+    "offsite_exp"
+  ],
+  "ca432c873cad427996ee52053c31095d": {
+    "source": "claim_id",
+    "target": "c_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.claim_id"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1|2c198b49b883478ca1a170b5bad13758|ca432c873cad427996ee52053c31095d"
+      }
+    ],
+    "controlName": "c_id"
+  },
+  "45169ac9d00c4752807d191b96016bdb": {
+    "source": "claim_category",
+    "target": "claim_category",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.claim_category"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1|2c198b49b883478ca1a170b5bad13758|45169ac9d00c4752807d191b96016bdb"
+      }
+    ],
+    "controlName": "claim_category"
+  },
+  "bd37728aaba3486fb2f0c14531fc124c": {
+    "source": "category_total_amount",
+    "target": "amount",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.category_total_amount"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1|2c198b49b883478ca1a170b5bad13758|bd37728aaba3486fb2f0c14531fc124c"
+      }
+    ],
+    "controlName": "amount"
+  },
+  "102d688c870648d59e26160298a3fa4d": {
+    "source": "trs_event_process_status",
+    "target": "status",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.trs_event_process_status"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1|2c198b49b883478ca1a170b5bad13758|102d688c870648d59e26160298a3fa4d"
+      }
+    ],
+    "controlName": "status"
+  },
+  "69e7988a22a54287b15969819c75e32f": {
+    "source": "expense_date",
+    "target": "date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.expense_date"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1|2c198b49b883478ca1a170b5bad13758|69e7988a22a54287b15969819c75e32f"
+      }
+    ],
+    "controlName": "date"
+  },
+  "daily_expense_table13758": [
+    "claim_id",
+    "claim_category",
+    "category_total_amount",
+    "trs_event_process_status",
+    "expense_date"
+  ],
+  "683318d1f1084428979517fe450b67db": {
+    "source": "claim_id",
+    "target": "claim_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.claim_id"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1|0918644520a24e0aa0d1781bb754ffd6|683318d1f1084428979517fe450b67db"
+      }
+    ],
+    "controlName": "claim_id"
+  },
+  "ccecb0c5d2bf4ab8ade2b691d251040c": {
+    "source": "expense_name",
+    "target": "expense_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.expense_name"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1|0918644520a24e0aa0d1781bb754ffd6|ccecb0c5d2bf4ab8ade2b691d251040c"
+      }
+    ],
+    "controlName": "expense_name"
+  },
+  "c883b780cb134b2abe506e4785754e36": {
+    "source": "category_total_amount",
+    "target": "category_total_amount",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.category_total_amount"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1|0918644520a24e0aa0d1781bb754ffd6|c883b780cb134b2abe506e4785754e36"
+      }
+    ],
+    "controlName": "category_total_amount"
+  },
+  "d5df9c9e1b4b4f08a8c81bb3f3c6f7ad": {
+    "source": "trs_event_process_status",
+    "target": "trs_status",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.trs_event_process_status"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1|0918644520a24e0aa0d1781bb754ffd6|d5df9c9e1b4b4f08a8c81bb3f3c6f7ad"
+      }
+    ],
+    "controlName": "trs_status"
+  },
+  "7840d154e6bf4d12bec5aaab8f47ebf5": {
+    "source": "formatted_date",
+    "target": "formatted_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.formatted_date"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1|0918644520a24e0aa0d1781bb754ffd6|7840d154e6bf4d12bec5aaab8f47ebf5"
+      }
+    ],
+    "controlName": "formatted_date"
+  },
+  "offsite_expense_table4ffd6": [
+    "claim_id",
+    "expense_name",
+    "category_total_amount",
+    "trs_event_process_status",
+    "formatted_date"
+  ],
+  "096c174fa66f4306897f8beb185fb8cc": {
+    "source": "daily_expense",
+    "target": "daily_expense",
+    "controlName": "daily_expense"
+  },
+  "ce828f05f39b4a4ba1117c6749922d67": {
+    "source": "claim_expense_type",
+    "target": "claim_expense_type",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.claim_expense_type"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Daily:AFVK:v1|483e1dce061b49cebe0c9e46b0844e40|ce828f05f39b4a4ba1117c6749922d67"
+      }
+    ],
+    "controlName": "claim_expense_type"
+  },
+  "ac38af7f59454c9fb58bdc91cf45f562": {
+    "source": "expense_name",
+    "target": "expense_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.expense_name"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Daily:AFVK:v1|483e1dce061b49cebe0c9e46b0844e40|ac38af7f59454c9fb58bdc91cf45f562"
+      }
+    ],
+    "controlName": "expense_name"
+  },
+  "c0a426bdbeb145fc9f5dfa18ca9af076": {
+    "source": "email",
+    "target": "email",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.email"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Daily:AFVK:v1|483e1dce061b49cebe0c9e46b0844e40|c0a426bdbeb145fc9f5dfa18ca9af076"
+      }
+    ],
+    "controlName": "email"
+  },
+  "e40909bbfed74180902a610114c92269": {
+    "source": "expense_date",
+    "target": "expense_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.expense_date"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Daily:AFVK:v1|483e1dce061b49cebe0c9e46b0844e40|e40909bbfed74180902a610114c92269"
+      }
+    ],
+    "controlName": "expense_date"
+  },
+  "ac4368216a2f4c8eba71386f9aaf1fb6": {
+    "source": "claim_category",
+    "target": "claim_category",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:code_description:AFVK:v1|c00274196bd4445f93b744c5a189d292|items.properties.cdcategory"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Daily:AFVK:v1|483e1dce061b49cebe0c9e46b0844e40|ac4368216a2f4c8eba71386f9aaf1fb6|text"
+      },
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:code_description:AFVK:v1|c00274196bd4445f93b744c5a189d292|items.properties.cdcategory"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Daily:AFVK:v1|483e1dce061b49cebe0c9e46b0844e40|ac4368216a2f4c8eba71386f9aaf1fb6|value"
+      },
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.claim_category"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Daily:AFVK:v1|483e1dce061b49cebe0c9e46b0844e40|ac4368216a2f4c8eba71386f9aaf1fb6|saveTo"
+      }
+    ],
+    "controlName": "claim_category"
+  },
+  "5b2a0e15a449477ea364ef896739782f": {
+    "source": "category_total_amount",
+    "target": "category_total_amount",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.category_total_amount"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Daily:AFVK:v1|483e1dce061b49cebe0c9e46b0844e40|5b2a0e15a449477ea364ef896739782f"
+      }
+    ],
+    "controlName": "category_total_amount"
+  },
+  "5070d6f7c57a4a69b06391141f504414": {
+    "source": "attachment",
+    "target": "attachment",
+    "controlName": "attachment"
+  },
+  "7ae3ed1faccc4c2e97b24d830886afe2": {
+    "source": "receipt_image",
+    "target": "receipt_image",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.receipt_image"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Daily:AFVK:v1|483e1dce061b49cebe0c9e46b0844e40|7ae3ed1faccc4c2e97b24d830886afe2"
+      }
+    ],
+    "controlName": "receipt_image"
+  },
+  "647b8f8a13d9476f988e60f8c50b4878": {
+    "source": "enabletext",
+    "target": "enabletext",
+    "controlName": "enabletext"
+  },
+  "f5e442240e47412d8af3ce6beb9f2394": {
+    "source": "comments",
+    "target": "comments",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.comments"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Daily:AFVK:v1|483e1dce061b49cebe0c9e46b0844e40|f5e442240e47412d8af3ce6beb9f2394"
+      }
+    ],
+    "controlName": "comments"
+  },
+  "62b96816535b41e18678c08e44e7244d": {
+    "source": "is_comment_enabled",
+    "target": "iscommentenabled",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.is_comment_enabled"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Daily:AFVK:v1|483e1dce061b49cebe0c9e46b0844e40|62b96816535b41e18678c08e44e7244d"
+      }
+    ],
+    "controlName": "iscommentenabled"
+  },
+  "2dbac1c9698744f4a5713dc9e8914ae7": {
+    "source": "clear",
+    "target": "clear",
+    "controlName": "Clear"
+  },
+  "bb92a0e80a324d5c915b35603e4d507e": {
+    "source": "save",
+    "target": "save",
+    "controlName": "Save"
+  },
+  "request_daily_group44e40": [
+    "daily_expense",
+    "claim_expense_type",
+    "expense_name",
+    "email",
+    "expense_date",
+    "claim_category",
+    "claim_category",
+    "claim_category",
+    "category_total_amount",
+    "attachment",
+    "receipt_image",
+    "enabletext",
+    "comments",
+    "is_comment_enabled",
+    "clear",
+    "save"
+  ],
+  "ff406985acf140a8a5fc4824f1c39c39": {
+    "source": "offsite_expense",
+    "target": "offsite_expense",
+    "controlName": "offsite_expense"
+  },
+  "f840fa5f548e49e1a5cb7cada4a51f6e": {
+    "source": "claim_expense_type",
+    "target": "claim_expense_type",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.claim_expense_type"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Offsite:AFVK:v1|4d39522ee30443598090fe9ac0c429cb|f840fa5f548e49e1a5cb7cada4a51f6e"
+      }
+    ],
+    "controlName": "claim_expense_type"
+  },
+  "527c7ce2701a4e85917227cd8d9bf755": {
+    "source": "expense_name",
+    "target": "expense_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.expense_name"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Offsite:AFVK:v1|4d39522ee30443598090fe9ac0c429cb|527c7ce2701a4e85917227cd8d9bf755"
+      }
+    ],
+    "controlName": "expense_name"
+  },
+  "6130f68ce58d440cbf36af71d74ad8a5": {
+    "source": "email",
+    "target": "email",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.email"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Offsite:AFVK:v1|4d39522ee30443598090fe9ac0c429cb|6130f68ce58d440cbf36af71d74ad8a5"
+      }
+    ],
+    "controlName": "email"
+  },
+  "e9fbeacc90f14ce188d18fd7214e96b6": {
+    "source": "from_date",
+    "target": "from_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.from_date"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Offsite:AFVK:v1|4d39522ee30443598090fe9ac0c429cb|e9fbeacc90f14ce188d18fd7214e96b6"
+      }
+    ],
+    "controlName": "from_date"
+  },
+  "17f33f8141e74fb88e83bb4bc25af8c4": {
+    "source": "to_date",
+    "target": "to_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.to_date"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Offsite:AFVK:v1|4d39522ee30443598090fe9ac0c429cb|17f33f8141e74fb88e83bb4bc25af8c4"
+      }
+    ],
+    "controlName": "to_date"
+  },
+  "ee1b1a7777b34405af075e3c910b2e83": {
+    "source": "claim_category",
+    "target": "claim_category",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:code_description:AFVK:v1|c00274196bd4445f93b744c5a189d292|items.properties.cdcategory"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Offsite:AFVK:v1|4d39522ee30443598090fe9ac0c429cb|ee1b1a7777b34405af075e3c910b2e83|text"
+      },
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:code_description:AFVK:v1|c00274196bd4445f93b744c5a189d292|items.properties.cdcategory"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Offsite:AFVK:v1|4d39522ee30443598090fe9ac0c429cb|ee1b1a7777b34405af075e3c910b2e83|value"
+      },
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.claim_category"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Offsite:AFVK:v1|4d39522ee30443598090fe9ac0c429cb|ee1b1a7777b34405af075e3c910b2e83|saveTo"
+      }
+    ],
+    "controlName": "claim_category"
+  },
+  "eac132e01f294da69ea2fb60153e603b": {
+    "source": "category_total_amount",
+    "target": "category_total_amount",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.category_total_amount"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Offsite:AFVK:v1|4d39522ee30443598090fe9ac0c429cb|eac132e01f294da69ea2fb60153e603b"
+      }
+    ],
+    "controlName": "category_total_amount"
+  },
+  "b5766875d9794d4f8d61c5d01c5c9c51": {
+    "source": "attachment",
+    "target": "attachment",
+    "controlName": "attachment"
+  },
+  "0d92d0aea7754b1fa81c058c3d3afe30": {
+    "source": "receipt_image",
+    "target": "receipt_image",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.receipt_image"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Offsite:AFVK:v1|4d39522ee30443598090fe9ac0c429cb|0d92d0aea7754b1fa81c058c3d3afe30"
+      }
+    ],
+    "controlName": "receipt_image"
+  },
+  "039df55a99c34bf6970976d03e2eff29": {
+    "source": "enable",
+    "target": "enable",
+    "controlName": "enable"
+  },
+  "0fc6421d9c204116862cf08d69365b18": {
+    "source": "comments",
+    "target": "comments",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.comments"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Offsite:AFVK:v1|4d39522ee30443598090fe9ac0c429cb|0fc6421d9c204116862cf08d69365b18"
+      }
+    ],
+    "controlName": "comments"
+  },
+  "a9894610d9e64b358e69c26718f5ca5f": {
+    "source": "is_comment_enabled",
+    "target": "is_comment_enabled",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.is_comment_enabled"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Offsite:AFVK:v1|4d39522ee30443598090fe9ac0c429cb|a9894610d9e64b358e69c26718f5ca5f"
+      }
+    ],
+    "controlName": "is_comment_enabled"
+  },
+  "e0054081d65f44b88999c0967112b3e6": {
+    "source": "clear",
+    "target": "clear",
+    "controlName": "Clear"
+  },
+  "522000ac7e444a89a1ca65742ef5cae4": {
+    "source": "add",
+    "target": "add",
+    "controlName": "Add"
+  },
+  "Request_Offsite_Group429cb": [
+    "offsite_expense",
+    "claim_expense_type",
+    "expense_name",
+    "email",
+    "from_date",
+    "to_date",
+    "claim_category",
+    "claim_category",
+    "claim_category",
+    "category_total_amount",
+    "attachment",
+    "receipt_image",
+    "enable",
+    "comments",
+    "is_comment_enabled",
+    "clear",
+    "add"
+  ],
+  "dcc95d3a8d98427ab13a88f412197d69": {
+    "source": "claim_detail_id",
+    "target": "claim_detail_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims_detail:AFVK:v1|c135d52beead4bd78db52f5d04e769c9|items.properties.claim_detail_id"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Offsite:AFVK:v1|d0c7d5b3ef0e4f5aba11c602ceff8143|dcc95d3a8d98427ab13a88f412197d69"
+      }
+    ],
+    "controlName": "claim_detail_id"
+  },
+  "e0761ba5f7d84c25a2261990627182d4": {
+    "source": "expense_category",
+    "target": "expense_category",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims_detail:AFVK:v1|c135d52beead4bd78db52f5d04e769c9|items.properties.expense_category"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Offsite:AFVK:v1|d0c7d5b3ef0e4f5aba11c602ceff8143|e0761ba5f7d84c25a2261990627182d4"
+      }
+    ],
+    "controlName": "expense_category"
+  },
+  "ff784d30a9484fd5925508e7ac7dee64": {
+    "source": "expense_description",
+    "target": "expense_description",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims_detail:AFVK:v1|c135d52beead4bd78db52f5d04e769c9|items.properties.expense_description"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Offsite:AFVK:v1|d0c7d5b3ef0e4f5aba11c602ceff8143|ff784d30a9484fd5925508e7ac7dee64"
+      }
+    ],
+    "controlName": "expense_description"
+  },
+  "2c67d9260c71475fb3800bc010ce47c7": {
+    "source": "expense_date",
+    "target": "expense_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims_detail:AFVK:v1|c135d52beead4bd78db52f5d04e769c9|items.properties.expense_date"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Offsite:AFVK:v1|d0c7d5b3ef0e4f5aba11c602ceff8143|2c67d9260c71475fb3800bc010ce47c7"
+      }
+    ],
+    "controlName": "expense_date"
+  },
+  "b8ac460196b44be5b4449ad9744b97f7": {
+    "source": "expense_amount",
+    "target": "expense_amount",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims_detail:AFVK:v1|c135d52beead4bd78db52f5d04e769c9|items.properties.expense_amount"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Request_Screen_Offsite:AFVK:v1|d0c7d5b3ef0e4f5aba11c602ceff8143|b8ac460196b44be5b4449ad9744b97f7"
+      }
+    ],
+    "controlName": "expense_amount"
+  },
+  "claimsdetailtablef8143": [
+    "claim_detail_id",
+    "expense_category",
+    "expense_description",
+    "expense_date",
+    "expense_amount"
+  ],
+  "2253d3b315914a749f8bbfdadea75ed7": {
+    "source": "approvedcard",
+    "target": "approvedcard",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:card_data:AFVK:v1|a7caf71c572343c08c193b078fe675b3|properties.approvedcard"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1|e0abb5b5f6d949fa8b9e38f3f4741477|2253d3b315914a749f8bbfdadea75ed7"
+      }
+    ],
+    "controlName": "approvedcard"
+  },
+  "50285d9343f74fa4b1b4c65b3dc0ceee": {
+    "source": "rejectedcard",
+    "target": "rejectedcard",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:card_data:AFVK:v1|a7caf71c572343c08c193b078fe675b3|properties.rejectedcard"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1|e0abb5b5f6d949fa8b9e38f3f4741477|50285d9343f74fa4b1b4c65b3dc0ceee"
+      }
+    ],
+    "controlName": "rejectedcard"
+  },
+  "8cfd41ac08154260a70b7026e91727e3": {
+    "source": "pendingcard",
+    "target": "pendingcard",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:card_data:AFVK:v1|a7caf71c572343c08c193b078fe675b3|properties.pendingcard"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1|e0abb5b5f6d949fa8b9e38f3f4741477|8cfd41ac08154260a70b7026e91727e3"
+      }
+    ],
+    "controlName": "pendingcard"
+  },
+  "20350be244d14f31bc87c247e85e7cda": {
+    "source": "dailyexpenses",
+    "target": "dailyexpenses",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:card_data:AFVK:v1|a7caf71c572343c08c193b078fe675b3|properties.dailyexpenses"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1|e0abb5b5f6d949fa8b9e38f3f4741477|20350be244d14f31bc87c247e85e7cda"
+      }
+    ],
+    "controlName": "dailyexpenses"
+  },
+  "5dbb6642d14f4f1ba5aab82ebce62fe1": {
+    "source": "offsiteexpenses",
+    "target": "offsiteexpenses",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:card_data:AFVK:v1|a7caf71c572343c08c193b078fe675b3|properties.offsiteexpenses"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1|e0abb5b5f6d949fa8b9e38f3f4741477|5dbb6642d14f4f1ba5aab82ebce62fe1"
+      }
+    ],
+    "controlName": "offsiteexpenses"
+  },
+  "db7ac9811d294691988f3367746a8b25": {
+    "source": "daily_exp",
+    "target": "daily_exp",
+    "controlName": "daily_exp"
+  },
+  "bb285c8934204709b31f29abb3e400c9": {
+    "source": "offstie_exp",
+    "target": "offstie_exp",
+    "controlName": "offstie_exp"
+  },
+  "manager_group41477": [
+    "approvedcard",
+    "rejectedcard",
+    "pendingcard",
+    "dailyexpenses",
+    "offsiteexpenses",
+    "daily_exp",
+    "offstie_exp"
+  ],
+  "14f1c8fc11f2460f81d5024266a570c3": {
+    "source": "claim_id",
+    "target": "cl_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.claim_id"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1|0e20ffe3aaf1437e82c5536824491568|14f1c8fc11f2460f81d5024266a570c3"
+      }
+    ],
+    "controlName": "cl_id"
+  },
+  "ded4b27818d84832a0780dd7f05ae57b": {
+    "source": "trs_created_by",
+    "target": "trs_created_by",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.trs_created_by"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1|0e20ffe3aaf1437e82c5536824491568|ded4b27818d84832a0780dd7f05ae57b"
+      }
+    ],
+    "controlName": "trs_created_by"
+  },
+  "cf227ef590644cb597cb20c8edc090da": {
+    "source": "claim_category",
+    "target": "claim_category",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.claim_category"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1|0e20ffe3aaf1437e82c5536824491568|cf227ef590644cb597cb20c8edc090da"
+      }
+    ],
+    "controlName": "claim_category"
+  },
+  "ad8ea165f2164836ba08c079590c033a": {
+    "source": "category_total_amount",
+    "target": "total_amount",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.category_total_amount"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1|0e20ffe3aaf1437e82c5536824491568|ad8ea165f2164836ba08c079590c033a"
+      }
+    ],
+    "controlName": "total_amount"
+  },
+  "e475a84fbb2546f08af9752d6f449843": {
+    "source": "trs_event_process_status",
+    "target": "status",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.trs_event_process_status"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1|0e20ffe3aaf1437e82c5536824491568|e475a84fbb2546f08af9752d6f449843"
+      }
+    ],
+    "controlName": "status"
+  },
+  "b20050ccacca4442ad9168ed6760a4c3": {
+    "source": "expense_date",
+    "target": "expense_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.expense_date"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1|0e20ffe3aaf1437e82c5536824491568|b20050ccacca4442ad9168ed6760a4c3"
+      }
+    ],
+    "controlName": "expense_date"
+  },
+  "daily_expense_table91568": [
+    "claim_id",
+    "trs_created_by",
+    "claim_category",
+    "category_total_amount",
+    "trs_event_process_status",
+    "expense_date"
+  ],
+  "249da64dff3e4f46abbec7e4ef14a599": {
+    "source": "claim_id",
+    "target": "claim_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.claim_id"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1|f999c73172354a838090a0f8eda1e924|249da64dff3e4f46abbec7e4ef14a599"
+      }
+    ],
+    "controlName": "claim_id"
+  },
+  "93fd920bf84e4aca85eab3ae510c8f13": {
+    "source": "expense_name",
+    "target": "expense_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.expense_name"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1|f999c73172354a838090a0f8eda1e924|93fd920bf84e4aca85eab3ae510c8f13"
+      }
+    ],
+    "controlName": "expense_name"
+  },
+  "6b50343fed8f4355afcc40de5d1fb61b": {
+    "source": "category_total_amount",
+    "target": "category_total_amount",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.category_total_amount"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1|f999c73172354a838090a0f8eda1e924|6b50343fed8f4355afcc40de5d1fb61b"
+      }
+    ],
+    "controlName": "category_total_amount"
+  },
+  "def6b2aaf6b5424888754a5781d79b0b": {
+    "source": "trs_event_process_status",
+    "target": "trs_status",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.trs_event_process_status"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1|f999c73172354a838090a0f8eda1e924|def6b2aaf6b5424888754a5781d79b0b"
+      }
+    ],
+    "controlName": "trs_status"
+  },
+  "5b53dc0b5e2a410fb5821a505d546435": {
+    "source": "formatted_date",
+    "target": "formatted_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.formatted_date"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1|f999c73172354a838090a0f8eda1e924|5b53dc0b5e2a410fb5821a505d546435"
+      }
+    ],
+    "controlName": "formatted_date"
+  },
+  "offsite_expense_table1e924": [
+    "claim_id",
+    "expense_name",
+    "category_total_amount",
+    "trs_event_process_status",
+    "formatted_date"
+  ],
+  "52a4f3a9ed8c4ac78bbea1f93a289868": {
+    "source": "daily_expense",
+    "target": "daily_expense",
+    "controlName": "daily_expense"
+  },
+  "a4e79d6312ec4dca8fc03c6a91a88ccc": {
+    "source": "expense_name",
+    "target": "expense_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.expense_name"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Daily:AFVK:v1|91dcb5fe99014c21add21a4d00669531|a4e79d6312ec4dca8fc03c6a91a88ccc"
+      }
+    ],
+    "controlName": "expense_name"
+  },
+  "0b97d57073604bffbf80af4b08474f9a": {
+    "source": "email",
+    "target": "email",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.email"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Daily:AFVK:v1|91dcb5fe99014c21add21a4d00669531|0b97d57073604bffbf80af4b08474f9a"
+      }
+    ],
+    "controlName": "email"
+  },
+  "0cc243821fee47f695a7cb783a846dd0": {
+    "source": "claim_category",
+    "target": "claim_category",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.claim_category"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Daily:AFVK:v1|91dcb5fe99014c21add21a4d00669531|0cc243821fee47f695a7cb783a846dd0"
+      }
+    ],
+    "controlName": "claim_category"
+  },
+  "ee09b38e61cf413a9a60d57d5a5cf2e2": {
+    "source": "category_total_amount",
+    "target": "category_total_amount",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.category_total_amount"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Daily:AFVK:v1|91dcb5fe99014c21add21a4d00669531|ee09b38e61cf413a9a60d57d5a5cf2e2"
+      }
+    ],
+    "controlName": "category_total_amount"
+  },
+  "8bcbde66ffd74815ba3deb487eb08e2f": {
+    "source": "expense_date",
+    "target": "expense_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.expense_date"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Daily:AFVK:v1|91dcb5fe99014c21add21a4d00669531|8bcbde66ffd74815ba3deb487eb08e2f"
+      }
+    ],
+    "controlName": "expense_date"
+  },
+  "f4b5b19ab1bc441cabe05e22d603cd01": {
+    "source": "receipt_image",
+    "target": "receipt_image",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.receipt_image"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Daily:AFVK:v1|91dcb5fe99014c21add21a4d00669531|f4b5b19ab1bc441cabe05e22d603cd01"
+      }
+    ],
+    "controlName": "receipt_image"
+  },
+  "4ac462ba905648c68098dbffa359336d": {
+    "source": "comments",
+    "target": "comments",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.comments"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Daily:AFVK:v1|91dcb5fe99014c21add21a4d00669531|4ac462ba905648c68098dbffa359336d"
+      }
+    ],
+    "controlName": "comments"
+  },
+  "710e97baa47c4e6fbf12e7ab583666c8": {
+    "source": "enable",
+    "target": "enable",
+    "controlName": "ENABLE"
+  },
+  "a0b10e934dc447099f6b85449f5d309a": {
+    "source": "manager_comments",
+    "target": "manager_comments",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.manager_comments"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Daily:AFVK:v1|91dcb5fe99014c21add21a4d00669531|a0b10e934dc447099f6b85449f5d309a"
+      }
+    ],
+    "controlName": "manager_comments"
+  },
+  "d3ec228cc10a453785d1f131c88e20a4": {
+    "source": "is_comment_enabled",
+    "target": "is_comment_enabled",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.is_comment_enabled"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Daily:AFVK:v1|91dcb5fe99014c21add21a4d00669531|d3ec228cc10a453785d1f131c88e20a4"
+      }
+    ],
+    "controlName": "is_comment_enabled"
+  },
+  "18fd29f395e74dcb92e9a0d0e5a28a4c": {
+    "source": "reject",
+    "target": "reject",
+    "controlName": "Reject"
+  },
+  "1a8d8b3319124f5f87f740c4bd628765": {
+    "source": "approve",
+    "target": "approve",
+    "controlName": "Approve"
+  },
+  "Daily_Approval_Group69531": [
+    "daily_expense",
+    "expense_name",
+    "email",
+    "claim_category",
+    "category_total_amount",
+    "expense_date",
+    "receipt_image",
+    "comments",
+    "enable",
+    "manager_comments",
+    "is_comment_enabled",
+    "reject",
+    "approve"
+  ],
+  "38da85f005f0460bbe59a738d0d4be82": {
+    "source": "offsite_expense",
+    "target": "offsite_expense",
+    "controlName": "offsite_expense"
+  },
+  "5443f1e2d3e64dc8a79a05ff56e084c7": {
+    "source": "expense_name",
+    "target": "expense_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.expense_name"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Offsite:AFVK:v1|279c2b7585c947c9abdc712d6a18d6cc|5443f1e2d3e64dc8a79a05ff56e084c7"
+      }
+    ],
+    "controlName": "expense_name"
+  },
+  "602bf01c57a54ef3ab04dc06e3c070ac": {
+    "source": "email",
+    "target": "email",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.email"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Offsite:AFVK:v1|279c2b7585c947c9abdc712d6a18d6cc|602bf01c57a54ef3ab04dc06e3c070ac"
+      }
+    ],
+    "controlName": "email"
+  },
+  "c51c5a7a36204a2ead83a5febb6b920f": {
+    "source": "from_date",
+    "target": "from_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.from_date"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Offsite:AFVK:v1|279c2b7585c947c9abdc712d6a18d6cc|c51c5a7a36204a2ead83a5febb6b920f"
+      }
+    ],
+    "controlName": "from_date"
+  },
+  "ae201daf0e6b48f09ca0af196c35ca82": {
+    "source": "to_date",
+    "target": "to_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.to_date"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Offsite:AFVK:v1|279c2b7585c947c9abdc712d6a18d6cc|ae201daf0e6b48f09ca0af196c35ca82"
+      }
+    ],
+    "controlName": "to_date"
+  },
+  "8fd8a11bdb4e401394b4a952db3ac401": {
+    "source": "claim_category",
+    "target": "claim_category",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.claim_category"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Offsite:AFVK:v1|279c2b7585c947c9abdc712d6a18d6cc|8fd8a11bdb4e401394b4a952db3ac401"
+      }
+    ],
+    "controlName": "claim_category"
+  },
+  "4fd946aa2893443d95ef2da4060dd7c0": {
+    "source": "category_total_amount",
+    "target": "category_total_amount",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.category_total_amount"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Offsite:AFVK:v1|279c2b7585c947c9abdc712d6a18d6cc|4fd946aa2893443d95ef2da4060dd7c0"
+      }
+    ],
+    "controlName": "category_total_amount"
+  },
+  "0f3c4eb7486e4eb585f3b61b8eb3a832": {
+    "source": "receipt_image",
+    "target": "receipt_image",
+    "controlName": "receipt_image"
+  },
+  "83eb2934fd88438da3607f98661e0ef7": {
+    "source": "comments",
+    "target": "comments",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.comments"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Offsite:AFVK:v1|279c2b7585c947c9abdc712d6a18d6cc|83eb2934fd88438da3607f98661e0ef7"
+      }
+    ],
+    "controlName": "comments"
+  },
+  "f9c1f542ffb244dea049a6208ad4bec2": {
+    "source": "manager_comments",
+    "target": "manager_comments",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.manager_comments"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Offsite:AFVK:v1|279c2b7585c947c9abdc712d6a18d6cc|f9c1f542ffb244dea049a6208ad4bec2"
+      }
+    ],
+    "controlName": "manager_comments"
+  },
+  "bf0b6fb2d982488b9a05eec8ed1d5c19": {
+    "source": "enable",
+    "target": "enable",
+    "controlName": "Enable"
+  },
+  "880ad7348ce24e438f34199772af9731": {
+    "source": "is_comment_enabled",
+    "target": "is_comment_enabled",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims:AFVK:v1|d4d9550eca7f46129886b6c11168e6b5|properties.is_comment_enabled"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Offsite:AFVK:v1|279c2b7585c947c9abdc712d6a18d6cc|880ad7348ce24e438f34199772af9731"
+      }
+    ],
+    "controlName": "is_comment_enabled"
+  },
+  "7adb497cc19543f99bbfc55627774228": {
+    "source": "reject",
+    "target": "reject",
+    "controlName": "Reject"
+  },
+  "4953fad632eb4cf2a806de7d667098ea": {
+    "source": "approve",
+    "target": "approve",
+    "controlName": "Approve"
+  },
+  "offsite_approval_group8d6cc": [
+    "offsite_expense",
+    "expense_name",
+    "email",
+    "from_date",
+    "to_date",
+    "claim_category",
+    "category_total_amount",
+    "receipt_image",
+    "comments",
+    "manager_comments",
+    "enable",
+    "is_comment_enabled",
+    "reject",
+    "approve"
+  ],
+  "01ca5d9f80d449339e476df5acdcd216": {
+    "source": "claim_detail_id",
+    "target": "claim_detail_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims_detail:AFVK:v1|c135d52beead4bd78db52f5d04e769c9|items.properties.claim_detail_id"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Offsite:AFVK:v1|9506371dc6dd46838910363c4b51835f|01ca5d9f80d449339e476df5acdcd216"
+      }
+    ],
+    "controlName": "claim_detail_id"
+  },
+  "a03a600b72ad4f9b89b59a3c7f571ccd": {
+    "source": "expense_category",
+    "target": "expense_category",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims_detail:AFVK:v1|c135d52beead4bd78db52f5d04e769c9|items.properties.expense_category"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Offsite:AFVK:v1|9506371dc6dd46838910363c4b51835f|a03a600b72ad4f9b89b59a3c7f571ccd"
+      }
+    ],
+    "controlName": "expense_category"
+  },
+  "d6018c73688e4466a7642a3baf984301": {
+    "source": "expense_description",
+    "target": "expense_description",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims_detail:AFVK:v1|c135d52beead4bd78db52f5d04e769c9|items.properties.expense_description"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Offsite:AFVK:v1|9506371dc6dd46838910363c4b51835f|d6018c73688e4466a7642a3baf984301"
+      }
+    ],
+    "controlName": "expense_description"
+  },
+  "bf2e97a8938f4d42bee4a5e0daf2649c": {
+    "source": "expense_date",
+    "target": "expense_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims_detail:AFVK:v1|c135d52beead4bd78db52f5d04e769c9|items.properties.expense_date"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Offsite:AFVK:v1|9506371dc6dd46838910363c4b51835f|bf2e97a8938f4d42bee4a5e0daf2649c"
+      }
+    ],
+    "controlName": "expense_date"
+  },
+  "fe219ca2a7b34805b2b71798a9b6b94f": {
+    "source": "expense_amount",
+    "target": "expense_amount",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claims_detail:AFVK:v1|c135d52beead4bd78db52f5d04e769c9|items.properties.expense_amount"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Approval_Screen_Offsite:AFVK:v1|9506371dc6dd46838910363c4b51835f|fe219ca2a7b34805b2b71798a9b6b94f"
+      }
+    ],
+    "controlName": "expense_amount"
+  },
+  "claim_detail_table1835f": [
+    "claim_detail_id",
+    "expense_category",
+    "expense_description",
+    "expense_date",
+    "expense_amount"
+  ],
+  "e849bd7c2c9140829766611a221c5d00": {
+    "source": "daily",
+    "target": "daily",
+    "controlName": "daily"
+  },
+  "groupc9a87": [
+    "daily"
+  ],
+  "391d80847c1a4171924d5e7e456dc381": {
+    "source": "claim_id",
+    "target": "claim_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.claim_id"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_User_Table:AFVK:v1|d153f9041a044b0fa7a88ce7aa876baf|391d80847c1a4171924d5e7e456dc381"
+      }
+    ],
+    "controlName": "claim_id"
+  },
+  "13c368d28c4a434b8433291a8460195f": {
+    "source": "expense_name",
+    "target": "expense_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.expense_name"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_User_Table:AFVK:v1|d153f9041a044b0fa7a88ce7aa876baf|13c368d28c4a434b8433291a8460195f"
+      }
+    ],
+    "controlName": "expense_name"
+  },
+  "ce6300822390491888d268187668e630": {
+    "source": "claim_category",
+    "target": "claim_category",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.claim_category"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_User_Table:AFVK:v1|d153f9041a044b0fa7a88ce7aa876baf|ce6300822390491888d268187668e630"
+      }
+    ],
+    "controlName": "claim_category"
+  },
+  "2a2bae04b027469eb6c4d295e4e2b381": {
+    "source": "category_total_amount",
+    "target": "category_total_amount",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.category_total_amount"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_User_Table:AFVK:v1|d153f9041a044b0fa7a88ce7aa876baf|2a2bae04b027469eb6c4d295e4e2b381"
+      }
+    ],
+    "controlName": "category_total_amount"
+  },
+  "ca2a95c821f846e6bd5108b6a6d7df86": {
+    "source": "expense_date",
+    "target": "expense_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.expense_date"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_User_Table:AFVK:v1|d153f9041a044b0fa7a88ce7aa876baf|ca2a95c821f846e6bd5108b6a6d7df86"
+      }
+    ],
+    "controlName": "expense_date"
+  },
+  "bc19f0de32c846a59fde244756bcecb6": {
+    "source": "trs_event_process_status",
+    "target": "trs_status",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.trs_event_process_status"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_User_Table:AFVK:v1|d153f9041a044b0fa7a88ce7aa876baf|bc19f0de32c846a59fde244756bcecb6"
+      }
+    ],
+    "controlName": "trs_status"
+  },
+  "daily_user_table76baf": [
+    "claim_id",
+    "expense_name",
+    "claim_category",
+    "category_total_amount",
+    "expense_date",
+    "trs_event_process_status"
+  ],
+  "689f19fd652e4d998cf051119e7248b4": {
+    "source": "text",
+    "target": "text",
+    "controlName": "text"
+  },
+  "groupe78de": [
+    "text"
+  ],
+  "2992ad80e14243999efd2301b67add32": {
+    "source": "claim_id",
+    "target": "claim_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.claim_id"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_User_Table:AFVK:v1|9e5d8ebb12ce43de8572e604a7794f29|2992ad80e14243999efd2301b67add32"
+      }
+    ],
+    "controlName": "claim_id"
+  },
+  "70404719e1c045139076996d4cc0255e": {
+    "source": "expense_name",
+    "target": "expense_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.expense_name"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_User_Table:AFVK:v1|9e5d8ebb12ce43de8572e604a7794f29|70404719e1c045139076996d4cc0255e"
+      }
+    ],
+    "controlName": "expense_name"
+  },
+  "6351fbeba2b8430b9ea8ef242808981c": {
+    "source": "claim_category",
+    "target": "claim_category",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.claim_category"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_User_Table:AFVK:v1|9e5d8ebb12ce43de8572e604a7794f29|6351fbeba2b8430b9ea8ef242808981c"
+      }
+    ],
+    "controlName": "claim_category"
+  },
+  "bb2d2872e22c470397f24d06572a8a33": {
+    "source": "category_total_amount",
+    "target": "category_total_amount",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.category_total_amount"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_User_Table:AFVK:v1|9e5d8ebb12ce43de8572e604a7794f29|bb2d2872e22c470397f24d06572a8a33"
+      }
+    ],
+    "controlName": "category_total_amount"
+  },
+  "293816d70cad4c00a4bc8e91ac30d1c9": {
+    "source": "formatted_date",
+    "target": "formatted_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.formatted_date"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_User_Table:AFVK:v1|9e5d8ebb12ce43de8572e604a7794f29|293816d70cad4c00a4bc8e91ac30d1c9"
+      }
+    ],
+    "controlName": "formatted_date"
+  },
+  "8c22a9c8f4e94cbab770a07b0e9f43c9": {
+    "source": "trs_event_process_status",
+    "target": "trs_status",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.trs_event_process_status"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_User_Table:AFVK:v1|9e5d8ebb12ce43de8572e604a7794f29|8c22a9c8f4e94cbab770a07b0e9f43c9"
+      }
+    ],
+    "controlName": "trs_status"
+  },
+  "offsite_expense_user_table94f29": [
+    "claim_id",
+    "expense_name",
+    "claim_category",
+    "category_total_amount",
+    "formatted_date",
+    "trs_event_process_status"
+  ],
+  "33a20a45e53148cca818ed2031314f95": {
+    "source": "daily",
+    "target": "daily",
+    "controlName": "daily"
+  },
+  "grp63e95": [
+    "daily"
+  ],
+  "5703e772c2c2430599e2d362c327ec53": {
+    "source": "claim_id",
+    "target": "claim_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.claim_id"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_Manager_Table:AFVK:v1|874fd4e0d832428da3947bcbc05e3342|5703e772c2c2430599e2d362c327ec53"
+      }
+    ],
+    "controlName": "claim_id"
+  },
+  "ee16650f5aae48019040074a33d1f8f9": {
+    "source": "trs_created_by",
+    "target": "trs_created_by",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.trs_created_by"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_Manager_Table:AFVK:v1|874fd4e0d832428da3947bcbc05e3342|ee16650f5aae48019040074a33d1f8f9"
+      }
+    ],
+    "controlName": "trs_created_by"
+  },
+  "2cacfe62bb06405f8f5e150111e78eca": {
+    "source": "expense_name",
+    "target": "expense_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.expense_name"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_Manager_Table:AFVK:v1|874fd4e0d832428da3947bcbc05e3342|2cacfe62bb06405f8f5e150111e78eca"
+      }
+    ],
+    "controlName": "expense_name"
+  },
+  "af6128223d76437ca54d0d3c1ae8466d": {
+    "source": "claim_category",
+    "target": "claim_category",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.claim_category"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_Manager_Table:AFVK:v1|874fd4e0d832428da3947bcbc05e3342|af6128223d76437ca54d0d3c1ae8466d"
+      }
+    ],
+    "controlName": "claim_category"
+  },
+  "e04eacc76ea643ef8e8a6eaee4b22435": {
+    "source": "category_total_amount",
+    "target": "category_total_amount",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.category_total_amount"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_Manager_Table:AFVK:v1|874fd4e0d832428da3947bcbc05e3342|e04eacc76ea643ef8e8a6eaee4b22435"
+      }
+    ],
+    "controlName": "category_total_amount"
+  },
+  "6b16d7e42de14526ae15afc673120458": {
+    "source": "expense_date",
+    "target": "expense_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.expense_date"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_Manager_Table:AFVK:v1|874fd4e0d832428da3947bcbc05e3342|6b16d7e42de14526ae15afc673120458"
+      }
+    ],
+    "controlName": "expense_date"
+  },
+  "559a64b92542461babde36666329f4b4": {
+    "source": "trs_event_process_status",
+    "target": "trs_status",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.trs_event_process_status"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_Manager_Table:AFVK:v1|874fd4e0d832428da3947bcbc05e3342|559a64b92542461babde36666329f4b4"
+      }
+    ],
+    "controlName": "trs_status"
+  },
+  "4994c2faa28345cda1c200f42c54d3f0": {
+    "source": "reject",
+    "target": "reject",
+    "controlName": "Reject"
+  },
+  "271c5940bad04144b9d17e8dfc0819e1": {
+    "source": "approve",
+    "target": "approve",
+    "controlName": "Approve"
+  },
+  "daily_expense_manager_tablee3342": [
+    "claim_id",
+    "trs_created_by",
+    "expense_name",
+    "claim_category",
+    "category_total_amount",
+    "expense_date",
+    "trs_event_process_status",
+    "reject",
+    "approve"
+  ],
+  "1122fbc14a68418da740122592546e6c": {
+    "source": "offsite_expense",
+    "target": "offsite_expense",
+    "controlName": "offsite_expense"
+  },
+  "grpdeda0": [
+    "offsite_expense"
+  ],
+  "34e702858c974cc4a31c9faf1d556078": {
+    "source": "claim_id",
+    "target": "claim_id",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.claim_id"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_Manager_Table:AFVK:v1|68aacd73430449af9dd1ef8b5a998ff5|34e702858c974cc4a31c9faf1d556078"
+      }
+    ],
+    "controlName": "claim_id"
+  },
+  "30ccc2bd0e934f049e63731cd83e566a": {
+    "source": "reject",
+    "target": "reject",
+    "controlName": "Reject"
+  },
+  "4c673f44f9da4729a67b9b3e7c95709e": {
+    "source": "approve",
+    "target": "approve",
+    "controlName": "Approve"
+  },
+  "df82c1e8abea474c8477355b4668053b": {
+    "source": "trs_created_by",
+    "target": "trs_created_by",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.trs_created_by"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_Manager_Table:AFVK:v1|68aacd73430449af9dd1ef8b5a998ff5|df82c1e8abea474c8477355b4668053b"
+      }
+    ],
+    "controlName": "trs_created_by"
+  },
+  "60349777ab1b4d0babbcf1236a594440": {
+    "source": "expense_name",
+    "target": "expense_name",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.expense_name"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_Manager_Table:AFVK:v1|68aacd73430449af9dd1ef8b5a998ff5|60349777ab1b4d0babbcf1236a594440"
+      }
+    ],
+    "controlName": "expense_name"
+  },
+  "f4c02e5258b2472dbb4aa984f0f9ec61": {
+    "source": "claim_category",
+    "target": "claim_category",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.claim_category"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_Manager_Table:AFVK:v1|68aacd73430449af9dd1ef8b5a998ff5|f4c02e5258b2472dbb4aa984f0f9ec61"
+      }
+    ],
+    "controlName": "claim_category"
+  },
+  "c05399971b764483a0ebcff1190689b8": {
+    "source": "category_total_amount",
+    "target": "category_total_amount",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.category_total_amount"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_Manager_Table:AFVK:v1|68aacd73430449af9dd1ef8b5a998ff5|c05399971b764483a0ebcff1190689b8"
+      }
+    ],
+    "controlName": "category_total_amount"
+  },
+  "e4f5736ea7294b80b04ed2971621030f": {
+    "source": "formatted_date",
+    "target": "formatted_date",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.formatted_date"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_Manager_Table:AFVK:v1|68aacd73430449af9dd1ef8b5a998ff5|e4f5736ea7294b80b04ed2971621030f"
+      }
+    ],
+    "controlName": "formatted_date"
+  },
+  "961446bc3a214777bffe62b74b0759b6": {
+    "source": "trs_event_process_status",
+    "target": "trs_status",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:claim_table_data:AFVK:v1|bc094f2d2b914ccfaeed3d2a293a01fe|properties.trs_event_process_status"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_Manager_Table:AFVK:v1|68aacd73430449af9dd1ef8b5a998ff5|961446bc3a214777bffe62b74b0759b6"
+      }
+    ],
+    "controlName": "trs_status"
+  },
+  "table98ff5": [
+    "claim_id",
+    "reject",
+    "approve",
+    "trs_created_by",
+    "expense_name",
+    "claim_category",
+    "category_total_amount",
+    "formatted_date",
+    "trs_event_process_status"
+  ],
+  "1dc88083d1ee4ab0a0c68432a6e477a2": {
+    "source": "name",
+    "target": "bar_chart",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:chart_data:AFVK:v1|34cd0bfd86c3401e8168d41b846847c9|properties.name"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1|f9fcdb0875fc40019af0ac40c9c0286e|1dc88083d1ee4ab0a0c68432a6e477a2"
+      }
+    ],
+    "controlName": "bar_chart"
+  },
+  "31589633aab648bf955757601a67818e": {
+    "source": "amount",
+    "target": "piechart",
+    "mapper": [
+      {
+        "sourceKey": [
+          "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:chart_data:AFVK:v1|34cd0bfd86c3401e8168d41b846847c9|properties.amount"
+        ],
+        "targetKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1|f9fcdb0875fc40019af0ac40c9c0286e|31589633aab648bf955757601a67818e"
+      }
+    ],
+    "controlName": "piechart"
+  },
+  "report_grp0286e": [
+    "name",
+    "amount"
   ]
 }

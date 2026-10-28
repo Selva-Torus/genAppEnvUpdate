@@ -16,7 +16,7 @@ interface GlobalContextType extends GlobalProps {
   appBackgroundImage: string | undefined;
   setAppBackgroundImage: (image: string | undefined) => void;
   setDisplayFormat:(data:any)=>void;
-
+  
   // for taking env from clientside
   publicEnv: PublicEnv;
 }

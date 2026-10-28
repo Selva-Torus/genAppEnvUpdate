@@ -32,7 +32,7 @@ interface LoginProps {
   appTenantList?: any[]
 }
 
-const LoginForm = ({ logo, appName = "application", loginType = "standard", image, appTenantList }: LoginProps) => {
+const LoginForm = ({ logo, appName = "Reimfast", loginType = "standard", image, appTenantList }: LoginProps) => {
   const [formData, setFormData] = useState<Record<string, string>>({
     email: '',
     password: ''
@@ -44,7 +44,7 @@ const LoginForm = ({ logo, appName = "application", loginType = "standard", imag
   const { branding } = useGlobal()
   const { brandColor } = branding
   const { bgColor, borderColor, textColor } = useTheme()
-  const onBoardingKey : string = "Logs Screen"
+  const onBoardingKey : string = "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1"
   const tenant = getPublicEnv('NEXT_PUBLIC_TENANT_CODE');
   const isSaasApp = getPublicEnv('NEXT_PUBLIC_IS_SAAS_APPLICATION');
   const [imageandLogoValid, setImageandLogoValid] = useState({
@@ -70,13 +70,13 @@ const LoginForm = ({ logo, appName = "application", loginType = "standard", imag
           tenant: tenant,
           username: formData.email,
           password: formData.password,
-          key: "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT010:AFGK:AG001:AFK:A001:AFVK:v1:bldc",
+          key: "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT003:AFGK:Trs:AFK:RF:AFVK:v1:bldc",
           ufClientType: 'UFW',
           app_tenant: selectedAppTenant ? appTenantList?.find(item => item.tenant_name == selectedAppTenant)?.tenant_id : undefined,
           app_tenant_id: selectedAppTenant ? appTenantList?.find(item => item.tenant_name == selectedAppTenant)?.at_id : undefined
         }
         const api_signin = await axios.post(
-          `/UF/signin`,
+          `api/UF/signin`,
           api_signinBody,
           {
             validateStatus: () => true
@@ -100,9 +100,39 @@ const LoginForm = ({ logo, appName = "application", loginType = "standard", imag
           let screenDetails: any = {
             keys:[
   {
-    "screenName": "test",
-    "screensName": "test-v1",
-    "ufKey": "CK:CT010:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:test:AFVK:v1"
+    "screenName": "user home screen",
+    "screensName": "user_home_screen-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1"
+  },
+  {
+    "screenName": "manager home screen",
+    "screensName": "manager_home_screen-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1"
+  },
+  {
+    "screenName": "user daily expense",
+    "screensName": "user_daily_expense-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_User_Table:AFVK:v1"
+  },
+  {
+    "screenName": "user offsite expense",
+    "screensName": "user_offsite_expense-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_User_Table:AFVK:v1"
+  },
+  {
+    "screenName": "manager daily expense",
+    "screensName": "manager_daily_expense-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_Manager_Table:AFVK:v1"
+  },
+  {
+    "screenName": "manager offsite expense",
+    "screensName": "manager_offsite_expense-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_Manager_Table:AFVK:v1"
+  },
+  {
+    "screenName": "report",
+    "screensName": "report-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1"
   }
 ]
           }

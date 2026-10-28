@@ -4,9 +4,39 @@ import UOmapperData from '@/context/dfdmapperContolnames.json'
 export function getRouteScreenDetails(key: string, artfactName: string,other:string=''): string {
   let assemblerKeys: any = [
   {
-    "screenName": "test",
-    "screensName": "test-v1",
-    "ufKey": "CK:CT010:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:test:AFVK:v1"
+    "screenName": "user home screen",
+    "screensName": "user_home_screen-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1"
+  },
+  {
+    "screenName": "manager home screen",
+    "screensName": "manager_home_screen-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1"
+  },
+  {
+    "screenName": "user daily expense",
+    "screensName": "user_daily_expense-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_User_Table:AFVK:v1"
+  },
+  {
+    "screenName": "user offsite expense",
+    "screensName": "user_offsite_expense-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_User_Table:AFVK:v1"
+  },
+  {
+    "screenName": "manager daily expense",
+    "screensName": "manager_daily_expense-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_Manager_Table:AFVK:v1"
+  },
+  {
+    "screenName": "manager offsite expense",
+    "screensName": "manager_offsite_expense-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_Manager_Table:AFVK:v1"
+  },
+  {
+    "screenName": "report",
+    "screensName": "report-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1"
   }
 ]
 

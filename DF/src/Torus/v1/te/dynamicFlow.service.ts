@@ -52,7 +52,7 @@ interface PromptResponse {
 @Injectable()
 export class DynamicFlowService {
     private ajv = new Ajv(); 
-    private baseUrl = 'http://192.168.2.250:3080' 
+    private baseUrl = 'https://torusai.toruslowcode.com' 
     private transporters = new Map< string, nodemailer.Transporter>();
     private statickeyword = ['get', 'post', 'patch', '200', '201', '202', '204', '400', '401', '403', '404', '500','requestBody', '*/*', 'responses', 'content', 'application/json', 'application/xml', 'text/plain', 'application/jwt', 'application/json; charset=utf-8', 'schema', 'properties', 'allOf', 'oneOf', 'inputschema', 'outputschema',];//"parameters",
     private numberArr: string[] = Array.from({ length: 101 }, (_, i) => i.toString());  
@@ -1007,7 +1007,12 @@ export class DynamicFlowService {
                                                                 // mapObj['trs_creator_email'] = tokenDecode?.email;
                                                                 mapObj['trs_sub_org_grp_code'] = SessionToken?.subOrgGrpCode;
                                                                 mapObj['trs_sub_org_code'] = SessionToken?.subOrgCode;  
-                                                                mapObj['trs_app_code'] = SessionToken?.app                                                             
+                                                                if(!mapObj?.['trs_product_code'])
+                                                                    mapObj['trs_product_code'] = SessionToken?.psCode
+                                                                if(!mapObj?.['trs_tenant_id'])
+                                                                    mapObj['trs_tenant_id'] = SessionToken?.tenantId   
+                                                                if(!mapObj?.['trs_app_code'])
+                                                                    mapObj['trs_app_code'] = SessionToken?.app                                                             
                                                             }
                                                             
                                                             if([

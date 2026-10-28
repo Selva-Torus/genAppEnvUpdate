@@ -34,14 +34,14 @@ const ContextSelector = () => {
   const [selectedAccessProfile, setSelectedAccessProfile] = useState<string[]>(
     []
   )
-  const [navigationStyles] = useState<'vertical' | 'horizontal'>("horizontal");
+  const [navigationStyles] = useState<'vertical' | 'horizontal'>("vertical");
   const { userDetails, setUserDetails , setMatchedAccessProfileData, setLockedData } = useContext(
     TotalContext
   ) as TotalContextProps
   const tp_ps: any = getCookie('tp_ps')
   const toast = useInfoMsg()
   const basePath = getPublicEnv('NEXT_PUBLIC_BASE_PATH');
-  const appName = 'application'
+  const appName = 'Reimfast'
   const [accessProfiles, setAccessProfiles] = useState<any[]>([])
   const router = useRouter()
   const [loading, setLoading] = useState(false)
@@ -57,13 +57,43 @@ const ContextSelector = () => {
   const [selectedRole, setSelectedRole] = useState<Record<string, string>>({})
   const [orgGrpData, setOrgGrpData] = useState<any>([])
   const [isPending, startTransition] = useTransition();  
-  let landingScreen:string = 'Logs Screen';
+  let landingScreen:string = 'CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1';
   let screenDetails: any = {
            keys:[
   {
-    "screenName": "test",
-    "screensName": "test-v1",
-    "ufKey": "CK:CT010:FNGK:AF:FNK:UF-UFW:CATK:AG001:AFGK:A001:AFK:test:AFVK:v1"
+    "screenName": "user home screen",
+    "screensName": "user_home_screen-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1"
+  },
+  {
+    "screenName": "manager home screen",
+    "screensName": "manager_home_screen-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1"
+  },
+  {
+    "screenName": "user daily expense",
+    "screensName": "user_daily_expense-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_User_Table:AFVK:v1"
+  },
+  {
+    "screenName": "user offsite expense",
+    "screensName": "user_offsite_expense-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_User_Table:AFVK:v1"
+  },
+  {
+    "screenName": "manager daily expense",
+    "screensName": "manager_daily_expense-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_Manager_Table:AFVK:v1"
+  },
+  {
+    "screenName": "manager offsite expense",
+    "screensName": "manager_offsite_expense-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_Manager_Table:AFVK:v1"
+  },
+  {
+    "screenName": "report",
+    "screensName": "report-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1"
   }
 ]
   }
@@ -320,10 +350,36 @@ const ContextSelector = () => {
     name: string
     'gridColumn'?: string
     'gridRow'?: string
-  }[] = []
+  }[] = [
+  {
+    "name": "logo",
+    "gridSize": 24,
+    "gridRow": "1/2"
+  },
+  {
+    "name": "app logo",
+    "gridSize": 24,
+    "gridRow": "2/3"
+  },
+  {
+    "name": "menu items",
+    "gridRow": "3/21",
+    "gridSize": 24
+  },
+  {
+    "name": "opr matrix",
+    "gridRow": "21/24",
+    "gridSize": 24
+  },
+  {
+    "name": "profile",
+    "gridRow": "24/25",
+    "gridSize": 24
+  }
+]
 
-  const logo: string = "torus/9.1/CT010/resources/images/images (1).jpg"
-  const appLogo: string = "torus/9.1/CT010/resources/images/images.jpg"
+  const logo: string = ""
+  const appLogo: string = ""
 
   return (
     <div className='h-full w-full  bg-cover bg-center'>

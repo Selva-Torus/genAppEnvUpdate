@@ -1,5 +1,5 @@
 let data:any ={
-  "defaultDPD": {
+  "Reimfast_dpd": {
     "encryptionType": {
       "name": "encryptionType",
       "_type": "select",
