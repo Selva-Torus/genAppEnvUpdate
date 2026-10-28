@@ -920,8 +920,9 @@ export class UfController {
     // static screen's apis
 
   @Get('getAppSecurityData')
-  async getAppSecurityData() {
-    return this.appService.getAppSecurityData();
+  async getAppSecurityData(@Req() req: any ) {
+    const token: string = req.headers.authorization.split(' ')[1];
+    return this.appService.getAppSecurityData(token);
   }
 
   @Post('setJson')

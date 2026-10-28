@@ -4652,7 +4652,7 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-  async MyAccountForClient(token: string, key: string, authorization: any) {
+   async MyAccountForClient(token: string, key: string, authorization: any) {
     if (authorization) {
       try {
         let payload: any;
@@ -4672,7 +4672,26 @@ getConfig(): FusionAuthConfig {
             token,
           );
         } else {
-           const userList = await this.query(`SELECT
+          const isSaasTenant = payload?.tenantId != tenant;
+          let foundAppTenant:any
+          if (isSaasTenant) {
+            const appTenantList = await this.getAppTenantsLinkedWithApp();
+            foundAppTenant = appTenantList.find(
+              (item: any) =>
+                item.tenant_id == payload?.tenantId,
+            );
+            if (!foundAppTenant)
+              await this.commonService.errorLog(
+                'Technical',
+                'AK',
+                'Fatal',
+                'TG070',
+                'Please provide valid token',
+                key,
+                token,
+              );
+          }
+          let query = `SELECT
             au.org_au_id,
             tu.user_unique_id AS "userUniqueId",
             tu.email,
@@ -4692,8 +4711,19 @@ getConfig(): FusionAuthConfig {
           WHERE au.tenant_code = $1
             AND au.ag_code     = $2
             and au.trs_tenant_id=$1
-            AND au.app_code    = $3 AND (login_id=$4 or email=$4)` , [tenant , ag , app ,payload.loginId])
-      
+            AND au.app_code    = $3 AND (login_id=$4 or email=$4)`
+
+          let values = [tenant, ag, app, payload.loginId]
+
+          if(isSaasTenant && foundAppTenant){
+            query += ' and tu.at_id=$5'
+            values.push(foundAppTenant.at_id )
+          }else{
+            query += ' and tu.at_id is NULL'
+          }
+
+          const userList = await this.query(query,values);
+
           const reqiredUser = userList.find(
             (user) => user.loginId === payload.loginId,
           );
@@ -5563,40 +5593,29 @@ getConfig(): FusionAuthConfig {
     return `${salt}:${hash}`;
   }
 
-  async getAppSecurityData() {
+  async getAppSecurityData(token:string) {
     try {
-      const actions = [
-        {
-          code : "orgMatrix",
-          parseFields: ["org"],   // 👈 this table stores org as text
-          query : `SELECT
-            opr_mx_id,
-            org_grp_code AS "orgGrpCode",
-            org_grp_name AS "orgGrpName",
-            org_grp_id AS "orgGrpId",
-            src_id AS "srcId",
-            org
-          FROM ${schemaName}.tam_opr_org_matrix
-          WHERE tenant_code = $1
-            AND ag_code = $2
-            AND app_code = $3 and trs_tenant_id=$1`,
-          params : [tenant , ag , app]  
-        },
-        {
-          code : "orgMaster",
-          parseFields: ["org"],   // 👈 add defensively — no-op if already object
-          query : ` SELECT
-            opr_om_id,
-            org_grp_code AS "orgGrpCode",
-            org_grp_name AS "orgGrpName",
-            org_grp_id   AS "orgGrpId",
-            org
-         FROM   ${schemaName}.tam_opr_org_master
-         WHERE  tenant_code = $1
-           AND  ag_code     = $2
-           AND  app_code    = $3 and trs_tenant_id=$1`,
-          params : [tenant , ag , app]  
-        },
+      const payload = await this.jwtService.verifyToken(token);
+      const isSaasTenant = payload?.tenantId != tenant;
+      let foundAppTenant:any
+      if (isSaasTenant) {
+        const appTenantList = await this.getAppTenantsLinkedWithApp();
+        foundAppTenant = appTenantList.find(
+          (item: any) =>
+            item.tenant_id == payload?.tenantId,
+        );
+        if (!foundAppTenant)
+          await this.commonService.errorLog(
+            'Technical',
+            'AK',
+            'Fatal',
+            'TG070',
+            'Please provide valid token',
+            'Logs screen',
+            token,
+          );
+      }
+      const action = 
         {
           code : "users",
           parseFields: ["accessProfile"],  // 👈 if stored as text[]  or json string
@@ -5632,9 +5651,15 @@ getConfig(): FusionAuthConfig {
             tu.tenant_code = $1 and tu.trs_tenant_id=$1`,
           params : [tenant , ag , app]  
         }
-      ]
+
+        if(isSaasTenant && foundAppTenant){
+            action.query += ' and tu.at_id=$4'
+            action.params.push(foundAppTenant.at_id )
+          }else{
+            action.query += ' and tu.at_id is NULL'
+          }
+    
       const securityResponse = {};
-      for (const action of actions) {
           let rows = await this.query(action.query, action.params) ?? [];
           // Parse any string JSON fields after fetching
           if (action.parseFields) {
@@ -5653,7 +5678,6 @@ getConfig(): FusionAuthConfig {
             });
           }
           securityResponse[action.code] = rows;
-        }
 
       return securityResponse;
     } catch (error: any) {
@@ -5908,11 +5932,11 @@ getConfig(): FusionAuthConfig {
           FROM ${schemaName}.tam_tenant_user tu
          where tu.email=$1 and trs_tenant_id=$2`
 
-         const values = [email , tenant]
+        const values:any = [email , tenant]
 
         if (tenantId) {
           query += ` AND tu.at_id = $2`;
-          values.push(tenantId);
+          values.push(BigInt(tenantId));
         } else {
           query += ` AND tu.at_id IS NULL`;
         }
@@ -5958,8 +5982,8 @@ getConfig(): FusionAuthConfig {
       // --- Update Redis only after FusionAuth success (or if not fusionauth) ---
       await this.updateTable('tam_tenant_user' , {
         password : this.hashPassword(password),
-        email
-      } , 'email', tenantId)
+        user_unique_id: uniqueId
+      } , 'user_unique_id', tenantId)
 
       return 'Password updated successfully';
     } catch (error: any) {
