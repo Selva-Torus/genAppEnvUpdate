@@ -1,5 +1,5 @@
 # Stage 1: Install dependencies + build
-FROM docker.io/library/node:20-alpine AS builder
+FROM docker.io/library/node:20-bookworm-slim AS builder
 WORKDIR /app
 
 # Copy package files and install dependencies
@@ -21,7 +21,7 @@ RUN mkdir -p dist/prisma \
 && cp -r src/erd/prisma/migrations dist/prisma/migrations
 
 # Stage 2: Final stage - Run the application
-FROM docker.io/library/node:20-alpine AS production
+FROM docker.io/library/node:20-bookworm-slim AS production
 WORKDIR /app
 
 # Install only production deps (smaller final image)
@@ -35,7 +35,6 @@ COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 # Copy the built application
 COPY --from=builder /app/dist ./dist
 COPY src/erd/prisma ./prisma
-COPY .env .env
 
 # Copy entrypoint
 COPY entrypoint.sh .

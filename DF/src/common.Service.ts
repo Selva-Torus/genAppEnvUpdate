@@ -150,9 +150,10 @@ export class CommonService{
     let migrationSql_triggerChanges = await this.readTextFileSmart(`${migrationsDir}/triggerChanges.sql`);
     let overallPrismaSchema = await this.readTextFileSmart(`${prismaSchemaPath}/schema.prisma`);
     migrationSql_baseline = migrationSql_baseline + migrationSql_allTrigger;
-    if (!migrationSql_incremental?.includes('-- This is an empty migration.')&&!migrationSql_incremental?.includes("No DDL changes available")) 
-    {
-      migrationSql_incremental = migrationSql_incremental + migrationSql_triggerChanges;
+    if (!migrationSql_incremental?.includes('-- This is an empty migration.')&&!migrationSql_incremental?.includes("No DDL changes available")) {
+      if (!migrationSql_triggerChanges?.includes('-- This is an empty migration.') && !migrationSql_triggerChanges?.includes("No DDL changes available")) {
+        migrationSql_incremental = migrationSql_incremental + migrationSql_triggerChanges;
+      }
     }
     return { baseline: migrationSql_baseline, incremental: migrationSql_incremental, prismaSchema: overallPrismaSchema };
   }
@@ -945,35 +946,41 @@ export class CommonService{
   }
 
   async PfRuleExtract(rule:any,SessionInfo,HtInputParam,controlName){
-      let gparamreq = {}  
-       if(rule && Object.keys(rule).length > 0){
-          var nodes = rule.nodes     
-          if(nodes && nodes.length > 0){
+    try {
+      let gparamreq = {}
+      if(rule && Object.keys(rule).length > 0){
+        let nodes = rule.nodes     
+        if(nodes && nodes.length > 0){
+          if(Array.isArray(HtInputParam)){ 
+            let zenArrResult = []         
+            for(let item of HtInputParam){
+              gparamreq = Object.assign(item,{session:SessionInfo})
+              if(controlName){
+                gparamreq = Object.assign(item,{controlName:controlName})
+              }
+              let goruleres = await this.ruleEngine.goRule(rule, gparamreq) 
+              if(Object.keys(goruleres.result).length > 0){  
+                zenArrResult.push(Object.assign(item,goruleres.result))
+              }  
+            }
+            return zenArrResult
+          }else{  
+            gparamreq = Object.assign(HtInputParam,{session:SessionInfo}) 
             if(controlName){
-              HtInputParam = Object.assign(HtInputParam,{controlName:controlName})
-            } 
-            for(var c=0;c < nodes.length;c++){
-              var content = nodes[c]?.content
-              if(content){
-                let inputs = content.inputs
-                if(inputs?.length > 0){
-                  for(let i=0;i < inputs.length;i++){                    
-                    if(inputs[i]?.field){
-                      gparamreq = { session: SessionInfo, ...HtInputParam }
-                    }else{
-                      gparamreq = HtInputParam
-                    }                   
-                  }
-                }      
-              }            
-            }  
-            var goruleres = await this.ruleEngine.goRule(rule, gparamreq) 
-            if(Object.keys(goruleres.result).length > 0){  
-              return goruleres.result
-            }                                   
-          }     
-        } 
-    }
+              gparamreq = Object.assign(HtInputParam,{controlName:controlName})
+            }                
+
+            let goruleres = await this.ruleEngine.goRule(rule, gparamreq) 
+            if(Object.keys(goruleres.result).length > 0){ 
+              return Object.assign(HtInputParam,goruleres.result)
+            }   
+          }
+        }
+      } 
+    } catch (error) {
+      throw error
+    } 
+  }
 
     keysToLowerCaseOnly(obj: any): any {
       if (Array.isArray(obj)) {
@@ -1077,218 +1084,7 @@ export class CommonService{
       //   throw new CustomException('Invalid pagination parameters: page and count must be positive integers', 400);
       // }
       return { page: p, count: c };
-    } 
-    
-   
-    //RollBack Check
-     async checkRollBack(Ndp,collectionName,action,currentNode?,tenant?){
-      try {  
-        let pfs = currentNode?.pfs
-        let ifoflg = []
-        if (pfs && pfs.length > 0) {
-          for (var j = 0; j < pfs.length; j++) {
-            if (pfs[j].nodeId != currentNode?.['nodeid']) {
-             // ifoflg++;
-             ifoflg.push(pfs[j].nodeId)
-            } else {
-              break;
-            }
-          }
-        } 
-       
-        for (let item in Ndp) {         
-           if(ifoflg.includes(item)){
-            if (Ndp[item]?.rollback == "true") {
-            if (action == 'check') {
-              if (Ndp[item]?.savePoint) {
-                if (Ndp[item].nodeType == 'apinode') {
-                  if (!Ndp[item].data?.pro?.primaryKey) throw new CustomException(`PrimaryKey not found in ${Ndp[item].nodeName}`, 404)
-                  let apiKey = Ndp[item]?.apiKey
-                  if (!apiKey) throw new CustomException(`Reference not found in ${Ndp[item].nodeName}`, 404)
-                  let apiNdp = JSON.parse(await this.redisService.getJsonData(apiKey, collectionName))
-                  if (!apiNdp) throw new CustomException(`${apiKey} not found `, 404)
-                  let serverUrl: any = Object.values(apiNdp)[0]['data']['serverUrl']
-                  let endPoint = Object.values(apiNdp)[0]['data']['apiEndpoint']
-                  if (!serverUrl || !endPoint) throw new CustomException(`serverUrl/endPoint not found in ${apiKey}`, 404)
-                }
-                else if (Ndp[item].nodeType == 'dbnode') {
-                  let primaryKey = Ndp[item].data?.pro?.primaryKey
-                  let tablename = Ndp[item].data?.pro?.tableName
-                  if (!primaryKey || !tablename) throw new CustomException(`PrimaryKey / TableName not found in ${Ndp[item].nodeName}`, 404)
-                }
-              } else {
-                throw new CustomException(`Savepoint not found in ${Ndp[item].nodeName}`, 404)
-              }
-            } else if (action == 'rollback') {
-              let primaryKey = Ndp[item]?.data?.pro?.primaryKey
-              let insertedData = JSON.parse(await this.redisService.getJsonDataWithPath(currentNode.key + ':NPV:' + Ndp[item].nodeName + '.PRO', '.response', collectionName));
-              if (!insertedData || (Object.keys(insertedData).length == 0) || insertedData.length == 0) {
-                insertedData = currentNode.data
-              }
-              if (Ndp[item]?.savePoint == currentNode.savepoint) {              
-                if (Ndp[item].nodeType == 'apinode') {                  
-                  // let insertedData = JSON.parse(await this.redisService.getJsonDataWithPath(currentNode.key + ':NPV:' + Ndp[item].nodeName + '.PRO', '.response', collectionName));
-                  if (!insertedData || (Object.keys(insertedData).length == 0) || insertedData.length == 0) {
-                    insertedData = currentNode.data
-                  }
-                  let apiKey = Ndp[item]?.apiKey
-                  let apiNdp = JSON.parse(await this.redisService.getJsonData(apiKey, collectionName))
-                  let serverUrl: any = Object.values(apiNdp)[0]['data']['serverUrl']
-                  let endPoint = Object.values(apiNdp)[0]['data']['apiEndpoint']
-                  let method = (Object.values(apiNdp)[0]['data']['method']).toLowerCase()
-                  const requestConfig: AxiosRequestConfig = {
-                    headers: {
-                      Authorization: `Bearer ${currentNode.token}`,
-                    },
-                  };                 
-                   if (insertedData) {
-                    let deleteRes;
-                    if (method == 'post') { 
-                      if (Array.isArray(insertedData) && insertedData.length > 0) {
-                        for (let i = 0; i < insertedData.length; i++) {                       
-                          
-                          if (insertedData[i][primaryKey]) {
-                            let rollBackurl = serverUrl + endPoint + '/' + insertedData[i][primaryKey]
-                            deleteRes = await this.deleteCall(rollBackurl, requestConfig)
-                          }
-                        }
-                      } else if (Object.keys(insertedData).length > 0) { 
-                          if (insertedData[primaryKey]) {
-                            let rollBackurl = serverUrl + endPoint + '/' + insertedData[primaryKey]
-                            deleteRes = await this.deleteCall(rollBackurl, requestConfig) 
-                          }
-
-                      }
-                    } else if (method == 'patch') {
-                      let rollbackData = JSON.parse(await this.redisService.getJsonDataWithPath(currentNode.key + ':NPV:' + Ndp[item].nodeName + '.PRO', '.rollback', collectionName));
-                      for (let item of rollbackData) {
-                        if (item[primaryKey]) {
-                          let rollBackurl = serverUrl + endPoint + '/' + item[primaryKey]
-                          deleteRes = await this.patchCall(rollBackurl, rollbackData, requestConfig)
-                        }
-                      }
-                    }
-                  }
-                } else if (Ndp[item].nodeType == 'dbnode') {
-                  let qryres: any, manualQry, qry
-                  let rollback = Ndp[item]['data']['pro']['enableRollback']['value']
-                  if (rollback)
-                    manualQry = rollback.subSelection._true.manualQuery
-                  Object.keys(insertedData).forEach(key => {
-                    const regex = new RegExp(`\\$\\$${key}`, 'g');
-                    const value = this.sqlLiteral(insertedData[key]);
-                    qry = manualQry.replace(regex, value);
-                  });
-                  // let qry = `DELETE FROM ${tablename} WHERE ${primaryKey} = ${insertedData[primaryKey]};`
-                  let conectdb = await this.dbconfig(Ndp[item], collectionName, tenant)
-                  let db = conectdb.client
-                  await db.connect();
-                  if (qry) qryres = await db.query(qry);
-                  await db.end();
-                  //}
-                } else if (Ndp[item].nodeType == 'mongo-dbnode') {
-                  let manualQry, rmanualQry, manualQryType
-                  let rollback = Ndp[item]['data']['pro']['enableRollback']['value']
-                  if (rollback) {
-                    manualQryType = rollback.subSelection._true.manualQueryType.value
-                    rmanualQry = rollback.subSelection._true.manualQueryType.manualQuery
-                  }
-                  let mconfig = await this.mongodbconfig(Ndp[item], collectionName, tenant)
-                  let mongodbUrl = mconfig.mongodbUrl
-                  //let manualQryType = mconfig.manualQryType
-                  const client = new MongoClient(mongodbUrl);
-                  await client.connect();
-                  let oprname, idarr = [];
-                  const db = client.db();
-                  try {
-                  if (manualQryType == 'deleteOne' || manualQryType == 'deleteMany') {
-                    if (insertedData.length > 0) {
-                      if (manualQryType == 'deleteMany') {
-                        for (let x = 0; x < insertedData.length; x++)
-                          idarr.push(insertedData[x]['_id'])
-                        manualQry = manualQry.replace('$$_ids', idarr)
-                        // manualQry = `{ _id : { $in: ${idarr}}}`
-                        await db.collection(collectionName)[manualQryType](manualQry);
-                      }
-                      else {
-                        let ids = insertedData[0]['_id']
-                        manualQry = manualQry.replace('$$_id', ids)
-                        //manualQry = {_id : ids}
-                        await db.collection(collectionName)[manualQryType](manualQry);
-                      }
-                    }
-                  }
-                  } finally {
-                    try { await client.close(); } catch {}
-                  }
-                }
-                else if (Ndp[item].nodeType == 'streamnode') {
-                  let rollbackData = JSON.parse(await this.redisService.getJsonDataWithPath(currentNode.key + ':NPV:' + Ndp[item].nodeName + '.PRO', '.rollback', collectionName));
-                  let reqData: any;
-                  let sconf = await this.streamConfig(Ndp[item], collectionName, tenant)
-                  if (!sconf.streamName)
-                    reqData = JSON.parse(await this.redisService.getJsonDataWithPath(currentNode.key + ':NPV:' + Ndp[item].nodename + '.PRO', '.request', collectionName));
-                  else
-                    reqData = sconf.streamName
-                  if (sconf.oprname == 'write') {
-                    if (rollbackData) {
-                      if (Array.isArray(rollbackData) && rollbackData.length)
-                        rollbackData.forEach(async (item) => await sconf.redisconfig.call('JSON.SET', reqData, '$', JSON.stringify(item)))
-                      else
-                        await sconf.redisconfig.call('JSON.SET', reqData, '$', JSON.stringify(item))
-                    } else {
-                      if (Array.isArray(insertedData) && insertedData.length)
-                        insertedData.forEach(async (item) => await sconf.redisconfig.call('XDEL', reqData, item))
-                      else
-                        await sconf.redisconfig.call('XDEL', reqData, insertedData)
-                    }
-
-                  }
-                }
-                else if (Ndp[item].nodeType == 'filenode') {
-                  let rollbackData = JSON.parse(await this.redisService.getJsonDataWithPath(currentNode.key + ':NPV:' + Ndp[item].nodeName + '.PRO', '.rollback', collectionName));
-
-                  let fconf = await this.fileConfig(Ndp[item], collectionName, tenant)
-                  if (fconf.oprname == 'write') {
-                    let auth = {
-                      username: fconf.seaWeedConfig.username,
-                      password: fconf.seaWeedConfig.password
-                    }
-                    let reqData = JSON.parse(await this.redisService.getJsonDataWithPath(currentNode.key + ':NPV:' + Ndp[item].nodename + '.PRO', '.request', collectionName));
-                    let url = `${fconf.seaWeedConfig.url}/${reqData}`
-                    if (rollbackData) {
-                      await axios.patch(url, rollbackData, { auth });
-                    } else
-                      await axios.delete(url, { auth });
-                  }
-                }
-                else if (Ndp[item].nodeType == 'procedureexecutionnode' || Ndp[item].nodeType == 'function_node') {
-                  let pconf = await this.procedureConfig(Ndp[item], collectionName, tenant)
-                  if (insertedData && Object.keys(insertedData).length > 0) {
-                    Object.keys(insertedData).forEach(key => {
-                      const regex = new RegExp(`\\$\\$${key}`, 'g');
-                      const value = this.sqlLiteral(insertedData[key]);
-                      pconf.rexecmd = pconf.rexecmd.replace(regex, value);
-                    });
-                  }
-                  await pconf.client.connect();
-                  await pconf.client.query(pconf.rqry)
-                  const result = await pconf.client.query(`${pconf.rexecmd}`);
-                  await pconf.client.end();
-                  // await this.qryExec(pconf.dbType,pconf.dbUrl,pconf.rqry,pconf.rexecmd,'PF-PFD')
-                }
-              }
-            }
-          }
-           }
-          
-        }
-        // return rollBackArr
-      } catch (error) {
-        throw error
-      }    
     }
-
 
     async deleteCall(url, headers?) {
      assertAllowedOutboundHost(url);
@@ -1567,7 +1363,7 @@ export class CommonService{
         if(typeof key != 'string')
         key = 'commonError'
          tenant=tenant || "CT003"
-        app=app ||  "RF"
+        app=app ||  "TAG"
         await this.redisService.setStreamData(tenant+'-'+app+'-TSL',key,JSON.stringify(logs))    
         return logs
 

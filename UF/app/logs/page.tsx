@@ -18,12 +18,12 @@ const ParentComponent = () => {
   const [nodeData, setNodeData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [app, setApp] = useState({
-    code: 'RF',
-    name: 'Reimfast'
+    code: 'TAG',
+    name: 'TAG'
   })
   const [appGroup, setappGroup] = useState({
-    code: 'Trs',
-    name: 'Torus'
+    code: 'TAG',
+    name: 'Torus AI Governance'
   })
   const { token } = useGlobal();
   const decodedToken: any = decodeToken(token)
@@ -50,7 +50,7 @@ const ParentComponent = () => {
   const [ fabrics , setFabrics ] = useState<Array<string>>([])
   const [jsonViewerData, setJsonViewerData] = useState({})
   const router = useRouter()
-  let landingScreen:string = 'CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1';
+  let landingScreen:string = 'CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1';
   const encryptionFlagApp: boolean = false;    
   const [jsonData, setJsonData] = useState({
     data: [],

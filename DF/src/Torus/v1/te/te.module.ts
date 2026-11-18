@@ -17,6 +17,10 @@ import { ConfigService } from "@nestjs/config";
 import { BullModule } from "@nestjs/bullmq";
 import { DynamicFlowService } from "./dynamicFlow.service";
 
+import { TemporalModule } from "src/temporal/temporal.module";
+import { DynamicFlowWorker } from "src/temporal/dynamic-flow.worker";
+
+
 //import { SchedulerModule } from "../scheduler/scheduler.module";
 import { EnvData } from 'src/envData/envData.service';
 import { HttpModule } from "@nestjs/axios";
@@ -30,11 +34,13 @@ import { HttpModule } from "@nestjs/axios";
           transport: Transport.TCP,
           options: { port: parseInt(process.env.PO_PORT) },
         },
-      ]),    
-      HttpModule
+      ]),
+      HttpModule,
+      // Global module: DynamicFlowService injects TemporalService
+      TemporalModule,
     ],
     controllers: [TeController],
-    providers: [TeService, RedisService, CommonService,SecurityService,RuleService,JwtService,JwtServices,CodeService,LockService,ConfigService,DynamicFlowService,EnvData,],
+    providers: [TeService, RedisService, CommonService,SecurityService,RuleService,JwtService,JwtServices,CodeService,LockService,ConfigService,DynamicFlowService,DynamicFlowWorker,EnvData,],
     exports:[DynamicFlowService,]
 })
   export class TeModule implements NestModule

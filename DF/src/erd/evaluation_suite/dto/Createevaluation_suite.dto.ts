@@ -1,0 +1,122 @@
+
+import { Prisma } from '@prisma/client';
+import { IsEnum,IsOptional,IsString,IsDateString,IsBoolean,IsInt,IsNumber,IsArray,IsNotEmpty } from 'class-validator';
+import { ApiProperty,ApiPropertyOptional } from '@nestjs/swagger';
+
+
+export class  Createevaluation_suiteDto {
+        @ApiPropertyOptional({
+            type: `integer`,
+            format: `int32`,
+        })
+        @IsOptional()
+        suite_id?: number;
+        @ApiPropertyOptional()
+        @IsOptional()
+        suite_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        suite_name?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        suite_type?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        dataset_ref?: string;
+        @ApiPropertyOptional({
+            type: `integer`,
+            format: `int32`,
+        })
+        @IsOptional()
+        dataset_version?: number;
+        @ApiPropertyOptional()
+        @IsOptional()
+        metrics_def?: Prisma.InputJsonValue;
+        @ApiPropertyOptional()
+        @IsOptional()
+        pass_thresholds?: Prisma.InputJsonValue;
+        @ApiPropertyOptional()
+        @IsOptional()
+        applies_to_tiers?: string;
+        @ApiPropertyOptional({
+            type: `string`,
+            format: `date-time`,
+        })
+        @IsOptional()
+        trs_created_date?: Date;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_created_by?: string;
+        @ApiPropertyOptional({
+            type: `string`,
+            format: `date-time`,
+        })
+        @IsOptional()
+        trs_modified_date?: Date;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_modified_by?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_process_id?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_access_profile?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_org_grp_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_org_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_role_grp_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_role_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_ps_grp_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_ps_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_sub_org_grp_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_sub_org_code?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_locked_by?: string;
+        @ApiPropertyOptional({
+            type: `string`,
+            format: `date-time`,
+        })
+        @IsOptional()
+        trs_locked_time?: Date;
+        @ApiProperty()
+        @IsString()
+        trs_tenant_id: string;
+        @ApiProperty()
+        @IsString()
+        trs_app_code: string;
+        @ApiProperty()
+        @IsString()
+        trs_product_code: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_event_process_status?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_event_status?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_token_id?: string;
+        @ApiPropertyOptional()
+        @IsOptional()
+        trs_version?: string;
+
+        
+}
+

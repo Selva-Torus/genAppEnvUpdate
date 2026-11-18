@@ -33,6 +33,8 @@ import { Surreal, Table, RecordId } from 'surrealdb';
 import { getRedisConnectionOptions } from "src/redis.config";
 import { firstValueFrom } from "rxjs";
 import { HttpService } from '@nestjs/axios'
+import { isFlowTemporalEnabled } from "src/temporal/temporal.config";
+import { TemporalService } from "src/temporal/temporal.service";
 
 type MappingValue = string | { sourcePath: string; arrayMap: Record< string, string> };
 type MappingConfig = Record< string, MappingValue>;
@@ -47,6 +49,42 @@ interface PromptResponse {
   response: string
   finished: string
   resumed: boolean
+}
+
+interface MappingEdge {
+  source: string;
+  sourceHandle: string;
+  target: string;
+  targetHandle: string;
+  [key: string]: unknown;
+}
+
+interface SourceRef {
+  fieldName: string;
+}
+
+type TargetBucket = 'body' | 'headers';
+
+interface TargetRef {
+  bucket: TargetBucket;
+  isRepeating: boolean;
+  arrayIsRoot?: boolean; // true => the repeating array IS the body itself, with no wrapping property name
+  arrayKey?: string; // set when isRepeating && !arrayIsRoot - the dynamic name of the repeating array (e.g. "detail")
+  containers: string[]; // nested object path to walk before writing the value
+  leafKey?: string; // explicit key from the mapping; undefined => ambiguous "box" target, resolved by PayloadMapperService
+}
+
+type MappingInput = Record<string, Record<string, unknown> | Array<Record<string, unknown>>>;
+
+interface TransformResult {
+  body: any;
+  headers: Record<string, any>;
+  headerJson:any
+}
+
+interface SchemaPathSegment {
+  key: string; // '' means "the schema root itself" (no named property owns the array)
+  isArray: boolean;
 }
 
 @Injectable()
@@ -65,7 +103,8 @@ export class DynamicFlowService {
     private readonly CommonService: CommonService,
     private readonly lockservice: LockService,
     private readonly envData:EnvData,   
-      private readonly http : HttpService,   
+      private readonly http : HttpService,
+    private readonly temporalService: TemporalService,
    ){}
     private getKafkaInstance(): Kafka {
         if (!this.kafka) {
@@ -79,8 +118,36 @@ export class DynamicFlowService {
    private readonly logger = new Logger(DynamicFlowService.name)
  
 
-    async DynamicFlowProcess(input: PoEvent) {
+    // runInline=true is passed by the Temporal activity (src/temporal/dynamic-flow.activities.ts)
+    async DynamicFlowProcess(input: PoEvent, runInline = false) {
         this.logger.log("Torus Consumer Started....")
+        let nodeType = input?.pfdto?.nodeType
+         let afi = JSON.parse(await this.redisService.getJsonData(input?.pfdto.key + 'AFI', process.env.CLIENTCODE))
+        if (!runInline && afi?.temporalFlowEnabled) {
+            // Connects to Temporal directly through the Temporal client (src/temporal/temporal.service.ts)
+            let response
+            try {
+                this.logger.log(`${nodeType} sent to Temporal`)
+                response = await this.temporalService.runFlowNode(input)
+            } catch (error) {
+                // runFlowNode throws only when the workflow did not run (worker down / start failed), so running inline is safe
+                this.logger.warn(`Temporal not available (${error?.message}), running ${nodeType} inline`)
+            }
+            if (response) {
+                const { workflowId, result, error } = response
+                if (error) {
+                    // Not falling back to inline here: the node may already have written data / called APIs
+                    this.logger.error(`Temporal workflow ${workflowId} failed`, error);
+                    return error
+                }
+                // Sensitive keys (token, password, ...) redacted; long responses truncated
+                let resultLog = JSON.stringify(this.CommonService.redactSensitiveFields(result), null, 2) ?? 'undefined'
+                if (resultLog.length > 5000) resultLog = resultLog.slice(0, 5000) + `\n... (truncated, ${resultLog.length} chars)`
+                this.logger.log(`${nodeType} response from Temporal workflow ${workflowId}:\n${resultLog}`)
+                // te.service needs this node's data/targetStatus for the next node
+                return result
+            }
+        }
         try {
             let pfdto = input.pfdto
             let event = input.event
@@ -343,7 +410,7 @@ export class DynamicFlowService {
                     if(ifoObj){
                         await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(ifoObj), collectionName, 'ifo',);
                     }
-                    inputparam =  Array.isArray(inputparam) && inputparam.length == 1?inputparam[0]:inputparam
+                    inputparam =  Array.isArray(inputparam) && inputparam.length == 1 && !enableBulk?inputparam[0]:inputparam
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(inputparam), collectionName, 'response',);
                     //await this.redisService.setStreamData(srcQueue, 'TASK - ' + upId, JSON.stringify({ PID: upId, TID: nodeId, EVENT: targetStatus, data: { request: inputparam, response: inputparam } }),);
                     await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(pfdto.sourceId), collectionName, 'sourceid',);
@@ -606,22 +673,56 @@ export class DynamicFlowService {
                             }
 
                             ifoObj = await this.ifoAssign(poJson?.internalMappingNodes, poNode[j].nodeId,sobj,zenresult,processedKey + upId,inputparam,pfdto)
+                            
+                            let childInsertArr, textobj, mapObj = {}, tempQryVal = [], headerObj
+                            if (internalEdges && internalEdges.hasOwnProperty(poNode[j].nodeId)) {
+                                let currentNodeEdge = internalEdges[poNode[j].nodeId];
+                                if (currentFabric == 'DF-DFD') {
+                                    let DfmappedData = await this.DFDMapEdgeValues(poNode, currentNodeEdge, inputparam, processedKey, upId, collectionName,  parameter, codeObj, pfo, currentFabric)
+                                    mapObj = DfmappedData.mapObj
+                                    tempQryVal = DfmappedData.tempQryVal
+                                } else if(enableBulk){
+                                    let nodeEdgeData = await this.getNodeEdgeData(currentNodeEdge,pfo,processedKey,upId,collectionName,codeObj,pfdto)                                   
+                                    let mappedData = await this.bulkTransform(nodeEdgeData.nodesObj,currentNodeEdge,parameterQuery)
+                                    childInsertArr = mappedData.body
+                                    tempQryVal = mappedData.headerJson
+                                    headerObj = mappedData.headers 
+                                }
+                                else {
+                                    let mappedData = await this.mapEdgeValuesToParams(pfdto, currentNodeEdge, inputparam, processedKey, upId, collectionName,  parameter, codeObj, pfo, childtable, {referenceKey,sourceStatus,SessionToken})
+                                    childInsertArr = mappedData.childInsertArr
+                                    tempQryVal = mappedData.tempQryVal
+                                    textobj = mappedData.textobj
+                                }
+                            } 
 
-                            if(currentFabric == 'PF-PFD' && enableBulk){
-                                const requestConfig: AxiosRequestConfig = {
-                                    headers: {
-                                        Authorization: `Bearer ${token}`,
-                                    },timeout: 300000 
-                                };
+                            if(currentFabric == 'PF-PFD' && enableBulk){                               
+                                let requestConfig: AxiosRequestConfig
                                 let apiUrl = serverUrl + endPoint
-
-                                requestBody = Object.assign({url:apiUrl,headers:requestConfig?.headers})                               
+                                let params = await this.buildRequestComponents(apiUrl, tempQryVal, headerObj);
+                                apiUrl = params?.apiUrl;                               
+                                params.headers['Authorization'] = `Bearer ${token}`;                                                    
+                                requestConfig = {
+                                    headers: params.headers,
+                                    timeout: 300000 
+                                };
+                                await this.assignDefaultColumns(childInsertArr, {referenceKey,sourceStatus,SessionToken}, upId);
+                                requestBody = Object.assign({url:apiUrl,headers:requestConfig?.headers},{body:childInsertArr})                              
                                 await this.redisService.setJsonData(processedKey + upId + ':NPV:' + poNode[j].nodeName + '.PRO', JSON.stringify(requestBody), collectionName, 'request');
                                   
-                                let apiResult = await this.executeApiCall(methodName, apiUrl, requestConfig, inputparam)
+                                let apiResult = await this.executeApiCall(methodName, apiUrl, requestConfig, childInsertArr)
                                 if (apiResult) {
                                     if (apiResult.statusCode == 201 || apiResult.statusCode == 200) {
-                                        apiResult = apiResult?.result;
+                                       if(apiResult?.result && Array.isArray(apiResult?.result) && apiResult?.result.length >0)
+                                            apiResult = apiResult?.result;
+                                        else if(apiResult?.result && Object.keys(apiResult?.result).length >0 )
+                                                apiResult = apiResult?.result;
+                                        else{
+                                            await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(apiUrl), collectionName, 'request');
+                                            await this.redisService.setJsonData(processedKey + upId + ':NPV:' + nodeName + '.PRO', JSON.stringify(apiResult), collectionName, 'response');
+                                            return apiResult?.result;
+                                            // return { status: 200, targetStatus: targetStatus, data: apiResult };
+                                        }
                                     } else {
                                         throw apiResult;
                                     }
@@ -639,20 +740,7 @@ export class DynamicFlowService {
                                 }
                             }else{
                             
-                            let childInsertArr, textobj, mapObj = {}, tempQryVal = []
-                            if (internalEdges && internalEdges.hasOwnProperty(poNode[j].nodeId)) {
-                                let currentNodeEdge = internalEdges[poNode[j].nodeId];
-                                if (currentFabric == 'DF-DFD') {
-                                    let DfmappedData = await this.DFDMapEdgeValues(poNode, currentNodeEdge, inputparam, processedKey, upId, collectionName,  parameter, codeObj, pfo, currentFabric)
-                                    mapObj = DfmappedData.mapObj
-                                    tempQryVal = DfmappedData.tempQryVal
-                                } else {
-                                    let mappedData = await this.mapEdgeValuesToParams(pfdto, currentNodeEdge, inputparam, processedKey, upId, collectionName,  parameter, codeObj, pfo, childtable)
-                                    childInsertArr = mappedData.childInsertArr
-                                    tempQryVal = mappedData.tempQryVal
-                                    textobj = mappedData.textobj
-                                }
-                            }                           
+                                                      
                             if (childInsertArr?.length == 0 && currentFabric == 'PF-SFD') {
                                 childInsertArr = inputparam?.mapObj;
                                 tempQryVal = inputparam?.tempQryVal
@@ -993,27 +1081,27 @@ export class DynamicFlowService {
                                                         // configure a custom agent.
 
                                                         if (contentType == 'application/json' && mapObj && Object.keys(mapObj).length > 0) {
-                                                            if (referenceKey.includes(':FNK:API-APIPD:')) {
-                                                                mapObj['trs_event_process_status'] = sourceStatus;
-                                                                mapObj['trs_process_id'] = upId;
-                                                                mapObj['trs_created_by'] = SessionToken?.loginId;
-                                                                mapObj['trs_access_profile'] = SessionToken?.selectedAccessProfile;
-                                                                mapObj['trs_org_grp_code'] = SessionToken?.orgGrpCode;
-                                                                mapObj['trs_org_code'] = SessionToken?.orgCode;
-                                                                mapObj['trs_role_grp_code'] = SessionToken?.roleGrpCode;
-                                                                mapObj['trs_role_code'] = SessionToken?.roleCode;
-                                                                mapObj['trs_ps_code'] = SessionToken?.psCode;
-                                                                mapObj['trs_ps_grp_code'] = SessionToken?.psGrpCode;
-                                                                // mapObj['trs_creator_email'] = tokenDecode?.email;
-                                                                mapObj['trs_sub_org_grp_code'] = SessionToken?.subOrgGrpCode;
-                                                                mapObj['trs_sub_org_code'] = SessionToken?.subOrgCode;  
-                                                                if(!mapObj?.['trs_product_code'])
-                                                                    mapObj['trs_product_code'] = SessionToken?.psCode
-                                                                if(!mapObj?.['trs_tenant_id'])
-                                                                    mapObj['trs_tenant_id'] = SessionToken?.tenantId   
-                                                                if(!mapObj?.['trs_app_code'])
-                                                                    mapObj['trs_app_code'] = SessionToken?.app                                                             
-                                                            }
+                                                            //if (referenceKey.includes(':FNK:API-APIPD:')) {
+                                                            //     mapObj['trs_event_process_status'] = sourceStatus;
+                                                            //     mapObj['trs_process_id'] = upId;
+                                                            //     mapObj['trs_created_by'] = SessionToken?.loginId;
+                                                            //     mapObj['trs_access_profile'] = SessionToken?.selectedAccessProfile;
+                                                            //     mapObj['trs_org_grp_code'] = SessionToken?.orgGrpCode;
+                                                            //     mapObj['trs_org_code'] = SessionToken?.orgCode;
+                                                            //     mapObj['trs_role_grp_code'] = SessionToken?.roleGrpCode;
+                                                            //     mapObj['trs_role_code'] = SessionToken?.roleCode;
+                                                            //     mapObj['trs_ps_code'] = SessionToken?.psCode;
+                                                            //     mapObj['trs_ps_grp_code'] = SessionToken?.psGrpCode;
+                                                            //     // mapObj['trs_creator_email'] = tokenDecode?.email;
+                                                            //     mapObj['trs_sub_org_grp_code'] = SessionToken?.subOrgGrpCode;
+                                                            //     mapObj['trs_sub_org_code'] = SessionToken?.subOrgCode;  
+                                                            //     if(!mapObj?.['trs_product_code'])
+                                                            //         mapObj['trs_product_code'] = SessionToken?.psCode
+                                                            //     if(!mapObj?.['trs_tenant_id'])
+                                                            //         mapObj['trs_tenant_id'] = SessionToken?.tenantId   
+                                                            //     if(!mapObj?.['trs_app_code'])
+                                                            //         mapObj['trs_app_code'] = SessionToken?.app                                                             
+                                                            // }
                                                             
                                                             if([
                                                                 'post_scheduler_startAllScheduler','post_scheduler_startSpecificScheduler',
@@ -1121,15 +1209,20 @@ export class DynamicFlowService {
                                                         headers: params.headers,
                                                         timeout: 300000 
                                                     };
-                                                    if (mapObj && Object.keys(mapObj).length > 0) {
-                                                        if (referenceKey.includes(':FNK:API-APIPD:')) {
-                                                            mapObj['trs_event_process_status'] = sourceStatus;
-                                                            mapObj['trs_modified_by'] = SessionToken?.loginId;
-                                                            mapObj['trs_process_id'] = upId;                                                            
-                                                        }
-                                                    } else {
+
+                                                    if (!mapObj || Object.keys(mapObj).length == 0) 
                                                         throw 'MappingObject is empty';
-                                                    }
+
+                                                    // if (mapObj && Object.keys(mapObj).length > 0) {
+                                                    //     if (referenceKey.includes(':FNK:API-APIPD:')) {
+                                                    //         mapObj['trs_event_process_status'] = sourceStatus;
+                                                    //         mapObj['trs_modified_by'] = SessionToken?.loginId;
+                                                    //         mapObj['trs_process_id'] = upId;                                                            
+                                                    //     }
+                                                    // } else {
+                                                    //     throw 'MappingObject is empty';
+                                                    // }
+
                                                     if([
                                                         'post_scheduler_startAllScheduler','post_scheduler_startSpecificScheduler',
                                                         'post_scheduler_stopAllScheduler','post_scheduler_stopSpecificScheduler'
@@ -1425,16 +1518,7 @@ export class DynamicFlowService {
                         else
                             return { status: 200, targetStatus: targetStatus, data: apires };
                     
-                } catch (error) {                     
-                    await this.CommonService.checkRollBack(ndp, collectionName, 'rollback', {
-                        key: processedKey + upId,
-                        nodeid: rollbackConfig?.nodeId,
-                        nodename: rollbackConfig?.nodeName,
-                        savepoint: rollbackConfig?.savePoint,
-                        data: apichildResult,
-                        pfs:pfjson
-                    }, pfdto?.authContext?.tenant
-                    );
+                } catch (error) {  
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
             }
@@ -1776,6 +1860,9 @@ export class DynamicFlowService {
                             }
                            
                             if(searchFilter && !Array.isArray(searchFilter) && Object.keys(searchFilter).length>0 && !logicCenter){
+                                if(formKey && formKey.length>0 && !formKey.endsWith(' AND')){
+                                    formKey = formKey + ' AND '
+                                }
                                  const searchParamsObjKey = Object.keys(searchFilter);
                                 const searchParamsObjvalues =
                                     Object.values(searchFilter);
@@ -1818,7 +1905,10 @@ export class DynamicFlowService {
                                  if (formKey.endsWith(' AND')) {
                                     formKey = formKey.slice(0, -4);
                                 }
-                            }else if(Array.isArray(searchFilter) && searchFilter?.length>0 && !logicCenter){                                
+                            }else if(Array.isArray(searchFilter) && searchFilter?.length>0 && !logicCenter){  
+                                if(formKey && formKey.length>0 && !formKey.endsWith(' AND')){
+                                    formKey = formKey + ' AND '
+                                }                              
                                 for (let p = 0; p < searchFilter.length; p++) {
                                     let key = searchFilter[p].key;
                                     if (key.includes('.')) {
@@ -2042,15 +2132,7 @@ export class DynamicFlowService {
                     return { status: 200, targetStatus: targetStatus, data: dbres };
                     else
                     return { status: 200, targetStatus: targetStatus, data:inputparam };                    
-                   } catch (error) {                  
-                    await this.CommonService.checkRollBack(ndp, collectionName, 'rollback', {
-                        key: processedKey + upId,
-                        nodeid: rollbackConfig?.nodeId,
-                        nodename: rollbackConfig?.nodeName,
-                        savepoint: rollbackConfig?.savePoint,
-                        data: dbres
-                    }, pfdto?.authContext?.tenant
-                    );
+                   } catch (error) { 
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
             }
@@ -2682,14 +2764,6 @@ export class DynamicFlowService {
                     this.logger.log('Mongo DB Node execution completed');
                     return { status: 200, targetStatus: targetStatus, data: mongoDbarr };
                 } catch (error) {
-                    await this.CommonService.checkRollBack(ndp, collectionName, 'rollback', {
-                        key: processedKey + upId,
-                        nodeid: rollbackConfig?.nodeId,
-                        nodename: rollbackConfig?.nodeName,
-                        savepoint: rollbackConfig?.savePoint,
-                        data: mongoDbarr
-                    }, pfdto?.authContext?.tenant
-                    );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 } finally {
                     if (mongodbClient) { try { await mongodbClient.close(); } catch {} }
@@ -3135,14 +3209,6 @@ export class DynamicFlowService {
                             return { status: 200, targetStatus: targetStatus, data:streamArr};
                     
                 } catch (error) {
-                    await this.CommonService.checkRollBack(ndp, collectionName, 'rollback', {
-                        key: processedKey + upId,
-                        nodeid: rollbackConfig?.nodeId,
-                        nodename: rollbackConfig?.nodeName,
-                        savepoint: rollbackConfig?.savePoint,
-                        data: streamArr
-                    }, pfdto?.authContext?.tenant
-                    );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
             }
@@ -3717,14 +3783,6 @@ export class DynamicFlowService {
                         throw new CustomException('Operation name not found', 404);
                     }
                 } catch (error) {                   
-                    await this.CommonService.checkRollBack(ndp, collectionName, 'rollback', {
-                        key: processedKey + upId,
-                        nodeid: rollbackConfig?.nodeId,
-                        nodename: rollbackConfig?.nodeName,
-                        savepoint: rollbackConfig?.savePoint,
-                        data: fileres
-                    }, pfdto?.authContext?.tenant
-                    );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
             }
@@ -5907,14 +5965,6 @@ export class DynamicFlowService {
                     else
                         return { status: 200, targetStatus: targetStatus, data: status }
                 } catch (error) {                   
-                    await this.CommonService.checkRollBack(ndp, collectionName, 'rollback', {
-                        key: processedKey + upId,
-                        nodeid: rollbackConfig?.nodeId,
-                        nodename: rollbackConfig?.nodeName,
-                        savepoint: rollbackConfig?.savePoint,
-                        data: status
-                    }, pfdto?.authContext?.tenant
-                    );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
             }
@@ -6039,14 +6089,6 @@ export class DynamicFlowService {
                     else
                         return { status: 200, targetStatus: targetStatus, data: status }
                 } catch (error) {                   
-                    await this.CommonService.checkRollBack(ndp, collectionName, 'rollback', {
-                        key: processedKey + upId,
-                        nodeid: rollbackConfig?.nodeId,
-                        nodename: rollbackConfig?.nodeName,
-                        savepoint: rollbackConfig?.savePoint,
-                        data: status
-                    }, pfdto?.authContext?.tenant
-                    );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
             }
@@ -6228,14 +6270,6 @@ export class DynamicFlowService {
                         return { status: 200, targetStatus: targetStatus, data: status }
 
                 } catch (error) {                   
-                    await this.CommonService.checkRollBack(ndp, collectionName, 'rollback', {
-                        key: processedKey + upId,
-                        nodeid: rollbackConfig?.nodeId,
-                        nodename: rollbackConfig?.nodeName,
-                        savepoint: rollbackConfig?.savePoint,
-                        data: status
-                    }, pfdto?.authContext?.tenant
-                    );
                     await this.exceptionhandler(failureQueue, suspiciousQueue, errorQueue, error, upId, nodeId, failureTargetStatus, inputparam)
                 }
             }
@@ -6805,15 +6839,17 @@ private getTransport(emailConfig) {
                         internalMappedObj[item?.key?.toLowerCase()] = sobj[`session.${item.value}`]
                     }
                 }else if (item.type == 'date'){
-                    const formatMap = {
-                        "YYYY-MM-DDTHH:mm:ss.sssZ": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
-                        "YYYY-MM-DDTHH:mm:ss": "yyyy-MM-dd'T'HH:mm:ss",
-                        "YYYY-MM-DD": "yyyy-MM-dd",
-                        "YYYY-MM-DDTHH:mm:ss.sss.": "yyyy-MM-dd'T'HH:mm:ss.SSS.",
-                        "YYYY-MM-DDTHH:mm:ss.sss": "yyyy-MM-dd'T'HH:mm:ss.SSS",
-                    };
+                    function convertToDateFnsFormat(template) {
+                        return template
+                            .replace(/YYYY/g, "yyyy")
+                            .replace(/YY/g, "yy")
+                            .replace(/DD/g, "dd")    
+                            .replace(/sss/g, "SSS")
+                            .replace(/Z/g, "'Z'")
+                            .replace(/T/g, "'T'");
+                    } 
 
-                    item.value = formatMap[item.value] ?? item?.value; 
+                    item.value = convertToDateFnsFormat(item.value[0]) ?? item?.value[0]; 
                     let formatttedDate = format(new Date(), item?.value);
                     internalMappedObj[item?.key?.toLowerCase()] = formatttedDate
                 }else if(item.type == 'rule'){
@@ -7979,117 +8015,35 @@ private getTransport(emailConfig) {
         return { mapObj, tempQryVal }
     }     
     
-    ​async mapEdgeValuesToParams(pfdto: any, currentNodeEdge: any, inputparam: any, processedKey: string, upId: string, collectionName: string,  parameter: any, codeObj: any, pfo: any, childtable?): Promise<any> {
+     ​async mapEdgeValuesToParams(pfdto: any, currentNodeEdge: any, inputparam: any, processedKey: string, upId: string, collectionName: string,  parameter: any, codeObj: any, pfo: any, childtable?, defaultValues?): Promise<any> {
         try {
             let childInsertArr = []
-            let srcIdArr = []
+            
             let mapObj, tempQryVal, targetVal, staticRemove, textobj
             if(currentNodeEdge?.length>0){    
-            for (let s = 0; s < currentNodeEdge?.length; s++) {
-                let source = currentNodeEdge[s]?.source
-                let sourceHandle = currentNodeEdge[s]?.sourceHandle
-                sourceHandle = (sourceHandle.split('|')).find(item => item.startsWith('responses.') || item.startsWith('requestBody.') || item == 'ifo');
-
-                if (!sourceHandle || sourceHandle.startsWith('responses.')) {
-                    sourceHandle = 'responses'
-                } else if (sourceHandle.startsWith('requestBody.')) {
-                    sourceHandle = 'requestBody'
-                } else if (sourceHandle == 'ifo') {
-                    sourceHandle = 'ifo'
-                }
-                let existing = srcIdArr.find(item => item.source === source);
-
-                if (existing) {
-                    existing?.sourceHandle?.push(sourceHandle);
-                } else {
-                    srcIdArr.push({
-                        source: source,
-                        sourceHandle: [sourceHandle]
-                    });
-                }
-            }
-            let nodesArr = []
-            let filteredIds = [];
-            for (let s = 0; s < srcIdArr.length; s++) {
-                let connectedid = srcIdArr[s]?.source
-                let connectedHandle = srcIdArr[s]?.sourceHandle
-
-                for (var h = 0; h < pfo.length; h++) {
-                    if (connectedid == pfo[h]?.nodeId) {
-                        let tempArr = []
-                        var conncectedNodename = pfo[h]?.nodeName
-                        var conncectedNodeType = pfo[h]?.nodeType
-                        let innerpathVal
-
-                        let afpValue = JSON.parse(await this.redisService.getJsonData(processedKey + upId + ':NPV:' + conncectedNodename + '.PRO', collectionName))
-
-
-                        if (connectedHandle.includes('requestBody')) {
-                            innerpathVal = afpValue.request
-                            if (conncectedNodeType == 'api_inputnode') {
-                                innerpathVal = await this.keysToLowerCaseOnly(innerpathVal)
-                            }
-                            tempArr = await this.combineData(innerpathVal, tempArr)
-                        }
-                        if (connectedHandle.includes('responses')) {
-
-                            innerpathVal = afpValue?.response
-                            if (conncectedNodeType == 'api_inputnode') {
-                                innerpathVal = await this.keysToLowerCaseOnly(innerpathVal)
-                            }
-                            tempArr = await this.combineData(innerpathVal, tempArr)
-                        }
-                        if (connectedHandle.includes('ifo')) {
-                            //innerpathVal = afpValue?.ifo
-                             innerpathVal = Object.assign(afpValue?.ifo,afpValue?.response)
-                            if (conncectedNodeType == 'api_inputnode') {
-                                innerpathVal = await this.keysToLowerCaseOnly(innerpathVal)
-                            }
-                            tempArr = await this.combineData(innerpathVal, tempArr)
-
-                            innerpathVal = afpValue.code
-                            if (conncectedNodeType == 'api_inputnode') {
-                                innerpathVal = await this.keysToLowerCaseOnly(innerpathVal)
-                            }
-                            tempArr = await this.combineData(innerpathVal, tempArr)
-                        }
-                        if (codeObj) {
-                            innerpathVal = codeObj
-                            if (conncectedNodeType == 'api_inputnode') {
-                                innerpathVal = await this.keysToLowerCaseOnly(innerpathVal)
-                            }
-                            tempArr = await this.combineData(innerpathVal, tempArr)
-                        }
-                       
-                        if (tempArr.length > 0) {
-                            nodesArr.push(tempArr)
-                            filteredIds.push(connectedid)
-                        }
-                    }
-                }
-            }
-            srcIdArr = filteredIds;
-            let mergedRecords = await this.getCombinations(srcIdArr, nodesArr)
-                       
+            let nodeEdgeData = await this.getNodeEdgeData(currentNodeEdge,pfo,processedKey,upId,collectionName,codeObj,pfdto)
+           
+            let mergedRecords = await this.getCombinations(nodeEdgeData.filteredIds, nodeEdgeData.nodesArr)   
             
             for (let m = 0; m < mergedRecords.length; m++) {
                 mapObj = {};
                 tempQryVal = [];
                 let inputCollection = mergedRecords[m]
                 currentNodeEdge = await this.getSchemaType(pfo,currentNodeEdge)                
-                let formarr = []
+                let formarr = [], bulkObj = []
                 
                 for (let e = 0; e < currentNodeEdge.length; e++) {
-                    let schemaRes = {}, b = 0, duptarget, childName, sourceFilteredVal, targetFilteredVal,groupArrayName
+                    let schemaRes = {}, b = 0, duptarget, childName, sourceFilteredVal, targetFilteredVal,groupArrayName,BulkName
                     let srcHandle = currentNodeEdge[e]?.sourceHandle;
                     let targetHandle = currentNodeEdge[e]?.targetHandle;
                     let targetType = currentNodeEdge[e]?.targetType
                     let connectedid = currentNodeEdge[e]?.source;                    
-                    let connectedType
+                    let connectedType,conncectedNodename
                     if (pfo?.length > 0) {
                         for (let p = 0; p < pfo.length; p++) {
                             if (connectedid == pfo[p]?.nodeId) {
-                                connectedType = pfo[p]?.nodeType                                
+                                connectedType = pfo[p]?.nodeType   
+                                conncectedNodename = pfo[p]?.nodeName                             
                                 break;
                             }
                         }
@@ -8097,16 +8051,17 @@ private getTransport(emailConfig) {
 
                     let childid, childnodeType, srcarr = []
                                        
-                    if (srcIdArr.includes(connectedid)) {
+                    if (nodeEdgeData.filteredIds.includes(connectedid)) {
                         if (srcHandle) {
                             let srcSplit = srcHandle.split('|');                           
                              if(connectedType == 'humantasknode' )//&& srcSplit[0].includes(':FNK:UF-UFWS:')
                              duptarget = await this.checkTarget(currentNodeEdge,staticRemove,parameter)                           
                             if (srcSplit.length > 3 && childtable) {
                                 childid = srcSplit[srcSplit.length - 2]
-                            }else if(srcSplit.length > 3 && !srcSplit?.includes('gifo') && !srcSplit?.includes('ifo') && !srcSplit?.includes('UF_Processvariable')){
-                                if(typeof srcSplit[2] == 'string')
-                                groupArrayName = srcSplit[2]
+                            }else if(srcSplit.length > 3 && !srcSplit?.includes('gifo') && !srcSplit?.includes('ifo') && !srcSplit?.includes('UF_Processvariable')){                                
+                                if(typeof srcSplit[2] == 'string'){
+                                    groupArrayName = srcSplit[2]
+                                }
                             }   
                             if (pfo?.length > 0 && childid && childtable) {
                                 for (let p = 0; p < pfo.length; p++) {
@@ -8125,6 +8080,7 @@ private getTransport(emailConfig) {
                             }
 
                             let srcVal = srcSplit.includes('HeaderParams') ? srcSplit[1] : srcSplit[srcSplit.length - 1];
+                            
                             // if (srcVal.includes('.') && !srcVal.includes('text/plain') && !srcVal.includes('*/*')) {
                             if (srcVal.includes('.') && !srcVal.includes('*/*')) {
                                 let src = srcSplit[1].split('.');
@@ -8151,7 +8107,8 @@ private getTransport(emailConfig) {
                                       let spilt = sourceFilteredVal.split('.items.');                                                                        
                                       var getdata = _.get(inputCollection[connectedid], spilt[0]);
                                     }  
-                                    
+                                   
+                                  
                                     if (sourceFilteredVal && sourceFilteredVal.includes('.')) {
                                         let dst = sourceFilteredVal.split('.')
                                         sourceFilteredVal = (dst.filter(item => !this.numberArr.includes(item))).join('.');
@@ -8268,7 +8225,8 @@ private getTransport(emailConfig) {
     
                                                         return acc;
                                                         }, []);                                                      
-                                                    }else{                                                                        
+                                                    }
+                                                    else{                                                                        
                                                         if(srcSplit.length == 2 && connectedType == 'humantasknode' && !pfdto.agentAccess){
                                                             let filterinput = await this.checkData(pfo,inputCollection,srcSplit[0],connectedid,srcSplit[1])                                                          
                                                             _.set(mapObj, targetFilteredVal, filterinput);
@@ -8293,9 +8251,10 @@ private getTransport(emailConfig) {
                                                                 } else if (targetType === 'string' && typeof srcData === 'number') {
                                                                     srcData = String(srcData)
                                                                 }
-    
-                                                                if(typeof mapObj[targetFilteredVal] == 'object' && Object.keys(mapObj[targetFilteredVal]).length>0){                                                                
-                                                                    let assignData = Object.assign(mapObj[targetFilteredVal],{[objVal]:srcData})
+
+                                                                let previousVal = _.get(mapObj, targetFilteredVal);
+                                                                if(typeof previousVal == 'object' && Object.keys(previousVal).length>0){                                                                
+                                                                    let assignData = Object.assign(previousVal,{[objVal]:srcData})
                                                                     _.set(mapObj, targetFilteredVal, assignData);
                                                                 }else{                                                                 
                                                                     if(targetType == 'object' && typeof srcData == 'object'){
@@ -8358,7 +8317,8 @@ private getTransport(emailConfig) {
 
                                                 return acc;
                                                 }, []);                                                      
-                                            }else{                                                
+                                            }
+                                            else{                                                
                                                 if(srcSplit.length == 2 && connectedType == 'humantasknode' && !pfdto.agentAccess){ 
                                                     let filterinput = await this.checkData(pfo,inputCollection,srcSplit[0],connectedid,srcSplit[1])                                                    
                                                         _.set(mapObj, targetFilteredVal, filterinput);
@@ -8382,9 +8342,9 @@ private getTransport(emailConfig) {
                                                         } else if (targetType === 'string' && typeof srcData === 'number') {
                                                             srcData = String(srcData)
                                                         }
-    
-                                                        if(typeof mapObj[targetVal] == 'object' && Object.keys(mapObj[targetVal]).length>0){                                                                
-                                                            let assignData = Object.assign(mapObj[targetVal],{[objVal]:srcData})
+                                                        let previousVal = _.get(mapObj, targetFilteredVal);
+                                                        if(typeof previousVal == 'object' && Object.keys(previousVal).length>0){                                                                
+                                                            let assignData = Object.assign(previousVal,{[objVal]:srcData})
                                                             _.set(mapObj, targetVal, assignData);
                                                         }else{                                                         
                                                             if(targetType == 'object' && typeof srcData == 'object'){
@@ -8473,7 +8433,8 @@ private getTransport(emailConfig) {
                     }
                 }                
 
-                if (Object.keys(mapObj).length > 0) {
+                if (Object.keys(mapObj).length > 0) {                   
+                    await this.assignDefaultColumns(mapObj, defaultValues, upId);
                     childInsertArr.push(mapObj);
                 }
             }
@@ -8482,7 +8443,356 @@ private getTransport(emailConfig) {
         } catch (error) {          
             throw error
         }
+ } 
+
+ async getNodeEdgeData(currentNodeEdge,pfo,processedKey,upId,collectionName,codeObj,pfdto){
+    try {
+        let srcIdArr = []
+        for (let s = 0; s < currentNodeEdge?.length; s++) {
+            let source = currentNodeEdge[s]?.source
+            let sourceHandle = currentNodeEdge[s]?.sourceHandle
+            sourceHandle = (sourceHandle.split('|')).find(item => item.startsWith('responses.') || item.startsWith('requestBody.') || item == 'ifo');
+
+            if (!sourceHandle || sourceHandle.startsWith('responses.')) {
+                sourceHandle = 'responses' 
+            } else if (sourceHandle.startsWith('requestBody.')) {
+                sourceHandle = 'requestBody'
+            } else if (sourceHandle == 'ifo') {
+                sourceHandle = 'ifo'
+            }
+            let existing = srcIdArr.find(item => item.source === source);
+
+            if (existing) {
+                existing?.sourceHandle?.push(sourceHandle);
+            } else {
+                srcIdArr.push({
+                    source: source,
+                    sourceHandle: [sourceHandle]
+                });
+            }
+        }
+        let nodesArr = [], nodesObj = {}
+        let filteredIds = [];
+        for (let s = 0; s < srcIdArr.length; s++) {
+            let connectedid = srcIdArr[s]?.source
+            let connectedHandle = srcIdArr[s]?.sourceHandle
+
+            for (var h = 0; h < pfo.length; h++) {
+                if (connectedid == pfo[h]?.nodeId) {
+                    let tempArr = []
+                    var conncectedNodename = pfo[h]?.nodeName
+                    var conncectedNodeType = pfo[h]?.nodeType
+                    let innerpathVal
+
+                    let afpValue = JSON.parse(await this.redisService.getJsonData(processedKey + upId + ':NPV:' + conncectedNodename + '.PRO', collectionName))
+
+
+                    if (connectedHandle.includes('requestBody')) {
+                        innerpathVal = afpValue.request
+                        if (conncectedNodeType == 'api_inputnode') {
+                            innerpathVal = await this.keysToLowerCaseOnly(innerpathVal)
+                        }
+                        tempArr = await this.combineData(innerpathVal, tempArr)
+                    }
+                    if (connectedHandle.includes('responses')) {
+
+                        innerpathVal = afpValue?.response
+                        if (conncectedNodeType == 'api_inputnode') {
+                            innerpathVal = await this.keysToLowerCaseOnly(innerpathVal)
+                        }
+                        tempArr = await this.combineData(innerpathVal, tempArr)
+                        
+                    }
+                    if (connectedHandle.includes('ifo')) {
+                        innerpathVal = afpValue?.ifo                        
+                        if (conncectedNodeType == 'api_inputnode') {
+                            innerpathVal = await this.keysToLowerCaseOnly(innerpathVal)
+                        }
+                        tempArr = await this.combineData(innerpathVal, tempArr)
+
+                        innerpathVal = afpValue.code
+                        if (conncectedNodeType == 'api_inputnode') {
+                            innerpathVal = await this.keysToLowerCaseOnly(innerpathVal)
+                        }
+                        tempArr = await this.combineData(innerpathVal, tempArr)
+                    }
+                    if (codeObj) {
+                        innerpathVal = codeObj
+                        if (conncectedNodeType == 'api_inputnode') {
+                            innerpathVal = await this.keysToLowerCaseOnly(innerpathVal)
+                        }
+                        tempArr = await this.combineData(innerpathVal, tempArr)
+                    }
+                    
+                    if (tempArr.length > 0) {
+                        if(pfdto.enableBulk){                          
+                          nodesObj = Object.assign(nodesObj,{[connectedid]:tempArr})
+                        }
+                        else
+                          nodesArr.push(tempArr) 
+                        filteredIds.push(connectedid)
+                    }
+                }
+            }
+        }
+        if(pfdto.enableBulk) 
+            return { nodesObj, filteredIds }
+        else
+            return { nodesArr, filteredIds }
+    } catch (error) {
+        throw error
+    }
  }
+
+  async assignDefaultColumns(targetObj,defaultValues,upId){
+    try{
+        if(!targetObj) return targetObj
+        if(Array.isArray(targetObj) && targetObj.length > 0){
+            for(let i=0;i<targetObj.length;i++){
+                await this.assignDefaultColumns(targetObj[i],defaultValues,upId)
+            }
+        }else if (Object.keys(targetObj).length > 0) {
+           if (defaultValues && defaultValues?.referenceKey?.includes(':FNK:API-APIPD:')) {
+                targetObj['trs_event_process_status'] = defaultValues.sourceStatus;
+                targetObj['trs_process_id'] = upId;
+                targetObj['trs_created_by'] = defaultValues.SessionToken?.loginId;
+                targetObj['trs_access_profile'] = defaultValues.SessionToken?.selectedAccessProfile;
+                targetObj['trs_org_grp_code'] = defaultValues.SessionToken?.orgGrpCode;
+                targetObj['trs_org_code'] = defaultValues.SessionToken?.orgCode;
+                targetObj['trs_role_grp_code'] = defaultValues.SessionToken?.roleGrpCode;
+                targetObj['trs_role_code'] = defaultValues.SessionToken?.roleCode;
+                targetObj['trs_ps_code'] = defaultValues.SessionToken?.psCode;
+                targetObj['trs_ps_grp_code'] = defaultValues.SessionToken?.psGrpCode;                   
+                targetObj['trs_sub_org_grp_code'] = defaultValues.SessionToken?.subOrgGrpCode;
+                targetObj['trs_sub_org_code'] = defaultValues.SessionToken?.subOrgCode;  
+                if(!targetObj?.['trs_product_code'])
+                    targetObj['trs_product_code'] = defaultValues.SessionToken?.psCode
+                if(!targetObj?.['trs_tenant_id'])
+                    targetObj['trs_tenant_id'] = defaultValues.SessionToken?.tenantId   
+                if(!targetObj?.['trs_app_code'])
+                    targetObj['trs_app_code'] = defaultValues.SessionToken?.app                                                             
+                    
+           }
+        }
+        return targetObj
+    }catch(error){
+        throw error
+    }
+ }
+
+  async bulkTransform(input: MappingInput, edges: MappingEdge[],parameter: any): Promise<TransformResult> {
+    try {
+        const parsedEdges = edges.map((edge) => ({
+          edge,
+          src: this.parseSourceHandle(edge.sourceHandle),
+          tgt: this.parseTargetHandle(edge.targetHandle),
+        }));
+    
+       
+        const explicitContainers = new Set<string>();
+        const ambiguousFieldNames = new Map<string, Set<string>>();
+        for (const { src, tgt } of parsedEdges) {
+          const key = this.boxKeyOf(tgt);
+          if (tgt.leafKey !== undefined) {
+            explicitContainers.add(key);
+          } else {
+            if (!ambiguousFieldNames.has(key)) ambiguousFieldNames.set(key, new Set());
+            ambiguousFieldNames.get(key)!.add(src.fieldName);
+          }
+        }
+    
+        const resolveWrite = (src: SourceRef, tgt: TargetRef): { containers: string[]; leafKey: string } => {
+          if (tgt.leafKey !== undefined) {
+            return { containers: tgt.containers, leafKey: tgt.leafKey };
+          }
+          const key = this.boxKeyOf(tgt);
+          const distinctFields = ambiguousFieldNames.get(key)!;
+          const hasExplicitSibling = explicitContainers.has(key);
+          if (!hasExplicitSibling && distinctFields.size === 1 && tgt.containers.length > 0) {
+            return { containers: tgt.containers.slice(0, -1), leafKey: tgt.containers[tgt.containers.length - 1] };
+          }
+          return { containers: tgt.containers, leafKey: src.fieldName };
+        };
+    
+        const headerJson = []
+        const headers: Record<string, any> = {};
+        const bodyObject: Record<string, any> = {};
+        const namedArrays = new Map<string, any[]>();
+        let bodyArray: any[] | undefined;
+        let bodyIsBareArray = false;
+    
+        const getRepeatingArray = (tgt: TargetRef, rowCount: number): any[] => {
+          if (tgt.arrayIsRoot) {
+            bodyIsBareArray = true;
+            if (!bodyArray) bodyArray = Array.from({ length: rowCount }, () => ({}));
+            return bodyArray;
+          }
+          let arr = namedArrays.get(tgt.arrayKey!);
+          if (!arr) {
+            arr = Array.from({ length: rowCount }, () => ({}));
+            namedArrays.set(tgt.arrayKey!, arr);
+            bodyObject[tgt.arrayKey!] = arr;
+          }
+          return arr;
+        };
+    
+        for (const { edge, src, tgt } of parsedEdges) {
+          const rows = this.toRows(input[edge.source]);
+          const { containers, leafKey } = resolveWrite(src, tgt);
+    
+          if (tgt.bucket === 'headers') {
+            const value = rows.find((row) => row?.[src.fieldName] !== undefined)?.[src.fieldName];
+            if (value !== undefined) this.setDeep(headers, containers, leafKey, value,headerJson,parameter,);
+            continue;
+          }
+    
+          if (tgt.isRepeating) {
+            const targetArray = getRepeatingArray(tgt, rows.length);
+            rows.forEach((row, i) => {
+              const value = row?.[src.fieldName];
+              if (value === undefined) return;
+              this.setDeep(targetArray[i], containers, leafKey, value);
+            });
+            continue;
+          }
+    
+          // Root-level, non-repeating body target: the value is the same on
+          // every row, so take it from the first row that actually has it.
+          const value = rows.find((row) => row?.[src.fieldName] !== undefined)?.[src.fieldName];
+          if (value !== undefined) {
+            this.setDeep(bodyObject, containers, leafKey, value);
+          }
+        }
+    
+        return { body: bodyIsBareArray ? bodyArray! : bodyObject, headers, headerJson };
+        
+    } catch (error) {
+        throw error
+    }
+  }
+
+  setDeep(target: Record<string, any>, containers: string[], key: string, value: unknown,headerJson?,parameter?): void {
+    try {
+        let cursor = target;
+        for (const container of containers) {
+          cursor[container] = cursor[container] ?? {};
+          cursor = cursor[container];
+        }
+            
+        if(headerJson && parameter?.length>0){
+            for(let item of parameter){                      
+                if(item.name == key){              
+                    headerJson.push({
+                        key,
+                        type:item.in
+                    })
+                }
+            }
+        }
+      
+        cursor[key] = value;
+        
+    } catch (error) {
+        throw error
+    }
+  }
+
+  parseSourceHandle(sourceHandle: string): SourceRef {
+    try {        
+        const segments = sourceHandle.split('|');
+        const last = segments[segments.length - 1];
+    
+        if (last.includes('.') && segments.length >= 2) {
+            return { fieldName: segments[segments.length - 2] };
+        }
+    
+        return { fieldName: last };
+    } catch (error) {
+        throw error
+    }
+  }
+
+  parseTargetHandle(targetHandle: string): TargetRef {
+    try {
+        
+    const REQUEST_BODY_PREFIX = 'requestBody.content.application/json.schema.';
+    const segments = targetHandle.split('|');
+    const schemaPathSegment = segments[1];
+
+    if (schemaPathSegment?.startsWith(REQUEST_BODY_PREFIX)) {
+        const remainder = schemaPathSegment.slice(REQUEST_BODY_PREFIX.length);
+        const path = this.parseSchemaPath(remainder);
+
+        if (path.length === 0) {
+        throw new Error(`Unsupported targetHandle, empty schema path: ${targetHandle}`);
+        }
+
+        const arrayRootIndex = path.findIndex((segment) => segment.isArray);
+
+        if (arrayRootIndex !== -1) {
+        const arrayIsRoot = path[arrayRootIndex].key === '';
+        const arrayKey = arrayIsRoot ? undefined : path[arrayRootIndex].key;
+        const groups = path.slice(arrayRootIndex + 1);
+        const { containers, leafKey } = this.resolveContainerAndLeaf(groups);
+        return { bucket: 'body', isRepeating: true, arrayIsRoot, arrayKey, containers, leafKey };
+        }
+
+        // No repetition anywhere in this path - every segment is a container and
+        // the last one is always the explicit key (no source-name fallback,
+        // since there's no "box" convention once there's no array to iterate).
+        const containers = path.slice(0, -1).map((s) => s.key);
+        const leafKey = path[path.length - 1].key;
+        return { bucket: 'body', isRepeating: false, containers, leafKey };
+    }
+
+    // Header parameter style target, e.g. parameters.1.name|HeaderParams|channel_name
+    const fieldName = segments[segments.length - 1];
+    return { bucket: 'headers', isRepeating: false, containers: [], leafKey: fieldName };
+    } catch (error) {
+        throw error 
+    }
+  }
+
+  parseSchemaPath(remainder: string): SchemaPathSegment[] {
+    try {        
+        const tokens = remainder.split('.');
+        const segments: SchemaPathSegment[] = [];
+      
+        for (const token of tokens) {
+          if (token === 'properties') continue;
+          if (token === 'items') {
+            const last = segments[segments.length - 1];
+            if (last) {
+              last.isArray = true;
+            } else {
+              segments.push({ key: '', isArray: true });
+            }
+            continue;
+          }
+          segments.push({ key: token, isArray: false });
+        }
+      
+        return segments;
+    } catch (error) {
+        throw error
+    }
+  }
+
+  resolveContainerAndLeaf(groups: SchemaPathSegment[]): { containers: string[]; leafKey?: string } {    
+    if (groups.length === 0) return { containers: [] };
+    if (groups.length === 1) return { containers: [groups[0].key] };
+    return { containers: groups.slice(0, -1).map((g) => g.key), leafKey: groups[groups.length - 1].key };   
+  }
+
+  toRows(value: unknown): Record<string, unknown>[] {
+    if (Array.isArray(value)) return value as Record<string, unknown>[];
+    if (value && typeof value === 'object') return [value as Record<string, unknown>];
+    return [];
+  }
+
+  boxKeyOf(tgt: TargetRef): string {
+    return JSON.stringify([tgt.bucket, tgt.isRepeating, tgt.arrayIsRoot ?? false, tgt.arrayKey ?? null, tgt.containers]);
+  }
 
     async getSchemaType(pfo,currentNodeEdge){
         try {

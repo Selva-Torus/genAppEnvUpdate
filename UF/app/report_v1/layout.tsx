@@ -13,8 +13,8 @@ import { GetSetupKey } from '../utils/setUpKey';
 import { getServerPublicEnv } from '@/app/components/public-env';
 
 export const metadata: Metadata = {
-  title: 'Reimfast | Report',
-  description: 'Screen generated from Torus metadata key: CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1'
+  title: 'TAG | Report',
+  description: 'Screen generated from Torus metadata key: CK:CT003:FNGK:AF:FNK:UF-UFR:CATK:TAG:AFGK:TAG:AFK:evidenceReport:AFVK:v1'
 }
 
 export default async function RootLayout({
@@ -34,9 +34,8 @@ export default async function RootLayout({
         <GetSetupKey>
         <div className=''>
           <LayoutDecider 
-            mode='detached' 
-            navigationStyles='vertical' 
-            sidebarStyle='compact'
+            mode='fluid' 
+            navigationStyles='horizontal' 
             >
             <div>
               <main>{children}</main>    

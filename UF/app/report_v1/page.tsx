@@ -1,271 +1,387 @@
 'use client'
-import React,{ useContext,useEffect,useState,useRef } from "react";
-import { AxiosService } from '@/app/components/axiosService';
-import { te_refreshDto,api_paginationDto } from '@/app/interfaces/interfaces';
+import React, { useContext,useEffect, useState } from 'react';
+import { codeExecution } from "../utils/codeExecution";
+import { Multiply, ThreeLineIcon } from '../components/svgApplication';
+import { AxiosService } from '../components/axiosService';
 import { useInfoMsg } from "@/app/components/infoMsgHandler";
-import { deleteAllCookies } from '@/app/components/cookieMgment';
-import { TotalContext, TotalContextProps } from "../globalContext";
 import decodeToken from "../components/decodeToken";
-import { useRouter } from 'next/navigation';
+import { te_refreshDto } from '../interfaces/interfaces';
+import { TotalContext, TotalContextProps } from '../globalContext';
+import { Button } from "@/components/Button";
+import { Icon } from "@/components/Icon";
+import { Text } from "@/components/Text";
 import { useTheme } from '@/hooks/useTheme';
-import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,PaginationData,AllowedGroupNode } from "@/types/global";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import clsx from "clsx";
-import dynamic from 'next/dynamic';
-import { useGlobal } from '@/context/GlobalContext'
+import { fetchBatchData } from '../utils/Orchestration';
+import { DecodedToken,PrimaryTableData,EncryptionFlagPageData,PaginationData,AllowedGroupNode,ActionDetails } from "@/types/global";
 import { logout } from "@/app/components/utils";  
+import { useGlobal } from '@/context/GlobalContext';
+import { useRouter } from 'next/navigation';
+import { getBorderRadiusClass } from '@/app/utils/branding';
 import { getPublicEnv } from "@/app/components/public-env";
+import Groupevidence_report_group  from "./Groupevidence_report_group/Groupevidence_report_group";
 
-const Groupreport_grp = dynamic(() => import("./Groupreport_grp/Groupreport_grp"), { ssr: false });
 
-export default function PageReportV1({ onReady }: { onReady?: () => void } = {}) {
-  const { isDark, isHighContrast, bgStyle, textStyle } : { isDark: boolean; isHighContrast: boolean; bgStyle: string; textStyle: string } = useTheme();
-  const [initialLoad, setInitialLoad] = useState<boolean>(false);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const securityData : SecurityData = {
-  "Template 1": {
-    "blockedGroups": []
-  },
-  "Employee": {
-    "blockedGroups": []
-  },
-  "Manager": {
-    "blockedGroups": []
-  }
-};
-  let code : string = "";
-  const routes : AppRouterInstance = useRouter();
-  const toast : Function = useInfoMsg();
-  const [primaryTableData, setPrimaryTableData] = useState<PrimaryTableData>({primaryKey:"",value:"",compName:""});
-  const [checkToAdd, setCheckToAdd] = useState<Record<string, any>>({});
-  const allRuleData:any={
-  "report_grp": {
-    "bar_chart": {
-      "show": false
-    },
-    "piechart": {
-      "show": false
-    }
-  }
+type ReportItem = {
+  displayName: string
+  referanceName: string
+  referencePath: string
+  nodeId: string
+  key: string
+  type: string
+  children?: ReportItem[]
 }
+
+type FilterDataItem = Record<string, any> & { nodeId: string }
+
+const PageReportV1 = () => {
+  const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
+  let code:string="";
+  const toast:Function=useInfoMsg();
+  const [generatedPayload, setGeneratedPayload] = useState<any[]>([])
+  const [initialLoad, setInitialLoad] = useState<boolean>(false);
+  const [checkToAdd, setCheckToAdd] = useState<Record<string, any>>({});
+  const [dropdownData, setDropdownData] = useState<Record<string, any>>({});
+  const [primaryTableData, setPrimaryTableData] = useState<PrimaryTableData>({primaryKey:"",value:"",compName:""});
   const { token } = useGlobal();
   const decodedTokenObj: DecodedToken = decodeToken(token);
-  const screenName:string = "report";
-  const user : string | undefined = decodedTokenObj?.selectedAccessProfile;
-  const {memoryVariables, setMemoryVariables} = useContext(TotalContext) as TotalContextProps;
+  const user: string | undefined = decodedTokenObj?.selectedAccessProfile;
+  const {lockedData, setLockedData} = useContext(TotalContext) as TotalContextProps;
+  const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
   const {refetch, setRefetch} = useContext(TotalContext) as TotalContextProps;
   const { encAppFalg,setEncAppFalg}= useContext(TotalContext) as TotalContextProps;
-  const {lockedData, setLockedData} = useContext(TotalContext) as TotalContextProps;
-  const [tableData, setTableData] = useState<any[]>([]);  
-  const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
-  const { eventEmitterData,setEventEmitterData}= useContext(TotalContext) as TotalContextProps;
-  const {report_v1, setreport_v1} = useContext(TotalContext) as TotalContextProps;
-  const {report_v1Props, setreport_v1Props} = useContext(TotalContext) as TotalContextProps;
-  const [checkreport_grp,setCheckreport_grp,]=useState<boolean>(false);
-  const {report_grp0286e, setreport_grp0286e} = useContext(TotalContext) as TotalContextProps;
-  const {dfd_chart_data_v1Props, setdfd_chart_data_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {paginationDetails, setpaginationDetails} = useContext(TotalContext) as TotalContextProps;
+  const {evidencereport_v1Props, setevidencereport_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const { isDark, isHighContrast, bgStyle, textStyle , branding } = useTheme();
+  const artifactName: string =
+    "CK:CT003:FNGK:AF:FNK:UF-UFR:CATK:TAG:AFGK:TAG:AFK:evidenceReport:AFVK:v1".split(
+      ':'
+    )[11]
   const [controlData, setControlData] = useState<any>({});
   const [groupData, setGroupData] = useState<any>({});
   const encryptionFlagPage: boolean = false|| encAppFalg.flag;
+  const { property } = useContext(TotalContext) as TotalContextProps
+  let brandcolor: string = property?.brandColor ?? '#0736c4'
   let encryptionDpd: string = "";
   encryptionDpd = encryptionDpd !=='' ? encryptionDpd: encAppFalg.dpd;
   let encryptionMethod: string = "";
   encryptionMethod  = encryptionMethod !=='' ? encryptionMethod: encAppFalg.method;
-  let encryptionFlagPageData : EncryptionFlagPageData ={
+  let encryptionFlagPageData :EncryptionFlagPageData ={
     "flag":encryptionFlagPage,
     "dpd":encryptionDpd,
     "method":encryptionMethod
   }
-  const [paginationDetails, setpaginationDetails] = useState<Record<string, any>>({});
-  const [paginationData,setPaginationData]=useState<PaginationData>({count:10,page:1})
-    const prevRefreshRef = useRef<any>({
-      chart_data_v1:false,
+  const [checkevidence_report_group,setCheckevidence_report_group,]=useState<boolean>(false);
+  const {evidence_report_groupe2f8d, setevidence_report_groupe2f8d} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_report_v1Props, setdfd_report_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const [dfd_report_v1Params, setdfd_report_v1Params] = React.useState<any>({
+    "key":"CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:report:AFVK:v1:",
+    "count":1000,
+    "page":1,
+    "refreshFlag":"Y",
+    "reportFlag":true
     });
-    async function chart_data_v1DFD(pagination:any): Promise<void>{
-        let filterData :any[] =[];
-        let chart_data_v1Body:te_refreshDto={
-          key: "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:chart_data:AFVK:v1"+":",
-          refreshFlag: "Y",
-          count:parseInt(pagination?.count) || 10,
-          page:parseInt(pagination?.page) || 1
+  const [pdfUrl, setPdfUrl] = useState<string | null>(
+    'https://www.orimi.com/pdf-test.pdf'
+  )
+  const router = useRouter();
+
+  const reportData:ReportItem[] = [
+  {
+    "displayName": "",
+    "referanceName": "asset_code",
+    "referencePath": "properties.asset_code",
+    "nodeId": "12e36ada1d144f79a6ec976e198d28a8",
+    "key": "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:report:AFVK:v1:",
+    "type": "string"
+  }
+]
+
+  const capitalizeEachWord = (str: string): string => {
+    if (!str) return ''
+    return str
+      .split(' ')
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ')
+  }
+
+  // Initialize payload with empty values
+  useEffect(() => {
+      setdfd_report_v1Props([])
+    if (reportData.length) {
+      const initPayload: any[] = extractFilterDataByKey(reportData)
+      setGeneratedPayload(initPayload)
+    }
+  }, [])
+
+  // Recursive function to extract filterData grouped by key
+  const extractFilterDataByKey = (items: ReportItem[]): any[] => {
+    const keyMap: Record<string, FilterDataItem[]> = {}
+
+    const recurse = (item: ReportItem, key: string) => {
+      if (!keyMap[key]) keyMap[key] = []
+
+      if (item.type === 'object' && item.children) {
+        item.children.forEach(child => recurse(child, key))
+      } else {
+        keyMap[key].push({ nodeId: item.nodeId, [item.referencePath]: '' })
+      }
+    }
+
+    items.forEach(item => recurse(item, item.key))
+
+    return Object.keys(keyMap).map(k => ({
+      key: k,
+      refreshFlag: 'Y',
+      count: 1000,
+      page: 1,
+      filterData: keyMap[k],
+      reportFlag:true
+    }))
+  }
+
+  const mergeFilterDataByNodeId = (payload: any): any[] => {
+  return payload.map((p: any) => {
+    const mergedMap: Record<string, any> = {}
+
+    p.filterData.forEach((fd: any) => {
+      const nodeId: string = fd.nodeId
+      if (!mergedMap[nodeId]) {
+        mergedMap[nodeId] = { nodeId }
+      }
+      Object.keys(fd).forEach(k => {
+        if (k !== 'nodeId') {
+          mergedMap[nodeId][k] = fd[k]
         }
-        if (encryptionFlagPage) {          
-          chart_data_v1Body["dpdKey"] = encryptionDpd;
-          chart_data_v1Body["method"] = encryptionMethod;
-        }
-        if(report_v1Props.length > 0){
-          for(let i=0;i< report_v1Props.length;i++){
-            if(report_v1Props[i].DFDkey == "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:Trs:AFGK:RF:AFK:chart_data:AFVK:v1"){
-              // delete report_v1Props[i].DFDkey;
-              let temp=structuredClone(report_v1Props[i])
-              delete temp?.DFDkey
-              filterData.push(temp)
-            }           
+      })
+    })
+
+    return {
+      ...p,
+      filterData: Object.values(mergedMap)
+    }
+  })
+}
+
+  const handleInputChange = (
+    key: string,
+    referencePath: string,
+    value: string,
+    type: string
+  ): void => {
+    if (type === 'number' && isNaN(Number(value))) {
+      return
+    }
+    setGeneratedPayload(prev => {
+      const updatedPayload = prev.map(p => {
+        if (p.key !== key) return p
+        const updatedFilterData = p.filterData.map((fd: any) => {
+          if (fd.hasOwnProperty(referencePath)) {
+            return { ...fd, [referencePath]: value }
           }
-          chart_data_v1Body['filterData'] = filterData;
-        }
-        const chart_data_v1Data:any=await AxiosService.post("/te/eventEmitter",chart_data_v1Body,{
+          return fd
+        })
+        return { ...p, filterData: updatedFilterData }
+      })
+
+      // Split into v1 and v2 live
+      const cleanedPayload = updatedPayload.map(p => ({
+        ...p,
+        filterData: p.filterData
+          .map((fd: any) => {
+            const cleanFd: Record<string, any> = { nodeId: fd.nodeId }
+            for (const k in fd) {
+              if (k !== 'nodeId' && fd[k] !== '') cleanFd[k] = fd[k]
+            }
+            return Object.keys(cleanFd).length > 1 ? cleanFd : null
+          })
+          .filter(Boolean)
+      }))
+
+      const updatedCleanedPayload: any[] = mergeFilterDataByNodeId(cleanedPayload)
+
+     const report_v1Payload= updatedCleanedPayload.find((p: any) => p.key.split(':')[11].toLowerCase() === "report" && p.key.split(':')[11].toLowerCase() === "report") || null;
+     setdfd_report_v1Params(report_v1Payload)
+
+
+      return updatedPayload
+    })
+  }
+  
+
+// Recursive UI rendering
+ const renderItem = (item: ReportItem, index: number): React.JSX.Element => {
+    if (item.type === 'object' && item.children) {
+      return (
+        <div
+          key={index}
+          style={{
+            backgroundColor: brandcolor,
+            borderColor: 'var(--g-color-line-generic)'
+          }}
+          className='flex w-full flex-col gap-[2vh] rounded-lg border px-[0.8vw] py-[1vh]'
+        >
+          <Text variant='subheader-3'>
+            {capitalizeEachWord(item.displayName || item.referanceName)}
+          </Text>
+          {item.children.map((child, childIndex) =>
+            renderItem(child, childIndex)
+          )}
+        </div>
+      )
+    } else {
+      const value: string =
+        generatedPayload
+          .find(p => p.key === item.key)
+          ?.filterData.find((fd: any) =>
+            fd.hasOwnProperty(item.referencePath)
+          )?.[item.referencePath] || ''
+
+      return (
+        <div
+          key={item.referencePath}
+          className='flex w-full flex-col rounded-lg border px-[0.6vw] py-[0.5vh] text-fsbase'
+          style={{
+            backgroundColor: 'var(--g-color-base-background)',
+            color: 'var(--g-color-text-primary)',
+            borderColor: 'var(--g-color-line-generic)'
+          }}
+        >
+          <Text contentAlign='left'>
+            {capitalizeEachWord(item.displayName || item.referanceName)}
+          </Text>
+          <input
+            style={{
+              backgroundColor: 'var(--g-color-base-background)',
+              color: 'var(--g-color-text-primary)',
+              borderColor: 'var(--g-color-line-generic)',
+              outline: 'none'
+            }}
+            placeholder={item.displayName || item.referanceName}
+            value={value}
+            onChange={e =>
+              handleInputChange(
+                item.key,
+                item.referencePath,
+                e.target.value,
+                item.type
+              )
+            }
+            className='rounded-lg'
+          />
+        </div>
+      )
+    }
+  }
+
+
+  const handleClick = async (): Promise<void> => {
+    try {
+        const res = await AxiosService.post(
+        '/te/eventEmitter',
+        dfd_report_v1Params,
+        {
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
           }
-        })
-        let dstKey:string=chart_data_v1Body?.key || ""
-        dstKey=dstKey.replace(":AFC:",":AFCP:").replace(":AF:",":AFP:").replace(":DF-DFD:",":DF-DST:");
-        if(chart_data_v1Data?.data?.dataset === 'Bulk Data Processing'){
-          if(filterData.length>0){
-            const api_paginationBody: api_paginationDto = {
-          key: dstKey,
-          count:parseInt(pagination?.count) || 10,
-          page:parseInt(pagination?.page) || 1,
-          filterData:filterData
         }
-        // if(encryptionFlagCont) {
-        // api_paginationBody["dpdKey"] = encryptionDpd
-        // api_paginationBody["method"] = encryptionMethod
-        // }
-        const api_paginationData:any = await AxiosService.post(
-          '/UF/pagination',
-          api_paginationBody,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`
-            }
-          }
-        )
-        if (api_paginationData?.data?.error == true) {
-          toast(api_paginationData?.data?.errorDetails?.message, 'danger')
-          return
-        }
-        setdfd_chart_data_v1Props(api_paginationData?.data?.records || []);
-      }else{
-          setdfd_chart_data_v1Props({ hasLogicCenter: false, dstKey: dstKey })
-      }
-      }else if (chart_data_v1Data?.data?.dataset) {
-           setdfd_chart_data_v1Props(
-              Array.isArray(chart_data_v1Data?.data?.dataset?.data)
-                 ? chart_data_v1Data?.data.dataset.data.map((obj: any) =>
-                  Object.fromEntries(
-                    Object.entries(obj || {}).map(([key, value]) => [
-                      key.toLowerCase(),
-                      value
-                    ])
-                  )
-                )
-              : []
-          );   
-        }else{
-         //////////////
-        
-
-        const api_paginationBody: api_paginationDto = {
-          key: dstKey,
-          count:parseInt(pagination?.count) || 10,
-          page:parseInt(pagination?.page) || 1
-        }
-        // if(encryptionFlagCont) {
-        // api_paginationBody["dpdKey"] = encryptionDpd
-        // api_paginationBody["method"] = encryptionMethod
-        // }
-        const api_paginationData:any = await AxiosService.post(
-          '/UF/pagination',
-          api_paginationBody,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`
-            }
-          }
-        )
-        if (api_paginationData?.data?.error == true) {
-          toast(api_paginationData?.data?.errorDetails?.message, 'danger')
-          return
-        }
-        setdfd_chart_data_v1Props(api_paginationData?.data?.records || []);
-        }
-      }
-  useEffect(()=>{
-    if (prevRefreshRef?.current?.chart_data_v1) {
-      chart_data_v1DFD(paginationData)
-    }else 
-      prevRefreshRef.current.chart_data_v1= true
-  },[refetch?.chart_data_v1])
-  const handleArtfactRule=async(rule:any,data:any={},allRuleData:any)=>{
-    const { getAftfactLevelRule } = await import("../utils/evaluateDecisionTable");
-    let result :any =await getAftfactLevelRule(rule,data,allRuleData)
-    setreport_v1({...result,_artfactPFRule_:rule})
+      )
+      if(res.status === 201){
+        setdfd_report_v1Props(res.data.dataset.data || {})
+      } 
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async function securityCheck(): Promise<void> {
-    const { fetchBatchData } = await import("../utils/Orchestration");
-    const introspectParams = encryptionFlagPage
-      ? {
-          dpdKey: encryptionDpd,
-          method: encryptionMethod,
-          key: "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1"
-        }
-      : { key: "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1" }
-    const encryptionFlagPageData: EncryptionFlagPageData = {
-      flag: encryptionFlagPage,
-      dpd: encryptionDpd,
-      method: encryptionMethod
-    }
-    // fetchBatchData, introspect and myAccount-for-client don't depend on one
-    // another's results — only programmain_v1DFD (below) needs the pagination
-    // value that comes out of fetchBatchData. Run all three concurrently
-    // instead of one after another. Each call is caught locally so one
-    // failure doesn't swallow the other two responses (Promise.all rejects
-    // on the first rejection otherwise).
-    const [data, myAccountRes]: [any, any] = await Promise.all([
-      fetchBatchData(
-        'CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1',
-        [user],
-        'pageReportV1',
-        token,
-        encryptionFlagPageData
-      ),
+    const data: any = await fetchBatchData(
+      "CK:CT003:FNGK:AF:FNK:UF-UFR:CATK:TAG:AFGK:TAG:AFK:evidenceReport:AFVK:v1",
+      [user],
+      "pageReportV1",
       token
-        ? AxiosService.get("/UF/myAccount-for-client", {
-            headers: { Authorization: `Bearer ${token}` },
-            params: introspectParams
-          }).catch((err: any) => ({ __error: err }))
-        : Promise.resolve(null)
-    ])
-    const orchestrationData: any = data.pageData
+    )
     setGroupData(data.groupData || {});
     setControlData(data.controlData || {});
-    const security:string = orchestrationData?.security;
-    const allowedGroup: AllowedGroupNode[] = orchestrationData?.allowedGroup||[];
+    const orchestrationData: any = data.pageData
+    const uf_dfKey:string[] = orchestrationData?.DFkeys;
+    const security:string = orchestrationData?.security; 
+    const allowedGroup:any[] = orchestrationData?.allowedGroup||[];
     code = orchestrationData?.code;
-    const pagination:any = orchestrationData?.action?.pagination;
+    const pagination:Record<string, any> = orchestrationData?.action?.pagination;
     setpaginationDetails({
       page: +orchestrationData?.action?.pagination?.page || 0,
       pageSize: +orchestrationData?.action?.pagination?.count || 0
     })
-    if("artfactPFRule" in orchestrationData && orchestrationData?.artfactPFRule?.nodes?.length>0){
-      await handleArtfactRule(orchestrationData?.artfactPFRule,{...decodedTokenObj},allRuleData)  
-    }
+    let encryptionData:Record<string, any> = {};
     if (token) {
-      const basePath = getPublicEnv('NEXT_PUBLIC_BASE_PATH');
-      const res = await fetch(`${basePath}/next-api/auth/introspect?key=CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1`)
-      if (!res.ok) {
-        logout(token)
-        return
-      }
-      //routes.refresh()
-
+       try {
+        const basePath = getPublicEnv('NEXT_PUBLIC_BASE_PATH');
+        const res = await fetch(`${basePath}/next-api/auth/introspect?key=CK:CT003:FNGK:AF:FNK:UF-UFR:CATK:TAG:AFGK:TAG:AFK:evidenceReport:AFVK:v1`)
+        if (!res.ok) {
+          logout(token)
+          return
+        }
+        router.refresh()
+        } catch (err: any) {
+          logout(token)
+     }
       try {
-        if (myAccountRes?.__error) throw myAccountRes.__error;
+        let myAccount:any;
+        if(encryptionFlagPage){
+         myAccount = await AxiosService.get("/UF/myAccount-for-client",{
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+          params: {
+              dpdKey: encryptionDpd,
+              method: encryptionMethod,
+              key:"CK:CT003:FNGK:AF:FNK:UF-UFR:CATK:TAG:AFGK:TAG:AFK:evidenceReport:AFVK:v1"
+            }
+        }) 
+        }else{
+          myAccount = await AxiosService.get("/UF/myAccount-for-client",{
+           headers: {
+             Authorization: `Bearer ${token}`
+           },
+            params: {
+              key:"CK:CT003:FNGK:AF:FNK:UF-UFR:CATK:TAG:AFGK:TAG:AFK:evidenceReport:AFVK:v1"
+            }
+         })          
+        }
         if( user != "" && user != null){
           setAccessProfile([user]);
         }
+        let actionDetails:ActionDetails = {
+  "lock": {
+    "lockMode": "",
+    "name": "",
+    "ttl": ""
+  },
+  "stateTransition": {
+    "sourceQueue": "",
+    "sourceStatus": "",
+    "targetQueue": "",
+    "targetStatus": ""
+  },
+  "pagination": {
+    "page": "1",
+    "count": "10"
+  },
+  "encryption": {
+    "isEnabled": false,
+    "selectedDpd": "",
+    "encryptionMethod": ""
+  },
+  "events": {}
+};
         try{
-    await chart_data_v1DFD(pagination)
-          if (security == 'AA' || security == 'RA') {
-          allowedGroup.map((nodes:AllowedGroupNode)=>{
-            if(nodes?.groupName == 'report_grp' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+          if (security == 'AA') {
+          allowedGroup.map((nodes:any)=>{
+            if(nodes?.groupName == 'evidence_report_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO'))
             {
-              setCheckreport_grp(true)
+              setCheckevidence_report_group(true)
             }
           })
           }
@@ -280,9 +396,8 @@ export default function PageReportV1({ onReady }: { onReady?: () => void } = {})
         //Code Execution
         if (code !="" ) {
           let codeStates: Record<string, any> = {}
-          codeStates['report_grp'] = report_grp0286e;
-          codeStates['setreport_grp'] = setreport_grp0286e;
-          const { codeExecution } = await import("../utils/codeExecution");
+          codeStates['evidence_report_group'] = evidence_report_groupe2f8d;
+          codeStates['setevidence_report_group'] = setevidence_report_groupe2f8d;
           codeExecution(code,codeStates);
         }   
         setInitialLoad(true);        
@@ -294,62 +409,69 @@ export default function PageReportV1({ onReady }: { onReady?: () => void } = {})
       toast('token not found','danger');
     }    
   }
-  const handleClick = (): void => {
-    routes.push("/");
-  }
-  const handleOnload = (): void => {
-  }
+
 
   useEffect(() => {    
-    setMemoryVariables((prev: Record<string, string>) => ({
-      ...prev,
-      screenName: screenName,    
-    }))
-    securityCheck().finally(() => onReady?.());
-    handleOnload();
-    setreport_v1((pre:any)=>({...pre,...allRuleData||{}}))
+    securityCheck();
   }, [])
 
-  useEffect(()=>{
-    if(report_v1?._artfactPFRule_)
-    {
-      let data:any ={
-        ...decodedTokenObj,
-        session:decodedTokenObj,
-      }
-      handleArtfactRule(report_v1?._artfactPFRule_,data,allRuleData)
-    }
-  },[])
-
-  const parentRef:any = useRef(null);
-  useEffect(() => {
-    const handleClickOutside = (event:any) => {
-      if (parentRef.current && !parentRef.current.contains(event.target)) {
-        setreport_v1((pre:any)=>({...pre,_selectedGroup_:""}))
-      }
-    };
-      document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
   return (
-    <>
-
-     <div className={clsx("",
+     <div className='flex h-[95vh] w-full gap-[2vw] overflow-hidden'>
+      <>
+        {isFormOpen ? (
+          <div
+            style={{
+              borderColor: 'var(--g-color-line-generic)'
+            }}
+           className='flex h-full flex-col gap-[1vh] rounded-lg border min-w-52'
+          >
+             <div className='flex items-center justify-between gap-[0.5vw] px-[0.5vw] py-[0.5vh]'>
+              <Text contentAlign="left" className='text-[1vw] mt-[0.2vh]'>{capitalizeEachWord(artifactName)}</Text>
+             <button
+                onClick={() => setIsFormOpen(false)}
+                className={`
+                  p-1
+                  ${getBorderRadiusClass(branding.borderRadius)}
+                  transition-all duration-200
+                  ${isDark ? "hover:bg-gray-700 hover:shadow-lg" : "hover:bg-gray-100 hover:shadow-md"}
+                `}                
+                aria-label="Close modal"
+              >
+                <Icon data="IoCloseOutline" size={20} />
+              </button>
+            </div>
+            <hr className='w-full border border-black/15' />
+            <div
+              className='flex h-full w-full flex-col items-center gap-[1vh] overflow-y-auto rounded-lg px-[10px] py-[10px] scrollbar-hide'
+            >
+              {reportData.map((item: any, index: number) =>
+                renderItem(item, index)
+              )}
+            </div>
+            <div className='w-full px-[0.1vw] py-[0.5vh]'>
+              <Button onClick={handleClick} className='p-[0.3vw]'>Generate Report</Button>
+            </div>
+          </div>
+        ) : (
+          <div>
+          <Button view='flat' fillContainer={false} onClick={() => setIsFormOpen(true)} className="!w-fit !h-fit">
+            <ThreeLineIcon
+              fill={isDark ? "white" : "black"}
+            />
+          </Button>
+          </div>
+        )}
+      </>
+      <div className={clsx("",
         "w-full",
-        isDark ? 'text-white' : 'text-black',
-        isProcessing && "pointer-events-none select-none"
-      )}
-
-      ref={parentRef}
-     style={{
+        isDark ? 'bg-gray-800 text-white' : 'bg-white text-black'
+      )}>
+        <div style={{
         gridColumn: '',
         gridRow: '',
         gridAutoRows: '4px',
         columnGap: '0px',
         rowGap: '0px',
-        display: "grid",
         gridTemplateColumns: 'repeat(24, 1fr)',
         gridTemplateRows: '',
         height: '',
@@ -368,39 +490,31 @@ export default function PageReportV1({ onReady }: { onReady?: () => void } = {})
           fontWeight: '500',
           borderWidth: '2px'
       })
-      }}>
-      {isProcessing && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="flex items-center gap-3 rounded-xl bg-neutral-900/80 px-6 py-4 text-sm text-white shadow-lg backdrop-blur">
-            {/* Spinner */}
-            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-
-            {/* Text */}
-            <span className="font-medium tracking-wide">
-              Processing, please wait…
-            </span>
-          </div>
-        </div>
-      )}
-        {checkreport_grp && initialLoad &&<Groupreport_grp
+      }} className='w-full h-full' >
+        {checkevidence_report_group && initialLoad &&<Groupevidence_report_group
           lockedData={lockedData} 
           setLockedData={setLockedData} 
           primaryTableData={primaryTableData}
           setPrimaryTableData={setPrimaryTableData}
-          tableData={tableData}
-          setTableData={setTableData}
           checkToAdd={checkToAdd} 
           setCheckToAdd={setCheckToAdd}  
           refetch={refetch}
           setRefetch={setRefetch}
+          dropdownData={dropdownData} 
+          setDropdownData={setDropdownData}
           encryptionFlagPageData={encryptionFlagPageData}
           paginationDetails={paginationDetails}
-          setIsProcessing={setIsProcessing}
+          isFormOpen={isFormOpen}
           controlData={controlData} 
-          groupData={groupData}        />}
+          groupData={groupData}  
+        />}
         
-      </div> 
-    </>
+          </div> 
+      </div>
+    </div>
   )
 }
-    
+
+export default PageReportV1
+
+

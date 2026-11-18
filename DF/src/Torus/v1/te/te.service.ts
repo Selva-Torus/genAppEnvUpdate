@@ -107,9 +107,6 @@ export class TeService{
        if (!poNode || poNode.length == 0)
          throw new CustomException('Nodes not found', 404);
        
-       //  Check RollBack enabled
-       await this.CommonService.checkRollBack(Ndp,client,'check'); 
-       
        let eflg = 0;
        for (let e = 0; e < poNode.length; e++) {
          if (pfdto.nodeId) {
@@ -176,7 +173,7 @@ export class TeService{
   
                 let RCMresult:any = await this.CommonService.PfRuleExtract(rule,SessionInfo,pfdto.data,pfdto.controlName);                
                 if (RCMresult && Object.keys(RCMresult).length > 0) {
-                  pfdto.data = (Object.assign(pfdto.data,RCMresult))
+                  //pfdto.data = (Object.assign(pfdto.data,RCMresult))
                   ifoObj = Object.assign(ifoObj,RCMresult) 
                 }
             }
@@ -186,6 +183,9 @@ export class TeService{
 
        let eventResponse;
        for (var i = 0; i < poNode.length; i++) {
+        
+        pfdto.enableBulk = Ndp?.[poNode[i].nodeId]?.enableBulk ? true : false
+
         if(Object.keys(ifoObj).length>0 && (poNode[i].nodeType != 'startnode' && poNode[i].nodeType != 'endnode')){
           this.redisService.setJsonData(processedKey + pfdto.upId + ':NPV:' + poNode[i].nodeName + '.PRO', JSON.stringify(ifoObj), client, 'ifo')
         }
@@ -1135,43 +1135,15 @@ export class TeService{
   async TEcall(token,input){
     try{
     var pfdto:any = new pfDto()
-    var formdata:any 
-    let resArr = []
-    let upidArr = []
+    var formdata:any   
     const requestConfig: AxiosRequestConfig = {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       }
     };    
-    if(Array.isArray(input.data) && input.data?.length>1 && !input.enableBulk){
-      for(let item of input.data){
-         pfdto.key = input.key
-        pfdto.upId = input.upId
-        pfdto.token = token 
-        pfdto.data = item
-        pfdto.event = input.event
-        pfdto.nodeId = input.nodeId         
-        pfdto.nodeType = input.nodeType 
-        pfdto.sourceId = input.sourceId
-        pfdto.lock = input.lockDetails      
-        pfdto.childTable = input.childTable 
-        pfdto.ssKey =  input.ssKey   
-        pfdto.controlName =  input.controlName 
-        pfdto.authContext =  input.authContext 
-        pfdto.enableBulk =  input.enableBulk
-        pfdto.agentAccess =  input.agentAccess
-        formdata = await this.EventEmitter(pfdto)
-        upidArr.push(formdata?.upId)
-        if(Array.isArray(formdata?.data))
-          resArr.push(...formdata?.data)
-         else
-          resArr.push(formdata?.data)
-      }
-         formdata['data'] =  resArr
-         formdata['upId'] =  upidArr  
-    }else{
-      pfdto.key = input.key
+    
+        pfdto.key = input.key
         pfdto.upId = input.upId
         pfdto.token = token 
         pfdto.data = input.data
@@ -1187,7 +1159,7 @@ export class TeService{
         pfdto.enableBulk =  input.enableBulk
         pfdto.agentAccess =  input.agentAccess 
         formdata =  await this.EventEmitter(pfdto)
-    }
+    
                      
       return formdata
   }catch(err){    

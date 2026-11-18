@@ -41,8 +41,8 @@ export class AppService {
       let res =  await this.ufservice.getEndPoints(endPointData);
       erdDatas.endpoint = res;
       erdDatas.tenant =  "CT003";
-      erdDatas.domain = "Torus";
-      erdDatas.collection = "Reimfast";
+      erdDatas.domain = "Torus AI Governance";
+      erdDatas.collection = "TAG";
       erdDatas.data = preParedData?.erdWithData||{}
       erdDatas.fabric = 'API-APIPD';
       erdDatas.loginId = this.loginId;

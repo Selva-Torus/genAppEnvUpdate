@@ -34,14 +34,14 @@ const ContextSelector = () => {
   const [selectedAccessProfile, setSelectedAccessProfile] = useState<string[]>(
     []
   )
-  const [navigationStyles] = useState<'vertical' | 'horizontal'>("vertical");
+  const [navigationStyles] = useState<'vertical' | 'horizontal'>("horizontal");
   const { userDetails, setUserDetails , setMatchedAccessProfileData, setLockedData } = useContext(
     TotalContext
   ) as TotalContextProps
   const tp_ps: any = getCookie('tp_ps')
   const toast = useInfoMsg()
   const basePath = getPublicEnv('NEXT_PUBLIC_BASE_PATH');
-  const appName = 'Reimfast'
+  const appName = 'TAG'
   const [accessProfiles, setAccessProfiles] = useState<any[]>([])
   const router = useRouter()
   const [loading, setLoading] = useState(false)
@@ -57,43 +57,113 @@ const ContextSelector = () => {
   const [selectedRole, setSelectedRole] = useState<Record<string, string>>({})
   const [orgGrpData, setOrgGrpData] = useState<any>([])
   const [isPending, startTransition] = useTransition();  
-  let landingScreen:string = 'CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1';
+  let landingScreen:string = 'CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1';
   let screenDetails: any = {
            keys:[
   {
-    "screenName": "user home screen",
-    "screensName": "user_home_screen-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1"
+    "screenName": "dashboard",
+    "screensName": "dashboard-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1"
   },
   {
-    "screenName": "manager home screen",
-    "screensName": "manager_home_screen-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1"
+    "screenName": "ai registry",
+    "screensName": "ai_registry-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIRegistry:AFVK:v1"
   },
   {
-    "screenName": "user daily expense",
-    "screensName": "user_daily_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_User_Table:AFVK:v1"
+    "screenName": "ai passport",
+    "screensName": "ai_passport-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIRegistryView:AFVK:v1"
   },
   {
-    "screenName": "user offsite expense",
-    "screensName": "user_offsite_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_User_Table:AFVK:v1"
+    "screenName": "discovery queue",
+    "screensName": "discovery_queue-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:discoveryQueue:AFVK:v1"
   },
   {
-    "screenName": "manager daily expense",
-    "screensName": "manager_daily_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_Manager_Table:AFVK:v1"
+    "screenName": "evidence",
+    "screensName": "evidence-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:assetEvidences:AFVK:v1"
   },
   {
-    "screenName": "manager offsite expense",
-    "screensName": "manager_offsite_expense-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_Manager_Table:AFVK:v1"
+    "screenName": "risk classification",
+    "screensName": "risk_classification-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:assetList:AFVK:v1"
+  },
+  {
+    "screenName": "certification record",
+    "screensName": "certification_record-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certification:AFVK:v1"
+  },
+  {
+    "screenName": "risk evaluation",
+    "screensName": "risk_evaluation-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:riskAssetList:AFVK:v1"
+  },
+  {
+    "screenName": "certificate stage",
+    "screensName": "certificate_stage-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:assetApproval:AFVK:v1"
+  },
+  {
+    "screenName": "risk rule",
+    "screensName": "risk_rule-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:riskRule:AFVK:v1"
+  },
+  {
+    "screenName": "risk rule condition",
+    "screensName": "risk_rule_condition-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:ruleCondition:AFVK:v1"
+  },
+  {
+    "screenName": "certification template",
+    "screensName": "certification_template-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificateTemplate:AFVK:v1"
+  },
+  {
+    "screenName": "certification template stage",
+    "screensName": "certification_template_stage-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificationTemplateStage:AFVK:v1"
+  },
+  {
+    "screenName": "code type",
+    "screensName": "code_type-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeTypes:AFVK:v1"
+  },
+  {
+    "screenName": "code value",
+    "screensName": "code_value-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeValue:AFVK:v1"
+  },
+  {
+    "screenName": "credential reference",
+    "screensName": "credential_reference-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:credentialReferenceList:AFVK:v1"
+  },
+  {
+    "screenName": "policy rule",
+    "screensName": "policy_rule-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:policyRuleList:AFVK:v1"
+  },
+  {
+    "screenName": "identity and authority setup",
+    "screensName": "identity_and_authority_setup-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:identitySetup:AFVK:v1"
+  },
+  {
+    "screenName": "identity and authority",
+    "screensName": "identity_and_authority-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:identityAndAuthority:AFVK:v1"
+  },
+  {
+    "screenName": "kill switch console",
+    "screensName": "kill_switch_console-v1",
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:killSwitchActionList:AFVK:v1"
   },
   {
     "screenName": "report",
     "screensName": "report-v1",
-    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1"
+    "ufKey": "CK:CT003:FNGK:AF:FNK:UF-UFR:CATK:TAG:AFGK:TAG:AFK:evidenceReport:AFVK:v1"
   }
 ]
   }
@@ -352,28 +422,26 @@ const ContextSelector = () => {
     'gridRow'?: string
   }[] = [
   {
-    "name": "logo",
-    "gridSize": 24,
-    "gridRow": "1/2"
-  },
-  {
-    "name": "app logo",
-    "gridSize": 24,
-    "gridRow": "2/3"
-  },
-  {
-    "name": "menu items",
-    "gridRow": "3/21",
+    "name": "profile",
+    "gridColumn": "23/25",
+    "gridRow": "23/25",
     "gridSize": 24
   },
   {
     "name": "opr matrix",
-    "gridRow": "21/24",
+    "gridColumn": "18/22",
+    "gridRow": "21/23",
     "gridSize": 24
   },
   {
-    "name": "profile",
-    "gridRow": "24/25",
+    "name": "menu items",
+    "gridColumn": "3/18",
+    "gridRow": "3/21",
+    "gridSize": 24
+  },
+  {
+    "name": "logo",
+    "gridColumn": "1/3",
     "gridSize": 24
   }
 ]

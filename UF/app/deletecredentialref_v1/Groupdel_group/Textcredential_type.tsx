@@ -1,0 +1,123 @@
+'use client'
+
+
+import React, { useContext,useEffect } from 'react';
+import { Text } from '@/components/Text';
+import { TotalContext, TotalContextProps } from '@/app/globalContext';
+import { AxiosService } from "@/app/components/axiosService";
+import { codeExecution } from '@/app/utils/codeExecution';
+import { deleteAllCookies } from '@/app/components/cookieMgment';
+import { useGlobal } from '@/context/GlobalContext'
+import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,PaginationData,AllowedGroupNode,ActionDetails } from "@/types/global";
+import i18n from '@/app/components/i18n';
+
+const Textcredential_type = ({encryptionFlagCompData,isDynamic,item,index,setIsProcessing}:any) => {
+  const { token } = useGlobal();
+  const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_credentialref_v1Props, setdfd_credentialref_v1Props} = useContext(TotalContext) as TotalContextProps; 
+  const keyset:any=i18n.keyset("language");
+  const encryptionFlagCont: boolean = encryptionFlagCompData.flag || false ;
+  let encryptionDpd: string = "";
+  encryptionDpd = encryptionDpd !=='' ? encryptionDpd: encryptionFlagCompData.dpd
+  let encryptionMethod: string = "";
+  encryptionMethod  = encryptionMethod !=='' ? encryptionMethod: encryptionFlagCompData.method;
+  /////////////
+   //another screen
+  const {del_group3becd, setdel_group3becd}= useContext(TotalContext) as TotalContextProps;
+  const {del_group3becdProps, setdel_group3becdProps}= useContext(TotalContext) as TotalContextProps;
+  const {delete_heading_txtc7473, setdelete_heading_txtc7473}= useContext(TotalContext) as TotalContextProps;
+  const {del_divider_1f696f, setdel_divider_1f696f}= useContext(TotalContext) as TotalContextProps;
+  const {ref_name_textaabe8, setref_name_textaabe8}= useContext(TotalContext) as TotalContextProps;
+  const {ref_name9d1bd, setref_name9d1bd}= useContext(TotalContext) as TotalContextProps;
+  const {vault_path_textf581e, setvault_path_textf581e}= useContext(TotalContext) as TotalContextProps;
+  const {vault_pathf1128, setvault_pathf1128}= useContext(TotalContext) as TotalContextProps;
+  const {credential_type_text132b9, setcredential_type_text132b9}= useContext(TotalContext) as TotalContextProps;
+  const {credential_type67f51, setcredential_type67f51}= useContext(TotalContext) as TotalContextProps;
+  const {texta0b32, settexta0b32}= useContext(TotalContext) as TotalContextProps;
+  const {del_divider_207f16, setdel_divider_207f16}= useContext(TotalContext) as TotalContextProps;
+  const {credential_ref_idc5f97, setcredential_ref_idc5f97}= useContext(TotalContext) as TotalContextProps;
+  const {del_cancel_btn9c8ad, setdel_cancel_btn9c8ad}= useContext(TotalContext) as TotalContextProps;
+  const {del_okl_btnc484c, setdel_okl_btnc484c}= useContext(TotalContext) as TotalContextProps;
+  const {credential_type67f51Props, setcredential_type67f51Props} = useContext(TotalContext) as TotalContextProps;
+  //////////////
+
+  const handleMapperValue=async(filterProps?:any,filterFlag?:boolean)=>{
+    try{
+      if ("hasLogicCenter" in dfd_credentialref_v1Props && !dfd_credentialref_v1Props.hasLogicCenter) {
+        let searchFilter: any = {};
+        if (filterProps?.length) {
+          searchFilter = filterProps;
+        }
+        const api_paginationData: any = await AxiosService.post('/UF/pagination',
+          {
+            key: dfd_credentialref_v1Props.dstKey,
+            page: 1,
+            count: 1,
+            filterData: searchFilter
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        setdel_group3becd((pre: any) => ({
+          ...pre,
+          credential_type: api_paginationData.data.records?.length > 0
+            ? api_paginationData.data.records[0]?.credential_type
+            : "0"
+        }))
+      }
+      else{
+      if(filterFlag){
+        setdel_group3becd((pre: any) => ({
+          ...pre,
+          credential_type: credential_type67f51Props?.filteredData?.length > 0
+            ? credential_type67f51Props?.filteredData[0]?.credential_type
+            : "0"
+        }))
+      }else if(Array.isArray(dfd_credentialref_v1Props) && dfd_credentialref_v1Props && !del_group3becd.credential_type){
+        setdel_group3becd((pre:any)=>({...pre,credential_type:dfd_credentialref_v1Props[0]?.credential_type}));
+      }
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  useEffect(()=>{
+    handleMapperValue()
+  },[credential_type67f51?.refresh])
+
+  useEffect(() => {
+  if(Array.isArray(dfd_credentialref_v1Props) && !del_group3becd.credential_type){
+    setdel_group3becd((pre:any)=>({...pre,credential_type:dfd_credentialref_v1Props[0]?.credential_type}));
+  }
+  },[dfd_credentialref_v1Props])
+
+  // setSearchFilters
+  useEffect(() => {
+    if (!credential_type67f51Props?.filterProps) return;
+    handleMapperValue(credential_type67f51Props?.filterProps,credential_type67f51Props?.filterFlag);
+  },[credential_type67f51Props?.filterProps])
+
+  if (credential_type67f51?.isHidden) {
+    return <></>
+  }
+
+return (
+  <div className="" style={{gridColumn: `8 / 24`,gridRow: `22 / 27`, gap:``, height: `100%`}} >
+<Text
+  contentAlign={"left"}
+  className="!bg-[#f0f2f7] !rounded-l !border !border-[#c4c4c4] !text-black"
+  variant="subheader-1"
+  color="primary"
+>
+      {keyset(isDynamic ? item?.credential_type : (del_group3becd?.credential_type || ""))}
+</Text>
+  </div>
+  )
+}
+
+export default Textcredential_type

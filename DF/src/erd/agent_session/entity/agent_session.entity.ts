@@ -1,0 +1,278 @@
+
+import { agent_session } from '@prisma/client';
+import { IsEnum,IsOptional } from 'class-validator';
+import { ApiProperty,ApiPropertyOptional } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
+
+
+
+export class  agent_sessionEntity implements agent_session{
+    @ApiProperty({example:"bigint"})
+    session_id:bigint;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    session_uid:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trace_id:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    initiator_type:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    created_at:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    channel:string;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiPropertyOptional({example:"datetime"})
+    @IsOptional()
+    started_at:Date;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiPropertyOptional({example:"datetime"})
+    @IsOptional()
+    ended_at:Date;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    outcome:string;
+    @ApiPropertyOptional({example:"number"})
+    @IsOptional()
+    llm_calls:number;
+    @ApiPropertyOptional({example:"number"})
+    @IsOptional()
+    tool_calls:number;
+    @ApiPropertyOptional({example:"number"})
+    @IsOptional()
+    a2a_calls:number;
+    @ApiPropertyOptional({example:"number"})
+    @IsOptional()
+    policy_denials:number;
+    @ApiPropertyOptional({example:"number"})
+    @IsOptional()
+    hitl_requests:number;
+    @ApiPropertyOptional({example:"bigint"})
+    @IsOptional()
+    input_tokens:bigint;
+    @ApiPropertyOptional({example:"bigint"})
+    @IsOptional()
+    output_tokens:bigint;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    cost_amount:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    cost_currency:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trace_completeness:string;
+    @ApiPropertyOptional({example:"number"})
+    @IsOptional()
+    row_version:number;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiProperty({example:"datetime"})
+    trs_created_date:Date;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_created_by:string;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiPropertyOptional({example:"datetime"})
+    @IsOptional()
+    trs_modified_date:Date;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_modified_by:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_process_id:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_access_profile:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_org_grp_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_org_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_role_grp_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_role_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_ps_grp_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_ps_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_sub_org_grp_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_sub_org_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_locked_by:string;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiPropertyOptional({example:"datetime"})
+    @IsOptional()
+    trs_locked_time:Date;
+    @ApiProperty({example:"string"})
+    trs_tenant_id:string;
+    @ApiProperty({example:"string"})
+    trs_app_code:string;
+    @ApiProperty({example:"string"})
+    trs_product_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_event_process_status:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_event_status:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_token_id:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_version:string;
+    @ApiProperty({example:"bigint"})
+    ai_asset_id: bigint;
+    @ApiProperty({example:"bigint"})
+    asset_version_id: bigint;
+}
+      
+export class  agent_session_OnlyParentEntity {
+    @ApiProperty({example:"bigint"})
+    session_id:bigint;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    session_uid:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trace_id:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    initiator_type:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    created_at:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    channel:string;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiPropertyOptional({example:"datetime"})
+    @IsOptional()
+    started_at:Date;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiPropertyOptional({example:"datetime"})
+    @IsOptional()
+    ended_at:Date;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    outcome:string;
+    @ApiPropertyOptional({example:"number"})
+    @IsOptional()
+    llm_calls:number;
+    @ApiPropertyOptional({example:"number"})
+    @IsOptional()
+    tool_calls:number;
+    @ApiPropertyOptional({example:"number"})
+    @IsOptional()
+    a2a_calls:number;
+    @ApiPropertyOptional({example:"number"})
+    @IsOptional()
+    policy_denials:number;
+    @ApiPropertyOptional({example:"number"})
+    @IsOptional()
+    hitl_requests:number;
+    @ApiPropertyOptional({example:"bigint"})
+    @IsOptional()
+    input_tokens:bigint;
+    @ApiPropertyOptional({example:"bigint"})
+    @IsOptional()
+    output_tokens:bigint;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    cost_amount:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    cost_currency:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trace_completeness:string;
+    @ApiPropertyOptional({example:"number"})
+    @IsOptional()
+    row_version:number;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiProperty({example:"datetime"})
+    trs_created_date:Date;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_created_by:string;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiPropertyOptional({example:"datetime"})
+    @IsOptional()
+    trs_modified_date:Date;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_modified_by:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_process_id:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_access_profile:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_org_grp_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_org_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_role_grp_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_role_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_ps_grp_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_ps_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_sub_org_grp_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_sub_org_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_locked_by:string;
+    @Transform(({ value }) => value instanceof Date ? value.toISOString() : value)
+    @ApiPropertyOptional({example:"datetime"})
+    @IsOptional()
+    trs_locked_time:Date;
+    @ApiProperty({example:"string"})
+    trs_tenant_id:string;
+    @ApiProperty({example:"string"})
+    trs_app_code:string;
+    @ApiProperty({example:"string"})
+    trs_product_code:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_event_process_status:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_event_status:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_token_id:string;
+    @ApiPropertyOptional({example:"string"})
+    @IsOptional()
+    trs_version:string;
+}
+
+
+export { agent_session };

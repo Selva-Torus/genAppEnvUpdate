@@ -36,7 +36,7 @@ export default function HomePage() {
 
   return (
     <>
-      <LoginForm logo=""   loginType="standard"   image="" appTenantList={appTenantList}/>
+      <LoginForm logo=""  image="" appTenantList={appTenantList}/>
     </>
   )
 }

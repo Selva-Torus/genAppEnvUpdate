@@ -28,7 +28,7 @@ const Page = () => {
   return (
     <ForgotPassword
       logo=""  
-      appName="Reimfast"
+      appName="TAG"
       appTenantList={appTenantList}
     />
   )

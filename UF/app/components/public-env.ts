@@ -40,8 +40,6 @@ export function setClientPublicEnv(env: Partial<PublicEnv>) {
 /** Works everywhere: server -> process.env, client -> values supplied via context. */
 export function getPublicEnv(key: PublicEnvKey): string {
 
-  console.log(clientEnv , "clientEnv");
-  
   if (typeof window === 'undefined') return process.env[key] ?? ''
   return clientEnv[key] ?? ''
 }

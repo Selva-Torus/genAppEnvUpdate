@@ -4652,7 +4652,7 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-   async MyAccountForClient(token: string, key: string, authorization: any) {
+  async MyAccountForClient(token: string, key: string, authorization: any) {
     if (authorization) {
       try {
         let payload: any;
@@ -5698,7 +5698,6 @@ getConfig(): FusionAuthConfig {
     }
   }
 
-
   async setJson(key: string, data: any) {
     try {
       return await this.redisService.setJsonData(
@@ -5935,8 +5934,8 @@ getConfig(): FusionAuthConfig {
         const values:any = [email , tenant]
 
         if (tenantId) {
-          query += ` AND tu.at_id = $2`;
-          values.push(BigInt(tenantId));
+          query += ` AND tu.at_id = $3`;
+          values.push(tenantId);
         } else {
           query += ` AND tu.at_id IS NULL`;
         }
@@ -8140,9 +8139,9 @@ getConfig(): FusionAuthConfig {
       const payload = await this.jwtService.verifyToken(token);
       const {
         tenant: tenant,
-        loginId,
         ag,
         app: currentApp,
+        sub: userUniqueId
       } = payload;
       const tenantProfileCacheKey = `CK:TGA:FNGK:SETUP:FNK:SF:CATK:TENANT:AFGK:${tenant}:AFK:PROFILE:AFVK:v1:tpc`;
     
@@ -8153,7 +8152,7 @@ getConfig(): FusionAuthConfig {
       const tenantProfile = tenantProfileResponse
         ? JSON.parse(tenantProfileResponse)
         : {};
-      const foundUser = await this.query(`select * from ${schemaName}.tam_tenant_user tu where tu.tenant_code=$1 and tu.login_id=$2 and trs_tenant_id=$1` , [tenant , loginId])
+      const foundUser = await this.query(`select * from ${schemaName}.tam_tenant_user tu where tu.tenant_code=$1 and tu.user_unique_id=$2 and trs_tenant_id=$1` , [tenant , userUniqueId])
    
       const appGroupInfo =
         tenantProfile?.AG?.find((group: any) => group?.code == ag) ?? {};
@@ -8189,9 +8188,12 @@ getConfig(): FusionAuthConfig {
           appBuildKeyCachePrefix,
           process.env.CLIENTCODE,
         );
+        const filteredKeys = appBuildKeyList.filter(key =>
+          key.endsWith(':bldc')
+        );
         let versionInfo = [];
-        for (let i = 0; i < appBuildKeyList?.length; i++) {
-          const buildKey = appBuildKeyList[i];
+        for (let i = 0; i < filteredKeys?.length; i++) {
+          const buildKey = filteredKeys[i];
           const buildKeyResponse = await this.redisService.getJsonData(
             buildKey,
             process.env.CLIENTCODE,
@@ -8262,13 +8264,19 @@ getConfig(): FusionAuthConfig {
       const srcAppUserSession = srcAppSessionList?.find((v) => v.sid == sid);
       if(!srcAppUserSession) throw new UnauthorizedException('Invalid session')
       const fusionAUthLoginResponse = await this.fusionAuthVerifyRefreshToken(srcAppUserSession?.refreshToken, tenantId);
+      const isSaasTenant = tenantId !== tenant
+      const appTenantList = await this.getAppTenantsLinkedWithApp()
+      let selectedAppTenant;
+      if(appTenantList){
+        selectedAppTenant = appTenantList.find((item) => item.tenant_id == tenantId || item.tenant_name == tenantId)
+      }
       const loggedInValue = await this.signIntoTorus(
           loginId,
           '',
           ufClientType,
           true,
-          undefined,
-          undefined,
+          isSaasTenant ? tenantId : undefined,
+          (isSaasTenant && selectedAppTenant) ? selectedAppTenant?.at_id : undefined,
           fusionAUthLoginResponse
         );
        if(!loggedInValue) throw new UnauthorizedException('Unauthorized access to the application')
@@ -8765,7 +8773,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct003_rf';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct003_tag';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8824,7 +8832,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct003_rf';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct003_tag';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8894,7 +8902,7 @@ getConfig(): FusionAuthConfig {
       );
 
       for (const lock of locks.rows) {
-        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : 'ct003_rf';
+        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : 'ct003_tag';
         await client.query(
           `UPDATE ${recordSchema}."${lock.table_name}"
            SET trs_locked_by = NULL, trs_locked_time = NULL

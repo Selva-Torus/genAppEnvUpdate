@@ -44,16 +44,16 @@ const LayoutDecider = ({
   const { borderColor, bgColor } : { borderColor: string; bgColor: string } = useTheme()
   const { brandColor, hoverColor, selectionColor } : { brandColor: string; hoverColor: string; selectionColor: string } = branding;
   const encryptionFlagApp: boolean = false;    
-  const encryptionDpd: string = "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:Trs:AFGK:RF:AFK:Reimfast_dpd:AFVK:v1";
+  const encryptionDpd: string = "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:TAG:AFGK:TAG:AFK:tagDPD:AFVK:v1";
   const encryptionMethod: string = "";
   const { encAppFalg, setEncAppFalg }  = useContext(TotalContext) as TotalContextProps;
   const logo: string = ""
   const appLogo: string = ""
-  const appName: string = "Reimfast"
+  const appName: string = "TAG"
   const toast: Function = useInfoMsg()
   const [loading, setLoading] = useState<boolean>(true)
   const [updatedNavData, setUpdatedNavData] = useState<MenuItem[]>([])
-  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT003:AFGK:Trs:AFK:RF:AFVK:v1:bldc"
+  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT003:AFGK:TAG:AFK:TAG:AFVK:v1:bldc"
   const [rawNavData, setRawNavData] = useState<MenuItem[] | null>(null);
   const navData: MenuItem[] = [
   {
@@ -81,14 +81,12 @@ const LayoutDecider = ({
     "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
   },
   {
-    "menuGroupLabel": "User Home Screen",
+    "menuGroupLabel": "DashBoard",
     "screenDetails": [
       {
-        "name": "user home screen",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_User:AFVK:v1",
-        "restrictedAccessProfile": [
-          "Manager"
-        ],
+        "name": "dashboard",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1",
+        "restrictedAccessProfile": [],
         "static": false,
         "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
       }
@@ -97,98 +95,238 @@ const LayoutDecider = ({
     "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
   },
   {
-    "menuGroupLabel": "Manager Home Screen",
+    "menuGroup": "registry",
+    "menuGroupLabel": "Registry",
     "screenDetails": [
       {
-        "name": "manager home screen",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Dashboard_For_Manager:AFVK:v1",
-        "restrictedAccessProfile": [
-          "Employee"
-        ],
+        "name": "ai registry",
+        "label": "AI Registry",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIRegistry:AFVK:v1",
+        "restrictedAccessProfile": [],
         "static": false,
-        "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
+        "icon": "/torus/9.1/CT003/resources/images/ai_registry.svg"
+      },
+      {
+        "name": "ai passport",
+        "label": "AI Passport",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIRegistryView:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT003/resources/images/AI PASSPORT (1).svg"
+      },
+      {
+        "name": "discovery queue",
+        "label": "Discovery Queue",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:discoveryQueue:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT003/resources/images/DISCOVERY QUEUE.svg"
       }
     ],
     "items": [],
-    "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
+    "icon": "/torus/9.1/CT003/resources/images/REGISTER AI ASSET.svg"
   },
   {
-    "menuGroupLabel": "User Daily Expense",
+    "menuGroup": "evidence",
+    "menuGroupLabel": "Evidence",
     "screenDetails": [
       {
-        "name": "user daily expense",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_User_Table:AFVK:v1",
-        "restrictedAccessProfile": [
-          "Manager"
-        ],
+        "name": "evidence",
+        "label": "Evidence",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:assetEvidences:AFVK:v1",
+        "restrictedAccessProfile": [],
         "static": false,
-        "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
+        "icon": "/torus/9.1/CT003/resources/images/EVIDENCE PACK.svg"
       }
     ],
     "items": [],
-    "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
+    "icon": "/torus/9.1/CT003/resources/images/evidence 1.svg"
   },
   {
-    "menuGroupLabel": "User Offsite Expense",
+    "menuGroup": "governance",
+    "menuGroupLabel": "Governance",
     "screenDetails": [
       {
-        "name": "user offsite expense",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_User_Table:AFVK:v1",
-        "restrictedAccessProfile": [
-          "Manager"
-        ],
+        "name": "risk classification",
+        "label": "Risk Classification",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:assetList:AFVK:v1",
+        "restrictedAccessProfile": [],
         "static": false,
-        "icon": "/torus/9.1/resources/icons/flight-plane-svgrepo-com.svg"
+        "icon": "/torus/9.1/CT003/resources/images/riskclassification.svg"
+      },
+      {
+        "name": "certification record",
+        "label": "Certification Record",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certification:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false,
+        "icon": "/torus/9.1/CT003/resources/images/CERTIFICATION RECORD.svg"
       }
     ],
-    "items": [],
-    "icon": "/torus/9.1/resources/icons/flight-plane-svgrepo-com.svg"
+    "items": [
+      {
+        "menuGroup": "my approval",
+        "menuGroupLabel": "My Approval",
+        "screenDetails": [
+          {
+            "name": "risk evaluation",
+            "label": "Risk Evaluation",
+            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:riskAssetList:AFVK:v1",
+            "restrictedAccessProfile": [],
+            "static": false,
+            "icon": "/torus/9.1/CT003/resources/images/risk evaluation.svg"
+          },
+          {
+            "name": "certificate stage",
+            "label": "Certificate Stage",
+            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:assetApproval:AFVK:v1",
+            "restrictedAccessProfile": [],
+            "static": false,
+            "icon": "/torus/9.1/CT003/resources/images/certificate stage.svg"
+          }
+        ],
+        "items": [],
+        "icon": "/torus/9.1/CT003/resources/images/my approval.svg"
+      }
+    ],
+    "icon": "/torus/9.1/CT003/resources/images/governance.svg"
   },
   {
-    "menuGroupLabel": "Manager Daily Expense",
+    "menuGroup": "administration",
+    "menuGroupLabel": "Administration",
     "screenDetails": [
       {
-        "name": "manager daily expense",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Daily_Expense_Manager_Table:AFVK:v1",
-        "restrictedAccessProfile": [
-          "Employee"
-        ],
-        "static": false,
-        "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
+        "name": "credential reference",
+        "label": "Credential Reference",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:credentialReferenceList:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      },
+      {
+        "name": "policy rule",
+        "label": "Policy Rule",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:policyRuleList:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      },
+      {
+        "name": "identity and authority setup",
+        "label": "Identity and Authority Setup",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:identitySetup:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
       }
     ],
-    "items": [],
-    "icon": "/torus/9.1/resources/icons/clipboard-list-svgrepo-com.svg"
+    "items": [
+      {
+        "menuGroup": "risk management",
+        "menuGroupLabel": "Risk Management",
+        "screenDetails": [
+          {
+            "name": "risk rule",
+            "label": "Risk Rule",
+            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:riskRule:AFVK:v1",
+            "restrictedAccessProfile": [],
+            "static": false,
+            "icon": "/torus/9.1/CT003/resources/images/risk-rule.svg"
+          },
+          {
+            "name": "risk rule condition",
+            "label": "Risk Rule Condition",
+            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:ruleCondition:AFVK:v1",
+            "restrictedAccessProfile": [],
+            "static": false,
+            "icon": "/torus/9.1/CT003/resources/images/rulecondition.svg"
+          }
+        ],
+        "items": [],
+        "icon": "/torus/9.1/CT003/resources/images/risk-management.svg"
+      },
+      {
+        "menuGroup": "certification management",
+        "menuGroupLabel": "Certification Management",
+        "screenDetails": [
+          {
+            "name": "certification template",
+            "label": "Certification Template",
+            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificateTemplate:AFVK:v1",
+            "restrictedAccessProfile": [],
+            "static": false,
+            "icon": "/torus/9.1/CT003/resources/images/CERTIFICATION RECORD.svg"
+          },
+          {
+            "name": "certification template stage",
+            "label": "Certification Template Stage",
+            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificationTemplateStage:AFVK:v1",
+            "restrictedAccessProfile": [],
+            "static": false,
+            "icon": "/torus/9.1/CT003/resources/images/certificate stage.svg"
+          }
+        ],
+        "items": [],
+        "icon": "/torus/9.1/CT003/resources/images/certificate-management.svg"
+      },
+      {
+        "menuGroup": "code sets",
+        "menuGroupLabel": "Code Sets",
+        "screenDetails": [
+          {
+            "name": "code type",
+            "label": "Code Type",
+            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeTypes:AFVK:v1",
+            "restrictedAccessProfile": [],
+            "static": false,
+            "icon": "/torus/9.1/CT003/resources/images/code type.svg"
+          },
+          {
+            "name": "code value",
+            "label": "Code Value",
+            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeValue:AFVK:v1",
+            "restrictedAccessProfile": [],
+            "static": false,
+            "icon": "/torus/9.1/CT003/resources/images/code value.svg"
+          }
+        ],
+        "items": [],
+        "icon": "/torus/9.1/CT003/resources/images/code_set.svg"
+      }
+    ],
+    "icon": "/torus/9.1/CT003/resources/images/administration.svg"
   },
   {
-    "menuGroupLabel": "Manager Offsite Expense",
+    "menuGroup": "control",
+    "menuGroupLabel": "Control",
     "screenDetails": [
       {
-        "name": "manager offsite expense",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Offsite_Expense_Manager_Table:AFVK:v1",
-        "restrictedAccessProfile": [
-          "Employee"
-        ],
-        "static": false,
-        "icon": "/torus/9.1/resources/icons/flight-plane-svgrepo-com.svg"
+        "name": "identity and authority",
+        "label": "Identity and Authority",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:identityAndAuthority:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      },
+      {
+        "name": "kill switch console",
+        "label": "Kill Switch Console",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:killSwitchActionList:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
       }
     ],
-    "items": [],
-    "icon": "/torus/9.1/resources/icons/flight-plane-svgrepo-com.svg"
+    "items": []
   },
   {
     "menuGroupLabel": "Report",
     "screenDetails": [
       {
         "name": "report",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:Trs:AFGK:RF:AFK:Report:AFVK:v1",
+        "key": "CK:CT003:FNGK:AF:FNK:UF-UFR:CATK:TAG:AFGK:TAG:AFK:evidenceReport:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false,
-        "icon": "/torus/9.1/resources/icons/pallete-2-svgrepo-com.svg"
+        "icon": "/torus/9.1/resources/icons/document-svgrepo-com.svg"
       }
     ],
     "items": [],
-    "icon": "/torus/9.1/resources/icons/pallete-2-svgrepo-com.svg"
+    "icon": "/torus/9.1/resources/icons/document-svgrepo-com.svg"
   }
 ]
   const decodedTokenObj: DecodedToken = decodeToken(token)
@@ -470,28 +608,26 @@ const LayoutDecider = ({
     'gridSize'?: number
   }[] =[
   {
-    "name": "logo",
-    "gridSize": 24,
-    "gridRow": "1/2"
-  },
-  {
-    "name": "app logo",
-    "gridSize": 24,
-    "gridRow": "2/3"
-  },
-  {
-    "name": "menu items",
-    "gridRow": "3/21",
+    "name": "profile",
+    "gridColumn": "23/25",
+    "gridRow": "23/25",
     "gridSize": 24
   },
   {
     "name": "opr matrix",
-    "gridRow": "21/24",
+    "gridColumn": "18/22",
+    "gridRow": "21/23",
     "gridSize": 24
   },
   {
-    "name": "profile",
-    "gridRow": "24/25",
+    "name": "menu items",
+    "gridColumn": "3/18",
+    "gridRow": "3/21",
+    "gridSize": 24
+  },
+  {
+    "name": "logo",
+    "gridColumn": "1/3",
     "gridSize": 24
   }
 ]

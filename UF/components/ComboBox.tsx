@@ -107,6 +107,15 @@ export const Combobox: React.FC<ComboboxProps> = ({
     setHighlightedIndex(-1);
   }, [search]);
   useEffect(() => {
+    scrollTopRef.current = 0;
+    if (!isOpen && search && !isStatic) {
+      setSearch("");
+      noMorePagesRef.current = false;
+      pendingSearchRef.current = null;
+      setCurrentPage(undefined);
+    }
+  }, [isOpen]);
+  useEffect(() => {
     if (highlightedItemRef.current) {
       highlightedItemRef.current.scrollIntoView({ block: "nearest" });
     }
@@ -121,6 +130,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
   const listDivRef = useRef<HTMLDivElement>(null);
   const loadPreLengthRef = useRef<number | undefined>(undefined);
   const noMorePagesRef = useRef(false);
+  const pendingSearchRef = useRef<string | null>(null);
 
   const dynamicOptions = dynamicData.map((row) => ({
     label: String(row[toDisplay ?? toSave] ?? ""),
@@ -144,7 +154,11 @@ export const Combobox: React.FC<ComboboxProps> = ({
 
   const loadPage = (page: number, searchValue: string = search, fromWhere: "onScroll" | "onSearch" = "onScroll") => {
     if (!page || page < 1 || !pageCount || pageCount < 1) return;
-    if (!getPaginationData || loadingRef.current) return;
+    if (!getPaginationData) return;
+    if (loadingRef.current) {
+      if (fromWhere === "onSearch") pendingSearchRef.current = searchValue;
+      return;
+    }
     const lenBefore = dynamicData.length;
     loadingRef.current = true;
     setIsLoading(true);
@@ -152,8 +166,15 @@ export const Combobox: React.FC<ComboboxProps> = ({
       loadingRef.current = false;
       setIsLoading(false);
       setCurrentPage(page);
-      loadPreLengthRef.current = lenBefore;
+      const replacesList = fromWhere === "onSearch" || page <= 1;
+      loadPreLengthRef.current = replacesList ? undefined : lenBefore;
+      if (replacesList) noMorePagesRef.current = false;
       setLoadTick((t) => t + 1);
+      if (pendingSearchRef.current !== null) {
+        const next = pendingSearchRef.current;
+        pendingSearchRef.current = null;
+        loadPage(1, next, "onSearch");
+      }
     });
   };
 
@@ -459,6 +480,13 @@ export const Combobox: React.FC<ComboboxProps> = ({
               onMouseDown={(e) => e.stopPropagation()}
               onClick={(e) => {
                 e.stopPropagation();
+                if (search) {
+                  // Clear the search text and force a fresh, unfiltered first page on next open.
+                  setSearch("");
+                  noMorePagesRef.current = false;
+                  scrollTopRef.current = 0;
+                  setCurrentPage(undefined);
+                }
                 if (isArray) {
                   setSelectedArray([]);
                   onChange([]);
@@ -511,6 +539,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
                 setSearch(val);
                 if (!isStatic) {
                   noMorePagesRef.current = false;
+                  scrollTopRef.current = 0;
                   setCurrentPage(undefined);
                   loadPage(1, val, "onSearch");
                 }

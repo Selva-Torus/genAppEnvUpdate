@@ -214,7 +214,7 @@ export class JwtServices {
       const unVerifiedClaim = this.decodeToken(token);
       if (!this.ApplicationId || !this.TenantUniqueId || unVerifiedClaim?.tid !== this.TenantUniqueId) {
         let data;
-        if(unVerifiedClaim?.tenantId === process.env.TENANT){
+        if(unVerifiedClaim?.tenantId === process.env.TENANT || unVerifiedClaim?.authenticationType === 'OPENID_CONNECT'){
          data = await this.getTenantAndApplicationFusionAuthIdSecret();
         } else {
            data = await this.getApplicationTenantFusionauthDetails(unVerifiedClaim?.tenantId);

@@ -1,5 +1,5 @@
 {
-  "name": "ct003_trs_rf_v1_df",
+  "name": "ct003_tag_tag_v1_df",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -11,6 +11,8 @@
     "start": "nest start",
     "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
+    "ddl:generate": "node dist/scripts/generate-ddl.js",
+    "ddl:generate:src": "ts-node src/scripts/generate-ddl.ts",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
@@ -48,6 +50,10 @@
     "@nestjs/throttler": "^6.5.0",
     "@nestjs/typeorm": "^11.0.0",
     "@prisma/client": "^6.15.0",
+   "@temporalio/activity": "^1.11.6",
+    "@temporalio/client": "^1.11.6",
+    "@temporalio/worker": "^1.11.6",
+    "@temporalio/workflow": "^1.11.6",
     "@types/express-session": "^1.18.1",
     "ajv": "^8.17.1",
     "axios": "^1.10.0",
@@ -138,8 +144,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-   "prisma": {
-    "schema": "src/erd/prisma/schema.prisma"
   }
 }

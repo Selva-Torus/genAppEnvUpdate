@@ -37,22 +37,33 @@ export class TeController {
     }
 
 
+    let tempDto = {...pfdto}
+
     // Handle regular event emission
       if (!pfdto.upId || pfdto.upId.length == 0 || pfdto.upId.every(id => id == null)) {
       let result:any,resArr = []
-      if(Array.isArray(pfdto.data) && pfdto.data.length>0){      
+      if(Array.isArray(pfdto.data) && pfdto.data.length>0 && !pfdto.enableBulk){      
         if(pfdto.data.length == 1){
           pfdto.data = pfdto.data[0]
         result = await this.teService.EventEmitter(pfdto);
         }else{
-           for(let item of pfdto.data){
-          pfdto.data = item
-         result = await this.teService.EventEmitter(pfdto);        
-         if(Array.isArray(result?.data))
-          resArr.push(...result?.data)
-         else
-          resArr.push(result?.data)
-       }
+          for(let item of tempDto.data){
+           
+            pfdto.key = tempDto.key
+            pfdto.nodeId = tempDto.nodeId
+            pfdto.nodeName = tempDto.nodeName
+            pfdto.nodeType = tempDto.nodeType            
+            pfdto.data = item
+            pfdto.event = tempDto.event
+            pfdto.sourceId = tempDto.sourceId            
+
+            result = await this.teService.EventEmitter(pfdto);  
+
+            if(Array.isArray(result?.data))
+              resArr.push(...result?.data)
+            else
+              resArr.push(result?.data)
+          }
        result['data'] = resArr
         }      
       }else
