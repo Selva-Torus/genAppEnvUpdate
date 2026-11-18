@@ -52,7 +52,8 @@ const PageReportV1 = () => {
   const { encAppFalg,setEncAppFalg}= useContext(TotalContext) as TotalContextProps;
   const {paginationDetails, setpaginationDetails} = useContext(TotalContext) as TotalContextProps;
   const {evidencereport_v1Props, setevidencereport_v1Props} = useContext(TotalContext) as TotalContextProps;
-  const { isDark, isHighContrast, bgStyle, textStyle , branding } = useTheme();
+  const { isDark, isHighContrast, bgStyle, textStyle , branding , borderColor } = useTheme();
+  const [isProcessing, setIsProcessing] = useState(false);
   const artifactName: string =
     "CK:CT003:FNGK:AF:FNK:UF-UFR:CATK:TAG:AFGK:TAG:AFK:evidenceReport:AFVK:v1".split(
       ':'
@@ -217,9 +218,8 @@ const PageReportV1 = () => {
           key={index}
           style={{
             backgroundColor: brandcolor,
-            borderColor: 'var(--g-color-line-generic)'
           }}
-          className='flex w-full flex-col gap-[2vh] rounded-lg border px-[0.8vw] py-[1vh]'
+          className={clsx('flex w-full flex-col gap-[2vh] rounded-lg border px-[0.8vw] py-[1vh]' , borderColor)}
         >
           <Text variant='subheader-3'>
             {capitalizeEachWord(item.displayName || item.referanceName)}
@@ -240,11 +240,10 @@ const PageReportV1 = () => {
       return (
         <div
           key={item.referencePath}
-          className='flex w-full flex-col rounded-lg border px-[0.6vw] py-[0.5vh] text-fsbase'
+          className={clsx('flex w-full flex-col rounded-lg border px-[0.6vw] py-[0.5vh] text-fsbase', borderColor)}
           style={{
             backgroundColor: 'var(--g-color-base-background)',
             color: 'var(--g-color-text-primary)',
-            borderColor: 'var(--g-color-line-generic)'
           }}
         >
           <Text contentAlign='left'>
@@ -276,6 +275,7 @@ const PageReportV1 = () => {
 
 
   const handleClick = async (): Promise<void> => {
+    setIsProcessing(true);
     try {
         const res = await AxiosService.post(
         '/te/eventEmitter',
@@ -289,8 +289,10 @@ const PageReportV1 = () => {
       )
       if(res.status === 201){
         setdfd_report_v1Props(res.data.dataset.data || {})
+        setIsProcessing(false);
       } 
     } catch (error) {
+      setIsProcessing(false);
       console.log(error)
     }
   }
@@ -420,10 +422,7 @@ const PageReportV1 = () => {
       <>
         {isFormOpen ? (
           <div
-            style={{
-              borderColor: 'var(--g-color-line-generic)'
-            }}
-           className='flex h-full flex-col gap-[1vh] rounded-lg border min-w-52'
+           className={clsx('flex h-full flex-col gap-[1vh] rounded-lg border min-w-52' , borderColor)}
           >
              <div className='flex items-center justify-between gap-[0.5vw] px-[0.5vw] py-[0.5vh]'>
               <Text contentAlign="left" className='text-[1vw] mt-[0.2vh]'>{capitalizeEachWord(artifactName)}</Text>
@@ -511,6 +510,19 @@ const PageReportV1 = () => {
         
           </div> 
       </div>
+      {isProcessing && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="flex items-center gap-3 rounded-xl bg-neutral-900/80 px-6 py-4 text-sm text-white shadow-lg backdrop-blur">
+            {/* Spinner */}
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+
+            {/* Text */}
+            <span className="font-medium tracking-wide">
+              Processing, please wait…
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

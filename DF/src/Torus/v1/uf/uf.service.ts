@@ -5579,6 +5579,7 @@ getConfig(): FusionAuthConfig {
     if (error instanceof CustomException) {
       throw error; // Re-throw the specific custom exception
     }
+    console.error('Unexpected error:', error);
     throw new CustomException(
       'An unexpected error occurred',
       HttpStatus.INTERNAL_SERVER_ERROR,
