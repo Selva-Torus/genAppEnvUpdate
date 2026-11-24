@@ -1,7 +1,0 @@
-
-
-SELECT tam.create_version_triggers(
-    'ct003_tag',
-    ARRAY[
-    'ai_asset',    'ai_asset_model',    'ai_asset_version',    'ai_asset_tier_assessment',    'ai_asset_data_class',    'ai_asset_dependency',    'ai_agent_control',    'ai_agent_action',    'audit_event',    'cert_template',    'cert_template_stage',    'certification',    'certification_condition',    'certification_stage',    'discovery_staging',    'evidence_export',    'evidence_export_item',    'evidence_item',    'integration_field_map',    'integration_run',    'integration_source',    'risk_rule',    'risk_rule_condition',    'sys_code_type',    'sys_code_value',    'agent_capability',    'agent_log_event',    'agent_manifest',    'agent_session',    'ai_passport',    'budget_quota',    'concern_report',    'control',    'control_mapping',    'credential_ref',    'evaluation_run',    'evaluation_suite',    'examiner_grant',    'finding',    'incident',    'kill_switch_action',    'monitoring_rule',    'telemetry_stream',    'tool_grant',    'usage_cost_daily',    'value_metric',    'vendor',    'ownership_assignment',    'policy_rule',    'policy_decision',    'promotion_rule',    'regulatory_source',    'rate_card',    'retention_policy',    'revocation_receipt',    'alert',    'approval_action',    'approval_request',    'asset_control_link',    'authority_grant',    'risk_methodology',    'service_identity',    'sod_rule'        ]
-    );

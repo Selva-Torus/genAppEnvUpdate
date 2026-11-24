@@ -1,2 +1,138 @@
 
-[]
+[
+  {
+    "view_all_tablec9e87": {
+      "outbound_or_inbound5e076": false,
+      "search0e695": false
+    }
+  },
+  {
+    "failure_queue_tablea476f": {
+      "outbound_or_inbound5e076": false,
+      "search0e695": false
+    }
+  },
+  {
+    "success_queue_table63aae": {
+      "outbound_or_inbound5e076": false,
+      "search0e695": false
+    }
+  },
+  {
+    "return_queue_table267f0": {
+      "outbound_or_inbound5e076": false,
+      "search0e695": false
+    }
+  },
+  {
+    "operational_pending_table0a253": {
+      "outbound_or_inbound5e076": false,
+      "search0e695": false
+    }
+  },
+  {
+    "technical_pending_table84f30": {
+      "outbound_or_inbound5e076": false,
+      "search0e695": false
+    }
+  },
+  {
+    "notification_pending_table45836": {
+      "outbound_or_inbound5e076": false,
+      "search0e695": false
+    }
+  },
+  {
+    "enquiry_tableb3b4e": {
+      "search0e695": false
+    }
+  },
+  {
+    "benc_groupa95a7": {
+      "search_btne5c0a": false
+    }
+  },
+  {
+    "view_all_tableccb40": {
+      "outbound_or_inbound5a71c": false,
+      "search4197d": false
+    }
+  },
+  {
+    "cancel_request_camt055_table9e976": {
+      "outbound_or_inbound5a71c": false,
+      "search4197d": false
+    }
+  },
+  {
+    "inves_req_camt110_tablefa00e": {
+      "outbound_or_inbound5a71c": false,
+      "search4197d": false
+    }
+  },
+  {
+    "inves_res_camt111_table0f401": {
+      "outbound_or_inbound5a71c": false,
+      "search4197d": false
+    }
+  },
+  {
+    "total_amount94c0b": {
+      "channel_combobox95649": true,
+      "currency_comboboxfbbfc": true,
+      "process_category_comboboxbb731": true,
+      "offline_online_combobox88add": true
+    }
+  },
+  {
+    "transaction_countc3fd5": {
+      "channel_combobox95649": true,
+      "currency_comboboxfbbfc": true,
+      "process_category_comboboxbb731": true,
+      "offline_online_combobox88add": true
+    }
+  },
+  {
+    "online_offline_process41265": {
+      "channel_combobox95649": true,
+      "currency_comboboxfbbfc": true,
+      "process_category_comboboxbb731": true,
+      "offline_online_combobox88add": true
+    }
+  },
+  {
+    "barchart84262": {
+      "channel_combobox95649": true,
+      "currency_comboboxfbbfc": true,
+      "process_category_comboboxbb731": true,
+      "offline_online_combobox88add": true
+    }
+  },
+  {
+    "piechart9dde7": {
+      "channel_combobox95649": true,
+      "currency_comboboxfbbfc": true,
+      "process_category_comboboxbb731": true,
+      "offline_online_combobox88add": true
+    }
+  },
+  {
+    "transaction_tablef4f34": {
+      "channel_combobox95649": true,
+      "currency_comboboxfbbfc": true,
+      "process_category_comboboxbb731": true,
+      "offline_online_combobox88add": true,
+      "linechartdd99a": true,
+      "barchart84262": true,
+      "piechart9dde7": true
+    }
+  },
+  {
+    "linechartdd99a": {
+      "channel_combobox95649": true,
+      "currency_comboboxfbbfc": true,
+      "process_category_comboboxbb731": true,
+      "offline_online_combobox88add": true
+    }
+  }
+]

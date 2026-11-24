@@ -13,8 +13,8 @@ import { GetSetupKey } from '../utils/setUpKey';
 import { getServerPublicEnv } from '@/app/components/public-env';
 
 export const metadata: Metadata = {
-  title: 'TAG | DashBoard',
-  description: 'Screen generated from Torus metadata key: CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1'
+  title: 'SMX | Dashboard',
+  description: 'Screen generated from Torus metadata key: CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:SMX:AFK:dashboard:AFVK:v1'
 }
 
 export default async function RootLayout({
@@ -34,7 +34,7 @@ export default async function RootLayout({
         <GetSetupKey>
         <div className=''>
           <LayoutDecider 
-            mode='fluid' 
+            mode='detached' 
             navigationStyles='horizontal' 
             >
             <div>

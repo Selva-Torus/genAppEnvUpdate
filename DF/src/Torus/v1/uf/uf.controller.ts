@@ -60,7 +60,6 @@ import { Response } from 'express';
 import { lookup } from 'mime-types';
 import { JwtServices } from 'src/jwt.services';
 import { CommonService } from 'src/common.Service';
-import { getAllowedModelNames, getModelFieldTypes } from 'src/utils/prisma-dmmf.util';
 import { safeFetchBuffer ,assertAllowedOutboundHost} from 'src/utils/ssrf.util';
 
 @ApiTags('TG')
@@ -964,7 +963,7 @@ export class UfController {
       const fields: any = {};
       const token: string = req.headers.authorization.split(' ')[1]
       const decodedToken: any = await this.jwtService.verifyToken(token);
-      const loginId = decodedToken.loginId;
+      // const loginId = decodedToken.loginId;
       const files: Array<{
         filename: string;
         mimetype: string;
@@ -1003,7 +1002,7 @@ export class UfController {
           filename || file.filename,
           enableEncryption,
           file?.doc_group || '',
-          loginId
+          decodedToken
         );
         imageUrls.push(imageUrl);
       }
@@ -1107,23 +1106,12 @@ export class UfController {
   // straight into uf.service.ts's raw SQL (`WHERE ${dto.key} = $1`) with no
   // validation at all, letting any authenticated caller inject SQL and/or
   // target an arbitrary table.
-  private assertValidLockTarget(dto: LockRecordBodyDto): void {
-    const allowedTables = getAllowedModelNames();
-    if (typeof dto?.tableName !== 'string' || !allowedTables.includes(dto.tableName)) {
-      throw new BadRequestException(`Invalid table name: ${dto?.tableName}`);
-    }
-    const allowedKeys = Object.keys(getModelFieldTypes(dto.tableName));
-    if (typeof dto?.key !== 'string' || !allowedKeys.includes(dto.key)) {
-      throw new BadRequestException(`Invalid lock key: ${dto?.key}`);
-    }
-  }
   @Post('lock')
   async lock(@Body() dto: LockRecordBodyDto, @Req() req: any) {
     const token: string = req.headers.authorization.split(' ')[1]
     const decodedToken: any = await this.jwtService.verifyToken(token);
     const loginId = decodedToken.loginId;
     dto['userId'] = loginId;
-    this.assertValidLockTarget(dto);
     return this.appService.acquireLock(dto);
   }
 
@@ -1133,7 +1121,6 @@ export class UfController {
     const decodedToken: any = await this.jwtService.verifyToken(token);
     const loginId = decodedToken.loginId;
     dto['userId'] = loginId;
-    this.assertValidLockTarget(dto);
     return this.appService.releaseLock(dto);
   }
 

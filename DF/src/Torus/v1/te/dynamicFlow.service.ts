@@ -59,9 +59,9 @@ interface MappingEdge {
   [key: string]: unknown;
 }
 
-interface SourceRef {
-  fieldName: string;
-}
+type SourceRef =
+  | { kind: 'field'; fieldName: string; groupToken?: string }
+  | { kind: 'group'; schemaKey: string; groupId: string };
 
 type TargetBucket = 'body' | 'headers';
 
@@ -79,12 +79,19 @@ type MappingInput = Record<string, Record<string, unknown> | Array<Record<string
 interface TransformResult {
   body: any;
   headers: Record<string, any>;
-  headerJson:any
 }
 
 interface SchemaPathSegment {
   key: string; // '' means "the schema root itself" (no named property owns the array)
   isArray: boolean;
+}
+
+interface NodeSchemaEntry {
+  nodeId: string;
+  nodeName?: string;
+  nodeType?: string;
+  schema?: any;
+  [key: string]: unknown;
 }
 
 @Injectable()
@@ -201,7 +208,17 @@ export class DynamicFlowService {
         let sortingDetails = pfdto?.sortingDetails
         let collectionName = process.env.CLIENTCODE;
         let enableBulk = pfdto.enableBulk
-
+        let ufKeysArr = [key.replace(/:$/, ''),pfdto?.sourceId?.split('|')[0]]
+        if(pfdto?.ssKey?.length>0){
+            pfdto?.ssKey?.forEach(key => {
+            let parts = key.split(':');
+            if (parts.length === 7) {
+                ufKeysArr.push(
+                `CK:${parts[0]}:FNGK:${parts[1]}:FNK:${parts[2]}:CATK:${parts[3]}:AFGK:${parts[4]}:AFK:${parts[5]}:AFVK:${parts[6]}`
+                );
+            }
+            });
+        } 
         let offset = (page - 1) * count;
         
         let fngkKey = await this.CommonService.splitcommonkey(pfdto.key, 'FNGK');
@@ -400,7 +417,7 @@ export class DynamicFlowService {
 
                     if(ifoObj && codeObj){
                         if ( Object.keys(ifoObj).length > 0 && Object.keys(codeObj).length > 0) 
-                            ifoObj = Object.assign(ifoObj, codeObj)
+                            ifoObj = await this.codeORifoAndInputparamAssign(ifoObj,codeObj)
                     }
                        
                     if (inputparam && ifoObj)
@@ -681,12 +698,19 @@ export class DynamicFlowService {
                                     let DfmappedData = await this.DFDMapEdgeValues(poNode, currentNodeEdge, inputparam, processedKey, upId, collectionName,  parameter, codeObj, pfo, currentFabric)
                                     mapObj = DfmappedData.mapObj
                                     tempQryVal = DfmappedData.tempQryVal
-                                } else if(enableBulk){
-                                    let nodeEdgeData = await this.getNodeEdgeData(currentNodeEdge,pfo,processedKey,upId,collectionName,codeObj,pfdto)                                   
-                                    let mappedData = await this.bulkTransform(nodeEdgeData.nodesObj,currentNodeEdge,parameterQuery)
+                                } else if(pfdto?.enableBulk){
+                                    let nodeEdgeData = await this.getNodeEdgeData(currentNodeEdge,pfo,processedKey,upId,collectionName,codeObj,pfdto)                                    
+                                    let mappedData = await this.bulkTransform(nodeEdgeData.nodesObj,currentNodeEdge,pfo,ufKeysArr)                                    
                                     childInsertArr = mappedData.body
-                                    tempQryVal = mappedData.headerJson
                                     headerObj = mappedData.headers 
+
+                                    if (Object.keys(headerObj ?? {}).length) {
+                                        parameterQuery.forEach(item => {
+                                            if (headerObj[item.name]) {
+                                                tempQryVal.push({ key: item.name, type: item.in });
+                                            }
+                                        });
+                                    }                                   
                                 }
                                 else {
                                     let mappedData = await this.mapEdgeValuesToParams(pfdto, currentNodeEdge, inputparam, processedKey, upId, collectionName,  parameter, codeObj, pfo, childtable, {referenceKey,sourceStatus,SessionToken})
@@ -8580,133 +8604,356 @@ private getTransport(emailConfig) {
     }
  }
 
-  async bulkTransform(input: MappingInput, edges: MappingEdge[],parameter: any): Promise<TransformResult> {
+    async bulkTransform(input: MappingInput, edges: MappingEdge[],
+    nodesSchema: NodeSchemaEntry[] = [],
+    availableSchemaKeys?: string[]): Promise<TransformResult> {
     try {
-        const parsedEdges = edges.map((edge) => ({
-          edge,
-          src: this.parseSourceHandle(edge.sourceHandle),
-          tgt: this.parseTargetHandle(edge.targetHandle),
-        }));
-    
-       
-        const explicitContainers = new Set<string>();
-        const ambiguousFieldNames = new Map<string, Set<string>>();
-        for (const { src, tgt } of parsedEdges) {
-          const key = this.boxKeyOf(tgt);
-          if (tgt.leafKey !== undefined) {
-            explicitContainers.add(key);
-          } else {
-            if (!ambiguousFieldNames.has(key)) ambiguousFieldNames.set(key, new Set());
-            ambiguousFieldNames.get(key)!.add(src.fieldName);
-          }
+        const isHumanTaskSource = (nodesSchema: NodeSchemaEntry[], sourceNodeId: string): boolean => {
+            const node = nodesSchema.find((entry) => entry.nodeId === sourceNodeId);
+            return node?.nodeType === 'humantasknode';
         }
+        const extractSchemaKey = (sourceHandle: string): string => {
+            return sourceHandle.split('|')[0];
+        }
+
+        const effectiveEdges = availableSchemaKeys
+        ? edges.filter(
+            (edge) => !isHumanTaskSource(nodesSchema, edge.source) || availableSchemaKeys.includes(extractSchemaKey(edge.sourceHandle)),
+            )
+        : edges;
+          
+    const parsedEdges = effectiveEdges.map((edge) => ({
+      edge,
+      src: this.parseSourceHandle(edge.sourceHandle),
+      tgt: this.parseTargetHandle(edge.targetHandle),
+    }));
+    // console.log('parsedEdges',JSON.stringify(parsedEdges));
     
-        const resolveWrite = (src: SourceRef, tgt: TargetRef): { containers: string[]; leafKey: string } => {
-          if (tgt.leafKey !== undefined) {
-            return { containers: tgt.containers, leafKey: tgt.leafKey };
-          }
-          const key = this.boxKeyOf(tgt);
-          const distinctFields = ambiguousFieldNames.get(key)!;
-          const hasExplicitSibling = explicitContainers.has(key);
-          if (!hasExplicitSibling && distinctFields.size === 1 && tgt.containers.length > 0) {
-            return { containers: tgt.containers.slice(0, -1), leafKey: tgt.containers[tgt.containers.length - 1] };
-          }
-          return { containers: tgt.containers, leafKey: src.fieldName };
-        };
+    const fullGroupPath = (tgt: TargetRef): string[] => {
+        return tgt.leafKey !== undefined ? [...tgt.containers, tgt.leafKey] : tgt.containers;
+    }
+
+    const contextKeyOf = (tgt: TargetRef): string => {
+        return JSON.stringify([tgt.bucket, tgt.isRepeating, tgt.arrayIsRoot ?? false, tgt.arrayKey ?? null]);
+    }
+
+
+    const pathsByContext = new Map<string, Array<{ src: SourceRef; path: string[] }>>();
+    for (const { src, tgt } of parsedEdges) {
+      const ctxKey = contextKeyOf(tgt);
+      const path = fullGroupPath(tgt);
+      if (!pathsByContext.has(ctxKey)) pathsByContext.set(ctxKey, []);
+      pathsByContext.get(ctxKey)!.push({ src, path });
+    }
+
+    const provenMultiKeyPaths = new Map<string, Set<string>>(); // ctxKey -> Set of JSON-stringified paths
+    for (const [ctxKey, items] of pathsByContext) {
+      const fieldNamesByPath = new Map<string, Set<string>>();
+      const groupKindPaths = new Set<string>();
+      for (const { src, path } of items) {
+        const pathStr = JSON.stringify(path);
+        if (src.kind === 'group') {
+          groupKindPaths.add(pathStr);
+        } else {
+          if (!fieldNamesByPath.has(pathStr)) fieldNamesByPath.set(pathStr, new Set());
+          fieldNamesByPath.get(pathStr)!.add(src.fieldName);
+        }
+      }
+
+      const proven = new Set<string>();
+      for (const [pathStr, fieldNames] of fieldNamesByPath) {
+        if (fieldNames.size > 1) proven.add(pathStr);
+      }
+      for (const pathStr of groupKindPaths) proven.add(pathStr);
+
+      const uniquePaths = Array.from(new Set(items.map(({ path }) => JSON.stringify(path)))).map((s) => JSON.parse(s) as string[]);
+      for (const candidate of uniquePaths) {
+        const isExtendedByAnotherPath = uniquePaths.some(
+          (other) => other.length > candidate.length && candidate.every((segment, i) => other[i] === segment),
+        );
+        if (isExtendedByAnotherPath) proven.add(JSON.stringify(candidate));
+      }
+
+      provenMultiKeyPaths.set(ctxKey, proven);
+    }
+
+    const resolveWrite = (src: Extract<SourceRef, { kind: 'field' }>, tgt: TargetRef): { containers: string[]; leafKey: string } => {
+      const path = fullGroupPath(tgt);
+      const pathStr = JSON.stringify(path);
+      const proven = provenMultiKeyPaths.get(contextKeyOf(tgt));
+      if (proven?.has(pathStr)) {
+        return { containers: path, leafKey: src.fieldName };
+      }
+      return { containers: path.slice(0, -1), leafKey: path[path.length - 1] };
+    };
+
+    const headers: Record<string, any> = {};
+    const bodyObject: Record<string, any> = {}; //vals
+    const namedArrays = new Map<string, any[]>(); //vals
+    let bodyArray: any[] | undefined;
+    let bodyIsBareArray = false;
+
+    const getRepeatingArray = (tgt: TargetRef, rowCount: number): any[] => {
+      if (tgt.arrayIsRoot) {
+        bodyIsBareArray = true;
+        if (!bodyArray) bodyArray = Array.from({ length: rowCount }, () => ({}));
+        return bodyArray;
+      }
     
-        const headerJson = []
-        const headers: Record<string, any> = {};
-        const bodyObject: Record<string, any> = {};
-        const namedArrays = new Map<string, any[]>();
-        let bodyArray: any[] | undefined;
-        let bodyIsBareArray = false;
+      let arr = namedArrays.get(tgt.arrayKey!);
+    //   console.log('arr',arr);
+      
+      if (!arr) {
+        arr = Array.from({ length: rowCount }, () => ({}));
+        namedArrays.set(tgt.arrayKey!, arr);
+        bodyObject[tgt.arrayKey!] = arr;
+      }
+      return arr;
+    };
+
+    // Resolving a group's field list requires a schema lookup; cache it per
+    // (nodeId, schemaKey, groupId) in case several edges reference the same
+    // group (e.g. different target boxes pulling from the same UI section).
+    const groupFieldNamesCache = new Map<string, string[]>();
+    const getGroupFieldNames = (nodeId: string, schemaKey: string, groupId: string): string[] => {
+      const cacheKey = `${nodeId}|${schemaKey}|${groupId}`;
+      let names = groupFieldNamesCache.get(cacheKey);
+      if (!names) {
+        names = this.resolveGroupFieldNames(nodesSchema, nodeId, schemaKey, groupId);
+        groupFieldNamesCache.set(cacheKey, names);
+      }
+      return names;
+    };    
     
-        const getRepeatingArray = (tgt: TargetRef, rowCount: number): any[] => {
-          if (tgt.arrayIsRoot) {
-            bodyIsBareArray = true;
-            if (!bodyArray) bodyArray = Array.from({ length: rowCount }, () => ({}));
-            return bodyArray;
-          }
-          let arr = namedArrays.get(tgt.arrayKey!);
-          if (!arr) {
-            arr = Array.from({ length: rowCount }, () => ({}));
-            namedArrays.set(tgt.arrayKey!, arr);
-            bodyObject[tgt.arrayKey!] = arr;
-          }
-          return arr;
-        };
+    const declaredTypeCache = new Map<string, string | undefined>();
     
-        for (const { edge, src, tgt } of parsedEdges) {
-          const rows = this.toRows(input[edge.source]);
-          const { containers, leafKey } = resolveWrite(src, tgt);
+    const resolveDeclaredType = (edge: MappingEdge, tgt: TargetRef): string | undefined => {
+        const steps = tgt.isRepeating && !tgt.arrayIsRoot ? [tgt.arrayKey!, ...fullGroupPath(tgt)] : fullGroupPath(tgt);
     
-          if (tgt.bucket === 'headers') {
-            const value = rows.find((row) => row?.[src.fieldName] !== undefined)?.[src.fieldName];
-            if (value !== undefined) this.setDeep(headers, containers, leafKey, value,headerJson,parameter,);
+        const cacheKey = `${edge.target}|${steps.join('.')}`;
+        if (declaredTypeCache.has(cacheKey)) return declaredTypeCache.get(cacheKey);
+        const declaredType = this.resolveTargetSchemaType(nodesSchema, edge.target, steps);
+        //   console.log('declaredType',declaredType);
+      
+      declaredTypeCache.set(cacheKey, declaredType);
+      return declaredType;
+    };
+
+    const wrapForDeclaredArray = (edge: MappingEdge, tgt: TargetRef, value: unknown): unknown => {
+      if (Array.isArray(value)) return value;
+      return resolveDeclaredType(edge, tgt) === 'array' ? [value] : value;
+    };
+    
+    interface FanOutGroup {
+      bucket: TargetBucket;
+      containers: string[];
+      key: string;
+      entries: Array<{ src: Extract<SourceRef, { kind: 'field' }>; rows: Record<string, unknown>[] }>;
+    }
+    
+    const fanOutGroups = new Map<string, FanOutGroup>();
+    const fanOutEdges = new Set<MappingEdge>();
+
+    for (const { edge, src, tgt } of parsedEdges) {     
+      if (src.kind !== 'field') continue;
+      const { rows, isGroupArraySource } = this.resolveFieldRows(input, edge.source, src);     
+      
+      if (!isGroupArraySource || tgt.bucket === 'headers') continue;
+      if (resolveDeclaredType(edge, tgt) !== 'array') continue;
+
+      const fanOutKey = `${edge.target}|${tgt.isRepeating}|${tgt.arrayIsRoot ?? false}|${tgt.arrayKey ?? ''}|${fullGroupPath(tgt).join('.')}`;
+     
+      let group = fanOutGroups.get(fanOutKey);
+      if (!group) {
+        const { containers, key } = this.resolveBoxLocation(tgt);
+        group = { bucket: tgt.bucket, containers, key, entries: [] };
+        fanOutGroups.set(fanOutKey, group);
+      }
+      group.entries.push({ src, rows });
+      fanOutEdges.add(edge);
+    }      
+          
+    for (const group of fanOutGroups.values()) {      
+    
+      const rowCount = Math.max(0, ...group.entries.map((entry) => entry.rows.length));
+      const arrayElements = Array.from({ length: rowCount }, () => ({}) as Record<string, any>);
+      for (const { src, rows } of group.entries) {
+        rows.forEach((row, i) => {
+          const value = row?.[src.fieldName];
+          if (value !== undefined) this.setDeep(arrayElements[i], [], src.fieldName, value);
+        });
+      }
+      this.setDeep(group.bucket === 'headers' ? headers : bodyObject, group.containers, group.key, arrayElements);
+    }    
+    
+    for (const { edge, src, tgt } of parsedEdges) {
+       
+        if (src.kind === 'group') {
+            // console.log('kind',src.kind);
+       
+            const rows = this.toRows(input[edge.source]);
+            const fieldNames = getGroupFieldNames(edge.source, src.schemaKey, src.groupId);
+            const { containers, key } = this.resolveBoxLocation(tgt);
+
+            if (tgt.bucket === 'headers') {
+            const matched = this.matchFields(rows, fieldNames);
+            if (Object.keys(matched).length > 0) this.mergeDeep(headers, containers, key, matched);
             continue;
-          }
-    
-          if (tgt.isRepeating) {
-            const targetArray = getRepeatingArray(tgt, rows.length);
-            rows.forEach((row, i) => {
-              const value = row?.[src.fieldName];
-              if (value === undefined) return;
-              this.setDeep(targetArray[i], containers, leafKey, value);
+            }
+
+            if (tgt.isRepeating) {
+                const targetArray = getRepeatingArray(tgt, rows.length);
+                rows.forEach((row, i) => {
+                    const matched = this.matchFields([row], fieldNames);               
+                if (Object.keys(matched).length > 0) this.mergeDeep(targetArray[i], containers, key, matched);
             });
             continue;
-          }
+            }
+
+            const matched = this.matchFields(rows, fieldNames);
+        
+            if (Object.keys(matched).length > 0) this.mergeDeep(bodyObject, containers, key, matched);
+            continue;
+      }
+
+      if (fanOutEdges.has(edge)) continue; // already written by the fan-out pass above
+
+      const { rows } = this.resolveFieldRows(input, edge.source, src);
+      const { containers, leafKey } = resolveWrite(src, tgt);
+     
+      if (tgt.bucket === 'headers') {
+        const value = rows.find((row) => row?.[src.fieldName] !== undefined)?.[src.fieldName];
+        if (value !== undefined) this.setDeep(headers, containers, leafKey, wrapForDeclaredArray(edge, tgt, value));
+        continue;
+      }      
+ 
+      if (tgt.isRepeating) {
+        const targetArray = getRepeatingArray(tgt, rows.length);
+        //  console.log('targetArray',targetArray);
+        rows.forEach((row, i) => {
+          const value = row?.[src.fieldName];
+          if (value === undefined) return;
+          this.setDeep(targetArray[i], containers, leafKey, wrapForDeclaredArray(edge, tgt, value));
+        });
+        continue;
+      }
     
-          // Root-level, non-repeating body target: the value is the same on
-          // every row, so take it from the first row that actually has it.
-          const value = rows.find((row) => row?.[src.fieldName] !== undefined)?.[src.fieldName];
-          if (value !== undefined) {
-            this.setDeep(bodyObject, containers, leafKey, value);
-          }
-        }
-    
-        return { body: bodyIsBareArray ? bodyArray! : bodyObject, headers, headerJson };
+      // Root-level, non-repeating body target: the value is the same on
+      // every row, so take it from the first row that actually has it.
+      const value = rows.find((row) => row?.[src.fieldName] !== undefined)?.[src.fieldName];
+     
+      if (value !== undefined) {
+        this.setDeep(bodyObject, containers, leafKey, wrapForDeclaredArray(edge, tgt, value));
+      }
+    }
+      
+    return { body: bodyIsBareArray ? bodyArray! : bodyObject, headers };
         
     } catch (error) {
         throw error
     }
   }
 
-  setDeep(target: Record<string, any>, containers: string[], key: string, value: unknown,headerJson?,parameter?): void {
+  resolveGroupFieldNames(
+    nodesSchema: NodeSchemaEntry[],
+    nodeId: string,
+    schemaKey: string,
+    groupId: string,
+    ): string[] {
+    const node = nodesSchema.find((entry) => entry.nodeId === nodeId);
+    const fieldDefs = node?.schema?.[schemaKey]?.[groupId];
+
+    if (!Array.isArray(fieldDefs)) return [];
+
+    return fieldDefs.map((field) => field.name).filter((name): name is string => typeof name === 'string');
+  }
+
+  resolveTargetSchemaType(nodesSchema: NodeSchemaEntry[], targetNodeId: string, steps: string[]): string | undefined {
+    const node = nodesSchema.find((entry) => entry.nodeId === targetNodeId);
+    let schemaNode = node?.schema?.requestBody?.content?.['application/json']?.schema ?? node?.schema;
+
+    for (const step of steps) {
+        if (!schemaNode) return undefined;
+        if (schemaNode.type === 'array') schemaNode = schemaNode.items;
+        if (!schemaNode?.properties) return undefined;
+        schemaNode = schemaNode.properties[step];
+    }
+
+    return schemaNode?.type;
+  }
+
+  resolveFieldRows(
+    input: MappingInput,
+    sourceId: string,
+    src: Extract<SourceRef, { kind: 'field' }>,
+    ): { rows: Record<string, unknown>[]; isGroupArraySource: boolean } {
+    const raw = input[sourceId];
+
+    if (src.groupToken && raw && !Array.isArray(raw) && typeof raw === 'object') {
+        const nested = (raw as Record<string, unknown>)[src.groupToken];
+        if (Array.isArray(nested)) return { rows: nested as Record<string, unknown>[], isGroupArraySource: true };
+    }
+
+    return { rows: this.toRows(raw), isGroupArraySource: false };
+  }
+
+  resolveBoxLocation(tgt: TargetRef): { containers: string[]; key: string } {
+        if (tgt.leafKey !== undefined) {
+            return { containers: tgt.containers, key: tgt.leafKey };
+        }
+        return { containers: tgt.containers.slice(0, -1), key: tgt.containers[tgt.containers.length - 1] };
+  }
+    
+  matchFields(rows: Record<string, unknown>[], fieldNames: string[]): Record<string, unknown> {
+        const matched: Record<string, unknown> = {};
+        for (const fieldName of fieldNames) {
+            const value = rows.find((row) => row?.[fieldName] !== undefined)?.[fieldName];
+            if (value !== undefined) matched[fieldName] = value;
+        }
+        return matched;
+  }
+
+  setDeep(target: Record<string, any>, containers: string[], key: string, value: unknown): void {
     try {
         let cursor = target;
         for (const container of containers) {
           cursor[container] = cursor[container] ?? {};
           cursor = cursor[container];
-        }
-            
-        if(headerJson && parameter?.length>0){
-            for(let item of parameter){                      
-                if(item.name == key){              
-                    headerJson.push({
-                        key,
-                        type:item.in
-                    })
-                }
-            }
-        }
-      
-        cursor[key] = value;
-        
+        }                    
+        cursor[key] = value;        
     } catch (error) {
         throw error
     }
   }
 
+  mergeDeep(target: Record<string, any>, containers: string[], key: string, values: Record<string, unknown>): void {
+    let cursor = target;
+    for (const container of containers) {
+      cursor[container] = cursor[container] ?? {};
+      cursor = cursor[container];
+    }
+    cursor[key] = { ...(cursor[key] ?? {}), ...values };
+  }
+
   parseSourceHandle(sourceHandle: string): SourceRef {
     try {        
         const segments = sourceHandle.split('|');
-        const last = segments[segments.length - 1];
-    
-        if (last.includes('.') && segments.length >= 2) {
-            return { fieldName: segments[segments.length - 2] };
+
+        if (segments.length === 2) {
+            return { kind: 'group', schemaKey: segments[0], groupId: segments[1] };
         }
-    
-        return { fieldName: last };
+
+        const last = segments[segments.length - 1];
+
+        if (last.includes('.') && segments.length >= 2) {
+            return { kind: 'field', fieldName: segments[segments.length - 2] };
+        }
+
+        if (segments.length === 4) {
+            return { kind: 'field', fieldName: last, groupToken: segments[2] };
+        }
+
+        return { kind: 'field', fieldName: last };
     } catch (error) {
         throw error
     }
@@ -8714,40 +8961,37 @@ private getTransport(emailConfig) {
 
   parseTargetHandle(targetHandle: string): TargetRef {
     try {
-        
-    const REQUEST_BODY_PREFIX = 'requestBody.content.application/json.schema.';
-    const segments = targetHandle.split('|');
-    const schemaPathSegment = segments[1];
+        const REQUEST_BODY_PREFIX = 'requestBody.content.application/json.schema.';
+        const segments = targetHandle.split('|');
+        const schemaPathSegment = segments[1];
 
-    if (schemaPathSegment?.startsWith(REQUEST_BODY_PREFIX)) {
-        const remainder = schemaPathSegment.slice(REQUEST_BODY_PREFIX.length);
-        const path = this.parseSchemaPath(remainder);
+        if (schemaPathSegment && !schemaPathSegment.startsWith('parameters.')) {
+            const remainder = schemaPathSegment.startsWith(REQUEST_BODY_PREFIX) ? schemaPathSegment.slice(REQUEST_BODY_PREFIX.length) : schemaPathSegment;
+            const path = this.parseSchemaPath(remainder);
 
-        if (path.length === 0) {
-        throw new Error(`Unsupported targetHandle, empty schema path: ${targetHandle}`);
+            if (path.length === 0) {
+            throw new Error(`Unsupported targetHandle, empty schema path: ${targetHandle}`);
+            }
+
+            const arrayRootIndex = path.findIndex((segment) => segment.isArray);
+
+            if (arrayRootIndex !== -1) {
+            const arrayIsRoot = path[arrayRootIndex].key === '';
+            const arrayKey = arrayIsRoot ? undefined : path[arrayRootIndex].key;
+            const groups = path.slice(arrayRootIndex + 1);
+            const { containers, leafKey } = this.resolveContainerAndLeaf(groups);
+            return { bucket: 'body', isRepeating: true, arrayIsRoot, arrayKey, containers, leafKey };
+            }
+
+            // No repetition anywhere in this path - same ambiguous-box-vs-explicit-leaf
+            // rule as the repeating-array case above, just without an array in sight.
+            const { containers, leafKey } = this.resolveContainerAndLeaf(path);
+            return { bucket: 'body', isRepeating: false, containers, leafKey };
         }
 
-        const arrayRootIndex = path.findIndex((segment) => segment.isArray);
-
-        if (arrayRootIndex !== -1) {
-        const arrayIsRoot = path[arrayRootIndex].key === '';
-        const arrayKey = arrayIsRoot ? undefined : path[arrayRootIndex].key;
-        const groups = path.slice(arrayRootIndex + 1);
-        const { containers, leafKey } = this.resolveContainerAndLeaf(groups);
-        return { bucket: 'body', isRepeating: true, arrayIsRoot, arrayKey, containers, leafKey };
-        }
-
-        // No repetition anywhere in this path - every segment is a container and
-        // the last one is always the explicit key (no source-name fallback,
-        // since there's no "box" convention once there's no array to iterate).
-        const containers = path.slice(0, -1).map((s) => s.key);
-        const leafKey = path[path.length - 1].key;
-        return { bucket: 'body', isRepeating: false, containers, leafKey };
-    }
-
-    // Header parameter style target, e.g. parameters.1.name|HeaderParams|channel_name
-    const fieldName = segments[segments.length - 1];
-    return { bucket: 'headers', isRepeating: false, containers: [], leafKey: fieldName };
+        // Header parameter style target, e.g. parameters.1.name|HeaderParams|channel_name
+        const fieldName = segments[segments.length - 1];
+        return { bucket: 'headers', isRepeating: false, containers: [], leafKey: fieldName };
     } catch (error) {
         throw error 
     }
@@ -8780,7 +9024,7 @@ private getTransport(emailConfig) {
 
   resolveContainerAndLeaf(groups: SchemaPathSegment[]): { containers: string[]; leafKey?: string } {    
     if (groups.length === 0) return { containers: [] };
-    if (groups.length === 1) return { containers: [groups[0].key] };
+    //if (groups.length === 1) return { containers: [groups[0].key] };
     return { containers: groups.slice(0, -1).map((g) => g.key), leafKey: groups[groups.length - 1].key };   
   }
 
@@ -8790,9 +9034,6 @@ private getTransport(emailConfig) {
     return [];
   }
 
-  boxKeyOf(tgt: TargetRef): string {
-    return JSON.stringify([tgt.bucket, tgt.isRepeating, tgt.arrayIsRoot ?? false, tgt.arrayKey ?? null, tgt.containers]);
-  }
 
     async getSchemaType(pfo,currentNodeEdge){
         try {

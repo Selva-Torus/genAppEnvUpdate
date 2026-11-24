@@ -16,32 +16,17 @@ import { useGlobal } from '@/context/GlobalContext'
 import { logout } from "@/app/components/utils";  
 import { getPublicEnv } from "@/app/components/public-env";
 
-const Groupoverall_group = dynamic(() => import("./Groupoverall_group/Groupoverall_group"), { ssr: false });
+const Groupgdb_group = dynamic(() => import("./Groupgdb_group/Groupgdb_group"), { ssr: false });
 
 export default function PageDashboardV1({ onReady }: { onReady?: () => void } = {}) {
   const { isDark, isHighContrast, bgStyle, textStyle } : { isDark: boolean; isHighContrast: boolean; bgStyle: string; textStyle: string } = useTheme();
   const [initialLoad, setInitialLoad] = useState<boolean>(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const securityData : SecurityData = {
-  "AI Product Owner": {
+  "Operational Manager": {
     "blockedGroups": []
   },
-  "Auditor": {
-    "blockedGroups": []
-  },
-  "Executive": {
-    "blockedGroups": []
-  },
-  "FinOps / Operation": {
-    "blockedGroups": []
-  },
-  "Model RIsk / Compliance": {
-    "blockedGroups": []
-  },
-  "Platform Administrator": {
-    "blockedGroups": []
-  },
-  "Security (CISO Office)": {
+  "Operational Officer": {
     "blockedGroups": []
   }
 };
@@ -51,116 +36,112 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
   const [primaryTableData, setPrimaryTableData] = useState<PrimaryTableData>({primaryKey:"",value:"",compName:""});
   const [checkToAdd, setCheckToAdd] = useState<Record<string, any>>({});
   const allRuleData:any={
-  "overall_group": {
-    "dashboard_header": {
+  "gdb_group": {},
+  "tab_group": {},
+  "tab_header": {},
+  "tab_grp": {
+    "channel_combobox": {
+      "show": false
+    },
+    "currency_combobox": {
+      "show": false
+    },
+    "process_category_combobox": {
+      "show": false
+    },
+    "offline_online_combobox": {
+      "show": false
+    },
+    "transaction_table_label": {
       "show": false
     }
   },
-  "register_ai_group": {
-    "register_ai_text": {
+  "transaction_group": {
+    "product_icon": {
       "show": false
     },
-    "register_ai_value": {
+    "transactions_label": {
+      "show": false
+    },
+    "transaction_count": {
       "show": false
     }
   },
-  "tier_critical_group": {
-    "tier_critical_text": {
+  "total_value_group": {
+    "total_value_icon": {
       "show": false
     },
-    "tier_critical_value": {
+    "total_value_label": {
+      "show": false
+    },
+    "total_amount": {
       "show": false
     }
   },
-  "cert_expired_group": {
-    "cert_expired_text": {
+  "online_offline_processing_group": {
+    "online_offline_processing_icon": {
       "show": false
     },
-    "cert_expired_value": {
+    "online_offline_processing_label": {
+      "show": false
+    },
+    "online_offline_process": {
       "show": false
     }
   },
-  "named_owner_group": {
-    "named_owner_text": {
-      "show": false
-    },
-    "named_owner_value": {
+  "line_chart_group": {
+    "linechart": {
       "show": false
     }
   },
-  "cert_date_group": {
-    "cert_date_text": {
+  "bar_chart_group": {
+    "transaction_volume_by_channel": {
       "show": false
     },
-    "cert_date_value": {
+    "barchart": {
       "show": false
     }
   },
-  "governer_gap_group": {
-    "table_text": {
-      "show": false
-    }
-  },
-  "table": {
-    "asset_code": {
-      "show": false
-    },
-    "asset_coln": {
-      "show": false
-    },
-    "tier_coln": {
-      "show": false
-    },
-    "business_coln": {
-      "show": false
-    },
-    "date": {
-      "show": false
-    },
-    "status": {
-      "show": false
-    }
-  },
-  "pirchart_group": {
-    "piechart_header": {
+  "pie_chart_group": {
+    "product_organation_label": {
       "show": false
     },
     "piechart": {
       "show": false
     }
   },
-  "assets_by_business_unit_group": {
-    "assets_by_business_unit_text": {
+  "transaction_table": {
+    "value_date": {
       "show": false
     },
-    "consumer_lending_text": {
+    "dr_account": {
       "show": false
     },
-    "consumer_lending_progress": {
+    "dr_name": {
       "show": false
     },
-    "operations_text": {
+    "dr_currency": {
       "show": false
     },
-    "operations_progress": {
+    "dr_amount": {
       "show": false
     },
-    "financial_crime_text": {
+    "cr_account": {
       "show": false
     },
-    "financial_crime_progress": {
+    "cr_name": {
       "show": false
     },
-    "cards_payments_text": {
+    "cr_currency": {
       "show": false
     },
-    "cards_payments_progress": {
+    "cr_amount": {
       "show": false
     },
-    "technology_text": {
+    "uuid": {
       "show": false
     },
-    "technology_progress": {
+    "status": {
       "show": false
     }
   }
@@ -178,30 +159,34 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
   const { eventEmitterData,setEventEmitterData}= useContext(TotalContext) as TotalContextProps;
   const {dashboard_v1, setdashboard_v1} = useContext(TotalContext) as TotalContextProps;
   const {dashboard_v1Props, setdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
-  const [checkoverall_group,setCheckoverall_group,]=useState<boolean>(false);
-  const [checkregister_ai_group,setCheckregister_ai_group,]=useState<boolean>(false);
-  const [checktier_critical_group,setChecktier_critical_group,]=useState<boolean>(false);
-  const [checkcert_expired_group,setCheckcert_expired_group,]=useState<boolean>(false);
-  const [checknamed_owner_group,setChecknamed_owner_group,]=useState<boolean>(false);
-  const [checkcert_date_group,setCheckcert_date_group,]=useState<boolean>(false);
-  const [checkgoverner_gap_group,setCheckgoverner_gap_group,]=useState<boolean>(false);
-  const [checktable,setChecktable,]=useState<boolean>(false);
-  const [checkpirchart_group,setCheckpirchart_group,]=useState<boolean>(false);
-  const [checkassets_by_business_unit_group,setCheckassets_by_business_unit_group,]=useState<boolean>(false);
-  const {overall_group0ca82, setoverall_group0ca82} = useContext(TotalContext) as TotalContextProps;
-  const {register_ai_group08810, setregister_ai_group08810} = useContext(TotalContext) as TotalContextProps;
-  const {tier_critical_group484c4, settier_critical_group484c4} = useContext(TotalContext) as TotalContextProps;
-  const {cert_expired_groupf48db, setcert_expired_groupf48db} = useContext(TotalContext) as TotalContextProps;
-  const {named_owner_group4361e, setnamed_owner_group4361e} = useContext(TotalContext) as TotalContextProps;
-  const {cert_date_group9ac35, setcert_date_group9ac35} = useContext(TotalContext) as TotalContextProps;
-  const {governer_gap_group09585, setgoverner_gap_group09585} = useContext(TotalContext) as TotalContextProps;
-  const {table0a722, settable0a722} = useContext(TotalContext) as TotalContextProps;
-  const {pirchart_group8d70d, setpirchart_group8d70d} = useContext(TotalContext) as TotalContextProps;
-  const {assets_by_business_unit_group374c2, setassets_by_business_unit_group374c2} = useContext(TotalContext) as TotalContextProps;
-  const {dfd_piechartdashboard_v1Props, setdfd_piechartdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
-  const {dfd_cardmetricsdashboard_v1Props, setdfd_cardmetricsdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
-  const {dfd_dashboardtable_v1Props, setdfd_dashboardtable_v1Props} = useContext(TotalContext) as TotalContextProps;
-  const {dfd_barchartdashboard_v1Props, setdfd_barchartdashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const [checkgdb_group,setCheckgdb_group,]=useState<boolean>(false);
+  const [checktab_grp,setChecktab_grp,]=useState<boolean>(false);
+  const [checktransaction_group,setChecktransaction_group,]=useState<boolean>(false);
+  const [checktotal_value_group,setChecktotal_value_group,]=useState<boolean>(false);
+  const [checkonline_offline_processing_group,setCheckonline_offline_processing_group,]=useState<boolean>(false);
+  const [checkline_chart_group,setCheckline_chart_group,]=useState<boolean>(false);
+  const [checkbar_chart_group,setCheckbar_chart_group,]=useState<boolean>(false);
+  const [checkpie_chart_group,setCheckpie_chart_group,]=useState<boolean>(false);
+  const [checktransaction_table,setChecktransaction_table,]=useState<boolean>(false);
+  const {gdb_group5384d, setgdb_group5384d} = useContext(TotalContext) as TotalContextProps;
+  const {tab_grpe63f4, settab_grpe63f4} = useContext(TotalContext) as TotalContextProps;
+  const {transaction_group6c6f2, settransaction_group6c6f2} = useContext(TotalContext) as TotalContextProps;
+  const {total_value_group9d783, settotal_value_group9d783} = useContext(TotalContext) as TotalContextProps;
+  const {online_offline_processing_group7ad24, setonline_offline_processing_group7ad24} = useContext(TotalContext) as TotalContextProps;
+  const {line_chart_group61ee8, setline_chart_group61ee8} = useContext(TotalContext) as TotalContextProps;
+  const {bar_chart_group737a3, setbar_chart_group737a3} = useContext(TotalContext) as TotalContextProps;
+  const {pie_chart_group15067, setpie_chart_group15067} = useContext(TotalContext) as TotalContextProps;
+  const {transaction_tablef4f34, settransaction_tablef4f34} = useContext(TotalContext) as TotalContextProps;
+  const {tab_group65b41, settab_group65b41} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_channeldashboard_dashboard_v1Props, setdfd_channeldashboard_dashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_currencydashboard_dashboard_v1Props, setdfd_currencydashboard_dashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_transaction_dashboard_v1Props, setdfd_transaction_dashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_onlineofflinedashboard_dashboard_v1Props, setdfd_onlineofflinedashboard_dashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_processcategorydashboard_dashboard_v1Props, setdfd_processcategorydashboard_dashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_transactioncountvphdashboard_dashboard_v1Props, setdfd_transactioncountvphdashboard_dashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_channelcountvphdashboard_dashboard_v1Props, setdfd_channelcountvphdashboard_dashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_channelchartdashboard_dashboard_v1Props, setdfd_channelchartdashboard_dashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_onlineofflinecountvphdashboard_dashboard_v1Props, setdfd_onlineofflinecountvphdashboard_dashboard_v1Props} = useContext(TotalContext) as TotalContextProps;
   const [controlData, setControlData] = useState<any>({});
   const [groupData, setGroupData] = useState<any>({});
   const encryptionFlagPage: boolean = false|| encAppFalg.flag;
@@ -217,42 +202,47 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
   const [paginationDetails, setpaginationDetails] = useState<Record<string, any>>({});
   const [paginationData,setPaginationData]=useState<PaginationData>({count:10,page:1})
     const prevRefreshRef = useRef<any>({
-      piechartdashboard_v1:false,
-      cardmetricsdashboard_v1:false,
-      dashboardtable_v1:false,
-      barchartdashboard_v1:false,
+      channeldashboard_dashboard_v1:false,
+      currencydashboard_dashboard_v1:false,
+      transaction_dashboard_v1:false,
+      onlineofflinedashboard_dashboard_v1:false,
+      processcategorydashboard_dashboard_v1:false,
+      transactioncountvphdashboard_dashboard_v1:false,
+      channelcountvphdashboard_dashboard_v1:false,
+      channelchartdashboard_dashboard_v1:false,
+      onlineofflinecountvphdashboard_dashboard_v1:false,
     });
-    async function piechartdashboard_v1DFD(pagination:any): Promise<void>{
+    async function channeldashboard_dashboard_v1DFD(pagination:any): Promise<void>{
         let filterData :any[] =[];
-        let piechartdashboard_v1Body:te_refreshDto={
-          key: "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:piechartDashboard:AFVK:v1"+":",
+        let channeldashboard_dashboard_v1Body:te_refreshDto={
+          key: "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:channelDashboard_dashboard:AFVK:v1"+":",
           refreshFlag: "Y",
           count:parseInt(pagination?.count) || 10,
           page:parseInt(pagination?.page) || 1
         }
         if (encryptionFlagPage) {          
-          piechartdashboard_v1Body["dpdKey"] = encryptionDpd;
-          piechartdashboard_v1Body["method"] = encryptionMethod;
+          channeldashboard_dashboard_v1Body["dpdKey"] = encryptionDpd;
+          channeldashboard_dashboard_v1Body["method"] = encryptionMethod;
         }
         if(dashboard_v1Props.length > 0){
           for(let i=0;i< dashboard_v1Props.length;i++){
-            if(dashboard_v1Props[i].DFDkey == "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:piechartDashboard:AFVK:v1"){
+            if(dashboard_v1Props[i].DFDkey == "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:channelDashboard_dashboard:AFVK:v1"){
               // delete dashboard_v1Props[i].DFDkey;
               let temp=structuredClone(dashboard_v1Props[i])
               delete temp?.DFDkey
               filterData.push(temp)
             }           
           }
-          piechartdashboard_v1Body['filterData'] = filterData;
+          channeldashboard_dashboard_v1Body['filterData'] = filterData;
         }
-        const piechartdashboard_v1Data:any=await AxiosService.post("/te/eventEmitter",piechartdashboard_v1Body,{
+        const channeldashboard_dashboard_v1Data:any=await AxiosService.post("/te/eventEmitter",channeldashboard_dashboard_v1Body,{
           headers: {
             Authorization: `Bearer ${token}`
           }
         })
-        let dstKey:string=piechartdashboard_v1Body?.key || ""
+        let dstKey:string=channeldashboard_dashboard_v1Body?.key || ""
         dstKey=dstKey.replace(":AFC:",":AFCP:").replace(":AF:",":AFP:").replace(":DF-DFD:",":DF-DST:");
-        if(piechartdashboard_v1Data?.data?.dataset === 'Bulk Data Processing'){
+        if(channeldashboard_dashboard_v1Data?.data?.dataset === 'Bulk Data Processing'){
           if(filterData.length>0){
             const api_paginationBody: api_paginationDto = {
           key: dstKey,
@@ -278,14 +268,14 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
           toast(api_paginationData?.data?.errorDetails?.message, 'danger')
           return
         }
-        setdfd_piechartdashboard_v1Props(api_paginationData?.data?.records || []);
+        setdfd_channeldashboard_dashboard_v1Props(api_paginationData?.data?.records || []);
       }else{
-          setdfd_piechartdashboard_v1Props({ hasLogicCenter: false, dstKey: dstKey })
+          setdfd_channeldashboard_dashboard_v1Props({ hasLogicCenter: false, dstKey: dstKey })
       }
-      }else if (piechartdashboard_v1Data?.data?.dataset) {
-           setdfd_piechartdashboard_v1Props(
-              Array.isArray(piechartdashboard_v1Data?.data?.dataset?.data)
-                 ? piechartdashboard_v1Data?.data.dataset.data.map((obj: any) =>
+      }else if (channeldashboard_dashboard_v1Data?.data?.dataset) {
+           setdfd_channeldashboard_dashboard_v1Props(
+              Array.isArray(channeldashboard_dashboard_v1Data?.data?.dataset?.data)
+                 ? channeldashboard_dashboard_v1Data?.data.dataset.data.map((obj: any) =>
                   Object.fromEntries(
                     Object.entries(obj || {}).map(([key, value]) => [
                       key.toLowerCase(),
@@ -322,46 +312,46 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
           toast(api_paginationData?.data?.errorDetails?.message, 'danger')
           return
         }
-        setdfd_piechartdashboard_v1Props(api_paginationData?.data?.records || []);
+        setdfd_channeldashboard_dashboard_v1Props(api_paginationData?.data?.records || []);
         }
       }
   useEffect(()=>{
-    if (prevRefreshRef?.current?.piechartdashboard_v1) {
-      piechartdashboard_v1DFD(paginationData)
+    if (prevRefreshRef?.current?.channeldashboard_dashboard_v1) {
+      channeldashboard_dashboard_v1DFD(paginationData)
     }else 
-      prevRefreshRef.current.piechartdashboard_v1= true
-  },[refetch?.piechartdashboard_v1])
-    async function cardmetricsdashboard_v1DFD(pagination:any): Promise<void>{
+      prevRefreshRef.current.channeldashboard_dashboard_v1= true
+  },[refetch?.channeldashboard_dashboard_v1])
+    async function currencydashboard_dashboard_v1DFD(pagination:any): Promise<void>{
         let filterData :any[] =[];
-        let cardmetricsdashboard_v1Body:te_refreshDto={
-          key: "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:cardMetricsDashboard:AFVK:v1"+":",
+        let currencydashboard_dashboard_v1Body:te_refreshDto={
+          key: "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:currencyDashboard_dashboard:AFVK:v1"+":",
           refreshFlag: "Y",
           count:parseInt(pagination?.count) || 10,
           page:parseInt(pagination?.page) || 1
         }
         if (encryptionFlagPage) {          
-          cardmetricsdashboard_v1Body["dpdKey"] = encryptionDpd;
-          cardmetricsdashboard_v1Body["method"] = encryptionMethod;
+          currencydashboard_dashboard_v1Body["dpdKey"] = encryptionDpd;
+          currencydashboard_dashboard_v1Body["method"] = encryptionMethod;
         }
         if(dashboard_v1Props.length > 0){
           for(let i=0;i< dashboard_v1Props.length;i++){
-            if(dashboard_v1Props[i].DFDkey == "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:cardMetricsDashboard:AFVK:v1"){
+            if(dashboard_v1Props[i].DFDkey == "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:currencyDashboard_dashboard:AFVK:v1"){
               // delete dashboard_v1Props[i].DFDkey;
               let temp=structuredClone(dashboard_v1Props[i])
               delete temp?.DFDkey
               filterData.push(temp)
             }           
           }
-          cardmetricsdashboard_v1Body['filterData'] = filterData;
+          currencydashboard_dashboard_v1Body['filterData'] = filterData;
         }
-        const cardmetricsdashboard_v1Data:any=await AxiosService.post("/te/eventEmitter",cardmetricsdashboard_v1Body,{
+        const currencydashboard_dashboard_v1Data:any=await AxiosService.post("/te/eventEmitter",currencydashboard_dashboard_v1Body,{
           headers: {
             Authorization: `Bearer ${token}`
           }
         })
-        let dstKey:string=cardmetricsdashboard_v1Body?.key || ""
+        let dstKey:string=currencydashboard_dashboard_v1Body?.key || ""
         dstKey=dstKey.replace(":AFC:",":AFCP:").replace(":AF:",":AFP:").replace(":DF-DFD:",":DF-DST:");
-        if(cardmetricsdashboard_v1Data?.data?.dataset === 'Bulk Data Processing'){
+        if(currencydashboard_dashboard_v1Data?.data?.dataset === 'Bulk Data Processing'){
           if(filterData.length>0){
             const api_paginationBody: api_paginationDto = {
           key: dstKey,
@@ -387,14 +377,14 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
           toast(api_paginationData?.data?.errorDetails?.message, 'danger')
           return
         }
-        setdfd_cardmetricsdashboard_v1Props(api_paginationData?.data?.records || []);
+        setdfd_currencydashboard_dashboard_v1Props(api_paginationData?.data?.records || []);
       }else{
-          setdfd_cardmetricsdashboard_v1Props({ hasLogicCenter: false, dstKey: dstKey })
+          setdfd_currencydashboard_dashboard_v1Props({ hasLogicCenter: false, dstKey: dstKey })
       }
-      }else if (cardmetricsdashboard_v1Data?.data?.dataset) {
-           setdfd_cardmetricsdashboard_v1Props(
-              Array.isArray(cardmetricsdashboard_v1Data?.data?.dataset?.data)
-                 ? cardmetricsdashboard_v1Data?.data.dataset.data.map((obj: any) =>
+      }else if (currencydashboard_dashboard_v1Data?.data?.dataset) {
+           setdfd_currencydashboard_dashboard_v1Props(
+              Array.isArray(currencydashboard_dashboard_v1Data?.data?.dataset?.data)
+                 ? currencydashboard_dashboard_v1Data?.data.dataset.data.map((obj: any) =>
                   Object.fromEntries(
                     Object.entries(obj || {}).map(([key, value]) => [
                       key.toLowerCase(),
@@ -431,46 +421,46 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
           toast(api_paginationData?.data?.errorDetails?.message, 'danger')
           return
         }
-        setdfd_cardmetricsdashboard_v1Props(api_paginationData?.data?.records || []);
+        setdfd_currencydashboard_dashboard_v1Props(api_paginationData?.data?.records || []);
         }
       }
   useEffect(()=>{
-    if (prevRefreshRef?.current?.cardmetricsdashboard_v1) {
-      cardmetricsdashboard_v1DFD(paginationData)
+    if (prevRefreshRef?.current?.currencydashboard_dashboard_v1) {
+      currencydashboard_dashboard_v1DFD(paginationData)
     }else 
-      prevRefreshRef.current.cardmetricsdashboard_v1= true
-  },[refetch?.cardmetricsdashboard_v1])
-    async function dashboardtable_v1DFD(pagination:any): Promise<void>{
+      prevRefreshRef.current.currencydashboard_dashboard_v1= true
+  },[refetch?.currencydashboard_dashboard_v1])
+    async function transaction_dashboard_v1DFD(pagination:any): Promise<void>{
         let filterData :any[] =[];
-        let dashboardtable_v1Body:te_refreshDto={
-          key: "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:dashboardTable:AFVK:v1"+":",
+        let transaction_dashboard_v1Body:te_refreshDto={
+          key: "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:transaction_dashboard:AFVK:v1"+":",
           refreshFlag: "Y",
           count:parseInt(pagination?.count) || 10,
           page:parseInt(pagination?.page) || 1
         }
         if (encryptionFlagPage) {          
-          dashboardtable_v1Body["dpdKey"] = encryptionDpd;
-          dashboardtable_v1Body["method"] = encryptionMethod;
+          transaction_dashboard_v1Body["dpdKey"] = encryptionDpd;
+          transaction_dashboard_v1Body["method"] = encryptionMethod;
         }
         if(dashboard_v1Props.length > 0){
           for(let i=0;i< dashboard_v1Props.length;i++){
-            if(dashboard_v1Props[i].DFDkey == "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:dashboardTable:AFVK:v1"){
+            if(dashboard_v1Props[i].DFDkey == "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:transaction_dashboard:AFVK:v1"){
               // delete dashboard_v1Props[i].DFDkey;
               let temp=structuredClone(dashboard_v1Props[i])
               delete temp?.DFDkey
               filterData.push(temp)
             }           
           }
-          dashboardtable_v1Body['filterData'] = filterData;
+          transaction_dashboard_v1Body['filterData'] = filterData;
         }
-        const dashboardtable_v1Data:any=await AxiosService.post("/te/eventEmitter",dashboardtable_v1Body,{
+        const transaction_dashboard_v1Data:any=await AxiosService.post("/te/eventEmitter",transaction_dashboard_v1Body,{
           headers: {
             Authorization: `Bearer ${token}`
           }
         })
-        let dstKey:string=dashboardtable_v1Body?.key || ""
+        let dstKey:string=transaction_dashboard_v1Body?.key || ""
         dstKey=dstKey.replace(":AFC:",":AFCP:").replace(":AF:",":AFP:").replace(":DF-DFD:",":DF-DST:");
-        if(dashboardtable_v1Data?.data?.dataset === 'Bulk Data Processing'){
+        if(transaction_dashboard_v1Data?.data?.dataset === 'Bulk Data Processing'){
           if(filterData.length>0){
             const api_paginationBody: api_paginationDto = {
           key: dstKey,
@@ -496,14 +486,14 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
           toast(api_paginationData?.data?.errorDetails?.message, 'danger')
           return
         }
-        setdfd_dashboardtable_v1Props(api_paginationData?.data?.records || []);
+        setdfd_transaction_dashboard_v1Props(api_paginationData?.data?.records || []);
       }else{
-          setdfd_dashboardtable_v1Props({ hasLogicCenter: false, dstKey: dstKey })
+          setdfd_transaction_dashboard_v1Props({ hasLogicCenter: false, dstKey: dstKey })
       }
-      }else if (dashboardtable_v1Data?.data?.dataset) {
-           setdfd_dashboardtable_v1Props(
-              Array.isArray(dashboardtable_v1Data?.data?.dataset?.data)
-                 ? dashboardtable_v1Data?.data.dataset.data.map((obj: any) =>
+      }else if (transaction_dashboard_v1Data?.data?.dataset) {
+           setdfd_transaction_dashboard_v1Props(
+              Array.isArray(transaction_dashboard_v1Data?.data?.dataset?.data)
+                 ? transaction_dashboard_v1Data?.data.dataset.data.map((obj: any) =>
                   Object.fromEntries(
                     Object.entries(obj || {}).map(([key, value]) => [
                       key.toLowerCase(),
@@ -540,46 +530,46 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
           toast(api_paginationData?.data?.errorDetails?.message, 'danger')
           return
         }
-        setdfd_dashboardtable_v1Props(api_paginationData?.data?.records || []);
+        setdfd_transaction_dashboard_v1Props(api_paginationData?.data?.records || []);
         }
       }
   useEffect(()=>{
-    if (prevRefreshRef?.current?.dashboardtable_v1) {
-      dashboardtable_v1DFD(paginationData)
+    if (prevRefreshRef?.current?.transaction_dashboard_v1) {
+      transaction_dashboard_v1DFD(paginationData)
     }else 
-      prevRefreshRef.current.dashboardtable_v1= true
-  },[refetch?.dashboardtable_v1])
-    async function barchartdashboard_v1DFD(pagination:any): Promise<void>{
+      prevRefreshRef.current.transaction_dashboard_v1= true
+  },[refetch?.transaction_dashboard_v1])
+    async function onlineofflinedashboard_dashboard_v1DFD(pagination:any): Promise<void>{
         let filterData :any[] =[];
-        let barchartdashboard_v1Body:te_refreshDto={
-          key: "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:barChartDashboard:AFVK:v1"+":",
+        let onlineofflinedashboard_dashboard_v1Body:te_refreshDto={
+          key: "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:onlineOfflineDashboard_dashboard:AFVK:v1"+":",
           refreshFlag: "Y",
           count:parseInt(pagination?.count) || 10,
           page:parseInt(pagination?.page) || 1
         }
         if (encryptionFlagPage) {          
-          barchartdashboard_v1Body["dpdKey"] = encryptionDpd;
-          barchartdashboard_v1Body["method"] = encryptionMethod;
+          onlineofflinedashboard_dashboard_v1Body["dpdKey"] = encryptionDpd;
+          onlineofflinedashboard_dashboard_v1Body["method"] = encryptionMethod;
         }
         if(dashboard_v1Props.length > 0){
           for(let i=0;i< dashboard_v1Props.length;i++){
-            if(dashboard_v1Props[i].DFDkey == "CK:CT003:FNGK:AF:FNK:DF-DFD:CATK:TAG:AFGK:TAG:AFK:barChartDashboard:AFVK:v1"){
+            if(dashboard_v1Props[i].DFDkey == "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:onlineOfflineDashboard_dashboard:AFVK:v1"){
               // delete dashboard_v1Props[i].DFDkey;
               let temp=structuredClone(dashboard_v1Props[i])
               delete temp?.DFDkey
               filterData.push(temp)
             }           
           }
-          barchartdashboard_v1Body['filterData'] = filterData;
+          onlineofflinedashboard_dashboard_v1Body['filterData'] = filterData;
         }
-        const barchartdashboard_v1Data:any=await AxiosService.post("/te/eventEmitter",barchartdashboard_v1Body,{
+        const onlineofflinedashboard_dashboard_v1Data:any=await AxiosService.post("/te/eventEmitter",onlineofflinedashboard_dashboard_v1Body,{
           headers: {
             Authorization: `Bearer ${token}`
           }
         })
-        let dstKey:string=barchartdashboard_v1Body?.key || ""
+        let dstKey:string=onlineofflinedashboard_dashboard_v1Body?.key || ""
         dstKey=dstKey.replace(":AFC:",":AFCP:").replace(":AF:",":AFP:").replace(":DF-DFD:",":DF-DST:");
-        if(barchartdashboard_v1Data?.data?.dataset === 'Bulk Data Processing'){
+        if(onlineofflinedashboard_dashboard_v1Data?.data?.dataset === 'Bulk Data Processing'){
           if(filterData.length>0){
             const api_paginationBody: api_paginationDto = {
           key: dstKey,
@@ -605,14 +595,14 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
           toast(api_paginationData?.data?.errorDetails?.message, 'danger')
           return
         }
-        setdfd_barchartdashboard_v1Props(api_paginationData?.data?.records || []);
+        setdfd_onlineofflinedashboard_dashboard_v1Props(api_paginationData?.data?.records || []);
       }else{
-          setdfd_barchartdashboard_v1Props({ hasLogicCenter: false, dstKey: dstKey })
+          setdfd_onlineofflinedashboard_dashboard_v1Props({ hasLogicCenter: false, dstKey: dstKey })
       }
-      }else if (barchartdashboard_v1Data?.data?.dataset) {
-           setdfd_barchartdashboard_v1Props(
-              Array.isArray(barchartdashboard_v1Data?.data?.dataset?.data)
-                 ? barchartdashboard_v1Data?.data.dataset.data.map((obj: any) =>
+      }else if (onlineofflinedashboard_dashboard_v1Data?.data?.dataset) {
+           setdfd_onlineofflinedashboard_dashboard_v1Props(
+              Array.isArray(onlineofflinedashboard_dashboard_v1Data?.data?.dataset?.data)
+                 ? onlineofflinedashboard_dashboard_v1Data?.data.dataset.data.map((obj: any) =>
                   Object.fromEntries(
                     Object.entries(obj || {}).map(([key, value]) => [
                       key.toLowerCase(),
@@ -649,15 +639,560 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
           toast(api_paginationData?.data?.errorDetails?.message, 'danger')
           return
         }
-        setdfd_barchartdashboard_v1Props(api_paginationData?.data?.records || []);
+        setdfd_onlineofflinedashboard_dashboard_v1Props(api_paginationData?.data?.records || []);
         }
       }
   useEffect(()=>{
-    if (prevRefreshRef?.current?.barchartdashboard_v1) {
-      barchartdashboard_v1DFD(paginationData)
+    if (prevRefreshRef?.current?.onlineofflinedashboard_dashboard_v1) {
+      onlineofflinedashboard_dashboard_v1DFD(paginationData)
     }else 
-      prevRefreshRef.current.barchartdashboard_v1= true
-  },[refetch?.barchartdashboard_v1])
+      prevRefreshRef.current.onlineofflinedashboard_dashboard_v1= true
+  },[refetch?.onlineofflinedashboard_dashboard_v1])
+    async function processcategorydashboard_dashboard_v1DFD(pagination:any): Promise<void>{
+        let filterData :any[] =[];
+        let processcategorydashboard_dashboard_v1Body:te_refreshDto={
+          key: "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:processCategoryDashboard_dashboard:AFVK:v1"+":",
+          refreshFlag: "Y",
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1
+        }
+        if (encryptionFlagPage) {          
+          processcategorydashboard_dashboard_v1Body["dpdKey"] = encryptionDpd;
+          processcategorydashboard_dashboard_v1Body["method"] = encryptionMethod;
+        }
+        if(dashboard_v1Props.length > 0){
+          for(let i=0;i< dashboard_v1Props.length;i++){
+            if(dashboard_v1Props[i].DFDkey == "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:processCategoryDashboard_dashboard:AFVK:v1"){
+              // delete dashboard_v1Props[i].DFDkey;
+              let temp=structuredClone(dashboard_v1Props[i])
+              delete temp?.DFDkey
+              filterData.push(temp)
+            }           
+          }
+          processcategorydashboard_dashboard_v1Body['filterData'] = filterData;
+        }
+        const processcategorydashboard_dashboard_v1Data:any=await AxiosService.post("/te/eventEmitter",processcategorydashboard_dashboard_v1Body,{
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        let dstKey:string=processcategorydashboard_dashboard_v1Body?.key || ""
+        dstKey=dstKey.replace(":AFC:",":AFCP:").replace(":AF:",":AFP:").replace(":DF-DFD:",":DF-DST:");
+        if(processcategorydashboard_dashboard_v1Data?.data?.dataset === 'Bulk Data Processing'){
+          if(filterData.length>0){
+            const api_paginationBody: api_paginationDto = {
+          key: dstKey,
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1,
+          filterData:filterData
+        }
+        // if(encryptionFlagCont) {
+        // api_paginationBody["dpdKey"] = encryptionDpd
+        // api_paginationBody["method"] = encryptionMethod
+        // }
+        const api_paginationData:any = await AxiosService.post(
+          '/UF/pagination',
+          api_paginationBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        if (api_paginationData?.data?.error == true) {
+          toast(api_paginationData?.data?.errorDetails?.message, 'danger')
+          return
+        }
+        setdfd_processcategorydashboard_dashboard_v1Props(api_paginationData?.data?.records || []);
+      }else{
+          setdfd_processcategorydashboard_dashboard_v1Props({ hasLogicCenter: false, dstKey: dstKey })
+      }
+      }else if (processcategorydashboard_dashboard_v1Data?.data?.dataset) {
+           setdfd_processcategorydashboard_dashboard_v1Props(
+              Array.isArray(processcategorydashboard_dashboard_v1Data?.data?.dataset?.data)
+                 ? processcategorydashboard_dashboard_v1Data?.data.dataset.data.map((obj: any) =>
+                  Object.fromEntries(
+                    Object.entries(obj || {}).map(([key, value]) => [
+                      key.toLowerCase(),
+                      value
+                    ])
+                  )
+                )
+              : []
+          );   
+        }else{
+         //////////////
+        
+
+        const api_paginationBody: api_paginationDto = {
+          key: dstKey,
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1
+        }
+        // if(encryptionFlagCont) {
+        // api_paginationBody["dpdKey"] = encryptionDpd
+        // api_paginationBody["method"] = encryptionMethod
+        // }
+        const api_paginationData:any = await AxiosService.post(
+          '/UF/pagination',
+          api_paginationBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        if (api_paginationData?.data?.error == true) {
+          toast(api_paginationData?.data?.errorDetails?.message, 'danger')
+          return
+        }
+        setdfd_processcategorydashboard_dashboard_v1Props(api_paginationData?.data?.records || []);
+        }
+      }
+  useEffect(()=>{
+    if (prevRefreshRef?.current?.processcategorydashboard_dashboard_v1) {
+      processcategorydashboard_dashboard_v1DFD(paginationData)
+    }else 
+      prevRefreshRef.current.processcategorydashboard_dashboard_v1= true
+  },[refetch?.processcategorydashboard_dashboard_v1])
+    async function transactioncountvphdashboard_dashboard_v1DFD(pagination:any): Promise<void>{
+        let filterData :any[] =[];
+        let transactioncountvphdashboard_dashboard_v1Body:te_refreshDto={
+          key: "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:transactionCountVphDashboard_dashboard:AFVK:v1"+":",
+          refreshFlag: "Y",
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1
+        }
+        if (encryptionFlagPage) {          
+          transactioncountvphdashboard_dashboard_v1Body["dpdKey"] = encryptionDpd;
+          transactioncountvphdashboard_dashboard_v1Body["method"] = encryptionMethod;
+        }
+        if(dashboard_v1Props.length > 0){
+          for(let i=0;i< dashboard_v1Props.length;i++){
+            if(dashboard_v1Props[i].DFDkey == "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:transactionCountVphDashboard_dashboard:AFVK:v1"){
+              // delete dashboard_v1Props[i].DFDkey;
+              let temp=structuredClone(dashboard_v1Props[i])
+              delete temp?.DFDkey
+              filterData.push(temp)
+            }           
+          }
+          transactioncountvphdashboard_dashboard_v1Body['filterData'] = filterData;
+        }
+        const transactioncountvphdashboard_dashboard_v1Data:any=await AxiosService.post("/te/eventEmitter",transactioncountvphdashboard_dashboard_v1Body,{
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        let dstKey:string=transactioncountvphdashboard_dashboard_v1Body?.key || ""
+        dstKey=dstKey.replace(":AFC:",":AFCP:").replace(":AF:",":AFP:").replace(":DF-DFD:",":DF-DST:");
+        if(transactioncountvphdashboard_dashboard_v1Data?.data?.dataset === 'Bulk Data Processing'){
+          if(filterData.length>0){
+            const api_paginationBody: api_paginationDto = {
+          key: dstKey,
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1,
+          filterData:filterData
+        }
+        // if(encryptionFlagCont) {
+        // api_paginationBody["dpdKey"] = encryptionDpd
+        // api_paginationBody["method"] = encryptionMethod
+        // }
+        const api_paginationData:any = await AxiosService.post(
+          '/UF/pagination',
+          api_paginationBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        if (api_paginationData?.data?.error == true) {
+          toast(api_paginationData?.data?.errorDetails?.message, 'danger')
+          return
+        }
+        setdfd_transactioncountvphdashboard_dashboard_v1Props(api_paginationData?.data?.records || []);
+      }else{
+          setdfd_transactioncountvphdashboard_dashboard_v1Props({ hasLogicCenter: false, dstKey: dstKey })
+      }
+      }else if (transactioncountvphdashboard_dashboard_v1Data?.data?.dataset) {
+           setdfd_transactioncountvphdashboard_dashboard_v1Props(
+              Array.isArray(transactioncountvphdashboard_dashboard_v1Data?.data?.dataset?.data)
+                 ? transactioncountvphdashboard_dashboard_v1Data?.data.dataset.data.map((obj: any) =>
+                  Object.fromEntries(
+                    Object.entries(obj || {}).map(([key, value]) => [
+                      key.toLowerCase(),
+                      value
+                    ])
+                  )
+                )
+              : []
+          );   
+        }else{
+         //////////////
+        
+
+        const api_paginationBody: api_paginationDto = {
+          key: dstKey,
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1
+        }
+        // if(encryptionFlagCont) {
+        // api_paginationBody["dpdKey"] = encryptionDpd
+        // api_paginationBody["method"] = encryptionMethod
+        // }
+        const api_paginationData:any = await AxiosService.post(
+          '/UF/pagination',
+          api_paginationBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        if (api_paginationData?.data?.error == true) {
+          toast(api_paginationData?.data?.errorDetails?.message, 'danger')
+          return
+        }
+        setdfd_transactioncountvphdashboard_dashboard_v1Props(api_paginationData?.data?.records || []);
+        }
+      }
+  useEffect(()=>{
+    if (prevRefreshRef?.current?.transactioncountvphdashboard_dashboard_v1) {
+      transactioncountvphdashboard_dashboard_v1DFD(paginationData)
+    }else 
+      prevRefreshRef.current.transactioncountvphdashboard_dashboard_v1= true
+  },[refetch?.transactioncountvphdashboard_dashboard_v1])
+    async function channelcountvphdashboard_dashboard_v1DFD(pagination:any): Promise<void>{
+        let filterData :any[] =[];
+        let channelcountvphdashboard_dashboard_v1Body:te_refreshDto={
+          key: "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:channelCountVphDashboard_dashboard:AFVK:v1"+":",
+          refreshFlag: "Y",
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1
+        }
+        if (encryptionFlagPage) {          
+          channelcountvphdashboard_dashboard_v1Body["dpdKey"] = encryptionDpd;
+          channelcountvphdashboard_dashboard_v1Body["method"] = encryptionMethod;
+        }
+        if(dashboard_v1Props.length > 0){
+          for(let i=0;i< dashboard_v1Props.length;i++){
+            if(dashboard_v1Props[i].DFDkey == "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:channelCountVphDashboard_dashboard:AFVK:v1"){
+              // delete dashboard_v1Props[i].DFDkey;
+              let temp=structuredClone(dashboard_v1Props[i])
+              delete temp?.DFDkey
+              filterData.push(temp)
+            }           
+          }
+          channelcountvphdashboard_dashboard_v1Body['filterData'] = filterData;
+        }
+        const channelcountvphdashboard_dashboard_v1Data:any=await AxiosService.post("/te/eventEmitter",channelcountvphdashboard_dashboard_v1Body,{
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        let dstKey:string=channelcountvphdashboard_dashboard_v1Body?.key || ""
+        dstKey=dstKey.replace(":AFC:",":AFCP:").replace(":AF:",":AFP:").replace(":DF-DFD:",":DF-DST:");
+        if(channelcountvphdashboard_dashboard_v1Data?.data?.dataset === 'Bulk Data Processing'){
+          if(filterData.length>0){
+            const api_paginationBody: api_paginationDto = {
+          key: dstKey,
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1,
+          filterData:filterData
+        }
+        // if(encryptionFlagCont) {
+        // api_paginationBody["dpdKey"] = encryptionDpd
+        // api_paginationBody["method"] = encryptionMethod
+        // }
+        const api_paginationData:any = await AxiosService.post(
+          '/UF/pagination',
+          api_paginationBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        if (api_paginationData?.data?.error == true) {
+          toast(api_paginationData?.data?.errorDetails?.message, 'danger')
+          return
+        }
+        setdfd_channelcountvphdashboard_dashboard_v1Props(api_paginationData?.data?.records || []);
+      }else{
+          setdfd_channelcountvphdashboard_dashboard_v1Props({ hasLogicCenter: false, dstKey: dstKey })
+      }
+      }else if (channelcountvphdashboard_dashboard_v1Data?.data?.dataset) {
+           setdfd_channelcountvphdashboard_dashboard_v1Props(
+              Array.isArray(channelcountvphdashboard_dashboard_v1Data?.data?.dataset?.data)
+                 ? channelcountvphdashboard_dashboard_v1Data?.data.dataset.data.map((obj: any) =>
+                  Object.fromEntries(
+                    Object.entries(obj || {}).map(([key, value]) => [
+                      key.toLowerCase(),
+                      value
+                    ])
+                  )
+                )
+              : []
+          );   
+        }else{
+         //////////////
+        
+
+        const api_paginationBody: api_paginationDto = {
+          key: dstKey,
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1
+        }
+        // if(encryptionFlagCont) {
+        // api_paginationBody["dpdKey"] = encryptionDpd
+        // api_paginationBody["method"] = encryptionMethod
+        // }
+        const api_paginationData:any = await AxiosService.post(
+          '/UF/pagination',
+          api_paginationBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        if (api_paginationData?.data?.error == true) {
+          toast(api_paginationData?.data?.errorDetails?.message, 'danger')
+          return
+        }
+        setdfd_channelcountvphdashboard_dashboard_v1Props(api_paginationData?.data?.records || []);
+        }
+      }
+  useEffect(()=>{
+    if (prevRefreshRef?.current?.channelcountvphdashboard_dashboard_v1) {
+      channelcountvphdashboard_dashboard_v1DFD(paginationData)
+    }else 
+      prevRefreshRef.current.channelcountvphdashboard_dashboard_v1= true
+  },[refetch?.channelcountvphdashboard_dashboard_v1])
+    async function channelchartdashboard_dashboard_v1DFD(pagination:any): Promise<void>{
+        let filterData :any[] =[];
+        let channelchartdashboard_dashboard_v1Body:te_refreshDto={
+          key: "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:channelChartDashboard_dashboard:AFVK:v1"+":",
+          refreshFlag: "Y",
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1
+        }
+        if (encryptionFlagPage) {          
+          channelchartdashboard_dashboard_v1Body["dpdKey"] = encryptionDpd;
+          channelchartdashboard_dashboard_v1Body["method"] = encryptionMethod;
+        }
+        if(dashboard_v1Props.length > 0){
+          for(let i=0;i< dashboard_v1Props.length;i++){
+            if(dashboard_v1Props[i].DFDkey == "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:channelChartDashboard_dashboard:AFVK:v1"){
+              // delete dashboard_v1Props[i].DFDkey;
+              let temp=structuredClone(dashboard_v1Props[i])
+              delete temp?.DFDkey
+              filterData.push(temp)
+            }           
+          }
+          channelchartdashboard_dashboard_v1Body['filterData'] = filterData;
+        }
+        const channelchartdashboard_dashboard_v1Data:any=await AxiosService.post("/te/eventEmitter",channelchartdashboard_dashboard_v1Body,{
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        let dstKey:string=channelchartdashboard_dashboard_v1Body?.key || ""
+        dstKey=dstKey.replace(":AFC:",":AFCP:").replace(":AF:",":AFP:").replace(":DF-DFD:",":DF-DST:");
+        if(channelchartdashboard_dashboard_v1Data?.data?.dataset === 'Bulk Data Processing'){
+          if(filterData.length>0){
+            const api_paginationBody: api_paginationDto = {
+          key: dstKey,
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1,
+          filterData:filterData
+        }
+        // if(encryptionFlagCont) {
+        // api_paginationBody["dpdKey"] = encryptionDpd
+        // api_paginationBody["method"] = encryptionMethod
+        // }
+        const api_paginationData:any = await AxiosService.post(
+          '/UF/pagination',
+          api_paginationBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        if (api_paginationData?.data?.error == true) {
+          toast(api_paginationData?.data?.errorDetails?.message, 'danger')
+          return
+        }
+        setdfd_channelchartdashboard_dashboard_v1Props(api_paginationData?.data?.records || []);
+      }else{
+          setdfd_channelchartdashboard_dashboard_v1Props({ hasLogicCenter: false, dstKey: dstKey })
+      }
+      }else if (channelchartdashboard_dashboard_v1Data?.data?.dataset) {
+           setdfd_channelchartdashboard_dashboard_v1Props(
+              Array.isArray(channelchartdashboard_dashboard_v1Data?.data?.dataset?.data)
+                 ? channelchartdashboard_dashboard_v1Data?.data.dataset.data.map((obj: any) =>
+                  Object.fromEntries(
+                    Object.entries(obj || {}).map(([key, value]) => [
+                      key.toLowerCase(),
+                      value
+                    ])
+                  )
+                )
+              : []
+          );   
+        }else{
+         //////////////
+        
+
+        const api_paginationBody: api_paginationDto = {
+          key: dstKey,
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1
+        }
+        // if(encryptionFlagCont) {
+        // api_paginationBody["dpdKey"] = encryptionDpd
+        // api_paginationBody["method"] = encryptionMethod
+        // }
+        const api_paginationData:any = await AxiosService.post(
+          '/UF/pagination',
+          api_paginationBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        if (api_paginationData?.data?.error == true) {
+          toast(api_paginationData?.data?.errorDetails?.message, 'danger')
+          return
+        }
+        setdfd_channelchartdashboard_dashboard_v1Props(api_paginationData?.data?.records || []);
+        }
+      }
+  useEffect(()=>{
+    if (prevRefreshRef?.current?.channelchartdashboard_dashboard_v1) {
+      channelchartdashboard_dashboard_v1DFD(paginationData)
+    }else 
+      prevRefreshRef.current.channelchartdashboard_dashboard_v1= true
+  },[refetch?.channelchartdashboard_dashboard_v1])
+    async function onlineofflinecountvphdashboard_dashboard_v1DFD(pagination:any): Promise<void>{
+        let filterData :any[] =[];
+        let onlineofflinecountvphdashboard_dashboard_v1Body:te_refreshDto={
+          key: "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:onlineOfflineCountVPHDashboard_dashboard:AFVK:v1"+":",
+          refreshFlag: "Y",
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1
+        }
+        if (encryptionFlagPage) {          
+          onlineofflinecountvphdashboard_dashboard_v1Body["dpdKey"] = encryptionDpd;
+          onlineofflinecountvphdashboard_dashboard_v1Body["method"] = encryptionMethod;
+        }
+        if(dashboard_v1Props.length > 0){
+          for(let i=0;i< dashboard_v1Props.length;i++){
+            if(dashboard_v1Props[i].DFDkey == "CK:CT005:FNGK:AF:FNK:DF-DFD:CATK:GSS:AFGK:SMX:AFK:onlineOfflineCountVPHDashboard_dashboard:AFVK:v1"){
+              // delete dashboard_v1Props[i].DFDkey;
+              let temp=structuredClone(dashboard_v1Props[i])
+              delete temp?.DFDkey
+              filterData.push(temp)
+            }           
+          }
+          onlineofflinecountvphdashboard_dashboard_v1Body['filterData'] = filterData;
+        }
+        const onlineofflinecountvphdashboard_dashboard_v1Data:any=await AxiosService.post("/te/eventEmitter",onlineofflinecountvphdashboard_dashboard_v1Body,{
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        let dstKey:string=onlineofflinecountvphdashboard_dashboard_v1Body?.key || ""
+        dstKey=dstKey.replace(":AFC:",":AFCP:").replace(":AF:",":AFP:").replace(":DF-DFD:",":DF-DST:");
+        if(onlineofflinecountvphdashboard_dashboard_v1Data?.data?.dataset === 'Bulk Data Processing'){
+          if(filterData.length>0){
+            const api_paginationBody: api_paginationDto = {
+          key: dstKey,
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1,
+          filterData:filterData
+        }
+        // if(encryptionFlagCont) {
+        // api_paginationBody["dpdKey"] = encryptionDpd
+        // api_paginationBody["method"] = encryptionMethod
+        // }
+        const api_paginationData:any = await AxiosService.post(
+          '/UF/pagination',
+          api_paginationBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        if (api_paginationData?.data?.error == true) {
+          toast(api_paginationData?.data?.errorDetails?.message, 'danger')
+          return
+        }
+        setdfd_onlineofflinecountvphdashboard_dashboard_v1Props(api_paginationData?.data?.records || []);
+      }else{
+          setdfd_onlineofflinecountvphdashboard_dashboard_v1Props({ hasLogicCenter: false, dstKey: dstKey })
+      }
+      }else if (onlineofflinecountvphdashboard_dashboard_v1Data?.data?.dataset) {
+           setdfd_onlineofflinecountvphdashboard_dashboard_v1Props(
+              Array.isArray(onlineofflinecountvphdashboard_dashboard_v1Data?.data?.dataset?.data)
+                 ? onlineofflinecountvphdashboard_dashboard_v1Data?.data.dataset.data.map((obj: any) =>
+                  Object.fromEntries(
+                    Object.entries(obj || {}).map(([key, value]) => [
+                      key.toLowerCase(),
+                      value
+                    ])
+                  )
+                )
+              : []
+          );   
+        }else{
+         //////////////
+        
+
+        const api_paginationBody: api_paginationDto = {
+          key: dstKey,
+          count:parseInt(pagination?.count) || 10,
+          page:parseInt(pagination?.page) || 1
+        }
+        // if(encryptionFlagCont) {
+        // api_paginationBody["dpdKey"] = encryptionDpd
+        // api_paginationBody["method"] = encryptionMethod
+        // }
+        const api_paginationData:any = await AxiosService.post(
+          '/UF/pagination',
+          api_paginationBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        if (api_paginationData?.data?.error == true) {
+          toast(api_paginationData?.data?.errorDetails?.message, 'danger')
+          return
+        }
+        setdfd_onlineofflinecountvphdashboard_dashboard_v1Props(api_paginationData?.data?.records || []);
+        }
+      }
+  useEffect(()=>{
+    if (prevRefreshRef?.current?.onlineofflinecountvphdashboard_dashboard_v1) {
+      onlineofflinecountvphdashboard_dashboard_v1DFD(paginationData)
+    }else 
+      prevRefreshRef.current.onlineofflinecountvphdashboard_dashboard_v1= true
+  },[refetch?.onlineofflinecountvphdashboard_dashboard_v1])
   const handleArtfactRule=async(rule:any,data:any={},allRuleData:any)=>{
     const { getAftfactLevelRule } = await import("../utils/evaluateDecisionTable");
     let result :any =await getAftfactLevelRule(rule,data,allRuleData)
@@ -670,9 +1205,9 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
       ? {
           dpdKey: encryptionDpd,
           method: encryptionMethod,
-          key: "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1"
+          key: "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:SMX:AFK:dashboard:AFVK:v1"
         }
-      : { key: "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1" }
+      : { key: "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:SMX:AFK:dashboard:AFVK:v1" }
     const encryptionFlagPageData: EncryptionFlagPageData = {
       flag: encryptionFlagPage,
       dpd: encryptionDpd,
@@ -686,7 +1221,7 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
     // on the first rejection otherwise).
     const [data, myAccountRes]: [any, any] = await Promise.all([
       fetchBatchData(
-        'CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1',
+        'CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:SMX:AFK:dashboard:AFVK:v1',
         [user],
         'pageDashboardV1',
         token,
@@ -715,7 +1250,7 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
     }
     if (token) {
       const basePath = getPublicEnv('NEXT_PUBLIC_BASE_PATH');
-      const res = await fetch(`${basePath}/next-api/auth/introspect?key=CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1`)
+      const res = await fetch(`${basePath}/next-api/auth/introspect?key=CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:SMX:AFK:dashboard:AFVK:v1`)
       if (!res.ok) {
         logout(token)
         return
@@ -728,51 +1263,52 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
           setAccessProfile([user]);
         }
         try{
-    await piechartdashboard_v1DFD(pagination)
-    await cardmetricsdashboard_v1DFD(pagination)
-    await dashboardtable_v1DFD(pagination)
-    await barchartdashboard_v1DFD(pagination)
+    await channeldashboard_dashboard_v1DFD(pagination)
+    await currencydashboard_dashboard_v1DFD(pagination)
+    await transaction_dashboard_v1DFD(pagination)
+    await onlineofflinedashboard_dashboard_v1DFD(pagination)
+    await processcategorydashboard_dashboard_v1DFD(pagination)
+    await transactioncountvphdashboard_dashboard_v1DFD(pagination)
+    await channelcountvphdashboard_dashboard_v1DFD(pagination)
+    await channelchartdashboard_dashboard_v1DFD(pagination)
+    await onlineofflinecountvphdashboard_dashboard_v1DFD(pagination)
           if (security == 'AA' || security == 'RA') {
           allowedGroup.map((nodes:AllowedGroupNode)=>{
-            if(nodes?.groupName == 'overall_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'gdb_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setCheckoverall_group(true)
+              setCheckgdb_group(true)
             }
-            if(nodes?.groupName == 'register_ai_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'tab_grp' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setCheckregister_ai_group(true)
+              setChecktab_grp(true)
             }
-            if(nodes?.groupName == 'tier_critical_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'transaction_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setChecktier_critical_group(true)
+              setChecktransaction_group(true)
             }
-            if(nodes?.groupName == 'cert_expired_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'total_value_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setCheckcert_expired_group(true)
+              setChecktotal_value_group(true)
             }
-            if(nodes?.groupName == 'named_owner_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'online_offline_processing_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setChecknamed_owner_group(true)
+              setCheckonline_offline_processing_group(true)
             }
-            if(nodes?.groupName == 'cert_date_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'line_chart_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setCheckcert_date_group(true)
+              setCheckline_chart_group(true)
             }
-            if(nodes?.groupName == 'governer_gap_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'bar_chart_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setCheckgoverner_gap_group(true)
+              setCheckbar_chart_group(true)
             }
-            if(nodes?.groupName == 'table' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'pie_chart_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setChecktable(true)
+              setCheckpie_chart_group(true)
             }
-            if(nodes?.groupName == 'pirchart_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
+            if(nodes?.groupName == 'transaction_table' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
             {
-              setCheckpirchart_group(true)
-            }
-            if(nodes?.groupName == 'assets_by_business_unit_group' && (nodes?.security== 'AA' || nodes?.security == 'ATO' || nodes?.security == 'RA'))
-            {
-              setCheckassets_by_business_unit_group(true)
+              setChecktransaction_table(true)
             }
           })
           }
@@ -787,26 +1323,24 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
         //Code Execution
         if (code !="" ) {
           let codeStates: Record<string, any> = {}
-          codeStates['overall_group'] = overall_group0ca82;
-          codeStates['setoverall_group'] = setoverall_group0ca82;
-          codeStates['register_ai_group'] = register_ai_group08810;
-          codeStates['setregister_ai_group'] = setregister_ai_group08810;
-          codeStates['tier_critical_group'] = tier_critical_group484c4;
-          codeStates['settier_critical_group'] = settier_critical_group484c4;
-          codeStates['cert_expired_group'] = cert_expired_groupf48db;
-          codeStates['setcert_expired_group'] = setcert_expired_groupf48db;
-          codeStates['named_owner_group'] = named_owner_group4361e;
-          codeStates['setnamed_owner_group'] = setnamed_owner_group4361e;
-          codeStates['cert_date_group'] = cert_date_group9ac35;
-          codeStates['setcert_date_group'] = setcert_date_group9ac35;
-          codeStates['governer_gap_group'] = governer_gap_group09585;
-          codeStates['setgoverner_gap_group'] = setgoverner_gap_group09585;
-          codeStates['table'] = table0a722;
-          codeStates['settable'] = settable0a722;
-          codeStates['pirchart_group'] = pirchart_group8d70d;
-          codeStates['setpirchart_group'] = setpirchart_group8d70d;
-          codeStates['assets_by_business_unit_group'] = assets_by_business_unit_group374c2;
-          codeStates['setassets_by_business_unit_group'] = setassets_by_business_unit_group374c2;
+          codeStates['gdb_group'] = gdb_group5384d;
+          codeStates['setgdb_group'] = setgdb_group5384d;
+          codeStates['tab_grp'] = tab_grpe63f4;
+          codeStates['settab_grp'] = settab_grpe63f4;
+          codeStates['transaction_group'] = transaction_group6c6f2;
+          codeStates['settransaction_group'] = settransaction_group6c6f2;
+          codeStates['total_value_group'] = total_value_group9d783;
+          codeStates['settotal_value_group'] = settotal_value_group9d783;
+          codeStates['online_offline_processing_group'] = online_offline_processing_group7ad24;
+          codeStates['setonline_offline_processing_group'] = setonline_offline_processing_group7ad24;
+          codeStates['line_chart_group'] = line_chart_group61ee8;
+          codeStates['setline_chart_group'] = setline_chart_group61ee8;
+          codeStates['bar_chart_group'] = bar_chart_group737a3;
+          codeStates['setbar_chart_group'] = setbar_chart_group737a3;
+          codeStates['pie_chart_group'] = pie_chart_group15067;
+          codeStates['setpie_chart_group'] = setpie_chart_group15067;
+          codeStates['transaction_table'] = transaction_tablef4f34;
+          codeStates['settransaction_table'] = settransaction_tablef4f34;
           const { codeExecution } = await import("../utils/codeExecution");
           codeExecution(code,codeStates);
         }   
@@ -841,10 +1375,10 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
       let data:any ={
         ...decodedTokenObj,
         session:decodedTokenObj,
-      }
+tab_group:tab_group65b41.tab_group,      }
       handleArtfactRule(dashboard_v1?._artfactPFRule_,data,allRuleData)
     }
-  },[])
+  },[tab_group65b41.tab_group,])
 
   const parentRef:any = useRef(null);
   useEffect(() => {
@@ -879,7 +1413,7 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
         gridTemplateRows: '',
         height: '',
         overflow: '',
-        backgroundColor:bgStyle,
+        backgroundColor:'#f5f5f5',
         backgroundImage:'',
         backgroundPosition: '',
         backgroundSize: '',
@@ -907,7 +1441,7 @@ export default function PageDashboardV1({ onReady }: { onReady?: () => void } = 
           </div>
         </div>
       )}
-        {checkoverall_group && initialLoad &&<Groupoverall_group
+        {checkgdb_group && initialLoad &&<Groupgdb_group
           lockedData={lockedData} 
           setLockedData={setLockedData} 
           primaryTableData={primaryTableData}

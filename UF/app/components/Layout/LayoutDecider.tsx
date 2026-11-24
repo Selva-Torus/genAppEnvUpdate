@@ -44,16 +44,16 @@ const LayoutDecider = ({
   const { borderColor, bgColor } : { borderColor: string; bgColor: string } = useTheme()
   const { brandColor, hoverColor, selectionColor } : { brandColor: string; hoverColor: string; selectionColor: string } = branding;
   const encryptionFlagApp: boolean = false;    
-  const encryptionDpd: string = "CK:CT003:FNGK:AF:FNK:CDF-DPD:CATK:TAG:AFGK:TAG:AFK:tagDPD:AFVK:v1";
+  const encryptionDpd: string = "CK:CT005:FNGK:AF:FNK:CDF-DPD:CATK:GSS:AFGK:SMX:AFK:DPD_SMX:AFVK:v1";
   const encryptionMethod: string = "";
   const { encAppFalg, setEncAppFalg }  = useContext(TotalContext) as TotalContextProps;
   const logo: string = ""
-  const appLogo: string = ""
-  const appName: string = "TAG"
+  const appLogo: string = "torus/9.1/CT005/resources/images/White global payment hub.png"
+  const appName: string = "SMX"
   const toast: Function = useInfoMsg()
   const [loading, setLoading] = useState<boolean>(true)
   const [updatedNavData, setUpdatedNavData] = useState<MenuItem[]>([])
-  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT003:AFGK:TAG:AFK:TAG:AFVK:v1:bldc"
+  const aKey :string = "CK:TGA:FNGK:BLDC:FNK:DEV:CATK:CT005:AFGK:GSS:AFK:SMX:AFVK:v1:bldc"
   const [rawNavData, setRawNavData] = useState<MenuItem[] | null>(null);
   const navData: MenuItem[] = [
   {
@@ -81,233 +81,11 @@ const LayoutDecider = ({
     "icon": "https://tdps3api.toruslowcode.com/torus/9.1/resources/icons/admin-svgrepo-com.svg"
   },
   {
-    "menuGroupLabel": "DashBoard",
+    "menuGroupLabel": "Transactions",
     "screenDetails": [
       {
-        "name": "dashboard",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:dashboard:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/resources/icons/home-4-svgrepo-com.svg"
-  },
-  {
-    "menuGroup": "registry",
-    "menuGroupLabel": "Registry",
-    "screenDetails": [
-      {
-        "name": "ai registry",
-        "label": "AI Registry",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIRegistry:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT003/resources/images/ai_registry.svg"
-      },
-      {
-        "name": "ai passport",
-        "label": "AI Passport",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:AIRegistryView:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT003/resources/images/AI PASSPORT (1).svg"
-      },
-      {
-        "name": "discovery queue",
-        "label": "Discovery Queue",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:discoveryQueue:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT003/resources/images/DISCOVERY QUEUE.svg"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT003/resources/images/REGISTER AI ASSET.svg"
-  },
-  {
-    "menuGroup": "evidence",
-    "menuGroupLabel": "Evidence",
-    "screenDetails": [
-      {
-        "name": "evidence",
-        "label": "Evidence",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:assetEvidences:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT003/resources/images/EVIDENCE PACK.svg"
-      }
-    ],
-    "items": [],
-    "icon": "/torus/9.1/CT003/resources/images/evidence 1.svg"
-  },
-  {
-    "menuGroup": "governance",
-    "menuGroupLabel": "Governance",
-    "screenDetails": [
-      {
-        "name": "risk classification",
-        "label": "Risk Classification",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:assetList:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT003/resources/images/riskclassification.svg"
-      },
-      {
-        "name": "certification record",
-        "label": "Certification Record",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certification:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/CT003/resources/images/CERTIFICATION RECORD.svg"
-      }
-    ],
-    "items": [
-      {
-        "menuGroup": "my approval",
-        "menuGroupLabel": "My Approval",
-        "screenDetails": [
-          {
-            "name": "risk evaluation",
-            "label": "Risk Evaluation",
-            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:riskAssetList:AFVK:v1",
-            "restrictedAccessProfile": [],
-            "static": false,
-            "icon": "/torus/9.1/CT003/resources/images/risk evaluation.svg"
-          },
-          {
-            "name": "certificate stage",
-            "label": "Certificate Stage",
-            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:assetApproval:AFVK:v1",
-            "restrictedAccessProfile": [],
-            "static": false,
-            "icon": "/torus/9.1/CT003/resources/images/certificate stage.svg"
-          }
-        ],
-        "items": [],
-        "icon": "/torus/9.1/CT003/resources/images/my approval.svg"
-      }
-    ],
-    "icon": "/torus/9.1/CT003/resources/images/governance.svg"
-  },
-  {
-    "menuGroup": "administration",
-    "menuGroupLabel": "Administration",
-    "screenDetails": [
-      {
-        "name": "credential reference",
-        "label": "Credential Reference",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:credentialReferenceList:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false
-      },
-      {
-        "name": "policy rule",
-        "label": "Policy Rule",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:policyRuleList:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false
-      },
-      {
-        "name": "identity and authority setup",
-        "label": "Identity and Authority Setup",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:identitySetup:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false
-      }
-    ],
-    "items": [
-      {
-        "menuGroup": "risk management",
-        "menuGroupLabel": "Risk Management",
-        "screenDetails": [
-          {
-            "name": "risk rule",
-            "label": "Risk Rule",
-            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:riskRule:AFVK:v1",
-            "restrictedAccessProfile": [],
-            "static": false,
-            "icon": "/torus/9.1/CT003/resources/images/risk-rule.svg"
-          },
-          {
-            "name": "risk rule condition",
-            "label": "Risk Rule Condition",
-            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:ruleCondition:AFVK:v1",
-            "restrictedAccessProfile": [],
-            "static": false,
-            "icon": "/torus/9.1/CT003/resources/images/rulecondition.svg"
-          }
-        ],
-        "items": [],
-        "icon": "/torus/9.1/CT003/resources/images/risk-management.svg"
-      },
-      {
-        "menuGroup": "certification management",
-        "menuGroupLabel": "Certification Management",
-        "screenDetails": [
-          {
-            "name": "certification template",
-            "label": "Certification Template",
-            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificateTemplate:AFVK:v1",
-            "restrictedAccessProfile": [],
-            "static": false,
-            "icon": "/torus/9.1/CT003/resources/images/CERTIFICATION RECORD.svg"
-          },
-          {
-            "name": "certification template stage",
-            "label": "Certification Template Stage",
-            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:certificationTemplateStage:AFVK:v1",
-            "restrictedAccessProfile": [],
-            "static": false,
-            "icon": "/torus/9.1/CT003/resources/images/certificate stage.svg"
-          }
-        ],
-        "items": [],
-        "icon": "/torus/9.1/CT003/resources/images/certificate-management.svg"
-      },
-      {
-        "menuGroup": "code sets",
-        "menuGroupLabel": "Code Sets",
-        "screenDetails": [
-          {
-            "name": "code type",
-            "label": "Code Type",
-            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeTypes:AFVK:v1",
-            "restrictedAccessProfile": [],
-            "static": false,
-            "icon": "/torus/9.1/CT003/resources/images/code type.svg"
-          },
-          {
-            "name": "code value",
-            "label": "Code Value",
-            "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:codeValue:AFVK:v1",
-            "restrictedAccessProfile": [],
-            "static": false,
-            "icon": "/torus/9.1/CT003/resources/images/code value.svg"
-          }
-        ],
-        "items": [],
-        "icon": "/torus/9.1/CT003/resources/images/code_set.svg"
-      }
-    ],
-    "icon": "/torus/9.1/CT003/resources/images/administration.svg"
-  },
-  {
-    "menuGroup": "control",
-    "menuGroupLabel": "Control",
-    "screenDetails": [
-      {
-        "name": "identity and authority",
-        "label": "Identity and Authority",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:identityAndAuthority:AFVK:v1",
-        "restrictedAccessProfile": [],
-        "static": false
-      },
-      {
-        "name": "kill switch console",
-        "label": "Kill Switch Console",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFW:CATK:TAG:AFGK:TAG:AFK:killSwitchActionList:AFVK:v1",
+        "name": "transactions",
+        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:SMX:AFK:transactionProduct:AFVK:v1",
         "restrictedAccessProfile": [],
         "static": false
       }
@@ -315,18 +93,42 @@ const LayoutDecider = ({
     "items": []
   },
   {
-    "menuGroupLabel": "Report",
+    "menuGroupLabel": "NF Transactions",
     "screenDetails": [
       {
-        "name": "report",
-        "key": "CK:CT003:FNGK:AF:FNK:UF-UFR:CATK:TAG:AFGK:TAG:AFK:evidenceReport:AFVK:v1",
+        "name": "nf transactions",
+        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:SMX:AFK:nfTransactionProduct:AFVK:v1",
         "restrictedAccessProfile": [],
-        "static": false,
-        "icon": "/torus/9.1/resources/icons/document-svgrepo-com.svg"
+        "static": false
       }
     ],
-    "items": [],
-    "icon": "/torus/9.1/resources/icons/document-svgrepo-com.svg"
+    "items": []
+  },
+  {
+    "menuGroupLabel": "Simulator",
+    "screenDetails": [
+      {
+        "name": "simulator",
+        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:SMX:AFK:ackSimulator:AFVK:v1",
+        "restrictedAccessProfile": [
+          "Operational Manager"
+        ],
+        "static": false
+      }
+    ],
+    "items": []
+  },
+  {
+    "menuGroupLabel": "Dashboard",
+    "screenDetails": [
+      {
+        "name": "dashboard",
+        "key": "CK:CT005:FNGK:AF:FNK:UF-UFW:CATK:GSS:AFGK:SMX:AFK:dashboard:AFVK:v1",
+        "restrictedAccessProfile": [],
+        "static": false
+      }
+    ],
+    "items": []
   }
 ]
   const decodedTokenObj: DecodedToken = decodeToken(token)
@@ -608,27 +410,23 @@ const LayoutDecider = ({
     'gridSize'?: number
   }[] =[
   {
-    "name": "profile",
-    "gridColumn": "23/25",
-    "gridRow": "23/25",
-    "gridSize": 24
-  },
-  {
-    "name": "opr matrix",
-    "gridColumn": "18/22",
-    "gridRow": "21/23",
-    "gridSize": 24
+    "name": "app logo",
+    "gridColumn": "1/3"
   },
   {
     "name": "menu items",
-    "gridColumn": "3/18",
-    "gridRow": "3/21",
-    "gridSize": 24
+    "gridColumn": "3/8",
+    "gridRow": "1/6"
   },
   {
-    "name": "logo",
-    "gridColumn": "1/3",
-    "gridSize": 24
+    "name": "profile",
+    "gridColumn": "12/13",
+    "gridRow": "12/13"
+  },
+  {
+    "name": "opr matrix",
+    "gridColumn": "9/12",
+    "gridRow": "6/9"
   }
 ]
 

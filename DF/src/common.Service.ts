@@ -1362,8 +1362,8 @@ export class CommonService{
         
         if(typeof key != 'string')
         key = 'commonError'
-         tenant=tenant || "CT003"
-        app=app ||  "TAG"
+         tenant=tenant || "CT005"
+        app=app ||  "SMX"
         await this.redisService.setStreamData(tenant+'-'+app+'-TSL',key,JSON.stringify(logs))    
         return logs
 
@@ -1827,7 +1827,10 @@ export class CommonService{
       if (!dpdkey) throw new CustomException('DPD key not found', 404);          
        
       await this.assertConnectorTenant(dpdkey, tenant);
-      let extdata:any =  Object.values(JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName)))[0];
+      let extdata:any = JSON.parse(await this.redisService.getJsonData(dpdkey + 'NDP', collectionName))
+      if(extdata) 
+      extdata = Object.values(extdata)[0]
+      else throw new CustomException(`${dpdkey} key value not found`,404)
       
       let dpdData:any = decrypt(extdata)         
        

@@ -1,0 +1,612 @@
+
+
+'use client'
+import React, { useState,useContext,useEffect,useRef } from 'react'
+import { TotalContext, TotalContextProps } from '@/app/globalContext';
+import i18n from '@/app/components/i18n';
+import { AxiosService } from "@/app/components/axiosService";
+import { useInfoMsg } from '@/app/components/infoMsgHandler';
+import { useRouter } from 'next/navigation';
+import UOmapperData from '@/context/dfdmapperContolnames.json'
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { useGlobal } from '@/context/GlobalContext'
+import { getDropdownDetailsNew } from '@/app/utils/getMapperDetails';
+import { codeExecution } from '@/app/utils/codeExecution';
+import { eventBus } from '@/app/eventBus';
+import { Dropdown } from '@/components/Dropdown';
+import { Text } from '@/components/Text';
+import {Modal} from '@/components/Modal';
+import { Icon } from '@/components/Icon';
+import { getFilterProps,getRouteScreenDetails } from '@/app/utils/assemblerKeys';
+import { getMapperDetailsDto,uf_getPFDetailsDto,uf_initiatePfDto,te_eventEmitterDto,uf_ifoDto,te_updateDto, te_refreshDto } from '@/app/interfaces/interfaces';
+import * as v from 'valibot';
+import {commonSepareteDataFromTheObject, eventFunction } from '@/app/utils/eventFunction';
+import evaluateDecisionTable from '@/app/utils/evaluateDecisionTable';
+import decodeToken from '@/app/components/decodeToken';
+import { nullFilter } from '@/app/utils/nullDataFilter';
+import { eventDecisionTable } from '@/app/utils/evaluateDecisionTable';
+import { getGroupOrchestrationData, getControlOrchestrationData } from '@/app/utils/Orchestration';
+import { clearSetSarchFilterData } from '@/app/utils/commonfunctions';
+import { DecodedToken,PrimaryTableData,SecurityData,EncryptionFlagPageData,PaginationData,AllowedGroupNode,ActionDetails } from "@/types/global";
+    function SourceIdFilter(eventProperty:any,matchingSequence?:string){
+    let ans : any[] = [];
+    let id : string = "";
+    if(eventProperty.name=='saveHandler' && eventProperty.sequence == matchingSequence)
+    {
+      return [eventProperty.id]
+    }
+    if(eventProperty.name=='eventEmitter' && eventProperty.sequence == matchingSequence)
+    {
+      return [eventProperty.id]
+    }
+    for(let i=0;i<eventProperty?.children?.length;i++)
+    {
+      let temp:any=SourceIdFilter(eventProperty?.children[i],matchingSequence)
+      if(temp.length)
+      {
+        ans.push(eventProperty?.children[i].id)
+        id=id+"|"+eventProperty?.children[i].id
+        ans.push(...temp)
+      }
+    }
+    return ans
+  }
+let dfData:any;
+let dfdFlag:boolean = false;
+let getMapperDetailsBindValues:Record<string, any> ={} ;
+const Dropdownip_message_type = ({lockedData,setLockedData,checkToAdd,setCheckToAdd,refetch,setRefetch,encryptionFlagCompData,setIsProcessing,controlData}: any) => {
+  const { token } = useGlobal();
+  const decodedTokenObj: any = decodeToken(token);
+  const {accessProfile, setAccessProfile} = useContext(TotalContext) as TotalContextProps;
+  const {memoryVariables, setMemoryVariables} = useContext(TotalContext) as TotalContextProps;
+  const {dfd_ipmessagetypestimulatorcombo_v1Props, setdfd_ipmessagetypestimulatorcombo_v1Props} = useContext(TotalContext) as TotalContextProps; 
+  const { validate, setValidate } = useContext(
+    TotalContext
+  ) as TotalContextProps
+  const [isRequredData,setIsRequredData]=useState<boolean>(false)
+  const [error, setError] = useState<string>('')
+  const keyset:Function=i18n.keyset("language");
+  const [initialCount,setInitialCount]=useState<number>(0)
+  let getMapperDetails:string[];
+  let getMapperDetailsValues:string[];
+  const toast:Function=useInfoMsg();
+  const routes: AppRouterInstance = useRouter();
+  const encryptionFlagCont: boolean = encryptionFlagCompData.flag || false ;
+  let encryptionDpd: string = "";
+  encryptionDpd = encryptionDpd !=='' ? encryptionDpd: encryptionFlagCompData.dpd;
+  let encryptionMethod: string = "";
+  encryptionMethod  = encryptionMethod !=='' ? encryptionMethod: encryptionFlagCompData.method;
+  const prevRefreshRef = useRef<any>(false);
+  const loadingMoreRef = useRef<boolean>(false);    
+  const isUserSelectionRef = useRef<boolean>(false);
+  const [isDropdownDataReady, setIsDropdownDataReady] = useState<boolean>(false);
+  let customecode:string="";
+  const [allCode,setAllCode]=useState<string>("");
+  const [ruleCode,setRuleCode]=useState<string>("");  
+  const [dropdownValue, setdropdownValue] = useState<string | string[]>("");
+  const PAGE_SIZE = 10;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  let items:any = [];
+  //showComponentAsPopup || showArtifactAsModal
+ /////////////
+   //another screen
+  const {acksimulatormaingroup3a007, setacksimulatormaingroup3a007}= useContext(TotalContext) as TotalContextProps;
+  const {acksimulatormaingroup3a007Props, setacksimulatormaingroup3a007Props}= useContext(TotalContext) as TotalContextProps;
+  const {ack_simulator_tab_group0778c, setack_simulator_tab_group0778c}= useContext(TotalContext) as TotalContextProps;
+  const {ack_simulator_tab_group0778cProps, setack_simulator_tab_group0778cProps}= useContext(TotalContext) as TotalContextProps;
+  const {op_financial_tab_headerc391f, setop_financial_tab_headerc391f}= useContext(TotalContext) as TotalContextProps;
+  const {op_financial_tab_headerc391fProps, setop_financial_tab_headerc391fProps}= useContext(TotalContext) as TotalContextProps;
+  const {op_simulator_sub_group467ba, setop_simulator_sub_group467ba}= useContext(TotalContext) as TotalContextProps;
+  const {op_simulator_sub_group467baProps, setop_simulator_sub_group467baProps}= useContext(TotalContext) as TotalContextProps;
+  const {customwidgetmaingroupcf43a, setcustomwidgetmaingroupcf43a}= useContext(TotalContext) as TotalContextProps;
+  const {customwidgetmaingroupcf43aProps, setcustomwidgetmaingroupcf43aProps}= useContext(TotalContext) as TotalContextProps;
+  const {dynamicactionmaingroupd3a78, setdynamicactionmaingroupd3a78}= useContext(TotalContext) as TotalContextProps;
+  const {dynamicactionmaingroupd3a78Props, setdynamicactionmaingroupd3a78Props}= useContext(TotalContext) as TotalContextProps;
+  const {dynamicactionsubgroupa58e6, setdynamicactionsubgroupa58e6}= useContext(TotalContext) as TotalContextProps;
+  const {dynamicactionsubgroupa58e6Props, setdynamicactionsubgroupa58e6Props}= useContext(TotalContext) as TotalContextProps;
+  const {ip_financial_tab_header60896, setip_financial_tab_header60896}= useContext(TotalContext) as TotalContextProps;
+  const {ip_financial_tab_header60896Props, setip_financial_tab_header60896Props}= useContext(TotalContext) as TotalContextProps;
+  const {ip_simulator_sub_groupa1dc8, setip_simulator_sub_groupa1dc8}= useContext(TotalContext) as TotalContextProps;
+  const {ip_simulator_sub_groupa1dc8Props, setip_simulator_sub_groupa1dc8Props}= useContext(TotalContext) as TotalContextProps;
+  const {ip_productcodea41e0, setip_productcodea41e0}= useContext(TotalContext) as TotalContextProps;
+  const {ip_message_type89b47, setip_message_type89b47}= useContext(TotalContext) as TotalContextProps;
+  const {ip_dated0c4a, setip_dated0c4a}= useContext(TotalContext) as TotalContextProps;
+  const {amountdeca1, setamountdeca1}= useContext(TotalContext) as TotalContextProps;
+  const {ip_dynamicactionmaingroup2f849, setip_dynamicactionmaingroup2f849}= useContext(TotalContext) as TotalContextProps;
+  const {ip_dynamicactionmaingroup2f849Props, setip_dynamicactionmaingroup2f849Props}= useContext(TotalContext) as TotalContextProps;
+  const {ip_dynamicactionsubgroup31c5b, setip_dynamicactionsubgroup31c5b}= useContext(TotalContext) as TotalContextProps;
+  const {ip_dynamicactionsubgroup31c5bProps, setip_dynamicactionsubgroup31c5bProps}= useContext(TotalContext) as TotalContextProps;
+  const {op_nf_camt110_tab_header4fa71, setop_nf_camt110_tab_header4fa71}= useContext(TotalContext) as TotalContextProps;
+  const {op_nf_camt110_tab_header4fa71Props, setop_nf_camt110_tab_header4fa71Props}= useContext(TotalContext) as TotalContextProps;
+  const {op_camt110_simulator_sub_group6f9ed, setop_camt110_simulator_sub_group6f9ed}= useContext(TotalContext) as TotalContextProps;
+  const {op_camt110_simulator_sub_group6f9edProps, setop_camt110_simulator_sub_group6f9edProps}= useContext(TotalContext) as TotalContextProps;
+  const {op_110_dynamicactionmaingroup4acc0, setop_110_dynamicactionmaingroup4acc0}= useContext(TotalContext) as TotalContextProps;
+  const {op_110_dynamicactionmaingroup4acc0Props, setop_110_dynamicactionmaingroup4acc0Props}= useContext(TotalContext) as TotalContextProps;
+  const {op_110_dynamicactionsubgroup56a89, setop_110_dynamicactionsubgroup56a89}= useContext(TotalContext) as TotalContextProps;
+  const {op_110_dynamicactionsubgroup56a89Props, setop_110_dynamicactionsubgroup56a89Props}= useContext(TotalContext) as TotalContextProps;
+  const {op_nf_camt111_tab_header05ca0, setop_nf_camt111_tab_header05ca0}= useContext(TotalContext) as TotalContextProps;
+  const {op_nf_camt111_tab_header05ca0Props, setop_nf_camt111_tab_header05ca0Props}= useContext(TotalContext) as TotalContextProps;
+  const {op_camt111_simulator_sub_group120d6, setop_camt111_simulator_sub_group120d6}= useContext(TotalContext) as TotalContextProps;
+  const {op_camt111_simulator_sub_group120d6Props, setop_camt111_simulator_sub_group120d6Props}= useContext(TotalContext) as TotalContextProps;
+  const {op_111_dynamicactionmaingroupe4308, setop_111_dynamicactionmaingroupe4308}= useContext(TotalContext) as TotalContextProps;
+  const {op_111_dynamicactionmaingroupe4308Props, setop_111_dynamicactionmaingroupe4308Props}= useContext(TotalContext) as TotalContextProps;
+  const {op_111_dynamicactionsubgroup73de7, setop_111_dynamicactionsubgroup73de7}= useContext(TotalContext) as TotalContextProps;
+  const {op_111_dynamicactionsubgroup73de7Props, setop_111_dynamicactionsubgroup73de7Props}= useContext(TotalContext) as TotalContextProps;
+  const {ip_nf_camt055_tab_header06c62, setip_nf_camt055_tab_header06c62}= useContext(TotalContext) as TotalContextProps;
+  const {ip_nf_camt055_tab_header06c62Props, setip_nf_camt055_tab_header06c62Props}= useContext(TotalContext) as TotalContextProps;
+  const {ip_camt055_simulator_sub_group52216, setip_camt055_simulator_sub_group52216}= useContext(TotalContext) as TotalContextProps;
+  const {ip_camt055_simulator_sub_group52216Props, setip_camt055_simulator_sub_group52216Props}= useContext(TotalContext) as TotalContextProps;
+  const {ip_055_dynamicactionmaingroup84550, setip_055_dynamicactionmaingroup84550}= useContext(TotalContext) as TotalContextProps;
+  const {ip_055_dynamicactionmaingroup84550Props, setip_055_dynamicactionmaingroup84550Props}= useContext(TotalContext) as TotalContextProps;
+  const {ip_055_dynamicactionsubgroup2ae9c, setip_055_dynamicactionsubgroup2ae9c}= useContext(TotalContext) as TotalContextProps;
+  const {ip_055_dynamicactionsubgroup2ae9cProps, setip_055_dynamicactionsubgroup2ae9cProps}= useContext(TotalContext) as TotalContextProps;
+  //////////////
+  let getMapperDetailsBody: getMapperDetailsDto;
+  const [ip_message_typeOptions, setip_message_typeOptions] = useState<string[]>([]);
+  let category : string
+  let bindtranValue:any;
+  let code:any;
+  let getSourceFilterColumn:string = "";
+  let copySourceFilterColumn:string = "";
+  category = "";
+
+  const getDropdownData = async(value?:any, page: number = 1, skipAutoSet: boolean = false)=>{
+    let mapperValue: string =  `message_type`
+    let mapperText: string =  `message_type`
+    bindtranValue = value;
+    let searchFilterData: Record<string, any> ={};
+    let dstKey:string = "";
+    const orchestrationData :any = getControlOrchestrationData(
+      controlData,
+      "c6b680941ec14e27a750138e211a1dc8",
+      "a96d9add20354cf3a90c9b9976289b47"
+    );
+    if(orchestrationData?.data?.code)
+    {
+      setAllCode(orchestrationData?.data?.code)
+    }
+    if(dfd_ipmessagetypestimulatorcombo_v1Props.dstKey){
+      dstKey = dfd_ipmessagetypestimulatorcombo_v1Props.dstKey
+    }else{
+      dstKey=orchestrationData?.data?.dfdKey?.replace(":AFC:",":AFCP:").replace(":AF:",":AFP:").replace(":DF-DFD:",":DF-DST:");
+    }
+    if (!value && "hasLogicCenter" in dfd_ipmessagetypestimulatorcombo_v1Props && !dfd_ipmessagetypestimulatorcombo_v1Props.hasLogicCenter && !dfdFlag) {
+    const api_paginationData:any = await AxiosService.post(
+      '/UF/pagination',
+      {
+        key:dstKey,
+        page:page,
+        count:PAGE_SIZE,
+        searchFilter:searchFilterData
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+    if (api_paginationData?.data?.records.length === 0) {
+      dfdFlag = true
+    }
+    if (Array.isArray(dfData)) {
+      dfData = [...dfData, ...api_paginationData?.data?.records];
+    } else {
+      dfData = api_paginationData?.data?.records;
+    }
+    }else if(!value && !dfdFlag){
+    const api_paginationData:any = await AxiosService.post(
+      '/UF/pagination',
+      {
+        key:dstKey,
+        page:page,
+        count:PAGE_SIZE,
+        searchFilter:searchFilterData
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+    if (api_paginationData?.data?.records.length === 0) {
+      dfdFlag = true
+    }
+    if (Array.isArray(dfData)) {
+      dfData = [...dfData, ...api_paginationData?.data?.records];
+    } else {
+      dfData = api_paginationData?.data?.records;
+    }
+  }
+
+  try{
+    getMapperDetails = await getDropdownDetailsNew(dfData,mapperValue,mapperText, bindtranValue, code, getSourceFilterColumn,copySourceFilterColumn)
+    getMapperDetailsValues = await getDropdownDetailsNew(dfData,mapperText,mapperValue, bindtranValue, code, getSourceFilterColumn,copySourceFilterColumn)
+    if(!bindtranValue){
+      getMapperDetails.map((item: any) => {
+        getMapperDetailsBindValues[item] = getMapperDetailsValues[getMapperDetails.indexOf(item)];
+      })
+    }
+    if(!value){
+      let temp:any[] = getMapperDetails.filter((item:any, index:any) => getMapperDetails.indexOf(item) === index)
+      temp = temp.filter((ele:any)=>ele);
+      setip_message_typeOptions(temp);
+      if (dfData.length < PAGE_SIZE) setHasMore(false);
+    }
+    } catch (error) {
+      console.error("Error fetching mapper details for dropdown:", error);
+    }
+  }
+
+  const loadMore = async () => {
+    if (!hasMore || loadingMoreRef.current) return;
+    loadingMoreRef.current = true;
+    setIsLoadingMore(true);
+    const nextPage = currentPage + 1;
+    setCurrentPage(nextPage);
+    await getDropdownData(undefined, nextPage);
+    setIsLoadingMore(false);
+    loadingMoreRef.current = false;
+  }
+
+
+  useEffect(() => {
+    const fetchGetDropdownData = async () => {
+    setCurrentPage(currentPage);
+    setHasMore(true);
+    setIsDropdownDataReady(false);
+    await getDropdownData(undefined, currentPage).then(() => {
+      setIsDropdownDataReady(true);
+    });
+    };
+  fetchGetDropdownData();
+  },[ip_message_type89b47?.refresh])  
+
+  const handlechange = async(value: any) => {
+    isUserSelectionRef.current = true;
+    if(value.length>0){
+      await getDropdownData(value)
+      setip_simulator_sub_groupa1dc8((prev: any) => ({ ...prev,ip_message_type89b47: value }))
+      setIsRequredData(false)
+    }else{
+      let temp:any = ip_simulator_sub_groupa1dc8;
+      delete temp.ip_message_type;
+      delete temp.IP_MESSAGE_TYPE;
+      delete temp.ip_message_type89b47;
+      setip_simulator_sub_groupa1dc8(temp);
+      getDropdownData(undefined, 1, true);
+      setIsRequredData(true);
+    }
+     setError('')
+    setValidate((pre:any)=>({...pre,ackSimulator_v1:{...pre?.ackSimulator_v1,ip_message_type:undefined}}));
+    await handleClick(value);
+  };
+
+    const fetchDropdownData = async()=>{
+    let tempValue:any=""
+    if(ip_simulator_sub_groupa1dc8.ip_message_type){
+      if(Array.isArray(dfd_ipmessagetypestimulatorcombo_v1Props)){
+        if(dfd_ipmessagetypestimulatorcombo_v1Props?.find((item: any) => item.message_type === ip_simulator_sub_groupa1dc8.ip_message_type)){
+          setdropdownValue([dfd_ipmessagetypestimulatorcombo_v1Props?.find((item: any) => item.message_type === ip_simulator_sub_groupa1dc8.ip_message_type)?.message_type])
+          tempValue=dfd_ipmessagetypestimulatorcombo_v1Props?.find((item: any) => item.message_type === ip_simulator_sub_groupa1dc8.ip_message_type)?.message_type
+        }else{
+          setdropdownValue([ip_simulator_sub_groupa1dc8.ip_message_type])
+          tempValue=ip_simulator_sub_groupa1dc8.ip_message_type
+        }
+      }else{
+        let dstKey:string = dfd_ipmessagetypestimulatorcombo_v1Props.dstKey;
+        const api_paginationData:any = await AxiosService.post(
+        '/UF/pagination',
+        {
+          key:dstKey,
+          page:currentPage,
+          count:PAGE_SIZE,
+          searchFilter:{message_type:ip_simulator_sub_groupa1dc8.ip_message_type}
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          }
+        }
+      )
+      if (api_paginationData?.data?.error == true) {
+        toast(api_paginationData?.data?.errorDetails?.message, 'danger')
+        return
+      }
+      if(api_paginationData?.data?.records?.find((item: any) => item.message_type === ip_simulator_sub_groupa1dc8.ip_message_type)){
+        setdropdownValue([api_paginationData?.data?.records?.find((item: any) => item.message_type === ip_simulator_sub_groupa1dc8.ip_message_type)?.message_type ])
+        tempValue=api_paginationData?.data?.records?.find((item: any) => item.message_type === ip_simulator_sub_groupa1dc8.ip_message_type)?.message_type
+      }else{
+        setdropdownValue([ip_simulator_sub_groupa1dc8.ip_message_type])
+        tempValue=ip_simulator_sub_groupa1dc8.ip_message_type
+      }   
+      }
+    }
+    if(ip_message_type89b47?.trigger == true)
+    {
+      await handlechange(tempValue)
+      setip_message_type89b47((pre:any)=>({...pre,trigger:false}))
+      isUserSelectionRef.current = false;
+    }
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!isDropdownDataReady) return;
+      if (isUserSelectionRef.current) {
+        isUserSelectionRef.current = false;
+        return;
+      }
+      await fetchDropdownData();
+    };
+    fetchData();
+  },[ip_simulator_sub_groupa1dc8.ip_message_type, isDropdownDataReady])
+
+  useEffect(() => {
+    if(Array.isArray(dfd_ipmessagetypestimulatorcombo_v1Props) && dfd_ipmessagetypestimulatorcombo_v1Props?.length == 1){
+    // setip_simulator_sub_groupa1dc8((pre:any)=>({...pre,ip_message_type:dfd_ipmessagetypestimulatorcombo_v1Props[0]?.ip_message_type}))
+    }
+  },[dfd_ipmessagetypestimulatorcombo_v1Props])
+
+  const selected=useRef({})
+  const handleClick=async(value?:any)=>{
+    if (value.length > 0) {
+      let temp:any=[];
+      if(Array.isArray(value)){
+        for( let val of value){
+          if(Array.isArray(val)){
+            temp.push(val)
+          }else{
+            temp.push(val)
+          }        
+        }
+      }
+      setip_simulator_sub_groupa1dc8((prev: any) => ({ ...prev, ip_message_type: getMapperDetailsBindValues[value],IP_MESSAGE_TYPE: getMapperDetails}))
+         setIsRequredData(false)
+    } else {
+       setip_simulator_sub_groupa1dc8((prev: any) => ({ ...prev, ip_message_type: '', ip_message_type89b47: '' }))
+        setIsRequredData(true)
+    }
+    setError('')
+    setValidate((pre:any)=>({...pre,ackSimulator_v1:{...pre?.ackSimulator_v1,ip_message_type:undefined}}));
+   
+    //dynamic 
+    let selectedObj=dfData?.find((items:any)=>(items?.message_type==getMapperDetailsBindValues[value] && items?.message_type==value)) || {}
+    selected.current={
+      ...selectedObj||{},
+      message_type:getMapperDetailsBindValues[value]
+    }
+    customecode = allCode
+    if (customecode != '') {
+      let codeStates: any = {}      
+        codeStates['acksimulatormaingroup'] = acksimulatormaingroup3a007,
+        codeStates['setacksimulatormaingroup'] = setacksimulatormaingroup3a007,
+        codeStates['acksimulatormaingroup3a007'] = acksimulatormaingroup3a007Props,
+        codeStates['setacksimulatormaingroup3a007'] = setacksimulatormaingroup3a007Props,
+        codeStates['ack_simulator_tab_group'] = ack_simulator_tab_group0778c,
+        codeStates['setack_simulator_tab_group'] = setack_simulator_tab_group0778c,
+        codeStates['ack_simulator_tab_group0778c'] = ack_simulator_tab_group0778cProps,
+        codeStates['setack_simulator_tab_group0778c'] = setack_simulator_tab_group0778cProps,
+        codeStates['op_financial_tab_header'] = op_financial_tab_headerc391f,
+        codeStates['setop_financial_tab_header'] = setop_financial_tab_headerc391f,
+        codeStates['op_financial_tab_headerc391f'] = op_financial_tab_headerc391fProps,
+        codeStates['setop_financial_tab_headerc391f'] = setop_financial_tab_headerc391fProps,
+        codeStates['op_simulator_sub_group'] = op_simulator_sub_group467ba,
+        codeStates['setop_simulator_sub_group'] = setop_simulator_sub_group467ba,
+        codeStates['op_simulator_sub_group467ba'] = op_simulator_sub_group467baProps,
+        codeStates['setop_simulator_sub_group467ba'] = setop_simulator_sub_group467baProps,
+        codeStates['customwidgetmaingroup'] = customwidgetmaingroupcf43a,
+        codeStates['setcustomwidgetmaingroup'] = setcustomwidgetmaingroupcf43a,
+        codeStates['customwidgetmaingroupcf43a'] = customwidgetmaingroupcf43aProps,
+        codeStates['setcustomwidgetmaingroupcf43a'] = setcustomwidgetmaingroupcf43aProps,
+        codeStates['dynamicactionmaingroup'] = dynamicactionmaingroupd3a78,
+        codeStates['setdynamicactionmaingroup'] = setdynamicactionmaingroupd3a78,
+        codeStates['dynamicactionmaingroupd3a78'] = dynamicactionmaingroupd3a78Props,
+        codeStates['setdynamicactionmaingroupd3a78'] = setdynamicactionmaingroupd3a78Props,
+        codeStates['dynamicactionsubgroup'] = dynamicactionsubgroupa58e6,
+        codeStates['setdynamicactionsubgroup'] = setdynamicactionsubgroupa58e6,
+        codeStates['dynamicactionsubgroupa58e6'] = dynamicactionsubgroupa58e6Props,
+        codeStates['setdynamicactionsubgroupa58e6'] = setdynamicactionsubgroupa58e6Props,
+        codeStates['ip_financial_tab_header'] = ip_financial_tab_header60896,
+        codeStates['setip_financial_tab_header'] = setip_financial_tab_header60896,
+        codeStates['ip_financial_tab_header60896'] = ip_financial_tab_header60896Props,
+        codeStates['setip_financial_tab_header60896'] = setip_financial_tab_header60896Props,
+        codeStates['ip_simulator_sub_group'] = ip_simulator_sub_groupa1dc8,
+        codeStates['setip_simulator_sub_group'] = setip_simulator_sub_groupa1dc8,
+        codeStates['ip_simulator_sub_groupa1dc8'] = ip_simulator_sub_groupa1dc8Props,
+        codeStates['setip_simulator_sub_groupa1dc8'] = setip_simulator_sub_groupa1dc8Props,
+        codeStates['ip_productcode'] = ip_productcodea41e0,
+        codeStates['setip_productcode'] = setip_productcodea41e0,
+        codeStates['ip_message_type'] = ip_message_type89b47,
+        codeStates['setip_message_type'] = setip_message_type89b47,
+        codeStates['ip_date'] = ip_dated0c4a,
+        codeStates['setip_date'] = setip_dated0c4a,
+        codeStates['amount'] = amountdeca1,
+        codeStates['setamount'] = setamountdeca1,
+        codeStates['ip_dynamicactionmaingroup'] = ip_dynamicactionmaingroup2f849,
+        codeStates['setip_dynamicactionmaingroup'] = setip_dynamicactionmaingroup2f849,
+        codeStates['ip_dynamicactionmaingroup2f849'] = ip_dynamicactionmaingroup2f849Props,
+        codeStates['setip_dynamicactionmaingroup2f849'] = setip_dynamicactionmaingroup2f849Props,
+        codeStates['ip_dynamicactionsubgroup'] = ip_dynamicactionsubgroup31c5b,
+        codeStates['setip_dynamicactionsubgroup'] = setip_dynamicactionsubgroup31c5b,
+        codeStates['ip_dynamicactionsubgroup31c5b'] = ip_dynamicactionsubgroup31c5bProps,
+        codeStates['setip_dynamicactionsubgroup31c5b'] = setip_dynamicactionsubgroup31c5bProps,
+        codeStates['op_nf_camt110_tab_header'] = op_nf_camt110_tab_header4fa71,
+        codeStates['setop_nf_camt110_tab_header'] = setop_nf_camt110_tab_header4fa71,
+        codeStates['op_nf_camt110_tab_header4fa71'] = op_nf_camt110_tab_header4fa71Props,
+        codeStates['setop_nf_camt110_tab_header4fa71'] = setop_nf_camt110_tab_header4fa71Props,
+        codeStates['op_camt110_simulator_sub_group'] = op_camt110_simulator_sub_group6f9ed,
+        codeStates['setop_camt110_simulator_sub_group'] = setop_camt110_simulator_sub_group6f9ed,
+        codeStates['op_camt110_simulator_sub_group6f9ed'] = op_camt110_simulator_sub_group6f9edProps,
+        codeStates['setop_camt110_simulator_sub_group6f9ed'] = setop_camt110_simulator_sub_group6f9edProps,
+        codeStates['op_110_dynamicactionmaingroup'] = op_110_dynamicactionmaingroup4acc0,
+        codeStates['setop_110_dynamicactionmaingroup'] = setop_110_dynamicactionmaingroup4acc0,
+        codeStates['op_110_dynamicactionmaingroup4acc0'] = op_110_dynamicactionmaingroup4acc0Props,
+        codeStates['setop_110_dynamicactionmaingroup4acc0'] = setop_110_dynamicactionmaingroup4acc0Props,
+        codeStates['op_110_dynamicactionsubgroup'] = op_110_dynamicactionsubgroup56a89,
+        codeStates['setop_110_dynamicactionsubgroup'] = setop_110_dynamicactionsubgroup56a89,
+        codeStates['op_110_dynamicactionsubgroup56a89'] = op_110_dynamicactionsubgroup56a89Props,
+        codeStates['setop_110_dynamicactionsubgroup56a89'] = setop_110_dynamicactionsubgroup56a89Props,
+        codeStates['op_nf_camt111_tab_header'] = op_nf_camt111_tab_header05ca0,
+        codeStates['setop_nf_camt111_tab_header'] = setop_nf_camt111_tab_header05ca0,
+        codeStates['op_nf_camt111_tab_header05ca0'] = op_nf_camt111_tab_header05ca0Props,
+        codeStates['setop_nf_camt111_tab_header05ca0'] = setop_nf_camt111_tab_header05ca0Props,
+        codeStates['op_camt111_simulator_sub_group'] = op_camt111_simulator_sub_group120d6,
+        codeStates['setop_camt111_simulator_sub_group'] = setop_camt111_simulator_sub_group120d6,
+        codeStates['op_camt111_simulator_sub_group120d6'] = op_camt111_simulator_sub_group120d6Props,
+        codeStates['setop_camt111_simulator_sub_group120d6'] = setop_camt111_simulator_sub_group120d6Props,
+        codeStates['op_111_dynamicactionmaingroup'] = op_111_dynamicactionmaingroupe4308,
+        codeStates['setop_111_dynamicactionmaingroup'] = setop_111_dynamicactionmaingroupe4308,
+        codeStates['op_111_dynamicactionmaingroupe4308'] = op_111_dynamicactionmaingroupe4308Props,
+        codeStates['setop_111_dynamicactionmaingroupe4308'] = setop_111_dynamicactionmaingroupe4308Props,
+        codeStates['op_111_dynamicactionsubgroup'] = op_111_dynamicactionsubgroup73de7,
+        codeStates['setop_111_dynamicactionsubgroup'] = setop_111_dynamicactionsubgroup73de7,
+        codeStates['op_111_dynamicactionsubgroup73de7'] = op_111_dynamicactionsubgroup73de7Props,
+        codeStates['setop_111_dynamicactionsubgroup73de7'] = setop_111_dynamicactionsubgroup73de7Props,
+        codeStates['ip_nf_camt055_tab_header'] = ip_nf_camt055_tab_header06c62,
+        codeStates['setip_nf_camt055_tab_header'] = setip_nf_camt055_tab_header06c62,
+        codeStates['ip_nf_camt055_tab_header06c62'] = ip_nf_camt055_tab_header06c62Props,
+        codeStates['setip_nf_camt055_tab_header06c62'] = setip_nf_camt055_tab_header06c62Props,
+        codeStates['ip_camt055_simulator_sub_group'] = ip_camt055_simulator_sub_group52216,
+        codeStates['setip_camt055_simulator_sub_group'] = setip_camt055_simulator_sub_group52216,
+        codeStates['ip_camt055_simulator_sub_group52216'] = ip_camt055_simulator_sub_group52216Props,
+        codeStates['setip_camt055_simulator_sub_group52216'] = setip_camt055_simulator_sub_group52216Props,
+        codeStates['ip_055_dynamicactionmaingroup'] = ip_055_dynamicactionmaingroup84550,
+        codeStates['setip_055_dynamicactionmaingroup'] = setip_055_dynamicactionmaingroup84550,
+        codeStates['ip_055_dynamicactionmaingroup84550'] = ip_055_dynamicactionmaingroup84550Props,
+        codeStates['setip_055_dynamicactionmaingroup84550'] = setip_055_dynamicactionmaingroup84550Props,
+        codeStates['ip_055_dynamicactionsubgroup'] = ip_055_dynamicactionsubgroup2ae9c,
+        codeStates['setip_055_dynamicactionsubgroup'] = setip_055_dynamicactionsubgroup2ae9c,
+        codeStates['ip_055_dynamicactionsubgroup2ae9c'] = ip_055_dynamicactionsubgroup2ae9cProps,
+        codeStates['setip_055_dynamicactionsubgroup2ae9c'] = setip_055_dynamicactionsubgroup2ae9cProps,
+      codeStates['selected']  = selected
+    codeExecution(customecode,codeStates)
+    }
+    
+    try{
+    setIsProcessing(true);
+    if(value.length==0){
+      return
+    }
+    let te_eventEmitter : any =  {};
+    let copyFormhandlerData :any = {}
+    }catch (err: any) {
+      setIsProcessing(false);
+      if(typeof err == 'string')
+        toast(err, 'danger');
+      else
+        toast(err?.response?.data?.errorDetails?.message, 'danger');
+    }finally{
+      setIsProcessing(false);
+    }
+  }
+   
+  const { validateRefetch, setValidateRefetch } = useContext(
+    TotalContext
+  ) as TotalContextProps
+  //validation
+
+
+  let schemaArray = [
+  "v.string()",
+  "v.nonEmpty('This field is required.')"
+] ;
+    const schema : any  = v.pipe(    v.string(),
+    v.nonEmpty('This field is required.'),
+)
+  const handleBlur = async () => {
+    //validation
+    if(ip_simulator_sub_groupa1dc8?.ip_message_type == "" || ip_simulator_sub_groupa1dc8?.ip_message_type == undefined){
+      ip_simulator_sub_groupa1dc8.ip_message_type = "";
+      const validate:any = v.safeParse(schema, ip_simulator_sub_groupa1dc8?.ip_message_type);
+        if(!validate.success){
+          setError(validate?.issues[0]?.message);
+          setValidate((pre:any)=>({...pre,ackSimulator_v1:{...pre?.ackSimulator_v1,ip_message_type:"invalid"}}));
+        }
+    }else if(ip_simulator_sub_groupa1dc8?.ip_message_type !== ""){
+    const validate:any = v.safeParse(schema, ip_simulator_sub_groupa1dc8?.ip_message_type);
+      if(!validate.success){
+        setError(validate?.issues[0]?.message);
+        setValidate((pre:any)=>({...pre,ackSimulator_v1:{...pre?.ackSimulator_v1,ip_message_type:"invalid"}}));
+      }else{
+        setError('');
+        setValidate((pre:any)=>({...pre,ackSimulator_v1:{...pre?.ackSimulator_v1,ip_message_type:undefined}}));
+      }
+    }
+  }
+  const ip_simulator_sub_groupa1dc8Ref = useRef<any>(ip_simulator_sub_groupa1dc8);
+  useEffect(() => { ip_simulator_sub_groupa1dc8Ref.current = ip_simulator_sub_groupa1dc8; }, [ip_simulator_sub_groupa1dc8]);
+    useEffect(()=>{
+        if(!ip_simulator_sub_groupa1dc8?.ip_message_type)
+        { 
+          setip_simulator_sub_groupa1dc8Props((pre:any)=>({...pre,required:true}))
+          setIsRequredData(true)
+        }
+        if(validateRefetch.init!=0)
+          handleBlur()
+       const handler = (id:any) => {
+          if (id === "a96d9add20354cf3a90c9b9976289b47") {
+        handleClick(ip_simulator_sub_groupa1dc8Ref?.current?.ip_message_type89b47?ip_simulator_sub_groupa1dc8Ref?.current?.ip_message_type89b47:"");
+          }
+        };
+        eventBus.on("triggerElement|onClick", handler);
+        eventBus.emit("DropdownReady", "a96d9add20354cf3a90c9b9976289b47");
+        return () => {
+          eventBus.off("triggerElement|onClick", handler);
+        };
+    },[validateRefetch.value])
+
+  useEffect(() => {
+    if(initialCount!=0)
+     setip_simulator_sub_groupa1dc8((pre:any)=>({...pre,ip_message_type:""}))
+    else
+      setInitialCount(1)
+  },[ip_message_type89b47?.refresh])
+  
+
+  if (ip_message_type89b47?.isHidden) {
+    return <></>
+  }
+
+  return (
+    <div
+      style={{
+        gridColumn: `1 / 25`,
+        gridRow: `10 / 17`,
+        gap:``, 
+        height: `100%`,
+        overflow: 'visible',
+        display: 'flex',
+        flexDirection: 'column'}} >
+      <Dropdown   
+        className="!rounded-lg"    
+        disabled= {ip_message_type89b47?.isDisabled ? true : false}
+        contentAlign={"center"}
+        headerPosition='top'
+        headerText={
+          <>
+            Message Type
+            {isRequredData && <span style={{ color: 'red' }}> *</span>}
+          </>
+        }
+        static={true}
+        staticProps={ip_message_typeOptions}
+        onLoadMore={loadMore}
+        isLoadingMore={isLoadingMore}
+        placeholder={keyset("Select")} 
+        filterable={true} 
+        hasClear={true} 
+        onChange={handlechange} 
+        value={ip_simulator_sub_groupa1dc8?.ip_message_type89b47 ? [ip_simulator_sub_groupa1dc8?.ip_message_type89b47] : (ip_simulator_sub_groupa1dc8?.ip_message_type ? dropdownValue : [])}
+        validationState={validate?.ackSimulator_v1?.ip_message_type ? "invalid" : undefined}
+        errorMessage={error}
+        />
+    </div>
+  );
+};
+
+export default Dropdownip_message_type;

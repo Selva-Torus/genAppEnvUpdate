@@ -3,16 +3,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ct003-tag-df-generator
-  namespace: ct003-tag-df-v1
+  name: ct005-smx-df-generator
+  namespace: ct005-smx-df-v1
   labels:
-    app: ct003-tag-df-generator
+    app: ct005-smx-df-generator
 spec:
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: ct003-tag-df-generator
+      app: ct005-smx-df-generator
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -21,18 +21,18 @@ spec:
   template:
     metadata:
       labels:
-        app: ct003-tag-df-generator
+        app: ct005-smx-df-generator
     spec:
       containers:
-      - name: ct003-tag-df-generator-backend-container
-        image: 192.168.2.164:5000/ct003-tag-df-v1:docker_tag
+      - name: ct005-smx-df-generator-backend-container
+        image: 192.168.2.34:5000/ct005-smx-df-v1:docker_tag
         imagePullPolicy: IfNotPresent
         ports:
         - name: http
           containerPort: 3000
         env:
           - name: HOST
-            value: "192.168.2.192"
+            value: "192.168.2.27"
           - name: PORT
             value: "32055"
           - name: REDISUSER
@@ -56,7 +56,7 @@ spec:
           - name: PO_PORT
             value: "3003"
           - name: DATABASE_URL
-            value: "postgresql://postgres:Torus@123@192.168.2.192:30032/torus9x?schema=ct003_tag"
+            value: "postgresql://postgres:Torus@123@192.168.2.27:30032/torus9x?schema=ct005_vgph"
           - name: APP_PORT
             value: "3000"
           - name: AES_KEY
@@ -68,21 +68,21 @@ spec:
           - name: API_URL
             value: ""
           - name: BE_URL
-            value: "https://tgaprod910.toruslowcode.com/ct003/tag/tag/v1/api"
+            value: "https://tgatest910.toruslowcode.com/ct005/gss/smx/v1/api"
           - name: MONGODB_URL
-            value: "mongodb://admin:Torus%40123@192.168.2.192:32017/Torus9x?authSource=admin&directConnection=true"
+            value: "mongodb://admin:Torus%40123@192.168.2.27:32017/Torus9x?authSource=admin&directConnection=true"
           - name: MONGODB_NAME
             value: "Torus9x"
           - name: OUTBOUND_HOST_ALLOWLIST
-            value: "tgaprod910.toruslowcode.com,tdpfsdev.toruslowcode.com,tade-api.toruslowcode.com,tamprod910api.toruslowcode.com"
+            value: "tgatest910.toruslowcode.com,tfstest.toruslowcode.com,tgaprod1910.toruslowcode.com,vgphdev.toruslowcode.com,dev3wp.tvlgss.com,vgphapi.toruslowcode.com"
           - name: APPGROUPCODE
-            value: "TAG"
+            value: "GSS"
           - name: APPCODE
-            value: "TAG"
+            value: "SMX"
           - name: TENANT
-            value: "CT003"
+            value: "CT005"
           - name: CLIENTCODE
-            value: "CT003"
+            value: "CT005"
           - name: APPNAME
             value: ""
           - name: APPGROUPNAME
@@ -98,11 +98,11 @@ spec:
           - name: TOURS_APP_API_BASE_URL
             value: "https://tgadev.toruslowcode.com/tt001/Torus20261/Torus202601/v1/api/"
           - name: PG_URL
-            value: "postgresql://postgres:Torus@123@192.168.2.192:30032/torus9x?schema=tam"
+            value: "postgresql://postgres:Torus@123@192.168.2.27:30032/torus9x?schema=tam"
           - name: PG_SCHEMANAME
             value: "tam"
           - name: APP_MANAGER_URL
-            value: "https://tamprod910api.toruslowcode.com"
+            value: "https://tamtest910api.toruslowcode.com"
           - name: LOGINID
             value: "sam"
           - name: TOKENIZATION_BASE_URL
@@ -125,7 +125,7 @@ spec:
           - name: TEMPORAL_FLOW_ENABLED
             value: "true"
           - name: TEMPORAL_ADDRESS
-            value: ""
+            value: "temporal-frontend.temporal:7233"
 
 
         
@@ -134,13 +134,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ct003-tag-df-generator
-  namespace: ct003-tag-df-v1
+  name: ct005-smx-df-generator
+  namespace: ct005-smx-df-v1
   labels:
-    app: ct003-tag-df-generator
+    app: ct005-smx-df-generator
 spec:
   selector:
-    app: ct003-tag-df-generator
+    app: ct005-smx-df-generator
   ports:
     - name: http
       protocol: TCP

@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ct003-tag-uf-generator
-  namespace: ct003-tag-uf-v1
+  name: ct005-smx-uf-generator
+  namespace: ct005-smx-uf-v1
   labels:
-    app: ct003-tag-uf-generator
+    app: ct005-smx-uf-generator
 spec:
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: ct003-tag-uf-generator
+      app: ct005-smx-uf-generator
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -19,28 +19,28 @@ spec:
   template:
     metadata:
       labels:
-        app: ct003-tag-uf-generator
+        app: ct005-smx-uf-generator
     spec:
       containers:
-      - name: ct003-tag-uf-generator-frontend-container
-        image: 192.168.2.164:5000/ct003-tag-uf-v1:docker_tag
+      - name: ct005-smx-uf-generator-frontend-container
+        image: 192.168.2.34:5000/ct005-smx-uf-v1:docker_tag
         imagePullPolicy: IfNotPresent
         ports:
         - name: http
           containerPort: 3000
         env:
           - name: NEXT_PUBLIC_API_BASE_URL
-            value: "https://tgaprod910.toruslowcode.com/ct003/tag/tag/v1/api"
+            value: "https://tgatest910.toruslowcode.com/ct005/gss/smx/v1/api"
           - name: NEXT_PUBLIC_TENANT_CODE
-            value: "CT003"
+            value: "CT005"
           - name: NEXT_PUBLIC_APPGROUPCODE
-            value: "TAG"
+            value: "GSS"
           - name: NEXT_PUBLIC_APPCODE
-            value: "TAG"
+            value: "SMX"
           - name: NEXT_PUBLIC_TORUS_API_URL
-            value: "https://tgaprod910.toruslowcode.com/ct003/tag/tag/v1/api/"
+            value: "https://tgatest910.toruslowcode.com/ct005/gss/smx/v1/api/"
           - name: REDIS_HOST
-            value: "192.168.2.192"
+            value: "192.168.2.27"
           - name: REDIS_PORT
             value: "32055"
           - name: ENCRYPTIONKEY
@@ -50,32 +50,32 @@ spec:
           - name: ENCRYPTIONMODE
             value: "aes-256-ctr"
           - name: NEXT_PUBLIC_FTP_OUTPUT_HOST
-            value: "https://tdps3api.toruslowcode.com"
+            value: "https://tfstests3.toruslowcode.com"
           - name: NEXT_PUBLIC_BASE_PATH
-            value: "/ct003/tag/tag/v1"
+            value: "/ct005/gss/smx/v1"
           - name: NEXT_PUBLIC_DFS_BUCKETNAME
             value: "torus9x-mobile-app-test"
           - name: NEXT_PUBLIC_DFS_PATH
-            value: "ct003/tag/tag/v1"
+            value: "ct005/gss/smx/v1"
           - name: AUTH_SECRET
-            value: "X5N8QdC9wVFfmofF3i3nPTIlTskZan5v/acbVXgyos1c"
+            value: "wp8ycs0y1xhA1aP1JxbUgnbQAgdMam3zNGabEmhMWKdx"
           - name: NEXT_PUBLIC_IS_SAAS_APPLICATION
             value: "true" 
           - name: NEXT_PUBLIC_APP_URL
-            value: "https://tgaprod910.toruslowcode.com"
+            value: "https://tgatest910.toruslowcode.com"
           - name: INTERNAL_SERVICE_KEY
             value: "torus_verified_server_credentials_call"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: ct003-tag-uf-generator
-  namespace: ct003-tag-uf-v1
+  name: ct005-smx-uf-generator
+  namespace: ct005-smx-uf-v1
   labels:
-    app: ct003-tag-uf-generator
+    app: ct005-smx-uf-generator
 spec:
   selector:
-    app: ct003-tag-uf-generator
+    app: ct005-smx-uf-generator
   ports:
     - name: http
       protocol: TCP

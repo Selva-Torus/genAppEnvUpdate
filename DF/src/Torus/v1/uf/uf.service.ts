@@ -364,9 +364,9 @@ getConfig(): FusionAuthConfig {
     }
   }
 
- async insertDocToVgphSourceTranDocMain(category: string, doc_name: string, url: string, size?: number, doc_group?: string, userName?: string): Promise<any> {
+ async insertDocToVgphSourceTranDocMain(category: string, doc_name: string, url: string, size?: number, doc_group?: string, decodedToken?: any): Promise<any> {
     try {
-      const insertUrl = `${process.env.APP_MANAGER_URL}/ct003/attachments`;
+      const insertUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments`;
       //const vgphstm_uuid = uuid();
       const currentDate = new Date().toISOString().slice(0, 19) + '+00:00';
 
@@ -376,7 +376,9 @@ getConfig(): FusionAuthConfig {
         doc_name: doc_name,
         doc_size: `${Math.ceil((size ?? 0) / 1024)}`,
         url: url,
-        trs_created_by: userName,
+        trs_created_by: decodedToken?.loginId,
+        trs_product_code: decodedToken?.psCode,
+        trs_app_code: decodedToken?.app,
         trs_created_date: currentDate,
         trs_modified_date: currentDate
       };
@@ -395,7 +397,7 @@ getConfig(): FusionAuthConfig {
 
   async getUrlByVgphstdmId(vgphstdm_id: any): Promise<{ url: string; additionalData: any }> {
     try {
-      const getUrl = `${process.env.APP_MANAGER_URL}/ct003/attachments/${vgphstdm_id}`;
+      const getUrl = `${process.env.APP_MANAGER_URL}/ct005/attachments/${vgphstdm_id}`;
 
       const response = await axios.get(getUrl, {
         headers: {
@@ -458,7 +460,7 @@ getConfig(): FusionAuthConfig {
     filename?: string,
     enableEncryption?: string,
     doc_group?: string,
-    loginId?: string
+    decodedToken?: any
   ): Promise<string> {
     try {
       const SAFE_SEGMENT = /^[a-zA-Z0-9._-]+$/;
@@ -594,7 +596,7 @@ getConfig(): FusionAuthConfig {
 
       if (uploadResponse.status === 201) {
         const storagePath = `${bucket}/${subFolder}/${fileName}`;
-        const attachmentId = await this.insertDocToVgphSourceTranDocMain("front", fileName, storagePath, file.size, doc_group, loginId);
+        const attachmentId = await this.insertDocToVgphSourceTranDocMain("front", fileName, storagePath, file.size, doc_group, decodedToken);
         return `${attachmentId}`;
       } else {
         throw new ConflictException(
@@ -5579,7 +5581,6 @@ getConfig(): FusionAuthConfig {
     if (error instanceof CustomException) {
       throw error; // Re-throw the specific custom exception
     }
-    console.error('Unexpected error:', error);
     throw new CustomException(
       'An unexpected error occurred',
       HttpStatus.INTERNAL_SERVER_ERROR,
@@ -8774,7 +8775,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct003_tag';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct005_vgph';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8833,7 +8834,7 @@ getConfig(): FusionAuthConfig {
     try {
       await client.query('BEGIN');
 
-      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct003_tag';
+      const recordSchema = dto.tableName.startsWith('tam_') ? schemaName : 'ct005_vgph';
 
       const rows = await client.query(
         `SELECT trs_locked_by, trs_locked_time FROM ${recordSchema}."${dto.tableName}" WHERE ${dto.key} = $1 FOR UPDATE`,
@@ -8903,7 +8904,7 @@ getConfig(): FusionAuthConfig {
       );
 
       for (const lock of locks.rows) {
-        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : 'ct003_tag';
+        const recordSchema = lock.table_name.startsWith('tam_') ? schemaName : 'ct005_vgph';
         await client.query(
           `UPDATE ${recordSchema}."${lock.table_name}"
            SET trs_locked_by = NULL, trs_locked_time = NULL
