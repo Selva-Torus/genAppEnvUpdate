@@ -10,12 +10,12 @@ export class FusionAuthController {
 
   @Post('otp/send')
   sendOtp(@Body() dto: SendOtpDto) {
-    return this.fusionAuthService.sendOtp(dto.phoneNumber);
+    return this.fusionAuthService.sendOtp(dto.phone_number);
   }
 
   @Post('otp/verify')
   verifyOtp(@Body() dto: VerifyOtpDto) {
-    return this.fusionAuthService.verifyOtp(dto.phoneNumber, dto.otp);
+    return this.fusionAuthService.verifyOtp(dto.phone_number, dto.otp);
   }
 
   @Post('user/update')

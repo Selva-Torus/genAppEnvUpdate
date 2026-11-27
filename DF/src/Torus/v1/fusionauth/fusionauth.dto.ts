@@ -5,7 +5,7 @@ export class SendOtpDto {
   @Matches(/^\+[1-9]\d{7,14}$/, {
     message: 'Phone must be in E.164 format, e.g. +919876543210',
   })
-  phoneNumber: string;
+  phone_number: string;
 }
 
 export class VerifyOtpDto extends SendOtpDto {
